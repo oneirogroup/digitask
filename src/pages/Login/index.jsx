@@ -1,6 +1,13 @@
-// import { useEffect } from 'react';
-// import { useDispatch, useSelector } from 'react-redux';
-// import { fetchTasks } from '../../features/tasks/taskSlice';
+import React, { useState, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Navigate, useNavigate } from 'react-router-dom';
+
+import Form from "react-validation/build/form";
+import Input from "react-validation/build/input";
+import CheckButton from "react-validation/build/button";
+
+import { login } from "../../actions/auth";
+
 import "./login.css";
 import ovaltop from "../../assets/images/Oval top.svg";
 import ovalbottom from "../../assets/images/Oval bottom.svg";
@@ -10,13 +17,66 @@ import { IoMdCheckboxOutline } from "react-icons/io";
 import { MdOutlineCheckBoxOutlineBlank } from "react-icons/md";
 
 
-function Login() {
-    // const dispatch = useDispatch();
-    // const tasks = useSelector(state => state.taskList.tasks);
+const required = (value) => {
+    if (!value) {
+        return (
+            <div className="alert alert-danger" role="alert">
+                This field is required!
+            </div>
+        );
+    }
+};
 
-    // useEffect(() => {
-    //     dispatch(fetchTasks());
-    // }, [dispatch]);
+const Login = (props) => {
+    let navigate = useNavigate();
+
+    const form = useRef();
+    const checkBtn = useRef();
+
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [loading, setLoading] = useState(false);
+
+    const { isLoggedIn } = useSelector(state => state.auth);
+    const { message } = useSelector(state => state.message);
+
+    const dispatch = useDispatch();
+
+    const onChangeEmail = (e) => {
+        const email = e.target.value;
+        setEmail(email);
+    };
+
+    const onChangePassword = (e) => {
+        const password = e.target.value;
+        setPassword(password);
+    };
+
+    const handleLogin = (e) => {
+        e.preventDefault();
+
+        setLoading(true);
+
+        form.current.validateAll();
+
+        if (checkBtn.current.context._errors.length === 0) {
+            dispatch(login(email, password))
+                .then(() => {
+                    navigate("/");
+                    window.location.reload();
+                })
+                .catch(() => {
+                    setLoading(false);
+                });
+        } else {
+            setLoading(false);
+        }
+    };
+
+    if (isLoggedIn) {
+        return <Navigate to="/" />;
+    }
+
 
     return (
         <div className='bg-color'>
@@ -30,38 +90,57 @@ function Login() {
                         </h5>
                         <hr />
                     </div>
-                    <div className="login-mail-password">
-                        <div>
-                            <p>Mail adresiniz</p>
-                            <label htmlFor="">
-                                <CiMail />
-                                <input type="text" placeholder="Mail adresiniz" />
-                            </label>
+                    <Form onSubmit={handleLogin} ref={form}>
+                        <div className="login-mail-password">
+                            <div>
+                                <p>Mail adresiniz</p>
+                                <label htmlFor="">
+                                    <CiMail />
+                                    <input type="text" placeholder="Mail adresiniz" name="email"
+                                        value={email}
+                                        onChange={onChangeEmail}
+                                        validations={[required]} />
+                                </label>
+                            </div>
+                            <div>
+                                <p>Şifrəniz</p>
+                                <label htmlFor="">
+                                    <IoKeyOutline />
+                                    <input type="password" id="" placeholder="*****" name="password"
+                                        value={password}
+                                        onChange={onChangePassword}
+                                        validations={[required]} />
+                                </label>
+                            </div>
+                            <div>
+                                {/* <IoMdCheckboxOutline /> */}
+                                <p>
+                                    <MdOutlineCheckBoxOutlineBlank />
+                                    Məni xatırla
+                                </p>
+                                <a href="">
+                                    Şifrəni unutmusunuz?
+                                </a>
+                            </div>
+                            {loading && (
+                                <span className="spinner-border spinner-border-sm"></span>
+                            )}
+                            <button>Daxil ol</button>
                         </div>
-                        <div>
-                            <p>Şifrəniz</p>
-                            <label htmlFor="">
-                                <IoKeyOutline />
-                                <input type="password" name="" id="" placeholder="*****" />
-                            </label>
-                        </div>
-                        <div>
-                            {/* <IoMdCheckboxOutline /> */}
-                            <p>
-                                <MdOutlineCheckBoxOutlineBlank />
-                                Məni xatırla
-                            </p>
-                            <a href="">
-                                Şifrəni unutmusunuz?
-                            </a>
-                        </div>
-                        <button>Daxil ol</button>
-                    </div>
+                        {message && (
+                            <div className="form-group">
+                                <div className="alert alert-danger" role="alert">
+                                    {message}
+                                </div>
+                            </div>
+                        )}
+                        <CheckButton style={{ display: "none" }} ref={checkBtn} />
+                    </Form>
                 </div>
             </div>
             <img src={ovalbottom} alt="" />
 
-        </div>
+        </div >
     );
 }
 
