@@ -20,6 +20,11 @@ const Home = () => {
                 <div>
                     <h2>User Information</h2>
                     <p>Email: {user.email}</p>
+<<<<<<< HEAD
+=======
+                    <p>Username: {user.username}</p>
+                    <p>Name: {user.first_name}</p>
+>>>>>>> dbea20960f43abafcc6043d155598cfc447fb2be
                 </div>
             ) : (
                 <p>Please log in to see your information.</p>
