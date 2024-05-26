@@ -20,6 +20,7 @@
     "react-thunk": "^1.0.0",
     "react-validation": "^3.0.7",
     "redux-devtools-extension": "^2.13.9",
+    "redux-persist": "^6.0.0",
     "redux-thunk": "^3.1.0"
   },
   "devDependencies": {
