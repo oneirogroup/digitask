@@ -13,7 +13,6 @@ import ovaltop from "../../assets/images/Oval top.svg";
 import ovalbottom from "../../assets/images/Oval bottom.svg";
 import { CiMail } from "react-icons/ci";
 import { IoKeyOutline } from "react-icons/io5";
-import { IoMdCheckboxOutline } from "react-icons/io";
 import { MdOutlineCheckBoxOutlineBlank } from "react-icons/md";
 
 
@@ -36,6 +35,7 @@ const Login = (props) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
+    const [userData, setUserData] = useState({});
 
     const { isLoggedIn } = useSelector(state => state.auth);
     const { message } = useSelector(state => state.message);
@@ -73,10 +73,13 @@ const Login = (props) => {
         }
     };
 
+    const handleRegisterData = (data) => {
+        setUserData(data);
+    };
+
     if (isLoggedIn) {
         return <Navigate to="/" />;
     }
-
 
     return (
         <div className='bg-color'>
@@ -139,8 +142,7 @@ const Login = (props) => {
                 </div>
             </div>
             <img src={ovalbottom} alt="" />
-
-        </div >
+        </div>
     );
 }
 
