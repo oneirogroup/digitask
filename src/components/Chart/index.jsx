@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactApexChart from 'react-apexcharts';
+import "./chart.css"
 
 class ApexChart extends React.Component {
     constructor(props) {
