@@ -1,0 +1,83 @@
+.home-meet-section {
+    display: flex;
+    gap: 30px;
+    padding: 25px;
+    justify-content: space-between;
+}
+.home-meet-section .meet-time-date-img{
+    background: linear-gradient(107deg, rgba(0, 89, 191, 0.589) 0%, rgba(0, 89, 191, 0.849) 100%);
+    border-radius: 10px; 
+    padding: 20px;
+    color: white;
+    width: 100%; 
+    height: 150px;
+    display: flex;
+    justify-content: space-between;   
+}
+
+.home-meet-section .meet-time-date{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.home-meet-section .meet-time-date >p{
+    font-family: Montserrat;
+    font-size: 15px;
+    line-height: 20px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.home-meet-section .meet-time-date div{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.home-meet-section .meet-time-date h5{
+    font-family: Montserrat;
+    font-size: 26px;
+    line-height: 36px;
+    font-weight: 600;
+}
+
+.home-meet-section .meet-time-date div p{
+    font-family: Montserrat;
+    font-size: 20px;
+    line-height: 26px;
+}
+
+.home-meet-section .meet-img {
+    align-self: center;
+}
+
+.home-meet-section .meet-add{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin: 0 auto;
+    border: 1px dashed #909094;
+    width: 100%;
+    border-radius: 16px;
+    border-width: 2px;
+    
+}
+
+.home-meet-section .meet-add button{
+    background-color: inherit;
+    border: none;
+    color: #909094;
+    font-family: Montserrat;
+    font-size: 20px;
+    line-height: 26px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.home-meet-section .meet-add svg{
+    font-size: 30px;
+    
+}

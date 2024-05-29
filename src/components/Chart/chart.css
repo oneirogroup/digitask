@@ -1,0 +1,7 @@
+
+
+#chart {
+    max-width: 100%;  /* Kapsayıcının genişliğini sınırlandırın */
+    margin: 0 auto;   /* Ortalamak için */
+    padding: 10px;    /* İç boşluk ekleyin */
+}

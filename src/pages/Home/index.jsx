@@ -1,41 +1,50 @@
-import React from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { logout } from "../../actions/auth";
-import { Navigate, useNavigate } from 'react-router-dom';
+import { GoClock } from "react-icons/go";
+import photo1 from "../../assets/images/photo.svg";
+import photo2 from "../../assets/images/calendar-1-11.svg";
+import { IoIosAddCircleOutline } from "react-icons/io";
+import ApexChart from '../../components/Chart';
 
+
+import "./home.css"
 
 const Home = () => {
-    const { user: user } = useSelector((state) => state.auth);
-    console.log(user)
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
 
-    const handleLogout = () => {
-        dispatch(logout());
-        return <Navigate to="/login" />;
-    };
-    const handleLogin = () => {
-        navigate('/login');
-    };
     return (
-        <div>
-            <h1>Welcome to the Main Page</h1>
-            {user ? (
-                <div>
-                    <h2>User Information</h2>
-                    <p>Email: {user.email}</p>
-                    <button onClick={handleLogout}>Logout</button>
+        <div className="home-page">
+            <section className="home-meet-section">
+                <div className="meet-time-date-img">
+                    <div className="meet-time-date">
+                        <p><GoClock /> Günü və saatı</p>
+                        <div>
+                            <h5>Tədbirin adı</h5>
+                            <p>Keçirələcəyi yer</p>
+                        </div>
+                    </div>
+                    <div className="meet-img">
+                        <img src={photo1} alt="" />
+                    </div>
                 </div>
-            ) : (
-                <div>
-                    <p>Please log in to see your information.</p>
-                    <button onClick={handleLogin}>Login</button>
-
+                <div className="meet-time-date-img">
+                    <div className="meet-time-date">
+                        <p><GoClock /> Günü və saatı</p>
+                        <div>
+                            <h5>Tədbirin adı</h5>
+                            <p>Keçirələcəyi yer</p>
+                        </div>
+                    </div>
+                    <div className="meet-img">
+                        <img src={photo2} alt="" />
+                    </div>
                 </div>
-            )
-            }
-
-        </div >
+                <div className="meet-add">
+                    <button>
+                        <IoIosAddCircleOutline />
+                        <p>Tədbir əlavə et</p>
+                    </button>
+                </div>
+            </section>
+            <ApexChart />
+        </div>
     );
 };
 

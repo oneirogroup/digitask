@@ -1,0 +1,17 @@
+
+  
+  .layout-no-sidebar {
+    display: block;
+  }
+  
+  .layout-with-sidebar .main-content {
+    margin-left: 200px;
+    margin-top: 60px;
+    background-color: rgba(128, 128, 128, 0.103);
+  }
+  
+  .layout-no-sidebar .main-content {
+    margin-left: 0;
+  }
+  
+  

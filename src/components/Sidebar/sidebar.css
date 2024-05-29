@@ -1,0 +1,116 @@
+.sidebar {
+    width: 200px;
+    position: fixed; 
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1000; 
+    padding: 20px;
+}
+  .aside-link {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    color: #fff;
+    text-decoration: none;
+}
+
+.sidebar >p{
+    font-family: Nunito Sans;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 22px;
+    color: #909094;
+    margin: 10px;
+}
+
+.aside-link .icon {
+    margin-right: 10px;
+}
+
+.aside-link .icon svg, .sidebar ul li svg{
+    font-size: 20px;
+}
+
+.aside-link{
+    color: #5E5E62;
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
+
+
+.sidebar ul li.active {
+    background-color: #2B75CC;
+}
+
+.sidebar ul li button, .sidebar ul li:last-of-type svg {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #EA0A0A;
+    font-family: Montserrat;
+    font-size: 16px;
+    line-height: 20px;
+}
+
+.sidebar ul li button, .sidebar ul li{
+    display: flex;
+    gap: 10px;
+}
+
+  
+  .layout-no-sidebar {
+    display: block;
+  }
+  
+  .top_section {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+  }
+  
+.logo {
+    display: block;
+}
+  
+.link {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    text-decoration: none;
+    color: #000;
+}
+  
+.link .icon {
+    margin-right: 10px;
+}
+  
+.link_text, .sidebar ul li a {
+    display: block;
+    font-family: Montserrat;
+    font-size: 16px;
+    line-height: 20px;
+    color: #5E5E62;
+}
+  
+  
+.aside-link.active {
+    background-color: #2B75CC;
+}
+
+.aside-link.active .link_text, .aside-link.active .icon, .sidebar .active a, .sidebar .active svg{
+    color: #fff;
+}
+
+.apexcharts-menu-icon{
+    display: none;
+}
