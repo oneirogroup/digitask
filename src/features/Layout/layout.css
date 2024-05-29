@@ -8,6 +8,7 @@
     margin-left: 200px;
     margin-top: 60px;
     background-color: rgba(128, 128, 128, 0.103);
+    padding: 0 0 25px 25px;
   }
   
   .layout-no-sidebar .main-content {

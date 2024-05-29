@@ -3,6 +3,7 @@ import photo1 from "../../assets/images/photo.svg";
 import photo2 from "../../assets/images/calendar-1-11.svg";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import ApexChart from '../../components/Chart';
+import CircleChart from '../../components/CircleChart';
 
 
 import "./home.css"
@@ -43,7 +44,88 @@ const Home = () => {
                     </button>
                 </div>
             </section>
-            <ApexChart />
+            <div className="home-charts">
+                <ApexChart />
+                <CircleChart />
+            </div>
+            <div className="">
+                <div className="home-employee-task">
+                    <div>
+                        <p>İşçilərin performansı</p>
+                    </div>
+                    <ul>
+                        <li>
+                            Ad
+                        </li>
+                        <li>
+                            Qrup
+                        </li>
+                        <li>
+                            Tasklar
+                        </li>
+                    </ul>
+                    <div>
+                        <ul>
+                            <li>
+                                Faiq Ə.
+                            </li>
+                            <li>
+                                Yasamal
+                            </li>
+                            <li>
+                                36
+                            </li>
+                        </ul>
+                        <ul>
+                            <li>
+                                Faiq Ə.
+                            </li>
+                            <li>
+                                Yasamal
+                            </li>
+                            <li>
+                                36
+                            </li>
+                        </ul>
+                        <ul>
+                            <li>
+                                Faiq Ə.
+                            </li>
+                            <li>
+                                Yasamal
+                            </li>
+                            <li>
+                                36
+                            </li>
+                        </ul>
+                        <ul>
+                            <li>
+                                Faiq Ə.
+                            </li>
+                            <li>
+                                Yasamal
+                            </li>
+                            <li>
+                                36
+                            </li>
+                        </ul>
+                        <ul>
+                            <li>
+                                Faiq Ə.
+                            </li>
+                            <li>
+                                Yasamal
+                            </li>
+                            <li>
+                                36
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div>
+                    
+                </div>
+            </div>
         </div>
     );
 };

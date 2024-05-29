@@ -1,0 +1,56 @@
+.apexcharts-legend {
+    display: none !important;
+}
+
+#circlechart{
+    width: 30%;  
+    background-color: white;
+    border-radius: 10px;
+    height: 300px;
+}
+
+.home-chart-services {
+    display: flex;
+    padding: 10px;
+    justify-content: space-around;
+}
+
+.home-chart-services div{
+    display: flex;
+}
+
+#circlechart > p{
+    font-family: Montserrat;
+    font-size: 20px;
+    line-height: 26px;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    font-weight: 600;
+}
+#circlechart >p svg{
+    color: #BDBDBD;
+    font-size: 25px;
+}
+
+#apexchartsni6isc67{
+    min-height: 200px !important;
+    height: 200px !important;
+}
+
+#circlechart> div:first-of-type{
+    height: 200px !important;
+    min-height: 200px !important;
+}
+
+.home-chart-services div:first-of-type svg{
+    color: #005ABF;
+}
+
+.home-chart-services div:nth-of-type(2) svg{
+    color: #FFD600;
+}
+
+.home-chart-services div:last-of-type svg{
+    color: #FF5449;
+}

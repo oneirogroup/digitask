@@ -1,9 +1,16 @@
-
-
 #chart {
     width: 64%;  
     padding: 10px;  
     background-color: white;
-    margin-left: 30px;
+    height: 300px;
     border-radius: 10px;
+}
+.year-filter{
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.year-filter{
+    font-size: 20px;
 }
