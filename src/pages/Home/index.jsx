@@ -5,11 +5,23 @@ import { IoIosAddCircleOutline } from "react-icons/io";
 import ApexChart from '../../components/Chart';
 import CircleChart from '../../components/CircleChart';
 import { PiTelevisionSimpleLight } from "react-icons/pi";
+import AddEventModal from '../../components/AddEventModal/index';
 
 import "./home.css"
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 const Home = () => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const openModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
+
 
     return (
         <div className="home-page">
@@ -39,7 +51,7 @@ const Home = () => {
                     </div>
                 </div>
                 <div className="meet-add">
-                    <button>
+                    <button onClick={openModal}>
                         <IoIosAddCircleOutline />
                         <p>Tədbir əlavə et</p>
                     </button>
@@ -259,6 +271,8 @@ const Home = () => {
                     </div>
                 </div>
             </section>
+            <AddEventModal isOpen={isModalOpen} onClose={closeModal} />
+
         </div>
     );
 };

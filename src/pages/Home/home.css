@@ -97,7 +97,15 @@
     border-radius: 20px;
 }
 
-.home-employee-task div p, .home-tasks>div p{
+.home-employee-task div p {
+    font-family: Montserrat;
+    font-size: 16px;
+    line-height: 26px;
+    font-weight: 600;
+    padding: 15px 20px;
+}
+
+.home-tasks>div p{
     font-family: Montserrat;
     font-size: 16px;
     line-height: 26px;
@@ -191,3 +199,11 @@
     padding: 5px;
     border-radius: 16px;
 }
+
+.event-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}  
