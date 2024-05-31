@@ -112,18 +112,63 @@
     padding: 10px 20px;
 }
 
-.home-employee-task ul, .home-tasks ul{
+.home-employee-task ul{
     display: flex;
     justify-content: space-around;
     padding: 8px 0;
     font-family: Montserrat;
     font-size: 16px;
-    
 }
 
-.home-tasks ul{
+.home-tasks > ul{
+    display: flex;
+    font-family: Montserrat;
+    font-size: 16px;
+    padding: 8px;
+    justify-content: space-around;
 
 }
+
+.home-tasks div ul{
+    display: flex;
+    font-family: Montserrat;
+    font-size: 16px;
+    padding: 8px 0 8px 15px;
+    align-items: center;
+}
+
+.home-tasks div ul li:first-of-type{
+    width: 150px;
+}
+
+.home-tasks div ul li:nth-of-type(2){
+    width: 175px;
+    white-space: nowrap;
+    color: #5E5E62;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.home-tasks div ul li:nth-of-type(3){
+    width: 160px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.home-tasks div ul li:nth-of-type(3) svg{
+    font-size: 22px;
+}
+
+.home-tasks div ul li:nth-of-type(4){
+    width: 200px;
+}
+
+.home-tasks div ul li:nth-of-type(5){
+    width: 200px;
+}
+
 
 .home-employee-task > ul, .home-tasks>ul {
     background-color: #2B75CC;
@@ -178,9 +223,7 @@
     font-weight: 700;
 }
 
-.home-tasks div ul li:nth-of-type(2){
-    color: #5E5E62;
-}
+
 
 .home-tasks div ul li svg{
     color: #E5C208;
@@ -190,13 +233,19 @@
 .home-tasks div ul li:nth-of-type(4){
     color: #008B1B;
     font-weight: 500;
+    white-space: nowrap; 
+    overflow: hidden; 
+    text-overflow: ellipsis;
+    max-width: 150px; 
+    padding: 0 10px;
 }
 
 .home-tasks div ul li:last-of-type{
-    background-color: #C9FFBD;
-    color: #23B131;
     padding: 5px;
     border-radius: 16px;
+    margin-right: 30px;
+    white-space: nowrap;
+    width: 164px;
 }
 
 .event-modal-overlay {

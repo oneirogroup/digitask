@@ -4,12 +4,15 @@ import photo2 from "../../assets/images/calendar-1-11.svg";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import ApexChart from '../../components/Chart';
 import CircleChart from '../../components/CircleChart';
-import { PiTelevisionSimpleLight } from "react-icons/pi";
 import AddEventModal from '../../components/AddEventModal/index';
+import { PiTelevisionSimple } from "react-icons/pi";
+import { TfiWorld } from "react-icons/tfi";
+import { RiVoiceprintFill } from "react-icons/ri";
 
 import "./home.css"
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
 
 const Home = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -21,6 +24,16 @@ const Home = () => {
     const closeModal = () => {
         setIsModalOpen(false);
     };
+
+    const [data, setData] = useState([]);
+    useEffect(() => {
+        fetch('http://135.181.42.192/services/tasks/')
+            .then(response => response.json())
+            .then(data => {
+                setData(data);
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    }, []);
 
 
     return (
@@ -161,113 +174,36 @@ const Home = () => {
                         </li>
                     </ul>
                     <div>
-                        <ul>
-                            <li>
-                                Nicat Hasanov
-                            </li>
-                            <li>
-                                16:00 - 18:00
-                            </li>
-                            <li>
-                                <PiTelevisionSimpleLight />
-
-                            </li>
-                            <li>
-                                Yasamal, Mirzə Ş..
-                            </li>
-                            <li>
-                                (051) 555 5555
-                            </li>
-                            <li>
-                                Qəbul edilib
-                            </li>
-
-                        </ul>
-                        <ul>
-                            <li>
-                                Nicat Hasanov
-                            </li>
-                            <li>
-                                16:00 - 18:00
-                            </li>
-                            <li>
-                                <PiTelevisionSimpleLight />
-
-                            </li>
-                            <li>
-                                Yasamal, Mirzə Ş..
-                            </li>
-                            <li>
-                                (051) 555 5555
-                            </li>
-                            <li>
-                                Qəbul edilib
-                            </li>
-
-                        </ul><ul>
-                            <li>
-                                Nicat Hasanov
-                            </li>
-                            <li>
-                                16:00 - 18:00
-                            </li>
-                            <li>
-                                <PiTelevisionSimpleLight />
-
-                            </li>
-                            <li>
-                                Yasamal, Mirzə Ş..
-                            </li>
-                            <li>
-                                (051) 555 5555
-                            </li>
-                            <li>
-                                Qəbul edilib
-                            </li>
-
-                        </ul><ul>
-                            <li>
-                                Nicat Hasanov
-                            </li>
-                            <li>
-                                16:00 - 18:00
-                            </li>
-                            <li>
-                                <PiTelevisionSimpleLight />
-
-                            </li>
-                            <li>
-                                Yasamal, Mirzə Ş..
-                            </li>
-                            <li>
-                                (051) 555 5555
-                            </li>
-                            <li>
-                                Qəbul edilib
-                            </li>
-
-                        </ul><ul>
-                            <li>
-                                Nicat Hasanov
-                            </li>
-                            <li>
-                                16:00 - 18:00
-                            </li>
-                            <li>
-                                <PiTelevisionSimpleLight />
-
-                            </li>
-                            <li>
-                                Yasamal, Mirzə Ş..
-                            </li>
-                            <li>
-                                (051) 555 5555
-                            </li>
-                            <li>
-                                Qəbul edilib
-                            </li>
-
-                        </ul>
+                        {data.map((item, index) => (
+                            <ul key={index}>
+                                <li>
+                                    {item.first_name && item.last_name ? `${item.first_name} ${item.last_name}` : 'User yoxdur'}
+                                </li>
+                                <li>
+                                    {item.time}
+                                </li>
+                                <li>
+                                    {item.tv && <PiTelevisionSimple />}
+                                    {item.internet && <TfiWorld />}
+                                    {item.voice && <RiVoiceprintFill />}
+                                    {!item.tv && !item.internet && !item.voice && <span>Servis Yoxdur</span>}
+                                </li>
+                                <li>
+                                    {item.location}
+                                </li>
+                                <li>
+                                    (051) 555 5555
+                                </li>
+                                <li className="task-status">
+                                    <button className={`status ${item.status.toLowerCase().replace(' ', '-')}`}>
+                                        {item.status === "waiting" ? "Gözləyir" :
+                                            item.status === "inprogress" ? "Qəbul edilib" :
+                                                item.status === "started" ? "Başlanıb" :
+                                                    item.status === "completed" ? "Tamamlanıb" : item.status}
+                                    </button>
+                                </li>
+                            </ul>
+                        ))}
                     </div>
                 </div>
             </section>
