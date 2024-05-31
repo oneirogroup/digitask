@@ -3,13 +3,15 @@
 }
 .task-page .table-container {
     padding: 20px;
-    overflow-x: auto;
+    overflow-x:scroll;
   }
   
   .task-page  table {
     width: 100%;
     border-collapse: collapse;
     font-family: Arial, sans-serif;
+    max-width: 100%;
+    overflow-x: auto;
   }
   
   .task-page th, td {
@@ -36,12 +38,6 @@
   
   .task-page .type-icon {
     font-size: 20px;
-  }
-  
-  .task-page .status {
-    padding: 5px 10px;
-    border-radius: 4px;
-    text-align: center;
   }
   
   .task-page-title{
@@ -144,17 +140,74 @@ font-weight: bold;
     font-size: 14px;
 }
 
+
+
 .inprogress {
     background-color: #C9FFBD;
     color: #23B131;
+    border: 1px solid #23B131;
   }
   
   .waiting {
     background-color: #FFF7CC;
     color: #856404;
+    border: 1px solid #C9AA08;
   }
   
   .completed {
     background-color: #D2E5FA;
     color: #005ABF;
+    border: 1px solid #005ABF;
+  }
+
+  .task-status button{
+    border-radius: 16px;
+    padding: 5px 10px;
+    text-align: center;
+    font-family: Nunito Sans;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+  .table-container tbody tr td:not(:first-of-type){
+    font-family: Nunito Sans;
+    font-size: 16px;
+    font-weight: 500;
+  }
+
+  .table-container tbody tr td:nth-of-type(2){
+    font-weight: bold;
+    white-space: nowrap;
+  }
+
+
+  .table-container tbody tr td:nth-of-type(4){
+    color: #5E5E62;
+  }
+
+  .table-container tbody tr td:first-of-type{
+    font-size: 14px;
+    font-weight: 400;
+    color: #909094;
+  }
+
+
+  .table-container tbody tr td:nth-of-type(5) svg{
+    color: #E5C208;
+    font-size: 22px;
+  }
+
+  .table-container tbody tr td:nth-of-type(6){
+    color: #008B1B;
+  }
+
+  .table-container tbody tr td:nth-of-type(7){
+    color: #2F3033;
+  }
+
+  .table-container table tbody tr td:nth-of-type(6){
+    max-width: 150px; 
+    white-space: nowrap; 
+    overflow: hidden; 
+    text-overflow: ellipsis;
   }
