@@ -24,7 +24,7 @@
 .home-meet-section .meet-time-date >p{
     font-family: Montserrat;
     font-size: 15px;
-    line-height: 20px;
+
     display: flex;
     align-items: center;
     gap: 5px;
@@ -39,14 +39,13 @@
 .home-meet-section .meet-time-date h5{
     font-family: Montserrat;
     font-size: 26px;
-    line-height: 36px;
     font-weight: 600;
 }
 
 .home-meet-section .meet-time-date div p{
     font-family: Montserrat;
     font-size: 20px;
-    line-height: 26px;
+    
 }
 
 .home-meet-section .meet-img {
@@ -72,7 +71,7 @@
     color: #909094;
     font-family: Montserrat;
     font-size: 20px;
-    line-height: 26px;
+    
     font-weight: 500;
     cursor: pointer;
 }
@@ -90,7 +89,7 @@
 .home-employee-task{
     display: flex;
     flex-direction: column;
-    width: 280px;
+    width: 300px;
     height: 100%;
     margin-top: 20px;
     background-color: #fff;
@@ -100,7 +99,7 @@
 .home-employee-task div p {
     font-family: Montserrat;
     font-size: 16px;
-    line-height: 26px;
+    
     font-weight: 600;
     padding: 15px 20px;
 }
@@ -108,7 +107,7 @@
 .home-tasks>div p{
     font-family: Montserrat;
     font-size: 16px;
-    line-height: 26px;
+    
     font-weight: 600;
     padding: 10px 20px;
 }
@@ -119,11 +118,11 @@
     padding: 8px 0;
     font-family: Montserrat;
     font-size: 16px;
-    line-height: 26px;
+    
 }
 
 .home-tasks ul{
-    line-height: 20px;
+
 }
 
 .home-employee-task > ul, .home-tasks>ul {
@@ -172,7 +171,7 @@
 .home-tasks div ul li{
     font-family: Nunito Sans;
     font-size: 16px;
-    line-height: 20px;
+
 }
 
 .home-tasks div ul li:first-of-type{

@@ -19,7 +19,6 @@
     font-family: Nunito Sans;
     font-size: 16px;
     font-weight: 600;
-    line-height: 22px;
     color: #909094;
     margin: 10px;
 }
@@ -59,7 +58,7 @@
     color: #EA0A0A;
     font-family: Montserrat;
     font-size: 16px;
-    line-height: 20px;
+
 }
 
 .sidebar ul li button, .sidebar ul li{
@@ -98,7 +97,7 @@
     display: block;
     font-family: Montserrat;
     font-size: 16px;
-    line-height: 20px;
+
     color: #5E5E62;
 }
   

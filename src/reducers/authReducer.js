@@ -1,6 +1,5 @@
 const initialState = {
   user: null,
-  authToken: null,
 };
 
 const authReducer = (state = initialState, action) => {
@@ -9,7 +8,6 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
         user: action.payload,
-        authToken: action.payload,
       };
     default:
       return state;

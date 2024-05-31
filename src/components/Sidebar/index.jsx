@@ -21,26 +21,27 @@ const Sidebar = ({ children }) => {
             icon: <GoHomeFill />
         },
         {
-            path: "/tasks",
+            path: "/tasks/",
             name: "Tapşırıqlar",
             icon: <img src={taskIcon} alt="Task Icon" style={{ width: '24px', height: '24px' }} />
         },
         {
-            path: "/warehouse",
+            path: "/warehouse/",
             name: "Anbar",
             icon: <FaWarehouse />
         },
         {
-            path: "/performance",
+            path: "/performance/",
             name: "Performans",
             icon: <img src={performance} alt="Task Icon" style={{ width: '24px', height: '24px' }} />
         },
         {
-            path: "/employees",
+            path: "/employees/",
             name: "İşçilər",
             icon: <img src={Engineering} alt="Task Icon" style={{ width: '24px', height: '24px' }} />
         },
     ];
+    
 
     const { user } = useSelector((state) => state.auth);
     const dispatch = useDispatch();

@@ -1,0 +1,160 @@
+.task-page{
+    width: 98%;
+}
+.task-page .table-container {
+    padding: 20px;
+    overflow-x: auto;
+  }
+  
+  .task-page  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+  }
+  
+  .task-page th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .task-page th {
+    background-color: #f2f2f2;
+  }
+  
+  .task-page tr:hover {
+    background-color: #f5f5f5;
+  }
+  
+  .task-page .problem {
+    color: #EA0A0A;
+  }
+  
+  .task-page .connection {
+    color: #005ABF;
+  }
+  
+  .task-page .type-icon {
+    font-size: 20px;
+  }
+  
+  .task-page .status {
+    padding: 5px 10px;
+    border-radius: 4px;
+    text-align: center;
+  }
+  
+  .task-page-title{
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 0;
+    align-items: center;
+  }
+  
+  .task-page-title p{
+    font-family: Montserrat;
+    font-size: 32px;
+    font-weight: 600;
+  }
+
+  .task-page-title div{
+    display: flex;
+    gap: 10px;
+  }
+
+  .task-page-title div button{
+    padding: 10px;
+    border-radius: 12px;
+    border: 2px solid #005ABF;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    font-family: Nunito Sans;
+    font-size: 16px;
+    font-weight: 500;
+  }
+
+  .task-page-title div button svg{
+    font-size: 26px;
+  }
+
+  .task-page-title div button:first-of-type{
+    color: #005ABF;
+    background-color: none;
+  }
+
+  .task-page-title div button:last-of-type{
+    background-color: #005ABF;
+    color: white;
+  }
+
+  .task-page-title div button:last-of-type svg{
+    color: white;    
+  }
+
+  .taskPage-taskType{
+    display: flex;
+  }
+
+  .taskPage-taskType button{
+    background-color: inherit;
+    border:0;
+    border-bottom: 2px solid #ABABAF;
+    width: 100%;
+    padding: 10px 0;
+    font-family: Montserrat;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.activeButton{
+    border-color: #005ABF !important;
+    color: #005ABF !important;
+}
+
+.task-history-status{
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 20px 0 0;
+    align-items: center;
+}
+
+.task-history-status button{
+    background-color: white;
+    border: 1px solid #909094;
+    padding: 9px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 15px;
+    font-family: Nunito Sans;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.task-history-status button span:first-of-type{
+color: #5E5E62;
+}
+.task-history-status button span:last-of-type{
+font-weight: bold;
+}
+
+.task-history-status svg{
+    font-size: 14px;
+}
+
+.inprogress {
+    background-color: #C9FFBD;
+    color: #23B131;
+  }
+  
+  .waiting {
+    background-color: #FFF7CC;
+    color: #856404;
+  }
+  
+  .completed {
+    background-color: #D2E5FA;
+    color: #005ABF;
+  }

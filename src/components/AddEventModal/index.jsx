@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import "./eventModal.css"
 import { IoMdClose } from "react-icons/io";
+import { RiMapPinAddFill } from "react-icons/ri";
 
 const AddEventModal = ({ isOpen, onClose }) => {
   const [eventName, setEventName] = useState('');
@@ -50,6 +51,7 @@ const AddEventModal = ({ isOpen, onClose }) => {
           <label>
             Keçiriləcəyi yer:
             <input type="text" value={eventLocation} onChange={(e) => setEventLocation(e.target.value)} />
+            <RiMapPinAddFill />
           </label>
           <label>
             Qeyd:
