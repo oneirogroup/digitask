@@ -80,7 +80,7 @@ function Index() {
                             {filteredData.map((item, index) => (
                                 <tr key={index}>
                                     <td>{`#${item.id.toString().padStart(4, '0')}`}</td>
-                                    <td>{item.first_name && item.last_name ? `${item.first_name} ${item.last_name}` : 'No Name'}</td>
+                                    <td>{item.first_name && item.last_name ? `${item.first_name} ${item.last_name}` : 'User yoxdur'}</td>
                                     <td className={item.task_type === 'problem' ? 'problem' : 'connection'}>
                                         {item.task_type === 'problem' ? 'Problem' : 'Qoşulma'}
                                     </td>
