@@ -184,8 +184,14 @@
 
 .home-employee-task div ul li:first-of-type, .home-employee-task div ul li:last-of-type{
     color: #005ABF;
+    width: 66px;
+    white-space: nowrap;
+    font-weight: 500;
 }
 
+.home-employee-task div ul li:last-of-type{
+    text-align: center;
+}
 .home-tasks{
     display: flex;
     flex-direction: column;

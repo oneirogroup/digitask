@@ -35,6 +35,15 @@ const Home = () => {
             .catch(error => console.error('Error fetching data:', error));
     }, []);
 
+    const [performanceData, setPerformanceData] = useState([]);
+
+    useEffect(() => {
+        fetch('http://135.181.42.192/services/performance/')
+            .then(response => response.json())
+            .then(data => setPerformanceData(data))
+            .catch(error => console.error('Error fetching data:', error));
+    }, []);
+
 
     return (
         <div className="home-page">
@@ -91,61 +100,13 @@ const Home = () => {
                         </li>
                     </ul>
                     <div>
-                        <ul>
-                            <li>
-                                Faiq Ə.
-                            </li>
-                            <li>
-                                Yasamal
-                            </li>
-                            <li>
-                                36
-                            </li>
-                        </ul>
-                        <ul>
-                            <li>
-                                Faiq Ə.
-                            </li>
-                            <li>
-                                Yasamal
-                            </li>
-                            <li>
-                                36
-                            </li>
-                        </ul>
-                        <ul>
-                            <li>
-                                Faiq Ə.
-                            </li>
-                            <li>
-                                Yasamal
-                            </li>
-                            <li>
-                                36
-                            </li>
-                        </ul>
-                        <ul>
-                            <li>
-                                Faiq Ə.
-                            </li>
-                            <li>
-                                Yasamal
-                            </li>
-                            <li>
-                                36
-                            </li>
-                        </ul>
-                        <ul>
-                            <li>
-                                Faiq Ə.
-                            </li>
-                            <li>
-                                Yasamal
-                            </li>
-                            <li>
-                                36
-                            </li>
-                        </ul>
+                        {performanceData.map((item, index) => (
+                            <ul key={index}>
+                                <li>{`${item.first_name} ${item.last_name.charAt(0)}.`}</li>
+                                <li>{item.group.region}</li>
+                                <li>{item.task_count.total}</li>
+                            </ul>
+                        ))}
                     </div>
                 </div>
                 <div className="home-tasks">
@@ -192,7 +153,7 @@ const Home = () => {
                                     {item.location}
                                 </li>
                                 <li>
-                                    (051) 555 5555
+                                    {item.phone ? item.phone : 'No Number'}
                                 </li>
                                 <li className="task-status">
                                     <button className={`status ${item.status.toLowerCase().replace(' ', '-')}`}>
