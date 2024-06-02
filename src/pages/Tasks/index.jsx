@@ -8,7 +8,6 @@ import { TfiWorld } from "react-icons/tfi";
 import { RiVoiceprintFill } from "react-icons/ri";
 import AddTaskModal from '../../components/AddTaskModal/index';
 
-
 function Index() {
     const [data, setData] = useState([]);
     const [filteredData, setFilteredData] = useState([]);
@@ -19,79 +18,77 @@ function Index() {
     const [selectedStatusFilter, setSelectedStatusFilter] = useState("Hamısı");
     const [isAddTaskModalOpen, setIsAddTaskModalOpen] = useState(false);
 
+
     useEffect(() => {
-        fetchData();
+        fetchTasks("all", "Bugün", "Hamısı");
     }, []);
 
-    const fetchData = () => {
-        fetch('http://135.181.42.192/services/tasks/')
-            .then(response => response.json())
-            .then(data => {
-                setData(data);
-                applyFilters("all", "Bugün", "Hamısı", data);
-            })
-            .catch(error => console.error('Error fetching data:', error));
-    };
-
-    const applyFilters = (taskFilter, dateFilter, statusFilter, tasks = data) => {
-        let filtered = tasks;
-
-        if (taskFilter !== "all") {
-            filtered = filtered.filter(item => item.task_type === taskFilter);
-        }
+    const fetchTasks = (taskFilter, dateFilter, statusFilter) => {
+        let dateQueryParam = "";
+        let monthParam = "";
 
         const now = new Date();
+
         switch (dateFilter) {
             case "Bugün":
-                filtered = filtered.filter(item => new Date(item.date).toDateString() === now.toDateString());
+                dateQueryParam = `&month=${now.getMonth() + 1}`;
                 break;
             case "Dünən":
                 const yesterday = new Date(now);
                 yesterday.setDate(now.getDate() - 1);
-                filtered = filtered.filter(item => new Date(item.date).toDateString() === yesterday.toDateString());
+                dateQueryParam = `&month=${yesterday.getMonth() + 1}&day=${yesterday.getDate()}`;
                 break;
             case "Son 1 ay":
                 const oneMonthAgo = new Date(now);
                 oneMonthAgo.setMonth(now.getMonth() - 1);
-                filtered = filtered.filter(item => new Date(item.date) > oneMonthAgo);
+                monthParam = `&month=${oneMonthAgo.getMonth() + 1}`;
                 break;
             default:
                 break;
         }
 
-        if (statusFilter !== "Hamısı") {
-            filtered = filtered.filter(item => {
-                switch (statusFilter) {
-                    case "Qəbul edilib":
-                        return item.status === "inprogress";
-                    case "Gözləyir":
-                        return item.status === "waiting";
-                    case "Tamamlanıb":
-                        return item.status === "completed";
-                    case "Tamamlanmadı":
-                        return item.status === "not_completed";
-                    default:
-                        return true;
-                }
-            });
-        }
+        const statusMap = {
+            "Hamısı": "",
+            "Qəbul edilib": "inprogress",
+            "Gözləyir": "waiting",
+            "Tamamlanıb": "completed",
+            "Tamamlanmadı": "not_completed"
+        };
 
-        setFilteredData(filtered);
+        const taskTypeParam = taskFilter !== "all" ? `&task_type=${taskFilter}` : "";
+        const statusParam = statusFilter !== "Hamısı" ? `&status=${statusMap[statusFilter]}` : "";
+
+        const url = `http://135.181.42.192/services/status/?${taskTypeParam}${dateQueryParam}${statusParam}`;
+
+        console.log(`Fetching tasks with URL: ${url}`); // Debug log
+
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                console.log('Fetched data:', data); // Debug log
+                setData(data);
+                setFilteredData(data);
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    };
+
+    const applyFilters = (taskFilter, dateFilter, statusFilter) => {
+        setActiveFilter(taskFilter);
+        setSelectedDateFilter(dateFilter);
+        setSelectedStatusFilter(statusFilter);
+        fetchTasks(taskFilter, dateFilter, statusFilter);
     };
 
     const filterData = (filter) => {
-        setActiveFilter(filter);
         applyFilters(filter, selectedDateFilter, selectedStatusFilter);
     };
 
     const filterByDate = (dateFilter) => {
-        setSelectedDateFilter(dateFilter);
         setIsDateModalOpen(false);
         applyFilters(activeFilter, dateFilter, selectedStatusFilter);
     };
 
     const filterByStatus = (statusFilter) => {
-        setSelectedStatusFilter(statusFilter);
         setIsStatusModalOpen(false);
         applyFilters(activeFilter, selectedDateFilter, statusFilter);
     };
@@ -109,7 +106,9 @@ function Index() {
             <div className='task-page-title'>
                 <p>Tapşırıqlar</p>
                 <div>
-                    <button><IoMdRefresh />Yenilə</button>
+                    <button onClick={() => fetchTasks(activeFilter, selectedDateFilter, selectedStatusFilter)}>
+                        <IoMdRefresh />Yenilə
+                    </button>
                     <button onClick={openAddTaskModal}><IoAdd />Əlavə et</button>
                 </div>
             </div>
@@ -194,7 +193,7 @@ function Index() {
             </div>
             {isAddTaskModalOpen && <AddTaskModal onClose={closeAddTaskModal} />}
         </div>
-    )
+    );
 }
 
 export default Index;
