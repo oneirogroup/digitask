@@ -20,6 +20,10 @@ function Index() {
     const [isAddTaskModalOpen, setIsAddTaskModalOpen] = useState(false);
 
     useEffect(() => {
+        fetchData();
+    }, []);
+
+    const fetchData = () => {
         fetch('http://135.181.42.192/services/tasks/')
             .then(response => response.json())
             .then(data => {
@@ -27,7 +31,7 @@ function Index() {
                 applyFilters("all", "Bugün", "Hamısı", data);
             })
             .catch(error => console.error('Error fetching data:', error));
-    }, []);
+    };
 
     const applyFilters = (taskFilter, dateFilter, statusFilter, tasks = data) => {
         let filtered = tasks;
