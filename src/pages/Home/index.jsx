@@ -112,7 +112,7 @@ const Home = () => {
                 <div className="home-tasks">
                     <div>
                         <p>Tapşırıqlar</p>
-                        <Link>Hamısına bax</Link>
+                        <Link to="/tasks/">Hamısına bax</Link>
                     </div>
                     <ul>
                         <li>
@@ -135,7 +135,7 @@ const Home = () => {
                         </li>
                     </ul>
                     <div>
-                        {data.map((item, index) => (
+                        {data.slice(0, 5).map((item, index) => (
                             <ul key={index}>
                                 <li>
                                     {item.first_name && item.last_name ? `${item.first_name} ${item.last_name}` : 'User yoxdur'}
