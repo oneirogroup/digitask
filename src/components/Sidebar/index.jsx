@@ -41,7 +41,7 @@ const Sidebar = ({ children }) => {
             icon: <img src={Engineering} alt="Task Icon" style={{ width: '24px', height: '24px' }} />
         },
     ];
-    
+
 
     const { user } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
@@ -50,11 +50,11 @@ const Sidebar = ({ children }) => {
 
     const handleLogout = () => {
         dispatch(logout());
-        navigate("/login");
+        navigate("/login/");
     };
 
     const handleLogin = () => {
-        navigate('/login');
+        navigate('/login/');
     };
 
     return (
@@ -84,11 +84,11 @@ const Sidebar = ({ children }) => {
                 <ul>
                     <li className={location.pathname === "/settings" ? "active" : ""}>
                         <IoMdSettings />
-                        <Link to="/settings">Parametrlər</Link>
+                        <Link to="/settings/">Parametrlər</Link>
                     </li>
                     <li className={location.pathname === "/contact" ? "active" : ""}>
                         <BiSupport />
-                        <Link to="/contact">Əlaqə</Link>
+                        <Link to="/contact/">Əlaqə</Link>
                     </li>
                     <li>
                         <MdLogout />
