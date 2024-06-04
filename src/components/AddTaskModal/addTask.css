@@ -1,89 +1,195 @@
 .task-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 20000;
-    overflow-y: auto;
-  }
-  
-  .task-modal-content {
-    position: relative;
-    background-color: white;
-    padding: 20px;
-    border-radius: 5px;
-    width: 100%;
-    max-width: 600px;
-    margin: 50px auto;
-  }
-  
-  
-  .close {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 24px;
-    cursor: pointer;
-  }
-  
-  .form-group {
-    margin-bottom: 15px;
-  }
-  
-  label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 5px;
-  }
-  
-  input[type="text"],
-  input[type="date"],
-  select,
-  textarea {
-    width: 100%;
-    padding: 5px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  input[type="text"]:focus,
-  input[type="date"]:focus,
-  select:focus,
-  textarea:focus {
-    outline: none;
-    box-shadow: 0 0 2px 1px #007bff;
-  }
-  
-  input[type="checkbox"] {
-    margin-right: 10px;
-  }
-  
-  button[type="submit"] {
-    width: 100%;
-    padding: 10px;
-    font-size: 18px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  button[type="submit"]:hover {
-    background-color: #0056b3;
-  }
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 20000;
+}
 
-  .task-date-form{
-    display: flex;
-  }
+.task-modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  width: 80%; 
+  max-width: 52%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
 
-  .tv-voice-internet, .task-name-date, .registerNumber-contactNumber {
-    display: flex;
-  }
+.task-modal-title{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 
+.task-modal-title h5{
+  font-family: Montserrat;
+  font-size: 26px;
+  font-weight: 500;
+  margin: 0 auto;
+}
+
+.task-modal-title span{
+  color: #5E5E62;
+  font-size: 36px;
+  cursor: pointer;
+}
+
+.task-modal-content > hr:first-of-type{
+  border: none;           
+  width: 100%;            
+  height: 0.3px;            
+  background-color: #5E5E62; 
+  margin: 10px 0;
+}
+
+.taskModal-taskType{
+  display: flex;
+}
+
+.taskModal-taskType button{
+  background-color: inherit;
+  border:0;
+  border-bottom: 3px solid #ABABAF;
+  width: 100%;
+  padding: 10px 0;
+  font-family: Montserrat;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 20px;
+
+}
+
+.taskModal-taskType .activeButton{
+  border-color: #005ABF !important;
+  color: #005ABF !important;
+}
+
+
+.task-modal-content .form-group {
+  margin-bottom: 15px;
+}
+
+.task-modal-content label {
+  display: block;
+  font-family: Nunito Sans;
+  font-size: 16px;
+  font-weight: 500;  
+  margin-bottom: 5px;
+  color: #909094;
+}
+
+.task-modal-content input[type="text"],
+.task-modal-content input[type="date"],
+.task-modal-content input[type="time"],
+.task-modal-content select,
+.task-modal-content textarea {
+  width: 7.5vw;
+  padding: 5px;
+  height: 35px;
+  font-size: 16px;
+  border: 1px solid #F7F5FF;
+  border-radius: 5px;
+  background-color: #F7F5FF;
+}
+
+.task-modal-content input[type="text"],
+.task-modal-content select {
+  width: 23vw;
+}
+
+.task-modal-content textarea {
+  width: 100%;
+  height: 7vw;
+}
+
+.task-modal-content input[type="text"]:focus,
+.task-modal-content input[type="date"]:focus,
+.task-modal-content select:focus,
+.task-modal-content textarea:focus {
+  outline: none;
+  box-shadow: 0 0 2px 1px #007bff;
+}
+
+.task-modal-content #adress{
+  width: 100%;
+}
+
+.tv-voice-internet{
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  width: 100%;
+}
+
+.tv-voice-internet div{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 24%;
+  height: 40px;
+  border: 2px solid #FFD600;
+  border-radius: 12px;
+  gap: 5px;
+  cursor: pointer;
+
+}
+
+.tv-voice-internet div button{
+  background-color: inherit;
+  border: none;
+  color: #5E5E62;
+  cursor: pointer;
+}
+
+.tv-voice-internet div button svg{
+  color: #5E5E62;
+  
+}
+
+.tv-voice-internet .activeTask{
+  background-color: #FFD600;
+}
+
+.tv-voice-internet input[type="checkbox"]{
+  display: none;
+}
+
+.task-modal-content input[type="checkbox"] {
+  margin-right: 10px;
+}
+
+.task-modal-content button[type="submit"] {
+  width: 100%;
+  padding: 12px;
+  font-size: 18px;
+  background-color: #005ABF;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: Nunito Sans;
+  font-size: 14px;
+  font-weight: 500;
+  margin: 10px 0;
+}
+
+
+.task-date-form {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.task-name-date,
+.registerNumber-contactNumber, .taskService-taskGroup {
+  display: flex;
+  justify-content: space-between;
+}

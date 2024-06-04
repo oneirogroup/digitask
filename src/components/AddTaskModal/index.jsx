@@ -1,8 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import "./addTask.css"
+import "./addTask.css";
+import { PiTelevisionSimpleLight } from "react-icons/pi";
+import { TfiWorld } from "react-icons/tfi";
+import { RiVoiceprintFill } from "react-icons/ri";
+
 
 const CreateTaskModal = ({ onClose }) => {
+    const [activeFilter, setActiveFilter] = useState("connection");
+    const [activeTaskFilter, setActiveTaskFilter] = useState("tv");
+
     const [formData, setFormData] = useState({
         name: '',
         registrationNumber: '',
@@ -15,8 +22,24 @@ const CreateTaskModal = ({ onClose }) => {
         isVoice: false,
         isInternet: false,
         isTv: false,
-        technicalGroup: '',
+        taskType: 'connection',
+        group: '',
     });
+
+    const [groups, setGroups] = useState([]);
+
+    useEffect(() => {
+        fetchGroups();
+    }, []);
+
+    const fetchGroups = async () => {
+        try {
+            const response = await axios.get('http://135.181.42.192/services/create_task/');
+            setGroups(response.data);
+        } catch (error) {
+            console.error('Error fetching groups:', error);
+        }
+    };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -24,6 +47,20 @@ const CreateTaskModal = ({ onClose }) => {
             ...prevState,
             [name]: value,
         }));
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await axios.post('http://135.181.42.192/services/create_task/', formData);
+            if (response.status === 201) {
+                onClose();
+            } else {
+                console.error('Failed to create task', response);
+            }
+        } catch (error) {
+            console.error('Error creating task:', error);
+        }
     };
 
     const handleCheckboxChange = (e) => {
@@ -34,20 +71,42 @@ const CreateTaskModal = ({ onClose }) => {
         }));
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            await axios.post('http://135.181.42.192/services/create_task/', formData);
-            onClose();
-        } catch (error) {
-            console.error('Error creating task:', error);
-        }
+    const handleTaskTypeChange = (type) => {
+        setActiveFilter(type);
+        setFormData((prevState) => ({
+            ...prevState,
+            taskType: type,
+        }));
+    };
+
+    const handleActiveTaskFilter = (filter) => {
+        setActiveTaskFilter(filter);
     };
 
     return (
         <div className="task-modal">
             <div className="task-modal-content">
-                <span className="close" onClick={onClose}>&times;</span>
+                <div className='task-modal-title'>
+                    <h5>Yeni tapşırıq</h5>
+                    <span className="close" onClick={onClose}>&times;</span>
+                </div>
+                <hr />
+                <div className='taskModal-taskType'>
+                    <button
+                        type="button"
+                        className={activeFilter === "connection" ? "activeButton" : ""}
+                        onClick={() => handleTaskTypeChange("connection")}
+                    >
+                        Qoşulma
+                    </button>
+                    <button
+                        type="button"
+                        className={activeFilter === "problem" ? "activeButton" : ""}
+                        onClick={() => handleTaskTypeChange("problem")}
+                    >
+                        Problem
+                    </button>
+                </div>
                 <form onSubmit={handleSubmit}>
                     <div className='task-name-date'>
                         <div className="form-group">
@@ -121,83 +180,49 @@ const CreateTaskModal = ({ onClose }) => {
                             />
                         </div>
                     </div>
-
                     <div className="form-group">
-                        <label htmlFor="location">Region:</label>
-                        <select
-                            id="location"
+                        <label htmlFor="adress">Adress:</label>
+                        <input
+                            type="text"
+                            id="adress"
                             name="location"
                             value={formData.location}
                             onChange={handleChange}
                             className="form-control"
-                        >
-                            <option value="Suraxanı">Suraxanı</option>
-                            <option value="Sabunçu">Sabunçu</option>
-                            {/* Add more regions as needed */}
-                        </select>
+                        />
                     </div>
-                    <div className="form-group">
-                        <label htmlFor="adress">Adress:</label>
-                        <select
-                            id="adress"
-                            name="adress"
-                            value={formData.location}
-                            onChange={handleChange}
-                            className="form-control"
-                        >
-                            <option value="Suraxanı">Suraxanı</option>
-                            <option value="Sabunçu">Sabunçu</option>
-                            {/* Add more regions as needed */}
-                        </select>
-                    </div>
-                    <div className='tv-voice-internet'>
-                        <div className="form-group">
-                            <label htmlFor="isVoice">Voice:</label>
-                            <input
-                                type="checkbox"
-                                id="isVoice"
-                                name="isVoice"
-                                checked={formData.isVoice}
-                                onChange={handleCheckboxChange}
-                                className="form-check-input"
-                            />
+                    <div className='taskService-taskGroup'>
+                        <div className='tv-voice-internet'>
+                            <div onClick={() => handleActiveTaskFilter("tv")} className={`form-group ${activeTaskFilter === "tv" ? "activeTask" : ""}`}>
+                                <PiTelevisionSimpleLight />
+                                <button>Tv</button>
+                            </div>
+                            <div onClick={() => handleActiveTaskFilter("internet")} className={`form-group ${activeTaskFilter === "internet" ? "activeTask" : ""}`}>
+                                <TfiWorld />
+                                <button>Internet</button>
+                            </div>
+                            <div onClick={() => handleActiveTaskFilter("voice")} className={`form-group ${activeTaskFilter === "voice" ? "activeTask" : ""}`}>
+                                <RiVoiceprintFill />
+                                <button>Voice</button>
+                            </div>
                         </div>
                         <div className="form-group">
-                            <label htmlFor="isInternet">Internet:</label>
-                            <input
-                                type="checkbox"
-                                id="isInternet"
-                                name="isInternet"
-                                checked={formData.isInternet}
-                                onChange={handleCheckboxChange}
-                                className="form-check-input"
-                            />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="isTv">Tv:</label>
-                            <input
-                                type="checkbox"
-                                id="isTv"
-                                name="isTv"
-                                checked={formData.isTv}
-                                onChange={handleCheckboxChange}
-                                className="form-check-input"
-                            />
+                            <label htmlFor="group">Texniki Qrup:</label>
+                            <select
+                                id="group"
+                                name="group"
+                                value={formData.group}
+                                onChange={handleChange}
+                                className="form-control"
+                            >
+                                <option value="">Qrup Seçin</option>
+                                {groups.map((group) => (
+                                    <option key={group.id} value={group.id}>{group.group}</option>
+                                ))}
+                            </select>
                         </div>
                     </div>
-                    <div className="form-group">
-                        <label htmlFor="technicalGroup">Texniki Qrup:</label>
-                        <select
-                            id="technicalGroup"
-                            name="technicalGroup"
-                            value={formData.technicalGroup}
-                            onChange={handleChange}
-                            className="form-control"
-                        >
-                            <option value="Qrup 1">Qrup 1</option>
-                            <option value="Qrup 2">Qrup 2</option>
-                        </select>
-                    </div>
+
                     <div className="form-group">
                         <label htmlFor="description">Qeydlər:</label>
                         <textarea

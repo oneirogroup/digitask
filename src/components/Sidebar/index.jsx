@@ -41,7 +41,7 @@ const Sidebar = ({ children }) => {
             icon: <img src={Engineering} alt="Task Icon" style={{ width: '24px', height: '24px' }} />
         },
     ];
-    
+
 
     const { user } = useSelector((state) => state.auth);
     const dispatch = useDispatch();

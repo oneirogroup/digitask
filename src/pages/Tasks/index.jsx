@@ -14,38 +14,22 @@ function Index() {
     const [activeFilter, setActiveFilter] = useState("all");
     const [isDateModalOpen, setIsDateModalOpen] = useState(false);
     const [isStatusModalOpen, setIsStatusModalOpen] = useState(false);
-    const [selectedDateFilter, setSelectedDateFilter] = useState("Bugün");
     const [selectedStatusFilter, setSelectedStatusFilter] = useState("Hamısı");
     const [isAddTaskModalOpen, setIsAddTaskModalOpen] = useState(false);
-
+    const [selectedMonth, setSelectedMonth] = useState(new Date());
 
     useEffect(() => {
-        fetchTasks("all", "Bugün", "Hamısı");
-    }, []);
+        fetchTasks("all", selectedMonth, "Hamısı");
+    }, [selectedMonth]);
 
-    const fetchTasks = (taskFilter, dateFilter, statusFilter) => {
-        let dateQueryParam = "";
-        let monthParam = "";
+    const monthsAz = [
+        "Yanvar", "Fevral", "Mart", "Aprel", "May", "İyun",
+        "İyul", "Avqust", "Sentyabr", "Oktyabr", "Noyabr", "Dekabr"
+    ];
 
-        const now = new Date();
-
-        switch (dateFilter) {
-            case "Bugün":
-                dateQueryParam = `&month=${now.getMonth() + 1}`;
-                break;
-            case "Dünən":
-                const yesterday = new Date(now);
-                yesterday.setDate(now.getDate() - 1);
-                dateQueryParam = `&month=${yesterday.getMonth() + 1}&day=${yesterday.getDate()}`;
-                break;
-            case "Son 1 ay":
-                const oneMonthAgo = new Date(now);
-                oneMonthAgo.setMonth(now.getMonth() - 1);
-                monthParam = `&month=${oneMonthAgo.getMonth() + 1}`;
-                break;
-            default:
-                break;
-        }
+    const fetchTasks = (taskFilter, selectedMonth, statusFilter) => {
+        const monthYear = `${monthsAz[selectedMonth.getMonth()]} ${selectedMonth.getFullYear()}`;
+        const monthQueryParam = `&month=${selectedMonth.getMonth() + 1}&year=${selectedMonth.getFullYear()}`;
 
         const statusMap = {
             "Hamısı": "",
@@ -58,39 +42,39 @@ function Index() {
         const taskTypeParam = taskFilter !== "all" ? `&task_type=${taskFilter}` : "";
         const statusParam = statusFilter !== "Hamısı" ? `&status=${statusMap[statusFilter]}` : "";
 
-        const url = `http://135.181.42.192/services/status/?${taskTypeParam}${dateQueryParam}${statusParam}`;
+        const url = `http://135.181.42.192/services/status/?${taskTypeParam}${monthQueryParam}${statusParam}`;
 
-        console.log(`Fetching tasks with URL: ${url}`); // Debug log
+        console.log(`Fetching tasks with URL: ${url}`);
 
         fetch(url)
             .then(response => response.json())
             .then(data => {
-                console.log('Fetched data:', data); // Debug log
+                console.log('Fetched data:', data);
                 setData(data);
                 setFilteredData(data);
             })
             .catch(error => console.error('Error fetching data:', error));
     };
 
-    const applyFilters = (taskFilter, dateFilter, statusFilter) => {
+    const applyFilters = (taskFilter, selectedMonth, statusFilter) => {
         setActiveFilter(taskFilter);
-        setSelectedDateFilter(dateFilter);
+        setSelectedMonth(selectedMonth);
         setSelectedStatusFilter(statusFilter);
-        fetchTasks(taskFilter, dateFilter, statusFilter);
+        fetchTasks(taskFilter, selectedMonth, statusFilter);
     };
 
     const filterData = (filter) => {
-        applyFilters(filter, selectedDateFilter, selectedStatusFilter);
+        applyFilters(filter, selectedMonth, selectedStatusFilter);
     };
 
-    const filterByDate = (dateFilter) => {
+    const filterByDate = (selectedMonth) => {
         setIsDateModalOpen(false);
-        applyFilters(activeFilter, dateFilter, selectedStatusFilter);
+        applyFilters(activeFilter, selectedMonth, selectedStatusFilter);
     };
 
     const filterByStatus = (statusFilter) => {
         setIsStatusModalOpen(false);
-        applyFilters(activeFilter, selectedDateFilter, statusFilter);
+        applyFilters(activeFilter, selectedMonth, statusFilter);
     };
 
     const openAddTaskModal = () => {
@@ -101,12 +85,19 @@ function Index() {
         setIsAddTaskModalOpen(false);
     };
 
+    const resetFilters = () => {
+        setActiveFilter("all");
+        setSelectedMonth(new Date());
+        setSelectedStatusFilter("Hamısı");
+        fetchTasks("all", new Date(), "Hamısı");
+    };
+
     return (
         <div className='task-page'>
             <div className='task-page-title'>
                 <p>Tapşırıqlar</p>
                 <div>
-                    <button onClick={() => fetchTasks(activeFilter, selectedDateFilter, selectedStatusFilter)}>
+                    <button onClick={resetFilters}>
                         <IoMdRefresh />Yenilə
                     </button>
                     <button onClick={openAddTaskModal}><IoAdd />Əlavə et</button>
@@ -119,17 +110,14 @@ function Index() {
             </div>
             <div className="task-history-status">
                 <button onClick={() => setIsDateModalOpen(!isDateModalOpen)}>
-                    <span>Tarix:</span>
-                    <span>{selectedDateFilter}</span>
-                    <FaChevronDown />
-                </button>
-                {isDateModalOpen && (
-                    <div className="date-modal">
-                        <div onClick={() => filterByDate("Bugün")}>Bugün</div>
-                        <div onClick={() => filterByDate("Dünən")}>Dünən</div>
-                        <div onClick={() => filterByDate("Son 1 ay")}>Son 1 ay</div>
+                    <div onClick={() => setSelectedMonth(new Date(selectedMonth.getFullYear(), selectedMonth.getMonth() - 1))}>
+                        <span>&lt;</span>
                     </div>
-                )}
+                    <p>{`${monthsAz[selectedMonth.getMonth()]}, ${selectedMonth.getFullYear()}`}</p>
+                    <div onClick={() => setSelectedMonth(new Date(selectedMonth.getFullYear(), selectedMonth.getMonth() + 1))}>
+                        <span>&gt;</span>
+                    </div>
+                </button>
                 <button onClick={() => setIsStatusModalOpen(!isStatusModalOpen)}>
                     <span>Status:</span>
                     <span>{selectedStatusFilter}</span>

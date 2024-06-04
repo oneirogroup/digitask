@@ -123,7 +123,33 @@
     align-items: center;
 }
 
-.task-history-status button{
+.task-history-status button:first-of-type{
+  display: flex;
+  width: 300px;
+  align-items: center;
+  justify-content: space-between;
+  height: 40px;
+  background-color: white;
+  padding: 8px;
+  border: none;
+  border-radius: 8px;
+}
+
+.task-history-status button:first-of-type div span{
+  background-color: #2B75CC;
+  padding: 7px 10px;
+  color: #fff;
+  border-radius: 8px;
+}
+
+.task-history-status button p{
+  color: #2B75CC;
+  font-family: Montserrat;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.task-history-status button:last-of-type{
     background-color: white;
     border: 1px solid #909094;
     padding: 9px;
