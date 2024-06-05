@@ -1,0 +1,59 @@
+.setting-page{
+    width: 98%;
+}
+
+.setting-page h1{
+    display:inline-block;
+    font-family: Montserrat;
+    font-size: 32px;
+    font-weight: 500;
+    margin: 25px 0;
+}
+
+.settings-fields{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.settings-fields div, .settings-fields > button{
+    display: flex;
+}
+
+.settings-fields> div, .settings-fields button{
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    padding: 6px 15px;
+    border-radius: 24px;
+    border: none;
+}
+
+.settings-fields div div, .settings-fields button div{
+    gap: 10px;
+    align-items: center;
+
+}
+
+.settings-fields div div svg, .settings-fields button div svg{
+    font-size: 23px;
+    color: #2B75CC;
+}
+
+.settings-fields div div p, .settings-fields button div p{
+    font-family: Montserrat;
+    font-size: 20px;
+    font-weight: 500;
+    color: #2F3033;
+}
+
+.settings-fields > button{
+    padding: 10px 15px;
+    cursor: pointer;
+}
+
+.settings-fields button >svg{
+    margin-right: 12px;
+    font-size: 23px;
+    color: #2B75CC;
+}

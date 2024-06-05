@@ -12,9 +12,9 @@ const Layout = () => {
 
   return (
     <div className={shouldHideSidebar ? "layout-no-sidebar" : "layout-with-sidebar"}>
-      {!shouldHideNavbar && <Navbar />}
-      {!shouldHideSidebar && <Sidebar />}
-      <div className="main-content">
+      {!shouldHideNavbar && <Navbar className="navbar" />}
+      {!shouldHideSidebar && <Sidebar className="sidebar" />}
+      <div className={shouldHideSidebar ? "main-content-no-sidebar" : "main-content"}>
         <Outlet />
       </div>
     </div>

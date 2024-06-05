@@ -5,41 +5,28 @@ import { PiTelevisionSimpleLight } from "react-icons/pi";
 import { TfiWorld } from "react-icons/tfi";
 import { RiVoiceprintFill } from "react-icons/ri";
 
-
 const CreateTaskModal = ({ onClose }) => {
     const [activeFilter, setActiveFilter] = useState("connection");
     const [activeTaskFilter, setActiveTaskFilter] = useState("tv");
 
     const [formData, setFormData] = useState({
-        name: '',
-        registrationNumber: '',
+        taskType: 'connection',
+        description: '',
+        registration_number: '',
         contactNumber: '',
         location: '',
-        description: '',
+        note: '',
         date: '',
-        startTime: '',
-        endTime: '',
+        time: '',
+        status: '',
         isVoice: false,
         isInternet: false,
         isTv: false,
-        taskType: 'connection',
-        group: '',
+        user: '',
+        group: [],
     });
 
     const [groups, setGroups] = useState([]);
-
-    useEffect(() => {
-        fetchGroups();
-    }, []);
-
-    const fetchGroups = async () => {
-        try {
-            const response = await axios.get('http://135.181.42.192/services/create_task/');
-            setGroups(response.data);
-        } catch (error) {
-            console.error('Error fetching groups:', error);
-        }
-    };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -47,20 +34,6 @@ const CreateTaskModal = ({ onClose }) => {
             ...prevState,
             [name]: value,
         }));
-    };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            const response = await axios.post('http://135.181.42.192/services/create_task/', formData);
-            if (response.status === 201) {
-                onClose();
-            } else {
-                console.error('Failed to create task', response);
-            }
-        } catch (error) {
-            console.error('Error creating task:', error);
-        }
     };
 
     const handleCheckboxChange = (e) => {
@@ -81,6 +54,28 @@ const CreateTaskModal = ({ onClose }) => {
 
     const handleActiveTaskFilter = (filter) => {
         setActiveTaskFilter(filter);
+        setFormData((prevState) => ({
+            ...prevState,
+            isVoice: filter === 'voice',
+            isInternet: filter === 'internet',
+            isTv: filter === 'tv',
+        }));
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await axios.post('http://135.181.42.192/services/create_task/', formData);
+            if (response.status === 201) {
+                const groupData = response.data;
+                setGroups(groupData); // Yanıt verisindeki grup bilgilerini ayarla
+                onClose();
+            } else {
+                console.error('Failed to create task', response);
+            }
+        } catch (error) {
+            console.error('Error creating task:', error);
+        }
     };
 
     return (
@@ -133,23 +128,12 @@ const CreateTaskModal = ({ onClose }) => {
                                 />
                             </div>
                             <div className="form-group">
-                                <label htmlFor="startTime">Başlayır:</label>
+                                <label htmlFor="time">Saat:</label>
                                 <input
                                     type="time"
-                                    id="startTime"
-                                    name="startTime"
-                                    value={formData.startTime}
-                                    onChange={handleChange}
-                                    className="form-control"
-                                />
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="endTime">Bitir:</label>
-                                <input
-                                    type="time"
-                                    id="endTime"
-                                    name="endTime"
-                                    value={formData.endTime}
+                                    id="time"
+                                    name="time"
+                                    value={formData.time}
                                     onChange={handleChange}
                                     className="form-control"
                                 />
@@ -163,7 +147,7 @@ const CreateTaskModal = ({ onClose }) => {
                                 type="text"
                                 id="registrationNumber"
                                 name="registrationNumber"
-                                value={formData.registrationNumber}
+                                value={formData.registration_number}
                                 onChange={handleChange}
                                 className="form-control"
                             />
@@ -181,10 +165,10 @@ const CreateTaskModal = ({ onClose }) => {
                         </div>
                     </div>
                     <div className="form-group">
-                        <label htmlFor="adress">Adress:</label>
+                        <label htmlFor="location">Adress:</label>
                         <input
                             type="text"
-                            id="adress"
+                            id="location"
                             name="location"
                             value={formData.location}
                             onChange={handleChange}
@@ -195,15 +179,15 @@ const CreateTaskModal = ({ onClose }) => {
                         <div className='tv-voice-internet'>
                             <div onClick={() => handleActiveTaskFilter("tv")} className={`form-group ${activeTaskFilter === "tv" ? "activeTask" : ""}`}>
                                 <PiTelevisionSimpleLight />
-                                <button>Tv</button>
+                                <button type="button">Tv</button>
                             </div>
                             <div onClick={() => handleActiveTaskFilter("internet")} className={`form-group ${activeTaskFilter === "internet" ? "activeTask" : ""}`}>
                                 <TfiWorld />
-                                <button>Internet</button>
+                                <button type="button">Internet</button>
                             </div>
                             <div onClick={() => handleActiveTaskFilter("voice")} className={`form-group ${activeTaskFilter === "voice" ? "activeTask" : ""}`}>
                                 <RiVoiceprintFill />
-                                <button>Voice</button>
+                                <button type="button">Voice</button>
                             </div>
                         </div>
                         <div className="form-group">
