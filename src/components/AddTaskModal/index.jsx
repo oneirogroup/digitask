@@ -5,13 +5,11 @@ import { PiTelevisionSimpleLight } from "react-icons/pi";
 import { TfiWorld } from "react-icons/tfi";
 import { RiVoiceprintFill } from "react-icons/ri";
 
-
 const CreateTaskModal = ({ onClose }) => {
     const [activeFilter, setActiveFilter] = useState("connection");
     const [activeTaskFilter, setActiveTaskFilter] = useState();
-
     const [formData, setFormData] = useState({
-        name: '',
+        full_name: '',
         registration_number: '',
         contact_number: '',
         location: '',
@@ -27,7 +25,6 @@ const CreateTaskModal = ({ onClose }) => {
         task_type: '',
         group: [],
     });
-
     const [groups, setGroups] = useState([]);
 
     useEffect(() => {
@@ -36,9 +33,9 @@ const CreateTaskModal = ({ onClose }) => {
 
     const fetchGroups = async () => {
         try {
-            const response = await axios.get('http://135.181.42.192/services/create_task/');
-            setGroups(response.data.group);
-            console.log(response)
+            const response = await axios.get('http://135.181.42.192/services/groups/');
+            setGroups(response.data.map(group => ({ id: group.id, group: group.group })));
+            console.log(response.data);
         } catch (error) {
             console.error('Error fetching groups:', error);
         }
@@ -65,7 +62,19 @@ const CreateTaskModal = ({ onClose }) => {
         try {
             const task_type = activeFilter === "connection" ? "connection" : "problem";
             const time = `${formData.startTime}-${formData.endTime}`;
-            const response = await axios.post('http://135.181.42.192/services/create_task/', { ...formData, task_type, time });
+
+            const selectedGroups = formData.group.map(groupId => {
+                const group = groups.find(group => group.id === groupId);
+                return group ? { id: group.id, group: group.group } : null;
+            }).filter(group => group !== null);
+
+            const response = await axios.post('http://135.181.42.192/services/create_task/', {
+                ...formData,
+                group: selectedGroups,
+                task_type,
+                time
+            });
+
             if (response.status === 201) {
                 onClose(response.data);
             } else {
@@ -75,6 +84,8 @@ const CreateTaskModal = ({ onClose }) => {
             console.error('Error creating task:', error);
         }
     };
+
+
 
     const handleCheckboxChange = (e) => {
         const { name, checked } = e.target;
@@ -133,12 +144,12 @@ const CreateTaskModal = ({ onClose }) => {
                 <form onSubmit={handleSubmit}>
                     <div className='task-name-date'>
                         <div className="form-group">
-                            <label htmlFor="name">Ad Soyad:</label>
+                            <label htmlFor="full_name">Ad Soyad:</label>
                             <input
                                 type="text"
-                                id="name"
-                                name="name"
-                                value={formData.name}
+                                id="full_name"
+                                name="full_name"
+                                value={formData.full_name}
                                 onChange={handleChange}
                                 className="form-control"
                             />
@@ -239,8 +250,8 @@ const CreateTaskModal = ({ onClose }) => {
                                 className="form-control"
                                 multiple
                             >
-                                {groups.map((group) => (
-                                    <option key={group.id} value={group.id}>{group.id}</option>
+                                {groups && groups.length > 0 && groups.map((group) => (
+                                    <option key={group.id} value={group.id}>{group.group}</option>
                                 ))}
                             </select>
                         </div>

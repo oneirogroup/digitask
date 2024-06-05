@@ -1,0 +1,80 @@
+.import-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 20000;
+  }
+  
+  .import-modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 24px;
+    width: 80%; 
+    max-width: 52%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-sizing: border-box;
+  }
+
+  .import-modal-title{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .import-modal-title h5{
+    font-family: Montserrat;
+    font-size: 26px;
+    font-weight: 500;
+    margin: 0 auto;
+  }
+  
+  .import-modal-title span{
+    color: #5E5E62;
+    font-size: 36px;
+    cursor: pointer;
+  }
+
+  .import-modal-content > hr:first-of-type{
+    border: none;           
+    width: 100%;            
+    height: 0.3px;            
+    background-color: #5E5E62; 
+    margin: 10px 0;
+  }
+
+.importModal-warehouseName{
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin: 20px 0;
+    align-items: center;
+}
+
+.importModal-warehouseName button{
+    padding: 15px 10px;
+    width: 100%;
+    background-color: #F7F5FF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 16px;
+    color: #005ABF;
+    font-family: Montserrat;
+    font-size: 18px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+}
+
+.import-form{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+
+}

@@ -5,7 +5,8 @@ import { CiSearch } from "react-icons/ci";
 import { FaChevronDown } from "react-icons/fa6";
 import "./warehouse.css";
 import { BsThreeDotsVertical } from "react-icons/bs";
-
+import Import from "../Import";
+import Export from "../Export";
 
 function Warehouse() {
     const [tableData, setTableData] = useState([]);
@@ -13,6 +14,8 @@ function Warehouse() {
     const [importSelected, setImportSelected] = useState(true);
     const [warehouseSelected, setWarehouseSelected] = useState(0);
     const [warehouses, setWarehouses] = useState([]);
+    const [showImportModal, setShowImportModal] = useState(false);
+    const [showExportModal, setShowExportModal] = useState(false);
 
     useEffect(() => {
         fetch('http://135.181.42.192/services/warehouse_item/')
@@ -30,7 +33,6 @@ function Warehouse() {
                 }));
                 setTableData(formattedData);
 
-                // Anbar adlarını alarak warehouses state'ine yerleştirme
                 const warehouseNames = data.map(item => item.warehouse.name);
                 setWarehouses(warehouseNames);
             })
@@ -40,13 +42,16 @@ function Warehouse() {
     const handleExportClick = () => {
         setExportSelected(true);
         setImportSelected(false);
+        setShowExportModal(true);
+        setShowImportModal(false);
     };
 
     const handleImportClick = () => {
         setImportSelected(true);
         setExportSelected(false);
-    };
-
+        setShowImportModal(true);
+        setShowExportModal(false);
+    }
     return (
         <div>
             <section>
@@ -125,6 +130,8 @@ function Warehouse() {
                     </table>
                 </div>
             </section>
+            {showImportModal && <Import onClose={() => setShowImportModal(false)} />}
+            {showExportModal && <Export onClose={() => setShowExportModal(false)} />}
         </div>
     )
 }
