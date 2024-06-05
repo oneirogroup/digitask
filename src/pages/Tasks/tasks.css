@@ -308,6 +308,6 @@ font-weight: bold;
   color: #005ABF;
 }
 
-.status-modal div:last-of-type{
+.status-modal div:nth-of-type(5){
   color: #909094;
 }

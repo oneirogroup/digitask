@@ -7,6 +7,8 @@ import { PiTelevisionSimple } from "react-icons/pi";
 import { TfiWorld } from "react-icons/tfi";
 import { RiVoiceprintFill } from "react-icons/ri";
 import AddTaskModal from '../../components/AddTaskModal/index';
+import { BsThreeDotsVertical } from "react-icons/bs";
+
 
 function Index() {
     const [data, setData] = useState([]);
@@ -146,6 +148,7 @@ function Index() {
                                 <th>Adres</th>
                                 <th>Nömrə</th>
                                 <th>Status</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -173,6 +176,7 @@ function Index() {
                                                         item.status === "completed" ? "Tamamlanıb" : item.status}
                                         </button>
                                     </td>
+                                    <td><BsThreeDotsVertical /></td>
                                 </tr>
                             ))}
                         </tbody>

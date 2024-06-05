@@ -5,35 +5,75 @@ import { PiTelevisionSimpleLight } from "react-icons/pi";
 import { TfiWorld } from "react-icons/tfi";
 import { RiVoiceprintFill } from "react-icons/ri";
 
+
 const CreateTaskModal = ({ onClose }) => {
     const [activeFilter, setActiveFilter] = useState("connection");
-    const [activeTaskFilter, setActiveTaskFilter] = useState("tv");
+    const [activeTaskFilter, setActiveTaskFilter] = useState();
 
     const [formData, setFormData] = useState({
-        taskType: 'connection',
-        description: '',
+        name: '',
         registration_number: '',
-        contactNumber: '',
+        contact_number: '',
         location: '',
-        note: '',
+        description: '',
         date: '',
+        startTime: '',
+        endTime: '',
         time: '',
-        status: '',
-        isVoice: false,
-        isInternet: false,
-        isTv: false,
-        user: '',
+        note: '',
+        is_voice: false,
+        is_internet: false,
+        is_tv: false,
+        task_type: '',
         group: [],
     });
 
     const [groups, setGroups] = useState([]);
 
+    useEffect(() => {
+        fetchGroups();
+    }, []);
+
+    const fetchGroups = async () => {
+        try {
+            const response = await axios.get('http://135.181.42.192/services/create_task/');
+            setGroups(response.data.group);
+            console.log(response)
+        } catch (error) {
+            console.error('Error fetching groups:', error);
+        }
+    };
+
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData((prevState) => ({
-            ...prevState,
-            [name]: value,
-        }));
+        if (name === 'group') {
+            const selectedGroups = Array.from(e.target.selectedOptions, option => option.value);
+            setFormData((prevState) => ({
+                ...prevState,
+                [name]: selectedGroups,
+            }));
+        } else {
+            setFormData((prevState) => ({
+                ...prevState,
+                [name]: value,
+            }));
+        }
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const task_type = activeFilter === "connection" ? "connection" : "problem";
+            const time = `${formData.startTime}-${formData.endTime}`;
+            const response = await axios.post('http://135.181.42.192/services/create_task/', { ...formData, task_type, time });
+            if (response.status === 201) {
+                onClose(response.data);
+            } else {
+                console.error('Failed to create task', response);
+            }
+        } catch (error) {
+            console.error('Error creating task:', error);
+        }
     };
 
     const handleCheckboxChange = (e) => {
@@ -48,35 +88,23 @@ const CreateTaskModal = ({ onClose }) => {
         setActiveFilter(type);
         setFormData((prevState) => ({
             ...prevState,
-            taskType: type,
+            task_type: type,
         }));
     };
 
     const handleActiveTaskFilter = (filter) => {
         setActiveTaskFilter(filter);
+        let is_voice = filter === "voice";
+        let is_internet = filter === "internet";
+        let is_tv = filter === "tv";
         setFormData((prevState) => ({
             ...prevState,
-            isVoice: filter === 'voice',
-            isInternet: filter === 'internet',
-            isTv: filter === 'tv',
+            is_voice: is_voice,
+            is_internet: is_internet,
+            is_tv: is_tv,
         }));
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            const response = await axios.post('http://135.181.42.192/services/create_task/', formData);
-            if (response.status === 201) {
-                const groupData = response.data;
-                setGroups(groupData); // Yanıt verisindeki grup bilgilerini ayarla
-                onClose();
-            } else {
-                console.error('Failed to create task', response);
-            }
-        } catch (error) {
-            console.error('Error creating task:', error);
-        }
-    };
 
     return (
         <div className="task-modal">
@@ -128,12 +156,23 @@ const CreateTaskModal = ({ onClose }) => {
                                 />
                             </div>
                             <div className="form-group">
-                                <label htmlFor="time">Saat:</label>
+                                <label htmlFor="startTime">Başlayır:</label>
                                 <input
                                     type="time"
-                                    id="time"
-                                    name="time"
-                                    value={formData.time}
+                                    id="startTime"
+                                    name="startTime"
+                                    value={formData.startTime}
+                                    onChange={handleChange}
+                                    className="form-control"
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="endTime">Bitir:</label>
+                                <input
+                                    type="time"
+                                    id="endTime"
+                                    name="endTime"
+                                    value={formData.endTime}
                                     onChange={handleChange}
                                     className="form-control"
                                 />
@@ -142,33 +181,33 @@ const CreateTaskModal = ({ onClose }) => {
                     </div>
                     <div className='registerNumber-contactNumber'>
                         <div className="form-group">
-                            <label htmlFor="registrationNumber">Qeydiyyat nömrəsi:</label>
+                            <label htmlFor="registration_number">Qeydiyyat nömrəsi:</label>
                             <input
                                 type="text"
-                                id="registrationNumber"
-                                name="registrationNumber"
+                                id="registration_number"
+                                name="registration_number"
                                 value={formData.registration_number}
                                 onChange={handleChange}
                                 className="form-control"
                             />
                         </div>
                         <div className="form-group">
-                            <label htmlFor="contactNumber">Əlaqə nömrəsi:</label>
+                            <label htmlFor="contact_number">Əlaqə nömrəsi:</label>
                             <input
                                 type="text"
-                                id="contactNumber"
-                                name="contactNumber"
-                                value={formData.contactNumber}
+                                id="contact_number"
+                                name="contact_number"
+                                value={formData.contact_number}
                                 onChange={handleChange}
                                 className="form-control"
                             />
                         </div>
                     </div>
                     <div className="form-group">
-                        <label htmlFor="location">Adress:</label>
+                        <label htmlFor="adress">Adress:</label>
                         <input
                             type="text"
-                            id="location"
+                            id="adress"
                             name="location"
                             value={formData.location}
                             onChange={handleChange}
@@ -198,10 +237,10 @@ const CreateTaskModal = ({ onClose }) => {
                                 value={formData.group}
                                 onChange={handleChange}
                                 className="form-control"
+                                multiple
                             >
-                                <option value="">Qrup Seçin</option>
                                 {groups.map((group) => (
-                                    <option key={group.id} value={group.id}>{group.group}</option>
+                                    <option key={group.id} value={group.id}>{group.id}</option>
                                 ))}
                             </select>
                         </div>

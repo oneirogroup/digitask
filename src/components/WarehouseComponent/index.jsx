@@ -18,7 +18,6 @@ function Warehouse() {
         fetch('http://135.181.42.192/services/warehouse_item/')
             .then(response => response.json())
             .then(data => {
-                // Veri formatını uygun hale getirme ve tableData durumunu güncelleme
                 const formattedData = data.map(item => ({
                     id: item.id,
                     name: item.equipment_name,
