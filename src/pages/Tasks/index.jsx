@@ -1,14 +1,16 @@
+import React, { useState, useEffect, useRef } from 'react';
 import { IoMdRefresh } from "react-icons/io";
 import { IoAdd } from "react-icons/io5";
-import "./tasks.css";
-import { useEffect, useState } from "react";
 import { FaChevronDown } from "react-icons/fa6";
 import { PiTelevisionSimple } from "react-icons/pi";
 import { TfiWorld } from "react-icons/tfi";
 import { RiVoiceprintFill } from "react-icons/ri";
-import AddTaskModal from '../../components/AddTaskModal/index';
 import { BsThreeDotsVertical } from "react-icons/bs";
-
+import AddTaskModal from '../../components/AddTaskModal';
+import { RiDeleteBin6Line } from "react-icons/ri";
+import DetailsModal from '../../components/TaskType';
+import { MdOutlineEdit } from "react-icons/md";
+import './tasks.css';
 
 function Index() {
     const [data, setData] = useState([]);
@@ -18,11 +20,47 @@ function Index() {
     const [isStatusModalOpen, setIsStatusModalOpen] = useState(false);
     const [selectedStatusFilter, setSelectedStatusFilter] = useState("Hamısı");
     const [isAddTaskModalOpen, setIsAddTaskModalOpen] = useState(false);
+    const [isSmallModalOpen, setIsSmallModalOpen] = useState(false);
+    const [isTaskDetailsModalOpen, setIsTaskDetailsModalOpen] = useState(false);
     const [selectedMonth, setSelectedMonth] = useState(new Date());
+    const [selectedTaskIndex, setSelectedTaskIndex] = useState(null);
+    const [selectedTaskId, setSelectedTaskId] = useState(null);
+    const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
+
+    const modalRef = useRef(null);
 
     useEffect(() => {
         fetchTasks("all", selectedMonth, "Hamısı");
     }, [selectedMonth]);
+
+    useEffect(() => {
+        function handleClickOutside(event) {
+            if (modalRef.current && !modalRef.current.contains(event.target)) {
+                closeSmallModal();
+            }
+        }
+
+        function handleScroll() {
+            if (isSmallModalOpen && selectedTaskIndex !== null) {
+                const button = document.querySelector(`[data-task-index="${selectedTaskIndex}"]`);
+                if (button) {
+                    const buttonRect = button.getBoundingClientRect();
+                    setModalPosition({
+                        top: buttonRect.top + window.scrollY,
+                        left: buttonRect.left + buttonRect.width
+                    });
+                }
+            }
+        }
+
+        document.addEventListener('mousedown', handleClickOutside);
+        window.addEventListener('scroll', handleScroll);
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, [isSmallModalOpen, selectedTaskIndex]);
 
     const monthsAz = [
         "Yanvar", "Fevral", "Mart", "Aprel", "May", "İyun",
@@ -46,12 +84,9 @@ function Index() {
 
         const url = `http://135.181.42.192/services/status/?${taskTypeParam}${monthQueryParam}${statusParam}`;
 
-        console.log(`Fetching tasks with URL: ${url}`);
-
         fetch(url)
             .then(response => response.json())
             .then(data => {
-                console.log('Fetched data:', data);
                 setData(data);
                 setFilteredData(data);
             })
@@ -85,6 +120,27 @@ function Index() {
 
     const closeAddTaskModal = () => {
         setIsAddTaskModalOpen(false);
+    };
+
+    const openSmallModal = (event, index) => {
+        const buttonRect = event.target.getBoundingClientRect();
+        setModalPosition({ top: buttonRect.top + window.scrollY, left: buttonRect.left + buttonRect.width });
+        setSelectedTaskIndex(index);
+        setIsSmallModalOpen(true);
+    };
+
+    const closeSmallModal = () => {
+        setIsSmallModalOpen(false);
+    };
+
+    const openTaskDetailsModal = (taskId) => {
+        setSelectedTaskId(taskId);
+        setIsSmallModalOpen(false);
+        setIsTaskDetailsModalOpen(true);
+    };
+
+    const closeTaskDetailsModal = () => {
+        setIsTaskDetailsModalOpen(false);
     };
 
     const resetFilters = () => {
@@ -161,13 +217,14 @@ function Index() {
                                     </td>
                                     <td>{item.time}</td>
                                     <td className="type-icon">
-                                        {item.tv && <PiTelevisionSimple />}
-                                        {item.internet && <TfiWorld />}
-                                        {item.voice && <RiVoiceprintFill />}
-                                        {!item.tv && !item.internet && !item.voice && <span>Servis Yoxdur</span>}
+                                        {item.is_tv && <PiTelevisionSimple />}
+                                        {item.is_internet && <TfiWorld />}
+                                        {item.is_voice && <RiVoiceprintFill />}
+                                        {!item.is_tv && !item.is_internet && !item.is_voice && <span>Servis Yoxdur</span>}
                                     </td>
+
                                     <td>{item.location}</td>
-                                    <td>{item.phone ? item.phone : 'No Number'}</td>
+                                    <td>{item.contact_number ? item.contact_number : 'No Number'}</td>
                                     <td className="task-status">
                                         <button className={`status ${item.status.toLowerCase().replace(' ', '-')}`}>
                                             {item.status === "waiting" ? "Gözləyir" :
@@ -176,7 +233,25 @@ function Index() {
                                                         item.status === "completed" ? "Tamamlanıb" : item.status}
                                         </button>
                                     </td>
-                                    <td><BsThreeDotsVertical /></td>
+                                    <td>
+                                        <button data-task-index={index} onClick={(e) => openSmallModal(e, index)}><BsThreeDotsVertical /></button>
+                                        {isSmallModalOpen && selectedTaskIndex === index && (
+                                            <div
+                                                ref={modalRef}
+                                                className={`small-modal ${isSmallModalOpen ? 'active' : ''}`}
+                                                style={{ top: modalPosition.top, left: modalPosition.left }}
+                                            >
+                                                <div className="small-modal-content">
+                                                    <button>
+                                                        <RiDeleteBin6Line />
+                                                    </button>
+                                                    <button onClick={() => openTaskDetailsModal(item.id)}>
+                                                        <MdOutlineEdit />
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        )}
+                                    </td>
                                 </tr>
                             ))}
                         </tbody>
@@ -184,6 +259,7 @@ function Index() {
                 </div>
             </div>
             {isAddTaskModalOpen && <AddTaskModal onClose={closeAddTaskModal} />}
+            {isTaskDetailsModalOpen && <DetailsModal onClose={closeTaskDetailsModal} taskId={selectedTaskId} />}
         </div>
     );
 }

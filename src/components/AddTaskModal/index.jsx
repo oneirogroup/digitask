@@ -13,7 +13,6 @@ const CreateTaskModal = ({ onClose }) => {
         registration_number: '',
         contact_number: '',
         location: '',
-        description: '',
         date: '',
         startTime: '',
         endTime: '',
@@ -68,11 +67,17 @@ const CreateTaskModal = ({ onClose }) => {
                 return group ? { id: group.id, group: group.group } : null;
             }).filter(group => group !== null);
 
+            const selectedServices = [];
+            if (formData.is_tv) selectedServices.push("tv");
+            if (formData.is_internet) selectedServices.push("internet");
+            if (formData.is_voice) selectedServices.push("voice");
+
             const response = await axios.post('http://135.181.42.192/services/create_task/', {
                 ...formData,
                 group: selectedGroups,
                 task_type,
-                time
+                time,
+                selectedServices: selectedServices
             });
 
             if (response.status === 201) {
@@ -84,6 +89,7 @@ const CreateTaskModal = ({ onClose }) => {
             console.error('Error creating task:', error);
         }
     };
+
 
 
 
@@ -118,8 +124,8 @@ const CreateTaskModal = ({ onClose }) => {
 
 
     return (
-        <div className="task-modal">
-            <div className="task-modal-content">
+        <div className="task-modal" onClick={onClose}>
+            <div className="task-modal-content" onClick={(e) => e.stopPropagation()}>
                 <div className='task-modal-title'>
                     <h5>Yeni tapşırıq</h5>
                     <span className="close" onClick={onClose}>&times;</span>
@@ -227,18 +233,33 @@ const CreateTaskModal = ({ onClose }) => {
                     </div>
                     <div className='taskService-taskGroup'>
                         <div className='tv-voice-internet'>
-                            <div onClick={() => handleActiveTaskFilter("tv")} className={`form-group ${activeTaskFilter === "tv" ? "activeTask" : ""}`}>
-                                <PiTelevisionSimpleLight />
-                                <button type="button">Tv</button>
-                            </div>
-                            <div onClick={() => handleActiveTaskFilter("internet")} className={`form-group ${activeTaskFilter === "internet" ? "activeTask" : ""}`}>
-                                <TfiWorld />
-                                <button type="button">Internet</button>
-                            </div>
-                            <div onClick={() => handleActiveTaskFilter("voice")} className={`form-group ${activeTaskFilter === "voice" ? "activeTask" : ""}`}>
-                                <RiVoiceprintFill />
-                                <button type="button">Voice</button>
-                            </div>
+                            <label htmlFor="tv" className={`form-group ${formData.is_tv ? "activeTask" : ""}`}>
+                                <input
+                                    type="checkbox"
+                                    id="tv"
+                                    name="is_tv"
+                                    checked={formData.is_tv}
+                                    onChange={handleCheckboxChange}
+                                />
+                                <PiTelevisionSimpleLight /> TV</label>
+                            <label htmlFor="internet" className={`form-group ${formData.is_internet ? "activeTask" : ""}`}>
+                                <input
+                                    type="checkbox"
+                                    id="internet"
+                                    name="is_internet"
+                                    checked={formData.is_internet}
+                                    onChange={handleCheckboxChange}
+                                />
+                                <TfiWorld /> Internet</label>
+                            <label htmlFor="voice" className={`form-group ${formData.is_voice ? "activeTask" : ""}`}>
+                                <input
+                                    type="checkbox"
+                                    id="voice"
+                                    name="is_voice"
+                                    checked={formData.is_voice}
+                                    onChange={handleCheckboxChange}
+                                />
+                                <RiVoiceprintFill /> Voice</label>
                         </div>
                         <div className="form-group">
                             <label htmlFor="group">Texniki Qrup:</label>
@@ -258,11 +279,11 @@ const CreateTaskModal = ({ onClose }) => {
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="description">Qeydlər:</label>
+                        <label htmlFor="note">Qeydlər:</label>
                         <textarea
-                            id="description"
-                            name="description"
-                            value={formData.description}
+                            id="note"
+                            name="note"
+                            value={formData.note}
                             onChange={handleChange}
                             className="form-control"
                         />
@@ -271,8 +292,8 @@ const CreateTaskModal = ({ onClose }) => {
                         Əlavə et
                     </button>
                 </form>
-            </div>
-        </div>
+            </div >
+        </div >
     );
 };
 

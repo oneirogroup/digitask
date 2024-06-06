@@ -128,18 +128,25 @@
   width: 100%;
 }
 
-.tv-voice-internet div{
+.tv-voice-internet label{
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
-  width: 24%;
+  width: 27%;
   height: 40px;
   border: 2px solid #FFD600;
   border-radius: 12px;
   gap: 5px;
   cursor: pointer;
+}
 
+.tv-voice-internet label{
+  margin: 0 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
 }
 
 .tv-voice-internet div button{
