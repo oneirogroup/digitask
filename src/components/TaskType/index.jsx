@@ -19,6 +19,7 @@ function DetailsModal({ onClose, taskId }) {
         first_name: '',
         last_name: '',
         time: '',
+        date: '',
         registration_number: '',
         contact_number: '',
         region: '',
@@ -28,6 +29,21 @@ function DetailsModal({ onClose, taskId }) {
         group: [],
         note: ''
     });
+
+    const monthNames = [
+        "yanvar",
+        "fevral",
+        "mart",
+        "aprel",
+        "may",
+        "iyun",
+        "iyul",
+        "avqust",
+        "sentyabr",
+        "oktyabr",
+        "noyabr",
+        "dekabr"
+    ];
 
     useEffect(() => {
         if (taskId) {
@@ -46,7 +62,8 @@ function DetailsModal({ onClose, taskId }) {
                         services: data.services,
                         status: data.status,
                         group: data.group,
-                        note: data.note
+                        note: data.note,
+                        date: data.date
                     });
                 })
                 .catch(error => console.error('Error fetching task details:', error));
@@ -180,7 +197,7 @@ function DetailsModal({ onClose, taskId }) {
                             <div>
                                 <div>
                                     <label><GoClock /> Zaman</label>
-                                    <span>{taskDetails.time}</span>
+                                    <span>{`${taskDetails.date.split('-')[2]} ${monthNames[parseInt(taskDetails.date.split('-')[1], 10) - 1]}, ${taskDetails.time}`}</span>
                                 </div>
                                 <hr />
                             </div>
@@ -192,7 +209,7 @@ function DetailsModal({ onClose, taskId }) {
                                 <hr />
                             </div>
                             <div>
-                                <div>
+                                <div className='taskType-phone'>
                                     <label><LiaPhoneVolumeSolid /> Əlaqə nömrəsi</label>
                                     <span>{taskDetails.contact_number}</span>
                                 </div>
@@ -206,7 +223,7 @@ function DetailsModal({ onClose, taskId }) {
                                 <hr />
                             </div>
                             <div>
-                                <div>
+                                <div className='taskType-status'>
                                     <label><BiComment /> Status</label>
                                     <span>{taskDetails.status}</span>
                                 </div>
@@ -222,12 +239,11 @@ function DetailsModal({ onClose, taskId }) {
                                     ))}
                                 </div>
                                 <hr />
-
                             </div>
                         </div>
                         <div className="taskType-note">
                             <div>
-                                <div>
+                                <div className='taskType-adress'>
                                     <label><RiMapPinLine /> Adres</label>
                                     <span>{taskDetails.location}</span>
                                 </div>

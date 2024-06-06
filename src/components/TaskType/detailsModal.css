@@ -131,3 +131,15 @@
 .taskType-note div:last-of-type span {
     margin-top: 10px;
 }
+
+.taskType-phone span {
+    color: #23B131;
+}
+
+.taskType-adress span {
+    color: #005ABF;
+}
+
+.taskType-status span {
+    color: #E5C208;
+}
