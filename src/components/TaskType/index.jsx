@@ -26,7 +26,7 @@ function DetailsModal({ onClose, taskId }) {
         services: '',
         status: '',
         group: [],
-        note: '',
+        note: ''
     });
 
     useEffect(() => {
@@ -46,7 +46,7 @@ function DetailsModal({ onClose, taskId }) {
                         services: data.services,
                         status: data.status,
                         group: data.group,
-                        note: data.note,
+                        note: data.note
                     });
                 })
                 .catch(error => console.error('Error fetching task details:', error));
@@ -147,11 +147,7 @@ function DetailsModal({ onClose, taskId }) {
                             </div>
                             <div>
                                 <label><BiComment /> Status</label>
-                                <select name="status" value={formData.status} onChange={handleInputChange}>
-                                    {status.map((status) => (
-                                        <option key={status[0]} value={status[0]}>{status[1]}</option>
-                                    ))}
-                                </select>
+                                <input type="text" name="status" value={formData.status} onChange={handleInputChange} />
                                 <hr />
                             </div>
                         </div>
@@ -244,7 +240,6 @@ function DetailsModal({ onClose, taskId }) {
                             </div>
                             <hr />
                         </div>
-
                     </div>
                 )}
             </div>
