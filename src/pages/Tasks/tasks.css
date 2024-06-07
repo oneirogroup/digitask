@@ -265,7 +265,7 @@ font-weight: bold;
     background-color: #f1f1f1;
 }
 
-.date-modal, .status-modal {
+.date-modal, .status-modal, .group-modal {
   position: absolute;
   background-color: white;
   border: 1px solid #ccc;

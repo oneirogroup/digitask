@@ -1,0 +1,155 @@
+.performance-page{
+    width: 100%;
+}
+.performance-page .table-container {
+    margin-top: 20px;
+    border-radius: 12px;
+  }
+  
+  .performance-page  table {
+    width: 100%;
+    border-spacing: 10px;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+    max-width: 100%;
+    overflow-x: auto;
+  }
+  
+  .performance-page th, td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+  }
+
+  .performance-page th{
+    font-family: Montserrat;
+    font-size: 18px;
+    font-weight: 400;
+    color: #fff;
+  }
+
+  .performance-table-container th:not(:first-of-type, :nth-of-type(2)){
+    text-align: center;
+    
+  }
+
+  .performance-page thead{
+    background-color: #005ABF;
+    height: 60px;
+  }
+
+  .performance-page tbody{
+    background-color: white;
+
+  }
+  
+  .performance-page-title{
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 0;
+    align-items: center;
+  }
+  
+  .performance-page-title p{
+    font-family: Montserrat;
+    font-size: 32px;
+    font-weight: 500;
+  }
+
+
+  .performance-table-container tbody tr td{
+    font-family: Nunito Sans;
+    font-size:18px;
+    font-weight: 500;
+  }
+
+  .performance-table-container tbody tr td:first-of-type{
+    font-size: 16px;
+  }
+
+  .performance-table-container tbody tr td:first-of-type, .performance-table-container tbody tr td:nth-of-type(2){
+    color: #005ABF;
+    font-weight: bold;
+    white-space: nowrap;
+  }
+
+  .performance-table-container tbody tr td:nth-of-type(3){
+    color: #5E5E62;
+  }
+
+
+  .performance-table-container tbody tr td:nth-of-type(4), .performance-table-container tbody tr td:nth-of-type(6), .performance-table-container tbody tr td:nth-of-type(7){
+    color: #2F3033;
+  }
+
+  .performance-table-container tbody tr td:nth-of-type(5){
+    color: #005ABF;
+  }
+
+.performance-table-container tbody tr td:last-of-type button{
+  background-color: inherit;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.performance-table-container tbody tr td:not(:first-of-type, :nth-of-type(2)){
+    text-align: center;
+}
+
+.performance-filter{
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0 25px 0;
+}
+
+.performance-filter > div:first-of-type button:last-of-type{
+    background-color: white;
+    border: 1px solid #909094;
+    padding: 9px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 15px;
+    font-family: Nunito Sans;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.performance-filter > div:first-of-type button span:first-of-type{
+color: #5E5E62;
+}
+
+.performance-filter > div:first-of-type button span:last-of-type{
+font-weight: bold;
+}
+
+.date-picker-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .date-picker {
+    width: 150px;
+    height: 40px;
+border: none;    
+border-radius: 8px;
+    padding: 7px;
+    font-size: 16px;
+    color: #76777A;
+    background-color: white;
+    text-align: center;
+  }
+
+  .group-modal {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .group-modal div{
+    cursor: pointer;
+  }
