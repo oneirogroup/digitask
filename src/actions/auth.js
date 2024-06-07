@@ -84,3 +84,9 @@ export const logout = () => (dispatch) => {
   });
 };
 
+export const setToken = (token) => {
+  return {
+    type: "SET_TOKEN",
+    payload: token,
+  };
+};

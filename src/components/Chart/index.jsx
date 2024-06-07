@@ -7,10 +7,10 @@ class ApexChart extends React.Component {
     constructor(props) {
         super(props);
 
-        const currentYear = new Date().getFullYear(); 
+        const currentYear = new Date().getFullYear();
 
         this.state = {
-            year: currentYear, 
+            year: currentYear,
             series: [{
                 name: 'Qoşulmalar',
                 data: [44, 55, 57, 56, 61, 58, 63, 60, 66, 63, 60, 98]
@@ -89,7 +89,7 @@ class ApexChart extends React.Component {
 
     handleDecrementYear = () => {
         const { year } = this.state;
-        if (year > 1970) { 
+        if (year > 1970) {
             this.setState({ year: year - 1 });
         }
     }

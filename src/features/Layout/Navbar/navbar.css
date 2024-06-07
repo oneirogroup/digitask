@@ -1,7 +1,7 @@
 .navbar-icons {
     position: absolute;
     top: 20px;
-    right: 20px;
+    right: 40px;
     display: flex;
     gap: 14px;
     z-index: 1000;
@@ -10,6 +10,6 @@
 
 .navbar-icons a {
     color: #76777A;
-    font-size: 22px;
+    font-size: 26px;
     text-decoration: none;
 }

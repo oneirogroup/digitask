@@ -12,6 +12,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../actions/auth";
 import { useNavigate } from 'react-router-dom';
 import "./sidebar.css";
+import { useState } from 'react';
+import LogoutModal from '../LogoutModal';
 
 const Sidebar = ({ children }) => {
     const menuItem = [
@@ -42,11 +44,11 @@ const Sidebar = ({ children }) => {
         },
     ];
 
-
     const { user } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const location = useLocation();
+    const [showModal, setShowModal] = useState(false);
 
     const handleLogout = () => {
         dispatch(logout());
@@ -55,6 +57,14 @@ const Sidebar = ({ children }) => {
 
     const handleLogin = () => {
         navigate('/login/');
+    };
+
+    const handleModalOpen = () => {
+        setShowModal(true);
+    };
+
+    const handleModalClose = () => {
+        setShowModal(false);
     };
 
     return (
@@ -90,16 +100,17 @@ const Sidebar = ({ children }) => {
                         <BiSupport />
                         <Link to="/contact/">Əlaqə</Link>
                     </li>
-                    <li>
+                    <li onClick={handleModalOpen}>
                         <MdLogout />
-                        {user ? (
-                            <button onClick={handleLogout}>Çıxış</button>
-                        ) : (
-                            <button onClick={handleLogin}>Giriş</button>
-                        )}
+                        <span>Çıxış</span>
                     </li>
                 </ul>
             </div>
+            <LogoutModal
+                showModal={showModal}
+                handleClose={handleModalClose}
+                handleLogout={handleLogout}
+            />
             <main>{children}</main>
         </div>
     );

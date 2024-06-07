@@ -8,6 +8,7 @@ import Performance from "./src/pages/Performance/index";
 import Employees from "./src/pages/Employees/index";
 import Settings from "./src/pages/Settings/index";
 import Contact from "./src/pages/Contact/index";
+import Profile from "./src/pages/Profile";
 
 export const routers = createBrowserRouter([
   {
@@ -44,6 +45,10 @@ export const routers = createBrowserRouter([
       {
         element: <Contact />,
         path: "/contact/",
+      },
+      {
+        element: <Profile />,
+        path: "/profile/",
       },
     ],
   },

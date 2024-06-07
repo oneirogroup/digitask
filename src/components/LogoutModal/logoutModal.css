@@ -1,0 +1,63 @@
+.logout-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.logout-modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+    border-radius: 24px;
+}
+
+.logout-modal-content h2 {
+    font-family: Montserrat;
+    font-size: 34px;
+    font-weight: 500;
+}
+
+.logout-modal-content p {
+    font-family: Montserrat;
+    font-size: 21px;
+    margin: 18px;
+    color: #76777A;
+}
+
+.logout-modal-content div{
+    display: flex;
+    gap: 13px;
+    margin-bottom: 10px;
+}
+
+.logout-modal-content div button{
+    cursor: pointer;
+    width: 100%;
+    font-family: Montserrat;
+    font-size: 20px;
+    border-radius: 10px;
+    padding: 13px 0;
+
+}
+
+.confirm-logout {
+    background: #EA0A0A;
+    color: white;
+    border: none;
+}
+
+.cancel-logout {
+    background: white;
+    color: #005ABF;
+    border: 1px solid #005ABF;
+    width: 100%;
+    font-weight: 500;
+}
