@@ -15,6 +15,13 @@ function Index() {
   const [selectedGroupFilter, setSelectedGroupFilter] = useState("Hamısı");
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
+  const [isYearModalOpen, setIsYearModalOpen] = useState(false);
+  const [isMonthModalOpen, setIsMonthModalOpen] = useState(false);
+  const [isDayModalOpen, setIsDayModalOpen] = useState(false);
+  const [selectedYear, setSelectedYear] = useState('');
+  const [selectedMonth, setSelectedMonth] = useState('');
+  const [selectedDay, setSelectedDay] = useState('');
+  const [isSelectingStartDate, setIsSelectingStartDate] = useState(true);
 
   const modalRef = useRef(null);
 
@@ -47,18 +54,39 @@ function Index() {
   const filterData = () => {
     let filtered = data;
 
-    if (startDate) {
+    if (startDate && endDate) {
+      filtered = filtered.filter(item => {
+        const itemDate = new Date(item.date);
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+        return itemDate >= start && itemDate <= end;
+      });
+    } else if (startDate) {
       filtered = filtered.filter(item => new Date(item.date) >= new Date(startDate));
-    }
-    if (endDate) {
+    } else if (endDate) {
       filtered = filtered.filter(item => new Date(item.date) <= new Date(endDate));
     }
+
     if (selectedGroupFilter && selectedGroupFilter !== "Hamısı") {
       filtered = filtered.filter(item => item.group.group === selectedGroupFilter);
     }
 
+    if (selectedYear) {
+      filtered = filtered.filter(item => new Date(item.date).getFullYear() === parseInt(selectedYear));
+    }
+
+    if (selectedMonth) {
+      filtered = filtered.filter(item => new Date(item.date).getMonth() === months.indexOf(selectedMonth));
+    }
+
+    if (selectedDay) {
+      filtered = filtered.filter(item => new Date(item.date).getDate() === parseInt(selectedDay));
+    }
+
     setFilteredData(filtered);
   };
+
+
 
   const openSmallModal = (event) => {
     const buttonRect = event.target.getBoundingClientRect();
@@ -74,6 +102,49 @@ function Index() {
     setSelectedGroupFilter(group);
     setIsGroupModalOpen(false);
   };
+
+  const handleStartDateClick = (event) => {
+    const inputRect = event.target.getBoundingClientRect();
+    setIsSelectingStartDate(true);
+    setModalPosition({ top: inputRect.bottom + window.scrollY, left: inputRect.left });
+    setIsYearModalOpen(true);
+  };
+
+  const handleEndDateClick = (event) => {
+    const inputRect = event.target.getBoundingClientRect();
+    setIsSelectingStartDate(false);
+    setModalPosition({ top: inputRect.bottom + window.scrollY, left: inputRect.left });
+    setIsYearModalOpen(true);
+  };
+
+  const handleYearSelect = (year) => {
+    setSelectedYear(year);
+    setIsYearModalOpen(false);
+    setIsMonthModalOpen(true);
+  };
+
+  const handleMonthSelect = (month) => {
+    setSelectedMonth(month);
+    setIsMonthModalOpen(false);
+    setIsDayModalOpen(true);
+  };
+
+  const handleDaySelect = (day) => {
+    setSelectedDay(day);
+    setIsDayModalOpen(false);
+    const selectedDate = `${selectedYear}-${selectedMonth.padStart(2, '0')}-${day.padStart(2, '0')}`;
+    if (isSelectingStartDate) {
+      setStartDate(selectedDate);
+    } else {
+      setEndDate(selectedDate);
+    }
+  };
+
+  const years = Array.from({ length: 10 }, (_, i) => new Date().getFullYear() - i);
+  const months = [
+    'Yanvar', 'Fevral', 'Mart', 'Aprel', 'May', 'İyun', 'İyul', 'Avqust', 'Sentyabr', 'Oktyabr', 'Noyabr', 'Dekabr'
+  ];
+  const days = Array.from({ length: 31 }, (_, i) => (i + 1).toString().padStart(2, '0'));
 
   return (
     <div className='performance-page'>
@@ -99,16 +170,20 @@ function Index() {
           </div>
           <div className="date-picker-container">
             <input
-              type="date"
+              type="text"
               className="date-picker"
               value={startDate}
-              onChange={(e) => setStartDate(e.target.value)}
+              onClick={handleStartDateClick}
+              placeholder="DD/MM/YYYY"
+              readOnly
             />
             <input
-              type="date"
+              type="text"
               className="date-picker"
               value={endDate}
-              onChange={(e) => setEndDate(e.target.value)}
+              onClick={handleEndDateClick}
+              placeholder="DD/MM/YYYY"
+              readOnly
             />
           </div>
         </div>
@@ -127,37 +202,38 @@ function Index() {
               </tr>
             </thead>
             <tbody>
-              {Array.isArray(filteredData) && filteredData.map((item, index) => (
-                <tr key={index}>
-                  <td>{item.id.toString().padStart(2, '0')}</td>
-                  <td>{item.first_name && item.last_name ? `${item.first_name} ${item.last_name.charAt(0)}.` : 'User yoxdur'}</td>
-                  <td>{item.group.group}</td>
-                  <td>{item.user_type}</td>
-                  <td>{item.task_count.total}</td>
-                  <td>{item.task_count.connection}</td>
-                  <td>{item.task_count.problem}</td>
-                  <td>
-                    <button onClick={(e) => openSmallModal(e)}><BsThreeDotsVertical /></button>
-                    {isSmallModalOpen && (
-                      <div
-                        ref={modalRef}
-                        className={`small-modal ${isSmallModalOpen ? 'active' : ''}`}
-                        style={{ top: modalPosition.top, left: modalPosition.left }}
-                      >
-                        <div className="small-modal-content">
-                          <button>
-                            <RiDeleteBin6Line />
-                          </button>
-                          <button>
-                            <MdOutlineEdit />
-                          </button>
+              {Array.isArray(filteredData) && filteredData.length > 0 ? (
+                filteredData.map((item, index) => (
+                  <tr key={index}>
+                    <td>{item.id.toString().padStart(2, '0')}</td>
+                    <td>{item.first_name && item.last_name ? `${item.first_name} ${item.last_name.charAt(0)}.` : 'User yoxdur'}</td>
+                    <td>{item.group.group}</td>
+                    <td>{item.user_type}</td>
+                    <td>{item.task_count.total}</td>
+                    <td>{item.task_count.connection}</td>
+                    <td>{item.task_count.problem}</td>
+                    <td>
+                      <button onClick={(e) => openSmallModal(e)}><BsThreeDotsVertical /></button>
+                      {isSmallModalOpen && (
+                        <div
+                          ref={modalRef}
+                          className={`small-modal ${isSmallModalOpen ? 'active' : ''}`}
+                          style={{ top: modalPosition.top, left: modalPosition.left }}
+                        >
+                          <div className="small-modal-content">
+                            <button>
+                              <RiDeleteBin6Line />
+                            </button>
+                            <button>
+                              <MdOutlineEdit />
+                            </button>
+                          </div>
                         </div>
-                      </div>
-                    )}
-                  </td>
-                </tr>
-              ))}
-              {!Array.isArray(filteredData) && (
+                      )}
+                    </td>
+                  </tr>
+                ))
+              ) : (
                 <tr>
                   <td colSpan="8">No data available</td>
                 </tr>
@@ -166,6 +242,27 @@ function Index() {
           </table>
         </div>
       </div>
+      {isYearModalOpen && (
+        <div className="modal year-modal" style={{ top: modalPosition.top, left: modalPosition.left }}>
+          {years.map(year => (
+            <div key={year} className="modal-item" onClick={() => handleYearSelect(year)}>{year}</div>
+          ))}
+        </div>
+      )}
+      {isMonthModalOpen && (
+        <div className="modal month-modal" style={{ top: modalPosition.top, left: modalPosition.left }}>
+          {months.map(month => (
+            <div key={month} className="modal-item" onClick={() => handleMonthSelect(month)}>{month}</div>
+          ))}
+        </div>
+      )}
+      {isDayModalOpen && (
+        <div className="modal day-modal" style={{ top: modalPosition.top, left: modalPosition.left }}>
+          {days.map(day => (
+            <div key={day} className="modal-item" onClick={() => handleDaySelect(day)}>{day}</div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

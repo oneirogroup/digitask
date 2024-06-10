@@ -152,3 +152,72 @@ border-radius: 8px;
   .group-modal div{
     cursor: pointer;
   }
+  
+  
+  .group-modal,
+  .year-modal,
+  .month-modal,
+  .day-modal {
+    position: absolute;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    padding: 10px;
+    max-height: 200px;
+    overflow-y: auto;
+  }
+  
+  .group-modal {
+    width: 200px;
+  }
+  
+  
+  .group-modal,
+  .year-modal,
+  .month-modal,
+  .day-modal {
+    position: absolute;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    padding: 10px;
+    max-height: 200px;
+    overflow-y: auto;
+  }
+  
+  .group-modal {
+    width: 200px;
+  }
+  
+  .year-modal,
+  .month-modal,
+  .day-modal {
+    width: 150px;
+  }
+  
+  .modal-item {
+    padding: 10px;
+    cursor: pointer;
+  }
+  
+  .modal-item:hover {
+    background: #f0f0f0;
+  }
+  
+  .date-picker-container {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .date-picker {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  
