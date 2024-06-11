@@ -51,8 +51,10 @@ const Sidebar = ({ children }) => {
     const [showModal, setShowModal] = useState(false);
 
     const handleLogout = () => {
-        dispatch(logout());
-        navigate("/login/");
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('refresh_token');
+        dispatch({ type: 'LOGOUT' });
+        navigate('/login/');
     };
 
     const handleLogin = () => {
@@ -67,8 +69,11 @@ const Sidebar = ({ children }) => {
         setShowModal(false);
     };
 
+    // Sidebar ve navbar'ın gözükmemesi kontrolü
+    const isLoginPage = location.pathname === "/login" || location.pathname === "/login/";
+
     return (
-        <div className="sidebar">
+        <div className={`sidebar${isLoginPage ? ' hidden' : ''}`}>
             <div className="top_section">
                 <img src={logo} alt="" className='digitask-logo' />
             </div>

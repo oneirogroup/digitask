@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate } from 'react-router-dom';
 
@@ -61,7 +61,7 @@ const Login = (props) => {
             try {
                 const response = await axios.post(
                     'http://135.181.42.192/accounts/gettoken/',
-                    { email: email, password: password },  
+                    { email: email, password: password },
                     { headers: { 'Content-Type': 'application/json' } },
                     { withCredentials: true }
                 );
@@ -92,10 +92,29 @@ const Login = (props) => {
         }
     };
 
+    const fetchTasks = async () => {
+        try {
+            const response = await fetchWithToken('http://135.181.42.192/services/tasks/');
+            if (response.ok) {
+                const data = await response.json();
+                setUserData(data);
+            } else {
+                console.error('Failed to fetch tasks');
+            }
+        } catch (error) {
+            console.error('Error fetching tasks:', error);
+        }
+    };
 
     const handleRegisterData = (data) => {
         setUserData(data);
     };
+
+    useEffect(() => {
+        if (isLoggedIn) {
+            fetchTasks();
+        }
+    }, [isLoggedIn]);
 
     if (isLoggedIn) {
         return <Navigate to="/" />;

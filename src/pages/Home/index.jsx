@@ -4,18 +4,22 @@ import photo2 from "../../assets/images/calendar-1-11.svg";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import ApexChart from '../../components/Chart';
 import CircleChart from '../../components/CircleChart';
-import AddEventModal from '../../components/AddEventModal/index';
+import AddEventModal from '../../components/AddEventModal';
 import { PiTelevisionSimple } from "react-icons/pi";
 import { TfiWorld } from "react-icons/tfi";
 import { RiVoiceprintFill } from "react-icons/ri";
 
-import "./home.css"
+import "./home.css";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-
 const Home = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [data, setData] = useState([]);
+    const [performanceData, setPerformanceData] = useState([]);
+    const [meetings, setMeetings] = useState([]);
+
+    const token = localStorage.getItem('access_token');
 
     const openModal = () => {
         setIsModalOpen(true);
@@ -25,53 +29,72 @@ const Home = () => {
         setIsModalOpen(false);
     };
 
-    const [data, setData] = useState([]);
     useEffect(() => {
-        fetch('http://135.181.42.192/services/tasks/')
-            .then(response => response.json())
-            .then(data => {
+        const fetchTasks = async () => {
+            try {
+                const response = await fetch('http://135.181.42.192/services/tasks/', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                const data = await response.json();
                 setData(data);
-            })
-            .catch(error => console.error('Error fetching data:', error));
-    }, []);
+            } catch (error) {
+                console.error('Error fetching tasks:', error);
+            }
+        };
 
-    const [performanceData, setPerformanceData] = useState([]);
+        const fetchPerformanceData = async () => {
+            try {
+                const response = await fetch('http://135.181.42.192/services/performance/', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                const data = await response.json();
+                setPerformanceData(data);
+            } catch (error) {
+                console.error('Error fetching performance data:', error);
+            }
+        };
 
-    useEffect(() => {
-        fetch('http://135.181.42.192/services/performance/')
-            .then(response => response.json())
-            .then(data => setPerformanceData(data))
-            .catch(error => console.error('Error fetching data:', error));
-    }, []);
+        const fetchMainPageData = async () => {
+            try {
+                const response = await fetch('http://135.181.42.192/services/mainpage/', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                const data = await response.json();
+                setMeetings(data.meetings || []);
+                console.log(data)
+            } catch (error) {
+                console.error('Error fetching main page data:', error);
+            }
+        };
 
+        fetchTasks();
+        fetchPerformanceData();
+        fetchMainPageData();
+    }, [token]);
 
     return (
         <div className="home-page">
             <section className="home-meet-section">
-                <div className="meet-time-date-img">
-                    <div className="meet-time-date">
-                        <p><GoClock /> Günü və saatı</p>
-                        <div>
-                            <h5>Tədbirin adı</h5>
-                            <p>Keçirələcəyi yer</p>
+                {meetings.slice(0, 2).map((meeting, index) => (
+                    <div key={meeting.id} className="meet-time-date-img">
+                        <div className="meet-time-date">
+                            <p><GoClock /> {new Date(meeting.date).toLocaleString()}</p>
+                            <div>
+                                <h5>{meeting.title}</h5>
+                                <p>{meeting.meeting_description}</p>
+                            </div>
+                        </div>
+                        <div className="meet-img">
+                            <img src={index === 0 ? photo1 : photo2} alt="Meeting" />
                         </div>
                     </div>
-                    <div className="meet-img">
-                        <img src={photo1} alt="" />
-                    </div>
-                </div>
-                <div className="meet-time-date-img">
-                    <div className="meet-time-date">
-                        <p><GoClock /> Günü və saatı</p>
-                        <div>
-                            <h5>Tədbirin adı</h5>
-                            <p>Keçirələcəyi yer</p>
-                        </div>
-                    </div>
-                    <div className="meet-img">
-                        <img src={photo2} alt="" />
-                    </div>
-                </div>
+                ))}
                 <div className="meet-add">
                     <button onClick={openModal}>
                         <IoIosAddCircleOutline />
@@ -89,15 +112,9 @@ const Home = () => {
                         <p>İşçilərin performansı</p>
                     </div>
                     <ul>
-                        <li>
-                            Ad
-                        </li>
-                        <li>
-                            Qrup
-                        </li>
-                        <li>
-                            Tasklar
-                        </li>
+                        <li>Ad</li>
+                        <li>Qrup</li>
+                        <li>Tasklar</li>
                     </ul>
                     <div>
                         {performanceData.map((item, index) => (
@@ -115,24 +132,12 @@ const Home = () => {
                         <Link to="/tasks/">Hamısına bax</Link>
                     </div>
                     <ul>
-                        <li>
-                            Ad
-                        </li>
-                        <li>
-                            Saat
-                        </li>
-                        <li>
-                            Növ
-                        </li>
-                        <li>
-                            Adres
-                        </li>
-                        <li>
-                            Nömrə
-                        </li>
-                        <li>
-                            Status
-                        </li>
+                        <li>Ad</li>
+                        <li>Saat</li>
+                        <li>Növ</li>
+                        <li>Adres</li>
+                        <li>Nömrə</li>
+                        <li>Status</li>
                     </ul>
                     <div>
                         {data.slice(0, 5).map((item, index) => (
@@ -140,21 +145,15 @@ const Home = () => {
                                 <li>
                                     {item.first_name && item.last_name ? `${item.first_name} ${item.last_name}` : 'User yoxdur'}
                                 </li>
-                                <li>
-                                    {item.time}
-                                </li>
+                                <li>{item.time}</li>
                                 <li>
                                     {item.tv && <PiTelevisionSimple />}
                                     {item.internet && <TfiWorld />}
                                     {item.voice && <RiVoiceprintFill />}
                                     {!item.tv && !item.internet && !item.voice && <span>Servis Yoxdur</span>}
                                 </li>
-                                <li>
-                                    {item.location}
-                                </li>
-                                <li>
-                                    {item.phone ? item.phone : 'No Number'}
-                                </li>
+                                <li>{item.location}</li>
+                                <li>{item.phone ? item.phone : 'No Number'}</li>
                                 <li className="task-status">
                                     <button className={`status ${item.status.toLowerCase().replace(' ', '-')}`}>
                                         {item.status === "waiting" ? "Gözləyir" :
@@ -169,7 +168,6 @@ const Home = () => {
                 </div>
             </section>
             <AddEventModal isOpen={isModalOpen} onClose={closeModal} />
-
         </div>
     );
 };
