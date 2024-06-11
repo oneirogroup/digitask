@@ -1,7 +1,49 @@
-import React from 'react';
-import "./profile.css"
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import "./profile.css";
 
 const Profile = () => {
+  const [profileData, setProfileData] = useState({
+    id: '',
+    first_name: '',
+    last_name: '',
+    phone: '',
+    email: '',
+    user_type: '',
+    region: '', 
+    postal_code: 'RT235'
+  });
+
+  useEffect(() => {
+    const fetchProfileData = async () => {
+      const token = localStorage.getItem('access_token');
+      try {
+        const response = await axios.get('http://135.181.42.192/accounts/profile/', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        setProfileData({
+          ...response.data,
+          region: response.data.group?.region || '', 
+          postal_code: 'RT235' 
+        });
+      } catch (error) {
+        console.error('Error fetching profile data', error);
+      }
+    };
+
+    fetchProfileData();
+  }, []);
+
+  const handleChange = (e) => {
+    const { id, value } = e.target;
+    setProfileData(prevState => ({
+      ...prevState,
+      [id]: value
+    }));
+  };
+
   return (
     <div className="profile-container">
       <div className="personal-info">
@@ -9,25 +51,25 @@ const Profile = () => {
         <div className='profile-table'>
           <div>
             <div className="input-group">
-              <label htmlFor="name">Ad</label>
-              <input type="text" id="name" value="Nadir" />
+              <label htmlFor="first_name">Ad</label>
+              <input type="text" id="first_name" value={profileData.first_name} onChange={handleChange} />
             </div>
             <div className="input-group">
-              <label htmlFor="surname">Soyad</label>
-              <input type="text" id="surname" value="Mammadov" />
+              <label htmlFor="last_name">Soyad</label>
+              <input type="text" id="last_name" value={profileData.last_name} onChange={handleChange} />
             </div>
             <div className="input-group">
               <label htmlFor="phone">Əlaqə nömrəsi</label>
-              <input type="text" id="phone" value="(051) 555-5555" />
+              <input type="text" id="phone" value={profileData.phone} onChange={handleChange} />
             </div>
             <div className="input-group">
               <label htmlFor="email">Mail adresi</label>
-              <input type="text" id="email" value="texnik@gmail.com" />
+              <input type="text" id="email" value={profileData.email} onChange={handleChange} />
             </div>
           </div>
           <div className="input-group">
             <label htmlFor="bio">Bio</label>
-            <textarea id="bio" value="Team Manager" />
+            <textarea id="bio" value={profileData.user_type} onChange={handleChange} />
           </div>
         </div>
       </div>
@@ -35,12 +77,12 @@ const Profile = () => {
         <h2>Ünvan</h2>
         <div>
           <div className="input-group">
-            <label htmlFor="city">Şəhər</label>
-            <input type="text" id="city" value="Bakı" />
+            <label htmlFor="region">Region</label>
+            <input type="text" id="region" value={profileData.region} onChange={handleChange} />
           </div>
           <div className="input-group">
-            <label htmlFor="postalCode">Poçt Kodu</label>
-            <input type="text" id="postalCode" value="RT235" />
+            <label htmlFor="postal_code">Poçt Kodu</label>
+            <input type="text" id="postal_code" value={profileData.postal_code} onChange={handleChange} />
           </div>
         </div>
       </div>

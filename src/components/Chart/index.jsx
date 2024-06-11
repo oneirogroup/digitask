@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactApexChart from 'react-apexcharts';
+import axios from 'axios';
 import "./chart.css";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 
@@ -13,13 +14,13 @@ class ApexChart extends React.Component {
             year: currentYear,
             series: [{
                 name: 'Qoşulmalar',
-                data: [44, 55, 57, 56, 61, 58, 63, 60, 66, 63, 60, 98]
+                data: Array(12).fill(0)
             }, {
                 name: 'Boş',
-                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                data: Array(12).fill(0)
             }, {
                 name: 'Problemlər',
-                data: [76, 85, 101, 98, 87, 105, 91, 114, 94, 95, 96, 56]
+                data: Array(12).fill(0)
             }],
             options: {
                 chart: {
@@ -79,6 +80,59 @@ class ApexChart extends React.Component {
         };
     }
 
+    componentDidMount() {
+        this.fetchData(this.state.year);
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState.year !== this.state.year) {
+            this.fetchData(this.state.year);
+        }
+    }
+
+    fetchData = (year) => {
+        const token = localStorage.getItem('access_token');
+        axios.get('http://135.181.42.192/services/mainpage/', {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }).then(response => {
+            const { ongoing_tasks } = response.data;
+
+            const connectionCounts = Array(12).fill(0);
+            const problemCounts = Array(12).fill(0);
+
+            ongoing_tasks.forEach(task => {
+                const taskDate = new Date(task.date);
+                const taskYear = taskDate.getFullYear();
+                const taskMonth = taskDate.getMonth(); // 0-11 for Jan-Dec
+
+                if (taskYear === year) {
+                    if (task.task_type === 'connection') {
+                        connectionCounts[taskMonth]++;
+                    } else if (task.task_type === 'problem') {
+                        problemCounts[taskMonth]++;
+                    }
+                }
+            });
+
+            this.setState({
+                series: [{
+                    name: 'Qoşulmalar',
+                    data: connectionCounts
+                }, {
+                    name: 'Boş',
+                    data: Array(12).fill(0)
+                }, {
+                    name: 'Problemlər',
+                    data: problemCounts
+                }]
+            });
+        }).catch(error => {
+            console.error('Error fetching task details', error);
+        });
+    }
+
     handleIncrementYear = () => {
         const { year } = this.state;
         const currentYear = new Date().getFullYear();
@@ -93,7 +147,6 @@ class ApexChart extends React.Component {
             this.setState({ year: year - 1 });
         }
     }
-
 
     render() {
         const { year } = this.state;
