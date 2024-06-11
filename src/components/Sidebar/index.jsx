@@ -104,12 +104,20 @@ const Sidebar = ({ children }) => {
                         <BiSupport />
                         <Link to="/contact/">Əlaqə</Link>
                     </li>
-                    <li onClick={handleModalOpen}>
-                        <MdLogout />
-                        <span>Çıxış</span>
-                    </li>
+                    {user ? (
+                        <li onClick={handleLogout}>
+                            <MdLogout />
+                            <span>Çıxış</span>
+                        </li>
+                    ) : (
+                        <li onClick={handleLogin}>
+                            <MdLogout />
+                            <span>Giriş</span>
+                        </li>
+                    )}
                 </ul>
             </div>
+
             <LogoutModal
                 showModal={showModal}
                 handleClose={handleModalClose}
