@@ -1,16 +1,16 @@
 import React from 'react';
 import ReactApexChart from 'react-apexcharts';
+import axios from 'axios';
 import "./circlechart.css";
 import { IoMdInformationCircle } from "react-icons/io";
 import { FaCircle } from "react-icons/fa";
-import { MdPadding } from 'react-icons/md';
 
 class CircleChart extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            series: [50, 25, 25],
+            series: [0, 0, 0],
             options: {
                 chart: {
                     type: 'donut',
@@ -25,7 +25,6 @@ class CircleChart extends React.Component {
                 },
                 fill: {
                     colors: ['#005ABF', '#FFD600', '#FF5449'],
-
                 },
                 responsive: [{
                     breakpoint: 480,
@@ -40,28 +39,61 @@ class CircleChart extends React.Component {
                     }
                 }]
             },
+            userType: '',
+            legendLabels: ['Internet', 'Tv', 'Voice'],
         };
     }
 
+    componentDidMount() {
+        const token = localStorage.getItem('access_token');
+        axios.get('http://135.181.42.192/services/mainpage/', {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }).then(response => {
+            const { user_type, task_details } = response.data;
+            let series = [0, 0, 0];
+            let legendLabels = ['Internet', 'Tv', 'Voice'];
+
+            if (user_type === 'technician' || user_type === 'plumber') {
+                const { problem_count, connection_count } = task_details;
+                const total = problem_count + connection_count;
+                series = total === 0 ? [0, 0] : [
+                    (problem_count / total) * 100,
+                    (connection_count / total) * 100,
+                ];
+                legendLabels = ['Problem', 'Connection'];
+            } else {
+                const { tv_count, internet_count, voice_count } = task_details;
+                const total = tv_count + internet_count + voice_count;
+                series = total === 0 ? [0, 0, 0] : [
+                    (internet_count / total) * 100,
+                    (tv_count / total) * 100,
+                    (voice_count / total) * 100
+                ];
+            }
+
+            this.setState({ series, userType: user_type, legendLabels });
+        }).catch(error => {
+            console.error('Error fetching task details', error);
+        });
+    }
+
     render() {
+        const { series, options, legendLabels } = this.state;
+
         return (
             <div id="circlechart">
                 <p>Servislər <IoMdInformationCircle /></p>
                 <hr />
-                <ReactApexChart options={this.state.options} series={this.state.series} type="donut" height={250} />
+                <ReactApexChart options={options} series={series} type="donut" height={250} />
                 <div className='home-chart-services'>
-                    <div>
-                        <FaCircle style={{ color: '#005ABF' }} />
-                        <p>Internet</p>
-                    </div>
-                    <div>
-                        <FaCircle style={{ color: '#FFD600' }} />
-                        <p>Tv</p>
-                    </div>
-                    <div>
-                        <FaCircle style={{ color: '#FF5449' }} />
-                        <p>Voice</p>
-                    </div>
+                    {legendLabels.map((label, index) => (
+                        <div key={index}>
+                            <FaCircle style={{ color: options.fill.colors[index] }} />
+                            <p>{label}</p>
+                        </div>
+                    ))}
                 </div>
             </div>
         );

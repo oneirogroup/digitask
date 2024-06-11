@@ -5,8 +5,7 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
-
-import { login } from "../../actions/auth";
+import axios from 'axios';
 
 import "./login.css";
 import ovaltop from "../../assets/images/Oval top.svg";
@@ -14,7 +13,6 @@ import ovalbottom from "../../assets/images/Oval bottom.svg";
 import { CiMail } from "react-icons/ci";
 import { IoKeyOutline } from "react-icons/io5";
 import { MdOutlineCheckBoxOutlineBlank } from "react-icons/md";
-
 
 const required = (value) => {
     if (!value) {
@@ -52,7 +50,7 @@ const Login = (props) => {
         setPassword(password);
     };
 
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
 
         setLoading(true);
@@ -60,18 +58,40 @@ const Login = (props) => {
         form.current.validateAll();
 
         if (checkBtn.current.context._errors.length === 0) {
-            dispatch(login(email, password))
-                .then(() => {
-                    navigate("/");
-                    window.location.reload();
-                })
-                .catch(() => {
-                    setLoading(false);
-                });
+            try {
+                const response = await axios.post(
+                    'http://135.181.42.192/accounts/gettoken/',
+                    { email: email, password: password },  
+                    { headers: { 'Content-Type': 'application/json' } },
+                    { withCredentials: true }
+                );
+
+                const { access, refresh } = response.data;
+                localStorage.clear();
+                localStorage.setItem('access_token', access);
+                localStorage.setItem('refresh_token', refresh);
+                axios.defaults.headers.common['Authorization'] = `Bearer ${access}`;
+
+                navigate("/");
+                window.location.reload();
+            } catch (error) {
+                setLoading(false);
+                if (error.response) {
+                    console.error("Login error: ", error.response.data);
+                    alert(`Login failed: ${error.response.data.detail || 'Unknown error'}`);
+                } else if (error.request) {
+                    console.error("Login error: No response received", error.request);
+                    alert("Login failed: No response from server.");
+                } else {
+                    console.error("Login error: ", error.message);
+                    alert(`Login failed: ${error.message}`);
+                }
+            }
         } else {
             setLoading(false);
         }
     };
+
 
     const handleRegisterData = (data) => {
         setUserData(data);
@@ -116,7 +136,6 @@ const Login = (props) => {
                                 </label>
                             </div>
                             <div>
-                                {/* <IoMdCheckboxOutline /> */}
                                 <p>
                                     <MdOutlineCheckBoxOutlineBlank />
                                     Məni xatırla
@@ -128,7 +147,7 @@ const Login = (props) => {
                             {loading && (
                                 <span className="spinner-border spinner-border-sm"></span>
                             )}
-                            <button>Daxil ol</button>
+                            <button type="submit">Daxil ol</button>
                         </div>
                         {message && (
                             <div className="form-group">
