@@ -69,7 +69,6 @@ const Sidebar = ({ children }) => {
         setShowModal(false);
     };
 
-    // Sidebar ve navbar'ın gözükmemesi kontrolü
     const isLoginPage = location.pathname === "/login" || location.pathname === "/login/";
 
     return (

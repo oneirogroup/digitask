@@ -117,13 +117,18 @@ const Home = () => {
                         <li>Tasklar</li>
                     </ul>
                     <div>
-                        {performanceData.map((item, index) => (
-                            <ul key={index}>
-                                <li>{`${item.first_name} ${item.last_name.charAt(0)}.`}</li>
-                                <li>{item.group.region}</li>
-                                <li>{item.task_count.total}</li>
-                            </ul>
-                        ))}
+                        {performanceData.length > 0 ? (
+                            performanceData.map((item, index) => (
+                                <ul key={index}>
+                                    <li>{`${item.first_name} ${item.last_name.charAt(0)}.`}</li>
+                                    <li>{item.group.region}</li>
+                                    <li>{item.task_count.total}</li>
+                                </ul>
+                            ))
+                        ) : (
+                            <div>No performance data available.</div>
+                        )}
+
                     </div>
                 </div>
                 <div className="home-tasks">
@@ -140,30 +145,34 @@ const Home = () => {
                         <li>Status</li>
                     </ul>
                     <div>
-                        {data.slice(0, 5).map((item, index) => (
-                            <ul key={index}>
-                                <li>
-                                    {item.first_name && item.last_name ? `${item.first_name} ${item.last_name}` : 'User yoxdur'}
-                                </li>
-                                <li>{item.time}</li>
-                                <li>
-                                    {item.tv && <PiTelevisionSimple />}
-                                    {item.internet && <TfiWorld />}
-                                    {item.voice && <RiVoiceprintFill />}
-                                    {!item.tv && !item.internet && !item.voice && <span>Servis Yoxdur</span>}
-                                </li>
-                                <li>{item.location}</li>
-                                <li>{item.phone ? item.phone : 'No Number'}</li>
-                                <li className="task-status">
-                                    <button className={`status ${item.status.toLowerCase().replace(' ', '-')}`}>
-                                        {item.status === "waiting" ? "Gözləyir" :
-                                            item.status === "inprogress" ? "Qəbul edilib" :
-                                                item.status === "started" ? "Başlanıb" :
-                                                    item.status === "completed" ? "Tamamlanıb" : item.status}
-                                    </button>
-                                </li>
-                            </ul>
-                        ))}
+                        {performanceData.length > 0 ? (
+                            data.slice(0, 5).map((item, index) => (
+                                <ul key={index}>
+                                    <li>
+                                        {item.first_name && item.last_name ? `${item.first_name} ${item.last_name}` : 'User yoxdur'}
+                                    </li>
+                                    <li>{item.time}</li>
+                                    <li>
+                                        {item.tv && <PiTelevisionSimple />}
+                                        {item.internet && <TfiWorld />}
+                                        {item.voice && <RiVoiceprintFill />}
+                                        {!item.tv && !item.internet && !item.voice && <span>Servis Yoxdur</span>}
+                                    </li>
+                                    <li>{item.location}</li>
+                                    <li>{item.phone ? item.phone : 'No Number'}</li>
+                                    <li className="task-status">
+                                        <button className={`status ${item.status.toLowerCase().replace(' ', '-')}`}>
+                                            {item.status === "waiting" ? "Gözləyir" :
+                                                item.status === "inprogress" ? "Qəbul edilib" :
+                                                    item.status === "started" ? "Başlanıb" :
+                                                        item.status === "completed" ? "Tamamlanıb" : item.status}
+                                        </button>
+                                    </li>
+                                </ul>
+                            ))
+                        ) : (
+                            <div>No data available.</div>
+                        )}
                     </div>
                 </div>
             </section>
