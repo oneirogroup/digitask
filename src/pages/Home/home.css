@@ -120,6 +120,9 @@
     font-size: 16px;
 }
 
+.home-employee-task > ul{
+    padding: 9px 0
+}
 .home-tasks > ul{
     display: flex;
     font-family: Montserrat;

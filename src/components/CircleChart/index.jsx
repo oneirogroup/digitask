@@ -45,12 +45,18 @@ class CircleChart extends React.Component {
     }
 
     componentDidMount() {
-        const token = localStorage.getItem('access_token');
-        axios.get('http://135.181.42.192/services/mainpage/', {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        }).then(response => {
+        this.fetchData();
+    }
+
+    fetchData = async () => {
+        try {
+            const token = localStorage.getItem('access_token');
+            const response = await axios.get('http://135.181.42.192/services/mainpage/', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
             const { user_type, task_details } = response.data;
             let series = [0, 0, 0];
             let legendLabels = ['Internet', 'Tv', 'Voice'];
@@ -74,9 +80,23 @@ class CircleChart extends React.Component {
             }
 
             this.setState({ series, userType: user_type, legendLabels });
-        }).catch(error => {
-            console.error('Error fetching task details', error);
-        });
+        } catch (error) {
+            if (error.response && error.response.status === 401) {
+                try {
+                    const refresh_token = localStorage.getItem('refresh_token');
+                    const refreshResponse = await axios.post('http://135.181.42.192/accounts/token/refresh/', {
+                        refresh_token
+                    });
+                    const { access_token } = refreshResponse.data;
+                    localStorage.setItem('access_token', access_token);
+                    await this.fetchData();
+                } catch (refreshError) {
+                    console.error('Hata: Token yenileme başarısız:', refreshError);
+                }
+            } else {
+                console.error('Hata: Veriler alınamadı:', error);
+            }
+        }
     }
 
     render() {

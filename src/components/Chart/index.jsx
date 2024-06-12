@@ -90,13 +90,15 @@ class ApexChart extends React.Component {
         }
     }
 
-    fetchData = (year) => {
-        const token = localStorage.getItem('access_token');
-        axios.get('http://135.181.42.192/services/mainpage/', {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        }).then(response => {
+    fetchData = async (year) => {
+        try {
+            let token = localStorage.getItem('access_token');
+            const response = await axios.get('http://135.181.42.192/services/mainpage/', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
             const { ongoing_tasks } = response.data;
 
             const connectionCounts = Array(12).fill(0);
@@ -105,7 +107,7 @@ class ApexChart extends React.Component {
             ongoing_tasks.forEach(task => {
                 const taskDate = new Date(task.date);
                 const taskYear = taskDate.getFullYear();
-                const taskMonth = taskDate.getMonth(); // 0-11 for Jan-Dec
+                const taskMonth = taskDate.getMonth();
 
                 if (taskYear === year) {
                     if (task.task_type === 'connection') {
@@ -128,10 +130,26 @@ class ApexChart extends React.Component {
                     data: problemCounts
                 }]
             });
-        }).catch(error => {
-            console.error('Error fetching task details', error);
-        });
+
+        } catch (error) {
+            if (error.response && error.response.status === 401) {
+                try {
+                    const refresh_token = localStorage.getItem('refresh_token');
+                    const refreshResponse = await axios.post('http://135.181.42.192/accounts/token/refresh/', {
+                        refresh_token
+                    });
+                    const { access_token } = refreshResponse.data;
+                    localStorage.setItem('access_token', access_token);
+                    await this.fetchData(year);
+                } catch (refreshError) {
+                    console.error('Hata: Token yenileme başarısız:', refreshError);
+                }
+            } else {
+                console.error('Hata: Veriler alınamadı:', error);
+            }
+        }
     }
+
 
     handleIncrementYear = () => {
         const { year } = this.state;

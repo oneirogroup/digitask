@@ -64,6 +64,10 @@ const Sidebar = ({ children }) => {
         navigate('/login/');
     };
 
+    const handleLogin = () => {
+        navigate('/login/');
+    };
+
     const handleModalClose = () => {
         setShowModal(false);
     };
@@ -84,44 +88,45 @@ const Sidebar = ({ children }) => {
             </div>
             <p>Əsas</p>
             <div>
-                {
-                    menuItem.map((item, index) => (
-                        <NavLink
-                            to={item.path}
-                            key={index}
-                            className="aside-link"
-                            activeclassname="active"
-                        >
-                            <div className="icon">{item.icon}</div>
-                            <div className="link_text">{item.name}</div>
-                        </NavLink>
-                    ))
-                }
+                {isAuth ? menuItem.map((item, index) => (
+                    <NavLink
+                        to={item.path}
+                        key={index}
+                        className="aside-link"
+                        activeclassname="active"
+                    >
+                        <div className="icon">{item.icon}</div>
+                        <div className="link_text">{item.name}</div>
+                    </NavLink>
+                ))
+
+                    : null}
             </div>
             <p>Digər</p>
 
             <div>
                 <ul>
-                    <li className={location.pathname === "/settings/" ? "active" : ""}>
-                        <IoMdSettings />
-                        <Link to="/settings/">Parametrlər</Link>
-                    </li>
-                    <li className={location.pathname === "/contact/" ? "active" : ""}>
-                        <BiSupport />
-                        <Link to="/contact/">Əlaqə</Link>
-                    </li>
-
+                    {isAuth ?
+                        <li className={location.pathname === "/settings/" ? "active" : ""}>
+                            <IoMdSettings />
+                            <Link to="/settings/">Parametrlər</Link>
+                        </li>
+                        : null}
+                    {isAuth ?
+                        <li className={location.pathname === "/contact/" ? "active" : ""}>
+                            <BiSupport />
+                            <Link to="/contact/">Əlaqə</Link>
+                        </li>
+                        : null}
                     {isAuth ? <li onClick={handleLogout}>
                         <MdLogout />
                         <span>Çıxış</span>
                     </li> :
-                        <Nav.Link href="/login">
-                            <li>
-                                <MdLogout />
-                                <span>Giriş</span>
-                            </li>
-                        </Nav.Link>}
-
+                        <li onClick={handleLogin}>
+                            <MdLogout />
+                            <span>Giriş</span>
+                        </li>
+                    }
                 </ul>
             </div>
 

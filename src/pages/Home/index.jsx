@@ -12,6 +12,7 @@ import { RiVoiceprintFill } from "react-icons/ri";
 import "./home.css";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import axios from "axios";
 
 const Home = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -19,7 +20,53 @@ const Home = () => {
     const [performanceData, setPerformanceData] = useState([]);
     const [meetings, setMeetings] = useState([]);
 
-    const token = localStorage.getItem('access_token');
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const token = localStorage.getItem('access_token');
+
+                const responseTasks = await axios.get('http://135.181.42.192/services/tasks/', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                setData(responseTasks.data);
+
+                const responsePerformance = await axios.get('http://135.181.42.192/services/performance/', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                setPerformanceData(responsePerformance.data);
+
+                const responseMainPage = await axios.get('http://135.181.42.192/services/mainpage/', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                setMeetings(responseMainPage.data.meetings || []);
+
+            } catch (error) {
+                if (error.response && error.response.status === 401) {
+                    try {
+                        const refresh_token = localStorage.getItem('refresh_token');
+                        const refreshResponse = await axios.post('http://135.181.42.192/accounts/token/refresh/', {
+                            refresh_token
+                        });
+                        const { access_token } = refreshResponse.data;
+                        localStorage.setItem('access_token', access_token);
+                        await fetchData();
+                    } catch (refreshError) {
+                        console.error('Hata: Token yenileme başarısız:', refreshError);
+                    }
+                } else {
+                    console.error('Error fetching data:', error);
+                }
+            }
+        };
+
+        fetchData();
+    }, []);
 
     const openModal = () => {
         setIsModalOpen(true);
@@ -28,55 +75,6 @@ const Home = () => {
     const closeModal = () => {
         setIsModalOpen(false);
     };
-
-    useEffect(() => {
-        const fetchTasks = async () => {
-            try {
-                const response = await fetch('http://135.181.42.192/services/tasks/', {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-                const data = await response.json();
-                setData(data);
-            } catch (error) {
-                console.error('Error fetching tasks:', error);
-            }
-        };
-
-        const fetchPerformanceData = async () => {
-            try {
-                const response = await fetch('http://135.181.42.192/services/performance/', {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-                const data = await response.json();
-                setPerformanceData(data);
-            } catch (error) {
-                console.error('Error fetching performance data:', error);
-            }
-        };
-
-        const fetchMainPageData = async () => {
-            try {
-                const response = await fetch('http://135.181.42.192/services/mainpage/', {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-                const data = await response.json();
-                setMeetings(data.meetings || []);
-                console.log(data)
-            } catch (error) {
-                console.error('Error fetching main page data:', error);
-            }
-        };
-
-        fetchTasks();
-        fetchPerformanceData();
-        fetchMainPageData();
-    }, [token]);
 
     return (
         <div className="home-page">
@@ -145,7 +143,7 @@ const Home = () => {
                         <li>Status</li>
                     </ul>
                     <div>
-                        {performanceData.length > 0 ? (
+                        {data.length > 0 ? (
                             data.slice(0, 5).map((item, index) => (
                                 <ul key={index}>
                                     <li>

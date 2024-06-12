@@ -16,8 +16,7 @@ function DetailsModal({ onClose, taskId }) {
     const [isEditing, setIsEditing] = useState(false);
     const [formData, setFormData] = useState({
         task_type: '',
-        first_name: '',
-        last_name: '',
+        full_name: '',
         time: '',
         date: '',
         registration_number: '',
@@ -53,7 +52,7 @@ function DetailsModal({ onClose, taskId }) {
                     setTaskDetails(data);
                     setFormData({
                         task_type: data.task_type,
-                        full_name: `${data.first_name} ${data.last_name}`,
+                        full_name: data.full_name,
                         time: data.time,
                         registration_number: data.registration_number,
                         contact_number: data.contact_number,
@@ -190,7 +189,7 @@ function DetailsModal({ onClose, taskId }) {
                             <div>
                                 <div>
                                     <label><IoPersonOutline /> Ad və soyad</label>
-                                    <span>{taskDetails.first_name} {taskDetails.last_name}</span>
+                                    <span>{taskDetails.full_name}</span>
                                 </div>
                                 <hr />
                             </div>
@@ -229,19 +228,17 @@ function DetailsModal({ onClose, taskId }) {
                                 </div>
                                 <hr />
                             </div>
-                            <div>
-                                <div>
-                                    <label><MdOutlineEngineering /> Texniki qrup</label>
-                                    {taskDetails.group && taskDetails.group.map((group, index) => (
-                                        <div key={index}>
-                                            <span>{group.group}</span>
-                                        </div>
-                                    ))}
-                                </div>
-                                <hr />
-                            </div>
                         </div>
                         <div className="taskType-note">
+                            <div>
+                                <label><MdOutlineEngineering /> Texniki qrup</label>
+                                {taskDetails.group && taskDetails.group.map((group, index) => (
+                                    <div key={index}>
+                                        <span>{group.group}</span>
+                                    </div>
+                                ))}
+                            </div>
+                            <hr />
                             <div>
                                 <div className='taskType-adress'>
                                     <label><RiMapPinLine /> Adres</label>

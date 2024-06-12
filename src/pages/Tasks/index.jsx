@@ -87,8 +87,10 @@ function Index() {
         fetch(url)
             .then(response => response.json())
             .then(data => {
-                setData(data);
-                setFilteredData(data);
+                const sortedData = data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+                setData(sortedData);
+                setFilteredData(sortedData);
+
             })
             .catch(error => console.error('Error fetching data:', error));
     };

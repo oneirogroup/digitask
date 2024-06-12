@@ -7,16 +7,14 @@ import { RiVoiceprintFill } from "react-icons/ri";
 
 const CreateTaskModal = ({ onClose }) => {
     const [activeFilter, setActiveFilter] = useState("connection");
-    const [activeTaskFilter, setActiveTaskFilter] = useState();
     const [formData, setFormData] = useState({
         full_name: '',
         registration_number: '',
         contact_number: '',
         location: '',
         date: '',
-        startTime: '',
-        endTime: '',
-        time: '',
+        start_time: '',
+        end_time: '',
         note: '',
         is_voice: false,
         is_internet: false,
@@ -33,8 +31,7 @@ const CreateTaskModal = ({ onClose }) => {
     const fetchGroups = async () => {
         try {
             const response = await axios.get('http://135.181.42.192/services/groups/');
-            setGroups(response.data.map(group => ({ id: group.id, group: group.group })));
-            console.log(response.data);
+            setGroups(response.data);
         } catch (error) {
             console.error('Error fetching groups:', error);
         }
@@ -60,24 +57,12 @@ const CreateTaskModal = ({ onClose }) => {
         e.preventDefault();
         try {
             const task_type = activeFilter === "connection" ? "connection" : "problem";
-            const time = `${formData.startTime}-${formData.endTime}`;
-
-            const selectedGroups = formData.group.map(groupId => {
-                const group = groups.find(group => group.id === groupId);
-                return group ? { id: group.id, group: group.group } : null;
-            }).filter(group => group !== null);
-
-            const selectedServices = [];
-            if (formData.is_tv) selectedServices.push("tv");
-            if (formData.is_internet) selectedServices.push("internet");
-            if (formData.is_voice) selectedServices.push("voice");
+            const time = `${formData.start_time}-${formData.end_time}`;
 
             const response = await axios.post('http://135.181.42.192/services/create_task/', {
                 ...formData,
-                group: selectedGroups,
                 task_type,
                 time,
-                selectedServices: selectedServices
             });
 
             if (response.status === 201) {
@@ -89,9 +74,6 @@ const CreateTaskModal = ({ onClose }) => {
             console.error('Error creating task:', error);
         }
     };
-
-
-
 
     const handleCheckboxChange = (e) => {
         const { name, checked } = e.target;
@@ -108,20 +90,6 @@ const CreateTaskModal = ({ onClose }) => {
             task_type: type,
         }));
     };
-
-    const handleActiveTaskFilter = (filter) => {
-        setActiveTaskFilter(filter);
-        let is_voice = filter === "voice";
-        let is_internet = filter === "internet";
-        let is_tv = filter === "tv";
-        setFormData((prevState) => ({
-            ...prevState,
-            is_voice: is_voice,
-            is_internet: is_internet,
-            is_tv: is_tv,
-        }));
-    };
-
 
     return (
         <div className="task-modal" onClick={onClose}>
@@ -173,23 +141,23 @@ const CreateTaskModal = ({ onClose }) => {
                                 />
                             </div>
                             <div className="form-group">
-                                <label htmlFor="startTime">Başlayır:</label>
+                                <label htmlFor="start_time">Başlayır:</label>
                                 <input
                                     type="time"
-                                    id="startTime"
-                                    name="startTime"
-                                    value={formData.startTime}
+                                    id="start_time"
+                                    name="start_time"
+                                    value={formData.start_time}
                                     onChange={handleChange}
                                     className="form-control"
                                 />
                             </div>
                             <div className="form-group">
-                                <label htmlFor="endTime">Bitir:</label>
+                                <label htmlFor="end_time">Bitir:</label>
                                 <input
                                     type="time"
-                                    id="endTime"
-                                    name="endTime"
-                                    value={formData.endTime}
+                                    id="end_time"
+                                    name="end_time"
+                                    value={formData.end_time}
                                     onChange={handleChange}
                                     className="form-control"
                                 />
@@ -221,10 +189,10 @@ const CreateTaskModal = ({ onClose }) => {
                         </div>
                     </div>
                     <div className="form-group">
-                        <label htmlFor="adress">Adress:</label>
+                        <label htmlFor="location">Adress:</label>
                         <input
                             type="text"
-                            id="adress"
+                            id="location"
                             name="location"
                             value={formData.location}
                             onChange={handleChange}
@@ -271,7 +239,7 @@ const CreateTaskModal = ({ onClose }) => {
                                 className="form-control"
                                 multiple
                             >
-                                {groups && groups.length > 0 && groups.map((group) => (
+                                {groups.map((group) => (
                                     <option key={group.id} value={group.id}>{group.group}</option>
                                 ))}
                             </select>

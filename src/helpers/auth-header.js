@@ -3,6 +3,8 @@ export default function authHeader() {
 
   if (user && user.accessToken) {
     return { Authorization: "Bearer " + user.accessToken };
+  } else if (user && user.refreshToken) {
+    return { Authorization: "Bearer " + user.refreshToken };
   } else {
     return {};
   }

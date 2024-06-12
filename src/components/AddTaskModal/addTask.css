@@ -90,13 +90,17 @@
 .task-modal-content input[type="time"],
 .task-modal-content select,
 .task-modal-content textarea {
-  width: 7.5vw;
+  width: 10vw;
   padding: 5px;
   height: 35px;
-  font-size: 16px;
+  font-size: 14px;
   border: 1px solid #F7F5FF;
   border-radius: 5px;
   background-color: #F7F5FF;
+}
+
+.task-modal-content input[type="time"]{
+  width: 6.3vw;
 }
 
 .task-modal-content input[type="text"],
