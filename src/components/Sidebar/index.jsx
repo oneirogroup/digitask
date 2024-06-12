@@ -12,8 +12,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../actions/auth";
 import { useNavigate } from 'react-router-dom';
 import "./sidebar.css";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import LogoutModal from '../LogoutModal';
+import Nav from 'react-bootstrap/Nav';
+
 
 const Sidebar = ({ children }) => {
     const menuItem = [
@@ -44,25 +46,22 @@ const Sidebar = ({ children }) => {
         },
     ];
 
-    const { user } = useSelector((state) => state.auth);
+    const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const location = useLocation();
     const [showModal, setShowModal] = useState(false);
 
     const handleLogout = () => {
+        setShowModal(true);
+    };
+
+    const confirmLogout = () => {
         localStorage.removeItem('access_token');
         localStorage.removeItem('refresh_token');
-        dispatch({ type: 'LOGOUT' });
+        dispatch(logout());
+        setShowModal(false);
         navigate('/login/');
-    };
-
-    const handleLogin = () => {
-        navigate('/login/');
-    };
-
-    const handleModalOpen = () => {
-        setShowModal(true);
     };
 
     const handleModalClose = () => {
@@ -70,6 +69,13 @@ const Sidebar = ({ children }) => {
     };
 
     const isLoginPage = location.pathname === "/login" || location.pathname === "/login/";
+
+    const [isAuth, setIsAuth] = useState(false);
+    useEffect(() => {
+        if (localStorage.getItem('access_token') !== null) {
+            setIsAuth(true);
+        }
+    }, [isAuth]);
 
     return (
         <div className={`sidebar${isLoginPage ? ' hidden' : ''}`}>
@@ -104,27 +110,28 @@ const Sidebar = ({ children }) => {
                         <BiSupport />
                         <Link to="/contact/">Əlaqə</Link>
                     </li>
-                    {user ? (
-                        <li onClick={handleLogout}>
-                            <MdLogout />
-                            <span>Çıxış</span>
-                        </li>
-                    ) : (
-                        <li onClick={handleLogin}>
-                            <MdLogout />
-                            <span>Giriş</span>
-                        </li>
-                    )}
+
+                    {isAuth ? <li onClick={handleLogout}>
+                        <MdLogout />
+                        <span>Çıxış</span>
+                    </li> :
+                        <Nav.Link href="/login">
+                            <li>
+                                <MdLogout />
+                                <span>Giriş</span>
+                            </li>
+                        </Nav.Link>}
+
                 </ul>
             </div>
 
             <LogoutModal
                 showModal={showModal}
                 handleClose={handleModalClose}
-                handleLogout={handleLogout}
+                handleLogout={confirmLogout}
             />
             <main>{children}</main>
-        </div>
+        </div >
     );
 };
 
