@@ -1,8 +1,6 @@
-// ApexChart.js
-
 import React from 'react';
 import ReactApexChart from 'react-apexcharts';
-import axios from '../../actions/axios';
+import axios from 'axios';
 import "./chart.css";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 
@@ -76,6 +74,7 @@ class ApexChart extends React.Component {
                     offsetY: -10,
                     position: 'top',
                     horizontalAlign: 'center',
+
                     floating: true
                 }
             }
@@ -94,7 +93,12 @@ class ApexChart extends React.Component {
 
     fetchData = async (year) => {
         try {
-            const response = await axios.get('/services/mainpage/');
+            let token = localStorage.getItem('access_token');
+            const response = await axios.get('http://135.181.42.192/services/mainpage/', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
 
             const { ongoing_tasks } = response.data;
 
@@ -129,22 +133,23 @@ class ApexChart extends React.Component {
             });
 
         } catch (error) {
-            console.error('Error fetching data:', error);
-            if (axios.isCancel(error)) {
-                console.log('Request canceled:', error.message);
-            } else if (error.response && error.response.status === 401) {
+            if (error.response && error.response.status === 401) {
                 try {
-                    await axios.refreshAccessToken();
+                    const refresh_token = localStorage.getItem('refresh_token');
+                    const refreshResponse = await axios.post('http://135.181.42.192/accounts/token/refresh/', {
+                        refresh_token
+                    });
+                    const { access_token } = refreshResponse.data;
+                    localStorage.setItem('access_token', access_token);
                     await this.fetchData(year);
                 } catch (refreshError) {
-                    console.error('Token refresh failed:', refreshError);
+                    console.error('Hata: Token yenileme başarısız:', refreshError);
                 }
             } else {
-                console.error('Error:', error.message);
+                console.error('Hata: Veriler alınamadı:', error);
             }
         }
     }
-
 
     handleIncrementYear = () => {
         const { year } = this.state;
