@@ -1,5 +1,7 @@
+// AddEventModal.js
+
 import React, { useState } from 'react';
-import axios from 'axios';
+import axios from '../../actions/axios';
 import "./eventModal.css";
 import { IoMdClose } from "react-icons/io";
 import { RiMapPinAddFill } from "react-icons/ri";
@@ -19,13 +21,13 @@ const AddEventModal = ({ isOpen, onClose }) => {
 
     const eventData = {
       title: eventName,
-      meeting_type: 'default', // or some appropriate value
-      date: `${eventDate}T${eventTime}:00`, // combining date and time
+      meeting_type: 'default',
+      date: `${eventDate}T${eventTime}:00`,
       meeting_description: eventDescription
     };
 
     try {
-      const response = await axios.post('http://135.181.42.192/services/create_meeting/', eventData, {
+      const response = await axios.post('services/create_meeting/', eventData, {
         headers: {
           'Content-Type': 'application/json'
         }
