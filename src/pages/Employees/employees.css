@@ -14,7 +14,7 @@
  .employee-table-container th, td {
     padding: 16px 10px;
     border-bottom: 1px solid #ddd;
-    text-align: left;
+    text-align: center;
   }
   
  .employee-table-container th {

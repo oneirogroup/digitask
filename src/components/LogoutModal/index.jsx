@@ -1,4 +1,3 @@
-// LogoutModal.jsx
 import React from 'react';
 import './logoutModal.css';
 

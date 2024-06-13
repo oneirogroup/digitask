@@ -99,7 +99,7 @@
     display: flex;
   }
 
-  .taskPage-taskType button{
+  .taskPage-taskType button {
     background-color: inherit;
     border:0;
     border-bottom: 2px solid #ABABAF;
@@ -108,6 +108,7 @@
     font-family: Montserrat;
     font-size: 18px;
     font-weight: 600;
+    cursor: pointer;
 }
 
 .activeButton{

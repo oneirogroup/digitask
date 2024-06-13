@@ -1,8 +1,8 @@
-import { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { MdOutlineEdit } from "react-icons/md";
-import { FaChevronDown } from "react-icons/fa6";
+import { FaChevronDown } from "react-icons/fa";
 import './performance.css';
 
 function Index() {
@@ -13,8 +13,8 @@ function Index() {
   const [groups, setGroups] = useState([]);
   const [isGroupModalOpen, setIsGroupModalOpen] = useState(false);
   const [selectedGroupFilter, setSelectedGroupFilter] = useState("Hamısı");
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
+  const [start_date, setStartDate] = useState('');
+  const [end_date, setEndDate] = useState('');
   const [isYearModalOpen, setIsYearModalOpen] = useState(false);
   const [isMonthModalOpen, setIsMonthModalOpen] = useState(false);
   const [isDayModalOpen, setIsDayModalOpen] = useState(false);
@@ -27,14 +27,21 @@ function Index() {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [start_date, end_date]);
 
   useEffect(() => {
     filterData();
-  }, [data, selectedGroupFilter, startDate, endDate]);
+  }, [data, selectedGroupFilter, start_date, end_date, selectedYear, selectedMonth, selectedDay]);
 
   const fetchData = () => {
-    let url = 'http://135.181.42.192/services/performance/';
+    let url = `http://135.181.42.192/services/performance/?`;
+
+    if (start_date) {
+      url += `start_date=${encodeURIComponent(start_date)}&`;
+    }
+    if (end_date) {
+      url += `end_date=${encodeURIComponent(end_date)}`;
+    }
 
     fetch(url)
       .then(response => response.json())
@@ -51,20 +58,16 @@ function Index() {
       .catch(error => console.error('Error fetching data:', error));
   };
 
-  const filterData = () => {
-    let filtered = data;
 
-    if (startDate && endDate) {
-      filtered = filtered.filter(item => {
-        const itemDate = new Date(item.date);
-        const start = new Date(startDate);
-        const end = new Date(endDate);
-        return itemDate >= start && itemDate <= end;
-      });
-    } else if (startDate) {
-      filtered = filtered.filter(item => new Date(item.date) >= new Date(startDate));
-    } else if (endDate) {
-      filtered = filtered.filter(item => new Date(item.date) <= new Date(endDate));
+  const filterData = () => {
+    let filtered = [...data];
+
+    if (start_date) {
+      filtered = filtered.filter(item => new Date(item.date) >= new Date(start_date));
+    }
+
+    if (end_date) {
+      filtered = filtered.filter(item => new Date(item.date) <= new Date(end_date));
     }
 
     if (selectedGroupFilter && selectedGroupFilter !== "Hamısı") {
@@ -76,6 +79,9 @@ function Index() {
     }
 
     if (selectedMonth) {
+      const months = [
+        'Yanvar', 'Fevral', 'Mart', 'Aprel', 'May', 'İyun', 'İyul', 'Avqust', 'Sentyabr', 'Oktyabr', 'Noyabr', 'Dekabr'
+      ];
       filtered = filtered.filter(item => new Date(item.date).getMonth() === months.indexOf(selectedMonth));
     }
 
@@ -85,7 +91,6 @@ function Index() {
 
     setFilteredData(filtered);
   };
-
 
 
   const openSmallModal = (event) => {
@@ -132,7 +137,7 @@ function Index() {
   const handleDaySelect = (day) => {
     setSelectedDay(day);
     setIsDayModalOpen(false);
-    const selectedDate = `${selectedYear}-${selectedMonth.padStart(2, '0')}-${day.padStart(2, '0')}`;
+    const selectedDate = `${selectedYear}-${(months.indexOf(selectedMonth) + 1).toString().padStart(2, '0')}-${day.padStart(2, '0')}`;
     if (isSelectingStartDate) {
       setStartDate(selectedDate);
     } else {
@@ -172,17 +177,17 @@ function Index() {
             <input
               type="text"
               className="date-picker"
-              value={startDate}
+              value={start_date}
               onClick={handleStartDateClick}
-              placeholder="DD/MM/YYYY"
+              placeholder="YYYY-MM-DD"
               readOnly
             />
             <input
               type="text"
               className="date-picker"
-              value={endDate}
+              value={end_date}
               onClick={handleEndDateClick}
-              placeholder="DD/MM/YYYY"
+              placeholder="YYYY-MM-DD"
               readOnly
             />
           </div>
@@ -251,15 +256,15 @@ function Index() {
       )}
       {isMonthModalOpen && (
         <div className="modal month-modal" style={{ top: modalPosition.top, left: modalPosition.left }}>
-          {months.map(month => (
-            <div key={month} className="modal-item" onClick={() => handleMonthSelect(month)}>{month}</div>
+          {months.map((month, index) => (
+            <div key={index} className="modal-item" onClick={() => handleMonthSelect(month)}>{month}</div>
           ))}
         </div>
       )}
       {isDayModalOpen && (
         <div className="modal day-modal" style={{ top: modalPosition.top, left: modalPosition.left }}>
-          {days.map(day => (
-            <div key={day} className="modal-item" onClick={() => handleDaySelect(day)}>{day}</div>
+          {days.map((day, index) => (
+            <div key={index} className="modal-item" onClick={() => handleDaySelect(day)}>{day}</div>
           ))}
         </div>
       )}

@@ -5,6 +5,18 @@ import "./circlechart.css";
 import { IoMdInformationCircle } from "react-icons/io";
 import { FaCircle } from "react-icons/fa";
 
+const refreshAccessToken = async () => {
+    const refresh_token = localStorage.getItem('refresh_token');
+    if (!refresh_token) {
+        throw new Error('No refresh token available');
+    }
+
+    const response = await axios.post('http://135.181.42.192/accounts/token/refresh/', { refresh: refresh_token });
+    const { access } = response.data;
+    localStorage.setItem('access_token', access);
+    axios.defaults.headers.common['Authorization'] = `Bearer ${access}`;
+};
+
 class CircleChart extends React.Component {
     constructor(props) {
         super(props);
@@ -48,7 +60,7 @@ class CircleChart extends React.Component {
         this.fetchData();
     }
 
-    fetchData = async () => {
+    fetchData = async (isRetry = false) => {
         try {
             const token = localStorage.getItem('access_token');
             const response = await axios.get('http://135.181.42.192/services/mainpage/', {
@@ -81,20 +93,15 @@ class CircleChart extends React.Component {
 
             this.setState({ series, userType: user_type, legendLabels });
         } catch (error) {
-            if (error.response && error.response.status === 401) {
+            if (error.response && (error.response.status === 401 || error.response.status === 403) && !isRetry) {
                 try {
-                    const refresh_token = localStorage.getItem('refresh_token');
-                    const refreshResponse = await axios.post('http://135.181.42.192/accounts/token/refresh/', {
-                        refresh_token
-                    });
-                    const { access_token } = refreshResponse.data;
-                    localStorage.setItem('access_token', access_token);
-                    await this.fetchData();
+                    await refreshAccessToken();
+                    await this.fetchData(true);
                 } catch (refreshError) {
-                    console.error('Hata: Token yenileme başarısız:', refreshError);
+                    console.error('Error: Token refresh failed:', refreshError);
                 }
             } else {
-                console.error('Hata: Veriler alınamadı:', error);
+                console.error('Error: Unable to fetch data:', error);
             }
         }
     }

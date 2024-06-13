@@ -152,6 +152,21 @@ function Index() {
         fetchTasks("all", new Date(), "Hamısı");
     };
 
+    const deleteTask = async (taskId) => {
+        try {
+            const token = localStorage.getItem('access_token');
+            await fetch(`http://135.181.42.192/services/task/${taskId}/delete/`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            setFilteredData(prevData => prevData.filter(task => task.id !== taskId));
+        } catch (error) {
+            console.error('Error deleting task:', error);
+        }
+    };
+
     return (
         <div className='task-page'>
             <div className='task-page-title'>
@@ -244,7 +259,7 @@ function Index() {
                                                 style={{ top: modalPosition.top, left: modalPosition.left }}
                                             >
                                                 <div className="small-modal-content">
-                                                    <button>
+                                                    <button onClick={() => deleteTask(item.id)}>
                                                         <RiDeleteBin6Line />
                                                     </button>
                                                     <button onClick={() => openTaskDetailsModal(item.id)}>

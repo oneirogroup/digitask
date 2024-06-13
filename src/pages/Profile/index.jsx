@@ -1,6 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import "./profile.css";
+import { FaPhoneAlt } from "react-icons/fa";
+import { AiFillMail } from "react-icons/ai";
+import { FaChevronRight } from "react-icons/fa6";
+
+const refreshAccessToken = async () => {
+  const refresh_token = localStorage.getItem('refresh_token');
+  if (!refresh_token) {
+    throw new Error('No refresh token available');
+  }
+  const response = await axios.post('http://135.181.42.192/accounts/token/refresh/', {
+    refresh: refresh_token
+  });
+  const { access } = response.data;
+  localStorage.setItem('access_token', access);
+  axios.defaults.headers.common['Authorization'] = `Bearer ${access}`;
+};
 
 const Profile = () => {
   const [profileData, setProfileData] = useState({
@@ -10,12 +26,12 @@ const Profile = () => {
     phone: '',
     email: '',
     user_type: '',
-    region: '', 
+    region: '',
     postal_code: 'RT235'
   });
 
   useEffect(() => {
-    const fetchProfileData = async () => {
+    const fetchProfileData = async (isRetry = false) => {
       const token = localStorage.getItem('access_token');
       try {
         const response = await axios.get('http://135.181.42.192/accounts/profile/', {
@@ -25,11 +41,20 @@ const Profile = () => {
         });
         setProfileData({
           ...response.data,
-          region: response.data.group?.region || '', 
-          postal_code: 'RT235' 
+          region: response.data.group?.region || '',
+          postal_code: 'RT235'
         });
       } catch (error) {
-        console.error('Error fetching profile data', error);
+        if (error.response && (error.response.status === 401 || error.response.status === 403) && !isRetry) {
+          try {
+            await refreshAccessToken();
+            await fetchProfileData(true);
+          } catch (refreshError) {
+            console.error('Error: Token refresh failed:', refreshError);
+          }
+        } else {
+          console.error('Error fetching profile data', error);
+        }
       }
     };
 
@@ -60,11 +85,23 @@ const Profile = () => {
             </div>
             <div className="input-group">
               <label htmlFor="phone">Əlaqə nömrəsi</label>
-              <input type="text" id="phone" value={profileData.phone} onChange={handleChange} />
+              <div>
+                <div>
+                  <FaPhoneAlt />
+                  <input type="tel" id="phone" value={profileData.phone} onChange={handleChange} />
+                </div>
+                <FaChevronRight />
+              </div>
             </div>
             <div className="input-group">
               <label htmlFor="email">Mail adresi</label>
-              <input type="text" id="email" value={profileData.email} onChange={handleChange} />
+              <div>
+                <div>
+                  <AiFillMail />
+                  <input type="email" id="email" value={profileData.email} onChange={handleChange} />
+                </div>
+                <FaChevronRight />
+              </div>
             </div>
           </div>
           <div className="input-group">

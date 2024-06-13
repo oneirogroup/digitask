@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import "./history.css"
+import "./history.css";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { formatDate } from './utils';
 import { FaChevronDown } from "react-icons/fa6";
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import moment from 'moment';
-
-
 
 const Anbar = () => {
   const [data, setData] = useState([]);
@@ -16,7 +13,7 @@ const Anbar = () => {
   const [region, setRegion] = useState('Hamısı');
   const [importSelected, setImportSelected] = useState(false);
   const [exportSelected, setExportSelected] = useState(true);
-
+  const [importData, setImportData] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -33,8 +30,6 @@ const Anbar = () => {
     fetchData();
   }, [startDate, endDate, region]);
 
-
-
   const handleStartDateChange = (date) => {
     setStartDate(date);
   };
@@ -43,7 +38,6 @@ const Anbar = () => {
     setEndDate(date);
   };
 
-
   const handleRegionChange = (event) => {
     setRegion(event.target.value);
   };
@@ -51,12 +45,22 @@ const Anbar = () => {
   const handleExportClick = () => {
     setExportSelected(true);
     setImportSelected(false);
+    setImportData([]); 
   };
 
-  const handleImportClick = () => {
-    setImportSelected(true);
+  const handleImportClick = async () => {
     setExportSelected(false);
-  }
+    setImportSelected(true);
+    try {
+      const response = await fetch(`http://135.181.42.192/services/warehouse_item/`);
+      const jsonData = await response.json();
+      setImportData(jsonData);
+    } catch (error) {
+      console.error('Error fetching import data:', error);
+    }
+  };
+
+  const displayData = importSelected ? importData : data;
 
   return (
     <div className="history-page">
@@ -65,11 +69,13 @@ const Anbar = () => {
           <div>
             <button
               className={`exportButton ${exportSelected ? 'selectedButton' : ''}`}
+              onClick={handleExportClick}
             >
               İxrac
             </button>
             <button
               className={`importButton ${importSelected ? 'selectedButton' : ''}`}
+              onClick={handleImportClick}
             >
               İdxal
             </button>
@@ -105,6 +111,7 @@ const Anbar = () => {
           </div>
         </div>
       </section>
+
       <div className='warehouseTable'>
         <table>
           <thead>
@@ -123,26 +130,24 @@ const Anbar = () => {
             </tr>
           </thead>
           <tbody>
-            {data.map((data, index) => (
+            {displayData.map((data, index) => (
               <tr key={index}>
                 <td>{data.id ? `#${data.id.toString().padStart(4, '0')}` : 'N/A'}</td>
-                <td>{data.equipment_name}</td>
+                <td>{data.vendor || data.equipment_name}</td>
                 <td>{data.brand}</td>
                 <td>{data.model}</td>
                 <td>{data.serial_number}</td>
-                <td>{ }</td>
-                <td>{data.warehouse.region}</td>
-                <th>{ }</th>
+                <td>{data.mac}</td>
+                <td>{data.region || (data.warehouse && data.warehouse.region)}</td>
+                <td>{data.port_number}</td>
                 <td>{data.number}</td>
                 <td>{data.timestamp ? formatDate(data.timestamp) : 'N/A'}</td>
-                <td><BsThreeDotsVertical />
-                </td>
+                <td><BsThreeDotsVertical /></td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-
     </div>
   );
 };

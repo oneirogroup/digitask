@@ -55,7 +55,7 @@
   }
 
  .profile-container textarea{
-    width: 100%;
+    width: 98%;
   }
   
  .profile-container .address-info {
@@ -68,3 +68,38 @@
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
   }
+
+  .input-group > div {
+    background-color: #eeeafa98;
+    color: #2F3033;
+    border-radius: 12px;
+    border: none;
+    width: 96%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10px;
+  }
+
+  .input-group div div{
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .input-group div div input{
+    background-color: inherit;
+    border: none;
+    width: 100%;
+    padding: 10px 0;
+    font-size: 16px;
+  }
+
+  .input-group svg{
+    color: #005ABF;
+  }
+
+  .input-group div div svg{
+    font-size: 14px;
+  }
+

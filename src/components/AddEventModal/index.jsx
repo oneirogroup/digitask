@@ -19,8 +19,8 @@ const AddEventModal = ({ isOpen, onClose }) => {
 
     const eventData = {
       title: eventName,
-      meeting_type: 'default', // or some appropriate value
-      date: `${eventDate}T${eventTime}:00`, // combining date and time
+      meeting_type: 'default', 
+      date: `${eventDate}T${eventTime}:00`, 
       meeting_description: eventDescription
     };
 

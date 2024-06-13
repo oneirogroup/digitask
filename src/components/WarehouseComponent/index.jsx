@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BiImport, BiExport } from "react-icons/bi";
 import { IoFilterOutline } from "react-icons/io5";
 import { CiSearch } from "react-icons/ci";
@@ -12,13 +12,30 @@ function Warehouse() {
     const [tableData, setTableData] = useState([]);
     const [exportSelected, setExportSelected] = useState(false);
     const [importSelected, setImportSelected] = useState(true);
-    const [warehouseSelected, setWarehouseSelected] = useState(0);
+    const [warehouseSelected, setWarehouseSelected] = useState('');
     const [warehouses, setWarehouses] = useState([]);
     const [showImportModal, setShowImportModal] = useState(false);
     const [showExportModal, setShowExportModal] = useState(false);
+    const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() => {
-        fetch('http://135.181.42.192/services/warehouse_item/')
+        fetchData();
+    }, [searchTerm, warehouseSelected]);
+
+    const fetchData = () => {
+        let url = 'http://135.181.42.192/services/warehouse_item/';
+        const params = [];
+        if (searchTerm) {
+            params.push(`name=${encodeURIComponent(searchTerm)}`);
+        }
+        if (warehouseSelected) {
+            params.push(`warehouse=${encodeURIComponent(warehouseSelected)}`);
+        }
+        if (params.length > 0) {
+            url += `?${params.join('&')}`;
+        }
+
+        fetch(url)
             .then(response => response.json())
             .then(data => {
                 const formattedData = data.map(item => ({
@@ -33,11 +50,11 @@ function Warehouse() {
                 }));
                 setTableData(formattedData);
 
-                const warehouseNames = data.map(item => item.warehouse.name);
-                setWarehouses(warehouseNames);
+                const uniqueWarehouses = Array.from(new Set(data.map(item => item.warehouse.name)));
+                setWarehouses(uniqueWarehouses);
             })
             .catch(error => console.error('Error fetching data:', error));
-    }, []);
+    };
 
     const handleExportClick = () => {
         setExportSelected(true);
@@ -51,7 +68,16 @@ function Warehouse() {
         setExportSelected(false);
         setShowImportModal(true);
         setShowExportModal(false);
-    }
+    };
+
+    const handleWarehouseClick = (name) => {
+        if (warehouseSelected === name) {
+            setWarehouseSelected('');
+        } else {
+            setWarehouseSelected(name);
+        }
+    };
+
     return (
         <div>
             <section>
@@ -76,8 +102,8 @@ function Warehouse() {
                     {warehouses.map((name, index) => (
                         <button
                             key={index}
-                            className={warehouseSelected === index ? 'selectedButton' : ''}
-                            onClick={() => setWarehouseSelected(index)}
+                            className={`warehouseButton ${warehouseSelected === name ? 'selectedButton' : ''}`}
+                            onClick={() => handleWarehouseClick(name)}
                         >
                             {name}
                         </button>
@@ -86,7 +112,13 @@ function Warehouse() {
                 <div className='warehouse-search-filter'>
                     <div>
                         <CiSearch />
-                        <input type="search" name="" id="" placeholder='Anbarda axtar' /> <IoFilterOutline />
+                        <input
+                            type="search"
+                            placeholder='Anbarda axtar'
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                        />
+                        <IoFilterOutline />
                     </div>
                     <div>
                         <button>
@@ -122,8 +154,7 @@ function Warehouse() {
                                     <td>{data.count}</td>
                                     <td>{data.region}</td>
                                     <td>{data.measure} m</td>
-                                    <td><BsThreeDotsVertical />
-                                    </td>
+                                    <td><BsThreeDotsVertical /></td>
                                 </tr>
                             ))}
                         </tbody>
@@ -133,7 +164,7 @@ function Warehouse() {
             {showImportModal && <Import onClose={() => setShowImportModal(false)} />}
             {showExportModal && <Export onClose={() => setShowExportModal(false)} />}
         </div>
-    )
+    );
 }
 
 export default Warehouse;

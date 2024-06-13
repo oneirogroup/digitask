@@ -144,6 +144,7 @@ cursor: pointer;
     white-space: nowrap;
     font-size: 17px;
 font-weight: bold;
+text-align: center;
 }
 
 .warehouseTable {
