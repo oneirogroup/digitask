@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import "./eventModal.css"
+import axios from 'axios';
+import "./eventModal.css";
 import { IoMdClose } from "react-icons/io";
 import { RiMapPinAddFill } from "react-icons/ri";
 
@@ -8,17 +9,35 @@ const AddEventModal = ({ isOpen, onClose }) => {
   const [eventDate, setEventDate] = useState('');
   const [eventTime, setEventTime] = useState('');
   const [eventLocation, setEventLocation] = useState('');
-  const [eventNote, setEventNote] = useState('');
+  const [eventDescription, setEventDescription] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  const handleAddEvent = () => {
-    console.log('Tədbir əlavə edildi:', {
-      eventName,
-      eventDate,
-      eventTime,
-      eventLocation,
-      eventNote
-    });
-    onClose();
+  const handleAddEvent = async () => {
+    setLoading(true);
+    setError(null);
+
+    const eventData = {
+      title: eventName,
+      meeting_type: 'default', // or some appropriate value
+      date: `${eventDate}T${eventTime}:00`, // combining date and time
+      meeting_description: eventDescription
+    };
+
+    try {
+      const response = await axios.post('http://135.181.42.192/services/create_meeting/', eventData, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      console.log('Event added:', response.data);
+      onClose();
+    } catch (error) {
+      console.error('Error adding event:', error);
+      setError('An error occurred while adding the event.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (!isOpen) {
@@ -28,17 +47,17 @@ const AddEventModal = ({ isOpen, onClose }) => {
   return (
     <div className="event-modal-overlay">
       <div className="event-modal">
-        <div>
+        <div className="modal-header">
           <h5>Yeni tədbir</h5>
           <button onClick={onClose}><IoMdClose /></button>
         </div>
         <hr />
-        <div>
+        <div className="modal-body">
           <label>
             Tədbirin adı:
             <input type="text" value={eventName} onChange={(e) => setEventName(e.target.value)} />
           </label>
-          <div>
+          <div className="date-time-container">
             <label>
               Keçiriləcəyi gün:
               <input type="date" value={eventDate} onChange={(e) => setEventDate(e.target.value)} />
@@ -55,9 +74,12 @@ const AddEventModal = ({ isOpen, onClose }) => {
           </label>
           <label>
             Qeyd:
-            <textarea value={eventNote} placeholder='Qeydlər' onChange={(e) => setEventNote(e.target.value)} />
+            <textarea value={eventDescription} placeholder='Qeydlər' onChange={(e) => setEventDescription(e.target.value)} />
           </label>
-          <button onClick={handleAddEvent}>Əlavə Et</button>
+          {error && <p className="error">{error}</p>}
+          <button onClick={handleAddEvent} disabled={loading}>
+            {loading ? 'Əlavə edilir...' : 'Əlavə Et'}
+          </button>
         </div>
       </div>
     </div>

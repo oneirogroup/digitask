@@ -154,10 +154,11 @@
 }
 
 .home-tasks div ul li:nth-of-type(3){
-    width: 160px;
+    width: 164px;
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 7px;
 }
 
 .home-tasks div ul li:nth-of-type(3) svg{
@@ -225,7 +226,7 @@
 .home-tasks div ul li{
     font-family: Nunito Sans;
     font-size: 16px;
-
+    text-align: center;
 }
 
 .home-tasks div ul li:first-of-type{
@@ -252,7 +253,7 @@
 .home-tasks div ul li:last-of-type{
     padding: 5px;
     border-radius: 16px;
-    margin-right: 30px;
+    margin-right: 10px;
     white-space: nowrap;
     width: 164px;
 }

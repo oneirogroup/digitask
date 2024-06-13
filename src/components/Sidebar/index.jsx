@@ -88,36 +88,33 @@ const Sidebar = ({ children }) => {
             </div>
             <p>Əsas</p>
             <div>
-                {isAuth ? menuItem.map((item, index) => (
-                    <NavLink
-                        to={item.path}
-                        key={index}
-                        className="aside-link"
-                        activeclassname="active"
-                    >
-                        <div className="icon">{item.icon}</div>
-                        <div className="link_text">{item.name}</div>
-                    </NavLink>
-                ))
-
-                    : null}
+                {
+                    menuItem.map((item, index) => (
+                        <NavLink
+                            to={item.path}
+                            key={index}
+                            className="aside-link"
+                            activeclassname="active"
+                        >
+                            <div className="icon">{item.icon}</div>
+                            <div className="link_text">{item.name}</div>
+                        </NavLink>
+                    ))
+                }
             </div>
             <p>Digər</p>
 
             <div>
                 <ul>
-                    {isAuth ?
-                        <li className={location.pathname === "/settings/" ? "active" : ""}>
-                            <IoMdSettings />
-                            <Link to="/settings/">Parametrlər</Link>
-                        </li>
-                        : null}
-                    {isAuth ?
-                        <li className={location.pathname === "/contact/" ? "active" : ""}>
-                            <BiSupport />
-                            <Link to="/contact/">Əlaqə</Link>
-                        </li>
-                        : null}
+                    <li className={location.pathname === "/settings/" ? "active" : ""}>
+                        <IoMdSettings />
+                        <Link to="/settings/">Parametrlər</Link>
+                    </li>
+                    <li className={location.pathname === "/contact/" ? "active" : ""}>
+                        <BiSupport />
+                        <Link to="/contact/">Əlaqə</Link>
+                    </li>
+
                     {isAuth ? <li onClick={handleLogout}>
                         <MdLogout />
                         <span>Çıxış</span>
@@ -141,3 +138,6 @@ const Sidebar = ({ children }) => {
 };
 
 export default Sidebar;
+
+
+

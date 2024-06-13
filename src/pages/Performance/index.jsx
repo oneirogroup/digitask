@@ -149,7 +149,7 @@ function Index() {
   return (
     <div className='performance-page'>
       <div className='performance-page-title'>
-        <p>Tapşırıqlar</p>
+        <p>Performans</p>
       </div>
       <div>
         <div className='performance-filter'>
