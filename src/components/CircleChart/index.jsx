@@ -1,6 +1,8 @@
+// CircleChart.js
+
 import React from 'react';
 import ReactApexChart from 'react-apexcharts';
-import axios from 'axios';
+import axios from '../../actions/axios';
 import "./circlechart.css";
 import { IoMdInformationCircle } from "react-icons/io";
 import { FaCircle } from "react-icons/fa";
@@ -50,12 +52,7 @@ class CircleChart extends React.Component {
 
     fetchData = async () => {
         try {
-            const token = localStorage.getItem('access_token');
-            const response = await axios.get('http://135.181.42.192/services/mainpage/', {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
+            const response = await axios.get('/services/mainpage/');
 
             const { user_type, task_details } = response.data;
             let series = [0, 0, 0];
@@ -81,20 +78,18 @@ class CircleChart extends React.Component {
 
             this.setState({ series, userType: user_type, legendLabels });
         } catch (error) {
-            if (error.response && error.response.status === 401) {
+            console.error('Error fetching data:', error);
+            if (axios.isCancel(error)) {
+                console.log('Request canceled:', error.message);
+            } else if (error.response && error.response.status === 401) {
                 try {
-                    const refresh_token = localStorage.getItem('refresh_token');
-                    const refreshResponse = await axios.post('http://135.181.42.192/accounts/token/refresh/', {
-                        refresh_token
-                    });
-                    const { access_token } = refreshResponse.data;
-                    localStorage.setItem('access_token', access_token);
+                    await axios.refreshAccessToken();
                     await this.fetchData();
                 } catch (refreshError) {
-                    console.error('Hata: Token yenileme başarısız:', refreshError);
+                    console.error('Token refresh failed:', refreshError);
                 }
             } else {
-                console.error('Hata: Veriler alınamadı:', error);
+                console.error('Error:', error.message);
             }
         }
     }

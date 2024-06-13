@@ -8,7 +8,7 @@
     border-collapse: collapse;
     max-width: 100%;
     overflow-x: auto;
-
+    background-color: white;
   }
   
  .employee-table-container th, td {

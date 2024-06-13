@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axios from '../../actions/axios';
 import './home.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { GoClock } from 'react-icons/go';
@@ -13,18 +13,6 @@ import { RiVoiceprintFill } from 'react-icons/ri';
 import photo1 from '../../assets/images/photo.svg';
 import photo2 from '../../assets/images/calendar-1-11.svg';
 
-const refreshAccessToken = async () => {
-    const refresh_token = localStorage.getItem('refresh_token');
-    if (!refresh_token) {
-        throw new Error('No refresh token available');
-    }
-
-    const response = await axios.post('http://135.181.42.192/accounts/token/refresh/', { refresh: refresh_token });
-    const { access } = response.data;
-    localStorage.setItem('access_token', access);
-    axios.defaults.headers.common['Authorization'] = `Bearer ${access}`;
-};
-
 const Home = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [tasks, setTasks] = useState([]);
@@ -32,13 +20,9 @@ const Home = () => {
     const [meetings, setMeetings] = useState([]);
     const navigate = useNavigate();
 
-    const fetchData = async (isRetry = false) => {
+    const fetchData = async () => {
         try {
-            const token = localStorage.getItem('access_token');
-
-            const responseMainPage = await axios.get('http://135.181.42.192/services/mainpage/', {
-                headers: { 'Authorization': `Bearer ${token}` }
-            });
+            const responseMainPage = await axios.get('/services/mainpage/');
             setMeetings(responseMainPage.data.meetings || []);
 
             const ongoingTasks = responseMainPage.data.ongoing_tasks || [];
@@ -56,22 +40,12 @@ const Home = () => {
             }));
             setTasks(mappedTasks);
 
-            const responsePerformance = await axios.get('http://135.181.42.192/services/performance/', {
-                headers: { 'Authorization': `Bearer ${token}` }
-            });
+            const responsePerformance = await axios.get('/services/performance/');
             setPerformanceData(responsePerformance.data);
-
         } catch (error) {
-            if (error.response && (error.response.status === 401 || error.response.status === 403) && !isRetry) {
-                try {
-                    await refreshAccessToken();
-                    await fetchData(true);
-                } catch (refreshError) {
-                    console.error('Token refresh failed:', refreshError);
-                    navigate('/login');
-                }
-            } else {
-                console.error('Error fetching data:', error);
+            console.error('Error fetching data:', error);
+            if (error.response && (error.response.status === 401 || error.response.status === 403)) {
+                navigate('/login');
             }
         }
     };
@@ -87,6 +61,7 @@ const Home = () => {
     const closeModal = () => {
         setIsModalOpen(false);
     };
+
 
     return (
         <div className="home-page">
