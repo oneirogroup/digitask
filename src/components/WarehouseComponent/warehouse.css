@@ -38,29 +38,29 @@ cursor: pointer;
   color:white !important;
 }
 
-.warehouseName{
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
-    margin: 20px 0;
-    align-items: center;
+.warehouseName {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin: 20px 0;
 }
 
-.warehouseName button{
-    padding: 10px;
-    width: 100%;
-    background-color: inherit;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 2px solid #2B75CC;
-    border-radius: 11px;
-    color: #005ABF;
-    font-family: Montserrat;
-    font-size: 18px;
-    font-weight: 500;
-    cursor: pointer;
+.warehouseName button {
+  padding: 10px;
+  width: calc(33.33% - 20px);
+  background-color: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #2B75CC;
+  border-radius: 11px;
+  color: #005ABF;
+  font-family: Montserrat;
+  font-size: 18px;
+  font-weight: 500;
+  cursor: pointer;
 }
+
 
 .warehouse-search-filter{
     display: flex;

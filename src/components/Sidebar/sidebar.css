@@ -108,6 +108,7 @@
 
 .aside-link.active .link_text, .aside-link.active .icon, .sidebar .active a, .sidebar .active svg{
     color: #fff;
+    filter: brightness(3.5)
 }
 
 .apexcharts-menu-icon{

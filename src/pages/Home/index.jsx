@@ -131,7 +131,7 @@ const Home = () => {
                             performanceData.map((item, index) => (
                                 <ul key={index}>
                                     <li>{`${item.first_name} ${item.last_name.charAt(0)}.`}</li>
-                                    <li>{item.group.region}</li>
+                                    <li>{item.group.group}</li>
                                     <li>{item.task_count.total}</li>
                                 </ul>
                             ))
@@ -157,7 +157,7 @@ const Home = () => {
                         {tasks.length > 0 ? (
                             tasks.slice(0, 5).map((item, index) => (
                                 <ul key={index}>
-                                    <li>{item.first_name && item.last_name ? `${item.first_name} ${item.last_name}` : 'User yoxdur'}</li>
+                                    <li>{item.first_name && item.last_name ? `${item.first_name} ${item.last_name}` : '-'}</li>
                                     <li>{item.time}</li>
                                     <li>
                                         {item.tv && <PiTelevisionSimple />}

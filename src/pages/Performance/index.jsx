@@ -211,7 +211,7 @@ function Index() {
                 filteredData.map((item, index) => (
                   <tr key={index}>
                     <td>{item.id.toString().padStart(2, '0')}</td>
-                    <td>{item.first_name && item.last_name ? `${item.first_name} ${item.last_name.charAt(0)}.` : 'User yoxdur'}</td>
+                    <td>{item.first_name && item.last_name ? `${item.first_name} ${item.last_name.charAt(0)}.` : '-'}</td>
                     <td>{item.group.group}</td>
                     <td>{item.user_type}</td>
                     <td>{item.task_count.total}</td>

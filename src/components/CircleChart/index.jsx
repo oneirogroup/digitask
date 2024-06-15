@@ -49,7 +49,23 @@ class CircleChart extends React.Component {
                             position: 'bottom'
                         }
                     }
-                }]
+                }],
+                tooltip: {
+                    enabled: true,
+                    y: {
+                        formatter: function (val) {
+                            return val.toFixed(0) + '%';
+                        }
+                    },
+                    custom: function ({ seriesIndex, dataPointIndex, w }) {
+                        const series = w.config.series[seriesIndex];
+                        const legendLabels = w.config.legend.labels;
+
+                        return `<div class="apexcharts-tooltip-custom">
+                                    <span>${legendLabels[seriesIndex]}: ${series[dataPointIndex].toFixed(0)}%</span>
+                                </div>`;
+                    }
+                }
             },
             userType: '',
             legendLabels: ['Internet', 'Tv', 'Voice'],
@@ -77,17 +93,17 @@ class CircleChart extends React.Component {
                 const { problem_count, connection_count } = task_details;
                 const total = problem_count + connection_count;
                 series = total === 0 ? [0, 0] : [
-                    (problem_count / total) * 100,
-                    (connection_count / total) * 100,
+                    Math.round((problem_count / total) * 100),
+                    Math.round((connection_count / total) * 100),
                 ];
-                legendLabels = ['Problem', 'Connection'];
+                legendLabels = ['Problem', 'Qoşulma'];
             } else {
                 const { tv_count, internet_count, voice_count } = task_details;
                 const total = tv_count + internet_count + voice_count;
                 series = total === 0 ? [0, 0, 0] : [
-                    (internet_count / total) * 100,
-                    (tv_count / total) * 100,
-                    (voice_count / total) * 100
+                    Math.round((internet_count / total) * 100),
+                    Math.round((tv_count / total) * 100),
+                    Math.round((voice_count / total) * 100)
                 ];
             }
 

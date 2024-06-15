@@ -1,6 +1,8 @@
 import { createBrowserRouter } from "react-router-dom";
 import Layout from "./src/features/Layout";
 import Login from "./src/pages/Login/index";
+import RePassword from "./src/pages/RePassword/index";
+import OneTimePassword from "./src/pages/OneTimePassword/index";
 import Home from "./src/pages/Home/index";
 import Tasks from "./src/pages/Tasks/index";
 import Warehouse from "./src/pages/Warehouse/index";
@@ -17,6 +19,14 @@ export const routers = createBrowserRouter([
       {
         element: <Login />,
         path: "/login",
+      },
+      {
+        element: <RePassword />,
+        path: "/re-password",
+      },
+      {
+        element: <OneTimePassword />,
+        path: "/re-password-code",
       },
       {
         element: <Home />,

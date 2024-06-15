@@ -3,10 +3,10 @@ import { BiImport, BiExport } from "react-icons/bi";
 import { IoFilterOutline } from "react-icons/io5";
 import { CiSearch } from "react-icons/ci";
 import { FaChevronDown } from "react-icons/fa6";
-import "./warehouse.css";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import Import from "../Import";
 import Export from "../Export";
+import "./warehouse.css";
 
 function Warehouse() {
     const [tableData, setTableData] = useState([]);
@@ -19,26 +19,37 @@ function Warehouse() {
     const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() => {
+        fetchWarehouses();
         fetchData();
     }, [searchTerm, warehouseSelected]);
+
+    const fetchWarehouses = () => {
+        fetch('http://135.181.42.192/services/warehouses/')
+            .then(response => response.json())
+            .then(data => {
+                const warehouseNames = data.map(warehouse => warehouse.name);
+                setWarehouses(warehouseNames);
+            })
+            .catch(error => console.error('Error fetching warehouses:', error));
+    };
 
     const fetchData = () => {
         let url = 'http://135.181.42.192/services/warehouse_item/';
         const params = [];
+
         if (searchTerm) {
             params.push(`name=${encodeURIComponent(searchTerm)}`);
         }
-        if (warehouseSelected) {
-            params.push(`warehouse=${encodeURIComponent(warehouseSelected)}`);
-        }
-        if (params.length > 0) {
-            url += `?${params.join('&')}`;
-        }
 
-        fetch(url)
+        fetch(url + (params.length > 0 ? `?${params.join('&')}` : ''))
             .then(response => response.json())
             .then(data => {
-                const formattedData = data.map(item => ({
+                let filteredData = data;
+                if (warehouseSelected) {
+                    filteredData = data.filter(item => item.warehouse.name === warehouseSelected);
+                }
+
+                const formattedData = filteredData.map(item => ({
                     id: item.id,
                     name: item.equipment_name,
                     marka: item.brand,
@@ -49,12 +60,10 @@ function Warehouse() {
                     measure: item.size_length
                 }));
                 setTableData(formattedData);
-
-                const uniqueWarehouses = Array.from(new Set(data.map(item => item.warehouse.name)));
-                setWarehouses(uniqueWarehouses);
             })
             .catch(error => console.error('Error fetching data:', error));
     };
+
 
     const handleExportClick = () => {
         setExportSelected(true);

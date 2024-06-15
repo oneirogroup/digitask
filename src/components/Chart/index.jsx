@@ -65,7 +65,13 @@ class ApexChart extends React.Component {
                 xaxis: {
                     categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
                 },
-                yaxis: {},
+                yaxis: {
+                    labels: {
+                        formatter: (value) => {
+                            return value.toFixed(0);
+                        }
+                    }
+                },
                 fill: {
                     colors: ["#FF5449", "transparent", "#36C43D"],
                 },

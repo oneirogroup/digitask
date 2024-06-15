@@ -26,10 +26,12 @@ function Index() {
     const [selectedTaskIndex, setSelectedTaskIndex] = useState(null);
     const [selectedTaskId, setSelectedTaskId] = useState(null);
     const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
+    const [userType, setUserType] = useState(null);
 
     const modalRef = useRef(null);
 
     useEffect(() => {
+        fetchUserType();
         fetchTasks("all", selectedMonth, "Hamısı");
     }, [selectedMonth]);
 
@@ -67,14 +69,25 @@ function Index() {
         "İyul", "Avqust", "Sentyabr", "Oktyabr", "Noyabr", "Dekabr"
     ];
 
+    const fetchUserType = () => {
+        const token = localStorage.getItem('access_token');
+        if (token) {
+            const decodedToken = JSON.parse(atob(token.split('.')[1]));
+            setUserType(decodedToken.user_type);
+        } else {
+            setUserType(null);
+        }
+    };
+
     const fetchTasks = (taskFilter, selectedMonth, statusFilter) => {
         const monthYear = `${monthsAz[selectedMonth.getMonth()]} ${selectedMonth.getFullYear()}`;
         const monthQueryParam = `&month=${selectedMonth.getMonth() + 1}&year=${selectedMonth.getFullYear()}`;
 
         const statusMap = {
             "Hamısı": "",
-            "Qəbul edilib": "inprogress",
             "Gözləyir": "waiting",
+            "Qəbul edilib": "inprogress",
+            "Başlanıb": "started",
             "Tamamlanıb": "completed",
             "Tamamlanmadı": "not_completed"
         };
@@ -175,7 +188,9 @@ function Index() {
                     <button onClick={resetFilters}>
                         <IoMdRefresh />Yenilə
                     </button>
-                    <button onClick={openAddTaskModal}><IoAdd />Əlavə et</button>
+                    {userType !== 'technician' && (
+                        <button onClick={openAddTaskModal}><IoAdd />Əlavə et</button>
+                    )}
                 </div>
             </div>
             <div className="taskPage-taskType">
@@ -201,8 +216,9 @@ function Index() {
                 {isStatusModalOpen && (
                     <div className="status-modal">
                         <div onClick={() => filterByStatus("Hamısı")}>Hamısı</div>
-                        <div onClick={() => filterByStatus("Qəbul edilib")}>Qəbul edilib</div>
                         <div onClick={() => filterByStatus("Gözləyir")}>Gözləyir</div>
+                        <div onClick={() => filterByStatus("Qəbul edilib")}>Qəbul edilib</div>
+                        <div onClick={() => filterByStatus("Başlanıb")}>Başlanıb</div>
                         <div onClick={() => filterByStatus("Tamamlanıb")}>Tamamlanıb</div>
                         <div onClick={() => filterByStatus("Tamamlanmadı")}>Tamamlanmadı</div>
                     </div>
@@ -228,7 +244,7 @@ function Index() {
                             {filteredData.map((item, index) => (
                                 <tr key={index}>
                                     <td>{`#${item.id.toString().padStart(4, '0')}`}</td>
-                                    <td>{item.first_name && item.last_name ? `${item.first_name} ${item.last_name.charAt(0)}.` : 'User yoxdur'}</td>
+                                    <td>{item.first_name && item.last_name ? `${item.first_name} ${item.last_name.charAt(0)}.` : '-'}</td>
                                     <td className={item.task_type === 'problem' ? 'problem' : 'connection'}>
                                         {item.task_type === 'problem' ? 'Problem' : 'Qoşulma'}
                                     </td>
