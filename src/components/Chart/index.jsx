@@ -65,13 +65,7 @@ class ApexChart extends React.Component {
                 xaxis: {
                     categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
                 },
-                yaxis: {
-                    labels: {
-                        formatter: (value) => {
-                            return value.toFixed(0);
-                        }
-                    }
-                },
+
                 fill: {
                     colors: ["#FF5449", "transparent", "#36C43D"],
                 },
@@ -92,7 +86,6 @@ class ApexChart extends React.Component {
                     offsetY: -10,
                     position: 'top',
                     horizontalAlign: 'center',
-
                     floating: true
                 }
             }
@@ -137,16 +130,20 @@ class ApexChart extends React.Component {
                 }
             });
 
+            // Filter out months with zero counts
+            const filteredConnectionCounts = connectionCounts.map(count => count > 0 ? count : null);
+            const filteredProblemCounts = problemCounts.map(count => count > 0 ? count : null);
+
             this.setState({
                 series: [{
                     name: 'Qoşulmalar',
-                    data: connectionCounts
+                    data: filteredConnectionCounts
                 }, {
                     name: 'Boş',
                     data: Array(12).fill(0)
                 }, {
                     name: 'Problemlər',
-                    data: problemCounts
+                    data: filteredProblemCounts
                 }]
             });
 
@@ -163,6 +160,7 @@ class ApexChart extends React.Component {
             }
         }
     }
+
 
     handleIncrementYear = () => {
         const { year } = this.state;

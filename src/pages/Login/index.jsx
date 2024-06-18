@@ -18,7 +18,7 @@ const required = (value) => {
     if (!value) {
         return (
             <div className="alert alert-danger" role="alert">
-                This field is required!
+                Bu xananın doldurulması məcburidir!
             </div>
         );
     }

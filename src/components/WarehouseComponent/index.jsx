@@ -155,7 +155,7 @@ function Warehouse() {
                         <tbody>
                             {tableData.map((data, index) => (
                                 <tr key={index}>
-                                    <td>{`#${data.id.toString().padStart(4, '0')}`}</td>
+                                    <td>{`#${(index + 1).toString().padStart(4, '0')}`}</td>
                                     <td>{data.name}</td>
                                     <td>{data.marka}</td>
                                     <td>{data.model}</td>

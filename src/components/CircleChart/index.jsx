@@ -108,6 +108,7 @@ class CircleChart extends React.Component {
             }
 
             this.setState({ series, userType: user_type, legendLabels });
+            
         } catch (error) {
             if (error.response && (error.response.status === 401 || error.response.status === 403) && !isRetry) {
                 try {

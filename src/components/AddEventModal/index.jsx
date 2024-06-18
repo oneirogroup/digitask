@@ -19,8 +19,8 @@ const AddEventModal = ({ isOpen, onClose }) => {
 
     const eventData = {
       title: eventName,
-      meeting_type: 'default', 
-      date: `${eventDate}T${eventTime}:00`, 
+      meeting_type: 'default',
+      date: `${eventDate}T${eventTime}:00`,
       meeting_description: eventDescription
     };
 
@@ -34,7 +34,7 @@ const AddEventModal = ({ isOpen, onClose }) => {
       onClose();
     } catch (error) {
       console.error('Error adding event:', error);
-      setError('An error occurred while adding the event.');
+      setError('Tədbir əlavə edilərkən xəta baş verdi.');
     } finally {
       setLoading(false);
     }

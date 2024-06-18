@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { RiDeleteBin6Line } from "react-icons/ri";
@@ -6,7 +6,19 @@ import { MdOutlineEdit } from "react-icons/md";
 import { IoFilterOutline } from "react-icons/io5";
 import { CiSearch } from "react-icons/ci";
 import { FaChevronDown, FaArrowLeft, FaArrowRight } from "react-icons/fa";
-import "./employees.css"
+import "./employees.css";
+
+const refreshAccessToken = async () => {
+  const refresh_token = localStorage.getItem('refresh_token');
+  if (!refresh_token) {
+    throw new Error('No refresh token available');
+  }
+
+  const response = await axios.post('http://135.181.42.192/accounts/token/refresh/', { refresh: refresh_token });
+  const { access } = response.data;
+  localStorage.setItem('access_token', access);
+  axios.defaults.headers.common['Authorization'] = `Bearer ${access}`;
+};
 
 const EmployeeList = () => {
   const [isSmallModalOpen, setIsSmallModalOpen] = useState(false);
@@ -14,12 +26,23 @@ const EmployeeList = () => {
   const [employees, setEmployees] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(3);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [userTypeFilter, setUserTypeFilter] = useState(null);
+  const [groupFilter, setGroupFilter] = useState(null);
+  const [showUserTypeOptions, setShowUserTypeOptions] = useState(false);
+  const [showGroupOptions, setShowGroupOptions] = useState(false);
   const modalRef = useRef(null);
 
   useEffect(() => {
     const fetchEmployees = async () => {
       try {
-        const response = await axios.get('http://135.181.42.192/accounts/users/');
+        await refreshAccessToken();
+        const token = localStorage.getItem('access_token');
+        const response = await axios.get('http://135.181.42.192/accounts/users/', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
         setEmployees(response.data);
       } catch (error) {
         console.error('Error fetching the employees data:', error);
@@ -29,15 +52,42 @@ const EmployeeList = () => {
     fetchEmployees();
   }, []);
 
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = employees.slice(indexOfFirstItem, indexOfLastItem);
+  useEffect(() => {
+    const requestInterceptor = axios.interceptors.request.use(
+      async (config) => {
+        const token = localStorage.getItem('access_token');
+        if (token) {
+          config.headers['Authorization'] = `Bearer ${token}`;
+        }
+        return config;
+      },
+      (error) => {
+        return Promise.reject(error);
+      }
+    );
 
-  const paginate = (pageNumber) => {
-    if (pageNumber > 0 && pageNumber <= Math.ceil(employees.length / itemsPerPage)) {
-      setCurrentPage(pageNumber);
-    }
-  };
+    const responseInterceptor = axios.interceptors.response.use(
+      (response) => {
+        return response;
+      },
+      async (error) => {
+        if (error.response && error.response.status === 401) {
+          try {
+            await refreshAccessToken();
+            return axios(error.config);
+          } catch (refreshError) {
+            console.error('Error: Token refresh failed:', refreshError);
+          }
+        }
+        return Promise.reject(error);
+      }
+    );
+
+    return () => {
+      axios.interceptors.request.eject(requestInterceptor);
+      axios.interceptors.response.eject(responseInterceptor);
+    };
+  }, []);
 
   const openSmallModal = (event) => {
     const buttonRect = event.target.getBoundingClientRect();
@@ -49,28 +99,105 @@ const EmployeeList = () => {
     setIsSmallModalOpen(false);
   };
 
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+    setCurrentPage(1);
+  };
+
+  const handleUserTypeFilter = (type) => {
+    setUserTypeFilter(type);
+    setShowUserTypeOptions(false);
+    setCurrentPage(1);
+  };
+
+  const handleGroupFilter = (group) => {
+    setGroupFilter(group);
+    setShowGroupOptions(false);
+    setCurrentPage(1);
+  };
+
+  const getFilteredEmployees = () => {
+    let filteredEmployees = employees;
+
+    if (searchTerm) {
+      filteredEmployees = filteredEmployees.filter(employee => (
+        employee.first_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        employee.last_name.toLowerCase().includes(searchTerm.toLowerCase())
+      ));
+    }
+
+    if (userTypeFilter) {
+      filteredEmployees = filteredEmployees.filter(employee => (
+        employee.user_type === userTypeFilter
+      ));
+    }
+
+    if (groupFilter) {
+      filteredEmployees = filteredEmployees.filter(employee => (
+        employee.group && employee.group.group === groupFilter
+      ));
+    }
+
+    return filteredEmployees;
+  };
+
+  const currentItems = getFilteredEmployees().slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+
+  const paginate = (pageNumber) => {
+    if (pageNumber > 0 && pageNumber <= Math.ceil(getFilteredEmployees().length / itemsPerPage)) {
+      setCurrentPage(pageNumber);
+    }
+  };
+
   return (
     <div className='employee-page'>
       <h1>İşçilər</h1>
       <div className='employee-search-filter'>
         <div>
           <CiSearch />
-          <input type="search" name="" id="" placeholder='İşçiləri axtar' /> <IoFilterOutline />
+          <input
+            type="search"
+            placeholder='İşçiləri axtar'
+            value={searchTerm}
+            onChange={handleSearchChange}
+          />
+          <IoFilterOutline />
         </div>
         <div>
           <div>
-            <button>
+            <button onClick={() => setShowUserTypeOptions(!showUserTypeOptions)}>
               <span>Vəzifə:</span>
-              <span>Texniklər</span>
+              <span>{userTypeFilter ? userTypeFilter : 'Hamısı'}</span>
               <FaChevronDown />
             </button>
+            {showUserTypeOptions && (
+              <div className="group-modal">
+                <div onClick={() => handleUserTypeFilter(null)}>Hamısı</div>
+                <div onClick={() => handleUserTypeFilter('technician')}>Texniklər</div>
+                <div onClick={() => handleUserTypeFilter('plumber')}>Plumber</div>
+                <div onClick={() => handleUserTypeFilter('office_manager')}>Ofis meneceri</div>
+                <div onClick={() => handleUserTypeFilter('tech_manager')}>Texnik menecer</div>
+              </div>
+            )}
           </div>
           <div>
-            <button>
+            <button onClick={() => setShowGroupOptions(!showGroupOptions)}>
               <span>Qrup:</span>
-              <span>Hamısı</span>
+              <span>{groupFilter ? groupFilter : 'Hamısı'}</span>
               <FaChevronDown />
             </button>
+            {showGroupOptions && (
+              <div className="group-modal employee-modal-group">
+                <div onClick={() => handleGroupFilter(null)}>Hamısı</div>
+                {[...new Set(employees.map(employee => employee.group && employee.group.group))]
+                  .filter(group => group)
+                  .map((group, index) => (
+                    <div key={index} onClick={() => handleGroupFilter(group)}>
+                      {group}
+                    </div>
+                  ))}
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -84,32 +211,27 @@ const EmployeeList = () => {
               <th>Adres</th>
               <th>Nōmrǝ</th>
               <th>Vəzifə</th>
-              <th>Status</th>
-              <th>Məkan</th>
-              <th></th>
               <th></th>
             </tr>
           </thead>
           <tbody>
-            {currentItems.map((employee) => (
+            {currentItems.map((employee, index) => (
               <tr key={employee.id}>
-                <td>{`#${employee.id.toString().padStart(4, '0')}`}</td>
+                <td>{`#${(index + 1).toString().padStart(4, '0')}`}</td>
                 <td>{employee.first_name} {employee.last_name}</td>
                 <td>{employee.group ? employee.group.group : 'Yoxdur'}</td>
                 <td>{employee.group ? employee.group.region : 'Yoxdur'}</td>
                 <td>{employee.phone}</td>
                 <td>{employee.user_type}</td>
-                <td></td>
-                <td></td>
                 <td>
                   <button onClick={(e) => openSmallModal(e)}><BsThreeDotsVertical /></button>
                   {isSmallModalOpen && (
                     <div
                       ref={modalRef}
-                      className={`small-modal ${isSmallModalOpen ? 'active' : ''}`}
+                      className={`small-modal-employee ${isSmallModalOpen ? 'active' : ''}`}
                       style={{ top: modalPosition.top, left: modalPosition.left }}
                     >
-                      <div className="small-modal-content">
+                      <div className="small-modal-employee-content">
                         <button>
                           <RiDeleteBin6Line />
                         </button>
@@ -129,7 +251,7 @@ const EmployeeList = () => {
         <button onClick={() => paginate(currentPage - 1)} disabled={currentPage === 1}>
           <FaArrowLeft />
         </button>
-        {Array(Math.ceil(employees.length / itemsPerPage))
+        {Array(Math.ceil(getFilteredEmployees().length / itemsPerPage))
           .fill(0)
           .map((_, i) => (
             <button key={i + 1} onClick={() => paginate(i + 1)} disabled={i + 1 === currentPage}>

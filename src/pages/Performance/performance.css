@@ -152,27 +152,7 @@ border-radius: 8px;
   .group-modal div{
     cursor: pointer;
   }
-  
-  
-  .group-modal,
-  .year-modal,
-  .month-modal,
-  .day-modal {
-    position: absolute;
-    background: white;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-    padding: 10px;
-    max-height: 200px;
-    overflow-y: auto;
-  }
-  
-  .group-modal {
-    width: 200px;
-  }
-  
+
   
   .group-modal,
   .year-modal,
@@ -190,7 +170,7 @@ border-radius: 8px;
   }
   
   .group-modal {
-    width: 200px;
+    width: 140px;
   }
   
   .year-modal,
