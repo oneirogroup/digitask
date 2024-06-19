@@ -72,12 +72,39 @@ function Index() {
     const fetchUserType = () => {
         const token = localStorage.getItem('access_token');
         if (token) {
-            const decodedToken = JSON.parse(atob(token.split('.')[1]));
-            setUserType(decodedToken.user_type);
+            fetch('http://135.181.42.192/accounts/profile/', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('HTTP error ' + response.status);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log("Retrieved user data:", data);
+                    if (data.user_type) {
+                        setUserType(data.user_type);
+                        console.log("User type set to:", data.user_type);
+                    } else {
+                        console.log("User type not found in response");
+                        setUserType(null);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching user type:', error);
+                    setUserType(null);
+                });
         } else {
             setUserType(null);
+            console.log("No token found, user type set to null");
         }
     };
+
+
 
     const fetchTasks = (taskFilter, selectedMonth, statusFilter) => {
         const monthYear = `${monthsAz[selectedMonth.getMonth()]} ${selectedMonth.getFullYear()}`;
@@ -103,7 +130,6 @@ function Index() {
                 const sortedData = data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
                 setData(sortedData);
                 setFilteredData(sortedData);
-
             })
             .catch(error => console.error('Error fetching data:', error));
     };
@@ -180,6 +206,47 @@ function Index() {
         }
     };
 
+    const handleStatusUpdate = async (taskId, newStatus) => {
+        try {
+            const response = await fetch(`http://135.181.42.192/services/task/${taskId}/update/`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+                },
+                body: JSON.stringify({ status: newStatus }),
+            });
+
+            if (response.ok) {
+                setFilteredData((prevData) =>
+                    prevData.map((task) => (task.id === taskId ? { ...task, status: newStatus } : task))
+                );
+            } else {
+                console.error('Error updating task status:', response.status);
+            }
+        } catch (error) {
+            console.error('Error updating task status:', error);
+        }
+    };
+
+
+
+
+    const showUpdateButtons = (userType, status) => {
+        if (userType === 'technician') {
+            if (status === 'waiting') {
+                return 'qebul_et';
+            } else if (status === 'inprogress') {
+                return 'yolda';
+            } else if (status === 'started') {
+                return 'basla';
+            } else if (status === 'completed') {
+                return 'tamamlandi';
+            }
+        }
+        return null;
+    }
+
     return (
         <div className='task-page'>
             <div className='task-page-title'>
@@ -188,11 +255,12 @@ function Index() {
                     <button onClick={resetFilters}>
                         <IoMdRefresh />Yenilə
                     </button>
-                    {userType !== 'technician' && (
+                    {!userType || userType !== 'technician' && (
                         <button onClick={openAddTaskModal}><IoAdd />Əlavə et</button>
                     )}
                 </div>
             </div>
+
             <div className="taskPage-taskType">
                 <button className={activeFilter === "all" ? "activeButton" : ""} onClick={() => filterData("all")}>Hamısı</button>
                 <button className={activeFilter === "connection" ? "activeButton" : ""} onClick={() => filterData("connection")}>Qoşulmalar</button>
@@ -243,7 +311,8 @@ function Index() {
                         <tbody>
                             {filteredData.map((item, index) => (
                                 <tr key={index}>
-                                    <td>{`#${(index + 1).toString().padStart(4, '0')}`}</td>                                    <td>{item.first_name && item.last_name ? `${item.first_name} ${item.last_name.charAt(0)}.` : '-'}</td>
+                                    <td>{`#${(index + 1).toString().padStart(4, '0')}`}</td>
+                                    <td>{item.first_name && item.last_name ? `${item.first_name} ${item.last_name.charAt(0)}.` : '-'}</td>
                                     <td className={item.task_type === 'problem' ? 'problem' : 'connection'}>
                                         {item.task_type === 'problem' ? 'Problem' : 'Qoşulma'}
                                     </td>
@@ -258,13 +327,30 @@ function Index() {
                                     <td>{item.location}</td>
                                     <td>{item.contact_number ? item.contact_number : 'No Number'}</td>
                                     <td className="task-status">
-                                        <button className={`status ${item.status.toLowerCase().replace(' ', '-')}`}>
-                                            {item.status === "waiting" ? "Gözləyir" :
-                                                item.status === "inprogress" ? "Qəbul edilib" :
-                                                    item.status === "started" ? "Başlanıb" :
-                                                        item.status === "completed" ? "Tamamlanıb" : item.status}
-                                        </button>
+                                        {userType !== 'technician' && (
+                                            <button className={`status ${item.status.toLowerCase().replace(' ', '-')}`}>
+                                                {item.status === "waiting" ? "Gözləyir" :
+                                                    item.status === "inprogress" ? "Qəbul edilib" :
+                                                        item.status === "started" ? "Başlanıb" :
+                                                            item.status === "completed" ? "Tamamlanıb" : item.status}
+                                            </button>
+                                        )}
+                                        {userType === 'technician' && (
+                                            <>
+                                                {item.status === "waiting" && (
+                                                    <button onClick={() => handleStatusUpdate(item.id, 'inprogress')}>Qəbul et</button>
+                                                )}
+                                                {item.status === "inprogress" && (
+                                                    <button onClick={() => handleStatusUpdate(item.id, 'started')}>Başla</button>
+                                                )}
+                                                {item.status === "started" && (
+                                                    <button onClick={() => handleStatusUpdate(item.id, 'completed')}>Tamamla</button>
+                                                )}
+                                            </>
+                                        )}
                                     </td>
+
+
                                     <td>
                                         <button data-task-index={index} onClick={(e) => openSmallModal(e, index)}><BsThreeDotsVertical /></button>
                                         {isSmallModalOpen && selectedTaskIndex === index && (
