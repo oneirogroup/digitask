@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import "./addTask.css";
 import { PiTelevisionSimpleLight } from "react-icons/pi";
 import { TfiWorld } from "react-icons/tfi";
 import { RiVoiceprintFill } from "react-icons/ri";
+import { FaChevronDown } from "react-icons/fa";
 
 const CreateTaskModal = ({ onClose }) => {
     const [activeFilter, setActiveFilter] = useState("connection");
@@ -23,9 +24,24 @@ const CreateTaskModal = ({ onClose }) => {
         group: [],
     });
     const [groups, setGroups] = useState([]);
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const dropdownRef = useRef(null);
 
     useEffect(() => {
         fetchGroups();
+    }, []);
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setIsDropdownOpen(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
     }, []);
 
     const fetchGroups = async () => {
@@ -39,18 +55,10 @@ const CreateTaskModal = ({ onClose }) => {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        if (name === 'group') {
-            const selectedGroups = Array.from(e.target.selectedOptions, option => option.value);
-            setFormData((prevState) => ({
-                ...prevState,
-                [name]: selectedGroups,
-            }));
-        } else {
-            setFormData((prevState) => ({
-                ...prevState,
-                [name]: value,
-            }));
-        }
+        setFormData((prevState) => ({
+            ...prevState,
+            [name]: value,
+        }));
     };
 
     const handleSubmit = async (e) => {
@@ -89,6 +97,28 @@ const CreateTaskModal = ({ onClose }) => {
             ...prevState,
             task_type: type,
         }));
+    };
+
+    const handleGroupSelect = (groupId) => {
+        setFormData((prevState) => {
+            const updatedGroups = prevState.group.includes(groupId)
+                ? prevState.group.filter((id) => id !== groupId)
+                : [...prevState.group, groupId];
+            return { ...prevState, group: updatedGroups };
+        });
+    };
+
+    const renderGroups = () => {
+        return groups.map((group) => (
+            <div key={group.id} className="dropdown-task-item" onClick={() => handleGroupSelect(group.id)}>
+                <input
+                    type="checkbox"
+                    checked={formData.group.includes(group.id)}
+                    onChange={() => handleGroupSelect(group.id)}
+                />
+                {group.group}
+            </div>
+        ));
     };
 
     return (
@@ -230,19 +260,23 @@ const CreateTaskModal = ({ onClose }) => {
                                 <RiVoiceprintFill /> Voice</label>
                         </div>
                         <div className="form-group">
-                            <label htmlFor="group">Texniki Qrup:</label>
-                            <select
-                                id="group"
-                                name="group"
-                                value={formData.group}
-                                onChange={handleChange}
-                                className="form-control"
-                                multiple
-                            >
-                                {groups.map((group) => (
-                                    <option key={group.id} value={group.id}>{group.group}</option>
-                                ))}
-                            </select>
+                            <label>Texniki Qrup:</label>
+                            <div className="dropdown-task" ref={dropdownRef}>
+                                <div
+                                    className="dropdown-task-toggle"
+                                    onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                                >
+                                    {formData.group.length > 0
+                                        ? `Qrup ${formData.group.join(', Qrup ')}`
+                                        : 'Qrup Seçin'}
+                                    <FaChevronDown />
+                                </div>
+                                {isDropdownOpen && (
+                                    <div className="dropdown-task-menu">
+                                        {renderGroups()}
+                                    </div>
+                                )}
+                            </div>
                         </div>
                     </div>
 

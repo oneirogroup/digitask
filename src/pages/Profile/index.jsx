@@ -1,28 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import { fetchWithAuth } from '../../utils/auth'; 
 import "./profile.css";
 import { FaPhoneAlt } from "react-icons/fa";
 import { AiFillMail } from "react-icons/ai";
 import { FaChevronRight } from "react-icons/fa";
-
-const refreshAccessToken = async () => {
-  const refresh_token = localStorage.getItem('refresh_token');
-  if (!refresh_token) {
-    throw new Error('No refresh token available');
-  }
-  try {
-    const response = await axios.post('http://135.181.42.192/accounts/token/refresh/', {
-      refresh: refresh_token
-    });
-    const { access } = response.data;
-    localStorage.setItem('access_token', access);
-    axios.defaults.headers.common['Authorization'] = `Bearer ${access}`;
-    return access;
-  } catch (error) {
-    console.error('Error refreshing token:', error);
-    throw error;
-  }
-};
 
 const Profile = () => {
   const [profileData, setProfileData] = useState({
@@ -40,35 +21,20 @@ const Profile = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchProfileData = async (isRetry = false) => {
-      const token = localStorage.getItem('access_token');
+    const fetchProfileData = async () => {
       setLoading(true);
       try {
-        const response = await axios.get('http://135.181.42.192/accounts/profile/', {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        });
+        const data = await fetchWithAuth('http://135.181.42.192/accounts/profile/');
         setProfileData({
-          ...response.data,
-          region: response.data.group?.region || '',
+          ...data,
+          region: data.group?.region || '',
           postal_code: 'RT235',
-          bio: response.data.bio || ''
+          bio: data.bio || ''
         });
         setLoading(false);
       } catch (error) {
         setLoading(false);
-        if (error.response && (error.response.status === 401 || error.response.status === 403) && !isRetry) {
-          try {
-            const newAccessToken = await refreshAccessToken();
-            axios.defaults.headers.common['Authorization'] = `Bearer ${newAccessToken}`;
-            await fetchProfileData(true);
-          } catch (refreshError) {
-            console.error('Error: Token refresh failed:', refreshError);
-          }
-        } else {
-          console.error('Error fetching profile data', error);
-        }
+        console.error('Error fetching profile data', error);
       }
     };
 

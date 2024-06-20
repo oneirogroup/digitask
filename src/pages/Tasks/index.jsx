@@ -11,6 +11,7 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import DetailsModal from '../../components/TaskType';
 import { MdOutlineEdit } from "react-icons/md";
 import './tasks.css';
+import { fetchWithAuth } from '../../utils/auth';
 
 function Index() {
     const [data, setData] = useState([]);
@@ -71,39 +72,13 @@ function Index() {
         "İyul", "Avqust", "Sentyabr", "Oktyabr", "Noyabr", "Dekabr"
     ];
 
-    const fetchUserType = () => {
-        const token = localStorage.getItem('access_token');
-        if (token) {
-            fetch('http://135.181.42.192/accounts/profile/', {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('HTTP error ' + response.status);
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    console.log("Retrieved user data:", data);
-                    if (data.user_type) {
-                        setUserType(data.user_type);
-                        setUserEmail(data.email);
-                        console.log("User type set to:", data.user_type);
-                    } else {
-                        console.log("User type not found in response");
-                        setUserType(null);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error fetching user type:', error);
-                    setUserType(null);
-                });
-        } else {
-            setUserType(null);
-            console.log("No token found, user type set to null");
+    const fetchUserType = async () => {
+        try {
+            const data = await fetchWithAuth('http://135.181.42.192/accounts/profile/');
+            setUserType(data.user_type);
+            setUserEmail(data.email);
+        } catch (error) {
+            console.error('Error fetching user type:', error);
         }
     };
 
@@ -239,12 +214,6 @@ function Index() {
         }
     };
 
-
-
-
-
-
-
     const showUpdateButtons = (userType, status) => {
         if (userType === 'technician') {
             if (status === 'waiting') {
@@ -364,24 +333,29 @@ function Index() {
                                             </button>
                                         )}
                                     </td>
+
                                     <td>
-                                        <button data-task-index={index} onClick={(e) => openSmallModal(e, index)}><BsThreeDotsVertical /></button>
-                                        {isSmallModalOpen && selectedTaskIndex === index && (
-                                            <div
-                                                ref={modalRef}
-                                                className={`small-modal ${isSmallModalOpen ? 'active' : ''}`}
-                                                style={{ top: modalPosition.top, left: modalPosition.left }}
-                                            >
-                                                <div className="small-modal-content">
-                                                    <button onClick={() => deleteTask(item.id)}>
-                                                        <RiDeleteBin6Line />
-                                                    </button>
-                                                    <button onClick={() => openTaskDetailsModal(item.id)}>
-                                                        <MdOutlineEdit />
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        )}
+                                        {userType !== 'technician' ? (
+                                            <>
+                                                <button data-task-index={index} onClick={(e) => openSmallModal(e, index)}><BsThreeDotsVertical /></button>
+                                                {isSmallModalOpen && selectedTaskIndex === index && (
+                                                    <div
+                                                        ref={modalRef}
+                                                        className={`small-modal ${isSmallModalOpen ? 'active' : ''}`}
+                                                        style={{ top: modalPosition.top, left: modalPosition.left }}
+                                                    >
+                                                        <div className="small-modal-content">
+                                                            <button onClick={() => deleteTask(item.id)}>
+                                                                <RiDeleteBin6Line />
+                                                            </button>
+                                                            <button onClick={() => openTaskDetailsModal(item.id)}>
+                                                                <MdOutlineEdit />
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                )}
+                                            </>
+                                        ) : null}
                                     </td>
                                 </tr>
                             ))}
