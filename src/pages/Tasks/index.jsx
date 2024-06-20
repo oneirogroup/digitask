@@ -27,6 +27,8 @@ function Index() {
     const [selectedTaskId, setSelectedTaskId] = useState(null);
     const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
     const [userType, setUserType] = useState(null);
+    const [userEmail, setUserEmail] = useState(null);
+
 
     const modalRef = useRef(null);
 
@@ -88,6 +90,7 @@ function Index() {
                     console.log("Retrieved user data:", data);
                     if (data.user_type) {
                         setUserType(data.user_type);
+                        setUserEmail(data.email);
                         console.log("User type set to:", data.user_type);
                     } else {
                         console.log("User type not found in response");
@@ -208,19 +211,26 @@ function Index() {
 
     const handleStatusUpdate = async (taskId, newStatus) => {
         try {
+            const token = localStorage.getItem('access_token');
             const response = await fetch(`http://135.181.42.192/services/task/${taskId}/update/`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
-                    Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+                    'Authorization': `Bearer ${token}`,
                 },
                 body: JSON.stringify({ status: newStatus }),
             });
 
             if (response.ok) {
-                setFilteredData((prevData) =>
-                    prevData.map((task) => (task.id === taskId ? { ...task, status: newStatus } : task))
-                );
+                const updatedTask = await response.json();
+
+                if (updatedTask.assigned_to === localStorage.getItem('user_id')) {
+                    setFilteredData((prevData) =>
+                        prevData.map((task) => (task.id === taskId ? { ...task, status: newStatus } : task))
+                    );
+                } else {
+                    console.warn('You do not have permission to update this task.');
+                }
             } else {
                 console.error('Error updating task status:', response.status);
             }
@@ -228,6 +238,9 @@ function Index() {
             console.error('Error updating task status:', error);
         }
     };
+
+
+
 
 
 
@@ -327,7 +340,22 @@ function Index() {
                                     <td>{item.location}</td>
                                     <td>{item.contact_number ? item.contact_number : 'No Number'}</td>
                                     <td className="task-status">
-                                        {userType !== 'technician' && (
+                                        {userType === 'technician' && !item.email || item.email === userEmail ? (
+                                            <>
+                                                {item.status === "waiting" && (
+                                                    <button className='technicianWaiting' onClick={() => handleStatusUpdate(item.id, 'inprogress')}>Qəbul et</button>
+                                                )}
+                                                {item.status === "inprogress" && (
+                                                    <button className='technicianStatus' onClick={() => handleStatusUpdate(item.id, 'started')}>Başla</button>
+                                                )}
+                                                {item.status === "started" && (
+                                                    <button className='technicianStatus' onClick={() => handleStatusUpdate(item.id, 'completed')}>Tamamla</button>
+                                                )}
+                                                {item.status === "completed" && (
+                                                    <button className='technicianCompleted'>Tamamlandı</button>
+                                                )}
+                                            </>
+                                        ) : (
                                             <button className={`status ${item.status.toLowerCase().replace(' ', '-')}`}>
                                                 {item.status === "waiting" ? "Gözləyir" :
                                                     item.status === "inprogress" ? "Qəbul edilib" :
@@ -335,22 +363,7 @@ function Index() {
                                                             item.status === "completed" ? "Tamamlanıb" : item.status}
                                             </button>
                                         )}
-                                        {userType === 'technician' && (
-                                            <>
-                                                {item.status === "waiting" && (
-                                                    <button onClick={() => handleStatusUpdate(item.id, 'inprogress')}>Qəbul et</button>
-                                                )}
-                                                {item.status === "inprogress" && (
-                                                    <button onClick={() => handleStatusUpdate(item.id, 'started')}>Başla</button>
-                                                )}
-                                                {item.status === "started" && (
-                                                    <button onClick={() => handleStatusUpdate(item.id, 'completed')}>Tamamla</button>
-                                                )}
-                                            </>
-                                        )}
                                     </td>
-
-
                                     <td>
                                         <button data-task-index={index} onClick={(e) => openSmallModal(e, index)}><BsThreeDotsVertical /></button>
                                         {isSmallModalOpen && selectedTaskIndex === index && (

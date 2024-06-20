@@ -369,3 +369,18 @@ font-weight: bold;
   font-size: 18px;
   cursor: pointer;
 }
+
+.technicianWaiting{
+  background-color: white;
+  outline: none;
+  border: 2px solid #005ABF;
+  padding: 8px 20px !important;
+  color: #005ABF;
+}
+
+.technicianStatus {
+  border: 2px solid #005ABF;
+  padding: 8px 20px !important;
+  background-color: #005ABF;
+  color: white;
+}
