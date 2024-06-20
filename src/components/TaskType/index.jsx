@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { RiEdit2Line } from "react-icons/ri";
 import { IoPersonOutline } from "react-icons/io5";
 import { BsTelephone } from "react-icons/bs";
@@ -10,18 +10,32 @@ import { MdOutlineMiscellaneousServices } from "react-icons/md";
 import { BiComment } from "react-icons/bi";
 import { MdOutlineEngineering } from "react-icons/md";
 import './detailsModal.css';
+import { FaChevronDown } from "react-icons/fa";
+
+
+const TASK_TYPES = [
+    { value: 'connection', label: 'Qoşulma' },
+    { value: 'problem', label: 'Problem' }
+];
+
+const STATUS_OPTIONS = [
+    { value: 'waiting', label: 'Gözləyir' },
+    { value: 'inprogress', label: 'Qəbul edilib' },
+    { value: 'started', label: 'Başlanıb' },
+    { value: 'completed', label: 'Tamamlandı' }
+];
+
 
 function DetailsModal({ onClose, taskId }) {
     const [taskDetails, setTaskDetails] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
+    const [groups, setGroups] = useState([]);
     const [formData, setFormData] = useState({
         task_type: '',
         full_name: '',
         time: '',
-        date: '',
         registration_number: '',
         contact_number: '',
-        region: '',
         location: '',
         services: '',
         status: '',
@@ -56,17 +70,20 @@ function DetailsModal({ onClose, taskId }) {
                         time: data.time,
                         registration_number: data.registration_number,
                         contact_number: data.contact_number,
-                        region: data.region,
                         location: data.location,
                         services: data.services,
                         status: data.status,
-                        group: data.group,
+                        group: data.group.map(g => g.id),
                         note: data.note,
-                        date: data.date
                     });
                 })
                 .catch(error => console.error('Error fetching task details:', error));
         }
+
+        fetch('http://135.181.42.192/services/groups/')
+            .then(response => response.json())
+            .then(data => setGroups(data))
+            .catch(error => console.error('Error fetching groups:', error));
     }, [taskId]);
 
     const handleInputChange = (e) => {
@@ -77,33 +94,120 @@ function DetailsModal({ onClose, taskId }) {
         });
     };
 
-
     const handleEditClick = () => {
         setIsEditing(true);
     };
 
-
     const handleFormSubmit = (e) => {
         e.preventDefault();
+        console.log("formData:", formData);
+
+        const updatedData = {};
+        Object.keys(formData).forEach(key => {
+            if (formData[key] !== taskDetails[key]) {
+                updatedData[key] = formData[key];
+            }
+        });
+
+        if (updatedData.id) {
+            updatedData.id = formData.id;
+        }
+
         fetch(`http://135.181.42.192/services/update_task/${taskId}/`, {
-            method: 'PUT',
+            method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(formData)
+            body: JSON.stringify(updatedData)
         })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(err => {
+                        throw new Error(`Error: ${response.status} ${response.statusText} - ${JSON.stringify(err)}`);
+                    });
+                }
+                return response.json();
+            })
             .then(data => {
                 setTaskDetails(data);
                 setIsEditing(false);
+                onClose();
             })
             .catch(error => console.error('Error updating task:', error));
     };
 
-    const handleGroupChange = (e, index) => {
-        const newGroups = [...formData.group];
-        newGroups[index] = { ...newGroups[index], group: e.target.value };
-        setFormData({ ...formData, group: newGroups });
+    const handleGroupSelect = (groupId) => {
+        setFormData((prevFormData) => {
+            const newGroup = prevFormData.group.includes(groupId)
+                ? prevFormData.group.filter(id => id !== groupId)
+                : [...prevFormData.group, groupId];
+            return { ...prevFormData, group: newGroup };
+        });
+    };
+    const [isDropdownOpenTaskType, setIsDropdownOpenTaskType] = useState(false);
+    const [isDropdownOpenStatus, setIsDropdownOpenStatus] = useState(false);
+    const [isDropdownOpenGroup, setIsDropdownOpenGroup] = useState(false);
+
+
+    const dropdownRef = useRef(null);
+
+    const toggleDropdownTaskType = () => {
+        setIsDropdownOpenTaskType(!isDropdownOpenTaskType);
+    };
+
+    const toggleDropdownStatus = () => {
+        setIsDropdownOpenStatus(!isDropdownOpenStatus);
+    };
+
+    const toggleDropdownGroup = () => {
+        setIsDropdownOpenGroup(!isDropdownOpenGroup);
+    };
+
+    const handleTaskTypeSelect = (type) => {
+        setFormData({ ...formData, task_type: type });
+        setIsDropdownOpenTaskType(false);
+    };
+
+    const handleStatusSelect = (status) => {
+        setFormData({ ...formData, status: status });
+        setIsDropdownOpenStatus(false);
+    };
+
+    const renderTaskTypeOptions = () => {
+        return TASK_TYPES.map(option => (
+            <div
+                key={option.value}
+                className={`taskType-option ${formData.task_type === option.value ? 'selected' : ''}`}
+                onClick={() => handleTaskTypeSelect(option.value)}
+            >
+                {option.label}
+            </div>
+        ));
+    };
+
+    const renderStatusOptions = () => {
+        return STATUS_OPTIONS.map(option => (
+            <div
+                key={option.value}
+                className={`taskType-option ${formData.status === option.value ? 'selected' : ''}`}
+                onClick={() => handleStatusSelect(option.value)}
+            >
+                {option.label}
+            </div>
+        ));
+    };
+
+    const renderGroups = () => {
+        return groups.map((group) => (
+            <label key={group.id} className="dropdown-task-item">
+                <input
+                    type="checkbox"
+                    checked={formData.group.includes(group.id)}
+                    onChange={() => handleGroupSelect(group.id)}
+                />
+                {group.group}
+            </label>
+        ));
     };
 
     if (!taskDetails) {
@@ -115,9 +219,20 @@ function DetailsModal({ onClose, taskId }) {
             <div className="taskType-modal-content">
                 <div className="taskType-modal-title">
                     {isEditing ? (
-                        <div>
-                            <label><span>Task Type</span></label>
-                            <input type="text" name="task_type" value={formData.task_type} onChange={handleInputChange} />
+                        <div className='details-title'>
+                            <label><span>Tapşırığın Növü </span></label>
+                            <div className="taskType-dropdown ">
+                                <div className="taskType-toggle details-toggle" onClick={toggleDropdownTaskType}>
+                                    {formData.task_type ? formData.task_type === 'connection' ? 'Qoşulma' : 'Problem' : 'Tapşırığı Seçin'}
+                                    <FaChevronDown />
+
+                                </div>
+                                {isDropdownOpenTaskType && (
+                                    <div className="taskType-options">
+                                        {renderTaskTypeOptions()}
+                                    </div>
+                                )}
+                            </div>
                         </div>
                     ) : (
                         <h5>{taskDetails?.task_type?.charAt(0).toUpperCase() + taskDetails?.task_type?.slice(1)} məlumatları</h5>
@@ -129,59 +244,102 @@ function DetailsModal({ onClose, taskId }) {
                 </div>
                 <hr />
                 {isEditing ? (
-                    <form onSubmit={handleFormSubmit} className="taskType-modal-body">
-                        <div className="taskType-info">
-                            <div>
-                                <label><IoPersonOutline /> Ad və soyad</label>
-                                <input type="text" name="full_name" value={formData.full_name} onChange={handleInputChange} />
-                                <hr />
+                    <form onSubmit={handleFormSubmit} className="details-modal-body">
+                        <div>
+                            <div className="taskType-info details-info">
+                                <div>
+                                    <div>
+                                        <label><IoPersonOutline /> Ad və soyad</label>
+                                        <input type="text" name="full_name" value={formData.full_name} onChange={handleInputChange} />
+                                    </div>
+                                    <hr />
+                                </div>
+                                <div>
+                                    <div>
+                                        <label><GoClock /> Zaman</label>
+                                        <input type="text" name="time" value={formData.time} onChange={handleInputChange} />
+                                    </div>
+                                    <hr />
+                                </div>
+                                <div>
+                                    <div>
+                                        <label><BsTelephone /> Qeydiyyat nömrəsi</label>
+                                        <input type="text" name="registration_number" value={formData.registration_number} onChange={handleInputChange} />
+                                    </div>
+                                    <hr />
+                                </div>
+                                <div>
+                                    <div>
+                                        <label><LiaPhoneVolumeSolid /> Əlaqə nömrəsi</label>
+                                        <input type="text" name="contact_number" value={formData.contact_number} onChange={handleInputChange} />
+                                    </div>
+                                    <hr />
+                                </div>
+                                <div>
+                                    <div>
+                                        <label><RiMapPinLine /> Adres</label>
+                                        <input type="text" name="location" value={formData.location} onChange={handleInputChange} />
+                                    </div>
+                                    <hr />
+                                </div>
+                                <div>
+                                    <div>
+                                        <label><MdOutlineMiscellaneousServices /> Servis</label>
+                                        <input type="text" name="services" value={formData.services} onChange={handleInputChange} />
+                                    </div>
+                                    <hr />
+                                </div>
+                                <div>
+                                    <div className='status-dropdown-div'>
+                                        <label><BiComment /> Status</label>
+                                        <div className="status-dropdown">
+                                            <div className="taskType-toggle details-toggle" onClick={toggleDropdownStatus}>
+                                                {formData.status ? STATUS_OPTIONS.find(option => option.value === formData.status)?.label : 'Status Seçin'}
+                                                <FaChevronDown />
+
+                                            </div>
+                                            {isDropdownOpenStatus && (
+                                                <div className="taskType-options">
+                                                    {renderStatusOptions()}
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                    <hr />
+                                </div>
+                                <div>
+                                    <div className="form-group">
+                                        <label><MdOutlineEngineering /> Texniki qrup</label>
+                                        <div className="dropdown-task" id='details-task' ref={dropdownRef}>
+                                            <div
+                                                className="dropdown-task-toggle"
+                                                onClick={() => setIsDropdownOpenGroup(!isDropdownOpenGroup)}
+                                            >
+                                                {formData.group.length > 0
+                                                    ? `Qrup ${formData.group.join(', Qrup ')}`
+                                                    : 'Qrup Seçin'}
+                                                <FaChevronDown />
+                                            </div>
+                                            {isDropdownOpenGroup && (
+                                                <div className="dropdown-task-menu">
+                                                    {renderGroups()}
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                    <hr />
+
+                                </div>
+                                <div className="taskType-note details-note">
+                                    <div>
+                                        <label>Qeyd</label>
+                                        <textarea name="note" value={formData.note} onChange={handleInputChange}></textarea>
+                                    </div>
+                                    <hr />
+                                </div>
                             </div>
-                            <div>
-                                <label><GoClock /> Zaman</label>
-                                <input type="text" name="time" value={formData.time} onChange={handleInputChange} />
-                                <hr />
-                            </div>
-                            <div>
-                                <label><BsTelephone /> Qeydiyyat nömrəsi</label>
-                                <input type="text" name="registration_number" value={formData.registration_number} onChange={handleInputChange} />
-                                <hr />
-                            </div>
-                            <div>
-                                <label><LiaPhoneVolumeSolid /> Əlaqə nömrəsi</label>
-                                <input type="text" name="contact_number" value={formData.contact_number} onChange={handleInputChange} />
-                                <hr />
-                            </div>
-                            <div>
-                                <label><RiMapPinLine /> Adres</label>
-                                <input type="text" name="location" value={formData.location} onChange={handleInputChange} />
-                                <hr />
-                            </div>
-                            <div>
-                                <label><MdOutlineMiscellaneousServices /> Servis</label>
-                                <input type="text" name="services" value={formData.services} onChange={handleInputChange} />
-                                <hr />
-                            </div>
-                            <div>
-                                <label><BiComment /> Status</label>
-                                <input type="text" name="status" value={formData.status} onChange={handleInputChange} />
-                                <hr />
-                            </div>
+                            <button className='updateTask-button' type="submit">Yenilə</button>
                         </div>
-                        <div className="taskType-note">
-                            <div>
-                                <label><MdOutlineEngineering /> Texniki qrup</label>
-                                {formData.group.map((group, index) => (
-                                    <input key={index} type="text" name="group" value={group.group} onChange={(e) => handleGroupChange(e, index)} />
-                                ))}
-                                <hr />
-                            </div>
-                            <div>
-                                <label>Qeyd</label>
-                                <textarea name="note" value={formData.note} onChange={handleInputChange}></textarea>
-                                <hr />
-                            </div>
-                        </div>
-                        <button type="submit">Yenilə</button>
                     </form>
                 ) : (
                     <div className="taskType-modal-body">
@@ -196,12 +354,14 @@ function DetailsModal({ onClose, taskId }) {
                             <div>
                                 <div>
                                     <label><GoClock /> Zaman</label>
-                                    <span>{`${taskDetails.date.split('-')[2]} ${monthNames[parseInt(taskDetails.date.split('-')[1], 10) - 1]}, ${taskDetails.time}`}</span>
+                                    {taskDetails.date && (
+                                        <span>{`${taskDetails.date.split('-')[2]} ${monthNames[parseInt(taskDetails.date.split('-')[1], 10) - 1]}, ${taskDetails.time}`}</span>
+                                    )}
                                 </div>
                                 <hr />
                             </div>
                             <div>
-                                <div>
+                                <div className='registrationNumber'>
                                     <label><BsTelephone /> Qeydiyyat nömrəsi</label>
                                     <span>{taskDetails.registration_number}</span>
                                 </div>
@@ -239,14 +399,11 @@ function DetailsModal({ onClose, taskId }) {
                                 ))}
                             </div>
                             <hr />
-                            <div>
-                                <div className='taskType-adress'>
-                                    <label><RiMapPinLine /> Adres</label>
-                                    <span>{taskDetails.location}</span>
-                                </div>
+                            <div className='taskType-address'>
+                                <label><RiMapPinLine /> Adres</label>
+                                <span>{taskDetails.location}</span>
                             </div>
                             <hr />
-
                             <div>
                                 <label>Qeyd</label>
                                 <span>{taskDetails.note}</span>

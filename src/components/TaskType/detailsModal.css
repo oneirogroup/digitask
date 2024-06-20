@@ -35,7 +35,7 @@
     margin: 0 auto;
 }
 
-.taskType-modal-title div {
+.taskType-modal-title > div {
     display: flex;
     gap: 4px;
     align-items: center;
@@ -67,7 +67,7 @@
     gap: 20px;
 }
 
-.taskType-info {
+.taskType-info, .details-info {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 25px;
@@ -135,6 +135,12 @@
     color: #23B131;
 }
 
+.taskType-adress{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
 .taskType-adress span {
     color: #005ABF;
 }
@@ -142,3 +148,206 @@
 .taskType-status span {
     color: #E5C208;
 }
+
+.details-info{
+    margin-top: 25px;
+}
+
+.details-info label {
+    white-space: nowrap;
+}
+
+.details-info div div{
+padding: 0;
+}
+
+  
+  .details-note textarea {
+    resize: none;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    outline: none;
+  }
+
+  
+ .taskType-modal hr {
+    margin: 10px 0;
+  }
+
+  .details-title{
+    display: flex !important;
+    gap: 30px !important;
+    position: relative;
+  }
+  
+  .details-modal-title label {
+    margin-right: 10px;
+    font-weight: bold;
+  }
+  
+  .details-modal-title input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    margin-right: 10px;
+  }
+
+  .details-modal-body {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+  
+  .details-modal-body input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    width: 100%;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    outline: none;
+  }
+
+  .details-modal-body button {
+    padding: 13px 30px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: bold;
+    margin-top: 12px;
+  }
+  
+  .details-modal-body button:hover {
+    background-color: #0056b3;
+  }
+
+  .updateTask-button{
+    margin: 0 auto;
+  }
+
+  .details-toggle {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    outline: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .details-toggle svg{
+    font-size: 22px;
+  }
+
+
+  .details-title .taskType-options {
+    width: 28%;
+  }
+
+  .taskType-options{
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    background-color: white;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+  .taskType-option{
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    outline: none;
+    cursor: pointer;
+    padding: 10px;
+  }
+
+  .taskType-option:hover{
+    background-color: #cccccc7e;
+  }
+
+  .status-dropdown-div{
+    position: relative;
+  }
+
+  .status-dropdown .details-toggle{
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;  
+    font-size: 18px;
+}
+
+  .status-dropdown .taskType-options{
+    position: absolute;
+    top: 45px;
+    right: 0px;
+    gap: 3px;
+    width: 54%;
+
+  }
+
+  .status-dropdown .taskType-options .taskType-option{
+    padding: 8px;
+  }
+
+  #details-task svg{
+    font-size: 20px;
+
+  }
+
+  #details-task .dropdown-task-toggle {
+    padding: 9px;
+    gap: 15px;
+    width: 100%;
+  }
+
+  #details-task>div{
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: white;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    outline: none;
+    gap: 0;
+  }
+
+  #details-task .dropdown-task-menu{
+    margin-top: 8px;
+    width: 100%;
+  }
+
+  #details-task .dropdown-task-item{
+    gap: 5px;
+    justify-content: start;
+    align-items: center;
+    padding: 6px;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  #details-task .dropdown-task-item input{
+    width: max-content;
+    margin-bottom: 0;
+  }
+
+  #details-task .dropdown-task-item:hover{
+    background-color: #cccccc7e;
+  }
