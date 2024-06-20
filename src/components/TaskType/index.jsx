@@ -108,6 +108,8 @@ function DetailsModal({ onClose, taskId }) {
                 updatedData[key] = formData[key];
             }
         });
+        window.location.reload();
+
 
         if (updatedData.id) {
             updatedData.id = formData.id;
@@ -119,6 +121,7 @@ function DetailsModal({ onClose, taskId }) {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(updatedData)
+
         })
             .then(response => {
                 if (!response.ok) {
@@ -330,13 +333,14 @@ function DetailsModal({ onClose, taskId }) {
                                     <hr />
 
                                 </div>
-                                <div className="taskType-note details-note">
-                                    <div>
-                                        <label>Qeyd</label>
-                                        <textarea name="note" value={formData.note} onChange={handleInputChange}></textarea>
-                                    </div>
-                                    <hr />
+
+                            </div>
+                            <div className="taskType-note details-note">
+                                <div>
+                                    <label>Qeyd</label>
+                                    <textarea name="note" value={formData.note} onChange={handleInputChange}></textarea>
                                 </div>
+                                <hr />
                             </div>
                             <button className='updateTask-button' type="submit">Yenilə</button>
                         </div>
@@ -388,22 +392,31 @@ function DetailsModal({ onClose, taskId }) {
                                 </div>
                                 <hr />
                             </div>
+                            <div>
+                                <div>
+                                    <label><MdOutlineEngineering /> Texniki qrup</label>
+                                    {taskDetails.group && taskDetails.group.length > 0 ? (
+                                        taskDetails.group.map((group, index) => (
+                                            <div key={index}>
+                                                <span>{group.group}</span>
+                                            </div>
+                                        ))
+                                    ) : (
+                                        <span>Texniki qrup seçilməyib.</span>
+                                    )}
+                                </div>
+                                <hr />
+                            </div>
+
+                            <div>
+                                <div className='taskType-address'>
+                                    <label><RiMapPinLine /> Adres</label>
+                                    <span>{taskDetails.location}</span>
+                                </div>
+                                <hr />
+                            </div>
                         </div>
                         <div className="taskType-note">
-                            <div>
-                                <label><MdOutlineEngineering /> Texniki qrup</label>
-                                {taskDetails.group && taskDetails.group.map((group, index) => (
-                                    <div key={index}>
-                                        <span>{group.group}</span>
-                                    </div>
-                                ))}
-                            </div>
-                            <hr />
-                            <div className='taskType-address'>
-                                <label><RiMapPinLine /> Adres</label>
-                                <span>{taskDetails.location}</span>
-                            </div>
-                            <hr />
                             <div>
                                 <label>Qeyd</label>
                                 <span>{taskDetails.note}</span>

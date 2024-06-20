@@ -12,6 +12,7 @@ import DetailsModal from '../../components/TaskType';
 import { MdOutlineEdit } from "react-icons/md";
 import './tasks.css';
 import { fetchWithAuth } from '../../utils/auth';
+import axios from "axios"
 
 function Index() {
     const [data, setData] = useState([]);
@@ -179,8 +180,25 @@ function Index() {
                 }
             });
             setFilteredData(prevData => prevData.filter(task => task.id !== taskId));
+
+            fetchTasks(activeFilter, selectedMonth, selectedStatusFilter);
         } catch (error) {
             console.error('Error deleting task:', error);
+        }
+    };
+
+    const addTask = async (newTask) => {
+        try {
+            const response = await axios.post('http://135.181.42.192/services/create_task/', newTask);
+            if (response.status === 201) {
+                const updatedData = [...data, response.data];
+                setData(updatedData);
+                setFilteredData(updatedData);
+            } else {
+                console.error('Failed to add task', response);
+            }
+        } catch (error) {
+            console.error('Error adding task:', error);
         }
     };
 
@@ -197,15 +215,16 @@ function Index() {
             });
 
             if (response.ok) {
-                const updatedTask = await response.json();
+                setFilteredData(prevData =>
+                    prevData.map(task => task.id === taskId ? { ...task, status: newStatus } : task)
+                );
 
-                if (updatedTask.assigned_to === localStorage.getItem('user_id')) {
-                    setFilteredData((prevData) =>
-                        prevData.map((task) => (task.id === taskId ? { ...task, status: newStatus } : task))
-                    );
-                } else {
-                    console.warn('You do not have permission to update this task.');
-                }
+                const updatedTaskResponse = await fetch(`http://135.181.42.192/services/task/${taskId}/`);
+                const updatedTaskData = await updatedTaskResponse.json();
+
+                setFilteredData(prevData =>
+                    prevData.map(task => task.id === taskId ? { ...task, first_name: updatedTaskData.first_name, last_name: updatedTaskData.last_name } : task)
+                );
             } else {
                 console.error('Error updating task status:', response.status);
             }
@@ -213,6 +232,7 @@ function Index() {
             console.error('Error updating task status:', error);
         }
     };
+
 
     const showUpdateButtons = (userType, status) => {
         if (userType === 'technician') {
@@ -312,16 +332,16 @@ function Index() {
                                         {userType === 'technician' && !item.email || item.email === userEmail ? (
                                             <>
                                                 {item.status === "waiting" && (
-                                                    <button className='technicianWaiting' onClick={() => handleStatusUpdate(item.id, 'inprogress')}>Qəbul et</button>
+                                                    <button className={`technicianWaiting ${showUpdateButtons(userType, item.status)}`} onClick={() => handleStatusUpdate(item.id, 'inprogress')}>Qəbul et</button>
                                                 )}
                                                 {item.status === "inprogress" && (
-                                                    <button className='technicianStatus' onClick={() => handleStatusUpdate(item.id, 'started')}>Başla</button>
+                                                    <button className={`technicianStatus ${showUpdateButtons(userType, item.status)}`} onClick={() => handleStatusUpdate(item.id, 'started')}>Başla</button>
                                                 )}
                                                 {item.status === "started" && (
-                                                    <button className='technicianStatus' onClick={() => handleStatusUpdate(item.id, 'completed')}>Tamamla</button>
+                                                    <button className={`technicianStatus ${showUpdateButtons(userType, item.status)}`} onClick={() => handleStatusUpdate(item.id, 'completed')}>Tamamla</button>
                                                 )}
                                                 {item.status === "completed" && (
-                                                    <button className='technicianCompleted'>Tamamlandı</button>
+                                                    <button className={`technicianCompleted ${showUpdateButtons(userType, item.status)}`}>Tamamlandı</button>
                                                 )}
                                             </>
                                         ) : (

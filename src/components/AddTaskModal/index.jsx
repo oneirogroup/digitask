@@ -61,6 +61,7 @@ const CreateTaskModal = ({ onClose }) => {
         }));
     };
 
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -78,10 +79,13 @@ const CreateTaskModal = ({ onClose }) => {
             } else {
                 console.error('Failed to create task', response);
             }
+
+            window.location.reload();
         } catch (error) {
             console.error('Error creating task:', error);
         }
     };
+
 
     const handleCheckboxChange = (e) => {
         const { name, checked } = e.target;
