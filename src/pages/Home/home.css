@@ -64,7 +64,7 @@
     width: 100%;
     border-radius: 16px;
     border-width: 2px;
-    
+    height: 150px;
 }
 
 .home-meet-section .meet-add button{
@@ -271,5 +271,5 @@
 .home-meet-section{
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
+    gap: 13px;
 }
