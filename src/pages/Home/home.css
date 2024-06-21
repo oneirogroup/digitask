@@ -4,6 +4,8 @@
     padding: 25px 25px 25px 0;
     justify-content: space-between;
 }
+
+
 .home-meet-section .meet-time-date-img{
     background: linear-gradient(107deg, rgba(0, 89, 191, 0.589) 0%, rgba(0, 89, 191, 0.849) 100%);
     border-radius: 10px; 
@@ -44,9 +46,9 @@
 
 .home-meet-section .meet-time-date div p{
     font-family: Montserrat;
-    font-size: 20px;
-    
+    font-size: 17px;
 }
+
 
 .home-meet-section .meet-img {
     align-self: center;
@@ -265,3 +267,9 @@
     right: 0;
     bottom: 0;
 }  
+
+.home-meet-section{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}

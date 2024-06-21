@@ -185,8 +185,8 @@ color: #008B1B;
 }
 
 .employee-modal-group{
-  top: 180px;
-  width: 155px;
+  top: 184px;
+  width: 137px;
   border-radius: 10px;
 }
 
@@ -194,11 +194,14 @@ color: #008B1B;
   width: 130px;
 }
 
+.employee-table-container tbody tr {
+  position: relative;
+}
 
-.small-modal-employee {
+
+.employee-table-container .small-modal-employee {
   position: absolute; 
-  top: 50%;
-  left: 100%;
+  
   transform: translateY(-50%) translateX(10px); 
   background-color: white;
   padding: 10px;

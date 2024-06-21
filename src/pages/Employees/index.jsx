@@ -20,9 +20,23 @@ const refreshAccessToken = async () => {
   axios.defaults.headers.common['Authorization'] = `Bearer ${access}`;
 };
 
+const translateUserType = (userType) => {
+  switch (userType) {
+    case 'technician':
+      return 'Texnik';
+    case 'plumber':
+      return 'Plumber';
+    case 'office_manager':
+      return 'Ofis meneceri';
+    case 'tech_manager':
+      return 'Texnik menecer';
+    default:
+      return userType;
+  }
+};
+
 const EmployeeList = () => {
   const [isSmallModalOpen, setIsSmallModalOpen] = useState(false);
-  const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
   const [employees, setEmployees] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(3);
@@ -91,7 +105,6 @@ const EmployeeList = () => {
 
   const openSmallModal = (event) => {
     const buttonRect = event.target.getBoundingClientRect();
-    setModalPosition({ top: buttonRect.top + window.scrollY, left: buttonRect.left + buttonRect.width });
     setIsSmallModalOpen(true);
   };
 
@@ -167,7 +180,7 @@ const EmployeeList = () => {
           <div>
             <button onClick={() => setShowUserTypeOptions(!showUserTypeOptions)}>
               <span>Vəzifə:</span>
-              <span>{userTypeFilter ? userTypeFilter : 'Hamısı'}</span>
+              <span>{userTypeFilter ? translateUserType(userTypeFilter) : 'Hamısı'}</span>
               <FaChevronDown />
             </button>
             {showUserTypeOptions && (
@@ -222,14 +235,13 @@ const EmployeeList = () => {
                 <td>{employee.group ? employee.group.group : 'Yoxdur'}</td>
                 <td>{employee.group ? employee.group.region : 'Yoxdur'}</td>
                 <td>{employee.phone}</td>
-                <td>{employee.user_type}</td>
+                <td>{translateUserType(employee.user_type)}</td>
                 <td>
                   <button onClick={(e) => openSmallModal(e)}><BsThreeDotsVertical /></button>
                   {isSmallModalOpen && (
                     <div
                       ref={modalRef}
                       className={`small-modal-employee ${isSmallModalOpen ? 'active' : ''}`}
-                      style={{ top: modalPosition.top, left: modalPosition.left }}
                     >
                       <div className="small-modal-employee-content">
                         <button>

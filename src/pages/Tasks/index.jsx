@@ -144,7 +144,6 @@ function Index() {
 
     const openSmallModal = (event, index) => {
         const buttonRect = event.target.getBoundingClientRect();
-        setModalPosition({ top: buttonRect.top + window.scrollY, left: buttonRect.left + buttonRect.width });
         setSelectedTaskIndex(index);
         setIsSmallModalOpen(true);
     };
@@ -362,7 +361,6 @@ function Index() {
                                                     <div
                                                         ref={modalRef}
                                                         className={`small-modal ${isSmallModalOpen ? 'active' : ''}`}
-                                                        style={{ top: modalPosition.top, left: modalPosition.left }}
                                                     >
                                                         <div className="small-modal-content">
                                                             <button onClick={() => deleteTask(item.id)}>

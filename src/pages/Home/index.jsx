@@ -91,7 +91,7 @@ const Home = () => {
     return (
         <div className="home-page">
             <section className="home-meet-section">
-                {meetings.slice(0, 2).map((meeting, index) => (
+                {meetings.map((meeting, index) => (
                     <div key={meeting.id} className="meet-time-date-img">
                         <div className="meet-time-date">
                             <p><GoClock /> {new Date(meeting.date).toLocaleString()}</p>
@@ -101,7 +101,7 @@ const Home = () => {
                             </div>
                         </div>
                         <div className="meet-img">
-                            <img src={index === 0 ? photo1 : photo2} alt="Meeting" />
+                            <img src={photo1} alt="Meeting" />
                         </div>
                     </div>
                 ))}
