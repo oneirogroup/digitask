@@ -36,7 +36,6 @@ const translateUserType = (userType) => {
 };
 
 const EmployeeList = () => {
-  const [isSmallModalOpen, setIsSmallModalOpen] = useState(false);
   const [employees, setEmployees] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(3);
@@ -45,6 +44,7 @@ const EmployeeList = () => {
   const [groupFilter, setGroupFilter] = useState(null);
   const [showUserTypeOptions, setShowUserTypeOptions] = useState(false);
   const [showGroupOptions, setShowGroupOptions] = useState(false);
+  const [employeeModals, setEmployeeModals] = useState({});  
   const modalRef = useRef(null);
 
   useEffect(() => {
@@ -58,6 +58,7 @@ const EmployeeList = () => {
           }
         });
         setEmployees(response.data);
+        initializeEmployeeModals(response.data);
       } catch (error) {
         console.error('Error fetching the employees data:', error);
       }
@@ -103,13 +104,26 @@ const EmployeeList = () => {
     };
   }, []);
 
-  const openSmallModal = (event) => {
-    const buttonRect = event.target.getBoundingClientRect();
-    setIsSmallModalOpen(true);
+  const initializeEmployeeModals = (employeesData) => {
+    const initialModals = {};
+    employeesData.forEach(employee => {
+      initialModals[employee.id] = false;
+    });
+    setEmployeeModals(initialModals);
   };
 
-  const closeSmallModal = () => {
-    setIsSmallModalOpen(false);
+  const openSmallModal = (employeeId) => {
+    setEmployeeModals(prevModals => ({
+      ...prevModals,
+      [employeeId]: true
+    }));
+  };
+
+  const closeSmallModal = (employeeId) => {
+    setEmployeeModals(prevModals => ({
+      ...prevModals,
+      [employeeId]: false
+    }));
   };
 
   const handleSearchChange = (event) => {
@@ -237,11 +251,11 @@ const EmployeeList = () => {
                 <td>{employee.phone}</td>
                 <td>{translateUserType(employee.user_type)}</td>
                 <td>
-                  <button onClick={(e) => openSmallModal(e)}><BsThreeDotsVertical /></button>
-                  {isSmallModalOpen && (
+                  <button onClick={() => openSmallModal(employee.id)}><BsThreeDotsVertical /></button>
+                  {employeeModals[employee.id] && (
                     <div
                       ref={modalRef}
-                      className={`small-modal-employee ${isSmallModalOpen ? 'active' : ''}`}
+                      className={`small-modal-employee active`}
                     >
                       <div className="small-modal-employee-content">
                         <button>

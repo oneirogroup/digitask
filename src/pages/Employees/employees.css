@@ -201,7 +201,8 @@ color: #008B1B;
 
 .employee-table-container .small-modal-employee {
   position: absolute; 
-  
+  right: -6px;
+    top: 30px;
   transform: translateY(-50%) translateX(10px); 
   background-color: white;
   padding: 10px;
