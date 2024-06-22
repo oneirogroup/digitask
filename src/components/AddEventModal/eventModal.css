@@ -31,7 +31,7 @@
 
 .event-modal > div {
   display: flex;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 }
 
 .event-modal>div button{
@@ -77,10 +77,18 @@
   background-color: #F7F5FF;
   outline: none;
   cursor: pointer;
+  font-family: Nunito Sans;
+  font-size: 16px;
+}
+
+.meetingType-participants label > div{
+  color: black;
+  font-family: Nunito Sans;
+  font-size: 16px;
 }
 
 .event-modal textarea {
-  height: 90px;
+  height: 84px;
 }
 
 .event-modal div:last-of-type > button {
@@ -183,7 +191,6 @@ cursor: pointer;
 }
 
 .modal-overlay-meetingType .modal-body div, .modal-overlay-participants .modal-body div {
-  cursor: pointer;
   padding: 10px;
   cursor: pointer;
   background-color: white;

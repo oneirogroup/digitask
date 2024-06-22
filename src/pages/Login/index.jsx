@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate } from 'react-router-dom';
 
@@ -34,11 +34,38 @@ const Login = (props) => {
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
     const [userData, setUserData] = useState({});
+    const [refreshingToken, setRefreshingToken] = useState(false);
 
     const { isLoggedIn } = useSelector(state => state.auth);
     const { message } = useSelector(state => state.message);
 
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        const refreshTokenIfNeeded = async () => {
+            const access_token = localStorage.getItem('access_token');
+            const refresh_token = localStorage.getItem('refresh_token');
+            if (access_token && refresh_token) {
+                try {
+                    const response = await axios.post(
+                        'http://135.181.42.192/accounts/refresh_token/',
+                        { refresh: refresh_token },
+                        { headers: { 'Content-Type': 'application/json' } }
+                    );
+                    const new_access_token = response.data.access;
+                    localStorage.setItem('access_token', new_access_token);
+                    axios.defaults.headers.common['Authorization'] = `Bearer ${new_access_token}`;
+                } catch (error) {
+                    console.error('Token refresh failed:', error);
+                    dispatch(logout());
+                }
+            }
+        };
+
+        const interval = setInterval(refreshTokenIfNeeded, 60 * 1000);
+
+        return () => clearInterval(interval);
+    }, [dispatch]);
 
     const onChangeEmail = (e) => {
         const email = e.target.value;
@@ -91,7 +118,6 @@ const Login = (props) => {
             setLoading(false);
         }
     };
-
 
     const handleRegisterData = (data) => {
         setUserData(data);

@@ -7,6 +7,8 @@ import { TfiWorld } from "react-icons/tfi";
 import { RiVoiceprintFill } from "react-icons/ri";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import AddTaskModal from '../../components/AddTaskModal';
+import AddUserModal from '../../components/AddUserModal';
+
 import { RiDeleteBin6Line } from "react-icons/ri";
 import DetailsModal from '../../components/TaskType';
 import { MdOutlineEdit } from "react-icons/md";
@@ -22,6 +24,8 @@ function Index() {
     const [isStatusModalOpen, setIsStatusModalOpen] = useState(false);
     const [selectedStatusFilter, setSelectedStatusFilter] = useState("Hamısı");
     const [isAddTaskModalOpen, setIsAddTaskModalOpen] = useState(false);
+    const [isAddUserModal, setIsAddUserModal] = useState(false);
+
     const [isSmallModalOpen, setIsSmallModalOpen] = useState(false);
     const [isTaskDetailsModalOpen, setIsTaskDetailsModalOpen] = useState(false);
     const [selectedMonth, setSelectedMonth] = useState(new Date());
@@ -142,6 +146,14 @@ function Index() {
         setIsAddTaskModalOpen(false);
     };
 
+    const openAddUserModal = () => {
+        setIsAddUserModal(true);
+    };
+
+    const closeAddUserModal = () => {
+        setIsAddUserModal(false);
+    };
+
     const openSmallModal = (event, index) => {
         const buttonRect = event.target.getBoundingClientRect();
         setSelectedTaskIndex(index);
@@ -258,6 +270,9 @@ function Index() {
                     </button>
                     {!userType || userType !== 'technician' && (
                         <button onClick={openAddTaskModal}><IoAdd />Əlavə et</button>
+                    )}
+                    {userType === 'technician' && (
+                        <button onClick={openAddUserModal}><IoAdd />Əlavə et</button>
                     )}
                 </div>
             </div>
@@ -382,6 +397,7 @@ function Index() {
                 </div>
             </div>
             {isAddTaskModalOpen && <AddTaskModal onClose={closeAddTaskModal} />}
+            {isAddUserModal && <AddUserModal onClose={closeAddUserModal} />}
             {isTaskDetailsModalOpen && <DetailsModal onClose={closeTaskDetailsModal} taskId={selectedTaskId} />}
         </div>
     );
