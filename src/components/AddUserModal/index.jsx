@@ -96,10 +96,10 @@ const AddUserModal = ({ onClose }) => {
           <div>
             <div className="form-group">
               <label>Email</label>
-              <input type="email" placeholder='Emaili daxil edin' name="email" value={formData.email} onChange={handleChange} required />
+              <input type="email" placeholder='E-poçt ünvanınızı daxil edin' name="email" value={formData.email} onChange={handleChange} required />
             </div>
             <div className="form-group">
-              <label>Username</label>
+              <label>Istifadəçi adı</label>
               <input type="text" placeholder='Istifadəçi adını daxil edin' name="username" value={formData.username} onChange={handleChange} required />
             </div>
             <div className="form-group">
