@@ -113,6 +113,11 @@ cursor: pointer;
     border-radius: 8px;
     background-color: white;
     border: 0.5px solid #ABABAF;
+    cursor: pointer;
+}
+
+.region-small-modal div:hover{
+background-color: #f0f0f0;
 }
 
 .warehouse-search-filter > div:last-of-type button span{

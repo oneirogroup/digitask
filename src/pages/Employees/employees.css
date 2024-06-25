@@ -188,6 +188,7 @@ color: #008B1B;
   top: 184px;
   width: 137px;
   border-radius: 10px;
+  gap: 0 !important;
 }
 
 .employee-modal-group button{

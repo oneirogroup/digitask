@@ -38,13 +38,13 @@ const translateUserType = (userType) => {
 const EmployeeList = () => {
   const [employees, setEmployees] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(3);
+  const [itemsPerPage, setItemsPerPage] = useState(7);
   const [searchTerm, setSearchTerm] = useState('');
   const [userTypeFilter, setUserTypeFilter] = useState(null);
   const [groupFilter, setGroupFilter] = useState(null);
   const [showUserTypeOptions, setShowUserTypeOptions] = useState(false);
   const [showGroupOptions, setShowGroupOptions] = useState(false);
-  const [employeeModals, setEmployeeModals] = useState({});  
+  const [employeeModals, setEmployeeModals] = useState({});
   const modalRef = useRef(null);
 
   useEffect(() => {
@@ -248,7 +248,7 @@ const EmployeeList = () => {
                 <td>{employee.first_name} {employee.last_name}</td>
                 <td>{employee.group ? employee.group.group : 'Yoxdur'}</td>
                 <td>{employee.group ? employee.group.region : 'Yoxdur'}</td>
-                <td>{employee.phone}</td>
+                <td>{employee.phone}  {!employee.phone && <span>-</span>}</td>
                 <td>{translateUserType(employee.user_type)}</td>
                 <td>
                   <button onClick={() => openSmallModal(employee.id)}><BsThreeDotsVertical /></button>

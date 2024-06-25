@@ -105,12 +105,7 @@ function Warehouse() {
                 <div className='warehouseTable-title'>
                     <p>Anbar</p>
                     <div>
-                        <button
-                            className={`exportButton ${exportSelected ? 'selectedButton' : ''}`}
-                            onClick={handleExportClick}
-                        >
-                            <BiExport /> İxrac
-                        </button>
+
                         <button
                             className={`importButton ${importSelected ? 'selectedButton' : ''}`}
                             onClick={handleImportClick}
