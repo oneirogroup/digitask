@@ -55,6 +55,9 @@
     font-weight: 500;
   }
 
+   .performance-table-container tbody tr {
+    position: relative;
+   }
 
   .performance-table-container tbody tr td{
     font-family: Nunito Sans;

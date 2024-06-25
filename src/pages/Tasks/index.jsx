@@ -316,6 +316,7 @@ function Index() {
                                 <th>ID</th>
                                 <th>Ad</th>
                                 <th>Kategoriya</th>
+                                <th>Tarix</th>
                                 <th>Saat</th>
                                 <th>Növ</th>
                                 <th>Adres</th>
@@ -332,6 +333,7 @@ function Index() {
                                     <td className={item.task_type === 'problem' ? 'problem' : 'connection'}>
                                         {item.task_type === 'problem' ? 'Problem' : 'Qoşulma'}
                                     </td>
+                                    <td>{item.date}</td>
                                     <td>{item.time}</td>
                                     <td className="type-icon">
                                         {item.is_tv && <PiTelevisionSimple />}

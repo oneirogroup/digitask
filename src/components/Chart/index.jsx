@@ -3,6 +3,7 @@ import ReactApexChart from 'react-apexcharts';
 import axios from 'axios';
 import "./chart.css";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
+import { FaCircle } from "react-icons/fa";
 
 const refreshAccessToken = async () => {
     const refresh_token = localStorage.getItem('refresh_token');
@@ -28,10 +29,10 @@ class ApexChart extends React.Component {
                 name: 'Qoşulmalar',
                 data: Array(12).fill(0)
             }, {
-                name: 'Boş',
+                name: 'Problemlər',
                 data: Array(12).fill(0)
             }, {
-                name: 'Problemlər',
+                name: 'Boş',
                 data: Array(12).fill(0)
             }],
             options: {
@@ -67,7 +68,7 @@ class ApexChart extends React.Component {
                 },
 
                 fill: {
-                    colors: ["#FF5449", "transparent", "#36C43D"],
+                    colors: ["#FF5449", "#36C43D", "transparent"],
                 },
                 tooltip: {
                     y: {
@@ -83,12 +84,10 @@ class ApexChart extends React.Component {
                     },
                 },
                 legend: {
-                    offsetY: -10,
-                    position: 'top',
-                    horizontalAlign: 'center',
-                    floating: true
+                    show: false
                 }
-            }
+            },
+            legendLabels: ['Qoşulmalar', 'Problemlər'],
         };
     }
 
@@ -130,7 +129,6 @@ class ApexChart extends React.Component {
                 }
             });
 
-            // Filter out months with zero counts
             const filteredConnectionCounts = connectionCounts.map(count => count > 0 ? count : null);
             const filteredProblemCounts = problemCounts.map(count => count > 0 ? count : null);
 
@@ -139,11 +137,11 @@ class ApexChart extends React.Component {
                     name: 'Qoşulmalar',
                     data: filteredConnectionCounts
                 }, {
-                    name: 'Boş',
-                    data: Array(12).fill(0)
-                }, {
                     name: 'Problemlər',
                     data: filteredProblemCounts
+                }, {
+                    name: 'Boş',
+                    data: Array(12).fill(0)
                 }]
             });
 
@@ -178,7 +176,7 @@ class ApexChart extends React.Component {
     }
 
     render() {
-        const { year } = this.state;
+        const { year, options, legendLabels } = this.state;
         return (
             <div id="chart">
                 <div className="year-filter">
@@ -187,6 +185,14 @@ class ApexChart extends React.Component {
                     <FaAngleRight onClick={this.handleIncrementYear} />
                 </div>
                 <ReactApexChart options={this.state.options} series={this.state.series} type="bar" height={250} />
+                <div className='home-chart-services-chart'>
+                    {legendLabels.map((label, index) => (
+                        <div key={index}>
+                            <FaCircle style={{ color: options.fill.colors[index] }} />
+                            <p>{label}</p>
+                        </div>
+                    ))}
+                </div>
             </div>
         );
     }

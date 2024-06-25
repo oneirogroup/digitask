@@ -100,15 +100,14 @@
 
 .home-employee-task div p {
     font-family: Montserrat;
-    font-size: 16px;
-    
+    font-size: 20px;
     font-weight: 600;
     padding: 15px 20px;
 }
 
 .home-tasks>div p{
     font-family: Montserrat;
-    font-size: 16px;
+    font-size: 20px;
     
     font-weight: 600;
     padding: 10px 20px;
@@ -120,6 +119,7 @@
     padding: 13px 0;
     font-family: Montserrat;
     font-size: 16px;
+    border-bottom: 1px solid #C7C6CA;
 }
 
 .home-employee-task > ul{
@@ -140,7 +140,9 @@
     font-size: 16px;
     padding: 8px 0 8px 15px;
     align-items: center;
+    border-bottom: 1px solid #C7C6CA;
 }
+
 
 .home-tasks div ul li:first-of-type{
     width: 150px;
@@ -212,7 +214,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-right: 20px;
+    padding: 5px 20px 5px 0;
 }
 
 .home-tasks> div:first-of-type a{

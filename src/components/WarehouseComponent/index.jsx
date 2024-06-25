@@ -17,11 +17,14 @@ function Warehouse() {
     const [showImportModal, setShowImportModal] = useState(false);
     const [showExportModal, setShowExportModal] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
+    const [regions, setRegions] = useState([]);
+    const [selectedRegion, setSelectedRegion] = useState('Hamısı');
+    const [isRegionModalOpen, setIsRegionModalOpen] = useState(false);
 
     useEffect(() => {
         fetchWarehouses();
         fetchData();
-    }, [searchTerm, warehouseSelected]);
+    }, [searchTerm, warehouseSelected, selectedRegion]);
 
     const fetchWarehouses = () => {
         fetch('http://135.181.42.192/services/warehouses/')
@@ -29,6 +32,8 @@ function Warehouse() {
             .then(data => {
                 const warehouseNames = data.map(warehouse => warehouse.name);
                 setWarehouses(warehouseNames);
+                const uniqueRegions = Array.from(new Set(data.map(warehouse => warehouse.region)));
+                setRegions(uniqueRegions);
             })
             .catch(error => console.error('Error fetching warehouses:', error));
     };
@@ -48,6 +53,9 @@ function Warehouse() {
                 if (warehouseSelected) {
                     filteredData = data.filter(item => item.warehouse.name === warehouseSelected);
                 }
+                if (selectedRegion && selectedRegion !== 'Hamısı') {
+                    filteredData = filteredData.filter(item => item.warehouse.region === selectedRegion);
+                }
 
                 const formattedData = filteredData.map(item => ({
                     id: item.id,
@@ -63,7 +71,6 @@ function Warehouse() {
             })
             .catch(error => console.error('Error fetching data:', error));
     };
-
 
     const handleExportClick = () => {
         setExportSelected(true);
@@ -85,6 +92,11 @@ function Warehouse() {
         } else {
             setWarehouseSelected(name);
         }
+    };
+
+    const handleRegionClick = (region) => {
+        setSelectedRegion(region);
+        setIsRegionModalOpen(false);
     };
 
     return (
@@ -129,12 +141,28 @@ function Warehouse() {
                         />
                         <IoFilterOutline />
                     </div>
-                    <div>
-                        <button>
+                    <div className="region-filter">
+                        <button onClick={() => setIsRegionModalOpen(!isRegionModalOpen)}>
                             <span>Region:</span>
-                            <span>Hamısı</span>
+                            <span>{selectedRegion}</span>
                             <FaChevronDown />
                         </button>
+                        {isRegionModalOpen && (
+                            <div className="region-small-modal">
+                                {regions.map((region, index) => (
+                                    <div
+                                        key={index}
+                                        className="region-item"
+                                        onClick={() => handleRegionClick(region)}
+                                    >
+                                        {region}
+                                    </div>
+                                ))}
+                                <div className="region-item" onClick={() => handleRegionClick('Hamısı')}>
+                                    Hamısı
+                                </div>
+                            </div>
+                        )}
                     </div>
                 </div>
                 <div className='warehouseTable'>

@@ -6,7 +6,7 @@ import { FaChevronDown } from "react-icons/fa";
 import './performance.css';
 
 function Index() {
-  const [isSmallModalOpen, setIsSmallModalOpen] = useState(false);
+  const [isSmallModalOpen, setIsSmallModalOpen] = useState([]);
   const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
@@ -58,7 +58,6 @@ function Index() {
       .catch(error => console.error('Error fetching data:', error));
   };
 
-
   const filterData = () => {
     let filtered = [...data];
 
@@ -92,15 +91,17 @@ function Index() {
     setFilteredData(filtered);
   };
 
-
-  const openSmallModal = (event) => {
+  const openSmallModal = (index, event) => {
     const buttonRect = event.target.getBoundingClientRect();
-    setModalPosition({ top: buttonRect.top + window.scrollY, left: buttonRect.left + buttonRect.width });
-    setIsSmallModalOpen(true);
+    const newIsSmallModalOpen = [...isSmallModalOpen];
+    newIsSmallModalOpen[index] = true;
+    setIsSmallModalOpen(newIsSmallModalOpen);
   };
 
-  const closeSmallModal = () => {
-    setIsSmallModalOpen(false);
+  const closeSmallModal = (index) => {
+    const newIsSmallModalOpen = [...isSmallModalOpen];
+    newIsSmallModalOpen[index] = false;
+    setIsSmallModalOpen(newIsSmallModalOpen);
   };
 
   const filterByGroup = (group) => {
@@ -218,12 +219,11 @@ function Index() {
                     <td>{item.task_count.connection}</td>
                     <td>{item.task_count.problem}</td>
                     <td>
-                      <button onClick={(e) => openSmallModal(e)}><BsThreeDotsVertical /></button>
-                      {isSmallModalOpen && (
+                      <button onClick={(e) => openSmallModal(index, e)}><BsThreeDotsVertical /></button>
+                      {isSmallModalOpen[index] && (
                         <div
                           ref={modalRef}
-                          className={`small-modal ${isSmallModalOpen ? 'active' : ''}`}
-                          style={{ top: modalPosition.top, left: modalPosition.left }}
+                          className={`small-modal ${isSmallModalOpen[index] ? 'active' : ''}`}
                         >
                           <div className="small-modal-content">
                             <button>

@@ -15,8 +15,10 @@
     justify-content: space-around;
 }
 
-.home-chart-services div{
+.home-chart-services div {
     display: flex;
+    align-items: center;
+    gap: 9px;
 }
 
 #circlechart > p{
@@ -41,6 +43,16 @@
 #circlechart> div:first-of-type{
     height: 200px !important;
     min-height: 200px !important;
+}
+
+.home-chart-services div p{
+    font-family: Nunito Sans;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.home-chart-services div svg{
+    font-size: 10px;
 }
 
 .home-chart-services div:first-of-type svg{

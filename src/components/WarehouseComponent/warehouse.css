@@ -69,43 +69,43 @@ cursor: pointer;
     margin: 20px 0;
 }
 
-.warehouse-search-filter div:first-of-type{
+.warehouse-search-filter > div:first-of-type{
     background-color: white;
     display: flex;
     position: relative;
 
 }
 
-.warehouse-search-filter div:first-of-type input{
+.warehouse-search-filter > div:first-of-type input{
     padding: 13px 80px 13px 40px;
     border: 0.5px solid #ABABAF;
     border-radius: 8px;
     outline: none;
 }
 
-.warehouse-search-filter div:first-of-type svg{
+.warehouse-search-filter > div:first-of-type svg{
     position: absolute;
     top: 9px;
     font-size: 24px;
 }
 
-.warehouse-search-filter div:first-of-type svg:first-of-type{
+.warehouse-search-filter > div:first-of-type svg:first-of-type{
     left: 7px;
     color: #005ABF;
 }
 
-.warehouse-search-filter div:first-of-type svg:last-of-type{
+.warehouse-search-filter > div:first-of-type svg:last-of-type{
     right: 20px;
     color: #909094;
 }
 
-.warehouse-search-filter div:first-of-type input::placeholder{
+.warehouse-search-filter > div:first-of-type input::placeholder{
     font-family: Nunito Sans;
     font-size: 16px;
     font-weight: 500;
 }
 
-.warehouse-search-filter div:last-of-type button{
+.warehouse-search-filter > div:last-of-type button{
     padding: 10px;
     display: flex;
     gap: 4px;
@@ -115,13 +115,13 @@ cursor: pointer;
     border: 0.5px solid #ABABAF;
 }
 
-.warehouse-search-filter div:last-of-type button span{
+.warehouse-search-filter > div:last-of-type button span{
     font-family: Nunito Sans;
     font-size: 16px;
     font-weight: 500;
 }
 
-.warehouse-search-filter div:last-of-type button span:last-of-type{
+.warehouse-search-filter > div:last-of-type button span:last-of-type{
     font-weight: bold !important;
 }
 
@@ -143,8 +143,8 @@ cursor: pointer;
 .warehouseTable th{
     white-space: nowrap;
     font-size: 17px;
-font-weight: bold;
-text-align: center;
+    font-weight: bold;
+    text-align: center;
 }
 
 .warehouseTable {
@@ -188,4 +188,24 @@ text-align: center;
 
 .warehouseTable tbody td:nth-of-type(8){
     white-space: nowrap;
+}
+
+.region-filter{
+  position: relative;
+}
+
+.region-small-modal {
+  position: absolute;
+  background-color: white;
+  top: 56px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px;
+  background-color: white;
+  border: 0.5px solid #ABABAF;
+}
+
+.region-small-modal div{
+  padding: 10px;
+  cursor: pointer;
 }

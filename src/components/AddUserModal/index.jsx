@@ -7,7 +7,7 @@ const AddUserModal = ({ onClose }) => {
     email: '',
     first_name: '',
     last_name: '',
-    group: '', // Tek bir ID değeri saklanacak
+    group: '',
     user_type: '',
     username: '',
     password: '',
@@ -54,7 +54,7 @@ const AddUserModal = ({ onClose }) => {
   const handleSelectGroup = (groupId, groupName) => {
     setFormData({
       ...formData,
-      group: groupId // Tek bir ID değeri saklanıyor
+      group: groupId 
     });
     setSelectedGroupName(groupName);
     setShowGroupDropdown(false);

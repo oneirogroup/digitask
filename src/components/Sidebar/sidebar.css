@@ -6,6 +6,7 @@
     left: 0;
     z-index: 1000; 
     padding: 20px;
+    border-right: 1px solid #E3E2E6;
 }
   .aside-link {
     display: flex;
@@ -13,6 +14,7 @@
     padding: 10px;
     color: #fff;
     text-decoration: none;
+    border-radius: 6px;
 }
 
 .sidebar >p{
@@ -28,7 +30,7 @@
 }
 
 .aside-link .icon svg, .sidebar ul li svg{
-    font-size: 20px;
+    font-size: 22px;
 }
 
 .aside-link{
@@ -64,6 +66,7 @@
 .sidebar ul li button, .sidebar ul li{
     display: flex;
     gap: 10px;
+    border-radius: 6px;
 }
 
   
