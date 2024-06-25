@@ -238,7 +238,7 @@ function DetailsModal({ onClose, taskId }) {
                             </div>
                         </div>
                     ) : (
-                        <h5>{taskDetails?.task_type?.charAt(0).toUpperCase() + taskDetails?.task_type?.slice(1)} məlumatları</h5>
+                        <h5>{taskDetails?.task_type ? (taskDetails.task_type === "connection" ? "Qoşulma" : "Problem") + " məlumatları" : ""}</h5>
                     )}
                     <div>
                         <RiEdit2Line onClick={handleEditClick} />
