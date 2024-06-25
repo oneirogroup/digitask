@@ -26,7 +26,7 @@ const STATUS_OPTIONS = [
 ];
 
 
-function DetailsModal({ onClose, taskId }) {
+function DetailsModal({ onClose, taskId, userType }) {
     const [taskDetails, setTaskDetails] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
     const [groups, setGroups] = useState([]);
@@ -241,7 +241,10 @@ function DetailsModal({ onClose, taskId }) {
                         <h5>{taskDetails?.task_type ? (taskDetails.task_type === "connection" ? "Qoşulma" : "Problem") + " məlumatları" : ""}</h5>
                     )}
                     <div>
-                        <RiEdit2Line onClick={handleEditClick} />
+                        {userType !== 'technician' && (
+                            <RiEdit2Line onClick={handleEditClick} />
+
+                        )}
                         <span className="close" onClick={onClose}>&times;</span>
                     </div>
                 </div>

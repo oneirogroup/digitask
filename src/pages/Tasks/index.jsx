@@ -400,7 +400,7 @@ function Index() {
             </div>
             {isAddTaskModalOpen && <AddTaskModal onClose={closeAddTaskModal} />}
             {isAddUserModal && <AddUserModal onClose={closeAddUserModal} />}
-            {isTaskDetailsModalOpen && <DetailsModal onClose={closeTaskDetailsModal} taskId={selectedTaskId} />}
+            {isTaskDetailsModalOpen && <DetailsModal onClose={closeTaskDetailsModal} taskId={selectedTaskId} userType={userType} />}
         </div>
     );
 }

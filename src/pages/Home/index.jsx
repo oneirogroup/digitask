@@ -158,7 +158,8 @@ const Home = () => {
                             tasks.slice(0, 5).map((item, index) => (
                                 <ul key={index}>
                                     <li>{item.first_name && item.last_name ? `${item.first_name} ${item.last_name}` : '-'}</li>
-                                    <li>{item.time}</li>
+                                    <li>{item.time} {!item.item && <span>-</span>}</li>
+
                                     <li>
                                         {item.tv && <PiTelevisionSimple />}
                                         {item.internet && <TfiWorld />}

@@ -5,6 +5,22 @@ import { MdOutlineEdit } from "react-icons/md";
 import { FaChevronDown } from "react-icons/fa";
 import './performance.css';
 
+const translateUserType = (userType) => {
+  switch (userType) {
+    case 'technician':
+      return 'Texnik';
+    case 'plumber':
+      return 'Plumber';
+    case 'office_manager':
+      return 'Ofis meneceri';
+    case 'tech_manager':
+      return 'Texnik menecer';
+    default:
+      return userType;
+  }
+};
+
+
 function Index() {
   const [isSmallModalOpen, setIsSmallModalOpen] = useState([]);
   const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
@@ -214,7 +230,7 @@ function Index() {
                     <td>{`${(index + 1).toString().padStart(2, '0')}`}</td>
                     <td>{item.first_name && item.last_name ? `${item.first_name} ${item.last_name.charAt(0)}.` : '-'}</td>
                     <td>{item.group.group}</td>
-                    <td>{item.user_type}</td>
+                    <td>{translateUserType(item.user_type)}</td>
                     <td>{item.task_count.total}</td>
                     <td>{item.task_count.connection}</td>
                     <td>{item.task_count.problem}</td>
