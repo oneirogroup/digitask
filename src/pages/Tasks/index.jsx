@@ -339,7 +339,7 @@ function Index() {
                                         {item.is_tv && <PiTelevisionSimple />}
                                         {item.is_internet && <TfiWorld />}
                                         {item.is_voice && <RiVoiceprintFill />}
-                                        {!item.is_tv && !item.is_internet && !item.is_voice && <span>Servis Yoxdur</span>}
+                                        {!item.is_tv && !item.is_internet && !item.is_voice && <span>-</span>}
                                     </td>
 
                                     <td>{item.location}</td>

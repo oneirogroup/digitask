@@ -54,7 +54,7 @@
     align-self: center;
 }
 
-.home-meet-section .meet-add{
+.home-meet-section .meet-add {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -65,6 +65,12 @@
     border-radius: 16px;
     border-width: 2px;
     height: 150px;
+    transition-duration: 0.5s;
+    cursor: pointer;
+}
+
+.home-meet-section .meet-add:hover{
+    background-color: #E4EFFB;
 }
 
 .home-meet-section .meet-add button{

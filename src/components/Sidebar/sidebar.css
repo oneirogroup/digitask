@@ -17,6 +17,12 @@
     border-radius: 6px;
 }
 
+.aside-link:hover, .sidebar ul li:hover{
+    background-color: #5B96DB;
+    filter:none;
+    transition-duration: 0.5s;
+}
+
 .sidebar >p{
     font-family: Nunito Sans;
     font-size: 16px;
@@ -53,6 +59,8 @@
     background-color: #2B75CC;
 }
 
+
+
 .sidebar ul li button, .sidebar ul li:last-of-type svg {
     background: none;
     border: none;
@@ -62,6 +70,16 @@
     font-size: 16px;
 
 }
+
+.sidebar ul li:last-of-type:hover button, .sidebar ul li:last-of-type:hover{
+    background-color: #FF5449;
+    color: #fff;
+    }
+
+    .sidebar ul li:last-of-type:hover span, .sidebar ul li:last-of-type:hover svg{
+        color: #fff;
+    }
+
 
 .sidebar ul li button, .sidebar ul li{
     display: flex;
@@ -109,9 +127,10 @@
     background-color: #2B75CC;
 }
 
-.aside-link.active .link_text, .aside-link.active .icon, .sidebar .active a, .sidebar .active svg{
+.aside-link.active .link_text, .aside-link.active .icon, .sidebar .active a, .sidebar .active svg, .aside-link:hover  .link_text, .aside-link:hover .icon, .aside-link:hover a, .aside-link:hover svg, .sidebar ul li:hover p, .sidebar ul li:hover a, .sidebar ul li:hover p, .sidebar ul li:hover svg{
     color: #fff;
-    filter: brightness(3.5)
+    filter: brightness(3.5);
+    transition-duration: 0.5s;
 }
 
 .apexcharts-menu-icon{
