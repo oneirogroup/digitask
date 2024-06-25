@@ -52,3 +52,23 @@ html, body {
   height: calc(100vh - 60px); 
   overflow-y: auto;
 }
+
+.layout-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.9); 
+  z-index: 1000; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.layout-overlay-message {
+  font-size: 2rem;
+  color: white;
+  text-align: center;
+  padding: 20px;
+}
