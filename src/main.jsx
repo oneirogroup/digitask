@@ -5,7 +5,7 @@ import { store, persistor } from './app/store'
 import { Provider } from 'react-redux'
 import { PersistGate } from "redux-persist/integration/react";
 import axios from 'axios';
-
+import { UserProvider } from './contexts/UserContext';
 
 const token = localStorage.getItem('access_token');
 if (token) {
@@ -16,7 +16,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <App />
+        <UserProvider>
+          <App />
+        </UserProvider>
       </PersistGate>
     </Provider>
   </React.StrictMode>,

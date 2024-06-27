@@ -1,3 +1,5 @@
+import React, { useState, useEffect } from 'react';
+import { useUser } from '../../contexts/UserContext';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import logo from "../../assets/images/logo.svg";
 import { GoHomeFill } from "react-icons/go";
@@ -12,12 +14,11 @@ import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../actions/auth";
 import { useNavigate } from 'react-router-dom';
 import "./sidebar.css";
-import { useEffect, useState } from 'react';
 import LogoutModal from '../LogoutModal';
 import Nav from 'react-bootstrap/Nav';
 
-
 const Sidebar = ({ children }) => {
+    const { userType } = useUser();
     const menuItem = [
         {
             path: "/",
@@ -29,7 +30,7 @@ const Sidebar = ({ children }) => {
             name: "Tapşırıqlar",
             icon: <img src={taskIcon} alt="Task Icon" style={{ width: '24px', height: '24px' }} />
         },
-        {
+        userType !== 'technician' && {
             path: "/warehouse/",
             name: "Anbar",
             icon: <FaWarehouse />
@@ -39,12 +40,12 @@ const Sidebar = ({ children }) => {
             name: "Performans",
             icon: <img src={performance} alt="Task Icon" style={{ width: '24px', height: '24px' }} />
         },
-        {
+        userType !== 'technician' && {
             path: "/employees/",
             name: "İşçilər",
             icon: <img src={Engineering} alt="Task Icon" style={{ width: '24px', height: '24px' }} />
         },
-    ];
+    ].filter(Boolean);
 
     const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
     const dispatch = useDispatch();
@@ -94,7 +95,7 @@ const Sidebar = ({ children }) => {
                             to={item.path}
                             key={index}
                             className="aside-link"
-                            activeclassname="active"
+                            activeClassName="active"
                         >
                             <div className="icon">{item.icon}</div>
                             <div className="link_text">{item.name}</div>
@@ -103,7 +104,6 @@ const Sidebar = ({ children }) => {
                 }
             </div>
             <p>Digər</p>
-
             <div>
                 <ul>
                     <li className={location.pathname === "/settings/" ? "active" : ""}>
@@ -114,30 +114,27 @@ const Sidebar = ({ children }) => {
                         <BiSupport />
                         <Link to="/contact/">Əlaqə</Link>
                     </li>
-
-                    {isAuth ? <li onClick={handleLogout}>
-                        <MdLogout />
-                        <span>Çıxış</span>
-                    </li> :
+                    {isAuth ? (
+                        <li onClick={handleLogout}>
+                            <MdLogout />
+                            <span>Çıxış</span>
+                        </li>
+                    ) : (
                         <li onClick={handleLogin}>
                             <MdLogout />
                             <span>Giriş</span>
                         </li>
-                    }
+                    )}
                 </ul>
             </div>
-
             <LogoutModal
                 showModal={showModal}
                 handleClose={handleModalClose}
                 handleLogout={confirmLogout}
             />
             <main>{children}</main>
-        </div >
+        </div>
     );
 };
 
 export default Sidebar;
-
-
-

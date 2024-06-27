@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { IoMdRefresh } from "react-icons/io";
 import { IoAdd } from "react-icons/io5";
 import { FaChevronDown } from "react-icons/fa6";
@@ -401,6 +401,7 @@ function Index() {
             {isAddTaskModalOpen && <AddTaskModal onClose={closeAddTaskModal} />}
             {isAddUserModal && <AddUserModal onClose={closeAddUserModal} />}
             {isTaskDetailsModalOpen && <DetailsModal onClose={closeTaskDetailsModal} taskId={selectedTaskId} userType={userType} />}
+
         </div>
     );
 }
