@@ -1,91 +1,76 @@
-import { useState, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Navigate, useNavigate } from 'react-router-dom';
-
+import React, { useState, useRef } from "react";
+import { useNavigate, useLocation } from 'react-router-dom';
 import Form from "react-validation/build/form";
-import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 import axios from 'axios';
 
-import "./login.css";
+import "./onetimepassword.css";
 import ovaltop from "../../assets/images/Oval top.svg";
 import ovalbottom from "../../assets/images/Oval bottom.svg";
-import { CiMail } from "react-icons/ci";
-import { IoKeyOutline } from "react-icons/io5";
-import { MdOutlineCheckBoxOutlineBlank } from "react-icons/md";
 
-const required = (value) => {
-    if (!value) {
-        return (
-            <div className="alert alert-danger" role="alert">
-                This field is required!
-            </div>
-        );
-    }
-};
-
-const Login = (props) => {
-    let navigate = useNavigate();
-
-    const form = useRef();
-    const checkBtn = useRef();
-
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+const OneTimePassword = () => {
+    const [otp, setOtp] = useState(["", "", "", ""]);
+    const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(false);
-    const [userData, setUserData] = useState({});
+    const [token, setToken] = useState("");
+    const [resendLoading, setResendLoading] = useState(false);
+    const [email, setEmail] = useState('');
+    const form = useRef(null);
+    const checkBtn = useRef(null);
+    const navigate = useNavigate();
+    const location = useLocation();
 
-    const { isLoggedIn } = useSelector(state => state.auth);
-    const { message } = useSelector(state => state.message);
+    React.useEffect(() => {
+        if (location.state?.email) {
+            setEmail(location.state.email);
+        }
+    }, [location.state?.email]);
 
-    const dispatch = useDispatch();
-
-    const onChangeEmail = (e) => {
-        const email = e.target.value;
-        setEmail(email);
+    const handleChangeOtp = (e, index) => {
+        const value = e.target.value.replace(/\D/, '');
+        if (value.length <= 1) {
+            const newOtp = [...otp];
+            newOtp[index] = value;
+            setOtp(newOtp);
+        }
     };
 
-    const onChangePassword = (e) => {
-        const password = e.target.value;
-        setPassword(password);
+    const handleKeyUp = (e, index) => {
+        if (e.key === 'Backspace' && otp[index] === '' && index > 0) {
+            const prevInput = document.getElementById(`otp-${index - 1}`);
+            if (prevInput) {
+                prevInput.focus();
+            }
+        } else if (e.key !== 'Backspace' && index < otp.length - 1) {
+            const nextInput = document.getElementById(`otp-${index + 1}`);
+            if (nextInput) {
+                nextInput.focus();
+            }
+        }
     };
 
-    const handleLogin = async (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-
         setLoading(true);
+        if (form.current) {
+            form.current.validateAll();
+        }
 
-        form.current.validateAll();
-
-        if (checkBtn.current.context._errors.length === 0) {
+        if (checkBtn.current && checkBtn.current.context && checkBtn.current.context._errors.length === 0) {
             try {
                 const response = await axios.post(
-                    'http://135.181.42.192/accounts/gettoken/',
-                    { email: email, password: password },
-                    { headers: { 'Content-Type': 'application/json' } },
-                    { withCredentials: true }
+                    'http://135.181.42.192/accounts/verify-otp/',
+                    { otp: otp.join('') },
+                    { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
                 );
 
-                const { access, refresh } = response.data;
-                localStorage.clear();
-                localStorage.setItem('access_token', access);
-                localStorage.setItem('refresh_token', refresh);
-                axios.defaults.headers.common['Authorization'] = `Bearer ${access}`;
-
-                navigate("/");
-                window.location.reload();
+                if (response.status === 200) {
+                    const { token } = response.data;
+                    navigate("/set-new-password", { state: { token } });
+                }
             } catch (error) {
                 setLoading(false);
-                if (error.response) {
-                    console.error("Login error: ", error.response.data);
-                    alert(`Login failed: ${error.response.data.detail || 'Unknown error'}`);
-                } else if (error.request) {
-                    console.error("Login error: No response received", error.request);
-                    alert("Login failed: No response from server.");
-                } else {
-                    console.error("Login error: ", error.message);
-                    alert(`Login failed: ${error.message}`);
-                }
+                setMessage(`Verification failed: ${error.response?.data.message || 'Unknown error'}`);
             }
         } else {
             setLoading(false);
@@ -93,55 +78,56 @@ const Login = (props) => {
     };
 
 
-    const handleRegisterData = (data) => {
-        setUserData(data);
+    const handleResendOtp = async () => {
+        setResendLoading(true);
+        try {
+            await axios.post(
+                'http://135.181.42.192/accounts/resend-otp/',
+                { email },
+                { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
+            );
+            setMessage('Yeni OTP kodu e-poçtunuza göndərildi.');
+        } catch (error) {
+            setMessage('Xəta baş verdi. Zəhmət olmasa bir daha cəhd edin.');
+        }
+        setResendLoading(false);
     };
 
-    if (isLoggedIn) {
-        return <Navigate to="/" />;
-    }
 
     return (
         <div className='bg-color'>
             <img src={ovaltop} alt="" />
             <div className='container'>
-                <div className="login-page">
-                    <div className="login-text">
+                <div className="onetimepassword-page">
+                    <div className="onetimepassword-text">
                         <hr />
-                        <h5>
-                            Daxil ol
-                        </h5>
+                        <h5>Kodu daxil et</h5>
                         <hr />
                     </div>
-                    <Form onSubmit={handleLogin} ref={form}>
-                        <div className="login-mail-password">
+                    <Form onSubmit={handleSubmit} ref={form}>
+                        <div className="onetimepassword-mail-password">
                             <div>
-                                <p>Mail adresiniz</p>
-                                <label htmlFor="">
-                                    <CiMail />
-                                    <input type="text" placeholder="Mail adresiniz" name="email"
-                                        value={email}
-                                        onChange={onChangeEmail}
-                                        validations={[required]} />
-                                </label>
+                                <p><a>{email}</a> adresinə göndərdiyimiz 4 rəqəmli kodu daxil edin</p>
+                                <div>
+                                    {otp.map((digit, index) => (
+                                        <input
+                                            key={index}
+                                            id={`otp-${index}`}
+                                            type="text"
+                                            name={`otp-${index}`}
+                                            value={digit}
+                                            onChange={(e) => handleChangeOtp(e, index)}
+                                            onKeyUp={(e) => handleKeyUp(e, index)}
+                                            maxLength="1"
+                                            placeholder="0"
+                                        />
+                                    ))}
+                                </div>
                             </div>
                             <div>
-                                <p>Şifrəniz</p>
-                                <label htmlFor="">
-                                    <IoKeyOutline />
-                                    <input type="password" id="" placeholder="*****" name="password"
-                                        value={password}
-                                        onChange={onChangePassword}
-                                        validations={[required]} />
-                                </label>
-                            </div>
-                            <div>
-                                <p>
-                                    <MdOutlineCheckBoxOutlineBlank />
-                                    Məni xatırla
-                                </p>
-                                <a href="">
-                                    Şifrəni unutmusunuz?
+                                <p>Kod gəlmədi?</p>
+                                <a onClick={handleResendOtp}>
+                                    {resendLoading ? 'Gönderiliyor...' : 'Təkrar göndər'}
                                 </a>
                             </div>
                             {loading && (
@@ -158,11 +144,17 @@ const Login = (props) => {
                         )}
                         <CheckButton style={{ display: "none" }} ref={checkBtn} />
                     </Form>
+                    {token && (
+                        <div className="response-data">
+                            <h5>Verification Successful!</h5>
+                            <p><strong>Token:</strong> {token}</p>
+                        </div>
+                    )}
                 </div>
             </div>
             <img src={ovalbottom} alt="" />
         </div>
     );
-}
+};
 
-export default Login;
+export default OneTimePassword;

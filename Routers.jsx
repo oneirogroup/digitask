@@ -3,6 +3,7 @@ import Layout from "./src/features/Layout";
 import Login from "./src/pages/Login/index";
 import RePassword from "./src/pages/RePassword/index";
 import OneTimePassword from "./src/pages/OneTimePassword/index";
+import SetNewPassword from "./src/pages/SetNewPassword/index";
 import Home from "./src/pages/Home/index";
 import Tasks from "./src/pages/Tasks/index";
 import Warehouse from "./src/pages/Warehouse/index";
@@ -59,6 +60,10 @@ export const routers = createBrowserRouter([
       {
         element: <Profile />,
         path: "/profile/",
+      },
+      {
+        element: <SetNewPassword />,
+        path: "/set-new-password/",
       },
     ],
   },

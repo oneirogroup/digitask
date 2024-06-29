@@ -52,11 +52,12 @@ function Index() {
   const fetchData = () => {
     let url = `http://135.181.42.192/services/performance/?`;
 
-    if (start_date) {
-      url += `start_date=${encodeURIComponent(start_date)}&`;
-    }
-    if (end_date) {
-      url += `end_date=${encodeURIComponent(end_date)}`;
+    if (start_date && end_date) {
+      url += `start_date=${encodeURIComponent(new Date(start_date).toISOString().split('T')[0])}&end_date=${encodeURIComponent(new Date(end_date).toISOString().split('T')[0])}`;
+    } else if (start_date) {
+      url += `start_date=${encodeURIComponent(new Date(start_date).toISOString().split('T')[0])}`;
+    } else if (end_date) {
+      url += `end_date=${encodeURIComponent(new Date(end_date).toISOString().split('T')[0])}`;
     }
 
     fetch(url)
@@ -73,6 +74,8 @@ function Index() {
       })
       .catch(error => console.error('Error fetching data:', error));
   };
+
+
 
   const filterData = () => {
     let filtered = [...data];
@@ -192,20 +195,16 @@ function Index() {
           </div>
           <div className="date-picker-container">
             <input
-              type="text"
+              type="date"
               className="date-picker"
               value={start_date}
-              onClick={handleStartDateClick}
-              placeholder="YYYY-MM-DD"
-              readOnly
+              onChange={(e) => setStartDate(e.target.value)}
             />
             <input
-              type="text"
+              type="date"
               className="date-picker"
               value={end_date}
-              onClick={handleEndDateClick}
-              placeholder="YYYY-MM-DD"
-              readOnly
+              onChange={(e) => setEndDate(e.target.value)}
             />
           </div>
         </div>

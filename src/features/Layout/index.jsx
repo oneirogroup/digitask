@@ -6,7 +6,7 @@ import "./layout.css";
 
 const Layout = () => {
   const location = useLocation();
-  const hideSidebarRoutes = ["/login", "/login/", "/re-password", "/re-password/"];
+  const hideSidebarRoutes = ["/login", "/login/", "/re-password", "/re-password/", "/re-password-code", "/re-password-code/", "/set-new-password", "/set-new-password/"];
   const shouldHideSidebar = hideSidebarRoutes.includes(location.pathname);
   const shouldHideNavbar = hideSidebarRoutes.includes(location.pathname);
 

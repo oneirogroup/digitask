@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
@@ -166,9 +166,10 @@ const Login = (props) => {
                                     <MdOutlineCheckBoxOutlineBlank />
                                     Məni xatırla
                                 </p>
-                                <a href="">
+                                <Link to="/re-password">
                                     Şifrəni unutmusunuz?
-                                </a>
+
+                                </Link>
                             </div>
                             {loading && (
                                 <span className="spinner-border spinner-border-sm"></span>
