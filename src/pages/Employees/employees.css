@@ -199,6 +199,30 @@ color: #008B1B;
   position: relative;
 }
 
+.employee-table-container .status {
+margin: 0 auto;
+}
+
+.employee-table-container .status p{
+  font-family: Nunito Sans;
+  font-size: 16px;
+  font-weight: 500;
+  color: #23B131;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  text-align: center;
+}
+
+.employee-table-container .status svg{
+  font-size: 12px;
+}
+
+.employee-table-container tbody tr td:nth-of-type(8) a {
+color: #2B75CC;
+font-size: 26px;
+}
 
 .employee-table-container .small-modal-employee {
   position: absolute; 

@@ -5,8 +5,10 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { MdOutlineEdit } from "react-icons/md";
 import { IoFilterOutline } from "react-icons/io5";
 import { CiSearch } from "react-icons/ci";
-import { FaChevronDown, FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import { FaChevronDown, FaArrowLeft, FaArrowRight, FaCircle } from "react-icons/fa";
 import "./employees.css";
+import { PiMapPinAreaFill } from "react-icons/pi";
+
 
 const refreshAccessToken = async () => {
   const refresh_token = localStorage.getItem('refresh_token');
@@ -238,6 +240,8 @@ const EmployeeList = () => {
               <th>Adres</th>
               <th>Nōmrǝ</th>
               <th>Vəzifə</th>
+              <th>Status</th>
+              <th>Məkan</th>
               <th></th>
             </tr>
           </thead>
@@ -250,6 +254,8 @@ const EmployeeList = () => {
                 <td>{employee.group ? employee.group.region : 'Yoxdur'}</td>
                 <td>{employee.phone}  {!employee.phone && <span>-</span>}</td>
                 <td>{translateUserType(employee.user_type)}</td>
+                <td className='status'><p><FaCircle /> Aktiv</p></td>
+                <td><a href=""><PiMapPinAreaFill /></a></td>
                 <td>
                   <button onClick={() => openSmallModal(employee.id)}><BsThreeDotsVertical /></button>
                   {employeeModals[employee.id] && (
