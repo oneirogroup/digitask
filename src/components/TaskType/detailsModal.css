@@ -365,3 +365,27 @@ padding: 0;
   .details-note > div{
     margin: 10px 0;
   }
+
+  .add-survey-button{
+    display: flex;
+    background-color: inherit;
+    justify-content: space-between;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+  }
+
+  .add-survey-button:hover{
+    background-color: #5c5c5e2d;
+  }
+
+  .add-survey-button p{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 23px;
+    font-weight: 500;
+  }
+
+  .add-survey-button svg{
+    font-size: 26px;
+    color: #005ABF;
+  }

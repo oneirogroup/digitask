@@ -7,6 +7,7 @@ import { TfiWorld } from "react-icons/tfi";
 import { RiVoiceprintFill } from "react-icons/ri";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import AddTaskModal from '../../components/AddTaskModal';
+import AddSurveyModal from '../../components/AddSurveyModal';
 import AddUserModal from '../../components/AddUserModal';
 
 import { RiDeleteBin6Line } from "react-icons/ri";
@@ -174,6 +175,17 @@ function Index() {
         setIsTaskDetailsModalOpen(false);
     };
 
+    const [isAddSurveyModalOpen, setIsAddSurveyModalOpen] = useState(false);
+
+    const openAddSurveyModal = () => {
+        setIsTaskDetailsModalOpen(false);
+        setIsAddSurveyModalOpen(true);
+    };
+
+    const closeAddSurveyModal = () => {
+        setIsAddSurveyModalOpen(false);
+    };
+
     const resetFilters = () => {
         setActiveFilter("all");
         setSelectedMonth(new Date());
@@ -272,7 +284,7 @@ function Index() {
                         <button onClick={openAddTaskModal}><IoAdd />Əlavə et</button>
                     )}
                     {userType === 'technician' && (
-                        <button onClick={openAddUserModal}><IoAdd />Əlavə et</button>
+                        <button onClick={openAddUserModal}><IoAdd />Istifadəçi əlavə et</button>
                     )}
                 </div>
             </div>
@@ -400,7 +412,14 @@ function Index() {
             </div>
             {isAddTaskModalOpen && <AddTaskModal onClose={closeAddTaskModal} />}
             {isAddUserModal && <AddUserModal onClose={closeAddUserModal} />}
-            {isTaskDetailsModalOpen && <DetailsModal onClose={closeTaskDetailsModal} taskId={selectedTaskId} userType={userType} />}
+            {isTaskDetailsModalOpen && (
+                <DetailsModal
+                    onClose={closeTaskDetailsModal}
+                    onAddSurveyClick={openAddSurveyModal}
+                    taskId={selectedTaskId} userType={userType}
+                />
+            )}
+            {isAddSurveyModalOpen && <AddSurveyModal onClose={closeAddSurveyModal} />}
 
         </div>
     );

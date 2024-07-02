@@ -11,7 +11,11 @@ import { BiComment } from "react-icons/bi";
 import { MdOutlineEngineering } from "react-icons/md";
 import './detailsModal.css';
 import { FaChevronDown } from "react-icons/fa";
-
+import { MdAdd } from "react-icons/md";
+import AddSurveyModal from '../AddSurveyModal';
+import { PiTelevisionSimple } from "react-icons/pi";
+import { TfiWorld } from "react-icons/tfi";
+import { RiVoiceprintFill } from "react-icons/ri";
 
 const TASK_TYPES = [
     { value: 'connection', label: 'Qoşulma' },
@@ -26,7 +30,7 @@ const STATUS_OPTIONS = [
 ];
 
 
-function DetailsModal({ onClose, taskId, userType }) {
+function DetailsModal({ onClose, taskId, userType, onAddSurveyClick }) {
     const [taskDetails, setTaskDetails] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
     const [groups, setGroups] = useState([]);
@@ -40,7 +44,11 @@ function DetailsModal({ onClose, taskId, userType }) {
         services: '',
         status: '',
         group: [],
-        note: ''
+        note: '',
+        is_tv: "",
+        is_internet: "",
+        is_voice: ""
+
     });
 
     const monthNames = [
@@ -75,6 +83,9 @@ function DetailsModal({ onClose, taskId, userType }) {
                         status: data.status,
                         group: data.group.map(g => g.id),
                         note: data.note,
+                        is_tv: data.is_tv,
+                        is_voice: data.is_voice,
+                        is_internet: data.is_internet
                     });
                 })
                 .catch(error => console.error('Error fetching task details:', error));
@@ -151,7 +162,6 @@ function DetailsModal({ onClose, taskId, userType }) {
     const [isDropdownOpenStatus, setIsDropdownOpenStatus] = useState(false);
     const [isDropdownOpenGroup, setIsDropdownOpenGroup] = useState(false);
 
-
     const dropdownRef = useRef(null);
 
     const toggleDropdownTaskType = () => {
@@ -188,6 +198,7 @@ function DetailsModal({ onClose, taskId, userType }) {
         ));
     };
 
+
     const renderStatusOptions = () => {
         return STATUS_OPTIONS.map(option => (
             <div
@@ -198,6 +209,12 @@ function DetailsModal({ onClose, taskId, userType }) {
                 {option.label}
             </div>
         ));
+    };
+
+    const [isAddSurveyModalOpen, setIsAddSurveyModalOpen] = useState(false);
+
+    const openAddSurveyModal = () => {
+        setIsAddSurveyModalOpen(true);
     };
 
     const renderGroups = () => {
@@ -213,9 +230,13 @@ function DetailsModal({ onClose, taskId, userType }) {
         ));
     };
 
+
     if (!taskDetails) {
         return <div>Loading...</div>;
     }
+
+
+
 
     return (
         <div className="taskType-modal">
@@ -384,7 +405,12 @@ function DetailsModal({ onClose, taskId, userType }) {
                             <div>
                                 <div>
                                     <label><MdOutlineMiscellaneousServices /> Servis</label>
-                                    <span>{taskDetails.services}</span>
+                                    <span className="type-icon">
+                                        {taskDetails.is_tv && <PiTelevisionSimple />}
+                                        {taskDetails.is_internet && <TfiWorld />}
+                                        {taskDetails.is_voice && <RiVoiceprintFill />}
+                                        {!taskDetails.is_tv && !taskDetails.is_internet && !taskDetails.is_voice && <span>-</span>}
+                                    </span>
                                 </div>
                                 <hr />
                             </div>
@@ -426,9 +452,31 @@ function DetailsModal({ onClose, taskId, userType }) {
                             </div>
                             <hr />
                         </div>
+
+                        {userType === 'technician' && (
+                            <button
+                                className="add-survey-button"
+                                onClick={openAddSurveyModal}
+                            >
+                                <p>Anket əlavə et</p>
+                                <MdAdd />
+                            </button>
+                        )}
+
                     </div>
                 )}
             </div>
+            {isAddSurveyModalOpen && (
+                <AddSurveyModal
+                    onClose={() => setIsAddSurveyModalOpen(false)}
+                    selectedServices={{
+                        tv: taskDetails.is_tv,
+                        internet: taskDetails.is_internet,
+                        voice: taskDetails.is_voice
+                    }}
+                    taskId={taskId}
+                />
+            )}
         </div>
     );
 }
