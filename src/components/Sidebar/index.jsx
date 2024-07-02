@@ -19,33 +19,39 @@ import Nav from 'react-bootstrap/Nav';
 
 const Sidebar = ({ children }) => {
     const { userType } = useUser();
-    const menuItem = [
-        {
-            path: "/",
-            name: "Ana Səhifə",
-            icon: <GoHomeFill />
-        },
-        {
-            path: "/tasks/",
-            name: "Tapşırıqlar",
-            icon: <img src={taskIcon} alt="Task Icon" style={{ width: '24px', height: '24px' }} />
-        },
-        userType !== 'technician' && {
-            path: "/warehouse/",
-            name: "Anbar",
-            icon: <FaWarehouse />
-        },
-        {
-            path: "/performance/",
-            name: "Performans",
-            icon: <img src={performance} alt="Task Icon" style={{ width: '24px', height: '24px' }} />
-        },
-        userType !== 'technician' && {
-            path: "/employees/",
-            name: "İşçilər",
-            icon: <img src={Engineering} alt="Task Icon" style={{ width: '24px', height: '24px' }} />
-        },
-    ].filter(Boolean);
+    const [menuItems, setMenuItems] = useState([]);
+
+    useEffect(() => {
+        const items = [
+            {
+                path: "/",
+                name: "Ana Səhifə",
+                icon: <GoHomeFill />
+            },
+            {
+                path: "/tasks/",
+                name: "Tapşırıqlar",
+                icon: <img src={taskIcon} alt="Task Icon" style={{ width: '24px', height: '24px' }} />
+            },
+            userType !== 'technician' && {
+                path: "/warehouse/",
+                name: "Anbar",
+                icon: <FaWarehouse />
+            },
+            {
+                path: "/performance/",
+                name: "Performans",
+                icon: <img src={performance} alt="Performance Icon" style={{ width: '24px', height: '24px' }} />
+            },
+            userType !== 'technician' && {
+                path: "/employees/",
+                name: "İşçilər",
+                icon: <img src={Engineering} alt="Engineering Icon" style={{ width: '24px', height: '24px' }} />
+            },
+        ].filter(Boolean);
+
+        setMenuItems(items);
+    }, [userType]);
 
     const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
     const dispatch = useDispatch();
@@ -90,7 +96,7 @@ const Sidebar = ({ children }) => {
             <p>Əsas</p>
             <div>
                 {
-                    menuItem.map((item, index) => (
+                    menuItems.map((item, index) => (
                         <NavLink
                             to={item.path}
                             key={index}

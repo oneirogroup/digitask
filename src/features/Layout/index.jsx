@@ -42,7 +42,7 @@ const Layout = () => {
           {showOverlay && (
             <div className="layout-overlay">
               <div className="layout-overlay-message">
-                Zəhmət olmasa kompüterdə saytımıza daxil olun
+                Zəhmət olmasa saytımıza kompüterdə daxil olun
               </div>
             </div>
           )}
