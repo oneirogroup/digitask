@@ -67,7 +67,12 @@
     gap: 20px;
 }
 
-.taskType-info, .details-info {
+.service-detail {
+  display: flex;
+  flex-direction: column;
+}
+
+.taskType-info, .details-info, .service-detail > div{
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 25px;
@@ -82,7 +87,7 @@
 }
 
 .taskType-info label,
-.taskType-note label {
+.taskType-note label, .service-detail label {
     font-family: 'Nunito Sans', sans-serif;
     font-size: 17px;
     font-weight: 500;
@@ -93,7 +98,7 @@
 }
 
 .taskType-info span,
-.taskType-note div span {
+.taskType-note div span, .service-detail span {
     font-family: 'Nunito Sans', sans-serif;
     font-size: 17px;
     font-weight: 700;
@@ -388,4 +393,18 @@ padding: 0;
   .add-survey-button svg{
     font-size: 26px;
     color: #005ABF;
+  }
+
+  .service-detail > h5{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+  }
+
+  .service-detail > h5 span {
+    color: #005ABF;
+    font-size: 24px;
   }
