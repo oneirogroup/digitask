@@ -408,3 +408,19 @@ padding: 0;
     color: #005ABF;
     font-size: 24px;
   }
+
+  .service-details {
+    gap: 30px;
+  }
+
+  .detail-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+  }
+
+  .detail-item img{
+    width: 55%;
+    object-fit: cover;
+    height: 100px;
+  }
