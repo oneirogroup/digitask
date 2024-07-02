@@ -16,6 +16,8 @@ import AddSurveyModal from '../AddSurveyModal';
 import { PiTelevisionSimple } from "react-icons/pi";
 import { TfiWorld } from "react-icons/tfi";
 import { RiVoiceprintFill } from "react-icons/ri";
+import { MdOutlineEdit } from "react-icons/md";
+
 
 const TASK_TYPES = [
     { value: 'connection', label: 'Qoşulma' },
@@ -459,7 +461,8 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick }) {
                         <div className="service-details">
                             {taskDetails.is_tv && taskDetails.tv && (
                                 <div className="service-detail">
-                                    <h5>Servis Məlumatları <span>TV</span></h5>
+                                    <h5>Tv servisi<span><MdOutlineEdit />
+                                    </span></h5>
                                     <hr />
                                     <div>
                                         <div>
@@ -502,7 +505,8 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick }) {
                             )}
                             {taskDetails.is_internet && taskDetails.internet && (
                                 <div className="service-detail">
-                                    <h5>Servis Məlumatları <span>İnternet</span></h5>
+                                    <h5>İnternet servis <span> <MdOutlineEdit />
+                                    </span></h5>
                                     <hr />
                                     <div>
                                         <div>
@@ -545,7 +549,8 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick }) {
                             )}
                             {taskDetails.is_voice && taskDetails.voice && (
                                 <div className="service-detail">
-                                    <h5>Servis Məlumatları <span>Səs</span></h5>
+                                    <h5>Səs servisi <span> <MdOutlineEdit />
+                                    </span></h5>
                                     <hr />
                                     <div>
                                         <div>
