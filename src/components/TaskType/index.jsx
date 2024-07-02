@@ -109,6 +109,8 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick }) {
         setIsEditing(true);
     };
 
+    const [addedServices, setAddedServices] = useState([]);
+
     const handleFormSubmit = (e) => {
         e.preventDefault();
         console.log("formData:", formData);
@@ -144,6 +146,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick }) {
             })
             .then(data => {
                 setTaskDetails(data);
+                setAddedServices(data.addedServices);
                 setIsEditing(false);
                 onClose();
             })
@@ -230,13 +233,13 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick }) {
         ));
     };
 
+    const shouldShowAddSurveyButton = (taskDetails?.is_tv && !taskDetails?.tv) ||
+        (taskDetails?.is_internet && !taskDetails?.internet) ||
+        (taskDetails?.is_voice && !taskDetails?.voice);
 
     if (!taskDetails) {
         return <div>Loading...</div>;
     }
-
-
-
 
     return (
         <div className="taskType-modal">
@@ -457,26 +460,42 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick }) {
                             {taskDetails.is_tv && taskDetails.tv && (
                                 <div className="service-detail">
                                     <h5>Servis Məlumatları <span>TV</span></h5>
+                                    <hr />
                                     <div>
-                                        <div className="detail-item">
-                                            <label>Modemin şəkli:</label>
-                                            <img src={taskDetails.tv.photo_modem || '-'} alt="" />
+                                        <div>
+                                            <div className="detail-item">
+                                                <label>Modemin şəkli:</label>
+                                                <img src={taskDetails.tv.photo_modem || '-'} alt="" />
+                                            </div>
+                                            <hr />
                                         </div>
-                                        <div className="detail-item">
-                                            <label>Modem Serial Nömrəsi:</label>
-                                            <span>{taskDetails.tv.modem_SN || '-'}</span>
+                                        <div>
+                                            <div className="detail-item">
+                                                <label>Modem Serial Nömrəsi:</label>
+                                                <span>{taskDetails.tv.modem_SN || '-'}</span>
+                                            </div>
+                                            <hr />
                                         </div>
-                                        <div className="detail-item">
-                                            <label>Rg6 Kabel:</label>
-                                            <span>{taskDetails.tv.rg6_cable || '-'}</span>
+                                        <div>
+                                            <div className="detail-item">
+                                                <label>Rg6 Kabel:</label>
+                                                <span>{taskDetails.tv.rg6_cable || '-'}</span>
+                                            </div>
+                                            <hr />
                                         </div>
-                                        <div className="detail-item">
-                                            <label>F Connector:</label>
-                                            <span>{taskDetails.tv.f_connector || '-'}</span>
+                                        <div>
+                                            <div className="detail-item">
+                                                <label>F Connector:</label>
+                                                <span>{taskDetails.tv.f_connector || '-'}</span>
+                                            </div>
+                                            <hr />
                                         </div>
-                                        <div className="detail-item">
-                                            <label>Splitter:</label>
-                                            <span>{taskDetails.tv.splitter || '-'}</span>
+                                        <div>
+                                            <div className="detail-item">
+                                                <label>Splitter:</label>
+                                                <span>{taskDetails.tv.splitter || '-'}</span>
+                                            </div>
+                                            <hr />
                                         </div>
                                     </div>
                                 </div>
@@ -484,26 +503,42 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick }) {
                             {taskDetails.is_internet && taskDetails.internet && (
                                 <div className="service-detail">
                                     <h5>Servis Məlumatları <span>İnternet</span></h5>
+                                    <hr />
                                     <div>
-                                        <div className="detail-item">
-                                            <label>Modemin şəkli:</label>
-                                            <img src={taskDetails.internet.photo_modem || '-'} alt="" />
+                                        <div>
+                                            <div className="detail-item">
+                                                <label>Modemin şəkli:</label>
+                                                <img src={taskDetails.internet.photo_modem || '-'} alt="" />
+                                            </div>
+                                            <hr />
                                         </div>
-                                        <div className="detail-item">
-                                            <label>Modem Serial Nömrəsi:</label>
-                                            <span>{taskDetails.internet.modem_SN || '-'}</span>
+                                        <div>
+                                            <div className="detail-item">
+                                                <label>Modem Serial Nömrəsi:</label>
+                                                <span>{taskDetails.internet.modem_SN || '-'}</span>
+                                            </div>
+                                            <hr />
                                         </div>
-                                        <div className="detail-item">
-                                            <label>Optik Kabel:</label>
-                                            <span>{taskDetails.internet.optical_cable || '-'}</span>
+                                        <div>
+                                            <div className="detail-item">
+                                                <label>Optik Kabel:</label>
+                                                <span>{taskDetails.internet.optical_cable || '-'}</span>
+                                            </div>
+                                            <hr />
                                         </div>
-                                        <div className="detail-item">
-                                            <label>Fastconnector:</label>
-                                            <span>{taskDetails.internet.fastconnector || '-'}</span>
+                                        <div>
+                                            <div className="detail-item">
+                                                <label>Fastconnector:</label>
+                                                <span>{taskDetails.internet.fastconnector || '-'}</span>
+                                            </div>
+                                            <hr />
                                         </div>
-                                        <div className="detail-item">
-                                            <label>Siqnal:</label>
-                                            <span>{taskDetails.internet.siqnal || '-'}</span>
+                                        <div>
+                                            <div className="detail-item">
+                                                <label>Siqnal:</label>
+                                                <span>{taskDetails.internet.siqnal || '-'}</span>
+                                            </div>
+                                            <hr />
                                         </div>
                                     </div>
                                 </div>
@@ -511,29 +546,43 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick }) {
                             {taskDetails.is_voice && taskDetails.voice && (
                                 <div className="service-detail">
                                     <h5>Servis Məlumatları <span>Səs</span></h5>
+                                    <hr />
                                     <div>
-                                        <div className="detail-item">
-                                            <label>Modemin şəkli:</label>
-                                            <img src={taskDetails.voice.photo_modem || '-'} alt="" />
+                                        <div>
+                                            <div className="detail-item">
+                                                <label>Modemin şəkli:</label>
+                                                <img src={taskDetails.voice.photo_modem || '-'} alt="" />
+                                            </div>
+                                            <hr />
                                         </div>
-                                        <div className="detail-item">
-                                            <label>Modem Serial Nömrəsi:</label>
-                                            <span>{taskDetails.voice.modem_SN || '-'}</span>
+                                        <div>
+                                            <div className="detail-item">
+                                                <label>Modem Serial Nömrəsi:</label>
+                                                <span>{taskDetails.voice.modem_SN || '-'}</span>
+                                            </div>
+                                            <hr />
                                         </div>
-                                        <div className="detail-item">
-                                            <label>Ev Nömrəsi:</label>
-                                            <span>{taskDetails.voice.home_number || '-'}</span>
+                                        <div>
+                                            <div className="detail-item">
+                                                <label>Ev Nömrəsi:</label>
+                                                <span>{taskDetails.voice.home_number || '-'}</span>
+                                            </div>
+                                            <hr />
                                         </div>
-                                        <div className="detail-item">
-                                            <label>Şifrə:</label>
-                                            <span>{taskDetails.voice.password || '-'}</span>
+                                        <div>
+                                            <div className="detail-item">
+                                                <label>Şifrə:</label>
+                                                <span>{taskDetails.voice.password || '-'}</span>
+                                            </div>
+                                            <hr />
                                         </div>
                                     </div>
                                 </div>
                             )}
                         </div>
 
-                        {userType === 'technician' && (
+                        {userType === 'technician' && shouldShowAddSurveyButton && (
+
                             <button
                                 className="add-survey-button"
                                 onClick={openAddSurveyModal}
@@ -555,6 +604,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick }) {
                         voice: taskDetails.is_voice
                     }}
                     taskId={taskId}
+                    initialAddedServices={addedServices}
                 />
             )}
         </div>

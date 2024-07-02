@@ -40,3 +40,137 @@
     font-size: 44px;
     cursor: pointer;
 }
+
+.service-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    margin: 20px 0;
+}
+
+.service-header h6 {
+    color: #005ABF;
+    font-size: 24px;
+    cursor: pointer;
+
+}
+
+.service-fields > div:last-of-type{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+    align-items: end;
+    margin-top: 30px;
+}
+
+.service-fields >div:first-of-type >div{
+    display: flex;
+    align-items: center;
+}
+
+.service-fields .form-group{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 25px;
+}
+
+.service-fields .form-group label{
+    white-space: nowrap;
+    font-family: Nunito Sans, sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    color: #2f3033;
+    display: flex;
+    align-items: center;
+}
+
+.service-fields .form-group input{
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    width: 100%;
+    font-family: Nunito Sans, sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    outline: none;
+}
+
+.service-fields .form-group label span{
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+}
+
+.service-fields .form-group label > span{
+    color: #005ABF;
+    font-family: Nunito Sans, sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.upload-container {
+    display: flex;
+    align-items: center;
+    width: 45%;
+  }
+
+  .upload-container label{
+    border: 1px dashed #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    height: 80px;
+    width: 100%;
+  }
+  
+  .upload-label {
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+    justify-content: space-between;
+    gap: 30px;
+    cursor: pointer;
+  }
+  
+  .upload-icon {
+    margin-right: 5px;
+  }
+
+  .upload-icon img{
+    width: 30px;
+  }
+  
+  .file-size {
+    font-size: 0.8em;
+    color: #666;
+  }
+  
+  .upload-container input[type='file'] {
+    display: none;
+  }
+
+.add-survey-modal button{
+    width: 100%;
+    padding: 12px;
+    font-size: 20px;
+    background-color: #005abf;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-family: Nunito Sans;
+    font-size: 14px;
+    font-weight: 500;
+    margin: 10px 0;
+}
+
+.upload-container > img {
+    width: 100vw;
+    height: 150px;
+    object-fit: contain;
+}
