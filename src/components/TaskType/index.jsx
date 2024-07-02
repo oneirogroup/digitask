@@ -453,6 +453,68 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick }) {
                             <hr />
                         </div>
 
+                        <div className="service-details">
+                            {taskDetails.is_tv && taskDetails.tv && (
+                                <div className="service-detail">
+                                    <h5>TV Servisi</h5>
+                                    <div className="detail-item">
+                                        <label>Modem Serial Numarası:</label>
+                                        <span>{taskDetails.tv.modem_SN || 'Veri mevcut değil'}</span>
+                                    </div>
+                                    <div className="detail-item">
+                                        <label>Rg6 Kablo:</label>
+                                        <span>{taskDetails.tv.rg6_cable || 'Veri mevcut değil'}</span>
+                                    </div>
+                                    <div className="detail-item">
+                                        <label>F Connector:</label>
+                                        <span>{taskDetails.tv.f_connector || 'Veri mevcut değil'}</span>
+                                    </div>
+                                    <div className="detail-item">
+                                        <label>Splitter:</label>
+                                        <span>{taskDetails.tv.splitter || 'Veri mevcut değil'}</span>
+                                    </div>
+                                </div>
+                            )}
+                            {taskDetails.is_internet && taskDetails.internet && (
+                                <div className="service-detail">
+                                    <h5>Internet Servisi</h5>
+                                    <div className="detail-item">
+                                        <label>Modem Serial Numarası:</label>
+                                        <span>{taskDetails.internet.modem_SN || 'Veri mevcut değil'}</span>
+                                    </div>
+                                    <div className="detail-item">
+                                        <label>Optik Kablo:</label>
+                                        <span>{taskDetails.internet.optical_cable || 'Veri mevcut değil'}</span>
+                                    </div>
+                                    <div className="detail-item">
+                                        <label>Fastconnector:</label>
+                                        <span>{taskDetails.internet.fastconnector || 'Veri mevcut değil'}</span>
+                                    </div>
+                                    <div className="detail-item">
+                                        <label>Sinyal:</label>
+                                        <span>{taskDetails.internet.siqnal || 'Veri mevcut değil'}</span>
+                                    </div>
+                                </div>
+                            )}
+                            {taskDetails.is_voice && taskDetails.voice && (
+                                <div className="service-detail">
+                                    <h5>Voice Servisi</h5>
+                                    <div className="detail-item">
+                                        <label>Modem Serial Numarası:</label>
+                                        <span>{taskDetails.voice.modem_SN || 'Veri mevcut değil'}</span>
+                                    </div>
+                                    <div className="detail-item">
+                                        <label>Ev Numarası:</label>
+                                        <span>{taskDetails.voice.home_number || 'Veri mevcut değil'}</span>
+                                    </div>
+                                    <div className="detail-item">
+                                        <label>Şifrə:</label>
+                                        <span>{taskDetails.voice.password || 'Veri mevcut değil'}</span>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+
                         {userType === 'technician' && (
                             <button
                                 className="add-survey-button"
