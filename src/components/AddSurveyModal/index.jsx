@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './addsurveymodal.css';
 import axios from 'axios';
 import upload from "../../assets/images/document-upload.svg";
@@ -31,9 +31,28 @@ const AddSurveyModal = ({ onClose, selectedServices, taskId }) => {
     });
 
     const [openServices, setOpenServices] = useState({});
+    const [existingSurveys, setExistingSurveys] = useState({});
+
+    useEffect(() => {
+        const fetchExistingSurveys = async () => {
+            try {
+                const response = await axios.get(`http://135.181.42.192/services/task/${taskId}/`);
+                const data = response.data;
+                setExistingSurveys({
+                    tv: data.tv || false,
+                    internet: data.internet || false,
+                    voice: data.voice || false,
+                });
+            } catch (error) {
+                console.error('Error fetching existing surveys:', error);
+            }
+        };
+
+        fetchExistingSurveys();
+    }, [taskId]);
 
     const handleInputChange = (e) => {
-        const { name, files, dataset } = e.target;
+        const { name, files, value, dataset } = e.target;
         const { service } = dataset;
 
         if (!surveyData[service]) {
@@ -45,8 +64,8 @@ const AddSurveyModal = ({ onClose, selectedServices, taskId }) => {
         setSurveyData(prevData => {
             const updatedServiceData = {
                 ...prevData[service],
-                [name]: file,
-                photo_modem_preview: file ? URL.createObjectURL(file) : ''
+                [name]: file || value,
+                ...(file ? { photo_modem_preview: URL.createObjectURL(file) } : {})
             };
             return {
                 ...prevData,
@@ -67,7 +86,7 @@ const AddSurveyModal = ({ onClose, selectedServices, taskId }) => {
 
         try {
             const surveyPromises = Object.keys(selectedServices).map(async (serviceType) => {
-                if (!selectedServices[serviceType]) return;
+                if (!selectedServices[serviceType] || existingSurveys[serviceType]) return;
 
                 const serviceData = surveyData[serviceType];
                 if (!serviceData || !Object.values(serviceData).some(value => value !== '' && value !== null)) {
@@ -123,7 +142,7 @@ const AddSurveyModal = ({ onClose, selectedServices, taskId }) => {
                     <form onSubmit={handleFormSubmit}>
                         <div className="service-list">
                             {Object.keys(selectedServices).map(serviceType =>
-                                selectedServices[serviceType] && (
+                                selectedServices[serviceType] && !existingSurveys[serviceType] && (
                                     <div key={serviceType} className="service-section">
                                         <div className="service-header">
                                             <p>Servis məlumatları</p>
