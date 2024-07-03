@@ -170,7 +170,7 @@
 }
 
 .upload-container > img {
-    width: 100vw;
+    width: 275px;
     height: 150px;
     object-fit: contain;
 }

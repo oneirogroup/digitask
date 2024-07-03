@@ -239,6 +239,13 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick }) {
         (taskDetails?.is_internet && !taskDetails?.internet) ||
         (taskDetails?.is_voice && !taskDetails?.voice);
 
+    const handleSurveyAdded = (serviceType, surveyData) => {
+        setTaskDetails((prevDetails) => ({
+            ...prevDetails,
+            [serviceType]: surveyData,
+        }));
+    };
+
     if (!taskDetails) {
         return <div>Loading...</div>;
     }
@@ -610,6 +617,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick }) {
                     }}
                     taskId={taskId}
                     initialAddedServices={addedServices}
+                    onSurveyAdded={handleSurveyAdded}
                 />
             )}
         </div>

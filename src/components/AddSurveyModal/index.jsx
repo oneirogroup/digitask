@@ -3,7 +3,7 @@ import './addsurveymodal.css';
 import axios from 'axios';
 import upload from "../../assets/images/document-upload.svg";
 
-const AddSurveyModal = ({ onClose, selectedServices, taskId }) => {
+const AddSurveyModal = ({ onClose, selectedServices, taskId, onSurveyAdded }) => {
     const [surveyData, setSurveyData] = useState({
         tv: {
             photo_modem: null,
@@ -110,6 +110,7 @@ const AddSurveyModal = ({ onClose, selectedServices, taskId }) => {
                             'Content-Type': 'multipart/form-data'
                         }
                     });
+                    onSurveyAdded(serviceType, response.data);
                     console.log(`Survey for ${serviceType} added successfully:`, response.data);
                 } catch (error) {
                     console.error(`Error adding survey for ${serviceType}:`, error);
