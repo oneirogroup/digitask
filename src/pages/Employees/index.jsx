@@ -8,6 +8,9 @@ import { CiSearch } from "react-icons/ci";
 import { FaChevronDown, FaArrowLeft, FaArrowRight, FaCircle } from "react-icons/fa";
 import "./employees.css";
 import { PiMapPinAreaFill } from "react-icons/pi";
+import io from 'socket.io-client';
+
+const socket = io('ws://135.181.42.192', { transports: ['websocket'] });
 
 
 const refreshAccessToken = async () => {
@@ -47,7 +50,9 @@ const EmployeeList = () => {
   const [showUserTypeOptions, setShowUserTypeOptions] = useState(false);
   const [showGroupOptions, setShowGroupOptions] = useState(false);
   const [employeeModals, setEmployeeModals] = useState({});
+  const [status, setStatus] = useState({});
   const modalRef = useRef(null);
+  const wsRef = useRef(null);
 
   useEffect(() => {
     const fetchEmployees = async () => {
@@ -105,6 +110,20 @@ const EmployeeList = () => {
       axios.interceptors.response.eject(responseInterceptor);
     };
   }, []);
+
+  useEffect(() => {
+    socket.on('status_update', (data) => {
+      setStatus(prevStatus => ({
+        ...prevStatus,
+        [data.userId]: data.status
+      }));
+    });
+
+    return () => {
+      socket.off('status_update');
+    };
+  }, []);
+
 
   const initializeEmployeeModals = (employeesData) => {
     const initialModals = {};
@@ -254,7 +273,12 @@ const EmployeeList = () => {
                 <td>{employee.group ? employee.group.region : 'Yoxdur'}</td>
                 <td>{employee.phone}  {!employee.phone && <span>-</span>}</td>
                 <td>{translateUserType(employee.user_type)}</td>
-                <td className='status'><p><FaCircle /> Aktiv</p></td>
+                <td className='status'>
+                  <p color={status[employee.id] === 'online' ? 'green' : 'red'}>
+                    <FaCircle color={status[employee.id] === 'online' ? 'green' : 'red'} />
+                    {status[employee.id] === 'online' ? 'Aktiv' : 'Offline'}
+                  </p>
+                </td>
                 <td><a href=""><PiMapPinAreaFill /></a></td>
                 <td>
                   <button onClick={() => openSmallModal(employee.id)}><BsThreeDotsVertical /></button>
