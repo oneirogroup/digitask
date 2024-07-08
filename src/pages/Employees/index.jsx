@@ -10,7 +10,7 @@ import "./employees.css";
 import { PiMapPinAreaFill } from "react-icons/pi";
 import io from 'socket.io-client';
 
-const socket = io('ws://135.181.42.192', { transports: ['websocket'] });
+const socket = io('ws://135.181.42.192/ws/status/', { transports: ['websocket'] });
 
 
 const refreshAccessToken = async () => {
