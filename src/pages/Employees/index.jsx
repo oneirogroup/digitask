@@ -8,10 +8,6 @@ import { CiSearch } from "react-icons/ci";
 import { FaChevronDown, FaArrowLeft, FaArrowRight, FaCircle } from "react-icons/fa";
 import "./employees.css";
 import { PiMapPinAreaFill } from "react-icons/pi";
-import io from 'socket.io-client';
-
-const socket = io('ws://135.181.42.192/ws/', { transports: ['websocket'] });
-
 
 const refreshAccessToken = async () => {
   const refresh_token = localStorage.getItem('refresh_token');
@@ -53,6 +49,7 @@ const EmployeeList = () => {
   const [status, setStatus] = useState({});
   const modalRef = useRef(null);
   const wsRef = useRef(null);
+  const [loggedInUserId, setLoggedInUserId] = useState(null);
 
   useEffect(() => {
     const fetchEmployees = async () => {
@@ -66,6 +63,13 @@ const EmployeeList = () => {
         });
         setEmployees(response.data);
         initializeEmployeeModals(response.data);
+
+        const loggedInUserResponse = await axios.get('http://135.181.42.192/accounts/profile/', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        setLoggedInUserId(loggedInUserResponse.data.id);
       } catch (error) {
         console.error('Error fetching the employees data:', error);
       }
@@ -112,18 +116,49 @@ const EmployeeList = () => {
   }, []);
 
   useEffect(() => {
-    socket.on('status_update', (data) => {
-      setStatus(prevStatus => ({
-        ...prevStatus,
-        [data.userId]: data.status
-      }));
-    });
+    const ws = new WebSocket('ws://135.181.42.192/ws/');
+
+    ws.onopen = () => {
+      console.log('WebSocket connection established.');
+    };
+
+    ws.onmessage = (event) => {
+      try {
+        const data = JSON.parse(event.data);
+        console.log('WebSocket message received:', data);
+
+        if (data.userId && data.status) {
+          setStatus((prevStatus) => ({
+            ...prevStatus,
+            [data.userId]: data.status,
+          }));
+        }
+      } catch (error) {
+        console.error('Error parsing WebSocket message:', error);
+      }
+    };
+
+
+    ws.onerror = (error) => {
+      console.error('WebSocket error:', error);
+    };
+
+    ws.onclose = (event) => {
+      if (event.wasClean) {
+        console.log(`WebSocket connection closed cleanly, code=${event.code}, reason=${event.reason}`);
+      } else {
+        console.error('WebSocket connection died unexpectedly');
+      }
+    };
+
+    wsRef.current = ws;
 
     return () => {
-      socket.off('status_update');
+      if (wsRef.current) {
+        wsRef.current.close();
+      }
     };
-  }, []);
-
+  }, [loggedInUserId]);
 
   const initializeEmployeeModals = (employeesData) => {
     const initialModals = {};
