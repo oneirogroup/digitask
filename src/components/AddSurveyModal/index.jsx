@@ -146,7 +146,7 @@ const AddSurveyModal = ({ onClose, selectedServices, taskId, onSurveyAdded }) =>
                                 selectedServices[serviceType] && !existingSurveys[serviceType] && (
                                     <div key={serviceType} className="service-section">
                                         <div className="service-header">
-                                            <p>Servis məlumatları</p>
+                                            <p>Xidmət məlumatları</p>
                                             <h6 onClick={() => handleServiceToggle(serviceType)}>{serviceDisplayNames[serviceType] || serviceType.charAt(0).toUpperCase() + serviceType.slice(1)} {openServices[serviceType] ? '-' : 'anketi əlavə et'}</h6>
                                         </div>
                                         {openServices[serviceType] && (

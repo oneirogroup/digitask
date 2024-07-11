@@ -3,6 +3,8 @@ import axios from 'axios';
 import "./eventModal.css";
 import { IoMdClose } from "react-icons/io";
 import { RiMapPinAddFill } from "react-icons/ri";
+import { FaChevronDown, FaChevronUp } from "react-icons/fa";
+
 
 const MEETING_TYPES = [
   { value: 'Şənlik', label: 'Şənlik' },
@@ -129,8 +131,9 @@ const AddEventModal = ({ isOpen, onClose }) => {
           </div>
           <div className='meetingType-participants'>
             <label onClick={toggleMeetingTypeModal}>
-              Görüş növü: <div>
+              Görüş növü:  <div>
                 {meetingType ? meetingType : 'Seçin'}
+                <span>{isMeetingTypeModalOpen ? <FaChevronUp /> : <FaChevronDown />}</span>
               </div>
             </label>
             {isMeetingTypeModalOpen && (
@@ -151,7 +154,11 @@ const AddEventModal = ({ isOpen, onClose }) => {
               </div>
             )}
             <label onClick={toggleParticipantsModal}>
-              İştirakçılar: <div>{selectedParticipants.length > 0 ? selectedParticipants.map(p => `${p.first_name} ${p.last_name}`).join(', ') : 'Seçilməyib'}</div>
+              İştirakçılar: <div>
+                {selectedParticipants.length > 0
+                  ? selectedParticipants.map(p => `${p.first_name} ${p.last_name}`).join(', ')
+                  : <span>Seçin <span>{isParticipantsModalOpen ? <FaChevronUp /> : <FaChevronDown />}</span></span>}
+              </div>
             </label>
             {isParticipantsModalOpen && (
               <div className="modal-overlay-participants">

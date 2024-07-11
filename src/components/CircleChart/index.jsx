@@ -89,7 +89,7 @@ class CircleChart extends React.Component {
             let series = [0, 0, 0];
             let legendLabels = ['Internet', 'Tv', 'Voice'];
 
-            if (user_type === 'technician' || user_type === 'plumber') {
+            if (user_type === 'texnik' || user_type === 'plumber') {
                 const { problem_count, connection_count } = task_details;
                 const total = problem_count + connection_count;
                 series = total === 0 ? [0, 0] : [
@@ -108,7 +108,7 @@ class CircleChart extends React.Component {
             }
 
             this.setState({ series, userType: user_type, legendLabels });
-            
+
         } catch (error) {
             if (error.response && (error.response.status === 401 || error.response.status === 403) && !isRetry) {
                 try {
@@ -128,7 +128,7 @@ class CircleChart extends React.Component {
 
         return (
             <div id="circlechart">
-                <p>Servislər <IoMdInformationCircle /></p>
+                <p>Xidmətlər <IoMdInformationCircle /></p>
                 <hr />
                 <ReactApexChart options={options} series={series} type="donut" height={250} />
                 <div className='home-chart-services'>

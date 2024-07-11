@@ -30,6 +30,7 @@ const Home = () => {
     const [tasks, setTasks] = useState([]);
     const [performanceData, setPerformanceData] = useState([]);
     const [meetings, setMeetings] = useState([]);
+    const [userType, setUserType] = useState(null);
     const navigate = useNavigate();
 
     const fetchData = async (isRetry = false) => {
@@ -40,6 +41,7 @@ const Home = () => {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             setMeetings(responseMainPage.data.meetings || []);
+            setUserType(responseMainPage.data.user_type);
 
             const ongoingTasks = responseMainPage.data.ongoing_tasks || [];
             const mappedTasks = ongoingTasks.map(task => ({
@@ -105,12 +107,14 @@ const Home = () => {
                         </div>
                     </div>
                 ))}
-                <div className="meet-add">
-                    <button onClick={openModal}>
-                        <IoIosAddCircleOutline />
-                        <p>Tədbir əlavə et</p>
-                    </button>
-                </div>
+                {userType !== 'texnik' && (
+                    <div className="meet-add">
+                        <button onClick={openModal}>
+                            <IoIosAddCircleOutline />
+                            <p>Tədbir əlavə et</p>
+                        </button>
+                    </div>
+                )}
             </section>
             <div className="home-charts">
                 <ApexChart />
@@ -164,7 +168,7 @@ const Home = () => {
                                         {item.tv && <PiTelevisionSimple />}
                                         {item.internet && <TfiWorld />}
                                         {item.voice && <RiVoiceprintFill />}
-                                        {!item.tv && !item.internet && !item.voice && <span>Servis Yoxdur</span>}
+                                        {!item.tv && !item.internet && !item.voice && <span>Xidmət Yoxdur</span>}
                                     </li>
                                     <li>{item.location}</li>
                                     <li>{item.phone ? item.phone : 'No Number'}</li>

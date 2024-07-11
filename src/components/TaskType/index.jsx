@@ -274,7 +274,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick }) {
                         <h5>{taskDetails?.task_type ? (taskDetails.task_type === "connection" ? "Qoşulma" : "Problem") + " məlumatları" : ""}</h5>
                     )}
                     <div>
-                        {userType !== 'technician' && (
+                        {userType !== 'texnik' && (
                             <RiEdit2Line onClick={handleEditClick} />
 
                         )}
@@ -288,7 +288,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick }) {
                             <div className="taskType-info details-info">
                                 <div>
                                     <div>
-                                        <label><IoPersonOutline /> Ad və soyad</label>
+                                        <label><IoPersonOutline /> Müştəri</label>
                                         <input type="text" name="full_name" value={formData.full_name} onChange={handleInputChange} />
                                     </div>
                                     <hr />
@@ -323,7 +323,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick }) {
                                 </div>
                                 <div>
                                     <div>
-                                        <label><MdOutlineMiscellaneousServices /> Servis</label>
+                                        <label><MdOutlineMiscellaneousServices /> Xidmət</label>
                                         <input type="text" name="services" value={formData.services} onChange={handleInputChange} />
                                     </div>
                                     <hr />
@@ -386,7 +386,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick }) {
                         <div className="taskType-info">
                             <div>
                                 <div>
-                                    <label><IoPersonOutline /> Ad və soyad</label>
+                                    <label><IoPersonOutline /> Müştəri</label>
                                     <span>{taskDetails.full_name}</span>
                                 </div>
                                 <hr />
@@ -416,7 +416,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick }) {
                             </div>
                             <div>
                                 <div>
-                                    <label><MdOutlineMiscellaneousServices /> Servis</label>
+                                    <label><MdOutlineMiscellaneousServices /> Xidmət</label>
                                     <span className="type-icon">
                                         {taskDetails.is_tv && <PiTelevisionSimple />}
                                         {taskDetails.is_internet && <TfiWorld />}
@@ -468,7 +468,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick }) {
                         <div className="service-details">
                             {taskDetails.is_tv && taskDetails.tv && (
                                 <div className="service-detail">
-                                    <h5>Tv servisi<span><MdOutlineEdit />
+                                    <h5>Tv xidməti<span><MdOutlineEdit />
                                     </span></h5>
                                     <hr />
                                     <div>
@@ -512,7 +512,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick }) {
                             )}
                             {taskDetails.is_internet && taskDetails.internet && (
                                 <div className="service-detail">
-                                    <h5>İnternet servis <span> <MdOutlineEdit />
+                                    <h5>İnternet xidməti <span> <MdOutlineEdit />
                                     </span></h5>
                                     <hr />
                                     <div>
@@ -556,7 +556,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick }) {
                             )}
                             {taskDetails.is_voice && taskDetails.voice && (
                                 <div className="service-detail">
-                                    <h5>Səs servisi <span> <MdOutlineEdit />
+                                    <h5>Səs xidməti <span> <MdOutlineEdit />
                                     </span></h5>
                                     <hr />
                                     <div>
@@ -593,7 +593,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick }) {
                             )}
                         </div>
 
-                        {userType === 'technician' && shouldShowAddSurveyButton && (
+                        {userType === 'texnik' && shouldShowAddSurveyButton && (
 
                             <button
                                 className="add-survey-button"

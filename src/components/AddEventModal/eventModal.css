@@ -85,6 +85,14 @@
   color: black;
   font-family: Nunito Sans;
   font-size: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.meetingType-participants label > div span svg{
+  font-size: 16px;
+  color: black !important;
 }
 
 .event-modal textarea {

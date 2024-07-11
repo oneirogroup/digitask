@@ -258,7 +258,7 @@ function Index() {
 
 
     const showUpdateButtons = (userType, status) => {
-        if (userType === 'technician') {
+        if (userType === 'texnik') {
             if (status === 'waiting') {
                 return 'qebul_et';
             } else if (status === 'inprogress') {
@@ -280,10 +280,10 @@ function Index() {
                     <button onClick={resetFilters}>
                         <IoMdRefresh />Yenilə
                     </button>
-                    {!userType || userType !== 'technician' && (
+                    {!userType || userType !== 'texnik' && (
                         <button onClick={openAddTaskModal}><IoAdd />Əlavə et</button>
                     )}
-                    {userType === 'technician' && (
+                    {userType === 'texnik' && (
                         <button onClick={openAddUserModal}><IoAdd />Istifadəçi əlavə et</button>
                     )}
                 </div>
@@ -327,11 +327,12 @@ function Index() {
                             <tr>
                                 <th>ID</th>
                                 <th>Ad</th>
-                                <th>Kategoriya</th>
+                                <th>İcraçı</th>
+                                <th>Kateqoriya</th>
                                 <th>Tarix</th>
                                 <th>Saat</th>
                                 <th>Növ</th>
-                                <th>Adres</th>
+                                <th>Ünvan</th>
                                 <th>Nömrə</th>
                                 <th>Status</th>
                                 <th></th>
@@ -342,6 +343,7 @@ function Index() {
                                 <tr key={index} onClick={() => openTaskDetailsModal(item.id)}>
                                     <td className={item.id}>{`#${(index + 1).toString().padStart(4, '0')}`}</td>
                                     <td>{item.first_name && item.last_name ? `${item.first_name} ${item.last_name.charAt(0)}.` : '-'}</td>
+                                    <td>{item.full_name}</td>
                                     <td className={item.task_type === 'problem' ? 'problem' : 'connection'}>
                                         {item.task_type === 'problem' ? 'Problem' : 'Qoşulma'}
                                     </td>
@@ -357,19 +359,19 @@ function Index() {
                                     <td>{item.location}</td>
                                     <td>{item.contact_number ? item.contact_number : 'No Number'}</td>
                                     <td className="task-status">
-                                        {userType === 'technician' && !item.email || item.email === userEmail ? (
+                                        {userType === 'texnik' && !item.email || item.email === userEmail ? (
                                             <>
                                                 {item.status === "waiting" && (
-                                                    <button className={`technicianWaiting ${showUpdateButtons(userType, item.status)}`} onClick={() => handleStatusUpdate(item.id, 'inprogress')}>Qəbul et</button>
+                                                    <button className={`texnikWaiting ${showUpdateButtons(userType, item.status)}`} onClick={() => handleStatusUpdate(item.id, 'inprogress')}>Qəbul et</button>
                                                 )}
                                                 {item.status === "inprogress" && (
-                                                    <button className={`technicianStatus ${showUpdateButtons(userType, item.status)}`} onClick={() => handleStatusUpdate(item.id, 'started')}>Başla</button>
+                                                    <button className={`texnikStatus ${showUpdateButtons(userType, item.status)}`} onClick={() => handleStatusUpdate(item.id, 'started')}>Başla</button>
                                                 )}
                                                 {item.status === "started" && (
-                                                    <button className={`technicianStatus ${showUpdateButtons(userType, item.status)}`} onClick={() => handleStatusUpdate(item.id, 'completed')}>Tamamla</button>
+                                                    <button className={`texnikStatus ${showUpdateButtons(userType, item.status)}`} onClick={() => handleStatusUpdate(item.id, 'completed')}>Tamamla</button>
                                                 )}
                                                 {item.status === "completed" && (
-                                                    <button className={`technicianCompleted ${showUpdateButtons(userType, item.status)}`}>Tamamlandı</button>
+                                                    <button className={`texnikCompleted ${showUpdateButtons(userType, item.status)}`}>Tamamlandı</button>
                                                 )}
                                             </>
                                         ) : (
@@ -383,7 +385,7 @@ function Index() {
                                     </td>
 
                                     <td>
-                                        {userType !== 'technician' ? (
+                                        {userType !== 'texnik' ? (
                                             <>
                                                 <button data-task-index={index} onClick={(e) => openSmallModal(e, index)}><BsThreeDotsVertical /></button>
                                                 {isSmallModalOpen && selectedTaskIndex === index && (

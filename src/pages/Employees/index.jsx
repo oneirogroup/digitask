@@ -23,13 +23,13 @@ const refreshAccessToken = async () => {
 
 const translateUserType = (userType) => {
   switch (userType) {
-    case 'technician':
+    case 'texnik':
       return 'Texnik';
     case 'plumber':
       return 'Plumber';
-    case 'office_manager':
+    case 'ofis_menecer':
       return 'Ofis meneceri';
-    case 'tech_manager':
+    case 'texnik_menecer':
       return 'Texnik menecer';
     default:
       return userType;
@@ -256,10 +256,10 @@ const EmployeeList = () => {
             {showUserTypeOptions && (
               <div className="group-modal">
                 <div onClick={() => handleUserTypeFilter(null)}>Hamısı</div>
-                <div onClick={() => handleUserTypeFilter('technician')}>Texniklər</div>
+                <div onClick={() => handleUserTypeFilter('texnik')}>Texniklər</div>
                 <div onClick={() => handleUserTypeFilter('plumber')}>Plumber</div>
-                <div onClick={() => handleUserTypeFilter('office_manager')}>Ofis meneceri</div>
-                <div onClick={() => handleUserTypeFilter('tech_manager')}>Texnik menecer</div>
+                <div onClick={() => handleUserTypeFilter('ofis_menecer')}>Ofis meneceri</div>
+                <div onClick={() => handleUserTypeFilter('texnik_menecer')}>Texnik menecer</div>
               </div>
             )}
           </div>

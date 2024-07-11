@@ -16,10 +16,10 @@ const AddUserModal = ({ onClose }) => {
 
   const [groupOptions, setGroupOptions] = useState([]);
   const [userTypeOptions] = useState([
-    { value: 'technician', label: 'Texnik' },
+    { value: 'texnik', label: 'Texnik' },
     { value: 'plumber', label: 'Plumber' },
-    { value: 'office_manager', label: 'Ofis meneceri' },
-    { value: 'tech_manager', label: 'Texniki meneceri' }
+    { value: 'ofis_menecer', label: 'Ofis meneceri' },
+    { value: 'texnik_menecer', label: 'Texniki meneceri' }
   ]);
   const [showGroupDropdown, setShowGroupDropdown] = useState(false);
   const [showUserTypeDropdown, setShowUserTypeDropdown] = useState(false);
@@ -54,7 +54,7 @@ const AddUserModal = ({ onClose }) => {
   const handleSelectGroup = (groupId, groupName) => {
     setFormData({
       ...formData,
-      group: groupId 
+      group: groupId
     });
     setSelectedGroupName(groupName);
     setShowGroupDropdown(false);
