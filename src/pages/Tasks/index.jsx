@@ -17,6 +17,48 @@ import './tasks.css';
 import { fetchWithAuth } from '../../utils/auth';
 import axios from "axios"
 
+const refreshAccessToken = async () => {
+    const refresh_token = localStorage.getItem('refresh_token');
+    if (!refresh_token) {
+        throw new Error('No refresh token available');
+    }
+
+    const response = await axios.post('http://135.181.42.192/accounts/token/refresh/', { refresh: refresh_token });
+    const { access } = response.data;
+    localStorage.setItem('access_token', access);
+    axios.defaults.headers.common['Authorization'] = `Bearer ${access}`;
+};
+
+const fetchWithTokenRefresh = async (url, options = {}) => {
+    try {
+        const token = localStorage.getItem('access_token');
+        const response = await fetch(url, {
+            ...options,
+            headers: {
+                ...options.headers,
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (response.status === 401) {
+            await refreshAccessToken();
+            const token = localStorage.getItem('access_token');
+            return fetch(url, {
+                ...options,
+                headers: {
+                    ...options.headers,
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+        }
+
+        return response;
+    } catch (error) {
+        console.error('Error in fetchWithTokenRefresh:', error);
+        throw error;
+    }
+};
+
 function Index() {
     const [data, setData] = useState([]);
     const [filteredData, setFilteredData] = useState([]);
@@ -90,7 +132,7 @@ function Index() {
 
 
 
-    const fetchTasks = (taskFilter, selectedMonth, statusFilter) => {
+    const fetchTasks = async (taskFilter, selectedMonth, statusFilter) => {
         const monthYear = `${monthsAz[selectedMonth.getMonth()]} ${selectedMonth.getFullYear()}`;
         const monthQueryParam = `&month=${selectedMonth.getMonth() + 1}&year=${selectedMonth.getFullYear()}`;
 
@@ -108,14 +150,15 @@ function Index() {
 
         const url = `http://135.181.42.192/services/status/?${taskTypeParam}${monthQueryParam}${statusParam}`;
 
-        fetch(url)
-            .then(response => response.json())
-            .then(data => {
-                const sortedData = data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-                setData(sortedData);
-                setFilteredData(sortedData);
-            })
-            .catch(error => console.error('Error fetching data:', error));
+        try {
+            const response = await fetchWithTokenRefresh(url);
+            const data = await response.json();
+            const sortedData = data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+            setData(sortedData);
+            setFilteredData(sortedData);
+        } catch (error) {
+            console.error('Error fetching tasks:', error);
+        }
     };
 
     const applyFilters = (taskFilter, selectedMonth, statusFilter) => {
