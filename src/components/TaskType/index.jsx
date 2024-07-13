@@ -17,6 +17,8 @@ import { PiTelevisionSimple } from "react-icons/pi";
 import { TfiWorld } from "react-icons/tfi";
 import { RiVoiceprintFill } from "react-icons/ri";
 import { MdOutlineEdit } from "react-icons/md";
+import { SiTyper } from "react-icons/si";
+
 
 
 const TASK_TYPES = [
@@ -31,11 +33,51 @@ const STATUS_OPTIONS = [
     { value: 'completed', label: 'Tamamlandı' }
 ];
 
+const SERVICE_OPTIONS = [
+    { value: 'tv', label: 'TV' },
+    { value: 'internet', label: 'İnternet' },
+    { value: 'voice', label: 'Səs' }
+];
+
+
 
 function DetailsModal({ onClose, taskId, userType, onAddSurveyClick }) {
     const [taskDetails, setTaskDetails] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
     const [groups, setGroups] = useState([]);
+
+    const taskTypeDropdownRef = useRef(null);
+    const statusDropdownRef = useRef(null);
+    const serviceDropdownRef = useRef(null);
+    const groupDropdownRef = useRef(null);
+    const modalRef = useRef(null);
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (modalRef.current && !modalRef.current.contains(event.target)) {
+                onClose();
+            }
+            if (taskTypeDropdownRef.current && !taskTypeDropdownRef.current.contains(event.target)) {
+                setIsDropdownOpenTaskType(false);
+            }
+            if (statusDropdownRef.current && !statusDropdownRef.current.contains(event.target)) {
+                setIsDropdownOpenStatus(false);
+            }
+            if (serviceDropdownRef.current && !serviceDropdownRef.current.contains(event.target)) {
+                setIsDropdownOpenService(false);
+            }
+            if (groupDropdownRef.current && !groupDropdownRef.current.contains(event.target)) {
+                setIsDropdownOpenGroup(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [onClose]);
+
     const [formData, setFormData] = useState({
         task_type: '',
         full_name: '',
@@ -43,7 +85,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick }) {
         registration_number: '',
         contact_number: '',
         location: '',
-        services: '',
+        services: [],
         status: '',
         group: [],
         note: '',
@@ -155,6 +197,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick }) {
             .catch(error => console.error('Error updating task:', error));
     };
 
+
     const handleGroupSelect = (groupId) => {
         setFormData((prevFormData) => {
             const newGroup = prevFormData.group.includes(groupId)
@@ -166,12 +209,16 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick }) {
     const [isDropdownOpenTaskType, setIsDropdownOpenTaskType] = useState(false);
     const [isDropdownOpenStatus, setIsDropdownOpenStatus] = useState(false);
     const [isDropdownOpenGroup, setIsDropdownOpenGroup] = useState(false);
+    const [isDropdownOpenService, setIsDropdownOpenService] = useState(false);
+
 
     const dropdownRef = useRef(null);
 
     const toggleDropdownTaskType = () => {
         setIsDropdownOpenTaskType(!isDropdownOpenTaskType);
     };
+    const toggleDropdownService = () => setIsDropdownOpenService(!isDropdownOpenService);
+
 
     const toggleDropdownStatus = () => {
         setIsDropdownOpenStatus(!isDropdownOpenStatus);
@@ -190,6 +237,15 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick }) {
         setFormData({ ...formData, status: status });
         setIsDropdownOpenStatus(false);
     };
+    const handleServiceChange = (serviceType) => {
+        setFormData(prevFormData => {
+            const updatedServices = (prevFormData.services || []).includes(serviceType)
+                ? prevFormData.services.filter(service => service !== serviceType)
+                : [...(prevFormData.services || []), serviceType];
+            return { ...prevFormData, services: updatedServices };
+        });
+    };
+
 
     const renderTaskTypeOptions = () => {
         return TASK_TYPES.map(option => (
@@ -215,6 +271,19 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick }) {
             </div>
         ));
     };
+
+    const renderServiceOptions = () => {
+        return SERVICE_OPTIONS.map(option => (
+            <div
+                key={option.value}
+                className={`taskType-option ${formData.services?.includes(option.value) ? 'selected' : ''}`}
+                onClick={() => handleServiceChange(option.value)}
+            >
+                {option.label}
+            </div>
+        ));
+    };
+
 
     const [isAddSurveyModalOpen, setIsAddSurveyModalOpen] = useState(false);
 
@@ -257,18 +326,6 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick }) {
                     {isEditing ? (
                         <div className='details-title'>
                             <label><span>Tapşırığın Növü </span></label>
-                            <div className="taskType-dropdown ">
-                                <div className="taskType-toggle details-toggle" onClick={toggleDropdownTaskType}>
-                                    {formData.task_type ? formData.task_type === 'connection' ? 'Qoşulma' : 'Problem' : 'Tapşırığı Seçin'}
-                                    <FaChevronDown />
-
-                                </div>
-                                {isDropdownOpenTaskType && (
-                                    <div className="taskType-options">
-                                        {renderTaskTypeOptions()}
-                                    </div>
-                                )}
-                            </div>
                         </div>
                     ) : (
                         <h5>{taskDetails?.task_type ? (taskDetails.task_type === "connection" ? "Qoşulma" : "Problem") + " məlumatları" : ""}</h5>
@@ -286,6 +343,25 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick }) {
                     <form onSubmit={handleFormSubmit} className="details-modal-body">
                         <div>
                             <div className="taskType-info details-info">
+                                <div>
+                                    <div className="status-dropdown-div task-type-select">
+                                        <label><SiTyper />
+                                            Tapşırığın növü</label>
+                                        <div class="dropdown-task" id="details-task" ref={taskTypeDropdownRef}>
+                                            <div className="dropdown-task-toggle" onClick={toggleDropdownTaskType}>
+                                                {formData.task_type ? formData.task_type === 'connection' ? 'Qoşulma' : 'Problem' : 'Tapşırığı Seçin'}
+                                                <FaChevronDown />
+
+                                            </div>
+                                        </div>
+                                        {isDropdownOpenTaskType && (
+                                            <div className="taskType-options">
+                                                {renderTaskTypeOptions()}
+                                            </div>
+                                        )}
+                                    </div>
+                                    <hr />
+                                </div>
                                 <div>
                                     <div>
                                         <label><IoPersonOutline /> Müştəri</label>
@@ -322,16 +398,32 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick }) {
                                     <hr />
                                 </div>
                                 <div>
-                                    <div>
+                                    <div className='status-dropdown-div'>
                                         <label><MdOutlineMiscellaneousServices /> Xidmət</label>
-                                        <input type="text" name="services" value={formData.services} onChange={handleInputChange} />
+                                        <div className="status-dropdown" ref={serviceDropdownRef}>
+                                            <div
+                                                className="taskType-toggle details-toggle"
+                                                onClick={toggleDropdownService}
+                                            >
+                                                {Array.isArray(formData.services) && formData.services.length > 0
+                                                    ? formData.services
+                                                        .map(service => SERVICE_OPTIONS.find(option => option.value === service)?.label)
+                                                        .join(', ')
+                                                    : 'Xidmət seçin'}                                                <FaChevronDown />
+                                            </div>
+                                            {isDropdownOpenService && (
+                                                <div className="taskType-options">
+                                                    {renderServiceOptions()}
+                                                </div>
+                                            )}
+                                        </div>
                                     </div>
                                     <hr />
                                 </div>
                                 <div>
                                     <div className='status-dropdown-div'>
                                         <label><BiComment /> Status</label>
-                                        <div className="status-dropdown">
+                                        <div className="status-dropdown" ref={statusDropdownRef}>
                                             <div className="taskType-toggle details-toggle" onClick={toggleDropdownStatus}>
                                                 {formData.status ? STATUS_OPTIONS.find(option => option.value === formData.status)?.label : 'Status Seçin'}
                                                 <FaChevronDown />
@@ -349,7 +441,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick }) {
                                 <div>
                                     <div className="form-group">
                                         <label><MdOutlineEngineering /> Texniki qrup</label>
-                                        <div className="dropdown-task" id='details-task' ref={dropdownRef}>
+                                        <div className="dropdown-task" id='details-task' ref={groupDropdownRef}>
                                             <div
                                                 className="dropdown-task-toggle"
                                                 onClick={() => setIsDropdownOpenGroup(!isDropdownOpenGroup)}

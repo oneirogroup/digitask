@@ -5,7 +5,6 @@ import { IoMdClose } from "react-icons/io";
 import { RiMapPinAddFill } from "react-icons/ri";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 
-
 const MEETING_TYPES = [
   { value: 'Şənlik', label: 'Şənlik' },
   { value: 'Toplantı', label: 'Toplantı' },
@@ -23,7 +22,7 @@ const AddEventModal = ({ isOpen, onClose }) => {
   const [participants, setParticipants] = useState([]);
   const [selectedParticipants, setSelectedParticipants] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState({});
   const [isMeetingTypeModalOpen, setIsMeetingTypeModalOpen] = useState(false);
   const [isParticipantsModalOpen, setIsParticipantsModalOpen] = useState(false);
 
@@ -44,7 +43,6 @@ const AddEventModal = ({ isOpen, onClose }) => {
     fetchParticipants();
   }, []);
 
-  // Modal kapatıldığında veya etkinlik eklendikten sonra durumu sıfırla
   const resetModalState = () => {
     setEventName('');
     setEventDate('');
@@ -55,9 +53,27 @@ const AddEventModal = ({ isOpen, onClose }) => {
     setSelectedParticipants([]);
   };
 
+  const validateForm = () => {
+    const newErrors = {};
+    if (!eventName) newErrors.eventName = 'Tədbirin adını daxil edin!';
+    if (!eventDate) newErrors.eventDate = 'Tarixi daxil edin!';
+    if (!eventTime) newErrors.eventTime = 'Saatı daxil edin!';
+    if (!eventLocation) newErrors.eventLocation = 'Keçiriləcəyi yeri daxil edin!';
+    if (!meetingType) newErrors.meetingType = 'Görüş növünü seçin!';
+    if (selectedParticipants.length === 0) newErrors.participants = 'İştirakçıları seçin!';
+    return newErrors;
+  };
+
   const handleAddEvent = async () => {
+    const errors = validateForm();
+
+    if (Object.keys(errors).length > 0) {
+      setError(errors);
+      return;
+    }
+
     setLoading(true);
-    setError(null);
+    setError({}); // Hataları temizle
 
     const eventData = {
       title: eventName,
@@ -74,11 +90,11 @@ const AddEventModal = ({ isOpen, onClose }) => {
         }
       });
       console.log('Event added:', response.data);
-      onClose(); // Modalı kapat
-      resetModalState(); // Durumu sıfırla
+      onClose();
+      resetModalState();
     } catch (error) {
       console.error('Error adding event:', error);
-      setError('Tədbir əlavə edilərkən xəta baş verdi.');
+      setError({ general: 'Tədbir əlavə edilərkən xəta baş verdi.' });
     } finally {
       setLoading(false);
     }
@@ -118,76 +134,89 @@ const AddEventModal = ({ isOpen, onClose }) => {
           <label>
             Tədbirin adı:
             <input type="text" value={eventName} onChange={(e) => setEventName(e.target.value)} />
+            {error.eventName && <p className="error-message">{error.eventName}</p>}
           </label>
           <div className="date-time-container">
             <label>
               Keçiriləcəyi gün:
               <input type="date" value={eventDate} onChange={(e) => setEventDate(e.target.value)} />
+              {error.eventDate && <p className="error-message">{error.eventDate}</p>}
             </label>
             <label>
               Saat:
               <input type="time" value={eventTime} onChange={(e) => setEventTime(e.target.value)} />
+              {error.eventTime && <p className="error-message">{error.eventTime}</p>}
             </label>
           </div>
           <div className='meetingType-participants'>
-            <label onClick={toggleMeetingTypeModal}>
-              Görüş növü:  <div>
-                {meetingType ? meetingType : 'Seçin'}
-                <span>{isMeetingTypeModalOpen ? <FaChevronUp /> : <FaChevronDown />}</span>
-              </div>
-            </label>
-            {isMeetingTypeModalOpen && (
-              <div className="modal-overlay-meetingType">
-                <div className="modal-content">
-                  <div className="modal-header">
-                    <h4>Görüş növü seçin</h4>
-                    <button onClick={toggleMeetingTypeModal}><IoMdClose /></button>
-                  </div>
-                  <div className="modal-body">
-                    {MEETING_TYPES.map(type => (
-                      <div key={type.value} onClick={() => handleMeetingTypeSelect(type.value)}>
-                        {type.label}
-                      </div>
-                    ))}
+            <div>
+              <label onClick={toggleMeetingTypeModal}>
+                Görüş növü:
+                <div> <span>
+                  {meetingType ? meetingType : 'Seçin'}
+                  <span>{isMeetingTypeModalOpen ? <FaChevronUp /> : <FaChevronDown />}</span>
+                </span>
+                </div>
+              </label>
+              {isMeetingTypeModalOpen && (
+                <div className="modal-overlay-meetingType">
+                  <div className="modal-content">
+                    <div className="modal-header">
+                      <h4>Görüş növü seçin</h4>
+                      <button onClick={toggleMeetingTypeModal}><IoMdClose /></button>
+                    </div>
+                    <div className="modal-body">
+                      {MEETING_TYPES.map(type => (
+                        <div key={type.value} onClick={() => handleMeetingTypeSelect(type.value)}>
+                          {type.label}
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
-              </div>
-            )}
-            <label onClick={toggleParticipantsModal}>
-              İştirakçılar: <div>
-                {selectedParticipants.length > 0
-                  ? selectedParticipants.map(p => `${p.first_name} ${p.last_name}`).join(', ')
-                  : <span>Seçin <span>{isParticipantsModalOpen ? <FaChevronUp /> : <FaChevronDown />}</span></span>}
-              </div>
-            </label>
-            {isParticipantsModalOpen && (
-              <div className="modal-overlay-participants">
-                <div className="modal-content">
-                  <div className="modal-header">
-                    <h4>İştirakçıları seçin</h4>
-                    <button onClick={toggleParticipantsModal}><IoMdClose /></button>
-                  </div>
-                  <div className="modal-body">
-                    {participants.map(participant => (
-                      <div key={participant.id} onClick={() => handleParticipantSelect(participant)}>
-                        {participant.first_name} {participant.last_name}
-                      </div>
-                    ))}
+              )}
+              {error.meetingType && <p className="error-message">{error.meetingType}</p>}
+            </div>
+            <div>
+              <label onClick={toggleParticipantsModal}>
+                İştirakçılar:
+                <div>
+                  {selectedParticipants.length > 0
+                    ? selectedParticipants.map(p => `${p.first_name} ${p.last_name}`).join(', ')
+                    : <span>Seçin <span>{isParticipantsModalOpen ? <FaChevronUp /> : <FaChevronDown />}</span></span>}
+                </div>
+              </label>
+              {isParticipantsModalOpen && (
+                <div className="modal-overlay-participants">
+                  <div className="modal-content">
+                    <div className="modal-header">
+                      <h4>İştirakçıları seçin</h4>
+                      <button onClick={toggleParticipantsModal}><IoMdClose /></button>
+                    </div>
+                    <div className="modal-body">
+                      {participants.map(participant => (
+                        <div key={participant.id} onClick={() => handleParticipantSelect(participant)}>
+                          {participant.first_name} {participant.last_name}
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
-              </div>
-            )}
+              )}
+              {error.participants && <p className="error-message">{error.participants}</p>}
+            </div>
           </div>
           <label>
             Keçiriləcəyi yer:
             <input type="text" value={eventLocation} onChange={(e) => setEventLocation(e.target.value)} />
             <RiMapPinAddFill />
+            {error.eventLocation && <p className="error-message">{error.eventLocation}</p>}
           </label>
           <label>
             Qeyd:
             <textarea value={eventDescription} placeholder='Qeydlər' onChange={(e) => setEventDescription(e.target.value)} />
           </label>
-          {error && <p className="error">{error}</p>}
+          {error.general && <p className="error-message">{error.general}</p>}
           <button onClick={handleAddEvent} disabled={loading}>
             {loading ? 'Əlavə edilir...' : 'Əlavə Et'}
           </button>

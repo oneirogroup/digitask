@@ -79,7 +79,7 @@
     align-items: end;
 }
 
-.taskType-info div div {
+.taskType-info > div > div {
     display: flex;
     justify-content: space-between;
     padding: 8px 0 10px 0;
@@ -163,8 +163,9 @@
     white-space: nowrap;
 }
 
-.details-info div div{
+.details-info > div > div{
 padding: 0;
+margin-bottom: 10px;
 }
 
   
@@ -213,7 +214,6 @@ padding: 0;
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    margin-bottom: 10px;
     width: 100%;
     font-family: 'Nunito Sans', sans-serif;
     font-size: 16px;
@@ -289,6 +289,7 @@ padding: 0;
 
   .status-dropdown-div{
     position: relative;
+    z-index: 100;
   }
 
   .status-dropdown .details-toggle{
@@ -352,6 +353,7 @@ padding: 0;
   #details-task .dropdown-task-item input{
     width: max-content;
     margin-bottom: 0;
+    display: none;
   }
 
   #details-task .dropdown-task-item:hover{
@@ -431,4 +433,28 @@ padding: 0;
     width: 55%;
     object-fit: contain;
     height: 100px;
+  }
+
+  .task-type-select {
+    display: flex;
+    align-items: center;
+  }
+
+  .task-type-select .taskType-options{
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    background-color: white;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    top: 45px;
+    right: 0px;
+    gap: 3px;
+    width: 54%;
+  }
+
+  .task-type-select .taskType-options .taskType-option {
+    padding: 8px;
+
   }

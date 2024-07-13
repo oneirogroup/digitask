@@ -202,10 +202,16 @@
   gap: 5px;
 }
 
+.capitalize-first-letter::first-letter {
+  text-transform: uppercase;
+}
+
+
 .task-name-date,
 .registerNumber-contactNumber, .taskService-taskGroup {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   gap: 20px;
 }
 
@@ -277,3 +283,22 @@
   background: #555; 
 }
 
+.task-date-form .form-group{
+  margin: 0 !important;
+}
+
+.task-name-date{
+  margin-bottom: 15px;
+}
+
+.error-message {
+  background-color: #be3f3b;
+  width: max-content;
+  padding: 8px;
+  font-size: 14px;
+  font-weight: bold;
+  margin-top: 10px;
+  border-radius: 4px;
+  display: block;
+  color: white;
+}

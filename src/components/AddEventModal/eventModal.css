@@ -90,6 +90,13 @@
   align-items: center;
 }
 
+.meetingType-participants label > div > span {
+  display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+}
+
 .meetingType-participants label > div span svg{
   font-size: 16px;
   color: black !important;
@@ -210,4 +217,8 @@ font-weight: 500;
 .modal-overlay-meetingType .modal-body div:hover, .modal-overlay-participants .modal-body div:hover {
   background-color: #f0f0f0;
 
+}
+
+.event-modal-overlay .error-message {
+  margin-bottom: 8px;
 }

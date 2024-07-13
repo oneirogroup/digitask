@@ -25,6 +25,7 @@ const CreateTaskModal = ({ onClose }) => {
     });
     const [groups, setGroups] = useState([]);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [errors, setErrors] = useState({});
     const dropdownRef = useRef(null);
 
     useEffect(() => {
@@ -61,32 +62,6 @@ const CreateTaskModal = ({ onClose }) => {
         }));
     };
 
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            const task_type = activeFilter === "connection" ? "connection" : "problem";
-            const time = `${formData.start_time}-${formData.end_time}`;
-
-            const response = await axios.post('http://135.181.42.192/services/create_task/', {
-                ...formData,
-                task_type,
-                time,
-            });
-
-            if (response.status === 201) {
-                onClose(response.data);
-            } else {
-                console.error('Failed to create task', response);
-            }
-
-            window.location.reload();
-        } catch (error) {
-            console.error('Error creating task:', error);
-        }
-    };
-
-
     const handleCheckboxChange = (e) => {
         const { name, checked } = e.target;
         setFormData((prevState) => ({
@@ -110,6 +85,76 @@ const CreateTaskModal = ({ onClose }) => {
                 : [...prevState.group, groupId];
             return { ...prevState, group: updatedGroups };
         });
+    };
+
+    const [errorText, setErrorText] = useState('');
+
+    const validateForm = () => {
+        const newErrors = {};
+        if (!formData.full_name) newErrors.full_name = 'Ad və soyadınızı daxil edin!';
+        if (!formData.date) newErrors.date = 'tarixi';
+        if (!formData.start_time) newErrors.start_time = 'başlanğıc saatı';
+        if (!formData.end_time) newErrors.end_time = 'bitmə saatı';
+        if (!formData.registration_number) newErrors.registration_number = 'Qeydiyyat nömrəsi daxil edin!';
+        if (!formData.contact_number) newErrors.contact_number = 'Əlaqə nömrəsini daxil edin!';
+        if (!formData.location) newErrors.location = 'Ünvanı daxil edin!';
+        if (!formData.is_tv && !formData.is_internet && !formData.is_voice)
+            newErrors.service = 'Tv, internet və ya səs xidmətini seçin!';
+        if (formData.group.length === 0) newErrors.group = 'Qrup seçin!';
+
+        const errorMessages = [
+            newErrors.date,
+            newErrors.start_time,
+            newErrors.end_time
+        ].filter(Boolean);
+
+        let errorText = '';
+        if (errorMessages.length > 0) {
+            if (errorMessages.length === 1) {
+                errorText = errorMessages[0];
+            } else if (errorMessages.length === 2) {
+                errorText = errorMessages.join(' və ');
+            } else {
+                const lastMessage = errorMessages.pop();
+                errorText = `${errorMessages.join(', ')} və ${lastMessage}`;
+            }
+        }
+
+        return {
+            newErrors,
+            errorText
+        };
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const { newErrors, errorText } = validateForm();
+        if (Object.keys(newErrors).length > 0) {
+            setErrors(newErrors);
+            setErrorText(errorText);
+            return;
+        }
+
+        try {
+            const task_type = activeFilter === "connection" ? "connection" : "problem";
+            const time = `${formData.start_time}-${formData.end_time}`;
+
+            const response = await axios.post('http://135.181.42.192/services/create_task/', {
+                ...formData,
+                task_type,
+                time,
+            });
+
+            if (response.status === 201) {
+                onClose(response.data);
+            } else {
+                console.error('Failed to create task', response);
+            }
+
+            window.location.reload();
+        } catch (error) {
+            console.error('Error creating task:', error);
+        }
     };
 
     const renderGroups = () => {
@@ -161,41 +206,47 @@ const CreateTaskModal = ({ onClose }) => {
                                 onChange={handleChange}
                                 className="form-control"
                             />
+                            {errors.full_name && <span className="error-message">{errors.full_name}</span>}
                         </div>
-                        <div className='task-date-form'>
-                            <div className="form-group">
-                                <label htmlFor="date">Tarix:</label>
-                                <input
-                                    type="date"
-                                    id="date"
-                                    name="date"
-                                    value={formData.date}
-                                    onChange={handleChange}
-                                    className="form-control"
-                                />
+                        <div className='form-group'>
+                            <div className='task-date-form'>
+                                <div className="">
+                                    <label htmlFor="date">Tarix:</label>
+                                    <input
+                                        type="date"
+                                        id="date"
+                                        name="date"
+                                        value={formData.date}
+                                        onChange={handleChange}
+                                        className="form-control"
+                                    />
+                                </div>
+                                <div className="">
+                                    <label htmlFor="start_time">Başlayır:</label>
+                                    <input
+                                        type="time"
+                                        id="start_time"
+                                        name="start_time"
+                                        value={formData.start_time}
+                                        onChange={handleChange}
+                                        className="form-control"
+                                    />
+                                </div>
+                                <div className="">
+                                    <label htmlFor="end_time">Bitir:</label>
+                                    <input
+                                        type="time"
+                                        id="end_time"
+                                        name="end_time"
+                                        value={formData.end_time}
+                                        onChange={handleChange}
+                                        className="form-control"
+                                    />
+                                </div>
+
                             </div>
-                            <div className="form-group">
-                                <label htmlFor="start_time">Başlayır:</label>
-                                <input
-                                    type="time"
-                                    id="start_time"
-                                    name="start_time"
-                                    value={formData.start_time}
-                                    onChange={handleChange}
-                                    className="form-control"
-                                />
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="end_time">Bitir:</label>
-                                <input
-                                    type="time"
-                                    id="end_time"
-                                    name="end_time"
-                                    value={formData.end_time}
-                                    onChange={handleChange}
-                                    className="form-control"
-                                />
-                            </div>
+                            {errorText && <span className='capitalize-first-letter error-message'>{errorText} daxil edin!</span>}
+
                         </div>
                     </div>
                     <div className='registerNumber-contactNumber'>
@@ -209,6 +260,7 @@ const CreateTaskModal = ({ onClose }) => {
                                 onChange={handleChange}
                                 className="form-control"
                             />
+                            {errors.registration_number && <span className="error-message">{errors.registration_number}</span>}
                         </div>
                         <div className="form-group">
                             <label htmlFor="contact_number">Əlaqə nömrəsi:</label>
@@ -220,10 +272,11 @@ const CreateTaskModal = ({ onClose }) => {
                                 onChange={handleChange}
                                 className="form-control"
                             />
+                            {errors.contact_number && <span className="error-message">{errors.contact_number}</span>}
                         </div>
                     </div>
                     <div className="form-group">
-                        <label htmlFor="location">Adress:</label>
+                        <label htmlFor="location">Ünvan:</label>
                         <input
                             type="text"
                             id="location"
@@ -232,36 +285,43 @@ const CreateTaskModal = ({ onClose }) => {
                             onChange={handleChange}
                             className="form-control"
                         />
+                        {errors.location && <span className="error-message">{errors.location}</span>}
                     </div>
                     <div className='taskService-taskGroup'>
-                        <div className='tv-voice-internet'>
-                            <label htmlFor="tv" className={`form-group ${formData.is_tv ? "activeTask" : ""}`}>
-                                <input
-                                    type="checkbox"
-                                    id="tv"
-                                    name="is_tv"
-                                    checked={formData.is_tv}
-                                    onChange={handleCheckboxChange}
-                                />
-                                <PiTelevisionSimpleLight /> TV</label>
-                            <label htmlFor="internet" className={`form-group ${formData.is_internet ? "activeTask" : ""}`}>
-                                <input
-                                    type="checkbox"
-                                    id="internet"
-                                    name="is_internet"
-                                    checked={formData.is_internet}
-                                    onChange={handleCheckboxChange}
-                                />
-                                <TfiWorld /> Internet</label>
-                            <label htmlFor="voice" className={`form-group ${formData.is_voice ? "activeTask" : ""}`}>
-                                <input
-                                    type="checkbox"
-                                    id="voice"
-                                    name="is_voice"
-                                    checked={formData.is_voice}
-                                    onChange={handleCheckboxChange}
-                                />
-                                <RiVoiceprintFill /> Voice</label>
+                        <div className="form-group">
+                            <div className='tv-voice-internet'>
+                                <label htmlFor="tv" className={`form-group ${formData.is_tv ? "activeTask" : ""}`}>
+                                    <input
+                                        type="checkbox"
+                                        id="tv"
+                                        name="is_tv"
+                                        checked={formData.is_tv}
+                                        onChange={handleCheckboxChange}
+                                    />
+                                    <PiTelevisionSimpleLight /> TV
+                                </label>
+                                <label htmlFor="internet" className={`form-group ${formData.is_internet ? "activeTask" : ""}`}>
+                                    <input
+                                        type="checkbox"
+                                        id="internet"
+                                        name="is_internet"
+                                        checked={formData.is_internet}
+                                        onChange={handleCheckboxChange}
+                                    />
+                                    <TfiWorld /> Internet
+                                </label>
+                                <label htmlFor="voice" className={`form-group ${formData.is_voice ? "activeTask" : ""}`}>
+                                    <input
+                                        type="checkbox"
+                                        id="voice"
+                                        name="is_voice"
+                                        checked={formData.is_voice}
+                                        onChange={handleCheckboxChange}
+                                    />
+                                    <RiVoiceprintFill /> Voice
+                                </label>
+                            </div>
+                            {errors.service && <span className="error-message">{errors.service}</span>}
                         </div>
                         <div className="form-group">
                             <label>Texniki Qrup:</label>
@@ -281,9 +341,9 @@ const CreateTaskModal = ({ onClose }) => {
                                     </div>
                                 )}
                             </div>
+                            {errors.group && <span className="error-message">{errors.group}</span>}
                         </div>
                     </div>
-
                     <div className="form-group">
                         <label htmlFor="note">Qeydlər:</label>
                         <textarea
@@ -293,13 +353,14 @@ const CreateTaskModal = ({ onClose }) => {
                             onChange={handleChange}
                             className="form-control"
                         />
+                        {errors.note && <span className="error-message">{errors.note}</span>}
                     </div>
                     <button type="submit" className="btn btn-primary">
                         Əlavə et
                     </button>
                 </form>
-            </div >
-        </div >
+            </div>
+        </div>
     );
 };
 
