@@ -32,6 +32,7 @@ const AddSurveyModal = ({ onClose, selectedServices, taskId, onSurveyAdded }) =>
 
     const [openServices, setOpenServices] = useState({});
     const [existingSurveys, setExistingSurveys] = useState({});
+    const [submittedServices, setSubmittedServices] = useState({});
 
     useEffect(() => {
         const fetchExistingSurveys = async () => {
@@ -86,7 +87,7 @@ const AddSurveyModal = ({ onClose, selectedServices, taskId, onSurveyAdded }) =>
 
         try {
             const surveyPromises = Object.keys(selectedServices).map(async (serviceType) => {
-                if (!selectedServices[serviceType] || existingSurveys[serviceType]) return;
+                if (!selectedServices[serviceType] || existingSurveys[serviceType] || submittedServices[serviceType]) return;
 
                 const serviceData = surveyData[serviceType];
                 if (!serviceData || !Object.values(serviceData).some(value => value !== '' && value !== null)) {
@@ -112,6 +113,11 @@ const AddSurveyModal = ({ onClose, selectedServices, taskId, onSurveyAdded }) =>
                     });
                     onSurveyAdded(serviceType, response.data);
                     console.log(`Survey for ${serviceType} added successfully:`, response.data);
+
+                    setSubmittedServices(prev => ({
+                        ...prev,
+                        [serviceType]: true
+                    }));
                 } catch (error) {
                     console.error(`Error adding survey for ${serviceType}:`, error);
                     alert(`Failed to add survey for ${serviceType}. Please try again.`);
@@ -136,19 +142,22 @@ const AddSurveyModal = ({ onClose, selectedServices, taskId, onSurveyAdded }) =>
         <div className="add-survey-modal">
             <div className="add-survey-modal-content">
                 <div className="addSurveyModal-header">
-                    <h5>Anket əlavə et</h5>
+                    <h5>Xidmət növü</h5>
                     <span className="close" onClick={onClose}>&times;</span>
                 </div>
+                <p className='service-text'>Hansı anketi doldurursunuz?</p>
+
                 <div className="addSurveyModal-body">
                     <form onSubmit={handleFormSubmit}>
                         <div className="service-list">
                             {Object.keys(selectedServices).map(serviceType =>
                                 selectedServices[serviceType] && !existingSurveys[serviceType] && (
-                                    <div key={serviceType} className="service-section">
-                                        <div className="service-header">
-                                            <p>Xidmət məlumatları</p>
-                                            <h6 onClick={() => handleServiceToggle(serviceType)}>{serviceDisplayNames[serviceType] || serviceType.charAt(0).toUpperCase() + serviceType.slice(1)} {openServices[serviceType] ? '-' : 'anketi əlavə et'}</h6>
-                                        </div>
+                                    <div key={serviceType} className={`service-section ${openServices[serviceType] ? 'active-status' : ''}`}>
+                                        {!openServices[serviceType] && !submittedServices[serviceType] && (
+                                            <div onClick={() => handleServiceToggle(serviceType)} className="service-header">
+                                                <h6>{serviceDisplayNames[serviceType] || serviceType.charAt(0).toUpperCase() + serviceType.slice(1)}</h6>
+                                            </div>
+                                        )}
                                         {openServices[serviceType] && (
                                             <div className="service-fields">
                                                 {serviceType === 'tv' && (
@@ -294,7 +303,7 @@ const AddSurveyModal = ({ onClose, selectedServices, taskId, onSurveyAdded }) =>
                                                             </div>
                                                             <div>
                                                                 <div className="form-group">
-                                                                    <label>Optik Kabel:</label>
+                                                                    <label>Optik kabel:</label>
                                                                     <input
                                                                         type="text"
                                                                         name="optical_cable"
@@ -320,7 +329,7 @@ const AddSurveyModal = ({ onClose, selectedServices, taskId, onSurveyAdded }) =>
                                                             </div>
                                                             <div>
                                                                 <div className="form-group">
-                                                                    <label>Siqnal:</label>
+                                                                    <label>Sürət:</label>
                                                                     <input
                                                                         type="text"
                                                                         name="siqnal"
@@ -386,7 +395,7 @@ const AddSurveyModal = ({ onClose, selectedServices, taskId, onSurveyAdded }) =>
                                                             </div>
                                                             <div>
                                                                 <div className="form-group">
-                                                                    <label>Home Number:</label>
+                                                                    <label>Ev nömrəsi:</label>
                                                                     <input
                                                                         type="text"
                                                                         name="home_number"
@@ -419,7 +428,9 @@ const AddSurveyModal = ({ onClose, selectedServices, taskId, onSurveyAdded }) =>
                                 )
                             )}
                         </div>
-                        <button type="submit">Əlavə et</button>
+                        <div className="modal-footer">
+                            <button type="submit">Əlavə et</button>
+                        </div>
                     </form>
                 </div>
             </div>

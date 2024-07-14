@@ -458,3 +458,8 @@ margin-bottom: 10px;
     padding: 8px;
 
   }
+
+  .taskType-modal .type-icon{
+    display: flex;
+    gap: 7px;
+  }

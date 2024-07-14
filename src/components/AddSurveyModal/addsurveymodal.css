@@ -31,7 +31,7 @@
 .addSurveyModal-header h5{
     font-family: 'Montserrat', sans-serif;
     font-size: 26px;
-    font-weight: 500;
+    font-weight: 600;
     margin: 10px auto;
 }
 
@@ -51,12 +51,7 @@
     margin: 20px 0;
 }
 
-.service-header h6 {
-    color: #005ABF;
-    font-size: 24px;
-    cursor: pointer;
 
-}
 
 .service-fields > div:last-of-type{
     display: grid;
@@ -174,3 +169,49 @@
     height: 150px;
     object-fit: contain;
 }
+
+.service-list{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 30px;
+
+    margin: 30px 0;
+}
+
+.service-section{
+    width: 100%;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.service-header{
+    width: 100%;
+    height: 70px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 4px solid #FFD600;
+    border-radius: 10px;
+    cursor: pointer;
+
+}
+
+.service-header h6 {
+    font-size: 24px;
+}
+
+.service-text{
+    margin: 0 auto;
+    text-align: center;
+    color: #76777A;
+    font-family: Nunito Sans, sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+}
+
