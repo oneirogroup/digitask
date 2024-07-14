@@ -67,8 +67,6 @@ function Index() {
     const [isStatusModalOpen, setIsStatusModalOpen] = useState(false);
     const [selectedStatusFilter, setSelectedStatusFilter] = useState("Hamısı");
     const [isAddTaskModalOpen, setIsAddTaskModalOpen] = useState(false);
-    const [isAddUserModal, setIsAddUserModal] = useState(false);
-
     const [isSmallModalOpen, setIsSmallModalOpen] = useState(false);
     const [isTaskDetailsModalOpen, setIsTaskDetailsModalOpen] = useState(false);
     const [selectedMonth, setSelectedMonth] = useState(new Date());
@@ -188,14 +186,6 @@ function Index() {
 
     const closeAddTaskModal = () => {
         setIsAddTaskModalOpen(false);
-    };
-
-    const openAddUserModal = () => {
-        setIsAddUserModal(true);
-    };
-
-    const closeAddUserModal = () => {
-        setIsAddUserModal(false);
     };
 
     const openSmallModal = (event, index) => {
@@ -323,11 +313,8 @@ function Index() {
                     <button onClick={resetFilters}>
                         <IoMdRefresh />Yenilə
                     </button>
-                    {!userType || userType !== 'texnik' && (
+                    {userType !== 'texnik' && (
                         <button onClick={openAddTaskModal}><IoAdd />Əlavə et</button>
-                    )}
-                    {userType === 'texnik' && (
-                        <button onClick={openAddUserModal}><IoAdd />Istifadəçi əlavə et</button>
                     )}
                 </div>
             </div>
@@ -456,7 +443,6 @@ function Index() {
                 </div>
             </div>
             {isAddTaskModalOpen && <AddTaskModal onClose={closeAddTaskModal} />}
-            {isAddUserModal && <AddUserModal onClose={closeAddUserModal} />}
             {isTaskDetailsModalOpen && (
                 <DetailsModal
                     onClose={closeTaskDetailsModal}

@@ -3,11 +3,11 @@ import axios from 'axios';
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { MdOutlineEdit } from "react-icons/md";
-import { IoFilterOutline } from "react-icons/io5";
+import { IoFilterOutline, IoAdd } from "react-icons/io5";
 import { CiSearch } from "react-icons/ci";
 import { FaChevronDown, FaArrowLeft, FaArrowRight, FaCircle } from "react-icons/fa";
-import "./employees.css";
 import { PiMapPinAreaFill } from "react-icons/pi";
+import "./employees.css";
 
 const refreshAccessToken = async () => {
   const refresh_token = localStorage.getItem('refresh_token');
@@ -36,6 +36,8 @@ const translateUserType = (userType) => {
   }
 };
 
+
+
 const EmployeeList = () => {
   const [employees, setEmployees] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -47,8 +49,11 @@ const EmployeeList = () => {
   const [showGroupOptions, setShowGroupOptions] = useState(false);
   const [employeeModals, setEmployeeModals] = useState({});
   const [status, setStatus] = useState({});
+  const [isAddUserModal, setIsAddUserModal] = useState(false);
   const modalRef = useRef(null);
   const wsRef = useRef(null);
+  const [isAdmin, setIsAdmin] = useState(localStorage.getItem('is_admin') === 'true');
+
   const [loggedInUserId, setLoggedInUserId] = useState(null);
 
   useEffect(() => {
@@ -56,6 +61,7 @@ const EmployeeList = () => {
       try {
         await refreshAccessToken();
         const token = localStorage.getItem('access_token');
+
         const response = await axios.get('http://135.181.42.192/accounts/users/', {
           headers: {
             'Authorization': `Bearer ${token}`
@@ -64,19 +70,21 @@ const EmployeeList = () => {
         setEmployees(response.data);
         initializeEmployeeModals(response.data);
 
+        console.log('Is Admin:', isAdmin);
         const loggedInUserResponse = await axios.get('http://135.181.42.192/accounts/profile/', {
           headers: {
             'Authorization': `Bearer ${token}`
           }
         });
         setLoggedInUserId(loggedInUserResponse.data.id);
+
       } catch (error) {
         console.error('Error fetching the employees data:', error);
       }
     };
 
     fetchEmployees();
-  }, []);
+  }, [isAdmin]);
 
   useEffect(() => {
     const requestInterceptor = axios.interceptors.request.use(
@@ -137,7 +145,6 @@ const EmployeeList = () => {
         console.error('Error parsing WebSocket message:', error);
       }
     };
-
 
     ws.onerror = (error) => {
       console.error('WebSocket error:', error);
@@ -226,6 +233,14 @@ const EmployeeList = () => {
 
   const currentItems = getFilteredEmployees().slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
+  const openAddUserModal = () => {
+    setIsAddUserModal(true);
+  };
+
+  const closeAddUserModal = () => {
+    setIsAddUserModal(false);
+  };
+
   const paginate = (pageNumber) => {
     if (pageNumber > 0 && pageNumber <= Math.ceil(getFilteredEmployees().length / itemsPerPage)) {
       setCurrentPage(pageNumber);
@@ -234,7 +249,12 @@ const EmployeeList = () => {
 
   return (
     <div className='employee-page'>
-      <h1>İşçilər</h1>
+      <div>
+        <h1>İşçilər</h1>
+        {isAdmin && (
+          <button onClick={openAddUserModal}><IoAdd />Istifadəçi əlavə et</button>
+        )}
+      </div>
       <div className='employee-search-filter'>
         <div>
           <CiSearch />
@@ -353,6 +373,7 @@ const EmployeeList = () => {
           <FaArrowRight />
         </button>
       </div>
+      {isAddUserModal && <AddUserModal onClose={closeAddUserModal} />}
     </div>
   );
 };

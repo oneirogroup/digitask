@@ -90,6 +90,10 @@ const Home = () => {
         setIsModalOpen(false);
     };
 
+    const handleEventAdded = (newEvent) => {
+        setMeetings(prevMeetings => [newEvent, ...prevMeetings]);
+    };
+
     return (
         <div className="home-page">
             <section className="home-meet-section">
@@ -188,7 +192,7 @@ const Home = () => {
                     </div>
                 </div>
             </section>
-            <AddEventModal isOpen={isModalOpen} onClose={closeModal} />
+            <AddEventModal isOpen={isModalOpen} onClose={closeModal} refreshMeetings={handleEventAdded} />
         </div>
     );
 };

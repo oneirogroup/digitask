@@ -304,9 +304,11 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick }) {
         ));
     };
 
-    const shouldShowAddSurveyButton = (taskDetails?.is_tv && !taskDetails?.tv) ||
+    const shouldShowAddSurveyButton = (
+        (taskDetails?.is_tv && !taskDetails?.tv) ||
         (taskDetails?.is_internet && !taskDetails?.internet) ||
-        (taskDetails?.is_voice && !taskDetails?.voice);
+        (taskDetails?.is_voice && !taskDetails?.voice)
+    ) && taskDetails?.status !== 'waiting';
 
     const handleSurveyAdded = (serviceType, surveyData) => {
         setTaskDetails((prevDetails) => ({

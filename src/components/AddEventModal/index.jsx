@@ -12,7 +12,7 @@ const MEETING_TYPES = [
   { value: 'Seminar', label: 'Seminar' }
 ];
 
-const AddEventModal = ({ isOpen, onClose }) => {
+const AddEventModal = ({ isOpen, onClose, refreshMeetings }) => {
   const [eventName, setEventName] = useState('');
   const [eventDate, setEventDate] = useState('');
   const [eventTime, setEventTime] = useState('');
@@ -27,21 +27,27 @@ const AddEventModal = ({ isOpen, onClose }) => {
   const [isParticipantsModalOpen, setIsParticipantsModalOpen] = useState(false);
 
   useEffect(() => {
-    const fetchParticipants = async () => {
-      try {
-        const response = await axios.get('http://135.181.42.192/accounts/users/', {
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+    if (isOpen) {
+      const fetchParticipants = async () => {
+        try {
+          const response = await axios.get('http://135.181.42.192/accounts/users/', {
+            headers: {
+              'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+            }
+          });
+          if (response.data) {
+            setParticipants(response.data);
+          } else {
+            console.error('Unexpected response format:', response);
           }
-        });
-        setParticipants(response.data);
-      } catch (error) {
-        console.error('Error fetching participants:', error);
-      }
-    };
+        } catch (error) {
+          console.error('Error fetching participants:', error);
+        }
+      };
 
-    fetchParticipants();
-  }, []);
+      fetchParticipants();
+    }
+  }, [isOpen]);
 
   const resetModalState = () => {
     setEventName('');
@@ -73,7 +79,7 @@ const AddEventModal = ({ isOpen, onClose }) => {
     }
 
     setLoading(true);
-    setError({}); // Hataları temizle
+    setError({});
 
     const eventData = {
       title: eventName,
@@ -86,12 +92,16 @@ const AddEventModal = ({ isOpen, onClose }) => {
     try {
       const response = await axios.post('http://135.181.42.192/services/create_meeting/', eventData, {
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('access_token')}`
         }
       });
+      if (response.status === 201) {
+        refreshMeetings(response.data);
+        onClose();
+        resetModalState();
+      }
       console.log('Event added:', response.data);
-      onClose();
-      resetModalState();
     } catch (error) {
       console.error('Error adding event:', error);
       setError({ general: 'Tədbir əlavə edilərkən xəta baş verdi.' });
@@ -213,12 +223,12 @@ const AddEventModal = ({ isOpen, onClose }) => {
             {error.eventLocation && <p className="error-message">{error.eventLocation}</p>}
           </label>
           <label>
-            Qeyd:
-            <textarea value={eventDescription} placeholder='Qeydlər' onChange={(e) => setEventDescription(e.target.value)} />
+            Tədbir haqqında:
+            <textarea value={eventDescription} onChange={(e) => setEventDescription(e.target.value)} />
           </label>
           {error.general && <p className="error-message">{error.general}</p>}
           <button onClick={handleAddEvent} disabled={loading}>
-            {loading ? 'Əlavə edilir...' : 'Əlavə Et'}
+            {loading ? 'Yüklənir...' : 'Tədbiri əlavə et'}
           </button>
         </div>
       </div>

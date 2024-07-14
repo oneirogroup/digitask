@@ -29,7 +29,7 @@ const Login = (props) => {
     const [loading, setLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [rememberMe, setRememberMe] = useState(false);
-    const [errors, setErrors] = useState({}); 
+    const [errors, setErrors] = useState({});
 
     const { isLoggedIn } = useSelector(state => state.auth);
     const { message } = useSelector(state => state.message);
@@ -54,7 +54,7 @@ const Login = (props) => {
             if (access_token && refresh_token) {
                 try {
                     const response = await axios.post(
-                        'http://135.181.42.192/accounts/refresh_token/',
+                        'http://135.181.42.192/accounts/gettoken/',
                         { refresh: refresh_token },
                         { headers: { 'Content-Type': 'application/json' } }
                     );
