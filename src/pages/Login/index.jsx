@@ -1,26 +1,20 @@
 import { useState, useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate, useNavigate } from 'react-router-dom';
-
 import Form from "react-validation/build/form";
-import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 import axios from 'axios';
-
 import "./login.css";
 import ovaltop from "../../assets/images/Oval top.svg";
 import ovalbottom from "../../assets/images/Oval bottom.svg";
 import { CiMail } from "react-icons/ci";
 import { IoKeyOutline } from "react-icons/io5";
-import { MdOutlineCheckBoxOutlineBlank } from "react-icons/md";
+import { MdOutlineCheckBoxOutlineBlank, MdCheckBox } from "react-icons/md";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const required = (value) => {
     if (!value) {
-        return (
-            <div className="alert alert-danger" role="alert">
-                Bu xananın doldurulması məcburidir!
-            </div>
-        );
+        return "Bu xananın doldurulması məcburidir!";
     }
 };
 
@@ -33,8 +27,9 @@ const Login = (props) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
-    const [userData, setUserData] = useState({});
-    const [refreshingToken, setRefreshingToken] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+    const [rememberMe, setRememberMe] = useState(false);
+    const [errors, setErrors] = useState({}); 
 
     const { isLoggedIn } = useSelector(state => state.auth);
     const { message } = useSelector(state => state.message);
@@ -42,6 +37,17 @@ const Login = (props) => {
     const dispatch = useDispatch();
 
     useEffect(() => {
+        const savedEmail = localStorage.getItem('saved_email') || sessionStorage.getItem('saved_email');
+        const savedPassword = localStorage.getItem('saved_password') || sessionStorage.getItem('saved_password');
+        if (savedEmail) {
+            setEmail(savedEmail);
+        }
+        if (savedPassword) {
+            setPassword(savedPassword);
+        }
+        const savedRememberMe = localStorage.getItem('remember_me') === 'true';
+        setRememberMe(savedRememberMe);
+
         const refreshTokenIfNeeded = async () => {
             const access_token = localStorage.getItem('access_token');
             const refresh_token = localStorage.getItem('refresh_token');
@@ -77,6 +83,10 @@ const Login = (props) => {
         setPassword(password);
     };
 
+    const toggleRememberMe = () => {
+        setRememberMe(!rememberMe);
+    };
+
     const handleLogin = async (e) => {
         e.preventDefault();
 
@@ -84,43 +94,57 @@ const Login = (props) => {
 
         form.current.validateAll();
 
-        if (checkBtn.current.context._errors.length === 0) {
-            try {
-                const response = await axios.post(
-                    'http://135.181.42.192/accounts/gettoken/',
-                    { email: email, password: password },
-                    { headers: { 'Content-Type': 'application/json' } },
-                    { withCredentials: true }
-                );
+        const newErrors = {};
 
-                const { access, refresh } = response.data;
-                localStorage.clear();
+        if (!email) {
+            newErrors.email = "Emaili daxil edin!";
+        }
+        if (!password) {
+            newErrors.password = "Şifrəni daxil edin!";
+        }
+
+        if (Object.keys(newErrors).length > 0) {
+            setErrors(newErrors);
+            setLoading(false);
+            return;
+        }
+
+        try {
+            const response = await axios.post(
+                'http://135.181.42.192/accounts/gettoken/',
+                { email: email, password: password },
+                { headers: { 'Content-Type': 'application/json' } },
+                { withCredentials: true }
+            );
+
+            const { access, refresh } = response.data;
+            if (rememberMe) {
                 localStorage.setItem('access_token', access);
                 localStorage.setItem('refresh_token', refresh);
-                axios.defaults.headers.common['Authorization'] = `Bearer ${access}`;
-
-                navigate("/");
-                window.location.reload();
-            } catch (error) {
-                setLoading(false);
-                if (error.response) {
-                    console.error("Login error: ", error.response.data);
-                    alert(`Login failed: ${error.response.data.detail || 'Unknown error'}`);
-                } else if (error.request) {
-                    console.error("Login error: No response received", error.request);
-                    alert("Login failed: No response from server.");
-                } else {
-                    console.error("Login error: ", error.message);
-                    alert(`Login failed: ${error.message}`);
-                }
+                localStorage.setItem('saved_email', email);
+                localStorage.setItem('saved_password', password);
+                localStorage.setItem('remember_me', true);
+            } else {
+                sessionStorage.setItem('access_token', access);
+                sessionStorage.setItem('refresh_token', refresh);
+                sessionStorage.setItem('saved_email', email);
+                sessionStorage.setItem('saved_password', password);
+                localStorage.setItem('remember_me', false);
             }
-        } else {
-            setLoading(false);
-        }
-    };
+            axios.defaults.headers.common['Authorization'] = `Bearer ${access}`;
 
-    const handleRegisterData = (data) => {
-        setUserData(data);
+            navigate("/");
+            window.location.reload();
+        } catch (error) {
+            setLoading(false);
+            if (error.response) {
+                console.error("Login error: ", error.response.data);
+            } else if (error.request) {
+                console.error("Login error: No response received", error.request);
+            } else {
+                console.error("Login error: ", error.message);
+            }
+        }
     };
 
     if (isLoggedIn) {
@@ -134,9 +158,7 @@ const Login = (props) => {
                 <div className="login-page">
                     <div className="login-text">
                         <hr />
-                        <h5>
-                            Daxil ol
-                        </h5>
+                        <h5>Daxil ol</h5>
                         <hr />
                     </div>
                     <Form onSubmit={handleLogin} ref={form}>
@@ -148,28 +170,38 @@ const Login = (props) => {
                                     <input type="text" placeholder="Mail adresiniz" name="email"
                                         value={email}
                                         onChange={onChangeEmail}
-                                        validations={[required]} />
+                                    />
                                 </label>
+                                {errors.email && <div className="error-message">{errors.email}</div>}
+
                             </div>
                             <div>
                                 <p>Şifrəniz</p>
                                 <label htmlFor="">
                                     <IoKeyOutline />
-                                    <input type="password" id="" placeholder="*****" name="password"
-                                        value={password}
-                                        onChange={onChangePassword}
-                                        validations={[required]} />
+                                    <div className="login-eye">
+                                        <input type={showPassword ? "text" : "password"} placeholder="*****" name="password"
+                                            value={password}
+                                            onChange={onChangePassword}
+                                        />
+                                        <button
+                                            type="button"
+                                            className="eye-icon"
+                                            onClick={() => setShowPassword(!showPassword)}
+                                        >
+                                            {showPassword ? <FaEyeSlash /> : <FaEye />}
+                                        </button>
+                                    </div>
                                 </label>
+                                {errors.password && <div className="error-message">{errors.password}</div>}
+
                             </div>
-                            <div>
-                                <p>
-                                    <MdOutlineCheckBoxOutlineBlank />
+                            <div className="remember-me">
+                                <p onClick={toggleRememberMe}>
+                                    {rememberMe ? <MdCheckBox /> : <MdOutlineCheckBoxOutlineBlank />}
                                     Məni xatırla
                                 </p>
-                                <Link to="/re-password">
-                                    Şifrəni unutmusunuz?
-
-                                </Link>
+                                <Link to="/re-password">Şifrəni unutmusunuz?</Link>
                             </div>
                             {loading && (
                                 <span className="spinner-border spinner-border-sm"></span>

@@ -85,7 +85,8 @@ class CircleChart extends React.Component {
                 }
             });
 
-            const { user_type, task_details } = response.data;
+            const { user_type, is_staff, is_superuser, task_details } = response.data;
+            const isAdmin = is_staff || is_superuser;
             let series = [0, 0, 0];
             let legendLabels = ['Internet', 'Tv', 'Voice'];
 
@@ -97,6 +98,14 @@ class CircleChart extends React.Component {
                     Math.round((connection_count / total) * 100),
                 ];
                 legendLabels = ['Problem', 'Qoşulma'];
+            } else if (isAdmin) {
+                const { tv_count, internet_count, voice_count } = task_details;
+                const total = tv_count + internet_count + voice_count;
+                series = total === 0 ? [0, 0, 0] : [
+                    Math.round((internet_count / total) * 100),
+                    Math.round((tv_count / total) * 100),
+                    Math.round((voice_count / total) * 100)
+                ];
             } else {
                 const { tv_count, internet_count, voice_count } = task_details;
                 const total = tv_count + internet_count + voice_count;

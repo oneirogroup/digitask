@@ -5,17 +5,20 @@
     position: relative;
 }
 .login-page{
-    height: 480px;
+    height: 500px;
     width: 480px;
     background-color: white;
     margin: 0 auto;
-    padding: 100px;
+    padding: 60px 100px;
     border-radius: 20px;  
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 100;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .bg-color img{
@@ -91,7 +94,7 @@
 .login-mail-password div label input{
     height: 40px;
     border: 0;
-    width: 250px;
+    width: 240px;
     outline: none;
 }
 
@@ -110,9 +113,9 @@
 .login-mail-password div label{
     border: 1px solid #C7C6CA;
     border-radius:8px;
-    padding:0 5px;
     gap: 10px;
     align-items: center;
+    overflow: hidden;
 }
 
 .login-mail-password div label svg{
@@ -121,7 +124,7 @@
     margin-left: 5px;
 }
 
-.login-mail-password button{
+.login-mail-password > button{
     background: #014FA7;
     border-radius: 10px;
     opacity: 0px;
@@ -149,6 +152,7 @@
     display: flex;
     align-items: center;
     gap: 2px;
+    cursor: pointer;
 }
 
 .login-mail-password div:last-of-type a{
@@ -158,4 +162,17 @@
 
     text-align: center;
     color: #005ABF;
+}
+
+.login-eye{
+    display: flex;
+    position: relative;
+}
+
+.login-eye button{
+    position: absolute;
+    right: 5px;
+    cursor: pointer;
+    background-color: inherit;
+    border: none;
 }
