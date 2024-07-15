@@ -90,7 +90,7 @@ class CircleChart extends React.Component {
             let series = [0, 0, 0];
             let legendLabels = ['Internet', 'Tv', 'Voice'];
 
-            if (user_type === 'texnik' || user_type === 'plumber') {
+            if (user_type === 'Texnik' || user_type === 'Plumber') {
                 const { problem_count, connection_count } = task_details;
                 const total = problem_count + connection_count;
                 series = total === 0 ? [0, 0] : [

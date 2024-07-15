@@ -103,7 +103,7 @@ const Home = () => {
                             <p><GoClock /> {new Date(meeting.date).toLocaleString()}</p>
                             <div>
                                 <h5>{meeting.title}</h5>
-                                <p>{meeting.meeting_description}</p>
+                                <p>{meeting.meeting_description.length > 15 ? `${meeting.meeting_description.slice(0, 15)}...` : meeting.meeting_description}</p>
                             </div>
                         </div>
                         <div className="meet-img">
@@ -111,7 +111,7 @@ const Home = () => {
                         </div>
                     </div>
                 ))}
-                {userType !== 'texnik' && (
+                {userType !== 'Texnik' && (
                     <div className="meet-add">
                         <button onClick={openModal}>
                             <IoIosAddCircleOutline />

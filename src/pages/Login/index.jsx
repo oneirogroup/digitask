@@ -11,6 +11,7 @@ import { CiMail } from "react-icons/ci";
 import { IoKeyOutline } from "react-icons/io5";
 import { MdOutlineCheckBoxOutlineBlank, MdCheckBox } from "react-icons/md";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { logout } from "../../actions/auth";
 
 const required = (value) => {
     if (!value) {
@@ -68,19 +69,17 @@ const Login = (props) => {
             }
         };
 
-        const interval = setInterval(refreshTokenIfNeeded, 60 * 1000);
+        const interval = setInterval(refreshTokenIfNeeded, 15 * 60 * 1000);
 
         return () => clearInterval(interval);
     }, [dispatch]);
 
     const onChangeEmail = (e) => {
-        const email = e.target.value;
-        setEmail(email);
+        setEmail(e.target.value);
     };
 
     const onChangePassword = (e) => {
-        const password = e.target.value;
-        setPassword(password);
+        setPassword(e.target.value);
     };
 
     const toggleRememberMe = () => {
@@ -111,32 +110,33 @@ const Login = (props) => {
 
         try {
             const response = await axios.post(
-                'http://135.181.42.192/accounts/gettoken/',
+                'http://135.181.42.192/accounts/login/',
                 { email: email, password: password },
                 { headers: { 'Content-Type': 'application/json' } },
                 { withCredentials: true }
             );
 
-            const { access, refresh } = response.data;
+            const { access_token, refresh_token } = response.data;
             if (rememberMe) {
-                localStorage.setItem('access_token', access);
-                localStorage.setItem('refresh_token', refresh);
+                localStorage.setItem('access_token', access_token);
+                localStorage.setItem('refresh_token', refresh_token);
                 localStorage.setItem('saved_email', email);
                 localStorage.setItem('saved_password', password);
-                localStorage.setItem('remember_me', true);
+                localStorage.setItem('remember_me', 'true');
             } else {
-                sessionStorage.setItem('access_token', access);
-                sessionStorage.setItem('refresh_token', refresh);
+                sessionStorage.setItem('access_token', access_token);
+                sessionStorage.setItem('refresh_token', refresh_token);
                 sessionStorage.setItem('saved_email', email);
                 sessionStorage.setItem('saved_password', password);
-                localStorage.setItem('remember_me', false);
+                localStorage.setItem('remember_me', 'false');
             }
-            axios.defaults.headers.common['Authorization'] = `Bearer ${access}`;
+            axios.defaults.headers.common['Authorization'] = `Bearer ${access_token}`;
 
             navigate("/");
             window.location.reload();
         } catch (error) {
             setLoading(false);
+            setErrors({ global: "Giriş zamanı xətaya yol verildi. Yenidən cəhd edin." });
             if (error.response) {
                 console.error("Login error: ", error.response.data);
             } else if (error.request) {

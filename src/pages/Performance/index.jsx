@@ -7,13 +7,13 @@ import './performance.css';
 
 const translateUserType = (userType) => {
   switch (userType) {
-    case 'texnik':
+    case 'Texnik':
       return 'Texnik';
-    case 'plumber':
+    case 'Plumber':
       return 'Plumber';
-    case 'ofis_menecer':
-      return 'Ofis meneceri';
-    case 'texnik_menecer':
+    case 'Ofis menecer':
+      return 'Ofis menecer';
+    case 'Texnik menecer':
       return 'Texnik menecer';
     default:
       return userType;

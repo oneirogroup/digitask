@@ -33,7 +33,7 @@ const Sidebar = ({ children }) => {
                 name: "Tapşırıqlar",
                 icon: <img src={taskIcon} alt="Task Icon" style={{ width: '24px', height: '24px' }} />
             },
-            userType !== 'texnik' && {
+            userType !== 'Texnik' && {
                 path: "/warehouse/",
                 name: "Anbar",
                 icon: <FaWarehouse />
@@ -43,7 +43,7 @@ const Sidebar = ({ children }) => {
                 name: "Performans",
                 icon: <img src={performance} alt="Performance Icon" style={{ width: '24px', height: '24px' }} />
             },
-            userType !== 'texnik' && {
+            userType !== 'Texnik' && {
                 path: "/employees/",
                 name: "İşçilər",
                 icon: <img src={Engineering} alt="Engineering Icon" style={{ width: '24px', height: '24px' }} />

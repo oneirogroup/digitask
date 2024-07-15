@@ -23,13 +23,13 @@ const refreshAccessToken = async () => {
 
 const translateUserType = (userType) => {
   switch (userType) {
-    case 'texnik':
+    case 'Texnik':
       return 'Texnik';
-    case 'plumber':
+    case 'Plumber':
       return 'Plumber';
-    case 'ofis_menecer':
+    case 'Ofis menecer':
       return 'Ofis meneceri';
-    case 'texnik_menecer':
+    case 'Texnik menecer':
       return 'Texnik menecer';
     default:
       return userType;
@@ -276,10 +276,10 @@ const EmployeeList = () => {
             {showUserTypeOptions && (
               <div className="group-modal">
                 <div onClick={() => handleUserTypeFilter(null)}>Hamısı</div>
-                <div onClick={() => handleUserTypeFilter('texnik')}>Texniklər</div>
-                <div onClick={() => handleUserTypeFilter('plumber')}>Plumber</div>
-                <div onClick={() => handleUserTypeFilter('ofis_menecer')}>Ofis meneceri</div>
-                <div onClick={() => handleUserTypeFilter('texnik_menecer')}>Texnik menecer</div>
+                <div onClick={() => handleUserTypeFilter('Texnik')}>Texniklər</div>
+                <div onClick={() => handleUserTypeFilter('Plumber')}>Plumber</div>
+                <div onClick={() => handleUserTypeFilter('Ofis menecer')}>Ofis meneceri</div>
+                <div onClick={() => handleUserTypeFilter('Texnik menecer')}>Texnik menecer</div>
               </div>
             )}
           </div>
@@ -327,7 +327,7 @@ const EmployeeList = () => {
                 <td>{employee.group ? employee.group.group : 'Yoxdur'}</td>
                 <td>{employee.group ? employee.group.region : 'Yoxdur'}</td>
                 <td>{employee.phone}  {!employee.phone && <span>-</span>}</td>
-                <td>{translateUserType(employee.user_type)}</td>
+                <td>{(employee.user_type)}</td>
                 <td className='status'>
                   <p color={status[employee.id] === 'online' ? 'green' : 'red'}>
                     <FaCircle color={status[employee.id] === 'online' ? 'green' : 'red'} />

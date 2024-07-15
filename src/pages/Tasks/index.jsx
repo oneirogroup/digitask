@@ -23,7 +23,7 @@ const refreshAccessToken = async () => {
         throw new Error('No refresh token available');
     }
 
-    const response = await axios.post('http://135.181.42.192/accounts/token/refresh/', { refresh: refresh_token });
+    const response = await axios.post('http://135.181.42.192/accounts/gettoken/', { refresh: refresh_token });
     const { access } = response.data;
     localStorage.setItem('access_token', access);
     axios.defaults.headers.common['Authorization'] = `Bearer ${access}`;
@@ -291,7 +291,7 @@ function Index() {
 
 
     const showUpdateButtons = (userType, status) => {
-        if (userType === 'texnik') {
+        if (userType === 'Texnik') {
             if (status === 'waiting') {
                 return 'qebul_et';
             } else if (status === 'inprogress') {
@@ -313,7 +313,7 @@ function Index() {
                     <button onClick={resetFilters}>
                         <IoMdRefresh />Yenilə
                     </button>
-                    {userType !== 'texnik' && (
+                    {userType !== 'Texnik' && (
                         <button onClick={openAddTaskModal}><IoAdd />Əlavə et</button>
                     )}
                 </div>
@@ -370,26 +370,26 @@ function Index() {
                         </thead>
                         <tbody>
                             {filteredData.map((item, index) => (
-                                <tr key={index} onClick={() => openTaskDetailsModal(item.id)}>
-                                    <td className={item.id}>{`#${(index + 1).toString().padStart(4, '0')}`}</td>
-                                    <td>{item.first_name && item.last_name ? `${item.first_name} ${item.last_name.charAt(0)}.` : '-'}</td>
-                                    <td>{item.full_name}</td>
-                                    <td className={item.task_type === 'problem' ? 'problem' : 'connection'}>
+                                <tr key={index}>
+                                    <td onClick={() => openTaskDetailsModal(item.id)} className={item.id}>{`#${(index + 1).toString().padStart(4, '0')}`}</td>
+                                    <td onClick={() => openTaskDetailsModal(item.id)}>{item.first_name && item.last_name ? `${item.first_name} ${item.last_name.charAt(0)}.` : '-'}</td>
+                                    <td onClick={() => openTaskDetailsModal(item.id)}>{item.full_name}</td>
+                                    <td onClick={() => openTaskDetailsModal(item.id)} className={item.task_type === 'problem' ? 'problem' : 'connection'}>
                                         {item.task_type === 'problem' ? 'Problem' : 'Qoşulma'}
                                     </td>
-                                    <td>{item.date}</td>
-                                    <td>{item.time}</td>
-                                    <td className="type-icon">
+                                    <td onClick={() => openTaskDetailsModal(item.id)}>{item.date}</td>
+                                    <td onClick={() => openTaskDetailsModal(item.id)}>{item.time}</td>
+                                    <td onClick={() => openTaskDetailsModal(item.id)} className="type-icon">
                                         {item.is_tv && <PiTelevisionSimple />}
                                         {item.is_internet && <TfiWorld />}
                                         {item.is_voice && <RiVoiceprintFill />}
                                         {!item.is_tv && !item.is_internet && !item.is_voice && <span>-</span>}
                                     </td>
 
-                                    <td>{item.location}</td>
-                                    <td>{item.contact_number ? item.contact_number : 'No Number'}</td>
+                                    <td onClick={() => openTaskDetailsModal(item.id)}>{item.location}</td>
+                                    <td onClick={() => openTaskDetailsModal(item.id)}>{item.contact_number ? item.contact_number : 'No Number'}</td>
                                     <td className="task-status">
-                                        {userType === 'texnik' && !item.email || item.email === userEmail ? (
+                                        {userType === 'Texnik' && !item.email || item.email === userEmail ? (
                                             <>
                                                 {item.status === "waiting" && (
                                                     <button className={`texnikWaiting ${showUpdateButtons(userType, item.status)}`} onClick={() => handleStatusUpdate(item.id, 'inprogress')}>Qəbul et</button>
@@ -405,7 +405,7 @@ function Index() {
                                                 )}
                                             </>
                                         ) : (
-                                            <button className={`status ${item.status.toLowerCase().replace(' ', '-')}`}>
+                                            <button onClick={() => openTaskDetailsModal(item.id)} className={`status ${item.status.toLowerCase().replace(' ', '-')}`}>
                                                 {item.status === "waiting" ? "Gözləyir" :
                                                     item.status === "inprogress" ? "Qəbul edilib" :
                                                         item.status === "started" ? "Başlanıb" :
@@ -415,7 +415,7 @@ function Index() {
                                     </td>
 
                                     <td>
-                                        {userType !== 'texnik' ? (
+                                        {userType !== 'Texnik' ? (
                                             <>
                                                 <button data-task-index={index} onClick={(e) => openSmallModal(e, index)}><BsThreeDotsVertical /></button>
                                                 {isSmallModalOpen && selectedTaskIndex === index && (

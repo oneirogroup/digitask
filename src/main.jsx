@@ -7,11 +7,11 @@ import { PersistGate } from "redux-persist/integration/react";
 import axios from 'axios';
 import { UserProvider } from './contexts/UserContext';
 
-const token = localStorage.getItem('access_token');
-if (token) {
-  axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-}
 
+const accessToken = localStorage.getItem('access_token');
+if (accessToken) {
+    axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+}
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Provider store={store}>

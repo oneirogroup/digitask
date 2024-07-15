@@ -16,10 +16,10 @@ const AddUserModal = ({ onClose }) => {
 
   const [groupOptions, setGroupOptions] = useState([]);
   const [userTypeOptions] = useState([
-    { value: 'texnik', label: 'Texnik' },
-    { value: 'plumber', label: 'Plumber' },
-    { value: 'ofis_menecer', label: 'Ofis meneceri' },
-    { value: 'texnik_menecer', label: 'Texniki meneceri' }
+    { value: 'Texnik', label: 'Texnik' },
+    { value: 'Plumber', label: 'Plumber' },
+    { value: 'Ofis meneceri', label: 'Ofis meneceri' },
+    { value: 'Texnik meneceri', label: 'Texnik meneceri' }
   ]);
   const [showGroupDropdown, setShowGroupDropdown] = useState(false);
   const [showUserTypeDropdown, setShowUserTypeDropdown] = useState(false);

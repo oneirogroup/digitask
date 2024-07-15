@@ -333,7 +333,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick }) {
                         <h5>{taskDetails?.task_type ? (taskDetails.task_type === "connection" ? "Qoşulma" : "Problem") + " məlumatları" : ""}</h5>
                     )}
                     <div>
-                        {userType !== 'texnik' && (
+                        {userType !== 'Texnik' && (
                             <RiEdit2Line onClick={handleEditClick} />
 
                         )}
@@ -687,7 +687,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick }) {
                             )}
                         </div>
 
-                        {userType === 'texnik' && shouldShowAddSurveyButton && (
+                        {userType === 'Texnik' && shouldShowAddSurveyButton && (
 
                             <button
                                 className="add-survey-button"
