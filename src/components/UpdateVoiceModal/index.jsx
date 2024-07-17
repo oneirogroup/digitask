@@ -74,34 +74,49 @@ function UpdateVoiceModal({ onClose, serviceId, serviceData, onServiceUpdate }) 
                         <span className="close" onClick={onClose}>&times;</span>
                     </div>
                 </div>
-
-                <form onSubmit={handleSubmit}>
-                    <label>
-                        Modem Serial Number:
-                        <input type="text" name="modem_SN" value={formData.modem_SN || ''} onChange={handleInputChange} />
-                    </label>
-                    <label>
-                        Ev Nömrəsi:
-                        <input type="text" name="home_number" value={formData.home_number || ''} onChange={handleInputChange} />
-                    </label>
-                    <label>
-                        Şifrə:
-                        <input type="text" name="password" value={formData.password || ''} onChange={handleInputChange} />
-                    </label>
-                    <label>
-                        Photo Modem:
-                        <input type="file" name="photo_modem" onChange={handleInputChange} />
-                    </label>
-                    {preview && (
-                        <img
-                            src={preview}
-                            alt="Preview"
-                            className="image-preview"
-                        />
-                    )}
-                    <button type="submit">Update</button>
-                </form>
-
+                <div className="addSurveyModal-body">
+                    <form onSubmit={handleSubmit} className='details-modal-body'>
+                        <div className="service-fields service-update">
+                            <div className="form-group">
+                                <label className="upload-label">
+                                    Photo Modem:
+                                </label>
+                                <div className="upload-icon">
+                                    <input type="file" name="photo_modem" onChange={handleInputChange} />
+                                </div>
+                                {preview && (
+                                    <img
+                                        src={preview}
+                                        alt="Preview"
+                                        className="image-preview"
+                                    />
+                                )}
+                            </div>
+                            <div className="update-fields">
+                                <div className="form-group">
+                                    <label>
+                                        Modem Serial Number:
+                                    </label>
+                                    <input type="text" name="modem_SN" value={formData.modem_SN || ''} onChange={handleInputChange} />
+                                </div>
+                                <div className="form-group">
+                                    <label>
+                                        Ev Nömrəsi:
+                                    </label>
+                                    <input type="text" name="home_number" value={formData.home_number || ''} onChange={handleInputChange} />
+                                </div>
+                                <div className="form-group">
+                                    <label>
+                                        Şifrə:
+                                    </label>
+                                    <input type="text" name="password" value={formData.password || ''} onChange={handleInputChange} />
+                                </div>
+                            </div>
+                            <hr />
+                        </div>
+                        <button type="submit">Update</button>
+                    </form>
+                </div>
                 {error && <div className="error-message">{error}</div>}
             </div>
         </div>

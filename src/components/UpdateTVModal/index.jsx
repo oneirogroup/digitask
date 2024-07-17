@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import "./updatetv.css"
 
 function UpdateTVModal({ onClose, serviceId, serviceData, onServiceUpdate }) {
     const [formData, setFormData] = useState(serviceData || {});
@@ -21,7 +22,7 @@ function UpdateTVModal({ onClose, serviceId, serviceData, onServiceUpdate }) {
                     [name]: file
                 }));
                 setPreview(URL.createObjectURL(file));
-                setError(''); 
+                setError('');
             } else {
                 setError('Yalnızca resim dosyaları yüklenebilir.');
             }
@@ -53,7 +54,7 @@ function UpdateTVModal({ onClose, serviceId, serviceData, onServiceUpdate }) {
             .then(response => {
                 if (!response.ok) {
                     return response.json().then(error => {
-                        setError(JSON.stringify(error)); 
+                        setError(JSON.stringify(error));
                         throw new Error(JSON.stringify(error));
                     });
                 }
@@ -75,41 +76,63 @@ function UpdateTVModal({ onClose, serviceId, serviceData, onServiceUpdate }) {
                         <span className="close" onClick={onClose}>&times;</span>
                     </div>
                 </div>
+                <div className="addSurveyModal-body">
+                    <form onSubmit={handleSubmit} className='details-modal-body'>
+                        <div className="service-fields service-update">
+                            <div className="form-group">
+                                <label className="upload-label">
+                                    Photo Modem:
+                                </label>
+                                <div className="upload-icon">
+                                    <input type="file" name="photo_modem" onChange={handleInputChange} />
+                                </div>
+                                {preview && (
+                                    <img
+                                        src={preview}
+                                        alt="Preview"
+                                        className="image-preview"
+                                    />
+                                )}
+                            </div>
+                            <div className="update-fields">
+                                <div className="form-group">
+                                    <label>
+                                        Modem Serial Number:
+                                    </label>
+                                    <input type="text" name="modem_SN" value={formData.modem_SN || ''} onChange={handleInputChange} />
+                                </div>
+                                <div className="form-group">
+                                    <label>
+                                        RG6 Cable:
+                                    </label>
+                                    <input type="text" name="rg6_cable" value={formData.rg6_cable || ''} onChange={handleInputChange} />
 
-                <form onSubmit={handleSubmit}>
-                    <label>
-                        Modem Serial Number:
-                        <input type="text" name="modem_SN" value={formData.modem_SN || ''} onChange={handleInputChange} />
-                    </label>
-                    <label>
-                        RG6 Cable:
-                        <input type="text" name="rg6_cable" value={formData.rg6_cable || ''} onChange={handleInputChange} />
-                    </label>
-                    <label>
-                        F Connector:
-                        <input type="text" name="f_connector" value={formData.f_connector || ''} onChange={handleInputChange} />
-                    </label>
-                    <label>
-                        Splitter:
-                        <input type="text" name="splitter" value={formData.splitter || ''} onChange={handleInputChange} />
-                    </label>
-                    <label>
-                        Photo Modem:
-                        <input type="file" name="photo_modem" onChange={handleInputChange} />
-                    </label>
-                    {preview && (
-                        <img
-                            src={preview}
-                            alt="Preview"
-                            className="image-preview"
-                        />
-                    )}
-                    <button type="submit">Update</button>
-                </form>
+                                </div>
+                                <div className="form-group">
+                                    <label>
+                                        F Connector:
+                                    </label>
+                                    <input type="text" name="f_connector" value={formData.f_connector || ''} onChange={handleInputChange} />
+
+                                </div>
+                                <div className="form-group">
+                                    <label>
+                                        Splitter:
+                                    </label>
+                                    <input type="text" name="splitter" value={formData.splitter || ''} onChange={handleInputChange} />
+
+                                </div>
+
+                            </div>
+                            <hr />
+                        </div>
+                        <button type="submit">Update</button>
+                    </form></div>
+
 
                 {error && <div className="error-message">{error}</div>}
-            </div>
-        </div>
+            </div >
+        </div >
     );
 }
 

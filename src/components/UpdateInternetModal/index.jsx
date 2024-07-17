@@ -21,7 +21,7 @@ function UpdateInternetModal({ onClose, serviceId, serviceData, onServiceUpdate 
                     [name]: file
                 }));
                 setPreview(URL.createObjectURL(file));
-                setError(''); 
+                setError('');
             } else {
                 setError('Yalnızca resim dosyaları yüklenebilir.');
             }
@@ -69,41 +69,63 @@ function UpdateInternetModal({ onClose, serviceId, serviceData, onServiceUpdate 
     return (
         <div className="taskType-modal">
             <div className="taskType-modal-content">
-                <h2>Internet məlumatlarının dəyişdirilməsi</h2>
-                <div>
-                    <span className="close" onClick={onClose}>&times;</span>
+                <div className="taskType-modal-title">
+                    <h2>Internet məlumatlarının dəyişdirilməsi</h2>
+                    <div>
+                        <span className="close" onClick={onClose}>&times;</span>
+                    </div>
                 </div>
-                <form onSubmit={handleSubmit}>
-                    <label>
-                        Modem Serial Number:
-                        <input type="text" name="modem_SN" value={formData.modem_SN || ''} onChange={handleInputChange} />
-                    </label>
-                    <label>
-                        Optik Kabel:
-                        <input type="text" name="optical_cable" value={formData.optical_cable || ''} onChange={handleInputChange} />
-                    </label>
-                    <label>
-                        Fastconnector:
-                        <input type="text" name="fastconnector" value={formData.fastconnector || ''} onChange={handleInputChange} />
-                    </label>
-                    <label>
-                        Siqnal:
-                        <input type="text" name="siqnal" value={formData.siqnal || ''} onChange={handleInputChange} />
-                    </label>
-                    <label>
-                        Photo Modem:
-                        <input type="file" name="photo_modem" onChange={handleInputChange} />
-                    </label>
-                    {preview && (
-                        <img
-                            src={preview}
-                            alt="Preview"
-                            className="image-preview"
-                        />
-                    )}
-                    <button type="submit">Update</button>
-                </form>
+                <div className="addSurveyModal-body">
+                    <form onSubmit={handleSubmit} className='details-modal-body'>
+                        <div className="service-fields service-update">
+                            <div className="form-group">
+                                <label className="upload-label">
+                                    Photo Modem:
+                                </label>
+                                <div className="upload-icon">
+                                    <input type="file" name="photo_modem" onChange={handleInputChange} />
+                                </div>
+                                {preview && (
+                                    <img
+                                        src={preview}
+                                        alt="Preview"
+                                        className="image-preview"
+                                    />
+                                )}
+                            </div>
+                            <div className="update-fields">
+                                <div className="form-group">
+                                    <label>
+                                        Modem Serial Number:
+                                    </label>
+                                    <input type="text" name="modem_SN" value={formData.modem_SN || ''} onChange={handleInputChange} />
+                                </div>
+                                <div className="form-group">
+                                    <label>
+                                        Optik Kabel:
+                                    </label>
+                                    <input type="text" name="optical_cable" value={formData.optical_cable || ''} onChange={handleInputChange} />
+                                </div>
+                                <div className="form-group">
+                                    <label>
+                                        Fastconnector:
+                                    </label>
+                                    <input type="text" name="fastconnector" value={formData.fastconnector || ''} onChange={handleInputChange} />
 
+                                </div>
+                                <div className="form-group">
+                                    <label>
+                                        Siqnal:
+                                    </label>
+                                    <input type="text" name="siqnal" value={formData.siqnal || ''} onChange={handleInputChange} />
+                                </div>
+                            </div>
+                            <hr />
+
+                        </div>
+                        <button type="submit">Update</button>
+                    </form>
+                </div>
                 {error && <div className="error-message">{error}</div>}
             </div>
         </div>
