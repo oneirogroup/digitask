@@ -11,7 +11,6 @@ import "./employees.css";
 import { useUser } from '../../contexts/UserContext';
 import AddUserModal from '../../components/AddUserModal';
 
-
 const refreshAccessToken = async () => {
   const refresh_token = localStorage.getItem('refresh_token');
   if (!refresh_token) {
@@ -22,21 +21,6 @@ const refreshAccessToken = async () => {
   const { access } = response.data;
   localStorage.setItem('access_token', access);
   axios.defaults.headers.common['Authorization'] = `Bearer ${access}`;
-};
-
-const translateUserType = (userType) => {
-  switch (userType) {
-    case 'Texnik':
-      return 'Texnik';
-    case 'Plumber':
-      return 'Plumber';
-    case 'Ofis menecer':
-      return 'Ofis meneceri';
-    case 'Texnik menecer':
-      return 'Texnik menecer';
-    default:
-      return userType;
-  }
 };
 
 const EmployeeList = () => {
@@ -52,6 +36,8 @@ const EmployeeList = () => {
   const [employeeModals, setEmployeeModals] = useState({});
   const [status, setStatus] = useState({});
   const [isAddUserModal, setIsAddUserModal] = useState(false);
+  const userTypeRef = useRef(null);
+  const groupRef = useRef(null);
   const modalRef = useRef(null);
   const wsRef = useRef(null);
   const [loggedInUserId, setLoggedInUserId] = useState(null);
@@ -166,6 +152,25 @@ const EmployeeList = () => {
     };
   }, [loggedInUserId]);
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (userTypeRef.current && !userTypeRef.current.contains(event.target)) {
+        setShowUserTypeOptions(false);
+      }
+      if (groupRef.current && !groupRef.current.contains(event.target)) {
+        setShowGroupOptions(false);
+      }
+      if (modalRef.current && !modalRef.current.contains(event.target)) {
+        closeAllModals();
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   const initializeEmployeeModals = (employeesData) => {
     const initialModals = {};
     employeesData.forEach(employee => {
@@ -186,6 +191,16 @@ const EmployeeList = () => {
       ...prevModals,
       [employeeId]: false
     }));
+  };
+
+  const closeAllModals = () => {
+    setEmployeeModals(prevModals => {
+      const newModals = {};
+      Object.keys(prevModals).forEach(key => {
+        newModals[key] = false;
+      });
+      return newModals;
+    });
   };
 
   const handleSearchChange = (event) => {
@@ -269,11 +284,11 @@ const EmployeeList = () => {
           <div>
             <button onClick={() => setShowUserTypeOptions(!showUserTypeOptions)}>
               <span>Vəzifə:</span>
-              <span>{userTypeFilter ? translateUserType(userTypeFilter) : 'Hamısı'}</span>
+              <span>{userTypeFilter ? userTypeFilter : 'Hamısı'}</span>
               <FaChevronDown />
             </button>
             {showUserTypeOptions && (
-              <div className="group-modal">
+              <div className="group-modal" ref={userTypeRef}>
                 <div onClick={() => handleUserTypeFilter(null)}>Hamısı</div>
                 <div onClick={() => handleUserTypeFilter('Texnik')}>Texniklər</div>
                 <div onClick={() => handleUserTypeFilter('Plumber')}>Plumber</div>
@@ -289,7 +304,7 @@ const EmployeeList = () => {
               <FaChevronDown />
             </button>
             {showGroupOptions && (
-              <div className="group-modal employee-modal-group">
+              <div className="group-modal employee-modal-group" ref={groupRef}>
                 <div onClick={() => handleGroupFilter(null)}>Hamısı</div>
                 {[...new Set(employees.map(employee => employee.group && employee.group.group))]
                   .filter(group => group)

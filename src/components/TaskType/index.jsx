@@ -21,7 +21,7 @@ import { SiTyper } from "react-icons/si";
 import UpdateTVModal from '../UpdateTVModal';
 import UpdateInternetModal from '../UpdateInternetModal';
 import UpdateVoiceModal from '../UpdateVoiceModal';
-
+import { useUser } from '../../contexts/UserContext';
 
 
 const TASK_TYPES = [
@@ -45,6 +45,8 @@ const SERVICE_OPTIONS = [
 
 
 function DetailsModal({ onClose, taskId, userType, onAddSurveyClick }) {
+    const { isAdmin } = useUser();
+
     const [taskDetails, setTaskDetails] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
     const [groups, setGroups] = useState([]);
@@ -585,7 +587,10 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick }) {
                         <div className="service-details">
                             {taskDetails.is_tv && taskDetails.tv && (
                                 <div className="service-detail">
-                                    <h5>Tv xidməti<span><MdOutlineEdit onClick={() => setIsUpdateTVModalOpen(true)} />
+                                    <h5>Tv xidməti<span>
+                                        {isAdmin && (
+                                            <MdOutlineEdit onClick={() => setIsUpdateTVModalOpen(true)} />
+                                        )}
                                     </span></h5>
                                     <hr />
                                     <div>
@@ -629,7 +634,10 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick }) {
                             )}
                             {taskDetails.is_internet && taskDetails.internet && (
                                 <div className="service-detail">
-                                    <h5>İnternet xidməti <span> <MdOutlineEdit onClick={() => setIsUpdateInternetModalOpen(true)} />
+                                    <h5>İnternet xidməti <span>
+                                        {isAdmin && (
+                                            <MdOutlineEdit onClick={() => setIsUpdateInternetModalOpen(true)} />
+                                        )}
                                     </span></h5>
                                     <hr />
                                     <div>
@@ -673,7 +681,10 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick }) {
                             )}
                             {taskDetails.is_voice && taskDetails.voice && (
                                 <div className="service-detail">
-                                    <h5>Səs xidməti <span> <MdOutlineEdit onClick={() => setIsUpdateVoiceModalOpen(true)} />
+                                    <h5>Səs xidməti <span>
+                                        {isAdmin && (
+                                            <MdOutlineEdit onClick={() => setIsUpdateVoiceModalOpen(true)} />
+                                        )}
                                     </span></h5>
                                     <hr />
                                     <div>
