@@ -18,6 +18,9 @@ import { TfiWorld } from "react-icons/tfi";
 import { RiVoiceprintFill } from "react-icons/ri";
 import { MdOutlineEdit } from "react-icons/md";
 import { SiTyper } from "react-icons/si";
+import UpdateTVModal from '../UpdateTVModal';
+import UpdateInternetModal from '../UpdateInternetModal';
+import UpdateVoiceModal from '../UpdateVoiceModal';
 
 
 
@@ -317,6 +320,26 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick }) {
         }));
     };
 
+    const [isUpdateTVModalOpen, setIsUpdateTVModalOpen] = useState(false);
+    const [isUpdateInternetModalOpen, setIsUpdateInternetModalOpen] = useState(false);
+    const [isUpdateVoiceModalOpen, setIsUpdateVoiceModalOpen] = useState(false);
+
+    const handleServiceUpdate = (serviceType, updatedData) => {
+        setTaskDetails((prevDetails) => ({
+            ...prevDetails,
+            [serviceType]: updatedData,
+        }));
+    };
+
+    const getAddedServices = (taskDetails) => {
+        const services = [];
+        if (taskDetails.is_tv) services.push('TV');
+        if (taskDetails.is_internet) services.push('Internet');
+        if (taskDetails.is_voice) services.push('Voice');
+        return services;
+    };
+
+
     if (!taskDetails) {
         return <div>Loading...</div>;
     }
@@ -348,7 +371,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick }) {
                                 <div>
                                     <div className="status-dropdown-div task-type-select">
                                         <label><SiTyper />
-                                            Tapşırığın növü</label>
+                                            Tapşırığın məlumatlarının dəyişdilməsi</label>
                                         <div class="dropdown-task" id="details-task" ref={taskTypeDropdownRef}>
                                             <div className="dropdown-task-toggle" onClick={toggleDropdownTaskType}>
                                                 {formData.task_type ? formData.task_type === 'connection' ? 'Qoşulma' : 'Problem' : 'Tapşırığı Seçin'}
@@ -562,7 +585,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick }) {
                         <div className="service-details">
                             {taskDetails.is_tv && taskDetails.tv && (
                                 <div className="service-detail">
-                                    <h5>Tv xidməti<span><MdOutlineEdit />
+                                    <h5>Tv xidməti<span><MdOutlineEdit onClick={() => setIsUpdateTVModalOpen(true)} />
                                     </span></h5>
                                     <hr />
                                     <div>
@@ -606,7 +629,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick }) {
                             )}
                             {taskDetails.is_internet && taskDetails.internet && (
                                 <div className="service-detail">
-                                    <h5>İnternet xidməti <span> <MdOutlineEdit />
+                                    <h5>İnternet xidməti <span> <MdOutlineEdit onClick={() => setIsUpdateInternetModalOpen(true)} />
                                     </span></h5>
                                     <hr />
                                     <div>
@@ -650,7 +673,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick }) {
                             )}
                             {taskDetails.is_voice && taskDetails.voice && (
                                 <div className="service-detail">
-                                    <h5>Səs xidməti <span> <MdOutlineEdit />
+                                    <h5>Səs xidməti <span> <MdOutlineEdit onClick={() => setIsUpdateVoiceModalOpen(true)} />
                                     </span></h5>
                                     <hr />
                                     <div>
@@ -712,6 +735,30 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick }) {
                     taskId={taskId}
                     initialAddedServices={addedServices}
                     onSurveyAdded={handleSurveyAdded}
+                />
+            )}
+            {isUpdateTVModalOpen && (
+                <UpdateTVModal
+                    onClose={() => setIsUpdateTVModalOpen(false)}
+                    serviceId={taskDetails.tv.id}
+                    serviceData={taskDetails.tv}
+                    onServiceUpdate={handleServiceUpdate}
+                />
+            )}
+            {isUpdateInternetModalOpen && (
+                <UpdateInternetModal
+                    onClose={() => setIsUpdateInternetModalOpen(false)}
+                    serviceId={taskDetails.internet.id}
+                    serviceData={taskDetails.internet}
+                    onServiceUpdate={handleServiceUpdate}
+                />
+            )}
+            {isUpdateVoiceModalOpen && (
+                <UpdateVoiceModal
+                    onClose={() => setIsUpdateVoiceModalOpen(false)}
+                    serviceId={taskDetails.voice.id}
+                    serviceData={taskDetails.voice}
+                    onServiceUpdate={handleServiceUpdate}
                 />
             )}
         </div>
