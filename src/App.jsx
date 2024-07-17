@@ -1,11 +1,15 @@
-import { routers } from '../Routers.jsx'
-import { RouterProvider } from 'react-router-dom'
+import React from 'react';
+import { RouterProvider } from 'react-router-dom';
+import { routers } from '../Routers.jsx';
+import { UserProvider } from './contexts/UserContext'; 
 import "./App.css";
+
 const App = () => {
   return (
-    <RouterProvider router={routers} />
-  )
-}
+    <UserProvider>
+      <RouterProvider router={routers} />
+    </UserProvider>
+  );
+};
 
 export default App;
-

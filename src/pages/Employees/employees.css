@@ -262,3 +262,28 @@ font-size: 26px;
 .small-modal-employee button:hover {
   color: #005ABF;
 }
+
+.employee-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.employee-title button {
+  background-color: #005ABF;
+  padding: 10px;
+  border-radius: 12px;
+  border: 2px solid #005ABF;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  font-family: Nunito Sans;
+  font-size: 16px;
+  font-weight: 500;
+  color: white;
+    cursor: pointer;
+}
+
+.multi-select-dropdown > label:first-of-type span{
+  cursor: pointer;
+}

@@ -116,19 +116,24 @@ const Login = (props) => {
                 { withCredentials: true }
             );
 
-            const { access_token, refresh_token } = response.data;
+            const { access_token, refresh_token, user_type, is_admin } = response.data;
+            
             if (rememberMe) {
                 localStorage.setItem('access_token', access_token);
                 localStorage.setItem('refresh_token', refresh_token);
                 localStorage.setItem('saved_email', email);
                 localStorage.setItem('saved_password', password);
                 localStorage.setItem('remember_me', 'true');
+                localStorage.setItem('user_type', user_type);
+                localStorage.setItem('is_admin', is_admin);
             } else {
                 sessionStorage.setItem('access_token', access_token);
                 sessionStorage.setItem('refresh_token', refresh_token);
                 sessionStorage.setItem('saved_email', email);
                 sessionStorage.setItem('saved_password', password);
                 localStorage.setItem('remember_me', 'false');
+                sessionStorage.setItem('user_type', user_type);
+                sessionStorage.setItem('is_admin', is_admin);
             }
             axios.defaults.headers.common['Authorization'] = `Bearer ${access_token}`;
 
@@ -146,6 +151,7 @@ const Login = (props) => {
             }
         }
     };
+
 
     if (isLoggedIn) {
         return <Navigate to="/" />;

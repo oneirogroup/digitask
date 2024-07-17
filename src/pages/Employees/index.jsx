@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import axios from 'axios';
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { RiDeleteBin6Line } from "react-icons/ri";
@@ -8,6 +8,9 @@ import { CiSearch } from "react-icons/ci";
 import { FaChevronDown, FaArrowLeft, FaArrowRight, FaCircle } from "react-icons/fa";
 import { PiMapPinAreaFill } from "react-icons/pi";
 import "./employees.css";
+import { useUser } from '../../contexts/UserContext';
+import AddUserModal from '../../components/AddUserModal';
+
 
 const refreshAccessToken = async () => {
   const refresh_token = localStorage.getItem('refresh_token');
@@ -36,9 +39,8 @@ const translateUserType = (userType) => {
   }
 };
 
-
-
 const EmployeeList = () => {
+  const { isAdmin } = useUser();
   const [employees, setEmployees] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(7);
@@ -52,8 +54,6 @@ const EmployeeList = () => {
   const [isAddUserModal, setIsAddUserModal] = useState(false);
   const modalRef = useRef(null);
   const wsRef = useRef(null);
-  const [isAdmin, setIsAdmin] = useState(localStorage.getItem('is_admin') === 'true');
-
   const [loggedInUserId, setLoggedInUserId] = useState(null);
 
   useEffect(() => {
@@ -70,7 +70,6 @@ const EmployeeList = () => {
         setEmployees(response.data);
         initializeEmployeeModals(response.data);
 
-        console.log('Is Admin:', isAdmin);
         const loggedInUserResponse = await axios.get('http://135.181.42.192/accounts/profile/', {
           headers: {
             'Authorization': `Bearer ${token}`
@@ -84,7 +83,7 @@ const EmployeeList = () => {
     };
 
     fetchEmployees();
-  }, [isAdmin]);
+  }, []);
 
   useEffect(() => {
     const requestInterceptor = axios.interceptors.request.use(
@@ -224,7 +223,7 @@ const EmployeeList = () => {
 
     if (groupFilter) {
       filteredEmployees = filteredEmployees.filter(employee => (
-        employee.group && employee.group.group === groupFilter
+        employee.group === groupFilter
       ));
     }
 
@@ -249,7 +248,7 @@ const EmployeeList = () => {
 
   return (
     <div className='employee-page'>
-      <div>
+      <div className='employee-title'>
         <h1>İşçilər</h1>
         {isAdmin && (
           <button onClick={openAddUserModal}><IoAdd />Istifadəçi əlavə et</button>

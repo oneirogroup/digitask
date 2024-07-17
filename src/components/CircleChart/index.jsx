@@ -68,7 +68,8 @@ class CircleChart extends React.Component {
                 }
             },
             userType: '',
-            legendLabels: ['Internet', 'Tv', 'Voice'],
+            isAdmin: false,
+            legendLabels: ['Internet', 'TV', 'Voice'],
         };
     }
 
@@ -85,10 +86,9 @@ class CircleChart extends React.Component {
                 }
             });
 
-            const { user_type, is_staff, is_superuser, task_details } = response.data;
-            const isAdmin = is_staff || is_superuser;
+            const { user_type, is_admin, task_details } = response.data;
             let series = [0, 0, 0];
-            let legendLabels = ['Internet', 'Tv', 'Voice'];
+            let legendLabels = ['Internet', 'TV', 'Voice'];
 
             if (user_type === 'Texnik' || user_type === 'Plumber') {
                 const { problem_count, connection_count } = task_details;
@@ -98,7 +98,7 @@ class CircleChart extends React.Component {
                     Math.round((connection_count / total) * 100),
                 ];
                 legendLabels = ['Problem', 'Qoşulma'];
-            } else if (isAdmin) {
+            } else if (is_admin) {
                 const { tv_count, internet_count, voice_count } = task_details;
                 const total = tv_count + internet_count + voice_count;
                 series = total === 0 ? [0, 0, 0] : [
@@ -116,7 +116,7 @@ class CircleChart extends React.Component {
                 ];
             }
 
-            this.setState({ series, userType: user_type, legendLabels });
+            this.setState({ series, userType: user_type, isAdmin: is_admin, legendLabels });
 
         } catch (error) {
             if (error.response && (error.response.status === 401 || error.response.status === 403) && !isRetry) {

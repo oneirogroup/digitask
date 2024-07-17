@@ -1,4 +1,3 @@
-// authReducer.js
 import {
   LOGIN_REQUEST,
   LOGIN_SUCCESS,

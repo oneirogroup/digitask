@@ -8,14 +8,11 @@ import { RiVoiceprintFill } from "react-icons/ri";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import AddTaskModal from '../../components/AddTaskModal';
 import AddSurveyModal from '../../components/AddSurveyModal';
-import AddUserModal from '../../components/AddUserModal';
-
 import { RiDeleteBin6Line } from "react-icons/ri";
 import DetailsModal from '../../components/TaskType';
 import { MdOutlineEdit } from "react-icons/md";
 import './tasks.css';
-import { fetchWithAuth } from '../../utils/auth';
-import axios from "axios"
+import axios from "axios";
 
 const refreshAccessToken = async () => {
     const refresh_token = localStorage.getItem('refresh_token');
@@ -76,11 +73,14 @@ function Index() {
     const [userType, setUserType] = useState(null);
     const [userEmail, setUserEmail] = useState(null);
 
-
     const modalRef = useRef(null);
 
     useEffect(() => {
-        fetchUserType();
+        const storedUserType = localStorage.getItem('user_type') || sessionStorage.getItem('user_type');
+        const storedUserEmail = localStorage.getItem('user_email') || sessionStorage.getItem('user_email');
+        setUserType(storedUserType);
+        setUserEmail(storedUserEmail);
+
         fetchTasks("all", selectedMonth, "Hamısı");
     }, [selectedMonth]);
 
@@ -117,18 +117,6 @@ function Index() {
         "Yanvar", "Fevral", "Mart", "Aprel", "May", "İyun",
         "İyul", "Avqust", "Sentyabr", "Oktyabr", "Noyabr", "Dekabr"
     ];
-
-    const fetchUserType = async () => {
-        try {
-            const data = await fetchWithAuth('http://135.181.42.192/accounts/profile/');
-            setUserType(data.user_type);
-            setUserEmail(data.email);
-        } catch (error) {
-            console.error('Error fetching user type:', error);
-        }
-    };
-
-
 
     const fetchTasks = async (taskFilter, selectedMonth, statusFilter) => {
         const monthYear = `${monthsAz[selectedMonth.getMonth()]} ${selectedMonth.getFullYear()}`;
@@ -242,6 +230,7 @@ function Index() {
             console.error('Error deleting task:', error);
         }
     };
+
 
     const addTask = async (newTask) => {
         try {
