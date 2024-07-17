@@ -80,7 +80,7 @@ function UpdateInternetModal({ onClose, serviceId, serviceData, onServiceUpdate 
                         <div className="service-fields service-update">
                             <div className="form-group">
                                 <label className="upload-label">
-                                    Photo Modem:
+                                    Modemin şəkli:
                                 </label>
                                 <div className="upload-icon">
                                     <input type="file" name="photo_modem" onChange={handleInputChange} />
@@ -96,7 +96,7 @@ function UpdateInternetModal({ onClose, serviceId, serviceData, onServiceUpdate 
                             <div className="update-fields">
                                 <div className="form-group">
                                     <label>
-                                        Modem Serial Number:
+                                        Modem Serial Nömrəsi:
                                     </label>
                                     <input type="text" name="modem_SN" value={formData.modem_SN || ''} onChange={handleInputChange} />
                                 </div>

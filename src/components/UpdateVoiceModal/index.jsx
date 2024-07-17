@@ -79,7 +79,7 @@ function UpdateVoiceModal({ onClose, serviceId, serviceData, onServiceUpdate }) 
                         <div className="service-fields service-update">
                             <div className="form-group">
                                 <label className="upload-label">
-                                    Photo Modem:
+                                    Modemin şəkli:
                                 </label>
                                 <div className="upload-icon">
                                     <input type="file" name="photo_modem" onChange={handleInputChange} />

@@ -81,7 +81,7 @@ function UpdateTVModal({ onClose, serviceId, serviceData, onServiceUpdate }) {
                         <div className="service-fields service-update">
                             <div className="form-group">
                                 <label className="upload-label">
-                                    Photo Modem:
+                                    Modemin şəkli:
                                 </label>
                                 <div className="upload-icon">
                                     <input type="file" name="photo_modem" onChange={handleInputChange} />
@@ -97,13 +97,13 @@ function UpdateTVModal({ onClose, serviceId, serviceData, onServiceUpdate }) {
                             <div className="update-fields">
                                 <div className="form-group">
                                     <label>
-                                        Modem Serial Number:
+                                        Modem Serial Nömrəsi:
                                     </label>
                                     <input type="text" name="modem_SN" value={formData.modem_SN || ''} onChange={handleInputChange} />
                                 </div>
                                 <div className="form-group">
                                     <label>
-                                        RG6 Cable:
+                                        Rg6 Kabel:
                                     </label>
                                     <input type="text" name="rg6_cable" value={formData.rg6_cable || ''} onChange={handleInputChange} />
 
