@@ -354,13 +354,15 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick }) {
                             <label><span>Tapşırığın Növü </span></label>
                         </div>
                     ) : (
-                        <h5>{taskDetails?.task_type ? (taskDetails.task_type === "connection" ? "Qoşulma" : "Problem") + " məlumatları" : ""}</h5>
+                        <>
+                            <h5>{taskDetails?.task_type ? (taskDetails.task_type === "connection" ? "Qoşulma" : "Problem") + " məlumatları" : ""}</h5>
+                            {userType !== 'Texnik' && (
+                                <RiEdit2Line onClick={handleEditClick} />
+
+                            )}</>
                     )}
                     <div>
-                        {userType !== 'Texnik' && (
-                            <RiEdit2Line onClick={handleEditClick} />
 
-                        )}
                         <span className="close" onClick={onClose}>&times;</span>
                     </div>
                 </div>
