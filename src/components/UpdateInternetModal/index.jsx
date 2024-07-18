@@ -23,7 +23,7 @@ function UpdateInternetModal({ onClose, serviceId, serviceData, onServiceUpdate 
                 setPreview(URL.createObjectURL(file));
                 setError('');
             } else {
-                setError('Yalnızca resim dosyaları yüklenebilir.');
+                setError('Yalnız şəkil faylları yüklənə bilər.');
             }
         } else {
             setFormData(prevFormData => ({
@@ -123,7 +123,7 @@ function UpdateInternetModal({ onClose, serviceId, serviceData, onServiceUpdate 
                             <hr />
 
                         </div>
-                        <button type="submit">Update</button>
+                        <button type="submit">Yenilə</button>
                     </form>
                 </div>
                 {error && <div className="error-message">{error}</div>}

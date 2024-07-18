@@ -172,7 +172,7 @@ const Home = () => {
                                         {item.tv && <PiTelevisionSimple />}
                                         {item.internet && <TfiWorld />}
                                         {item.voice && <RiVoiceprintFill />}
-                                        {!item.tv && !item.internet && !item.voice && <span>Xidmət Yoxdur</span>}
+                                        {!item.tv && !item.internet && !item.voice && <span>Xidmət daxil edilməyib</span>}
                                     </li>
                                     <li>{item.location}</li>
                                     <li>{item.phone ? item.phone : 'No Number'}</li>

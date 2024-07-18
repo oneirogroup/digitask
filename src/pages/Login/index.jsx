@@ -117,7 +117,6 @@ const Login = (props) => {
             );
 
             const { access_token, refresh_token, user_type, is_admin } = response.data;
-            
             if (rememberMe) {
                 localStorage.setItem('access_token', access_token);
                 localStorage.setItem('refresh_token', refresh_token);

@@ -23,7 +23,7 @@ function UpdateVoiceModal({ onClose, serviceId, serviceData, onServiceUpdate }) 
                 setPreview(URL.createObjectURL(file));
                 setError('');
             } else {
-                setError('Yalnızca resim dosyaları yüklenebilir.');
+                setError('Yalnız şəkil faylları yüklənə bilər.');
             }
         } else {
             setFormData(prevFormData => ({
@@ -82,7 +82,7 @@ function UpdateVoiceModal({ onClose, serviceId, serviceData, onServiceUpdate }) 
                                     Modemin şəkli:
                                 </label>
                                 <div className="upload-icon">
-                                    <input type="file" name="photo_modem" onChange={handleInputChange} />
+                                    <input type="file" placeholder='Şəkil seç' name="photo_modem" onChange={handleInputChange} />
                                 </div>
                                 {preview && (
                                     <img
@@ -114,7 +114,7 @@ function UpdateVoiceModal({ onClose, serviceId, serviceData, onServiceUpdate }) 
                             </div>
                             <hr />
                         </div>
-                        <button type="submit">Update</button>
+                        <button type="submit">Yenilə</button>
                     </form>
                 </div>
                 {error && <div className="error-message">{error}</div>}

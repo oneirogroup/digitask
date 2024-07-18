@@ -5,22 +5,6 @@ import { MdOutlineEdit } from "react-icons/md";
 import { FaChevronDown } from "react-icons/fa";
 import './performance.css';
 
-const translateUserType = (userType) => {
-  switch (userType) {
-    case 'Texnik':
-      return 'Texnik';
-    case 'Plumber':
-      return 'Plumber';
-    case 'Ofis menecer':
-      return 'Ofis menecer';
-    case 'Texnik menecer':
-      return 'Texnik menecer';
-    default:
-      return userType;
-  }
-};
-
-
 function Index() {
   const [isSmallModalOpen, setIsSmallModalOpen] = useState([]);
   const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
@@ -49,6 +33,10 @@ function Index() {
     filterData();
   }, [data, selectedGroupFilter, start_date, end_date, selectedYear, selectedMonth, selectedDay]);
 
+  useEffect(() => {
+    setIsSmallModalOpen(new Array(filteredData.length).fill(false));
+  }, [filteredData]);
+
   const fetchData = () => {
     let url = `http://135.181.42.192/services/performance/?`;
 
@@ -74,8 +62,6 @@ function Index() {
       })
       .catch(error => console.error('Error fetching data:', error));
   };
-
-
 
   const filterData = () => {
     let filtered = [...data];
@@ -111,7 +97,7 @@ function Index() {
   };
 
   const openSmallModal = (index, event) => {
-    const buttonRect = event.target.getBoundingClientRect();
+    event.stopPropagation();
     const newIsSmallModalOpen = [...isSmallModalOpen];
     newIsSmallModalOpen[index] = true;
     setIsSmallModalOpen(newIsSmallModalOpen);
@@ -171,6 +157,27 @@ function Index() {
   ];
   const days = Array.from({ length: 31 }, (_, i) => (i + 1).toString().padStart(2, '0'));
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (!event.target.closest('.group-modal') && isGroupModalOpen) {
+        setIsGroupModalOpen(false);
+      }
+
+      if (!event.target.closest('.small-modal') && isSmallModalOpen.some(modal => modal)) {
+        const newIsSmallModalOpen = [...isSmallModalOpen];
+        newIsSmallModalOpen.fill(false);
+        setIsSmallModalOpen(newIsSmallModalOpen);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isGroupModalOpen, isSmallModalOpen]);
+
+
   return (
     <div className='performance-page'>
       <div className='performance-page-title'>
@@ -229,7 +236,7 @@ function Index() {
                     <td>{`${(index + 1).toString().padStart(2, '0')}`}</td>
                     <td>{item.first_name && item.last_name ? `${item.first_name} ${item.last_name.charAt(0)}.` : '-'}</td>
                     <td>{item.group.group}</td>
-                    <td>{translateUserType(item.user_type)}</td>
+                    <td>{(item.user_type)}</td>
                     <td>{item.task_count.total}</td>
                     <td>{item.task_count.connection}</td>
                     <td>{item.task_count.problem}</td>
@@ -237,8 +244,8 @@ function Index() {
                       <button onClick={(e) => openSmallModal(index, e)}><BsThreeDotsVertical /></button>
                       {isSmallModalOpen[index] && (
                         <div
-                          ref={modalRef}
                           className={`small-modal ${isSmallModalOpen[index] ? 'active' : ''}`}
+                          ref={modalRef}
                         >
                           <div className="small-modal-content">
                             <button>

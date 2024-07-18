@@ -93,6 +93,7 @@
     font-size: 16px;
     font-weight: 700;
     outline: none;
+    cursor: pointer;
 }
 
 .service-fields .form-group label span{
@@ -129,7 +130,6 @@
     margin-right: 10px;
     justify-content: space-between;
     gap: 30px;
-    cursor: pointer;
   }
   
   .upload-icon {

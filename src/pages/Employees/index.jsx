@@ -338,8 +338,8 @@ const EmployeeList = () => {
               <tr key={employee.id}>
                 <td>{`#${(index + 1).toString().padStart(4, '0')}`}</td>
                 <td>{employee.first_name} {employee.last_name}</td>
-                <td>{employee.group ? employee.group.group : 'Yoxdur'}</td>
-                <td>{employee.group ? employee.group.region : 'Yoxdur'}</td>
+                <td>{employee.group ? employee.group.group : '-'}</td>
+                <td>{employee.group ? employee.group.region : '-'}</td>
                 <td>{employee.phone}  {!employee.phone && <span>-</span>}</td>
                 <td>{(employee.user_type)}</td>
                 <td className='status'>

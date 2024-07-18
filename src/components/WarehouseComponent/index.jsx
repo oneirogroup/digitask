@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { BiImport, BiExport } from "react-icons/bi";
 import { IoFilterOutline } from "react-icons/io5";
 import { CiSearch } from "react-icons/ci";
@@ -20,11 +20,26 @@ function Warehouse() {
     const [regions, setRegions] = useState([]);
     const [selectedRegion, setSelectedRegion] = useState('Hamısı');
     const [isRegionModalOpen, setIsRegionModalOpen] = useState(false);
+    const regionModalRef = useRef(null);
 
     useEffect(() => {
         fetchWarehouses();
         fetchData();
     }, [searchTerm, warehouseSelected, selectedRegion]);
+
+    useEffect(() => {
+        function handleClickOutside(event) {
+            if (regionModalRef.current && !regionModalRef.current.contains(event.target)) {
+                setIsRegionModalOpen(false);
+            }
+        }
+
+        document.addEventListener('mousedown', handleClickOutside);
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
 
     const fetchWarehouses = () => {
         fetch('http://135.181.42.192/services/warehouses/')
@@ -105,7 +120,6 @@ function Warehouse() {
                 <div className='warehouseTable-title'>
                     <p>Anbar</p>
                     <div>
-
                         <button
                             className={`importButton ${importSelected ? 'selectedButton' : ''}`}
                             onClick={handleImportClick}
@@ -143,7 +157,7 @@ function Warehouse() {
                             <FaChevronDown />
                         </button>
                         {isRegionModalOpen && (
-                            <div className="region-small-modal">
+                            <div className="region-small-modal" ref={regionModalRef}>
                                 {regions.map((region, index) => (
                                     <div
                                         key={index}

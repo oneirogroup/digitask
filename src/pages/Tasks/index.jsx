@@ -84,10 +84,16 @@ function Index() {
         fetchTasks("all", selectedMonth, "Hamısı");
     }, [selectedMonth]);
 
+    const statusRef = useRef(null);
+
+
     useEffect(() => {
         function handleClickOutside(event) {
             if (modalRef.current && !modalRef.current.contains(event.target)) {
                 closeSmallModal();
+            }
+            if (statusRef.current && !statusRef.current.contains(event.target)) {
+                setIsStatusModalOpen(false);
             }
         }
 
@@ -329,7 +335,7 @@ function Index() {
                     <FaChevronDown />
                 </button>
                 {isStatusModalOpen && (
-                    <div className="status-modal">
+                    <div className="status-modal" ref={statusRef}>
                         <div onClick={() => filterByStatus("Hamısı")}>Hamısı</div>
                         <div onClick={() => filterByStatus("Gözləyir")}>Gözləyir</div>
                         <div onClick={() => filterByStatus("Qəbul edilib")}>Qəbul edilib</div>
