@@ -170,7 +170,6 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick }) {
                 updatedData[key] = formData[key];
             }
         });
-        window.location.reload();
 
 
         if (updatedData.id) {
@@ -373,7 +372,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick }) {
                                 <div>
                                     <div className="status-dropdown-div task-type-select">
                                         <label><SiTyper />
-                                            Tapşırığın məlumatlarının dəyişdilməsi</label>
+                                            Tapşırığın növü</label>
                                         <div class="dropdown-task" id="details-task" ref={taskTypeDropdownRef}>
                                             <div className="dropdown-task-toggle" onClick={toggleDropdownTaskType}>
                                                 {formData.task_type ? formData.task_type === 'connection' ? 'Qoşulma' : 'Problem' : 'Tapşırığı Seçin'}
