@@ -10,6 +10,7 @@ import { PiMapPinAreaFill } from "react-icons/pi";
 import "./employees.css";
 import { useUser } from '../../contexts/UserContext';
 import AddUserModal from '../../components/AddUserModal';
+import UpdateUserModal from '../../components/UpdateUserModal';
 
 const refreshAccessToken = async () => {
   const refresh_token = localStorage.getItem('refresh_token');
@@ -36,6 +37,8 @@ const EmployeeList = () => {
   const [employeeModals, setEmployeeModals] = useState({});
   const [status, setStatus] = useState({});
   const [isAddUserModal, setIsAddUserModal] = useState(false);
+  const [isUpdateUserModal, setIsUpdateUserModal] = useState(false);
+  const [selectedEmployee, setSelectedEmployee] = useState(null);
   const userTypeRef = useRef(null);
   const groupRef = useRef(null);
   const modalRef = useRef(null);
@@ -160,9 +163,10 @@ const EmployeeList = () => {
       if (groupRef.current && !groupRef.current.contains(event.target)) {
         setShowGroupOptions(false);
       }
-      if (modalRef.current && !modalRef.current.contains(event.target)) {
-        closeAllModals();
-      }
+      // if (modalRef.current && !modalRef.current.contains(event.target)) {
+      //   closeAllModals();
+      // }
+
     };
 
     document.addEventListener('mousedown', handleClickOutside);
@@ -220,6 +224,7 @@ const EmployeeList = () => {
     setCurrentPage(1);
   };
 
+
   const getFilteredEmployees = () => {
     let filteredEmployees = employees;
 
@@ -238,14 +243,27 @@ const EmployeeList = () => {
 
     if (groupFilter) {
       filteredEmployees = filteredEmployees.filter(employee => (
-        employee.group === groupFilter
+        employee.group && employee.group.group === groupFilter
       ));
+    }
+
+    if (!Array.isArray(filteredEmployees)) {
+      console.error('Expected filteredEmployees to be an array, but got:', filteredEmployees);
+      filteredEmployees = [];
     }
 
     return filteredEmployees;
   };
 
-  const currentItems = getFilteredEmployees().slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+
+  const filteredEmployees = getFilteredEmployees();
+  const currentItems = filteredEmployees.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+
+  const paginate = (pageNumber) => {
+    if (pageNumber > 0 && pageNumber <= Math.ceil(filteredEmployees.length / itemsPerPage)) {
+      setCurrentPage(pageNumber);
+    }
+  };
 
   const openAddUserModal = () => {
     setIsAddUserModal(true);
@@ -255,11 +273,46 @@ const EmployeeList = () => {
     setIsAddUserModal(false);
   };
 
-  const paginate = (pageNumber) => {
-    if (pageNumber > 0 && pageNumber <= Math.ceil(getFilteredEmployees().length / itemsPerPage)) {
-      setCurrentPage(pageNumber);
-    }
+
+  const renderSmallModal = (employee) => {
+    return (
+      <div
+        ref={modalRef}
+        className={`small-modal-employee ${employeeModals[employee.id] ? 'active' : ''}`}
+      >
+        <div className="small-modal-employee-content">
+          <button onClick={() => handleEditClick(employee)}>
+            <MdOutlineEdit />
+          </button>
+          <button>
+            <RiDeleteBin6Line />
+          </button>
+        </div>
+      </div>
+    );
   };
+
+  const handleEditClick = (employee) => {
+    setSelectedEmployee(employee);
+    setIsUpdateUserModal(true);
+    console.log('Edit button clicked for employee:', employee);
+
+  };
+
+  const handleUpdateEmployee = (updatedEmployee) => {
+    setEmployees(prevEmployees =>
+      prevEmployees.map(employee =>
+        employee.id === updatedEmployee.id ? updatedEmployee : employee
+      )
+    );
+    closeUpdateUserModal();
+  };
+
+
+  const closeUpdateUserModal = () => {
+    setIsUpdateUserModal(false);
+  };
+
 
   return (
     <div className='employee-page'>
@@ -350,22 +403,12 @@ const EmployeeList = () => {
                 </td>
                 <td><a href=""><PiMapPinAreaFill /></a></td>
                 <td>
-                  <button onClick={() => openSmallModal(employee.id)}><BsThreeDotsVertical /></button>
-                  {employeeModals[employee.id] && (
-                    <div
-                      ref={modalRef}
-                      className={`small-modal-employee active`}
-                    >
-                      <div className="small-modal-employee-content">
-                        <button>
-                          <RiDeleteBin6Line />
-                        </button>
-                        <button>
-                          <MdOutlineEdit />
-                        </button>
-                      </div>
-                    </div>
-                  )}
+                  <button onClick={() => openSmallModal(employee.id)}>
+                    <BsThreeDotsVertical />
+                  </button>
+                  {renderSmallModal(employee)}
+
+
                 </td>
               </tr>
             ))}
@@ -387,7 +430,15 @@ const EmployeeList = () => {
           <FaArrowRight />
         </button>
       </div>
-      {isAddUserModal && <AddUserModal onClose={closeAddUserModal} />}
+      {isAddUserModal && <AddUserModal isOpen={isAddUserModal} onClose={closeAddUserModal} />}
+      <UpdateUserModal
+        isOpen={isUpdateUserModal}
+        onClose={closeUpdateUserModal}
+        employee={selectedEmployee}
+        onUpdate={handleUpdateEmployee}
+      />
+
+
     </div>
   );
 };

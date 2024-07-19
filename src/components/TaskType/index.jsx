@@ -3,7 +3,6 @@ import { RiEdit2Line } from "react-icons/ri";
 import { IoPersonOutline } from "react-icons/io5";
 import { BsTelephone } from "react-icons/bs";
 import { GoClock } from "react-icons/go";
-import { CiMapPin } from "react-icons/ci";
 import { LiaPhoneVolumeSolid } from "react-icons/lia";
 import { RiMapPinLine } from "react-icons/ri";
 import { MdOutlineMiscellaneousServices } from "react-icons/md";
