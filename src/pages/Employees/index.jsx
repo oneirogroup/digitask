@@ -163,10 +163,6 @@ const EmployeeList = () => {
       if (groupRef.current && !groupRef.current.contains(event.target)) {
         setShowGroupOptions(false);
       }
-      // if (modalRef.current && !modalRef.current.contains(event.target)) {
-      //   closeAllModals();
-      // }
-
     };
 
     document.addEventListener('mousedown', handleClickOutside);
@@ -224,7 +220,6 @@ const EmployeeList = () => {
     setCurrentPage(1);
   };
 
-
   const getFilteredEmployees = () => {
     let filteredEmployees = employees;
 
@@ -255,7 +250,6 @@ const EmployeeList = () => {
     return filteredEmployees;
   };
 
-
   const filteredEmployees = getFilteredEmployees();
   const currentItems = filteredEmployees.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
@@ -273,7 +267,6 @@ const EmployeeList = () => {
     setIsAddUserModal(false);
   };
 
-
   const renderSmallModal = (employee) => {
     return (
       <div
@@ -281,7 +274,7 @@ const EmployeeList = () => {
         className={`small-modal-employee ${employeeModals[employee.id] ? 'active' : ''}`}
       >
         <div className="small-modal-employee-content">
-          <button onClick={() => handleEditClick(employee)}>
+          <button onClick={() => handleUpdateUserClick(employee)}>
             <MdOutlineEdit />
           </button>
           <button>
@@ -292,25 +285,41 @@ const EmployeeList = () => {
     );
   };
 
-  const handleEditClick = (employee) => {
+
+  const handleUpdateUserClick = (employee) => {
     setSelectedEmployee(employee);
     setIsUpdateUserModal(true);
-    console.log('Edit button clicked for employee:', employee);
-
+    closeSmallModal(employee.id);
   };
 
-  const handleUpdateEmployee = (updatedEmployee) => {
-    setEmployees(prevEmployees =>
-      prevEmployees.map(employee =>
-        employee.id === updatedEmployee.id ? updatedEmployee : employee
-      )
-    );
-    closeUpdateUserModal();
-  };
-
-
-  const closeUpdateUserModal = () => {
+  const handleUpdateUserModalClose = () => {
     setIsUpdateUserModal(false);
+  };
+
+  const handleUpdateEmployee = async (employeeId, updatedData) => {
+    try {
+      await refreshAccessToken();
+      const token = localStorage.getItem('access_token');
+
+      const response = await axios.get(`http://135.181.42.192/accounts/update_user/${employeeId}/`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      const updatedEmployee = response.data;
+
+      setEmployees((prevEmployees) =>
+        prevEmployees.map((employee) =>
+          employee.id === employeeId ? updatedEmployee : employee
+        )
+      );
+      setStatus((prevStatus) => ({
+        ...prevStatus,
+        [employeeId]: updatedEmployee.status,
+      }));
+    } catch (error) {
+      console.error('Error fetching updated employee:', error);
+    }
   };
 
 
@@ -407,8 +416,6 @@ const EmployeeList = () => {
                     <BsThreeDotsVertical />
                   </button>
                   {renderSmallModal(employee)}
-
-
                 </td>
               </tr>
             ))}
@@ -431,14 +438,14 @@ const EmployeeList = () => {
         </button>
       </div>
       {isAddUserModal && <AddUserModal isOpen={isAddUserModal} onClose={closeAddUserModal} />}
-      <UpdateUserModal
-        isOpen={isUpdateUserModal}
-        onClose={closeUpdateUserModal}
-        employee={selectedEmployee}
-        onUpdate={handleUpdateEmployee}
-      />
-
-
+      {isUpdateUserModal && selectedEmployee && (
+        <UpdateUserModal
+          isOpen={isUpdateUserModal}
+          onClose={handleUpdateUserModalClose}
+          employee={selectedEmployee}
+          onUpdateUser={(updatedEmployee) => handleUpdateEmployee(updatedEmployee.id, updatedEmployee)}
+        />
+      )}
     </div>
   );
 };

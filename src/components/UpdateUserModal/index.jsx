@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import "./adduser.css";
 
-const UpdateUserModal = ({ isOpen, onClose, employee, onUpdate }) => {
+const UpdateUserModal = ({ isOpen, onClose, employee, onUpdateUser }) => {
   if (!isOpen) return null;
 
   const [formData, setFormData] = useState({
@@ -11,9 +11,10 @@ const UpdateUserModal = ({ isOpen, onClose, employee, onUpdate }) => {
     user_type: '',
     username: '',
     group: '',
-    region: '',  
-    first_name: '',  
-    last_name: '', 
+    groupName: '',
+    groupRegion: '',
+    first_name: '',
+    last_name: '',
     password: '',
     password2: ''
   });
@@ -40,7 +41,6 @@ const UpdateUserModal = ({ isOpen, onClose, employee, onUpdate }) => {
       }
     };
 
-
     fetchGroups();
   }, []);
 
@@ -52,9 +52,10 @@ const UpdateUserModal = ({ isOpen, onClose, employee, onUpdate }) => {
         user_type: employee.user_type || '',
         username: employee.username || '',
         group: employee.group?.id || '',
-        region: employee.group ? employee.group.region : '', 
-        first_name: employee.first_name || '', 
-        last_name: employee.last_name || '', 
+        groupName: employee.group?.group,
+        groupRegion: employee.group?.region,
+        first_name: employee.first_name || '',
+        last_name: employee.last_name || '',
         password: '',
         password2: ''
       });
@@ -62,7 +63,6 @@ const UpdateUserModal = ({ isOpen, onClose, employee, onUpdate }) => {
       setSelectedUserTypeLabel(userTypeOptions.find(option => option.value === employee.user_type)?.label || '');
     }
   }, [employee, userTypeOptions]);
-
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -76,10 +76,13 @@ const UpdateUserModal = ({ isOpen, onClose, employee, onUpdate }) => {
     setShowGroupDropdown(!showGroupDropdown);
   };
 
-  const handleSelectGroup = (groupId, groupName) => {
+  const handleSelectGroup = (groupId, groupName, groupRegion) => {
+    console.log(`Selected group ID: ${groupId}, group name: ${groupName}, group region: ${groupRegion}`);
     setFormData({
       ...formData,
-      group: groupId
+      group: groupId,
+      groupName: groupName,
+      groupRegion: groupRegion
     });
     setSelectedGroupName(groupName);
     setShowGroupDropdown(false);
@@ -105,17 +108,19 @@ const UpdateUserModal = ({ isOpen, onClose, employee, onUpdate }) => {
       return;
     }
 
-    const { first_name, last_name, region, group, ...updatedFormData } = formData;
+    const { first_name, last_name, ...updatedFormData } = formData;
 
     if (!formData.password) {
       delete updatedFormData.password;
       delete updatedFormData.password2;
     }
 
+    console.log('Payload being sent:', updatedFormData);
+
     try {
       const response = await axios.put(`http://135.181.42.192/accounts/update_user/${employee.id}/`, updatedFormData);
       console.log('User updated successfully:', response.data);
-      onUpdate(response.data);
+      onUpdateUser(response.data);
       onClose();
     } catch (error) {
       if (error.response && error.response.data) {
@@ -163,7 +168,7 @@ const UpdateUserModal = ({ isOpen, onClose, employee, onUpdate }) => {
                     {groupOptions.map(group => (
                       <div
                         key={group.id}
-                        onClick={() => handleSelectGroup(group.id, group.group)}
+                        onClick={() => handleSelectGroup(group.id, group.group, group.region)}
                         className={formData.group === group.id ? 'selected' : ''}
                       >
                         {group.group}
@@ -197,15 +202,6 @@ const UpdateUserModal = ({ isOpen, onClose, employee, onUpdate }) => {
                   </div>
                 )}
               </div>
-            </div>
-
-            <div className="form-group">
-              <label>Ad</label>
-              <input type="text" placeholder='Adınızı daxil edin' name="first_name" value={formData.first_name} onChange={handleChange} />
-            </div>
-            <div className="form-group">
-              <label>Soyad</label>
-              <input type="text" placeholder='Soyadınızı daxil edin' name="last_name" value={formData.last_name} onChange={handleChange} />
             </div>
             <div className="form-group">
               <label>Şifrə</label>
