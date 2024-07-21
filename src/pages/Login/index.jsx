@@ -151,6 +151,7 @@ const Login = (props) => {
         }
     };
 
+
     if (isLoggedIn) {
         return <Navigate to="/" />;
     }
@@ -184,7 +185,7 @@ const Login = (props) => {
                                 <label htmlFor="">
                                     <IoKeyOutline />
                                     <div className="login-eye">
-                                        <input type={showPassword ? "text" : "password"} placeholder="*" name="password"
+                                        <input type={showPassword ? "text" : "password"} placeholder="*****" name="password"
                                             value={password}
                                             onChange={onChangePassword}
                                         />
