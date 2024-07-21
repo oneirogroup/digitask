@@ -723,15 +723,15 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick }) {
                         </div>
 
                         {/* {userType === 'Texnik' && shouldShowAddSurveyButton && ( */}
-
-                        <button
-                            className="add-survey-button"
-                            onClick={openAddSurveyModal}
-                        >
-                            <p>Anket əlavə et</p>
-                            <MdAdd />
-                        </button>
-                        {/* )} */}
+                        {shouldShowAddSurveyButton && (
+                            <button
+                                className="add-survey-button"
+                                onClick={openAddSurveyModal}
+                            >
+                                <p>Anket əlavə et</p>
+                                <MdAdd />
+                            </button>
+                        )}
 
                     </div>
                 )}
