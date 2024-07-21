@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import axios from 'axios';
 import "./adduser.css";
 
@@ -11,8 +12,7 @@ const UpdateUserModal = ({ isOpen, onClose, employee, onUpdateUser }) => {
     user_type: '',
     username: '',
     group: '',
-    groupName: '',
-    groupRegion: '',
+    groupId: '',
     first_name: '',
     last_name: '',
     password: '',
@@ -51,9 +51,9 @@ const UpdateUserModal = ({ isOpen, onClose, employee, onUpdateUser }) => {
         phone: employee.phone || '',
         user_type: employee.user_type || '',
         username: employee.username || '',
-        group: employee.group?.id || '',
-        groupName: employee.group?.group,
-        groupRegion: employee.group?.region,
+        group: employee.group.group || '',
+        groupId: employee.group_id || '',
+        groupRegion: employee.group?.region || '',
         first_name: employee.first_name || '',
         last_name: employee.last_name || '',
         password: '',
@@ -76,15 +76,14 @@ const UpdateUserModal = ({ isOpen, onClose, employee, onUpdateUser }) => {
     setShowGroupDropdown(!showGroupDropdown);
   };
 
-  const handleSelectGroup = (groupId, groupName, groupRegion) => {
-    console.log(`Selected group ID: ${groupId}, group name: ${groupName}, group region: ${groupRegion}`);
+  const handleSelectGroup = (groupId, group, region) => {
     setFormData({
       ...formData,
-      group: groupId,
-      groupName: groupName,
-      groupRegion: groupRegion
+      group_id: groupId,
+      group: group,
+      groupRegion: region
     });
-    setSelectedGroupName(groupName);
+    setSelectedGroupName(group);
     setShowGroupDropdown(false);
   };
 
@@ -168,10 +167,10 @@ const UpdateUserModal = ({ isOpen, onClose, employee, onUpdateUser }) => {
                     {groupOptions.map(group => (
                       <div
                         key={group.id}
+                        className="multi-select-item"
                         onClick={() => handleSelectGroup(group.id, group.group, group.region)}
-                        className={formData.group === group.id ? 'selected' : ''}
                       >
-                        {group.group}
+                        {group.group} ({group.region})
                       </div>
                     ))}
                   </div>
@@ -179,22 +178,22 @@ const UpdateUserModal = ({ isOpen, onClose, employee, onUpdateUser }) => {
               </div>
             </div>
             <div className="form-group">
-              <label>İstifadəçi növü</label>
+              <label>İstifadəçi tipi</label>
               <div className="multi-select-container">
                 <button type="button" className="multi-select-button" onClick={handleUserTypeDropdownToggle}>
-                  {selectedUserTypeLabel ? selectedUserTypeLabel : 'İstifadəçi növünü daxil edin'}
+                  {selectedUserTypeLabel ? selectedUserTypeLabel : 'İstifadəçi tipini seçin'}
                 </button>
                 {showUserTypeDropdown && (
                   <div className="multi-select-dropdown">
                     <label htmlFor="closeUserTypeDropdown">
-                      İstifadəçi növü
+                      İstifadəçi tipi
                       <span className="close-dropdown" id="closeUserTypeDropdown" onClick={() => setShowUserTypeDropdown(false)}>&times;</span>
                     </label>
                     {userTypeOptions.map(option => (
                       <div
                         key={option.value}
+                        className="multi-select-item"
                         onClick={() => handleSelectUserType(option.value)}
-                        className={formData.user_type === option.value ? 'selected' : ''}
                       >
                         {option.label}
                       </div>
@@ -208,15 +207,22 @@ const UpdateUserModal = ({ isOpen, onClose, employee, onUpdateUser }) => {
               <input type="password" placeholder='Şifrəni daxil edin' name="password" value={formData.password} onChange={handleChange} />
             </div>
             <div className="form-group">
-              <label>Şifrəni təsdiqlə</label>
-              <input type="password" placeholder='Şifrəni təkrar daxil edin' name="password2" value={formData.password2} onChange={handleChange} />
+              <label>Təkrar Şifrə</label>
+              <input type="password" placeholder='Təkrar şifrəni daxil edin' name="password2" value={formData.password2} onChange={handleChange} />
             </div>
+            <button type="submit" className='add-user-modal-btn'>Yenilə</button>
           </div>
-          <button type="submit">Yenilə</button>
         </form>
       </div>
     </div>
   );
+};
+
+UpdateUserModal.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  employee: PropTypes.object,
+  onUpdateUser: PropTypes.func.isRequired,
 };
 
 export default UpdateUserModal;
