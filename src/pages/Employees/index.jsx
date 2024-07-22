@@ -112,7 +112,7 @@ const EmployeeList = () => {
   }, []);
 
   useEffect(() => {
-    const ws = new WebSocket('ws://135.181.42.192/ws/');
+    const ws = new WebSocket('ws://135.181.42.192/ws/status/');
 
     ws.onopen = () => {
       console.log('WebSocket connection established.');
@@ -277,7 +277,7 @@ const EmployeeList = () => {
           <button onClick={() => handleUpdateUserClick(employee)}>
             <MdOutlineEdit />
           </button>
-          <button>
+          <button onClick={() => handleDeleteUser(employee.id)}>
             <RiDeleteBin6Line />
           </button>
         </div>
@@ -322,6 +322,27 @@ const EmployeeList = () => {
     }
   };
 
+  const handleDeleteUser = async (employeeId) => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this user?");
+    if (!confirmDelete) return;
+
+    try {
+      await refreshAccessToken();
+      const token = localStorage.getItem('access_token');
+
+      await axios.delete(`http://135.181.42.192/accounts/delete_user/${employeeId}/`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      setEmployees(prevEmployees => prevEmployees.filter(employee => employee.id !== employeeId));
+    } catch (error) {
+      console.error('Error deleting the user:', error);
+    }
+  };
+
+
 
   return (
     <div className='employee-page'>
@@ -354,7 +375,7 @@ const EmployeeList = () => {
                 <div onClick={() => handleUserTypeFilter(null)}>Hamısı</div>
                 <div onClick={() => handleUserTypeFilter('Texnik')}>Texniklər</div>
                 <div onClick={() => handleUserTypeFilter('Plumber')}>Plumber</div>
-                <div onClick={() => handleUserTypeFilter('Ofis menecer')}>Ofis meneceri</div>
+                <div onClick={() => handleUserTypeFilter('Ofis menecer')}>Ofis menecer</div>
                 <div onClick={() => handleUserTypeFilter('Texnik menecer')}>Texnik menecer</div>
               </div>
             )}

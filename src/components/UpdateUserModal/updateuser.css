@@ -1,0 +1,9 @@
+.update-btn {
+    width: 100%;
+}
+
+.update-user-modal button, .update-user-modal span{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

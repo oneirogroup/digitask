@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { FaChevronUp, FaChevronDown } from 'react-icons/fa';
 import "./adduser.css";
 
 const AddUserModal = ({ onClose }) => {
@@ -15,6 +16,7 @@ const AddUserModal = ({ onClose }) => {
     password2: ''
   });
 
+  const [formErrors, setFormErrors] = useState({});
   const [groupOptions, setGroupOptions] = useState([]);
   const [userTypeOptions] = useState([
     { value: 'Texnik', label: 'Texnik' },
@@ -48,14 +50,31 @@ const AddUserModal = ({ onClose }) => {
     });
   };
 
+  const validateForm = () => {
+    const errors = {};
+
+    if (!formData.first_name) errors.first_name = 'Ad boş buraxıla bilməz';
+    if (!formData.last_name) errors.last_name = 'Soyad boş buraxıla bilməz';
+    if (!formData.email) errors.email = 'Email boş buraxıla bilməz';
+    if (!formData.username) errors.username = 'İstifadəçi adı boş buraxıla bilməz';
+    if (!formData.group) errors.group = 'Qrup seçilməlidir';
+    if (!formData.user_type) errors.user_type = 'İstifadəçi tipi seçilməlidir';
+    if (!formData.password) errors.password = 'Şifrə boş buraxıla bilməz';
+    if (formData.password !== formData.password2) errors.password2 = 'Şifrələr uyğun deyil';
+    if (!formData.phone) errors.phone = 'Nömrə boş buraxıla bilməz';
+
+    setFormErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
   const handleGroupDropdownToggle = () => {
     setShowGroupDropdown(!showGroupDropdown);
   };
 
-  const handleSelectGroup = (groupId, groupName) => {
+  const handleSelectGroup = (id, groupName) => {
     setFormData({
       ...formData,
-      group: groupId
+      group: id
     });
     setSelectedGroupName(groupName);
     setShowGroupDropdown(false);
@@ -76,12 +95,14 @@ const AddUserModal = ({ onClose }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const response = await axios.post('http://135.181.42.192/accounts/register/', formData);
-      console.log('User registered successfully:', response.data);
-      onClose();
-    } catch (error) {
-      console.error('Registration error:', error);
+    if (validateForm()) {
+      try {
+        const response = await axios.post('http://135.181.42.192/accounts/register/', formData);
+        console.log('User registered successfully:', response.data);
+        onClose();
+      } catch (error) {
+        console.error('Registration error:', error);
+      }
     }
   };
 
@@ -97,25 +118,30 @@ const AddUserModal = ({ onClose }) => {
           <div>
             <div className="form-group">
               <label>Ad</label>
-              <input type="text" placeholder='Adı daxil edin' name="first_name" value={formData.first_name} onChange={handleChange} required />
+              <input type="text" placeholder='Adı daxil edin' name="first_name" value={formData.first_name} onChange={handleChange} />
+              {formErrors.first_name && <span className="error-message">{formErrors.first_name}</span>}
             </div>
             <div className="form-group">
               <label>Soyad</label>
-              <input type="text" placeholder='Soyadı daxil edin' name="last_name" value={formData.last_name} onChange={handleChange} required />
+              <input type="text" placeholder='Soyadı daxil edin' name="last_name" value={formData.last_name} onChange={handleChange} />
+              {formErrors.last_name && <span className="error-message">{formErrors.last_name}</span>}
             </div>
             <div className="form-group">
               <label>Email</label>
-              <input type="email" placeholder='E-poçt ünvanınızı daxil edin' name="email" value={formData.email} onChange={handleChange} required />
+              <input type="email" placeholder='E-poçt ünvanınızı daxil edin' name="email" value={formData.email} onChange={handleChange} />
+              {formErrors.email && <span className="error-message">{formErrors.email}</span>}
             </div>
             <div className="form-group">
-              <label>Istifadəçi adı</label>
-              <input type="text" placeholder='Istifadəçi adını daxil edin' name="username" value={formData.username} onChange={handleChange} required />
+              <label>İstifadəçi adı</label>
+              <input type="text" placeholder='İstifadəçi adını daxil edin' name="username" value={formData.username} onChange={handleChange} />
+              {formErrors.username && <span className="error-message">{formErrors.username}</span>}
             </div>
             <div className="form-group">
               <label>Qrup</label>
-              <div className="multi-select-container">
+              <div className="multi-select-container update-user-modal">
                 <button type="button" className="multi-select-button" onClick={handleGroupDropdownToggle}>
                   {selectedGroupName ? selectedGroupName : 'Qrup seçin'}
+                  <span>{showGroupDropdown ? <FaChevronUp /> : <FaChevronDown />}</span>
                 </button>
                 {showGroupDropdown && (
                   <div className="multi-select-dropdown">
@@ -135,12 +161,14 @@ const AddUserModal = ({ onClose }) => {
                   </div>
                 )}
               </div>
+              {formErrors.group && <span className="error-message">{formErrors.group}</span>}
             </div>
             <div className="form-group">
-              <label>İstifadəçi növü</label>
-              <div className="multi-select-container">
+              <label>İstifadəçi tipi</label>
+              <div className="multi-select-container update-user-modal">
                 <button type="button" className="multi-select-button" onClick={handleUserTypeDropdownToggle}>
-                  {selectedUserTypeLabel ? selectedUserTypeLabel : 'İstifadəçi növünü daxil edin'}
+                  {selectedUserTypeLabel ? selectedUserTypeLabel : 'İstifadəçi növünü seçin'}
+                  <span>{showUserTypeDropdown ? <FaChevronUp /> : <FaChevronDown />}</span>
                 </button>
                 {showUserTypeDropdown && (
                   <div className="multi-select-dropdown">
@@ -160,18 +188,22 @@ const AddUserModal = ({ onClose }) => {
                   </div>
                 )}
               </div>
+              {formErrors.user_type && <span className="error-message">{formErrors.user_type}</span>}
             </div>
             <div className="form-group">
               <label>Şifrə</label>
-              <input type="password" placeholder='Şifrəni daxil edin' name="password" value={formData.password} onChange={handleChange} required />
+              <input type="password" placeholder='Şifrəni daxil edin' name="password" value={formData.password} onChange={handleChange} />
+              {formErrors.password && <span className="error-message">{formErrors.password}</span>}
             </div>
             <div className="form-group">
               <label>Şifrəni təsdiqlə</label>
-              <input type="password" placeholder='Şifrəni təkrar daxil edin' name="password2" value={formData.password2} onChange={handleChange} required />
+              <input type="password" placeholder='Şifrəni təkrar daxil edin' name="password2" value={formData.password2} onChange={handleChange} />
+              {formErrors.password2 && <span className="error-message">{formErrors.password2}</span>}
             </div>
             <div className="form-group">
               <label>Nömrə</label>
-              <input type="text" placeholder='Nömrəni daxil edin' name="phone" value={formData.phone} onChange={handleChange} required />
+              <input type="text" placeholder='Nömrəni daxil edin' name="phone" value={formData.phone} onChange={handleChange} />
+              {formErrors.phone && <span className="error-message">{formErrors.phone}</span>}
             </div>
           </div>
           <button type="submit">Əlavə et</button>

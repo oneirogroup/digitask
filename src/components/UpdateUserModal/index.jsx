@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import "./adduser.css";
+import { FaChevronUp, FaChevronDown } from 'react-icons/fa';
+import "./updateuser.css";
 
 const UpdateUserModal = ({ isOpen, onClose, employee, onUpdateUser }) => {
   if (!isOpen) return null;
@@ -13,6 +14,7 @@ const UpdateUserModal = ({ isOpen, onClose, employee, onUpdateUser }) => {
     username: '',
     group: '',
     groupId: '',
+    groupRegion: '',
     first_name: '',
     last_name: '',
     password: '',
@@ -51,8 +53,8 @@ const UpdateUserModal = ({ isOpen, onClose, employee, onUpdateUser }) => {
         phone: employee.phone || '',
         user_type: employee.user_type || '',
         username: employee.username || '',
-        group: employee.group.group || '',
-        groupId: employee.group_id || '',
+        group: employee.group?.group || '',
+        groupId: employee.group?.id || '',
         groupRegion: employee.group?.region || '',
         first_name: employee.first_name || '',
         last_name: employee.last_name || '',
@@ -106,16 +108,28 @@ const UpdateUserModal = ({ isOpen, onClose, employee, onUpdateUser }) => {
       console.error('Selected employee or employee ID is missing');
       return;
     }
-
-    const { first_name, last_name, ...updatedFormData } = formData;
-
+  
+    const updatedFormData = { ...formData };
+  
+    if (!formData.groupId) {
+      if (employee.group) {
+        updatedFormData.groupId = employee.group.id;
+        updatedFormData.groupName = employee.group.group;
+        updatedFormData.groupRegion = employee.group.region;
+      } else {
+        delete updatedFormData.groupId;
+        delete updatedFormData.groupName;
+        delete updatedFormData.groupRegion;
+      }
+    }
+  
     if (!formData.password) {
       delete updatedFormData.password;
       delete updatedFormData.password2;
     }
-
+  
     console.log('Payload being sent:', updatedFormData);
-
+  
     try {
       const response = await axios.put(`http://135.181.42.192/accounts/update_user/${employee.id}/`, updatedFormData);
       console.log('User updated successfully:', response.data);
@@ -129,10 +143,11 @@ const UpdateUserModal = ({ isOpen, onClose, employee, onUpdateUser }) => {
       }
     }
   };
+  
 
   return (
-    <div className="add-user-modal">
-      <div className="add-user-modal-content">
+    <div className="add-user-modal" onClick={onClose}>
+      <div className="add-user-modal-content" onClick={(e) => e.stopPropagation()}>
         <div className='add-user-modal-title'>
           <h5>İstifadəçini Yenilə</h5>
           <span className="close" onClick={onClose}>&times;</span>
@@ -149,14 +164,11 @@ const UpdateUserModal = ({ isOpen, onClose, employee, onUpdateUser }) => {
               <input type="text" placeholder='İstifadəçi adını daxil edin' name="username" value={formData.username} onChange={handleChange} />
             </div>
             <div className="form-group">
-              <label>Nömrə</label>
-              <input type="text" placeholder='Nömrəni daxil edin' name="phone" value={formData.phone} onChange={handleChange} />
-            </div>
-            <div className="form-group">
               <label>Qrup</label>
-              <div className="multi-select-container">
+              <div className="multi-select-container update-user-modal">
                 <button type="button" className="multi-select-button" onClick={handleGroupDropdownToggle}>
                   {selectedGroupName ? selectedGroupName : 'Qrup seçin'}
+                  <span>{showGroupDropdown ? <FaChevronUp /> : <FaChevronDown />}</span>
                 </button>
                 {showGroupDropdown && (
                   <div className="multi-select-dropdown">
@@ -179,9 +191,10 @@ const UpdateUserModal = ({ isOpen, onClose, employee, onUpdateUser }) => {
             </div>
             <div className="form-group">
               <label>İstifadəçi tipi</label>
-              <div className="multi-select-container">
+              <div className="multi-select-container update-user-modal">
                 <button type="button" className="multi-select-button" onClick={handleUserTypeDropdownToggle}>
                   {selectedUserTypeLabel ? selectedUserTypeLabel : 'İstifadəçi tipini seçin'}
+                  <span>{showUserTypeDropdown ? <FaChevronUp /> : <FaChevronDown />}</span>
                 </button>
                 {showUserTypeDropdown && (
                   <div className="multi-select-dropdown">
@@ -210,8 +223,13 @@ const UpdateUserModal = ({ isOpen, onClose, employee, onUpdateUser }) => {
               <label>Təkrar Şifrə</label>
               <input type="password" placeholder='Təkrar şifrəni daxil edin' name="password2" value={formData.password2} onChange={handleChange} />
             </div>
-            <button type="submit" className='add-user-modal-btn'>Yenilə</button>
+            <div className="form-group">
+              <label>Nömrə</label>
+              <input type="text" placeholder='Nömrəni daxil edin' name="phone" value={formData.phone} onChange={handleChange} />
+            </div>
+            <br />
           </div>
+          <button type="submit" className='add-user-modal-btn update-btn'>Yenilə</button>
         </form>
       </div>
     </div>
