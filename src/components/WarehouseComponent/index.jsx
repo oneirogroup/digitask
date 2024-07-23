@@ -45,8 +45,7 @@ function Warehouse() {
         fetch('http://135.181.42.192/services/warehouses/')
             .then(response => response.json())
             .then(data => {
-                const warehouseNames = data.map(warehouse => warehouse.name);
-                setWarehouses(warehouseNames);
+                setWarehouses(data);
                 const uniqueRegions = Array.from(new Set(data.map(warehouse => warehouse.region)));
                 setRegions(uniqueRegions);
             })
@@ -129,13 +128,13 @@ function Warehouse() {
                     </div>
                 </div>
                 <div className='warehouseName'>
-                    {warehouses.map((name, index) => (
+                    {warehouses.map((warehouse, index) => (
                         <button
                             key={index}
-                            className={`warehouseButton ${warehouseSelected === name ? 'selectedButton' : ''}`}
-                            onClick={() => handleWarehouseClick(name)}
+                            className={`warehouseButton ${warehouseSelected === warehouse.name ? 'selectedButton' : ''}`}
+                            onClick={() => handleWarehouseClick(warehouse.name)}
                         >
-                            {name}
+                            {warehouse.name}
                         </button>
                     ))}
                 </div>
@@ -207,7 +206,7 @@ function Warehouse() {
                     </table>
                 </div>
             </section>
-            {showImportModal && <Import onClose={() => setShowImportModal(false)} />}
+            {showImportModal && <Import onClose={() => setShowImportModal(false)} warehouses={warehouses} />}
             {showExportModal && <Export onClose={() => setShowExportModal(false)} />}
         </div>
     );

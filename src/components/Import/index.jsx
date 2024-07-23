@@ -2,17 +2,41 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import "./import.css";
 
-function Index({ onClose, warehouses }) {
-    const [activeWarehouse, setActiveWarehouse] = useState(warehouses && warehouses.length > 0 ? warehouses[0] : null);
+function Import({ onClose, warehouses }) {
+    const [activeWarehouse, setActiveWarehouse] = useState(warehouses && warehouses.length > 0 ? warehouses[0].id : null);
 
     const [formData, setFormData] = useState({
         equipment_name: '',
         brand: '',
         model: '',
+        mac: '',
+        port_number: '',
         serial_number: '',
         number: '',
         size_length: ''
     });
+
+    const [errors, setErrors] = useState({
+        equipment_name: '',
+        brand: '',
+        model: '',
+        mac: '',
+        port_number: '',
+        serial_number: '',
+        number: '',
+        size_length: ''
+    });
+
+    const validate = () => {
+        const newErrors = {};
+        Object.keys(formData).forEach(key => {
+            if (formData[key] === '') {
+                newErrors[key] = 'Bu sahəni doldurmalısınız';
+            }
+        });
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -20,10 +44,17 @@ function Index({ onClose, warehouses }) {
             ...formData,
             [name]: value
         });
+        setErrors({
+            ...errors,
+            [name]: ''
+        });
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        if (!validate()) {
+            return;
+        }
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -54,20 +85,104 @@ function Index({ onClose, warehouses }) {
                         {warehouses && warehouses.length > 0 && warehouses.map((warehouse, index) => (
                             <button
                                 key={index}
-                                className={activeWarehouse === warehouse.name ? "active" : ""}
-                                onClick={() => setActiveWarehouse(warehouse.name)}
+                                type="button"
+                                className={activeWarehouse === warehouse.id ? "active" : ""}
+                                onClick={() => setActiveWarehouse(warehouse.id)}
                             >
                                 {warehouse.name}
                             </button>
                         ))}
                     </div>
                     <div className="import-form">
-                        {["equipment_name", "brand", "model", "serial_number", "number", "size_length"].map((label, index) => (
-                            <div key={index}>
-                                <label htmlFor={label}>{label}</label>
-                                <input type="text" id={label} name={label} value={formData[label]} onChange={handleInputChange} />
-                            </div>
-                        ))}
+                        <label>
+                            Avadanlığın adı
+                            <input
+                                type="text"
+                                name="equipment_name"
+                                placeholder='Avadanlığın adı'
+                                value={formData.equipment_name}
+                                onChange={handleInputChange}
+                            />
+                            {errors.equipment_name && <span className="error-message">{errors.equipment_name}</span>}
+                        </label>
+                        <label>
+                            Marka
+                            <input
+                                type="text"
+                                name="brand"
+                                placeholder='Marka'
+                                value={formData.brand}
+                                onChange={handleInputChange}
+                            />
+                            {errors.brand && <span className="error-message">{errors.brand}</span>}
+                        </label>
+                        <label>
+                            Model
+                            <input
+                                type="text"
+                                name="model"
+                                placeholder='Model'
+                                value={formData.model}
+                                onChange={handleInputChange}
+                            />
+                            {errors.model && <span className="error-message">{errors.model}</span>}
+                        </label>
+                        <label>
+                            Mac
+                            <input
+                                type="text"
+                                name="mac"
+                                placeholder='Mac'
+                                value={formData.mac}
+                                onChange={handleInputChange}
+                            />
+                            {errors.mac && <span className="error-message">{errors.mac}</span>}
+                        </label>
+                        <label>
+                            Port sayı
+                            <input
+                                type="text"
+                                name="port_number"
+                                placeholder='Port sayı'
+                                value={formData.port_number}
+                                onChange={handleInputChange}
+                            />
+                            {errors.port_number && <span className="error-message">{errors.port_number}</span>}
+                        </label>
+                        <label>
+                            Seriya nömrəsi
+                            <input
+                                type="text"
+                                name="serial_number"
+                                placeholder='Seriya nömrəsi'
+                                value={formData.serial_number}
+                                onChange={handleInputChange}
+                            />
+                            {errors.serial_number && <span className="error-message">{errors.serial_number}</span>}
+                        </label>
+                        <label>
+                            Sayı
+                            <input
+                                type="number"
+                                placeholder='Sayı'
+                                name="number"
+                                value={formData.number}
+                                onChange={handleInputChange}
+                            />
+                            {errors.number && <span className="error-message">{errors.number}</span>}
+                        </label>
+                        <label>
+                            Ölçüsü
+                            <input
+                                type="number"
+                                step="0.01"
+                                name="size_length"
+                                placeholder='Ölçüsü'
+                                value={formData.size_length}
+                                onChange={handleInputChange}
+                            />
+                            {errors.size_length && <span className="error-message">{errors.size_length}</span>}
+                        </label>
                     </div>
                     <button type="submit" className="submit-btn">İdxal et</button>
                 </form>
@@ -76,12 +191,13 @@ function Index({ onClose, warehouses }) {
     );
 }
 
-Index.propTypes = {
+Import.propTypes = {
     onClose: PropTypes.func.isRequired,
     warehouses: PropTypes.arrayOf(PropTypes.shape({
+        id: PropTypes.number.isRequired,
         name: PropTypes.string.isRequired,
-        region: PropTypes.string.isRequired,
+        region: PropTypes.string.isRequired
     })).isRequired,
 };
 
-export default Index;
+export default Import;
