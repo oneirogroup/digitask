@@ -153,7 +153,7 @@ const Login = (props) => {
 
 
     if (isLoggedIn) {
-        return <Navigate to="/tasks/" />;
+        return <Navigate to="/" />;
     }
 
     const storedUserType = localStorage.getItem('user_type') || sessionStorage.getItem('user_type');
