@@ -165,12 +165,6 @@ function Index() {
         fetchTasks(activeFilter, newDate, newDate.getFullYear(), selectedStatusFilter);
     };
 
-
-    const handleYearChange = (event) => {
-        setSelectedYear(parseInt(event.target.value, 10));
-        applyFilters(activeFilter, selectedMonth, selectedYear, selectedStatusFilter);
-    };
-
     const applyFilters = (taskFilter, selectedMonth, selectedYear, statusFilter) => {
         setActiveFilter(taskFilter);
         setSelectedMonth(selectedMonth);
@@ -184,10 +178,6 @@ function Index() {
         applyFilters(filter, selectedMonth, selectedStatusFilter);
     };
 
-    const filterByDate = (selectedMonth, selectedYear) => {
-        setIsDateModalOpen(false);
-        applyFilters(activeFilter, selectedMonth, selectedYear, selectedStatusFilter);
-    };
 
     const filterByStatus = (statusFilter) => {
         setIsStatusModalOpen(false);

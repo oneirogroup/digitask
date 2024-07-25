@@ -37,16 +37,6 @@ function Index() {
     setIsSmallModalOpen(new Array(filteredData.length).fill(false));
   }, [filteredData]);
 
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    if (data.length > 0) {
-      filterData();
-    }
-  }, [data, selectedGroupFilter, start_date, end_date, selectedYear, selectedMonth, selectedDay]);
-
   const fetchData = () => {
     let url = `http://135.181.42.192/services/performance/?`;
 
@@ -63,8 +53,9 @@ function Index() {
       .then(data => {
         console.log('Fetched data:', data);
         if (Array.isArray(data)) {
+          data.forEach(item => console.log('Item date:', item.date));
+
           setData(data);
-          setFilteredData(data); // Initialize filteredData with the fetched data
           const uniqueGroups = Array.from(new Set(data.map(item => item.group.group)));
           setGroups(uniqueGroups);
         } else {
@@ -74,6 +65,9 @@ function Index() {
       .catch(error => console.error('Error fetching data:', error));
   };
 
+
+
+
   const filterData = () => {
     let filtered = [...data];
 
@@ -81,13 +75,7 @@ function Index() {
     const end = end_date ? new Date(end_date) : null;
 
     filtered = filtered.filter(item => {
-      const itemDateStr = item.date;
-      if (!itemDateStr) {
-        console.warn('Item date is missing or undefined:', item);
-        return false;
-      }
-
-      const itemDate = new Date(itemDateStr);
+      const itemDate = new Date(item.date);
 
       const isInRange = (!start || itemDate >= start) && (!end || itemDate <= end);
 
@@ -98,6 +86,7 @@ function Index() {
         (!selectedDay || itemDate.getDate() === parseInt(selectedDay));
     });
 
+    console.log('Filtered data:', filtered);
     setFilteredData(filtered);
   };
 
@@ -210,15 +199,16 @@ function Index() {
               type="date"
               className="date-picker"
               value={start_date}
-              onChange={(e) => setStartDate(e.target.value)}
+              onClick={handleStartDateClick}
+              readOnly
             />
             <input
               type="date"
               className="date-picker"
               value={end_date}
-              onChange={(e) => setEndDate(e.target.value)}
+              onClick={handleEndDateClick}
+              readOnly
             />
-
           </div>
         </div>
         <div className="performance-table-container">
