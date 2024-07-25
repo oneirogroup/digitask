@@ -87,7 +87,6 @@ function Index() {
 
     const statusRef = useRef(null);
 
-
     useEffect(() => {
         function handleClickOutside(event) {
             if (modalRef.current && !modalRef.current.contains(event.target)) {
@@ -126,6 +125,8 @@ function Index() {
     ];
 
     const fetchTasks = async (taskFilter, selectedMonth, selectedYear, statusFilter) => {
+        if (!selectedMonth) return;
+
         const month = selectedMonth.getMonth() + 1;
         const year = selectedYear;
 
@@ -155,13 +156,10 @@ function Index() {
         }
     };
 
-
     const handleMonthChange = (change) => {
         const newDate = new Date(selectedMonth.getFullYear(), selectedMonth.getMonth() + change);
-
         setSelectedMonth(newDate);
         setSelectedYear(newDate.getFullYear());
-
         fetchTasks(activeFilter, newDate, newDate.getFullYear(), selectedStatusFilter);
     };
 
@@ -173,15 +171,13 @@ function Index() {
         fetchTasks(taskFilter, selectedMonth, selectedYear, statusFilter);
     };
 
-
     const filterData = (filter) => {
         applyFilters(filter, selectedMonth, selectedYear, selectedStatusFilter);
     };
 
-
     const filterByStatus = (statusFilter) => {
         setIsStatusModalOpen(false);
-        applyFilters(statusFilter);
+        applyFilters(activeFilter, selectedMonth, selectedYear, statusFilter);
     };
 
     const openAddTaskModal = () => {
@@ -229,7 +225,7 @@ function Index() {
         setSelectedMonth(currentDate);
         setSelectedYear(currentDate.getFullYear());
         setSelectedStatusFilter("Hamısı");
-        fetchTasks("all", currentDate, "Hamısı");
+        fetchTasks("all", currentDate, currentDate.getFullYear(), "Hamısı");
     };
 
     const deleteTask = async (taskId) => {
@@ -242,7 +238,6 @@ function Index() {
                 }
             });
             setFilteredData(prevData => prevData.filter(task => task.id !== taskId));
-
             fetchTasks(activeFilter, selectedMonth, selectedYear, selectedStatusFilter);
         } catch (error) {
             console.error('Error deleting task:', error);
@@ -280,7 +275,6 @@ function Index() {
         }
     };
 
-
     const showUpdateButtons = (userType, status) => {
         if (userType === 'Texnik') {
             if (status === 'waiting') {
@@ -295,7 +289,6 @@ function Index() {
         }
         return null;
     }
-
     return (
         <div className='task-page'>
             <div className='task-page-title'>
