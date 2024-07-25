@@ -15,7 +15,6 @@ import { logout } from "../../actions/auth";
 import { useNavigate } from 'react-router-dom';
 import "./sidebar.css";
 import LogoutModal from '../LogoutModal';
-import Nav from 'react-bootstrap/Nav';
 
 const Sidebar = ({ children }) => {
     const { userType } = useUser();

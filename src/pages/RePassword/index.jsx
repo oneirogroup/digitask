@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Form from "react-validation/build/form";
-import CheckButton from "react-validation/build/button";
 import axios from 'axios';
 
 import "./repassword.css";

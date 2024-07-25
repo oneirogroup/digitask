@@ -11,7 +11,6 @@ import { PiTelevisionSimple } from 'react-icons/pi';
 import { TfiWorld } from 'react-icons/tfi';
 import { RiVoiceprintFill } from 'react-icons/ri';
 import photo1 from '../../assets/images/photo.svg';
-import photo2 from '../../assets/images/calendar-1-11.svg';
 
 const refreshAccessToken = async () => {
     const refresh_token = localStorage.getItem('refresh_token');
