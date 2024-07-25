@@ -72,17 +72,18 @@ function Index() {
     const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
     const [userType, setUserType] = useState(null);
     const [userEmail, setUserEmail] = useState(null);
+    const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
 
     const modalRef = useRef(null);
 
     useEffect(() => {
         const storedUserType = localStorage.getItem('user_type') || sessionStorage.getItem('user_type');
-        const storedUserEmail = localStorage.getItem('user_email') || sessionStorage.getItem('user_email');
+        const storedUserEmail = localStorage.getItem('saved_email') || sessionStorage.getItem('saved_email');
         setUserType(storedUserType);
         setUserEmail(storedUserEmail);
 
-        fetchTasks("all", selectedMonth, "Hamısı");
-    }, [selectedMonth]);
+        fetchTasks("all", selectedMonth, selectedYear, "Hamısı");
+    }, [selectedMonth, selectedYear]);
 
     const statusRef = useRef(null);
 
@@ -124,10 +125,11 @@ function Index() {
         "İyul", "Avqust", "Sentyabr", "Oktyabr", "Noyabr", "Dekabr"
     ];
 
-    const fetchTasks = async (taskFilter, selectedMonth, statusFilter) => {
-        const monthYear = `${monthsAz[selectedMonth.getMonth()]} ${selectedMonth.getFullYear()}`;
-        const monthQueryParam = `&month=${selectedMonth.getMonth() + 1}&year=${selectedMonth.getFullYear()}`;
+    const fetchTasks = async (taskFilter, selectedMonth, selectedYear, statusFilter) => {
+        const month = selectedMonth.getMonth() + 1;
+        const year = selectedYear;
 
+        const monthQueryParam = `&month=${month}&year=${year}`;
         const statusMap = {
             "Hamısı": "",
             "Gözləyir": "waiting",
@@ -153,25 +155,43 @@ function Index() {
         }
     };
 
-    const applyFilters = (taskFilter, selectedMonth, statusFilter) => {
+
+    const handleMonthChange = (change) => {
+        const newDate = new Date(selectedMonth.getFullYear(), selectedMonth.getMonth() + change);
+
+        setSelectedMonth(newDate);
+        setSelectedYear(newDate.getFullYear());
+
+        fetchTasks(activeFilter, newDate, newDate.getFullYear(), selectedStatusFilter);
+    };
+
+
+    const handleYearChange = (event) => {
+        setSelectedYear(parseInt(event.target.value, 10));
+        applyFilters(activeFilter, selectedMonth, selectedYear, selectedStatusFilter);
+    };
+
+    const applyFilters = (taskFilter, selectedMonth, selectedYear, statusFilter) => {
         setActiveFilter(taskFilter);
         setSelectedMonth(selectedMonth);
+        setSelectedYear(selectedYear);
         setSelectedStatusFilter(statusFilter);
-        fetchTasks(taskFilter, selectedMonth, statusFilter);
+        fetchTasks(taskFilter, selectedMonth, selectedYear, statusFilter);
     };
+
 
     const filterData = (filter) => {
         applyFilters(filter, selectedMonth, selectedStatusFilter);
     };
 
-    const filterByDate = (selectedMonth) => {
+    const filterByDate = (selectedMonth, selectedYear) => {
         setIsDateModalOpen(false);
-        applyFilters(activeFilter, selectedMonth, selectedStatusFilter);
+        applyFilters(activeFilter, selectedMonth, selectedYear, selectedStatusFilter);
     };
 
     const filterByStatus = (statusFilter) => {
         setIsStatusModalOpen(false);
-        applyFilters(activeFilter, selectedMonth, statusFilter);
+        applyFilters(activeFilter, selectedMonth, selectedYear, statusFilter);
     };
 
     const openAddTaskModal = () => {
@@ -216,6 +236,7 @@ function Index() {
     const resetFilters = () => {
         setActiveFilter("all");
         setSelectedMonth(new Date());
+        setSelectedYear(new Date());
         setSelectedStatusFilter("Hamısı");
         fetchTasks("all", new Date(), "Hamısı");
     };
@@ -231,7 +252,7 @@ function Index() {
             });
             setFilteredData(prevData => prevData.filter(task => task.id !== taskId));
 
-            fetchTasks(activeFilter, selectedMonth, selectedStatusFilter);
+            fetchTasks(activeFilter, selectedMonth, selectedYear, selectedStatusFilter);
         } catch (error) {
             console.error('Error deleting task:', error);
         }
@@ -321,11 +342,11 @@ function Index() {
             </div>
             <div className="task-history-status">
                 <button onClick={() => setIsDateModalOpen(!isDateModalOpen)}>
-                    <div onClick={() => setSelectedMonth(new Date(selectedMonth.getFullYear(), selectedMonth.getMonth() - 1))}>
+                    <div onClick={() => handleMonthChange(-1)}>
                         <span>&lt;</span>
                     </div>
-                    <p>{`${monthsAz[selectedMonth.getMonth()]}, ${selectedMonth.getFullYear()}`}</p>
-                    <div onClick={() => setSelectedMonth(new Date(selectedMonth.getFullYear(), selectedMonth.getMonth() + 1))}>
+                    <p>{`${monthsAz[selectedMonth.getMonth()]}, ${selectedYear}`}</p>
+                    <div onClick={() => handleMonthChange(1)}>
                         <span>&gt;</span>
                     </div>
                 </button>

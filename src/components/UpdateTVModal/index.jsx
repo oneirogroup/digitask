@@ -48,7 +48,7 @@ function UpdateTVModal({ onClose, serviceId, serviceData, onServiceUpdate }) {
         }
 
         fetch(`http://135.181.42.192/services/update_tv/${serviceId}/`, {
-            method: 'PUT',
+            method: 'PATCH',
             body: data,
         })
             .then(response => {

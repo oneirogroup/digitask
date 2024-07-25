@@ -156,6 +156,9 @@ const Login = (props) => {
         return <Navigate to="/" />;
     }
 
+    const storedUserType = localStorage.getItem('user_type') || sessionStorage.getItem('user_type');
+    const storedUserEmail = localStorage.getItem('saved_email') || sessionStorage.getItem('saved_email');
+
     return (
         <div className='bg-color'>
             <img src={ovaltop} alt="" />

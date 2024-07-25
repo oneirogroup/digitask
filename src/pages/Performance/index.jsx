@@ -37,15 +37,25 @@ function Index() {
     setIsSmallModalOpen(new Array(filteredData.length).fill(false));
   }, [filteredData]);
 
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    if (data.length > 0) {
+      filterData();
+    }
+  }, [data, selectedGroupFilter, start_date, end_date, selectedYear, selectedMonth, selectedDay]);
+
   const fetchData = () => {
     let url = `http://135.181.42.192/services/performance/?`;
 
     if (start_date && end_date) {
-      url += `start_date=${encodeURIComponent(new Date(start_date).toISOString().split('T')[0])}&end_date=${encodeURIComponent(new Date(end_date).toISOString().split('T')[0])}`;
+      url += `start_date=${encodeURIComponent(start_date)}&end_date=${encodeURIComponent(end_date)}`;
     } else if (start_date) {
-      url += `start_date=${encodeURIComponent(new Date(start_date).toISOString().split('T')[0])}`;
+      url += `start_date=${encodeURIComponent(start_date)}`;
     } else if (end_date) {
-      url += `end_date=${encodeURIComponent(new Date(end_date).toISOString().split('T')[0])}`;
+      url += `end_date=${encodeURIComponent(end_date)}`;
     }
 
     fetch(url)
@@ -54,6 +64,7 @@ function Index() {
         console.log('Fetched data:', data);
         if (Array.isArray(data)) {
           setData(data);
+          setFilteredData(data); // Initialize filteredData with the fetched data
           const uniqueGroups = Array.from(new Set(data.map(item => item.group.group)));
           setGroups(uniqueGroups);
         } else {
@@ -66,35 +77,30 @@ function Index() {
   const filterData = () => {
     let filtered = [...data];
 
-    if (start_date) {
-      filtered = filtered.filter(item => new Date(item.date) >= new Date(start_date));
-    }
+    const start = start_date ? new Date(start_date) : null;
+    const end = end_date ? new Date(end_date) : null;
 
-    if (end_date) {
-      filtered = filtered.filter(item => new Date(item.date) <= new Date(end_date));
-    }
+    filtered = filtered.filter(item => {
+      const itemDateStr = item.date;
+      if (!itemDateStr) {
+        console.warn('Item date is missing or undefined:', item);
+        return false;
+      }
 
-    if (selectedGroupFilter && selectedGroupFilter !== "Hamısı") {
-      filtered = filtered.filter(item => item.group.group === selectedGroupFilter);
-    }
+      const itemDate = new Date(itemDateStr);
 
-    if (selectedYear) {
-      filtered = filtered.filter(item => new Date(item.date).getFullYear() === parseInt(selectedYear));
-    }
+      const isInRange = (!start || itemDate >= start) && (!end || itemDate <= end);
 
-    if (selectedMonth) {
-      const months = [
-        'Yanvar', 'Fevral', 'Mart', 'Aprel', 'May', 'İyun', 'İyul', 'Avqust', 'Sentyabr', 'Oktyabr', 'Noyabr', 'Dekabr'
-      ];
-      filtered = filtered.filter(item => new Date(item.date).getMonth() === months.indexOf(selectedMonth));
-    }
-
-    if (selectedDay) {
-      filtered = filtered.filter(item => new Date(item.date).getDate() === parseInt(selectedDay));
-    }
+      return isInRange &&
+        (selectedGroupFilter === "Hamısı" || item.group.group === selectedGroupFilter) &&
+        (!selectedYear || itemDate.getFullYear() === parseInt(selectedYear)) &&
+        (!selectedMonth || months[itemDate.getMonth()] === selectedMonth) &&
+        (!selectedDay || itemDate.getDate() === parseInt(selectedDay));
+    });
 
     setFilteredData(filtered);
   };
+
 
   const openSmallModal = (index, event) => {
     event.stopPropagation();
@@ -177,7 +183,6 @@ function Index() {
     };
   }, [isGroupModalOpen, isSmallModalOpen]);
 
-
   return (
     <div className='performance-page'>
       <div className='performance-page-title'>
@@ -213,6 +218,7 @@ function Index() {
               value={end_date}
               onChange={(e) => setEndDate(e.target.value)}
             />
+
           </div>
         </div>
         <div className="performance-table-container">
@@ -236,7 +242,7 @@ function Index() {
                     <td>{`${(index + 1).toString().padStart(2, '0')}`}</td>
                     <td>{item.first_name && item.last_name ? `${item.first_name} ${item.last_name.charAt(0)}.` : '-'}</td>
                     <td>{item.group.group}</td>
-                    <td>{(item.user_type)}</td>
+                    <td>{item.user_type}</td>
                     <td>{item.task_count.total}</td>
                     <td>{item.task_count.connection}</td>
                     <td>{item.task_count.problem}</td>
