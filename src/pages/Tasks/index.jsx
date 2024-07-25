@@ -175,13 +175,13 @@ function Index() {
 
 
     const filterData = (filter) => {
-        applyFilters(filter, selectedMonth, selectedStatusFilter);
+        applyFilters(filter, selectedMonth, selectedYear, selectedStatusFilter);
     };
 
 
     const filterByStatus = (statusFilter) => {
         setIsStatusModalOpen(false);
-        applyFilters(activeFilter, selectedMonth, selectedYear, statusFilter);
+        applyFilters(statusFilter);
     };
 
     const openAddTaskModal = () => {
@@ -225,10 +225,11 @@ function Index() {
 
     const resetFilters = () => {
         setActiveFilter("all");
-        setSelectedMonth(new Date());
-        setSelectedYear(new Date());
+        const currentDate = new Date();
+        setSelectedMonth(currentDate);
+        setSelectedYear(currentDate.getFullYear());
         setSelectedStatusFilter("Hamısı");
-        fetchTasks("all", new Date(), "Hamısı");
+        fetchTasks("all", currentDate, "Hamısı");
     };
 
     const deleteTask = async (taskId) => {
@@ -245,22 +246,6 @@ function Index() {
             fetchTasks(activeFilter, selectedMonth, selectedYear, selectedStatusFilter);
         } catch (error) {
             console.error('Error deleting task:', error);
-        }
-    };
-
-
-    const addTask = async (newTask) => {
-        try {
-            const response = await axios.post('http://135.181.42.192/services/create_task/', newTask);
-            if (response.status === 201) {
-                const updatedData = [...data, response.data];
-                setData(updatedData);
-                setFilteredData(updatedData);
-            } else {
-                console.error('Failed to add task', response);
-            }
-        } catch (error) {
-            console.error('Error adding task:', error);
         }
     };
 
