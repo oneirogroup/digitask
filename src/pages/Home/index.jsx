@@ -136,7 +136,7 @@ const Home = () => {
                     </ul>
                     <div>
                         {performanceData.length > 0 ? (
-                            performanceData.map((item, index) => (
+                            performanceData.slice(0, 5).map((item, index) => (
                                 <ul key={index}>
                                     <li>{`${item.first_name} ${item.last_name.charAt(0)}.`}</li>
                                     <li>{item.group.group}</li>
