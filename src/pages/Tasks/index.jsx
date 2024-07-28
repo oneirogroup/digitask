@@ -20,7 +20,7 @@ const refreshAccessToken = async () => {
         throw new Error('No refresh token available');
     }
 
-    const response = await axios.post('http://135.181.42.192/accounts/gettoken/', { refresh: refresh_token });
+    const response = await axios.post('http://135.181.42.192/accounts/token/refresh/', { refresh: refresh_token });
     const { access } = response.data;
     localStorage.setItem('access_token', access);
     axios.defaults.headers.common['Authorization'] = `Bearer ${access}`;
@@ -39,12 +39,12 @@ const fetchWithTokenRefresh = async (url, options = {}) => {
 
         if (response.status === 401) {
             await refreshAccessToken();
-            const token = localStorage.getItem('access_token');
+            const newToken = localStorage.getItem('access_token');
             return fetch(url, {
                 ...options,
                 headers: {
                     ...options.headers,
-                    'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${newToken}`
                 }
             });
         }
