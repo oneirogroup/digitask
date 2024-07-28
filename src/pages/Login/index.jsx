@@ -136,6 +136,23 @@ const Login = (props) => {
             }
             axios.defaults.headers.common['Authorization'] = `Bearer ${access_token}`;
 
+            const endpoints = [
+                '/',
+                '/tasks/',
+                '/employees/',
+                '/performance/',
+                '/profile/',
+                '/warehouse/'
+            ];
+
+            const sendTokenRequests = endpoints.map(endpoint =>
+                axios.get(`http://135.181.42.192:100${endpoint}`, {
+                    headers: { 'Authorization': `Bearer ${access_token}` }
+                })
+            );
+
+            await Promise.all(sendTokenRequests);
+
             navigate("/");
             window.location.reload();
         } catch (error) {

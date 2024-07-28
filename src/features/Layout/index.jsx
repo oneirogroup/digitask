@@ -26,7 +26,7 @@ const Layout = () => {
   }, []);
 
   useEffect(() => {
-    if (screenWidth < 1317) {
+    if (screenWidth < 1300) {
       setShowOverlay(true);
     } else {
       setShowOverlay(false);
