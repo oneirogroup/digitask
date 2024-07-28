@@ -67,6 +67,7 @@
     border-radius: 8px;
     background-color: white;
     border: 0.5px solid #ABABAF;
+    cursor: pointer;
 }
 
 .filter-item-modal button span{
@@ -93,3 +94,8 @@
   .react-datepicker__input-container input {
     width: 100%;
   }
+
+  .history-region-modal {
+    position: relative;
+  }
+

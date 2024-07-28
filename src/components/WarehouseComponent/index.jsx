@@ -1,26 +1,33 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { BiImport, BiExport } from "react-icons/bi";
+import React, { useState, useEffect, useRef } from "react";
+import { BiImport } from "react-icons/bi";
 import { IoFilterOutline } from "react-icons/io5";
 import { CiSearch } from "react-icons/ci";
 import { FaChevronDown } from "react-icons/fa6";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import Import from "../Import";
 import Export from "../Export";
+import ItemDetail from "../ItemDetail/ItemDetail";
 import "./warehouse.css";
 
 function Warehouse() {
     const [tableData, setTableData] = useState([]);
     const [exportSelected, setExportSelected] = useState(false);
     const [importSelected, setImportSelected] = useState(true);
-    const [warehouseSelected, setWarehouseSelected] = useState('');
+    const [warehouseSelected, setWarehouseSelected] = useState("");
     const [warehouses, setWarehouses] = useState([]);
     const [showImportModal, setShowImportModal] = useState(false);
     const [showExportModal, setShowExportModal] = useState(false);
-    const [searchTerm, setSearchTerm] = useState('');
+    const [showItemDetailModal, setShowItemDetailModal] = useState(false);
+    const [searchTerm, setSearchTerm] = useState("");
     const [regions, setRegions] = useState([]);
-    const [selectedRegion, setSelectedRegion] = useState('Hamısı');
+    const [selectedRegion, setSelectedRegion] = useState("Hamısı");
     const [isRegionModalOpen, setIsRegionModalOpen] = useState(false);
+    const [isActionModalOpen, setIsActionModalOpen] = useState(false);
+    const [selectedItemId, setSelectedItemId] = useState(null);
+    const [actionModalPosition, setActionModalPosition] = useState({ index: null });
+    const [productData, setProductData] = useState(null);
     const regionModalRef = useRef(null);
+    const actionModalRef = useRef(null);
 
     useEffect(() => {
         fetchWarehouses();
@@ -29,61 +36,80 @@ function Warehouse() {
 
     useEffect(() => {
         function handleClickOutside(event) {
-            if (regionModalRef.current && !regionModalRef.current.contains(event.target)) {
+            if (
+                regionModalRef.current &&
+                !regionModalRef.current.contains(event.target)
+            ) {
                 setIsRegionModalOpen(false);
+            }
+            if (
+                actionModalRef.current &&
+                !actionModalRef.current.contains(event.target)
+            ) {
+                setIsActionModalOpen(false);
             }
         }
 
-        document.addEventListener('mousedown', handleClickOutside);
+        document.addEventListener("mousedown", handleClickOutside);
 
         return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
+            document.removeEventListener("mousedown", handleClickOutside);
         };
     }, []);
 
     const fetchWarehouses = () => {
-        fetch('http://135.181.42.192/services/warehouses/')
-            .then(response => response.json())
-            .then(data => {
+        fetch("http://135.181.42.192/services/warehouses/")
+            .then((response) => response.json())
+            .then((data) => {
                 setWarehouses(data);
-                const uniqueRegions = Array.from(new Set(data.map(warehouse => warehouse.region)));
+                const uniqueRegions = Array.from(
+                    new Set(data.map((warehouse) => warehouse.region))
+                );
                 setRegions(uniqueRegions);
             })
-            .catch(error => console.error('Error fetching warehouses:', error));
+            .catch((error) => console.error("Error fetching warehouses:", error));
     };
 
     const fetchData = () => {
-        let url = 'http://135.181.42.192/services/warehouse_item/';
+        let url = "http://135.181.42.192/services/warehouse_item/";
         const params = [];
 
         if (searchTerm) {
             params.push(`name=${encodeURIComponent(searchTerm)}`);
         }
 
-        fetch(url + (params.length > 0 ? `?${params.join('&')}` : ''))
-            .then(response => response.json())
-            .then(data => {
+        fetch(url + (params.length > 0 ? `?${params.join("&")}` : ""))
+            .then((response) => response.json())
+            .then((data) => {
                 let filteredData = data;
                 if (warehouseSelected) {
-                    filteredData = data.filter(item => item.warehouse.name === warehouseSelected);
+                    filteredData = data.filter(
+                        (item) => item.warehouse.name === warehouseSelected
+                    );
                 }
-                if (selectedRegion && selectedRegion !== 'Hamısı') {
-                    filteredData = filteredData.filter(item => item.warehouse.region === selectedRegion);
+                if (selectedRegion && selectedRegion !== "Hamısı") {
+                    filteredData = filteredData.filter(
+                        (item) => item.warehouse.region === selectedRegion
+                    );
                 }
 
-                const formattedData = filteredData.map(item => ({
+                const formattedData = filteredData.map((item) => ({
                     id: item.id,
-                    name: item.equipment_name,
-                    marka: item.brand,
-                    model: item.model,
-                    sn: item.serial_number,
-                    count: item.number,
-                    region: item.warehouse.region,
-                    measure: item.size_length
+                    name: item.equipment_name || 'N/A',
+                    marka: item.brand || 'N/A',
+                    model: item.model || 'N/A',
+                    sn: item.serial_number || 'N/A',
+                    count: item.number || 0,
+                    port_number: item.port_number || 'N/A',
+                    mac: item.mac || 'N/A',
+                    date: item.date || 'N/A',
+                    region: item.warehouse.region || 'N/A',
+                    warehouse_name: item.warehouse.name || 'N/A',
+                    measure: item.size_length || 'N/A',
                 }));
                 setTableData(formattedData);
             })
-            .catch(error => console.error('Error fetching data:', error));
+            .catch((error) => console.error("Error fetching data:", error));
     };
 
     const handleExportClick = () => {
@@ -102,7 +128,7 @@ function Warehouse() {
 
     const handleWarehouseClick = (name) => {
         if (warehouseSelected === name) {
-            setWarehouseSelected('');
+            setWarehouseSelected("");
         } else {
             setWarehouseSelected(name);
         }
@@ -113,37 +139,66 @@ function Warehouse() {
         setIsRegionModalOpen(false);
     };
 
+    const handleActionClick = (event, index, itemId) => {
+        const cellRect = event.target.getBoundingClientRect();
+        setActionModalPosition({
+            index: index,
+            top: cellRect.bottom + window.scrollY,
+            left: cellRect.left + window.scrollX,
+        });
+        setSelectedItemId(itemId);
+        setProductData(tableData[index]);
+        setIsActionModalOpen(true);
+    };
+
+    const handleExportModalOpen = () => {
+        setShowExportModal(true);
+        setShowItemDetailModal(false);
+        setIsActionModalOpen(false);
+    };
+
+    const handleItemDetailClose = () => {
+        setShowItemDetailModal(false);
+    };
+
+    const handleItemDetailOpen = (data) => {
+        setProductData(data);
+        setShowItemDetailModal(true);
+    };
+
     return (
         <div>
             <section>
-                <div className='warehouseTable-title'>
+                <div className="warehouseTable-title">
                     <p>Anbar</p>
                     <div>
                         <button
-                            className={`importButton ${importSelected ? 'selectedButton' : ''}`}
+                            className={`importButton ${importSelected ? "selectedButton" : ""
+                                }`}
                             onClick={handleImportClick}
                         >
                             <BiImport /> İdxal
                         </button>
                     </div>
                 </div>
-                <div className='warehouseName'>
+                <div className="warehouseName">
                     {warehouses.map((warehouse, index) => (
                         <button
                             key={index}
-                            className={`warehouseButton ${warehouseSelected === warehouse.name ? 'selectedButton' : ''}`}
+                            className={`warehouseButton ${warehouseSelected === warehouse.name ? "selectedButton" : ""
+                                }`}
                             onClick={() => handleWarehouseClick(warehouse.name)}
                         >
                             {warehouse.name}
                         </button>
                     ))}
                 </div>
-                <div className='warehouse-search-filter'>
+                <div className="warehouse-search-filter">
                     <div>
                         <CiSearch />
                         <input
                             type="search"
-                            placeholder='Anbarda axtar'
+                            placeholder="Anbarda axtar"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
@@ -166,14 +221,17 @@ function Warehouse() {
                                         {region}
                                     </div>
                                 ))}
-                                <div className="region-item" onClick={() => handleRegionClick('Hamısı')}>
+                                <div
+                                    className="region-item"
+                                    onClick={() => handleRegionClick("Hamısı")}
+                                >
                                     Hamısı
                                 </div>
                             </div>
                         )}
                     </div>
                 </div>
-                <div className='warehouseTable'>
+                <div className="warehouseTable">
                     <table>
                         <thead>
                             <tr>
@@ -190,24 +248,46 @@ function Warehouse() {
                         </thead>
                         <tbody>
                             {tableData.map((data, index) => (
-                                <tr key={index}>
-                                    <td>{`#${(index + 1).toString().padStart(4, '0')}`}</td>
-                                    <td>{data.name}</td>
-                                    <td>{data.marka}</td>
-                                    <td>{data.model}</td>
-                                    <td>{data.sn}</td>
-                                    <td>{data.count}</td>
-                                    <td>{data.region}</td>
-                                    <td>{data.measure} m</td>
-                                    <td><BsThreeDotsVertical /></td>
+                                <tr key={index} className="tableRow">
+                                    <td onClick={() => handleItemDetailOpen(data)}>{`#${(index + 1).toString().padStart(4, "0")}`}</td>
+                                    <td onClick={() => handleItemDetailOpen(data)}>{data.name}</td>
+                                    <td onClick={() => handleItemDetailOpen(data)}>{data.marka}</td>
+                                    <td onClick={() => handleItemDetailOpen(data)}>{data.model}</td>
+                                    <td onClick={() => handleItemDetailOpen(data)}>{data.sn}</td>
+                                    <td onClick={() => handleItemDetailOpen(data)}>{data.count}</td>
+                                    <td onClick={() => handleItemDetailOpen(data)}>{data.region}</td>
+                                    <td onClick={() => handleItemDetailOpen(data)}>{data.measure}</td>
+                                    <td>
+                                        <BsThreeDotsVertical
+                                            onClick={(event) => handleActionClick(event, index, data.id)}
+                                        />
+                                        {isActionModalOpen && actionModalPosition.index === index && (
+                                            <div
+                                                className="small-modal-warehouse"
+
+                                            >
+                                                <div className="small-modal-warehouse-content" ref={actionModalRef}>
+                                                    <button onClick={handleExportModalOpen}>Ixrac</button>
+                                                </div>
+                                            </div>
+                                        )}
+                                    </td>
                                 </tr>
                             ))}
                         </tbody>
                     </table>
                 </div>
             </section>
-            {showImportModal && <Import onClose={() => setShowImportModal(false)} warehouses={warehouses} />}
-            {showExportModal && <Export onClose={() => setShowExportModal(false)} />}
+            {showImportModal && <Import showModal={showImportModal} onClose={() => setShowImportModal(false)} />}
+            {showExportModal && <Export showModal={showExportModal} onClose={() => setShowExportModal(false)} />}
+            {showItemDetailModal && (
+                <ItemDetail
+                    showModal={showItemDetailModal}
+                    onClose={handleItemDetailClose}
+                    productData={productData}
+                    handleExportModalOpen={handleExportModalOpen}
+                />
+            )}
         </div>
     );
 }

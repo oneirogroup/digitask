@@ -1,0 +1,112 @@
+.item-detail-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.item-detail-modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 24px;
+    width: 50%;
+    max-width: 42%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.item-detail-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.item-detail-modal-header h2 {
+    margin: 0 auto;
+    font-family: Montserrat;
+    font-size: 26px;
+    font-weight: 600;
+}
+
+.item-detail-close-button {
+    background: none;
+    border: none;
+    font-size: 36px;
+    font-weight: 500;
+    cursor: pointer;
+    color: #5E5E62;
+    font-size: 36px;
+    cursor: pointer;
+}
+
+
+.item-detail-modal-body .modal-row {
+    margin: 15px 0;
+}
+
+.item-detail-modal-body .modal-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.item-detail-modal-body .modal-label {
+    font-family: Nunito Sans;
+    font-size: 18px;
+    font-weight: 500;
+    color: #2F3033;
+}
+
+.item-detail-modal-body .modal-value {
+    font-family: Nunito Sans;
+    font-size: 18px;
+    font-weight: 600;
+    color: black;
+}
+
+.item-detail-modal-footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.item-detail-modal-footer button{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.item-detail-modal-footer svg{
+    font-size: 22px;
+}
+
+.item-detail-modal-footer .export-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.item-detail-modal-footer .export-button:hover {
+    background-color: #0056b3;
+}
+
+.warehouse-item-detail-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+    margin-top: 12px;
+}

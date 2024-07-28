@@ -1,41 +1,41 @@
-.warehouseTable-title{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-  }
+.warehouseTable-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
 
-  .warehouseTable-title p{
-    font-family: Montserrat;
-    font-size: 28px;
-    font-weight: 600;
-  }
+.warehouseTable-title p {
+  font-family: Montserrat;
+  font-size: 28px;
+  font-weight: 600;
+}
 
 .warehouseTable-title div {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
 }
 
 .warehouseTable-title div button {
-    padding: 10px;
-    display: flex;
-    align-items: center;
-    gap: 3px;
-  color:#005ABF;
-  border: 2px solid #005ABF;
- background-color: inherit;
-border-radius: 12px;
-font-family: Nunito Sans;
-font-size: 16px;
-font-weight: 500;
-cursor: pointer;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  color: #005abf;
+  border: 2px solid #005abf;
+  background-color: inherit;
+  border-radius: 12px;
+  font-family: Nunito Sans;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
 }
 
 .selectedButton {
-  background-color:  #005ABF !important;
-  color:white !important;
+  background-color: #005abf !important;
+  color: white !important;
 }
 
 .warehouseName {
@@ -52,91 +52,89 @@ cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid #2B75CC;
+  border: 2px solid #2b75cc;
   border-radius: 11px;
-  color: #005ABF;
+  color: #005abf;
   font-family: Montserrat;
   font-size: 18px;
   font-weight: 500;
   cursor: pointer;
 }
 
-
-.warehouse-search-filter{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin: 20px 0;
+.warehouse-search-filter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 20px 0;
 }
 
-.warehouse-search-filter > div:first-of-type{
-    background-color: white;
-    display: flex;
-    position: relative;
-
+.warehouse-search-filter > div:first-of-type {
+  background-color: white;
+  display: flex;
+  position: relative;
 }
 
-.warehouse-search-filter > div:first-of-type input{
-    padding: 13px 80px 13px 40px;
-    border: 0.5px solid #ABABAF;
-    border-radius: 8px;
-    outline: none;
+.warehouse-search-filter > div:first-of-type input {
+  padding: 13px 80px 13px 40px;
+  border: 0.5px solid #ababaf;
+  border-radius: 8px;
+  outline: none;
 }
 
-.warehouse-search-filter > div:first-of-type svg{
-    position: absolute;
-    top: 9px;
-    font-size: 24px;
+.warehouse-search-filter > div:first-of-type svg {
+  position: absolute;
+  top: 9px;
+  font-size: 24px;
 }
 
-.warehouse-search-filter > div:first-of-type svg:first-of-type{
-    left: 7px;
-    color: #005ABF;
+.warehouse-search-filter > div:first-of-type svg:first-of-type {
+  left: 7px;
+  color: #005abf;
 }
 
-.warehouse-search-filter > div:first-of-type svg:last-of-type{
-    right: 20px;
-    color: #909094;
+.warehouse-search-filter > div:first-of-type svg:last-of-type {
+  right: 20px;
+  color: #909094;
 }
 
-.warehouse-search-filter > div:first-of-type input::placeholder{
-    font-family: Nunito Sans;
-    font-size: 16px;
-    font-weight: 500;
+.warehouse-search-filter > div:first-of-type input::placeholder {
+  font-family: Nunito Sans;
+  font-size: 16px;
+  font-weight: 500;
 }
 
-.warehouse-search-filter > div:last-of-type button{
-    padding: 10px;
-    display: flex;
-    gap: 4px;
-    align-items: center;
-    border-radius: 8px;
-    background-color: white;
-    border: 0.5px solid #ABABAF;
-    cursor: pointer;
+.warehouse-search-filter > div:last-of-type button {
+  padding: 10px;
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  border-radius: 8px;
+  background-color: white;
+  border: 0.5px solid #ababaf;
+  cursor: pointer;
 }
 
-.region-small-modal div:hover{
-background-color: #f0f0f0;
+.region-small-modal div:hover {
+  background-color: #f0f0f0;
 }
 
-.warehouse-search-filter > div:last-of-type button span{
-    font-family: Nunito Sans;
-    font-size: 16px;
-    font-weight: 500;
+.warehouse-search-filter > div:last-of-type button span {
+  font-family: Nunito Sans;
+  font-size: 16px;
+  font-weight: 500;
 }
 
-.warehouse-search-filter > div:last-of-type button span:last-of-type{
-    font-weight: bold !important;
+.warehouse-search-filter > div:last-of-type button span:last-of-type {
+  font-weight: bold !important;
 }
 
-  
 .warehouseTable table {
-    border-collapse: collapse;
-    width: 100%;
-  }
-  
-.warehouseTable th, td {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.warehouseTable th,
+td {
   padding: 8px;
   text-align: left;
   padding: 12px 14px;
@@ -145,75 +143,138 @@ background-color: #f0f0f0;
   font-family: Nunito Sans;
 }
 
-.warehouseTable th{
-    white-space: nowrap;
-    font-size: 17px;
-    font-weight: bold;
-    text-align: center;
+.warehouseTable th {
+  white-space: nowrap;
+  font-size: 17px;
+  font-weight: bold;
+  text-align: center;
 }
 
 .warehouseTable {
-    margin: 20px 0 10px 0;
-    border-radius: 12px;
-    width: 100%;
-
-  }
-  
-  .task-warehouseTable  table {
-    width: 100%;
-    border-spacing: 10px;
-    border-collapse: collapse;
-    font-family: Arial, sans-serif;
-    max-width: 100%;
-    overflow-x: auto;
-  }
-  
-
-  .warehouseTable thead{
-    background-color: #D2E5FA;
-    height: 60px;
-  }
-
-  .warehouseTable tbody{
-    background-color: white;
-  }
-
-  .warehouseTable tbody td:first-of-type{
-    font-family: Nunito Sans;
-  }
-
-.warehouseTable tbody td:first-of-type{
-    font-size: 14px;
-    font-weight: 500;
-    color: #909094;
+  margin: 20px 0 10px 0;
+  border-radius: 12px;
+  width: 100%;
 }
 
-.warehouseTable tbody td:nth-of-type(2), .warehouseTable tbody td:nth-of-type(2) .warehouseTable tbody td:nth-of-type(4){
-    font-size: 16px;
-    color: #2F3033;
+.task-warehouseTable table {
+  width: 100%;
+  border-spacing: 10px;
+  border-collapse: collapse;
+  font-family: Arial, sans-serif;
+  max-width: 100%;
+  overflow-x: auto;
 }
 
-.warehouseTable tbody td:nth-of-type(8){
-    white-space: nowrap;
+.warehouseTable thead {
+  background-color: #d2e5fa;
+  height: 60px;
 }
 
-.region-filter{
+.warehouseTable tbody {
+  background-color: white;
+}
+
+.warehouseTable tbody td:first-of-type {
+  font-family: Nunito Sans;
+}
+
+.warehouseTable tbody td:first-of-type {
+  font-size: 14px;
+  font-weight: 500;
+  color: #909094;
+}
+
+.warehouseTable tbody td:nth-of-type(2),
+.warehouseTable
+  tbody
+  td:nth-of-type(2)
+  .warehouseTable
+  tbody
+  td:nth-of-type(4) {
+  font-size: 16px;
+  color: #2f3033;
+}
+
+.warehouseTable tbody td:nth-of-type(8) {
+  white-space: nowrap;
+}
+
+.region-filter {
   position: relative;
 }
 
 .region-small-modal {
   position: absolute;
+  z-index: 100;
   background-color: white;
   top: 56px;
   display: flex;
   flex-direction: column;
   border-radius: 8px;
   background-color: white;
-  border: 0.5px solid #ABABAF;
+  border: 0.5px solid #ababaf;
   width: 100%;
 }
 
-.region-small-modal div{
+.region-small-modal div {
   padding: 10px;
   cursor: pointer;
+}
+
+.warehouseTable tbody tr td:last-of-type {
+  cursor: pointer;
+}
+
+.small-modal-warehouse-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.small-modal-warehouse button {
+  background: none;
+  border: none;
+  color: #333;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background-color: inherit;
+}
+
+.small-modal-warehouse button:hover {
+  color: #005ABF;
+}
+
+.tableRow {
+  position: relative;
+}
+
+.small-modal-warehouse {
+  position: absolute; 
+  right: 0;
+    top: 27px;
+  transform: translateY(-50%) translateX(10px); 
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+
+.small-modal-warehouse-content button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  text-align: left;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.small-modal-warehouse-content button:hover {
+  background: #f0f0f0;
+  border-radius: 10px;
+
 }
