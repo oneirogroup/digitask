@@ -21,7 +21,10 @@ const DecrementItemForm = ({ onClose, itemId }) => {
     const [authorizedPerson, setAuthorizedPerson] = useState("");
     const [number, setNumber] = useState("");
     const [texnikUserId, setTexnikUserId] = useState("");
-    const [date, setDate] = useState("");
+    const [date, setDate] = useState({
+        date: new Date().toISOString().split('T')[0],
+        time: new Date().toTimeString().split(' ')[0]
+    });
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
     const [showUserTypeDropdown, setShowUserTypeDropdown] = useState(false);
@@ -81,18 +84,25 @@ const DecrementItemForm = ({ onClose, itemId }) => {
         setSuccess("");
         let valid = true;
 
-        if (!company) {
-            setCompanyError("Bu sahəni doldurmalısınız");
+        const hasRequiredField = texnikUserId || company || authorizedPerson;
+
+        if (!hasRequiredField) {
+            setTexnikUserError("Bu sahələrdən ən azı birini doldurmalısınız");
+            setCompanyError("Bu sahələrdən ən azı birini doldurmalısınız");
+            setAuthorizedPersonError("Bu sahələrdən ən azı birini doldurmalısınız");
             valid = false;
         } else {
+            setTexnikUserError("");
             setCompanyError("");
+            setAuthorizedPersonError("");
+
         }
 
-        if (!authorizedPerson) {
-            setAuthorizedPersonError("Bu sahəni doldurmalısınız");
+        if (!date.date || !date.time) {
+            setDateError("Tarix və saat sahələri doldurulmalıdır");
             valid = false;
         } else {
-            setAuthorizedPersonError("");
+            setDateError("");
         }
 
         if (!number) {
@@ -100,20 +110,6 @@ const DecrementItemForm = ({ onClose, itemId }) => {
             valid = false;
         } else {
             setNumberError("");
-        }
-
-        if (!texnikUserId) {
-            setTexnikUserError("Bu sahəni doldurmalısınız");
-            valid = false;
-        } else {
-            setTexnikUserError("");
-        }
-
-        if (!date) {
-            setDateError("Bu sahəni doldurmalısınız");
-            valid = false;
-        } else {
-            setDateError("");
         }
 
         if (!valid) return;
@@ -130,7 +126,7 @@ const DecrementItemForm = ({ onClose, itemId }) => {
             authorized_person: authorizedPerson,
             number: number,
             texnik_user: texnikUserId,
-            date: date,
+            date: `${date.date}T${date.time}`,
         };
 
         try {
@@ -161,6 +157,8 @@ const DecrementItemForm = ({ onClose, itemId }) => {
             }
         }
     };
+
+
 
     return (
         <div className="export-modal">
@@ -214,8 +212,17 @@ const DecrementItemForm = ({ onClose, itemId }) => {
                             {numberError && <p className="error-message">{numberError}</p>}
                         </label>
                         <label>
-                            Tarix
-                            <input type="date" value={date} onChange={(e) => setDate(e.target.value)} />
+                            Tarix və saat
+                            <input
+                                type="date"
+                                value={date.date}
+                                onChange={(e) => setDate(prev => ({ ...prev, date: e.target.value }))}
+                            />
+                            <input
+                                type="time"
+                                value={date.time}
+                                onChange={(e) => setDate(prev => ({ ...prev, time: e.target.value }))}
+                            />
                             {dateError && <p className="error-message">{dateError}</p>}
                         </label>
                     </div>

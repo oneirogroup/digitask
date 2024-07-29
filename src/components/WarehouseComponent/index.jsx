@@ -279,13 +279,14 @@ function Warehouse() {
                 </div>
             </section>
             {showImportModal && <Import showModal={showImportModal} onClose={() => setShowImportModal(false)} />}
-            {showExportModal && <Export showModal={showExportModal} onClose={() => setShowExportModal(false)} />}
+            {showExportModal && <Export showModal={showExportModal} onClose={() => setShowExportModal(false)} itemId={selectedItemId || productData.id} />}
             {showItemDetailModal && (
                 <ItemDetail
                     showModal={showItemDetailModal}
                     onClose={handleItemDetailClose}
                     productData={productData}
-                    handleExportModalOpen={handleExportModalOpen}
+                    itemId={selectedItemId}
+                    handleExportModalOpen={() => handleExportModalOpen(selectedItemId)}
                 />
             )}
         </div>

@@ -108,9 +108,9 @@ const UpdateUserModal = ({ isOpen, onClose, employee, onUpdateUser }) => {
       console.error('Selected employee or employee ID is missing');
       return;
     }
-  
+
     const updatedFormData = { ...formData };
-  
+
     if (!formData.groupId) {
       if (employee.group) {
         updatedFormData.groupId = employee.group.id;
@@ -122,14 +122,14 @@ const UpdateUserModal = ({ isOpen, onClose, employee, onUpdateUser }) => {
         delete updatedFormData.groupRegion;
       }
     }
-  
+
     if (!formData.password) {
       delete updatedFormData.password;
       delete updatedFormData.password2;
     }
-  
+
     console.log('Payload being sent:', updatedFormData);
-  
+
     try {
       const response = await axios.put(`http://135.181.42.192/accounts/update_user/${employee.id}/`, updatedFormData);
       console.log('User updated successfully:', response.data);
@@ -143,13 +143,13 @@ const UpdateUserModal = ({ isOpen, onClose, employee, onUpdateUser }) => {
       }
     }
   };
-  
+
 
   return (
     <div className="add-user-modal" onClick={onClose}>
       <div className="add-user-modal-content" onClick={(e) => e.stopPropagation()}>
         <div className='add-user-modal-title'>
-          <h5>İstifadəçini Yenilə</h5>
+          <h5>İstifadəçi məlumatlarını yenilə</h5>
           <span className="close" onClick={onClose}>&times;</span>
         </div>
         <hr />

@@ -156,7 +156,7 @@ const Home = () => {
                         <li>Ad</li>
                         <li>Saat</li>
                         <li>Növ</li>
-                        <li>Adres</li>
+                        <li>Ünvan</li>
                         <li>Nömrə</li>
                         <li>Status</li>
                     </ul>

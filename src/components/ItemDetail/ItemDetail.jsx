@@ -3,8 +3,9 @@ import "./itemDetail.css";
 import { CiExport } from "react-icons/ci";
 
 
-const ItemDetail = ({ showModal, onClose, productData, handleExportModalOpen }) => {
+const ItemDetail = ({ showModal, onClose, productData, handleExportModalOpen, itemId }) => {
     if (!showModal) return null;
+
 
     return (
         <div className="item-detail-modal-overlay">
@@ -80,8 +81,7 @@ const ItemDetail = ({ showModal, onClose, productData, handleExportModalOpen }) 
                     </div>
                 </div>
                 <div className="item-detail-modal-footer">
-                    <button className="submit-btn" onClick={handleExportModalOpen}><CiExport />
-                        Ixrac</button>
+                    <button className="submit-btn" onClick={() => handleExportModalOpen(productData.id)}><CiExport /> Ixrac</button>
                 </div>
             </div>
         </div>
