@@ -137,7 +137,7 @@
 td {
   padding: 8px;
   text-align: left;
-  padding: 12px 14px;
+  padding: 12px 10px;
   text-align: left;
   border-collapse: collapse;
   font-family: Nunito Sans;
@@ -145,7 +145,7 @@ td {
 
 .warehouseTable th {
   white-space: nowrap;
-  font-size: 17px;
+  font-size: 16px;
   font-weight: bold;
   text-align: center;
 }
@@ -283,4 +283,8 @@ td {
   background: #f0f0f0;
   border-radius: 10px;
 
+}
+
+.warehouse-threeDots{
+  padding: 10px;
 }

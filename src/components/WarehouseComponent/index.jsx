@@ -262,14 +262,12 @@ function Warehouse() {
                                     <td onClick={() => handleItemDetailOpen(data)}>{data.count}</td>
                                     <td onClick={() => handleItemDetailOpen(data)}>{data.region}</td>
                                     <td onClick={() => handleItemDetailOpen(data)}>{data.measure}</td>
-                                    <td>
+                                    <td onClick={(event) => handleActionClick(event, index, data.id)}>
                                         <BsThreeDotsVertical
-                                            onClick={(event) => handleActionClick(event, index, data.id)}
                                         />
                                         {isActionModalOpen && actionModalPosition.index === index && (
                                             <div
                                                 className="small-modal-warehouse"
-
                                             >
                                                 <div className="small-modal-warehouse-content" ref={actionModalRef}>
                                                     <button onClick={handleExportModalOpen}>Ixrac</button>

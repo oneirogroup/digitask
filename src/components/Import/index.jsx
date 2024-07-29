@@ -24,7 +24,7 @@ function Import({ onClose, warehouses }) {
         port_number: '',
         serial_number: '',
         number: '',
-        size_length: ''
+        size_length: '',
     });
 
     const validate = () => {

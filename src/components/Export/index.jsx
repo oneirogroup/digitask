@@ -171,7 +171,7 @@ const DecrementItemForm = ({ onClose, itemId }) => {
                 <form onSubmit={handleSubmit}>
                     <div className="export-form">
                         <label>
-                            Texnikin adı
+                            Texnik
                             <div className="multi-select-container update-user-modal">
                                 <button type="button" className="multi-select-button" onClick={handleUserTypeDropdownToggle}>
                                     {selectedUserTypeLabel ? selectedUserTypeLabel : 'Texnik'}

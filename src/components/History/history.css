@@ -99,3 +99,8 @@
     position: relative;
   }
 
+
+.warehouseTable th, .warehouseTable td{
+  font-size: 14px !important;
+  padding: 14px 10px !important;
+}

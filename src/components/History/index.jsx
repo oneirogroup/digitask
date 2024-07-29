@@ -7,13 +7,13 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
 const Anbar = () => {
-  const [data, setData] = useState([]);
+  const [historyData, setHistoryData] = useState([]);
+  const [warehouseItemData, setWarehouseItemData] = useState([]);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [region, setRegion] = useState('Hamısı');
   const [importSelected, setImportSelected] = useState(false);
   const [exportSelected, setExportSelected] = useState(true);
-  const [importData, setImportData] = useState([]);
   const [regions, setRegions] = useState([]);
   const [isRegionModalOpen, setIsRegionModalOpen] = useState(false);
   const regionModalRef = useRef(null);
@@ -39,13 +39,11 @@ const Anbar = () => {
 
         const historyResponse = await fetch(historyUrl.toString());
         const historyData = await historyResponse.json();
-        setData(historyData);
+        setHistoryData(historyData);
 
-        if (importSelected) {
-          const warehouseItemResponse = await fetch(warehouseItemUrl.toString());
-          const warehouseItemData = await warehouseItemResponse.json();
-          setImportData(warehouseItemData);
-        }
+        const warehouseItemResponse = await fetch(warehouseItemUrl.toString());
+        const warehouseItemData = await warehouseItemResponse.json();
+        setWarehouseItemData(warehouseItemData);
 
         const regionsResponse = await fetch(`http://135.181.42.192/services/warehouses/`);
         const regionsData = await regionsResponse.json();
@@ -56,7 +54,7 @@ const Anbar = () => {
       }
     };
     fetchData();
-  }, [startDate, endDate, region, importSelected]);
+  }, [startDate, endDate, region]);
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -86,31 +84,12 @@ const Anbar = () => {
   const handleExportClick = () => {
     setExportSelected(true);
     setImportSelected(false);
-    setImportData([]);
   };
 
-  const handleImportClick = async () => {
+  const handleImportClick = () => {
     setExportSelected(false);
     setImportSelected(true);
-    try {
-      const warehouseItemUrl = new URL(`http://135.181.42.192/services/warehouse_item/`);
-
-      if (startDate) {
-        warehouseItemUrl.searchParams.append('start_date', startDate.toISOString().split('T')[0]);
-      }
-      if (endDate) {
-        warehouseItemUrl.searchParams.append('end_date', endDate.toISOString().split('T')[0]);
-      }
-
-      const response = await fetch(warehouseItemUrl.toString());
-      const jsonData = await response.json();
-      setImportData(jsonData);
-    } catch (error) {
-      console.error('Error fetching import data:', error);
-    }
   };
-
-  const displayData = importSelected ? importData : data;
 
   return (
     <div className="history-page">
@@ -175,49 +154,93 @@ const Anbar = () => {
                     {region}
                   </div>
                 ))}
-
               </div>
             )}
           </div>
         </div>
       </section>
 
-      <div className='warehouseTable'>
-        <table>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Vendor</th>
-              <th>Marka</th>
-              <th>Model</th>
-              <th>S/N</th>
-              <th>Mac</th>
-              <th>Region</th>
-              <th>Port sayı</th>
-              <th>Sayı</th>
-              <th>Tarix</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {displayData.map((data, index) => (
-              <tr key={index}>
-                <td>{`#${(index + 1).toString().padStart(4, "0")}`}</td>
-                <td>{data.item_equipment_name || data.equipment_name}</td>
-                <td>{data.item_brand || data.brand}</td>
-                <td>{data.item_model || data.model}</td>
-                <td>{data.item_serial_number || data.serial_number}</td>
-                <td>{data.item_mac || data.mac}</td>
-                <td>{(data.item_warehouse && data.item_warehouse.region) || (data.warehouse && data.warehouse.region) || 'N/A'}</td>
-                <td>{data.item_port_number || data.port_number}</td>
-                <td>{data.number}</td>
-                <td>{data.date ? formatDate(data.date) : 'N/A'}</td>
-                <td><BsThreeDotsVertical /></td>
+      {exportSelected && (
+        <div className='warehouseTable'>
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>İxrac edən şəxs</th>
+                <th>İxrac edilən qurum <br /> və ya şəxs</th>
+                <th>Tarix</th>
+                <th>Məhsulun adı</th>
+                <th>Marka</th>
+                <th>Model</th>
+                <th>S/N</th>
+                {/* <th>Mac</th>
+                <th>Region</th> */}
+                <th>Port sayı</th>
+                <th>Sayı</th>
+                <th></th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody>
+              {historyData.map((data, index) => (
+                <tr key={index}>
+                  <td>{`#${(index + 1).toString().padStart(4, "0")}`}</td>
+                  <td>{data.item_created_by.first_name} {data.item_created_by.last_name}</td>
+                  <td>{data.company || data.authorized_person || (data.texnik_user.first_name || data.texnik_user.last_name)}</td>
+                  <td>{data.date ? formatDate(data.date) : 'N/A'}</td>
+                  <td>{data.item_equipment_name}</td>
+                  <td>{data.item_brand}</td>
+                  <td>{data.item_model}</td>
+                  <td>{data.item_serial_number}</td>
+                  {/* <td>{data.item_mac}</td> */}
+                  {/* <td>{(data.item_warehouse && data.item_warehouse.region) || 'N/A'}</td> */}
+                  <td>{data.item_port_number}</td>
+                  <td>{data.number}</td>
+                  <td><BsThreeDotsVertical /></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+      {importSelected && (
+        <div className='warehouseTable'>
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Məhsulun adı</th>
+                <th>Marka</th>
+                <th>Model</th>
+                <th>S/N</th>
+                <th>Mac</th>
+                <th>Region</th>
+                <th>Port sayı</th>
+                <th>Sayı</th>
+                <th>Tarix</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {warehouseItemData.map((data, index) => (
+                <tr key={index}>
+                  <td>{`#${(index + 1).toString().padStart(4, "0")}`}</td>
+                  <td>{data.equipment_name}</td>
+                  <td>{data.brand}</td>
+                  <td>{data.model}</td>
+                  <td>{data.serial_number}</td>
+                  <td>{data.item_mac || data.mac}</td>
+                  <td>{(data.warehouse && data.warehouse.region) || 'N/A'}</td>
+                  <td>{data.port_number}</td>
+                  <td>{data.number}</td>
+                  <td>{data.date ? formatDate(data.date) : 'N/A'}</td>
+                  <td><BsThreeDotsVertical /></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 };
