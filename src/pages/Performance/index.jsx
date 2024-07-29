@@ -75,16 +75,6 @@ function Index() {
   const filterData = () => {
     let filtered = [...data];
 
-    const start = start_date ? new Date(start_date) : null;
-    const end = end_date ? new Date(end_date) : null;
-
-    filtered = filtered.filter(item => {
-      const taskCount = item.task_count || { total: 0, connection: 0, problem: 0 };
-      if (!start && !end) return true;
-
-      return (start && end) ? (taskCount.total > 0) : true;
-    });
-
     filtered = filtered.filter(item =>
       selectedGroupFilter === "Hamısı" || item.group.group === selectedGroupFilter
     );
