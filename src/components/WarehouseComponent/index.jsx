@@ -157,6 +157,11 @@ function Warehouse() {
         setIsActionModalOpen(false);
     };
 
+    const handleExportSuccess = () => {
+        setShowExportModal(false);
+        fetchData();
+    };
+
     const handleItemDetailClose = () => {
         setShowItemDetailModal(false);
     };
@@ -279,7 +284,7 @@ function Warehouse() {
                 </div>
             </section>
             {showImportModal && <Import showModal={showImportModal} onClose={() => setShowImportModal(false)} />}
-            {showExportModal && <Export showModal={showExportModal} onClose={() => setShowExportModal(false)} itemId={selectedItemId || productData.id} />}
+            {showExportModal && <Export showModal={showExportModal} onClose={handleExportSuccess} itemId={selectedItemId || productData.id} />}
             {showItemDetailModal && (
                 <ItemDetail
                     showModal={showItemDetailModal}
