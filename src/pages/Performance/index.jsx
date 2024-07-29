@@ -38,23 +38,27 @@ function Index() {
   }, [filteredData]);
 
   const fetchData = () => {
-    let url = `http://135.181.42.192/services/performance/?`;
+    const url = new URL(`http://135.181.42.192/services/performance/`);
 
-    if (start_date && end_date) {
-      url += `start_date=${encodeURIComponent(start_date)}&end_date=${encodeURIComponent(end_date)}`;
-    } else if (start_date) {
-      url += `start_date=${encodeURIComponent(start_date)}`;
-    } else if (end_date) {
-      url += `end_date=${encodeURIComponent(end_date)}`;
+    if (start_date) {
+      url.searchParams.append('start_date', start_date);
+    }
+    if (end_date) {
+      url.searchParams.append('end_date', end_date);
     }
 
-    fetch(url)
-      .then(response => response.json())
+    console.log('Fetching data from URL:', url.toString());
+
+    fetch(url.toString())
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+      })
       .then(data => {
         console.log('Fetched data:', data);
         if (Array.isArray(data)) {
-          data.forEach(item => console.log('Item date:', item.date));
-
           setData(data);
           const uniqueGroups = Array.from(new Set(data.map(item => item.group.group)));
           setGroups(uniqueGroups);
@@ -62,10 +66,10 @@ function Index() {
           console.error('Data is not an array:', data);
         }
       })
-      .catch(error => console.error('Error fetching data:', error));
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
   };
-
-
 
 
   const filterData = () => {
@@ -75,21 +79,19 @@ function Index() {
     const end = end_date ? new Date(end_date) : null;
 
     filtered = filtered.filter(item => {
-      const itemDate = new Date(item.date);
+      const taskCount = item.task_count || { total: 0, connection: 0, problem: 0 };
+      if (!start && !end) return true;
 
-      const isInRange = (!start || itemDate >= start) && (!end || itemDate <= end);
-
-      return isInRange &&
-        (selectedGroupFilter === "Hamısı" || item.group.group === selectedGroupFilter) &&
-        (!selectedYear || itemDate.getFullYear() === parseInt(selectedYear)) &&
-        (!selectedMonth || months[itemDate.getMonth()] === selectedMonth) &&
-        (!selectedDay || itemDate.getDate() === parseInt(selectedDay));
+      return (start && end) ? (taskCount.total > 0) : true;
     });
+
+    filtered = filtered.filter(item =>
+      selectedGroupFilter === "Hamısı" || item.group.group === selectedGroupFilter
+    );
 
     console.log('Filtered data:', filtered);
     setFilteredData(filtered);
   };
-
 
   const openSmallModal = (index, event) => {
     event.stopPropagation();
@@ -233,9 +235,11 @@ function Index() {
                     <td>{item.first_name && item.last_name ? `${item.first_name} ${item.last_name.charAt(0)}.` : '-'}</td>
                     <td>{item.group.group}</td>
                     <td>{item.user_type}</td>
-                    <td>{item.task_count.total}</td>
-                    <td>{item.task_count.connection}</td>
-                    <td>{item.task_count.problem}</td>
+                    <td>{item.task_count.total !== undefined ? item.task_count.total : 0}</td>
+                    <td>{item.task_count.connection !== undefined ? item.task_count.connection : 0}</td>
+                    <td>{item.task_count.problem !== undefined ? item.task_count.problem : 0}</td>
+
+
                     <td>
                       <button onClick={(e) => openSmallModal(index, e)}><BsThreeDotsVertical /></button>
                       {isSmallModalOpen[index] && (
