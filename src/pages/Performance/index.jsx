@@ -60,7 +60,7 @@ function Index() {
         console.log('Fetched data:', data);
         if (Array.isArray(data)) {
           setData(data);
-          const uniqueGroups = Array.from(new Set(data.map(item => item.group.group)));
+          const uniqueGroups = Array.from(new Set(data.map(item => item.group.group).filter(Boolean)));
           setGroups(uniqueGroups);
         } else {
           console.error('Data is not an array:', data);
@@ -233,13 +233,11 @@ function Index() {
                   <tr key={index}>
                     <td>{`${(index + 1).toString().padStart(2, '0')}`}</td>
                     <td>{item.first_name && item.last_name ? `${item.first_name} ${item.last_name.charAt(0)}.` : '-'}</td>
-                    <td>{item.group.group}</td>
+                    <td>{item.group.group ? item.group.group : '-'}</td>
                     <td>{item.user_type}</td>
                     <td>{item.task_count.total !== undefined ? item.task_count.total : 0}</td>
                     <td>{item.task_count.connection !== undefined ? item.task_count.connection : 0}</td>
                     <td>{item.task_count.problem !== undefined ? item.task_count.problem : 0}</td>
-
-
                     <td>
                       <button onClick={(e) => openSmallModal(index, e)}><BsThreeDotsVertical /></button>
                       {isSmallModalOpen[index] && (
