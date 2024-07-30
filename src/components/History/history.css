@@ -104,3 +104,12 @@
   font-size: 14px !important;
   padding: 14px 10px !important;
 }
+
+.warehouseTable tbody td{
+  cursor: pointer;
+}
+
+.warehouseTable tbody tr:hover{
+  background-color: #f1f1f1;
+  transition-duration: 0.5s;
+}

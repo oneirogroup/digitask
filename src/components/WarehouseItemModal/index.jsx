@@ -1,11 +1,8 @@
 import React from 'react';
-import "./itemDetail.css";
 import { CiExport } from "react-icons/ci";
+import { formatDate } from '../History/utils';
 
-
-const ItemDetail = ({ showModal, onClose, productData, handleExportModalOpen, itemId }) => {
-    if (!showModal) return null;
-
+const WarehouseItemModal = ({ itemData, onClose }) => {
 
     return (
         <div className="item-detail-modal-overlay">
@@ -18,21 +15,21 @@ const ItemDetail = ({ showModal, onClose, productData, handleExportModalOpen, it
                 <div className="item-detail-modal-body">
                     <div className="modal-row">
                         <div className="modal-label">Anbar</div>
-                        <div className="modal-value">{productData.warehouse_name}</div>
+                        <div className="modal-value">{itemData.warehouse.name}</div>
                     </div>
                     <hr />
                     <div className='warehouse-item-detail-grid'>
                         <div>
                             <div className="modal-row">
                                 <div className="modal-label">Məhsulun adı</div>
-                                <div className="modal-value">{productData.name || "Qeyd yoxdur"}</div>
+                                <div className="modal-value">{itemData.equipment_name || "Qeyd yoxdur"}</div>
                             </div>
                             <hr />
                         </div>
                         <div>
                             <div className="modal-row">
                                 <div className="modal-label">Marka</div>
-                                <div className="modal-value">{productData.marka}</div>
+                                <div className="modal-value">{itemData.brand}</div>
                             </div>
                             <hr />
                         </div>
@@ -40,53 +37,51 @@ const ItemDetail = ({ showModal, onClose, productData, handleExportModalOpen, it
                         <div>
                             <div className="modal-row">
                                 <div className="modal-label">Model</div>
-                                <div className="modal-value">{productData.model}</div>
+                                <div className="modal-value">{itemData.model}</div>
                             </div>
                             <hr />
                         </div>
                         <div>
                             <div className="modal-row">
                                 <div className="modal-label">Tarix</div>
-                                <div className="modal-value">{productData.date || "Qeyd yoxdur"}</div>
+                                <div className="modal-value">{itemData.date ? formatDate(itemData.date) : 'N/A'}</div>
                             </div>
                             <hr />
                         </div>
                         <div>
                             <div className="modal-row">
                                 <div className="modal-label">S/N</div>
-                                <div className="modal-value">{productData.sn}</div>
+                                <div className="modal-value">{itemData.serial_number}</div>
                             </div>
                             <hr />
                         </div>
                         <div>
                             <div className="modal-row">
                                 <div className="modal-label">Mac</div>
-                                <div className="modal-value">{productData.mac || "Qeyd yoxdur"}</div>
+                                <div className="modal-value">{itemData.mac || "Qeyd yoxdur"}</div>
                             </div>
                             <hr />
                         </div>
                         <div>
                             <div className="modal-row">
                                 <div className="modal-label">Port sayı</div>
-                                <div className="modal-value">{productData.port_number || "Qeyd yoxdur"}</div>
+                                <div className="modal-value">{itemData.port_number || "Qeyd yoxdur"}</div>
                             </div>
-                            <hr />
                         </div>
                         <div>
                             <div className="modal-row">
                                 <div className="modal-label">Sayı</div>
-                                <div className="modal-value">{productData.count}</div>
+                                <div className="modal-value">{itemData.number}</div>
                             </div>
-                            <hr />
                         </div>
                     </div>
+                    <hr />
+
                 </div>
-                <div className="item-detail-modal-footer">
-                    <button className="submit-btn" onClick={() => handleExportModalOpen(productData.id)}><CiExport /> Ixrac</button>
-                </div>
+
             </div>
         </div>
     );
 };
 
-export default ItemDetail;
+export default WarehouseItemModal;

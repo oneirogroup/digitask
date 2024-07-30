@@ -217,6 +217,12 @@ function Warehouse() {
                         </button>
                         {isRegionModalOpen && (
                             <div className="region-small-modal" ref={regionModalRef}>
+                                <div
+                                    className="region-item"
+                                    onClick={() => handleRegionClick("Hamısı")}
+                                >
+                                    Hamısı
+                                </div>
                                 {regions.map((region, index) => (
                                     <div
                                         key={index}
@@ -226,12 +232,7 @@ function Warehouse() {
                                         {region}
                                     </div>
                                 ))}
-                                <div
-                                    className="region-item"
-                                    onClick={() => handleRegionClick("Hamısı")}
-                                >
-                                    Hamısı
-                                </div>
+
                             </div>
                         )}
                     </div>

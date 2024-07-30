@@ -5,6 +5,8 @@ import { formatDate } from './utils';
 import { FaChevronDown } from "react-icons/fa6";
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import WarehouseItemModal from "../WarehouseItemModal";
+import HistoryModal from "../HistoryModal";
 
 const Anbar = () => {
   const [historyData, setHistoryData] = useState([]);
@@ -17,6 +19,10 @@ const Anbar = () => {
   const [regions, setRegions] = useState([]);
   const [isRegionModalOpen, setIsRegionModalOpen] = useState(false);
   const regionModalRef = useRef(null);
+
+  const [selectedItemData, setSelectedItemData] = useState(null);
+  const [showWarehouseItemModal, setShowWarehouseItemModal] = useState(false);
+  const [showHistoryModal, setShowHistoryModal] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -89,6 +95,23 @@ const Anbar = () => {
   const handleImportClick = () => {
     setExportSelected(false);
     setImportSelected(true);
+  };
+
+  const handleActionClick = (itemData, type) => {
+    setSelectedItemData(itemData);
+    if (type === 'history') {
+      setShowHistoryModal(true);
+    } else {
+      setShowWarehouseItemModal(true);
+    }
+  };
+
+  const handleWarehouseItemModalClose = () => {
+    setShowWarehouseItemModal(false);
+  };
+
+  const handleHistoryModalClose = () => {
+    setShowHistoryModal(false);
   };
 
   return (
@@ -183,19 +206,21 @@ const Anbar = () => {
             <tbody>
               {historyData.map((data, index) => (
                 <tr key={index}>
-                  <td>{`#${(index + 1).toString().padStart(4, "0")}`}</td>
-                  <td>{data.item_created_by.first_name} {data.item_created_by.last_name}</td>
-                  <td>{data.company || data.authorized_person || (data.texnik_user.first_name || data.texnik_user.last_name)}</td>
-                  <td>{data.date ? formatDate(data.date) : 'N/A'}</td>
-                  <td>{data.item_equipment_name}</td>
-                  <td>{data.item_brand}</td>
-                  <td>{data.item_model}</td>
-                  <td>{data.item_serial_number}</td>
+                  <td onClick={() => handleActionClick(data, 'history')} >{`#${(index + 1).toString().padStart(4, "0")}`}</td>
+                  <td onClick={() => handleActionClick(data, 'history')} >{data.item_created_by.first_name} {data.item_created_by.last_name}</td>
+                  <td onClick={() => handleActionClick(data, 'history')} >{data.company || data.authorized_person || (data.texnik_user.first_name || data.texnik_user.last_name)}</td>
+                  <td onClick={() => handleActionClick(data, 'history')} >{data.date ? formatDate(data.date) : 'N/A'}</td>
+                  <td onClick={() => handleActionClick(data, 'history')} >{data.item_equipment_name}</td>
+                  <td onClick={() => handleActionClick(data, 'history')} >{data.item_brand}</td>
+                  <td onClick={() => handleActionClick(data, 'history')} >{data.item_model}</td>
+                  <td onClick={() => handleActionClick(data, 'history')} >{data.item_serial_number}</td>
                   {/* <td>{data.item_mac}</td> */}
                   {/* <td>{(data.item_warehouse && data.item_warehouse.region) || 'N/A'}</td> */}
-                  <td>{data.item_port_number}</td>
-                  <td>{data.number}</td>
-                  <td><BsThreeDotsVertical /></td>
+                  <td onClick={() => handleActionClick(data, 'history')} >{data.item_port_number}</td>
+                  <td onClick={() => handleActionClick(data, 'history')} >{data.number}</td>
+                  <td>
+                    <BsThreeDotsVertical />
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -224,23 +249,28 @@ const Anbar = () => {
             <tbody>
               {warehouseItemData.map((data, index) => (
                 <tr key={index}>
-                  <td>{`#${(index + 1).toString().padStart(4, "0")}`}</td>
-                  <td>{data.equipment_name}</td>
-                  <td>{data.brand}</td>
-                  <td>{data.model}</td>
-                  <td>{data.serial_number}</td>
-                  <td>{data.item_mac || data.mac}</td>
-                  <td>{(data.warehouse && data.warehouse.region) || 'N/A'}</td>
-                  <td>{data.port_number}</td>
-                  <td>{data.number}</td>
-                  <td>{data.date ? formatDate(data.date) : 'N/A'}</td>
-                  <td><BsThreeDotsVertical /></td>
+                  <td onClick={() => handleActionClick(data, 'warehouse')} >{`#${(index + 1).toString().padStart(4, "0")}`}</td>
+                  <td onClick={() => handleActionClick(data, 'warehouse')} >{data.equipment_name}</td>
+                  <td onClick={() => handleActionClick(data, 'warehouse')} >{data.brand}</td>
+                  <td onClick={() => handleActionClick(data, 'warehouse')} >{data.model}</td>
+                  <td onClick={() => handleActionClick(data, 'warehouse')} >{data.serial_number}</td>
+                  <td onClick={() => handleActionClick(data, 'warehouse')} >{data.item_mac || data.mac}</td>
+                  <td onClick={() => handleActionClick(data, 'warehouse')} >{(data.warehouse && data.warehouse.region) || 'N/A'}</td>
+                  <td onClick={() => handleActionClick(data, 'warehouse')} >{data.port_number}</td>
+                  <td onClick={() => handleActionClick(data, 'warehouse')} >{data.number}</td>
+                  <td onClick={() => handleActionClick(data, 'warehouse')} >{data.date ? formatDate(data.date) : 'N/A'}</td>
+                  <td>
+                    <BsThreeDotsVertical />
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
       )}
+
+      {showWarehouseItemModal && <WarehouseItemModal itemData={selectedItemData} onClose={handleWarehouseItemModalClose} />}
+      {showHistoryModal && <HistoryModal itemData={selectedItemData} onClose={handleHistoryModalClose} />}
     </div>
   );
 };

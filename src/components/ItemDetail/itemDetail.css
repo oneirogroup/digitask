@@ -71,6 +71,7 @@
     font-size: 18px;
     font-weight: 600;
     color: black;
+    text-align: right;
 }
 
 .item-detail-modal-footer {
