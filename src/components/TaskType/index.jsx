@@ -513,6 +513,13 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick }) {
                             </div>
                             <div>
                                 <div>
+                                    <label><IoPersonOutline /> İcraçı</label>
+                                    <span>{taskDetails.first_name} {taskDetails.last_name}</span>
+                                </div>
+                                <hr />
+                            </div>
+                            <div>
+                                <div>
                                     <label><GoClock /> Zaman</label>
                                     {taskDetails.date && (
                                         <span>{`${taskDetails.date.split('-')[2]} ${monthNames[parseInt(taskDetails.date.split('-')[1], 10) - 1]}, ${taskDetails.time}`}</span>
@@ -596,10 +603,12 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick }) {
                                     <hr />
                                     <div>
                                         <div>
-                                            <div className="detail-item">
-                                                <label>Modemin şəkli:</label>
-                                                <img src={taskDetails.tv.photo_modem || '-'} alt="" />
-                                            </div>
+                                            {taskDetails.tv.photo_modem ?
+                                                <div className="detail-item">
+                                                    <label>Modemin şəkli:</label>
+                                                    <img src={taskDetails.tv.photo_modem || '-'} alt="" />
+                                                </div>
+                                                : 'Şəkil əlavə olnmayıb'}
                                             <hr />
                                         </div>
                                         <div>
@@ -643,10 +652,12 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick }) {
                                     <hr />
                                     <div>
                                         <div>
-                                            <div className="detail-item">
-                                                <label>Modemin şəkli:</label>
-                                                <img src={taskDetails.internet.photo_modem || '-'} alt="" />
-                                            </div>
+                                            {taskDetails.internet.photo_modem ?
+                                                <div className="detail-item">
+                                                    <label>Modemin şəkli:</label>
+                                                    <img src={taskDetails.internet.photo_modem || '-'} alt="" />
+                                                </div>
+                                                : 'Şəkil əlavə olnmayıb'}
                                             <hr />
                                         </div>
                                         <div>
@@ -690,10 +701,12 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick }) {
                                     <hr />
                                     <div>
                                         <div>
-                                            <div className="detail-item">
-                                                <label>Modemin şəkli:</label>
-                                                <img src={taskDetails.voice.photo_modem || '-'} alt="" />
-                                            </div>
+                                            {taskDetails.voice.photo_modem ?
+                                                <div className="detail-item">
+                                                    <label>Modemin şəkli:</label>
+                                                    <img src={taskDetails.voice.photo_modem || '-'} alt="" />
+                                                </div>
+                                                : <span>Şəkil əlavə olnmayıb</span>}
                                             <hr />
                                         </div>
                                         <div>

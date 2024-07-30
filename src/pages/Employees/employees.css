@@ -11,7 +11,7 @@
     background-color: white;
   }
   
- .employee-table-container th, td {
+ .employee-table-container th, .employee-table-container td {
     padding: 16px 10px;
     border-bottom: 1px solid #ddd;
     text-align: center;

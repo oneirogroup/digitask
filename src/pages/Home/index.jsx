@@ -128,67 +128,70 @@ const Home = () => {
                     <div>
                         <p>İşçilərin performansı</p>
                     </div>
-                    <ul>
-                        <li>Ad</li>
-                        <li>Qrup</li>
-                        <li>Tasklar</li>
-                    </ul>
-                    <div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Ad</th>
+                                <th>Qrup</th>
+                                <th>Tasklar</th>
+                            </tr>
+                        </thead>
                         {performanceData.length > 0 ? (
                             performanceData.slice(0, 5).map((item, index) => (
-                                <ul key={index}>
-                                    <li>{`${item.first_name} ${item.last_name.charAt(0)}.`}</li>
-                                    <li>{item.group.group}</li>
-                                    <li>{item.task_count.total}</li>
-                                </ul>
+                                <tbody key={index}>
+                                    <td>{`${item.first_name} ${item.last_name.charAt(0)}.`}</td>
+                                    <td>{item.group.group ? item.group.group : <span>-</span>}</td>
+                                    <td>{item.task_count.total}</td>
+                                </tbody>
                             ))
                         ) : (
-                            <div>No performance data available.</div>
+                            <tbody>
+                                <tr>No performance data available.</tr>
+                            </tbody>
                         )}
-                    </div>
+                    </table>
                 </div>
                 <div className="home-tasks">
                     <div>
                         <p>Tapşırıqlar</p>
                         <Link to="/tasks/">Hamısına bax</Link>
                     </div>
-                    <ul>
-                        <li>Ad</li>
-                        <li>Saat</li>
-                        <li>Növ</li>
-                        <li>Ünvan</li>
-                        <li>Nömrə</li>
-                        <li>Status</li>
-                    </ul>
-                    <div>
-                        {tasks.length > 0 ? (
-                            tasks.slice(0, 5).map((item, index) => (
-                                <ul key={index}>
-                                    <li>{item.first_name && item.last_name ? `${item.first_name} ${item.last_name}` : '-'}</li>
-                                    <li>{item.time} {!item.item && <span>-</span>}</li>
-
-                                    <li>
-                                        {item.tv && <PiTelevisionSimple />}
-                                        {item.internet && <TfiWorld />}
-                                        {item.voice && <RiVoiceprintFill />}
-                                        {!item.tv && !item.internet && !item.voice && <span>Xidmət daxil edilməyib</span>}
-                                    </li>
-                                    <li>{item.location}</li>
-                                    <li>{item.phone ? item.phone : 'No Number'}</li>
-                                    <li className="task-status">
-                                        <button className={`status ${item.status.toLowerCase().replace(' ', '-')}`}>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Ad</th>
+                                <th>Saat</th>
+                                <th>Növ</th>
+                                <th>Ünvan</th>
+                                <th>Nömrə</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {tasks.length > 0 ? (
+                                tasks.slice(0, 5).map((item, index) => (
+                                    <tr key={index}>
+                                        <td>{item.first_name && item.last_name ? `${item.first_name} ${item.last_name}` : '-'}</td>
+                                        <td>{item.time} {!item.time && <span>-</span>}</td>
+                                        <td>{item.tv && <PiTelevisionSimple />}
+                                            {item.internet && <TfiWorld />}
+                                            {item.voice && <RiVoiceprintFill />}
+                                            {!item.tv && !item.internet && !item.voice && <span>Xidmət daxil edilməyib</span>}</td>
+                                        <td>{item.location}</td>
+                                        <td>{item.phone ? item.phone : 'No Number'}</td>
+                                        <td className="task-status"><button className={`status ${item.status.toLowerCase().replace(' ', '-')}`}>
                                             {item.status === 'waiting' ? 'Gözləyir' :
                                                 item.status === 'inprogress' ? 'Qəbul edilib' :
                                                     item.status === 'started' ? 'Başlanıb' :
                                                         item.status === 'completed' ? 'Tamamlanıb' : item.status}
-                                        </button>
-                                    </li>
-                                </ul>
-                            ))
-                        ) : (
-                            <div>No data available.</div>
-                        )}
-                    </div>
+                                        </button></td>
+                                    </tr>
+                                ))
+                            ) : (
+                                <div>No data available.</div>
+                            )}
+                        </tbody>
+                    </table>
                 </div>
             </section>
             <AddEventModal isOpen={isModalOpen} onClose={closeModal} refreshMeetings={handleEventAdded} />

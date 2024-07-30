@@ -289,6 +289,11 @@ function Index() {
         }
     };
 
+    const handleNewTask = (newTask) => {
+        setData(prevTasks => [newTask, ...prevTasks]);
+        setFilteredData(prevTasks => [newTask, ...prevTasks]);
+    };
+
     const showUpdateButtons = (userType, status) => {
         if (userType === 'Texnik') {
             if (status === 'waiting') {
@@ -354,8 +359,8 @@ function Index() {
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Ad</th>
                                 <th>İcraçı</th>
+                                <th>Müştəri</th>
                                 <th>Kateqoriya</th>
                                 <th>Tarix</th>
                                 <th>Saat</th>
@@ -440,7 +445,7 @@ function Index() {
                     </table>
                 </div>
             </div>
-            {isAddTaskModalOpen && <AddTaskModal onClose={closeAddTaskModal} />}
+            {isAddTaskModalOpen && <AddTaskModal onClose={closeAddTaskModal} onTaskCreated={handleNewTask} />}
             {isTaskDetailsModalOpen && (
                 <DetailsModal
                     onClose={closeTaskDetailsModal}

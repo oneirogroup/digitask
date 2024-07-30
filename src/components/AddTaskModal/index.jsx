@@ -6,7 +6,7 @@ import { TfiWorld } from "react-icons/tfi";
 import { RiVoiceprintFill } from "react-icons/ri";
 import { FaChevronDown } from "react-icons/fa";
 
-const CreateTaskModal = ({ onClose }) => {
+const CreateTaskModal = ({ onClose, onTaskCreated }) => {
     const [activeFilter, setActiveFilter] = useState("connection");
     const [formData, setFormData] = useState({
         full_name: '',
@@ -146,12 +146,13 @@ const CreateTaskModal = ({ onClose }) => {
             });
 
             if (response.status === 201) {
+                onTaskCreated(response.data);
+                onClose();
                 onClose(response.data);
             } else {
                 console.error('Failed to create task', response);
             }
 
-            window.location.reload();
         } catch (error) {
             console.error('Error creating task:', error);
         }
