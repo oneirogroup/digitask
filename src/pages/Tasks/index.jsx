@@ -26,6 +26,7 @@ const refreshAccessToken = async () => {
     axios.defaults.headers.common['Authorization'] = `Bearer ${access}`;
 };
 
+
 const fetchWithTokenRefresh = async (url, options = {}) => {
     try {
         const token = localStorage.getItem('access_token');
@@ -127,26 +128,38 @@ function Index() {
     const fetchTasks = async (taskFilter, selectedMonth, selectedYear, statusFilter) => {
         if (!selectedMonth) return;
 
-        const month = selectedMonth.getMonth() + 1;
-        const year = selectedYear;
-
-        const monthQueryParam = `&month=${month}&year=${year}`;
-        const statusMap = {
-            "Hamısı": "",
-            "Gözləyir": "waiting",
-            "Qəbul edilib": "inprogress",
-            "Başlanıb": "started",
-            "Tamamlanıb": "completed",
-            "Tamamlanmadı": "not_completed"
-        };
-
-        const taskTypeParam = taskFilter !== "all" ? `&task_type=${taskFilter}` : "";
-        const statusParam = statusFilter !== "Hamısı" ? `&status=${statusMap[statusFilter]}` : "";
-
-        const url = `http://135.181.42.192/services/status/?${taskTypeParam}${monthQueryParam}${statusParam}`;
-
         try {
-            const response = await fetchWithTokenRefresh(url);
+            await refreshAccessToken();
+            const token = localStorage.getItem('access_token');
+            const month = selectedMonth.getMonth() + 1;
+            const year = selectedYear;
+
+            const monthQueryParam = `&month=${month}&year=${year}`;
+            const statusMap = {
+                "Hamısı": "",
+                "Gözləyir": "waiting",
+                "Qəbul edilib": "inprogress",
+                "Başlanıb": "started",
+                "Tamamlanıb": "completed",
+                "Tamamlanmadı": "not_completed"
+            };
+
+            const taskTypeParam = taskFilter !== "all" ? `&task_type=${taskFilter}` : "";
+            const statusParam = statusFilter !== "Hamısı" ? `&status=${statusMap[statusFilter]}` : "";
+
+            const url = `http://135.181.42.192/services/status/?${taskTypeParam}${monthQueryParam}${statusParam}`;
+
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
             const data = await response.json();
             const sortedData = data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
             setData(sortedData);
@@ -155,6 +168,7 @@ function Index() {
             console.error('Error fetching tasks:', error);
         }
     };
+
 
     const handleMonthChange = (change) => {
         const newDate = new Date(selectedMonth.getFullYear(), selectedMonth.getMonth() + change);
