@@ -90,6 +90,7 @@ const Login = (props) => {
         e.preventDefault();
 
         setLoading(true);
+        setErrors({});
 
         form.current.validateAll();
 
@@ -111,7 +112,7 @@ const Login = (props) => {
         try {
             const response = await axios.post(
                 'http://135.181.42.192/accounts/login/',
-                { email: email, password: password },
+                { email, password },
                 { headers: { 'Content-Type': 'application/json' } },
                 { withCredentials: true }
             );
@@ -140,7 +141,26 @@ const Login = (props) => {
             window.location.reload();
         } catch (error) {
             setLoading(false);
-            setErrors({ global: "Giriş zamanı xətaya yol verildi. Yenidən cəhd edin." });
+
+            const newErrors = {};
+
+            if (error.response && error.response.data) {
+                const serverErrors = error.response.data;
+
+                if (serverErrors.detail) {
+                    newErrors.global = "Giriş Məlumatları Yanlışdır.\nYanlış istifadəçi adı və ya şifrə.";
+
+                } else if (serverErrors.non_field_errors) {
+                    newErrors.global = serverErrors.non_field_errors[0];
+                } else {
+                    newErrors.global = "Giriş Məlumatları Yanlışdır.\nYanlış istifadəçi adı və ya şifrə.";
+                }
+
+                setErrors(newErrors);
+            } else {
+                setErrors({ global: "Giriş zamanı xətaya yol verildi. Yenidən cəhd edin." });
+            }
+
             if (error.response) {
                 console.error("Login error: ", error.response.data);
             } else if (error.request) {
@@ -150,6 +170,7 @@ const Login = (props) => {
             }
         }
     };
+
 
 
     if (isLoggedIn) {
@@ -216,13 +237,13 @@ const Login = (props) => {
                             )}
                             <button type="submit">Daxil ol</button>
                         </div>
-                        {message && (
+                        {errors.global ? (
                             <div className="form-group">
-                                <div className="alert alert-danger" role="alert">
-                                    {message}
+                                <div className="alert alert-danger login-alert-text" role="alert" style={{ whiteSpace: 'pre-line', textAlign: 'center' }}>
+                                    {errors.global}
                                 </div>
                             </div>
-                        )}
+                        ) : ''}
                         <CheckButton style={{ display: "none" }} ref={checkBtn} />
                     </Form>
                 </div>

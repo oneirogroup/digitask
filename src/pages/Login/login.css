@@ -176,3 +176,10 @@
     background-color: inherit;
     border: none;
 }
+
+.login-alert-text {
+    background-color: rgba(177, 42, 42, 0.322);
+    padding: 10px 8px ;
+    border-radius: 10px;
+    font-weight: 600;
+}
