@@ -13,7 +13,7 @@ const UpdateUserModal = ({ isOpen, onClose, employee, onUpdateUser }) => {
     user_type: '',
     username: '',
     group: '',
-    groupId: '',
+    group_id: '',
     groupRegion: '',
     first_name: '',
     last_name: '',
@@ -32,6 +32,7 @@ const UpdateUserModal = ({ isOpen, onClose, employee, onUpdateUser }) => {
   const [showUserTypeDropdown, setShowUserTypeDropdown] = useState(false);
   const [selectedGroupName, setSelectedGroupName] = useState('');
   const [selectedUserTypeLabel, setSelectedUserTypeLabel] = useState('');
+  const [groupChanged, setGroupChanged] = useState(false);
 
   useEffect(() => {
     const fetchGroups = async () => {
@@ -54,7 +55,7 @@ const UpdateUserModal = ({ isOpen, onClose, employee, onUpdateUser }) => {
         user_type: employee.user_type || '',
         username: employee.username || '',
         group: employee.group?.group || '',
-        groupId: employee.group?.id || '',
+        group_id: employee.group?.id || '',
         groupRegion: employee.group?.region || '',
         first_name: employee.first_name || '',
         last_name: employee.last_name || '',
@@ -87,6 +88,7 @@ const UpdateUserModal = ({ isOpen, onClose, employee, onUpdateUser }) => {
     });
     setSelectedGroupName(group);
     setShowGroupDropdown(false);
+    setGroupChanged(true);
   };
 
   const handleUserTypeDropdownToggle = () => {
@@ -111,6 +113,11 @@ const UpdateUserModal = ({ isOpen, onClose, employee, onUpdateUser }) => {
 
     const updatedFormData = { ...formData };
 
+    if (!groupChanged) {
+      updatedFormData.group = employee.group?.group;
+      updatedFormData.groupId = employee.group?.id;
+      updatedFormData.groupRegion = employee.group?.region;
+    }
 
     if (!formData.password) {
       delete updatedFormData.password;
@@ -132,7 +139,6 @@ const UpdateUserModal = ({ isOpen, onClose, employee, onUpdateUser }) => {
       }
     }
   };
-
 
   return (
     <div className="add-user-modal" onClick={onClose}>
@@ -228,8 +234,8 @@ const UpdateUserModal = ({ isOpen, onClose, employee, onUpdateUser }) => {
 UpdateUserModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  employee: PropTypes.object,
-  onUpdateUser: PropTypes.func.isRequired,
+  employee: PropTypes.object.isRequired,
+  onUpdateUser: PropTypes.func.isRequired
 };
 
 export default UpdateUserModal;
