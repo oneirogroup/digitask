@@ -42,8 +42,8 @@ const Home = () => {
             setMeetings(responseMainPage.data.meetings || []);
             setUserType(responseMainPage.data.user_type);
 
-            const ongoingTasks = responseMainPage.data.ongoing_tasks || [];
-            const mappedTasks = ongoingTasks.map(task => ({
+            const completedTasks = responseMainPage.data.completed_tasks || [];
+            const mappedTasks = completedTasks.map(task => ({
                 id: task.id,
                 first_name: task.first_name,
                 last_name: task.last_name,

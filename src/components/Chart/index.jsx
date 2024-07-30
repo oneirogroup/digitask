@@ -110,12 +110,12 @@ class ApexChart extends React.Component {
                 }
             });
 
-            const { ongoing_tasks } = response.data;
+            const { completed_tasks } = response.data;
 
             const connectionCounts = Array(12).fill(0);
             const problemCounts = Array(12).fill(0);
 
-            ongoing_tasks.forEach(task => {
+            completed_tasks.forEach(task => {
                 const taskDate = new Date(task.date);
                 const taskYear = taskDate.getFullYear();
                 const taskMonth = taskDate.getMonth();

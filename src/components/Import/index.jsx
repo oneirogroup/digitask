@@ -55,14 +55,25 @@ function Import({ onClose, warehouses }) {
         if (!validate()) {
             return;
         }
+
+        const accessToken = localStorage.getItem('access_token');
+        if (!accessToken) {
+            console.error('Access token is missing');
+            return;
+        }
+
         const requestOptions = {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`
+            },
             body: JSON.stringify({
                 ...formData,
                 warehouse: activeWarehouse
             })
         };
+
         fetch('http://135.181.42.192/services/import/', requestOptions)
             .then(response => response.json())
             .then(data => {

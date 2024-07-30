@@ -232,7 +232,7 @@ function Warehouse() {
                                         {region}
                                     </div>
                                 ))}
-                                
+
                             </div>
                         )}
                     </div>
@@ -282,7 +282,7 @@ function Warehouse() {
                     </table>
                 </div>
             </section>
-            {showImportModal && <Import showModal={showImportModal} onClose={() => setShowImportModal(false)} />}
+            {showImportModal && <Import showModal={showImportModal} warehouses={warehouses} onClose={() => setShowImportModal(false)} />}
             {showExportModal && <Export showModal={showExportModal} onClose={handleExportSuccess} itemId={selectedItemId || productData.id} />}
             {showItemDetailModal && (
                 <ItemDetail
