@@ -15,6 +15,7 @@
     height: 150px;
     display: flex;
     justify-content: space-between;   
+    cursor: pointer;
 }
 
 .home-meet-section .meet-time-date{

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { RiEdit2Line } from "react-icons/ri";
 import { IoPersonOutline } from "react-icons/io5";
 import { BsTelephone } from "react-icons/bs";
@@ -320,6 +320,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick }) {
         }));
     };
 
+
     const [isUpdateTVModalOpen, setIsUpdateTVModalOpen] = useState(false);
     const [isUpdateInternetModalOpen, setIsUpdateInternetModalOpen] = useState(false);
     const [isUpdateVoiceModalOpen, setIsUpdateVoiceModalOpen] = useState(false);
@@ -331,13 +332,6 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick }) {
         }));
     };
 
-    const getAddedServices = (taskDetails) => {
-        const services = [];
-        if (taskDetails.is_tv) services.push('TV');
-        if (taskDetails.is_internet) services.push('Internet');
-        if (taskDetails.is_voice) services.push('Voice');
-        return services;
-    };
 
 
     if (!taskDetails) {
@@ -375,7 +369,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick }) {
                                     <div className="status-dropdown-div task-type-select">
                                         <label><SiTyper />
                                             Tapşırığın növü</label>
-                                        <div class="dropdown-task" id="details-task" ref={taskTypeDropdownRef}>
+                                        <div className="dropdown-task" id="details-task" ref={taskTypeDropdownRef}>
                                             <div className="dropdown-task-toggle" onClick={toggleDropdownTaskType}>
                                                 {formData.task_type ? formData.task_type === 'connection' ? 'Qoşulma' : 'Problem' : 'Tapşırığı Seçin'}
                                                 <FaChevronDown />

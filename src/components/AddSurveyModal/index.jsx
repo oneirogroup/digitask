@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import './addsurveymodal.css';
 import axios from 'axios';
 import upload from "../../assets/images/document-upload.svg";
@@ -51,6 +51,14 @@ const AddSurveyModal = ({ onClose, selectedServices, taskId, onSurveyAdded }) =>
 
         fetchExistingSurveys();
     }, [taskId]);
+
+    useEffect(() => {
+        const hasActiveStatus = Object.keys(openServices).some(serviceType => openServices[serviceType]);
+        const serviceList = document.querySelector('.service-list');
+        if (serviceList) {
+            serviceList.classList.toggle('column-layout', hasActiveStatus);
+        }
+    }, [openServices]);
 
     const handleInputChange = (e) => {
         const { name, files, value, dataset } = e.target;
@@ -162,6 +170,8 @@ const AddSurveyModal = ({ onClose, selectedServices, taskId, onSurveyAdded }) =>
                                             <div className="service-fields">
                                                 {serviceType === 'tv' && (
                                                     <>
+                                                        <h2>Tv servisi</h2>
+                                                        <br />
                                                         <div>
                                                             <div className="form-group">
                                                                 <label>Modemin arxa şəkli:</label>
@@ -254,6 +264,8 @@ const AddSurveyModal = ({ onClose, selectedServices, taskId, onSurveyAdded }) =>
 
                                                 {serviceType === 'internet' && (
                                                     <>
+                                                        <h2>İnternet servisi</h2>
+                                                        <br />
                                                         <div>
                                                             <div className="form-group">
                                                                 <label>Modemin arxa şəkli:</label>
@@ -346,6 +358,8 @@ const AddSurveyModal = ({ onClose, selectedServices, taskId, onSurveyAdded }) =>
 
                                                 {serviceType === 'voice' && (
                                                     <>
+                                                        <h2>Səs servisi</h2>
+                                                        <br />
                                                         <div>
                                                             <div className="form-group">
                                                                 <label>Modemin arxa şəkli:</label>

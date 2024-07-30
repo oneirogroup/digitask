@@ -15,9 +15,9 @@
   }
   
   .performance-page th,  .performance-page td {
-    padding: 12px;
+    padding: 16px 10px !important;
     border-bottom: 1px solid #ddd;
-    text-align: left;
+    text-align: center;
   }
 
   .performance-page th{

@@ -51,7 +51,11 @@
     margin: 20px 0;
 }
 
-
+.service-section.active-status .service-fields {
+    display: block;
+    visibility: visible;
+    opacity: 1;
+}
 
 .service-fields > div:last-of-type{
     display: grid;
@@ -172,12 +176,13 @@
 
 .service-list{
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    flex-wrap: wrap;
     gap: 30px;
-
     margin: 30px 0;
+}
+
+.service-list.column-layout {
+    flex-direction: column;
 }
 
 .service-section{
@@ -187,6 +192,7 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    margin: 0 auto;
 }
 
 .service-header{
@@ -215,3 +221,14 @@
     font-weight: 400;
 }
 
+.service-sort{
+    display: flex;
+    flex-direction: column;
+}
+
+.service-fields h2{
+    font-size: 26px;
+    font-weight: 600;
+    font-family: 'Montserrat', sans-serif;
+    text-align: left;
+}

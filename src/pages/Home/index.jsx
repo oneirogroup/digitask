@@ -11,6 +11,7 @@ import { PiTelevisionSimple } from 'react-icons/pi';
 import { TfiWorld } from 'react-icons/tfi';
 import { RiVoiceprintFill } from 'react-icons/ri';
 import photo1 from '../../assets/images/photo.svg';
+import MeetingDetailModal from '../../components/MeetingDetailModal';
 
 const refreshAccessToken = async () => {
     const refresh_token = localStorage.getItem('refresh_token');
@@ -30,6 +31,8 @@ const Home = () => {
     const [performanceData, setPerformanceData] = useState([]);
     const [meetings, setMeetings] = useState([]);
     const [userType, setUserType] = useState(null);
+    const [selectedMeeting, setSelectedMeeting] = useState(null);
+    const [isMeetingModalOpen, setIsMeetingModalOpen] = useState(false);
     const navigate = useNavigate();
 
     const fetchData = async (isRetry = false) => {
@@ -93,11 +96,21 @@ const Home = () => {
         setMeetings(prevMeetings => [newEvent, ...prevMeetings]);
     };
 
+    const openMeetingDetailModal = (meetingId) => {
+        setSelectedMeeting(meetingId);
+        setIsMeetingModalOpen(true);
+    };
+
+    const closeMeetingDetailModal = () => {
+        setIsMeetingModalOpen(false);
+        setSelectedMeeting(null);
+    };
+
     return (
         <div className="home-page">
             <section className="home-meet-section">
                 {meetings.map((meeting, index) => (
-                    <div key={meeting.id} className="meet-time-date-img">
+                    <div key={meeting.id} className="meet-time-date-img" onClick={() => openMeetingDetailModal(meeting.id)}>
                         <div className="meet-time-date">
                             <p><GoClock /> {new Date(meeting.date).toLocaleString()}</p>
                             <div>
@@ -195,6 +208,7 @@ const Home = () => {
                 </div>
             </section>
             <AddEventModal isOpen={isModalOpen} onClose={closeModal} refreshMeetings={handleEventAdded} />
+            <MeetingDetailModal isOpen={isMeetingModalOpen} onClose={closeMeetingDetailModal} meetingId={selectedMeeting} />
         </div>
     );
 };
