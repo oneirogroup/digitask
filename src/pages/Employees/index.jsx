@@ -399,7 +399,10 @@ const EmployeeList = () => {
           </thead>
           <tbody>
             {currentItems.map((employee, index) => (
-              <tr key={employee.id}>
+              <tr
+                key={employee.id}
+                className={employee.id === loggedInUserId ? 'current-user' : ''}
+              >
                 <td>{`#${(index + 1).toString().padStart(4, '0')}`}</td>
                 <td>{employee.first_name} {employee.last_name}</td>
                 <td>{employee.group ? employee.group.group : '-'}</td>

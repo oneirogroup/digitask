@@ -286,3 +286,8 @@ font-size: 26px;
 .multi-select-dropdown > label:first-of-type span{
   cursor: pointer;
 }
+
+.current-user {
+  background-color: rgba(128, 128, 128, 0.185); 
+  font-weight: bold;     
+}
