@@ -28,13 +28,13 @@ const AddUserModal = ({ onClose, onUserAdded }) => {
   const [showUserTypeDropdown, setShowUserTypeDropdown] = useState(false);
   const [selectedGroupName, setSelectedGroupName] = useState('');
   const [selectedUserTypeLabel, setSelectedUserTypeLabel] = useState('');
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchGroups = async () => {
       try {
         const response = await axios.get('http://135.181.42.192/services/groups/');
         setGroupOptions(response.data);
-
       } catch (error) {
         console.error('Error fetching groups:', error);
       }
@@ -97,13 +97,18 @@ const AddUserModal = ({ onClose, onUserAdded }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
+      setLoading(true);
       try {
         const response = await axios.post('http://135.181.42.192/accounts/register/', formData);
         console.log('User registered successfully:', response.data);
         onUserAdded(response.data);
+        // Only close the modal if the user is successfully added
         onClose();
       } catch (error) {
         console.error('Registration error:', error);
+        // Handle error state if needed
+      } finally {
+        setLoading(false);
       }
     }
   };
@@ -208,7 +213,9 @@ const AddUserModal = ({ onClose, onUserAdded }) => {
               {formErrors.phone && <span className="error-message">{formErrors.phone}</span>}
             </div>
           </div>
-          <button type="submit">Əlavə et</button>
+          <button type="submit" disabled={loading}>
+            {loading ? 'Yaradılır...' : 'Əlavə et'}
+          </button>
         </form>
       </div>
     </div>
