@@ -111,17 +111,6 @@ const UpdateUserModal = ({ isOpen, onClose, employee, onUpdateUser }) => {
 
     const updatedFormData = { ...formData };
 
-    if (!formData.groupId) {
-      if (employee.group) {
-        updatedFormData.groupId = employee.group.id;
-        updatedFormData.groupName = employee.group.group;
-        updatedFormData.groupRegion = employee.group.region;
-      } else {
-        delete updatedFormData.groupId;
-        delete updatedFormData.groupName;
-        delete updatedFormData.groupRegion;
-      }
-    }
 
     if (!formData.password) {
       delete updatedFormData.password;

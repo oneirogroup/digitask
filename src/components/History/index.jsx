@@ -184,7 +184,7 @@ const Anbar = () => {
       </section>
 
       {exportSelected && (
-        <div className='warehouseTable'>
+        <div className='warehouseTable historyTable'>
           <table>
             <thead>
               <tr>

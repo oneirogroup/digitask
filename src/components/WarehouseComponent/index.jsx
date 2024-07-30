@@ -232,7 +232,7 @@ function Warehouse() {
                                         {region}
                                     </div>
                                 ))}
-
+                                
                             </div>
                         )}
                     </div>

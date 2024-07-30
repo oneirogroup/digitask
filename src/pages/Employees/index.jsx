@@ -155,21 +155,7 @@ const EmployeeList = () => {
     };
   }, [loggedInUserId]);
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (userTypeRef.current && !userTypeRef.current.contains(event.target)) {
-        setShowUserTypeOptions(false);
-      }
-      if (groupRef.current && !groupRef.current.contains(event.target)) {
-        setShowGroupOptions(false);
-      }
-    };
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
 
   const initializeEmployeeModals = (employeesData) => {
     const initialModals = {};
@@ -193,15 +179,6 @@ const EmployeeList = () => {
     }));
   };
 
-  const closeAllModals = () => {
-    setEmployeeModals(prevModals => {
-      const newModals = {};
-      Object.keys(prevModals).forEach(key => {
-        newModals[key] = false;
-      });
-      return newModals;
-    });
-  };
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
@@ -267,24 +244,30 @@ const EmployeeList = () => {
     setIsAddUserModal(false);
   };
 
-  const renderSmallModal = (employee) => {
-    return (
-      <div
-        ref={modalRef}
-        className={`small-modal-employee ${employeeModals[employee.id] ? 'active' : ''}`}
-      >
-        <div className="small-modal-employee-content">
-          <button onClick={() => handleUpdateUserClick(employee)}>
-            <MdOutlineEdit />
-          </button>
-          <button onClick={() => handleDeleteUser(employee.id)}>
-            <RiDeleteBin6Line />
-          </button>
-        </div>
-      </div>
-    );
+  const handleButtonClick = (event) => {
+    event.stopPropagation();
+    event.preventDefault();
   };
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (userTypeRef.current && !userTypeRef.current.contains(event.target)) {
+        setShowUserTypeOptions(false);
+      }
+      if (groupRef.current && !groupRef.current.contains(event.target)) {
+        setShowGroupOptions(false);
+      }
+      if (modalRef.current && !modalRef.current.contains(event.target)) {
+        setEmployeeModals({});
+      }
+    };
+
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   const handleUpdateUserClick = (employee) => {
     setSelectedEmployee(employee);
@@ -341,8 +324,6 @@ const EmployeeList = () => {
       console.error('Error deleting the user:', error);
     }
   };
-
-
 
   return (
     <div className='employee-page'>
@@ -433,10 +414,23 @@ const EmployeeList = () => {
                 </td>
                 <td><a href=""><PiMapPinAreaFill /></a></td>
                 <td>
-                  <button onClick={() => openSmallModal(employee.id)}>
-                    <BsThreeDotsVertical />
-                  </button>
-                  {renderSmallModal(employee)}
+                  <button onClick={() => openSmallModal(employee.id)}><BsThreeDotsVertical /></button>
+                  {employeeModals[employee.id] && (
+                    <div
+                      className={`small-modal-employee ${employeeModals[employee.id] ? 'active' : ''}`} ref={modalRef}
+                    >
+                      <div
+                        className="small-modal-employee-content"
+                      >
+                        <button onClick={() => handleUpdateUserClick(employee)}>
+                          <MdOutlineEdit />
+                        </button>
+                        <button onClick={() => handleDeleteUser(employee.id)}>
+                          <RiDeleteBin6Line />
+                        </button>
+                      </div>
+                    </div>
+                  )}
                 </td>
               </tr>
             ))}
