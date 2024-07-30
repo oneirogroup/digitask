@@ -602,7 +602,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick }) {
                                                     <label>Modemin şəkli:</label>
                                                     <img src={taskDetails.tv.photo_modem || '-'} alt="" />
                                                 </div>
-                                                : 'Şəkil əlavə olnmayıb'}
+                                                : <span>Şəkil əlavə olunmayıb</span>}
                                             <hr />
                                         </div>
                                         <div>
@@ -651,7 +651,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick }) {
                                                     <label>Modemin şəkli:</label>
                                                     <img src={taskDetails.internet.photo_modem || '-'} alt="" />
                                                 </div>
-                                                : 'Şəkil əlavə olnmayıb'}
+                                                : <span>Şəkil əlavə olunmayıb</span>}
                                             <hr />
                                         </div>
                                         <div>
@@ -700,7 +700,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick }) {
                                                     <label>Modemin şəkli:</label>
                                                     <img src={taskDetails.voice.photo_modem || '-'} alt="" />
                                                 </div>
-                                                : <span>Şəkil əlavə olnmayıb</span>}
+                                                : <span>Şəkil əlavə olunmayıb</span>}
                                             <hr />
                                         </div>
                                         <div>

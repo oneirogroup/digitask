@@ -425,10 +425,13 @@ const EmployeeList = () => {
                 <td>{employee.phone}  {!employee.phone && <span>-</span>}</td>
                 <td>{(employee.user_type)}</td>
                 <td className='status'>
-                  <p color={status[employee.id] === 'online' ? 'green' : 'red'}>
+                  <p>
+                    <FaCircle /> Offline
+                  </p>
+                  {/* <p color={status[employee.id] === 'online' ? 'green' : 'red'}>
                     <FaCircle color={status[employee.id] === 'online' ? 'green' : 'red'} />
                     {status[employee.id] === 'online' ? 'Aktiv' : 'Offline'}
-                  </p>
+                  </p> */}
                 </td>
                 <td><a href=""><PiMapPinAreaFill /></a></td>
                 <td>
