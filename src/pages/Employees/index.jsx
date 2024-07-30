@@ -28,7 +28,7 @@ const EmployeeList = () => {
   const { isAdmin } = useUser();
   const [employees, setEmployees] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(7);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
   const [searchTerm, setSearchTerm] = useState('');
   const [userTypeFilter, setUserTypeFilter] = useState(null);
   const [groupFilter, setGroupFilter] = useState(null);
@@ -45,32 +45,41 @@ const EmployeeList = () => {
   const wsRef = useRef(null);
   const [loggedInUserId, setLoggedInUserId] = useState(null);
 
+
+  const fetchEmployees = async () => {
+    try {
+      await refreshAccessToken();
+      const token = localStorage.getItem('access_token');
+
+      const response = await axios.get('http://135.181.42.192/accounts/users/', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      setEmployees(response.data);
+      initializeEmployeeModals(response.data);
+
+      const loggedInUserResponse = await axios.get('http://135.181.42.192/accounts/profile/', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      setLoggedInUserId(loggedInUserResponse.data.id);
+
+    } catch (error) {
+      console.error('Error fetching the employees data:', error);
+    }
+  };
+
+  const handleUserAdded = async (newUser) => {
+    setEmployees((prevEmployees) => [...prevEmployees, newUser]);
+
+    initializeEmployeeModals([...employees, newUser]);
+
+    await fetchEmployees();
+  };
+
   useEffect(() => {
-    const fetchEmployees = async () => {
-      try {
-        await refreshAccessToken();
-        const token = localStorage.getItem('access_token');
-
-        const response = await axios.get('http://135.181.42.192/accounts/users/', {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        });
-        setEmployees(response.data);
-        initializeEmployeeModals(response.data);
-
-        const loggedInUserResponse = await axios.get('http://135.181.42.192/accounts/profile/', {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        });
-        setLoggedInUserId(loggedInUserResponse.data.id);
-
-      } catch (error) {
-        console.error('Error fetching the employees data:', error);
-      }
-    };
-
     fetchEmployees();
   }, []);
 
@@ -201,10 +210,14 @@ const EmployeeList = () => {
     let filteredEmployees = employees;
 
     if (searchTerm) {
-      filteredEmployees = filteredEmployees.filter(employee => (
-        employee.first_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        employee.last_name.toLowerCase().includes(searchTerm.toLowerCase())
-      ));
+      filteredEmployees = filteredEmployees.filter(employee => {
+        const firstName = employee.first_name || '';
+        const lastName = employee.last_name || '';
+        return (
+          firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          lastName.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+      });
     }
 
     if (userTypeFilter) {
@@ -324,6 +337,8 @@ const EmployeeList = () => {
       console.error('Error deleting the user:', error);
     }
   };
+
+
 
   return (
     <div className='employee-page'>
@@ -455,7 +470,7 @@ const EmployeeList = () => {
           <FaArrowRight />
         </button>
       </div>
-      {isAddUserModal && <AddUserModal isOpen={isAddUserModal} onClose={closeAddUserModal} />}
+      {isAddUserModal && <AddUserModal isOpen={isAddUserModal} onClose={closeAddUserModal} onUserAdded={handleUserAdded} />}
       {isUpdateUserModal && selectedEmployee && (
         <UpdateUserModal
           isOpen={isUpdateUserModal}

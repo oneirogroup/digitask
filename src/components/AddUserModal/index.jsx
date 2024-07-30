@@ -3,7 +3,7 @@ import axios from 'axios';
 import { FaChevronUp, FaChevronDown } from 'react-icons/fa';
 import "./adduser.css";
 
-const AddUserModal = ({ onClose }) => {
+const AddUserModal = ({ onClose, onUserAdded }) => {
   const [formData, setFormData] = useState({
     email: '',
     first_name: '',
@@ -34,6 +34,7 @@ const AddUserModal = ({ onClose }) => {
       try {
         const response = await axios.get('http://135.181.42.192/services/groups/');
         setGroupOptions(response.data);
+
       } catch (error) {
         console.error('Error fetching groups:', error);
       }
@@ -99,6 +100,7 @@ const AddUserModal = ({ onClose }) => {
       try {
         const response = await axios.post('http://135.181.42.192/accounts/register/', formData);
         console.log('User registered successfully:', response.data);
+        onUserAdded(response.data);
         onClose();
       } catch (error) {
         console.error('Registration error:', error);
