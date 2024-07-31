@@ -48,7 +48,7 @@ const HistoryModal = ({ itemData, onClose }) => {
                         </div>
                         <div>
                             <div className="modal-row">
-                                <div className="modal-label">S/N</div>
+                                <div className="modal-label">Seriya nömrəsi</div>
                                 <div className="modal-value">{itemData.item_serial_number}</div>
                             </div>
                             <hr />

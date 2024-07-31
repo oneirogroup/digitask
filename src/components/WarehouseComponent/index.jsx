@@ -245,7 +245,7 @@ function Warehouse() {
                                 <th>Avadanlığın adı</th>
                                 <th>Marka</th>
                                 <th>Model</th>
-                                <th>S/N</th>
+                                <th>Seriya nömrəsi</th>
                                 <th>Sayı</th>
                                 <th>Region</th>
                                 <th>Ölçüsü</th>

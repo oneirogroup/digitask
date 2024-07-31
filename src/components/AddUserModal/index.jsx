@@ -102,11 +102,9 @@ const AddUserModal = ({ onClose, onUserAdded }) => {
         const response = await axios.post('http://135.181.42.192/accounts/register/', formData);
         console.log('User registered successfully:', response.data);
         onUserAdded(response.data);
-        // Only close the modal if the user is successfully added
         onClose();
       } catch (error) {
         console.error('Registration error:', error);
-        // Handle error state if needed
       } finally {
         setLoading(false);
       }

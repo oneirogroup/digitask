@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { fetchWithAuth } from '../../utils/auth'; 
+import { fetchWithAuth } from '../../utils/auth';
 import "./profile.css";
 import { FaPhoneAlt } from "react-icons/fa";
 import { AiFillMail } from "react-icons/ai";
@@ -14,8 +14,7 @@ const Profile = () => {
     email: '',
     user_type: '',
     region: '',
-    postal_code: 'RT235',
-    bio: ''
+    group: ''
   });
 
   const [loading, setLoading] = useState(true);
@@ -28,8 +27,7 @@ const Profile = () => {
         setProfileData({
           ...data,
           region: data.group?.region || '',
-          postal_code: 'RT235',
-          bio: data.bio || ''
+          group: data.group?.group || '',
         });
         setLoading(false);
       } catch (error) {
@@ -87,24 +85,25 @@ const Profile = () => {
                     <FaChevronRight />
                   </div>
                 </div>
-              </div>
+              </div><br />
               <div className="input-group">
-                <label htmlFor="bio">Bio</label>
-                <textarea id="bio" value={profileData.bio} onChange={handleChange} />
+                <label htmlFor="bio">Istifadəçi növü</label>
+                <textarea id="bio" value={profileData.user_type} onChange={handleChange} />
               </div>
             </div>
           </div>
           <div className="address-info">
-            <h2>Ünvan</h2>
+            <h2>Qrup məlumatları</h2>
             <div>
               <div className="input-group">
-                <label htmlFor="region">Region</label>
-                <input type="text" id="region" value={profileData.region} onChange={handleChange} />
+                <label htmlFor="postal_code">Qrup</label>
+                <input type="text" id="postal_code" value={profileData.group ? profileData.group : 'Qrup daxil edilməyib'} onChange={handleChange} />
               </div>
               <div className="input-group">
-                <label htmlFor="postal_code">Poçt Kodu</label>
-                <input type="text" id="postal_code" value={profileData.postal_code} onChange={handleChange} />
+                <label htmlFor="region">Region</label>
+                <input type="text" id="region" value={profileData.region ? profileData.region : 'Region daxil edilməyib'} onChange={handleChange} />
               </div>
+
             </div>
           </div>
         </>

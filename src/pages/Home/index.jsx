@@ -146,7 +146,7 @@ const Home = () => {
                             <tr>
                                 <th>Ad</th>
                                 <th>Qrup</th>
-                                <th>Tasklar</th>
+                                <th>Tapşırıqlar</th>
                             </tr>
                         </thead>
                         {performanceData.length > 0 ? (

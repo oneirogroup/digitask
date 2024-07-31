@@ -404,7 +404,7 @@ const EmployeeList = () => {
               <th>ID</th>
               <th>Ad</th>
               <th>Qrup</th>
-              <th>Adres</th>
+              <th>Ünvan</th>
               <th>Nōmrǝ</th>
               <th>Vəzifə</th>
               <th>Status</th>

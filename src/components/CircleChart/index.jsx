@@ -69,7 +69,7 @@ class CircleChart extends React.Component {
             },
             userType: '',
             isAdmin: false,
-            legendLabels: ['Internet', 'TV', 'Voice'],
+            legendLabels: ['İnternet', 'TV', 'Səs'],
         };
     }
 
@@ -88,7 +88,7 @@ class CircleChart extends React.Component {
 
             const { user_type, is_admin, task_details } = response.data;
             let series = [0, 0, 0];
-            let legendLabels = ['Internet', 'TV', 'Voice'];
+            let legendLabels = ['İnternet', 'TV', 'Səs'];
 
             if (user_type === 'Texnik' || user_type === 'Plumber') {
                 const { problem_count, connection_count } = task_details;

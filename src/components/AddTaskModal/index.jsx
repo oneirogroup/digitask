@@ -198,7 +198,7 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
                 <form onSubmit={handleSubmit}>
                     <div className='task-name-date'>
                         <div className="form-group">
-                            <label htmlFor="full_name">Ad Soyad:</label>
+                            <label htmlFor="full_name">Müştərinin ad və soyadı:</label>
                             <input
                                 type="text"
                                 id="full_name"
@@ -309,7 +309,7 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
                                         checked={formData.is_internet}
                                         onChange={handleCheckboxChange}
                                     />
-                                    <TfiWorld /> Internet
+                                    <TfiWorld /> İnternet
                                 </label>
                                 <label htmlFor="voice" className={`form-group ${formData.is_voice ? "activeTask" : ""}`}>
                                     <input
@@ -319,13 +319,13 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
                                         checked={formData.is_voice}
                                         onChange={handleCheckboxChange}
                                     />
-                                    <RiVoiceprintFill /> Voice
+                                    <RiVoiceprintFill /> Səs
                                 </label>
                             </div>
                             {errors.service && <span className="error-message">{errors.service}</span>}
                         </div>
                         <div className="form-group">
-                            <label>Texniki Qrup:</label>
+                            <label>Texniki qrup:</label>
                             <div className="dropdown-task" ref={dropdownRef}>
                                 <div
                                     className="dropdown-task-toggle"
@@ -333,7 +333,7 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
                                 >
                                     {formData.group.length > 0
                                         ? `Qrup ${formData.group.join(', Qrup ')}`
-                                        : 'Qrup Seçin'}
+                                        : 'Qrup seçin'}
                                     <FaChevronDown />
                                 </div>
                                 {isDropdownOpen && (

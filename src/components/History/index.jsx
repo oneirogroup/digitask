@@ -195,7 +195,7 @@ const Anbar = () => {
                 <th>Məhsulun adı</th>
                 <th>Marka</th>
                 <th>Model</th>
-                <th>S/N</th>
+                <th>Seriya nömrəsi</th>
                 {/* <th>Mac</th>
                 <th>Region</th> */}
                 <th>Port sayı</th>
@@ -208,7 +208,7 @@ const Anbar = () => {
                 <tr key={index}>
                   <td onClick={() => handleActionClick(data, 'history')} >{`#${(index + 1).toString().padStart(4, "0")}`}</td>
                   <td onClick={() => handleActionClick(data, 'history')} >{data.item_created_by.first_name} {data.item_created_by.last_name}</td>
-                  <td onClick={() => handleActionClick(data, 'history')} >{data.company || data.authorized_person || (data.texnik_user.first_name || data.texnik_user.last_name)}</td>
+                  <td onClick={() => handleActionClick(data, 'history')} >{data.company || data.authorized_person || (data.texnik_user ? `${data.texnik_user.first_name} ${data.texnik_user.last_name}` : '')}</td>
                   <td onClick={() => handleActionClick(data, 'history')} >{data.date ? formatDate(data.date) : 'N/A'}</td>
                   <td onClick={() => handleActionClick(data, 'history')} >{data.item_equipment_name}</td>
                   <td onClick={() => handleActionClick(data, 'history')} >{data.item_brand}</td>
@@ -237,7 +237,7 @@ const Anbar = () => {
                 <th>Məhsulun adı</th>
                 <th>Marka</th>
                 <th>Model</th>
-                <th>S/N</th>
+                <th>Seriya nömrəsi</th>
                 <th>Mac</th>
                 <th>Region</th>
                 <th>Port sayı</th>

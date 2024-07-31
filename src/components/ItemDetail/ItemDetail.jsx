@@ -53,7 +53,7 @@ const ItemDetail = ({ showModal, onClose, productData, handleExportModalOpen, it
                         </div>
                         <div>
                             <div className="modal-row">
-                                <div className="modal-label">S/N</div>
+                                <div className="modal-label">Seriya nömrəsi</div>
                                 <div className="modal-value">{productData.sn}</div>
                             </div>
                             <hr />
