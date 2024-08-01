@@ -15,7 +15,7 @@
     flex-direction: column;
 }
 
-.add-user-modal form >div {
+.add-user-modal form >div:first-of-type {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
@@ -190,4 +190,9 @@
   .multi-select-dropdown > label:first-of-type{
     display: flex;
     justify-content: space-between;
+  }
+
+  .submit-error-message{
+    text-align: center;
+    width: 100%;
   }

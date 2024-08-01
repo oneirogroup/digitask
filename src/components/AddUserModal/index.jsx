@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FaChevronUp, FaChevronDown } from 'react-icons/fa';
 import "./adduser.css";
+import { MdMargin } from 'react-icons/md';
 
 const AddUserModal = ({ onClose, onUserAdded }) => {
   const [formData, setFormData] = useState({
@@ -49,6 +50,10 @@ const AddUserModal = ({ onClose, onUserAdded }) => {
       ...formData,
       [name]: value
     });
+    setFormErrors({
+      ...formErrors,
+      [name]: ''
+    });
   };
 
   const validateForm = () => {
@@ -72,6 +77,11 @@ const AddUserModal = ({ onClose, onUserAdded }) => {
     setShowGroupDropdown(!showGroupDropdown);
   };
 
+  const handleUserTypeDropdownToggle = () => {
+    setShowUserTypeDropdown(!showUserTypeDropdown);
+  };
+
+
   const handleSelectGroup = (id, groupName) => {
     setFormData({
       ...formData,
@@ -79,10 +89,10 @@ const AddUserModal = ({ onClose, onUserAdded }) => {
     });
     setSelectedGroupName(groupName);
     setShowGroupDropdown(false);
-  };
-
-  const handleUserTypeDropdownToggle = () => {
-    setShowUserTypeDropdown(!showUserTypeDropdown);
+    setFormErrors({
+      ...formErrors,
+      group: ''
+    });
   };
 
   const handleSelectUserType = (userType) => {
@@ -92,6 +102,10 @@ const AddUserModal = ({ onClose, onUserAdded }) => {
     });
     setSelectedUserTypeLabel(userTypeOptions.find(option => option.value === userType)?.label || '');
     setShowUserTypeDropdown(false);
+    setFormErrors({
+      ...formErrors,
+      user_type: ''
+    });
   };
 
   const handleSubmit = async (e) => {
@@ -105,14 +119,17 @@ const AddUserModal = ({ onClose, onUserAdded }) => {
         onClose();
       } catch (error) {
         console.error('Registration error:', error);
+        setFormErrors({ ...formErrors, submit: 'Qeydiyyat zamanı bir xəta baş verdi. Xahiş olunur, yenidən cəhd edin.' });
       } finally {
         setLoading(false);
       }
     }
   };
 
+
+
   return (
-    <div className="add-user-modal" onClick={onClose}>
+    <div className="add-user-modal" onClick={(e) => e.stopPropagation()}>
       <div className="add-user-modal-content" onClick={(e) => e.stopPropagation()}>
         <div className='add-user-modal-title'>
           <h5>Yeni istifadəçi</h5>
@@ -172,13 +189,13 @@ const AddUserModal = ({ onClose, onUserAdded }) => {
               <label>İstifadəçi tipi</label>
               <div className="multi-select-container update-user-modal">
                 <button type="button" className="multi-select-button" onClick={handleUserTypeDropdownToggle}>
-                  {selectedUserTypeLabel ? selectedUserTypeLabel : 'İstifadəçi növünü seçin'}
+                  {selectedUserTypeLabel ? selectedUserTypeLabel : 'İstifadəçi tipi seçin'}
                   <span>{showUserTypeDropdown ? <FaChevronUp /> : <FaChevronDown />}</span>
                 </button>
                 {showUserTypeDropdown && (
                   <div className="multi-select-dropdown">
                     <label htmlFor="closeUserTypeDropdown">
-                      İstifadəçi növü
+                      İstifadəçi tipi
                       <span className="close-dropdown" id="closeUserTypeDropdown" onClick={() => setShowUserTypeDropdown(false)}>&times;</span>
                     </label>
                     {userTypeOptions.map(option => (
@@ -197,11 +214,11 @@ const AddUserModal = ({ onClose, onUserAdded }) => {
             </div>
             <div className="form-group">
               <label>Şifrə</label>
-              <input type="password" placeholder='Şifrəni daxil edin' name="password" value={formData.password} onChange={handleChange} />
+              <input type="password" placeholder='Şifrə daxil edin' name="password" value={formData.password} onChange={handleChange} />
               {formErrors.password && <span className="error-message">{formErrors.password}</span>}
             </div>
             <div className="form-group">
-              <label>Şifrəni təsdiqlə</label>
+              <label>Şifrə (təkrar)</label>
               <input type="password" placeholder='Şifrəni təkrar daxil edin' name="password2" value={formData.password2} onChange={handleChange} />
               {formErrors.password2 && <span className="error-message">{formErrors.password2}</span>}
             </div>
@@ -212,12 +229,13 @@ const AddUserModal = ({ onClose, onUserAdded }) => {
             </div>
           </div>
           <button type="submit" disabled={loading}>
-            {loading ? 'Yaradılır...' : 'Əlavə et'}
+            {loading ? 'Göndərilir...' : 'İstifadəçi əlavə et'}
           </button>
+          {formErrors.submit && <div className="error-message submit-error-message">{formErrors.submit}</div>}
         </form>
       </div>
     </div>
   );
-}
+};
 
 export default AddUserModal;
