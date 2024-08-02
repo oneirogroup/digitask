@@ -86,6 +86,7 @@ const Login = (props) => {
         setRememberMe(!rememberMe);
     };
 
+
     const handleLogin = async (e) => {
         e.preventDefault();
 
@@ -112,12 +113,13 @@ const Login = (props) => {
         try {
             const response = await axios.post(
                 'http://135.181.42.192/accounts/login/',
-                { email, password },
+                { email, password, remember_me: rememberMe },
                 { headers: { 'Content-Type': 'application/json' } },
                 { withCredentials: true }
             );
 
             const { access_token, refresh_token, user_type, is_admin } = response.data;
+
             if (rememberMe) {
                 localStorage.setItem('access_token', access_token);
                 localStorage.setItem('refresh_token', refresh_token);
@@ -131,10 +133,17 @@ const Login = (props) => {
                 sessionStorage.setItem('refresh_token', refresh_token);
                 sessionStorage.setItem('saved_email', email);
                 sessionStorage.setItem('saved_password', password);
-                localStorage.setItem('remember_me', 'false');
+                sessionStorage.setItem('remember_me', 'false');
                 sessionStorage.setItem('user_type', user_type);
                 sessionStorage.setItem('is_admin', is_admin);
+
+                localStorage.removeItem('saved_email');
+                localStorage.removeItem('saved_password');
+                localStorage.removeItem('remember_me');
+                localStorage.removeItem('user_type');
+                localStorage.removeItem('is_admin');
             }
+
             axios.defaults.headers.common['Authorization'] = `Bearer ${access_token}`;
 
             navigate("/");
@@ -149,7 +158,6 @@ const Login = (props) => {
 
                 if (serverErrors.detail) {
                     newErrors.global = "Giriş Məlumatları Yanlışdır.\nYanlış istifadəçi adı və ya şifrə.";
-
                 } else if (serverErrors.non_field_errors) {
                     newErrors.global = serverErrors.non_field_errors[0];
                 } else {
@@ -160,25 +168,15 @@ const Login = (props) => {
             } else {
                 setErrors({ global: "Giriş zamanı xətaya yol verildi. Yenidən cəhd edin." });
             }
-
-            if (error.response) {
-                console.error("Login error: ", error.response.data);
-            } else if (error.request) {
-                console.error("Login error: No response received", error.request);
-            } else {
-                console.error("Login error: ", error.message);
-            }
         }
     };
+
 
 
 
     if (isLoggedIn) {
         return <Navigate to="/" />;
     }
-
-    const storedUserType = localStorage.getItem('user_type') || sessionStorage.getItem('user_type');
-    const storedUserEmail = localStorage.getItem('saved_email') || sessionStorage.getItem('saved_email');
 
     return (
         <div className='bg-color'>
@@ -226,10 +224,11 @@ const Login = (props) => {
 
                             </div>
                             <div className="remember-me">
-                                <p onClick={toggleRememberMe}>
-                                    {rememberMe ? <MdCheckBox /> : <MdOutlineCheckBoxOutlineBlank />}
+                                <label>
+                                    <input type="checkbox" name="" id="" checked={rememberMe}
+                                        onChange={toggleRememberMe} />
                                     Məni xatırla
-                                </p>
+                                </label>
                                 <Link to="/re-password">Şifrəni unutmusunuz?</Link>
                             </div>
                             {loading && (
@@ -239,18 +238,24 @@ const Login = (props) => {
                         </div>
                         {errors.global ? (
                             <div className="form-group">
-                                <div className="alert alert-danger login-alert-text" role="alert" style={{ whiteSpace: 'pre-line', textAlign: 'center' }}>
+                                <div className="alert alert-danger login-alert-text" role="alert" style={{ marginTop: '10px' }}>
                                     {errors.global}
                                 </div>
                             </div>
-                        ) : ''}
-                        <CheckButton style={{ display: "none" }} ref={checkBtn} />
+                        ) : (
+                            <div className="form-group">
+                                <CheckButton
+                                    style={{ display: "none" }}
+                                    ref={checkBtn}
+                                />
+                            </div>
+                        )}
                     </Form>
                 </div>
             </div>
             <img src={ovalbottom} alt="" />
         </div>
     );
-}
+};
 
 export default Login;

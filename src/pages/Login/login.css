@@ -91,7 +91,7 @@
     color:  #ABABAF;
 }
 
-.login-mail-password div label input{
+.login-mail-password div label input:not(.remember-me input){
     height: 40px;
     border: 0;
     width: 240px;
@@ -110,7 +110,7 @@
     justify-content: space-between;
 }
 
-.login-mail-password div label{
+.login-mail-password div label:not(.remember-me label){
     border: 1px solid #C7C6CA;
     border-radius:8px;
     gap: 10px;
@@ -141,17 +141,16 @@
     cursor: pointer;
 }
 
-.login-mail-password div:last-of-type p{
+.remember-me label{
     font-family: Nunito Sans;
     font-size: 14px;
     font-weight: 400;
-
     text-align: center;
     color: #2F3033;
     white-space: nowrap;
     display: flex;
     align-items: center;
-    gap: 2px;
+    gap: 5px;
     cursor: pointer;
 }
 
