@@ -174,7 +174,7 @@ const DecrementItemForm = ({ onClose, itemId }) => {
                             Texnik
                             <div className="multi-select-container update-user-modal">
                                 <button type="button" className="multi-select-button" onClick={handleUserTypeDropdownToggle}>
-                                    {selectedUserTypeLabel ? selectedUserTypeLabel : 'Texnik'}
+                                    {selectedUserTypeLabel ? selectedUserTypeLabel : 'Texnik seçin'}
                                     <span>{showUserTypeDropdown ? <FaChevronUp /> : <FaChevronDown />}</span>
                                 </button>
                                 {showUserTypeDropdown && (

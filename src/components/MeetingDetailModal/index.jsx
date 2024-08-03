@@ -54,8 +54,11 @@ const MeetingDetailModal = ({ isOpen, onClose, meetingId }) => {
                         <div>
                             <div className="modal-row">
                                 <div className="modal-label">Tarix</div>
-                                <div className="modal-value">{new Date(meeting.date).toLocaleString() || 'Qeyd yoxdur'}</div>
+                                <div className="modal-value">
+                                    {new Date(meeting.date).toLocaleString()}
+                                </div>
                             </div>
+
                             <hr />
                         </div>
 

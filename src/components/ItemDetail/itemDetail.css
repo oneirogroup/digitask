@@ -48,15 +48,12 @@
   cursor: pointer;
 }
 
-.item-detail-modal-body .modal-row {
-  margin: 15px 0;
-}
 
 .item-detail-modal-body .modal-row {
+  margin: 15px 0 10px 0;
   display: flex;
   justify-content: space-between;
-  margin-bottom: 10px;
-  align-items: end;
+  align-items: center;
 }
 
 .item-detail-modal-body .modal-label {

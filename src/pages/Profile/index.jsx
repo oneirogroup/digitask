@@ -169,7 +169,7 @@ const Profile = () => {
                   </div>
                 </div>
                 <div className="input-group">
-                  <label htmlFor="email">Mail adresi</label>
+                  <label htmlFor="email">Mail ünvanı</label>
                   <div>
                     <div>
                       <AiFillMail />
@@ -180,7 +180,7 @@ const Profile = () => {
                 </div>
               </div><br />
               <div className="input-group profile-edit-userType-div">
-                <label htmlFor="bio">Istifadəçi növü</label>
+                <label htmlFor="bio">Vəzifə</label>
                 {editMode ? (
                   <>
                     <div id="profile-edit-userType" onClick={() => setShowUserTypeDropdown(!showUserTypeDropdown)}>
