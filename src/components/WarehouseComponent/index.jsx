@@ -7,6 +7,7 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import Import from "../Import";
 import Export from "../Export";
 import ItemDetail from "../ItemDetail/ItemDetail";
+import IncrementImportModal from "../IncrementImportModal";
 import "./warehouse.css";
 
 function Warehouse() {
@@ -26,6 +27,7 @@ function Warehouse() {
     const [selectedItemId, setSelectedItemId] = useState(null);
     const [actionModalPosition, setActionModalPosition] = useState({ index: null });
     const [productData, setProductData] = useState(null);
+    const [showIncrementImportModal, setShowIncrementImportModal] = useState(false);
     const regionModalRef = useRef(null);
     const actionModalRef = useRef(null);
 
@@ -151,6 +153,7 @@ function Warehouse() {
         setIsActionModalOpen(true);
     };
 
+
     const handleExportModalOpen = () => {
         setShowExportModal(true);
         setShowItemDetailModal(false);
@@ -170,6 +173,18 @@ function Warehouse() {
         setProductData(data);
         setShowItemDetailModal(true);
     };
+
+    const handleIncrementImportModalOpen = (itemId) => {
+        setSelectedItemId(itemId);
+        setShowIncrementImportModal(true);
+        setIsActionModalOpen(false);
+    };
+
+    const handleIncrementImportSuccess = () => {
+        setShowIncrementImportModal(false);
+        fetchData();
+    };
+
 
     return (
         <div>
@@ -271,7 +286,9 @@ function Warehouse() {
                                                 className="small-modal-warehouse"
                                             >
                                                 <div className="small-modal-warehouse-content" ref={actionModalRef}>
-                                                    <button onClick={handleExportModalOpen}>Ixrac</button>
+                                                    <button onClick={handleExportModalOpen}>İxrac</button>
+                                                    <hr />
+                                                    <button onClick={handleIncrementImportModalOpen}>İdxal</button>
                                                 </div>
                                             </div>
                                         )}
@@ -284,6 +301,14 @@ function Warehouse() {
             </section>
             {showImportModal && <Import showModal={showImportModal} warehouses={warehouses} onClose={() => setShowImportModal(false)} />}
             {showExportModal && <Export showModal={showExportModal} onClose={handleExportSuccess} itemId={selectedItemId || productData.id} />}
+            {showIncrementImportModal && (
+                <IncrementImportModal
+                    showModal={showIncrementImportModal}
+                    itemId={selectedItemId || productData.id}
+                    onClose={handleIncrementImportSuccess}
+                />
+            )}
+
             {showItemDetailModal && (
                 <ItemDetail
                     showModal={showItemDetailModal}

@@ -228,7 +228,6 @@
 .small-modal-warehouse-content {
   display: flex;
   flex-direction: column;
-  gap: 10px;
 }
 
 .small-modal-warehouse button {
@@ -269,16 +268,24 @@
 .small-modal-warehouse-content button {
   display: block;
   width: 100%;
-  padding: 10px;
+  padding: 9px;
   text-align: left;
   border: none;
   background: none;
   cursor: pointer;
+  font-family: Montserrat;
+  font-size: 15px;
+  font-weight: 500;
 }
 
-.small-modal-warehouse-content button:hover {
+.small-modal-warehouse-content button:first-of-type:hover {
   background: #f0f0f0;
-  border-radius: 10px;
+  border-radius: 10px 10px 0 0;
+}
+
+.small-modal-warehouse-content button:last-of-type:hover {
+  background: #f0f0f0;
+  border-radius: 0 0 10px 10px;
 }
 
 .warehouse-threeDots{

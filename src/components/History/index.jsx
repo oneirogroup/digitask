@@ -28,7 +28,7 @@ const Anbar = () => {
     const fetchData = async () => {
       try {
         const historyUrl = new URL(`http://135.181.42.192/services/history/`);
-        const warehouseItemUrl = new URL(`http://135.181.42.192/services/warehouse_item/`);
+        const warehouseItemUrl = new URL(`http://135.181.42.192/services/increment_history/`);
 
         if (startDate) {
           historyUrl.searchParams.append('start_date', startDate.toISOString().split('T')[0]);
@@ -229,11 +229,13 @@ const Anbar = () => {
       )}
 
       {importSelected && (
-        <div className='warehouseTable'>
+        <div className='warehouseTable historyTable'>
           <table>
             <thead>
               <tr>
                 <th>ID</th>
+                <th>Məhsul təminatçısı</th>
+                <th>Tarix</th>
                 <th>Məhsulun adı</th>
                 <th>Marka</th>
                 <th>Model</th>
@@ -242,7 +244,7 @@ const Anbar = () => {
                 <th>Region</th>
                 <th>Port sayı</th>
                 <th>Sayı</th>
-                <th>Tarix</th>
+
                 <th></th>
               </tr>
             </thead>
@@ -250,15 +252,17 @@ const Anbar = () => {
               {warehouseItemData.map((data, index) => (
                 <tr key={index}>
                   <td onClick={() => handleActionClick(data, 'warehouse')} >{`#${(index + 1).toString().padStart(4, "0")}`}</td>
-                  <td onClick={() => handleActionClick(data, 'warehouse')} >{data.equipment_name}</td>
-                  <td onClick={() => handleActionClick(data, 'warehouse')} >{data.brand}</td>
-                  <td onClick={() => handleActionClick(data, 'warehouse')} >{data.model}</td>
-                  <td onClick={() => handleActionClick(data, 'warehouse')} >{data.serial_number}</td>
-                  <td onClick={() => handleActionClick(data, 'warehouse')} >{data.item_mac || data.mac}</td>
-                  <td onClick={() => handleActionClick(data, 'warehouse')} >{(data.warehouse && data.warehouse.region) || 'N/A'}</td>
-                  <td onClick={() => handleActionClick(data, 'warehouse')} >{data.port_number}</td>
-                  <td onClick={() => handleActionClick(data, 'warehouse')} >{data.number}</td>
+                  <td onClick={() => handleActionClick(data, 'warehouse')} >{data.product_provider}</td>
                   <td onClick={() => handleActionClick(data, 'warehouse')} >{data.date ? formatDate(data.date) : 'N/A'}</td>
+                  <td onClick={() => handleActionClick(data, 'warehouse')} >{data.item_equipment_name}</td>
+                  <td onClick={() => handleActionClick(data, 'warehouse')} >{data.item_brand}</td>
+                  <td onClick={() => handleActionClick(data, 'warehouse')} >{data.item_model}</td>
+                  <td onClick={() => handleActionClick(data, 'warehouse')} >{data.item_serial_number}</td>
+                  <td onClick={() => handleActionClick(data, 'warehouse')} >{data.item_mac}</td>
+                  <td onClick={() => handleActionClick(data, 'warehouse')} >{(data.item_warehouse && data.item_warehouse.region) || 'N/A'}</td>
+                  <td onClick={() => handleActionClick(data, 'warehouse')} >{data.item_port_number}</td>
+                  <td onClick={() => handleActionClick(data, 'warehouse')} >{data.number}</td>
+
                   <td>
                     <BsThreeDotsVertical />
                   </td>

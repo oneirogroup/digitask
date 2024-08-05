@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import './home.css';
 import { Link, useNavigate } from 'react-router-dom';
@@ -84,6 +84,7 @@ const Home = () => {
         fetchData();
     }, []);
 
+
     const openModal = () => {
         setIsModalOpen(true);
     };
@@ -109,7 +110,7 @@ const Home = () => {
     return (
         <div className="home-page">
             <section className="home-meet-section">
-                {meetings.map((meeting, index) => (
+                {meetings.map((meeting) => (
                     <div key={meeting.id} className="meet-time-date-img" onClick={() => openMeetingDetailModal(meeting.id)}>
                         <div className="meet-time-date">
                             <p><GoClock /> {new Date(meeting.date).toLocaleString()}</p>

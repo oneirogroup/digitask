@@ -110,3 +110,9 @@
   gap: 30px;
   margin-top: 12px;
 }
+
+.warehouse-item-detail-grid > div{
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+}

@@ -15,21 +15,28 @@ const WarehouseItemModal = ({ itemData, onClose }) => {
                 <div className="item-detail-modal-body">
                     <div className="modal-row">
                         <div className="modal-label">Anbar</div>
-                        <div className="modal-value">{itemData.warehouse.name}</div>
+                        <div className="modal-value">{itemData.item_warehouse.name}</div>
                     </div>
                     <hr />
                     <div className='warehouse-item-detail-grid'>
                         <div>
                             <div className="modal-row">
+                                <div className="modal-label">Məhsul təminatçısı</div>
+                                <div className="modal-value">{itemData.product_provider || "Qeyd yoxdur"}</div>
+                            </div>
+                            <hr />
+                        </div>
+                        <div>
+                            <div className="modal-row">
                                 <div className="modal-label">Məhsulun adı</div>
-                                <div className="modal-value">{itemData.equipment_name || "Qeyd yoxdur"}</div>
+                                <div className="modal-value">{itemData.item_equipment_name || "Qeyd yoxdur"}</div>
                             </div>
                             <hr />
                         </div>
                         <div>
                             <div className="modal-row">
                                 <div className="modal-label">Marka</div>
-                                <div className="modal-value">{itemData.brand}</div>
+                                <div className="modal-value">{itemData.item_brand}</div>
                             </div>
                             <hr />
                         </div>
@@ -37,7 +44,7 @@ const WarehouseItemModal = ({ itemData, onClose }) => {
                         <div>
                             <div className="modal-row">
                                 <div className="modal-label">Model</div>
-                                <div className="modal-value">{itemData.model}</div>
+                                <div className="modal-value">{itemData.item_model}</div>
                             </div>
                             <hr />
                         </div>
@@ -50,32 +57,34 @@ const WarehouseItemModal = ({ itemData, onClose }) => {
                         </div>
                         <div>
                             <div className="modal-row">
-                                <div className="modal-label">S/N</div>
-                                <div className="modal-value">{itemData.serial_number}</div>
+                                <div className="modal-label">Seriya nömrəsi</div>
+                                <div className="modal-value">{itemData.item_serial_number}</div>
                             </div>
                             <hr />
                         </div>
                         <div>
                             <div className="modal-row">
                                 <div className="modal-label">Mac</div>
-                                <div className="modal-value">{itemData.mac || "Qeyd yoxdur"}</div>
+                                <div className="modal-value">{itemData.item_mac || "Qeyd yoxdur"}</div>
                             </div>
                             <hr />
                         </div>
                         <div>
                             <div className="modal-row">
                                 <div className="modal-label">Port sayı</div>
-                                <div className="modal-value">{itemData.port_number || "Qeyd yoxdur"}</div>
+                                <div className="modal-value">{itemData.item_port_number || "Qeyd yoxdur"}</div>
                             </div>
+                            <hr />
                         </div>
                         <div>
                             <div className="modal-row">
                                 <div className="modal-label">Sayı</div>
                                 <div className="modal-value">{itemData.number}</div>
                             </div>
+                            <hr />
+
                         </div>
                     </div>
-                    <hr />
 
                 </div>
 
