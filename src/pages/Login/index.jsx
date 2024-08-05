@@ -9,7 +9,6 @@ import ovaltop from "../../assets/images/Oval top.svg";
 import ovalbottom from "../../assets/images/Oval bottom.svg";
 import { CiMail } from "react-icons/ci";
 import { IoKeyOutline } from "react-icons/io5";
-import { MdOutlineCheckBoxOutlineBlank, MdCheckBox } from "react-icons/md";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { logout } from "../../actions/auth";
 

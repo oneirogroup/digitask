@@ -1,4 +1,3 @@
-import React from 'react';
 import { formatDate } from '../History/utils';
 import "./historyModal.css"
 

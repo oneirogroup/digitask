@@ -1,4 +1,3 @@
-import React from 'react';
 import "./itemDetail.css";
 import { CiExport } from "react-icons/ci";
 

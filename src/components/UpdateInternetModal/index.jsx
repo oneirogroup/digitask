@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 function UpdateInternetModal({ onClose, serviceId, serviceData, onServiceUpdate }) {
     const [formData, setFormData] = useState(serviceData || {});

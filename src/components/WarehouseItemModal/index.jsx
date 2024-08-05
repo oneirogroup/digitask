@@ -1,5 +1,3 @@
-import React from 'react';
-import { CiExport } from "react-icons/ci";
 import { formatDate } from '../History/utils';
 
 const WarehouseItemModal = ({ itemData, onClose }) => {

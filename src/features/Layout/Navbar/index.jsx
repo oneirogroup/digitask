@@ -1,4 +1,3 @@
-import React from 'react';
 import { AiOutlineMessage } from 'react-icons/ai';
 import { IoNotifications } from 'react-icons/io5';
 import { MdPerson } from "react-icons/md";

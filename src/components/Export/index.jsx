@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import "./export.css";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 

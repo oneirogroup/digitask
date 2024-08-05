@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import "./history.css";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { formatDate } from './utils';
@@ -31,12 +31,12 @@ const Anbar = () => {
         const warehouseItemUrl = new URL(`http://135.181.42.192/services/increment_history/`);
 
         if (startDate) {
-          historyUrl.searchParams.append('start_date', startDate.toISOString().split('T')[0]);
-          warehouseItemUrl.searchParams.append('start_date', startDate.toISOString().split('T')[0]);
+          historyUrl.searchParams.append('start_date', startDate);
+          warehouseItemUrl.searchParams.append('start_date', startDate);
         }
         if (endDate) {
-          historyUrl.searchParams.append('end_date', endDate.toISOString().split('T')[0]);
-          warehouseItemUrl.searchParams.append('end_date', endDate.toISOString().split('T')[0]);
+          historyUrl.searchParams.append('end_date', endDate);
+          warehouseItemUrl.searchParams.append('end_date', endDate);
         }
         if (region !== 'Hamısı') {
           historyUrl.searchParams.append('region', region);
@@ -75,12 +75,15 @@ const Anbar = () => {
   }, []);
 
   const handleStartDateChange = (date) => {
-    setStartDate(date);
+    const formattedDate = date ? date.toLocaleDateString('en-CA') : null;
+    setStartDate(formattedDate);
   };
 
   const handleEndDateChange = (date) => {
-    setEndDate(date);
+    const formattedDate = date ? date.toLocaleDateString('en-CA') : null;
+    setEndDate(formattedDate);
   };
+
 
   const handleRegionChange = (region) => {
     setRegion(region);
