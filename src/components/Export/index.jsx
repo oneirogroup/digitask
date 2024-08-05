@@ -164,7 +164,7 @@ const DecrementItemForm = ({ onClose, itemId }) => {
         <div className="export-modal">
             <div className="export-modal-content">
                 <div className="export-modal-title">
-                    <h5>Ixrac</h5>
+                    <h5>İxrac</h5>
                     <span className="close" onClick={onClose}>&times;</span>
                 </div>
                 <hr />
@@ -226,7 +226,7 @@ const DecrementItemForm = ({ onClose, itemId }) => {
                             {dateError && <p className="error-message">{dateError}</p>}
                         </label>
                     </div>
-                    <button type="submit" className="submit-btn">Ixrac et</button>
+                    <button type="submit" className="submit-btn">İxrac et</button>
                     {error && <p className="error">{error}</p>}
                     {success && <p className="success">{success}</p>}
                 </form>

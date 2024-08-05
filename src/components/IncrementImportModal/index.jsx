@@ -131,7 +131,7 @@ const IncrementItemForm = ({ onClose, itemId }) => {
                             {dateError && <p className="error-message">{dateError}</p>}
                         </label>
                     </div>
-                    <button type="submit" className="submit-btn">Ixrac et</button>
+                    <button type="submit" className="submit-btn">İdxal et</button>
                     {error && <p className="error">{error}</p>}
                     {success && <p className="success">{success}</p>}
                 </form>

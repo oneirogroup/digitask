@@ -82,7 +82,7 @@ const ItemDetail = ({ showModal, onClose, productData, handleExportModalOpen, it
                     </div>
                 </div>
                 <div className="item-detail-modal-footer">
-                    <button className="submit-btn" onClick={() => handleExportModalOpen(productData.id)}><CiExport /> Ixrac</button>
+                    <button className="submit-btn" onClick={() => handleExportModalOpen(productData.id)}><CiExport /> İxrac</button>
                 </div>
             </div>
         </div>
