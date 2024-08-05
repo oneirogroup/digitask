@@ -75,12 +75,12 @@ const Anbar = () => {
   }, []);
 
   const handleStartDateChange = (date) => {
-    const formattedDate = date ? date.toLocaleDateString('en-CA') : null;
+    const formattedDate = date ? date.toLocaleDateString('az-AZ') : null;
     setStartDate(formattedDate);
   };
 
   const handleEndDateChange = (date) => {
-    const formattedDate = date ? date.toLocaleDateString('en-CA') : null;
+    const formattedDate = date ? date.toLocaleDateString('az-AZ') : null;
     setEndDate(formattedDate);
   };
 
