@@ -121,7 +121,7 @@ const EmployeeList = () => {
   }, []);
 
   useEffect(() => {
-    const ws = new WebSocket('ws://135.181.42.192/ws/status/');
+    const ws = new WebSocket('ws://135.181.42.192/ws/');
 
     ws.onopen = () => {
       console.log('WebSocket connection established.');
@@ -163,7 +163,6 @@ const EmployeeList = () => {
       }
     };
   }, [loggedInUserId]);
-
 
 
   const initializeEmployeeModals = (employeesData) => {
@@ -425,9 +424,13 @@ const EmployeeList = () => {
                 <td>{employee.phone}  {!employee.phone && <span>-</span>}</td>
                 <td>{(employee.user_type)}</td>
                 <td className='status'>
-                  <p>
-                    <FaCircle /> Offline
-                  </p>
+                  <div className="employee-detail">
+                    {status[employee.id] === 'active' ? (
+                      <FaCircle size={16} className="status-active" />
+                    ) : (
+                      <FaCircle size={16} className="status-inactive" />
+                    )} {status[employee.id] === 'active' ? 'Aktiv' : 'Offline'}
+                  </div>
                   {/* <p color={status[employee.id] === 'online' ? 'green' : 'red'}>
                     <FaCircle color={status[employee.id] === 'online' ? 'green' : 'red'} />
                     {status[employee.id] === 'online' ? 'Aktiv' : 'Offline'}
