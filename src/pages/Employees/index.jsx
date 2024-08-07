@@ -45,6 +45,60 @@ const EmployeeList = () => {
   const wsRef = useRef(null);
   const [loggedInUserId, setLoggedInUserId] = useState(null);
 
+  useEffect(() => {
+    let ws;
+
+    const connectWebSocket = () => {
+      ws = new WebSocket('ws://135.181.42.192/ws/');
+      console.log(ws)
+      ws.onopen = () => {
+        console.log('WebSocket connection established.');
+        // const message = JSON.stringify({ userId: 'testUserId', status: 'online' });
+        // console.log('Sending message:', message);
+        // ws.send(message);
+      };
+
+      ws.onmessage = (event) => {
+        console.log('Received raw WebSocket message:', event.data);
+        try {
+          const data = JSON.parse(event.data);
+          console.log('Parsed WebSocket message:', data);
+
+          if (data.type === 'status_update') {
+            setStatus((prevStatus) => ({
+              ...prevStatus,
+              [data.user_id]: data.status,
+            }));
+          }
+        } catch (e) {
+          console.error('Error parsing WebSocket message:', e);
+        }
+      };
+
+
+      ws.onerror = (error) => {
+        console.error('WebSocket error:', error);
+      };
+
+      ws.onclose = (event) => {
+        if (event.wasClean) {
+          console.log(`WebSocket connection closed cleanly, code=${event.code}, reason=${event.reason}`);
+          setTimeout(connectWebSocket, 5000);
+        } else {
+          console.error('WebSocket connection died unexpectedly');
+          setTimeout(connectWebSocket, 5000);
+        }
+      };
+    };
+
+    connectWebSocket();
+
+    return () => {
+      if (ws && ws.readyState === WebSocket.OPEN) {
+        ws.close();
+      }
+    };
+  }, [loggedInUserId]);
 
   const fetchEmployees = async () => {
     try {
@@ -56,8 +110,18 @@ const EmployeeList = () => {
           'Authorization': `Bearer ${token}`
         }
       });
-      setEmployees(response.data);
-      initializeEmployeeModals(response.data);
+      const employeesData = response.data;
+      setEmployees(employeesData);
+
+      const statusData = employeesData.reduce((acc, employee) => {
+        acc[employee.id] = employee.status;
+        return acc;
+      }, {});
+      setStatus(statusData);
+
+
+      console.log('Status state:', statusData);
+      initializeEmployeeModals(employeesData);
 
       const loggedInUserResponse = await axios.get('http://135.181.42.192/accounts/profile/', {
         headers: {
@@ -70,6 +134,7 @@ const EmployeeList = () => {
       console.error('Error fetching the employees data:', error);
     }
   };
+
 
   const handleUserAdded = async (newUser) => {
     setEmployees((prevEmployees) => [...prevEmployees, newUser]);
@@ -119,51 +184,6 @@ const EmployeeList = () => {
       axios.interceptors.response.eject(responseInterceptor);
     };
   }, []);
-
-  useEffect(() => {
-    const ws = new WebSocket('ws://135.181.42.192/ws/');
-
-    ws.onopen = () => {
-      console.log('WebSocket connection established.');
-    };
-
-    ws.onmessage = (event) => {
-      try {
-        const data = JSON.parse(event.data);
-        console.log('WebSocket message received:', data);
-
-        if (data.userId && data.status) {
-          setStatus((prevStatus) => ({
-            ...prevStatus,
-            [data.userId]: data.status,
-          }));
-        }
-      } catch (error) {
-        console.error('Error parsing WebSocket message:', error);
-      }
-    };
-
-    ws.onerror = (error) => {
-      console.error('WebSocket error:', error);
-    };
-
-    ws.onclose = (event) => {
-      if (event.wasClean) {
-        console.log(`WebSocket connection closed cleanly, code=${event.code}, reason=${event.reason}`);
-      } else {
-        console.error('WebSocket connection died unexpectedly');
-      }
-    };
-
-    wsRef.current = ws;
-
-    return () => {
-      if (wsRef.current) {
-        wsRef.current.close();
-      }
-    };
-  }, [loggedInUserId]);
-
 
   const initializeEmployeeModals = (employeesData) => {
     const initialModals = {};
@@ -337,8 +357,6 @@ const EmployeeList = () => {
     }
   };
 
-
-
   return (
     <div className='employee-page'>
       <div className='employee-title'>
@@ -424,18 +442,9 @@ const EmployeeList = () => {
                 <td>{employee.phone}  {!employee.phone && <span>-</span>}</td>
                 <td>{(employee.user_type)}</td>
                 <td className='status'>
-                  <div className="employee-detail">
-                    {status[employee.id] === 'active' ? (
-                      <FaCircle size={16} className="status-active" />
-                    ) : (
-                      <FaCircle size={16} className="status-inactive" />
-                    )} {status[employee.id] === 'active' ? 'Aktiv' : 'Offline'}
-                  </div>
-                  {/* <p color={status[employee.id] === 'online' ? 'green' : 'red'}>
-                    <FaCircle color={status[employee.id] === 'online' ? 'green' : 'red'} />
-                    {status[employee.id] === 'online' ? 'Aktiv' : 'Offline'}
-                  </p> */}
+                  {status[employee.id] !== undefined ? status[employee.id] : '  Status yoxdur'}
                 </td>
+
                 <td><a href=""><PiMapPinAreaFill /></a></td>
                 <td>
                   <button onClick={() => openSmallModal(employee.id)}><BsThreeDotsVertical /></button>

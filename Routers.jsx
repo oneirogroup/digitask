@@ -12,6 +12,8 @@ import Employees from "./src/pages/Employees/index";
 import Settings from "./src/pages/Settings/index";
 import Contact from "./src/pages/Contact/index";
 import Profile from "./src/pages/Profile";
+import Chat from "./src/pages/Chat";
+
 
 export const routers = createBrowserRouter([
 
@@ -65,6 +67,10 @@ export const routers = createBrowserRouter([
       {
         element: <SetNewPassword />,
         path: "/set-new-password/",
+      },
+      {
+        element: <Chat />,
+        path: "/chat/",
       },
     ],
   },

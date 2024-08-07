@@ -13,9 +13,9 @@ const Navbar = () => {
 
     return (
         <div className="navbar-icons">
-            <Link to="/" style={getLinkStyle('/messages')}><AiOutlineMessage /></Link>
-            <Link to="/" style={getLinkStyle('/notifications')}><IoNotifications /></Link>
-            <Link to="/profile" style={getLinkStyle('/profile')}><MdPerson /></Link>
+            <Link to="/chat/" style={getLinkStyle('/chat/')}><AiOutlineMessage /></Link>
+            <Link to="/" style={getLinkStyle('/notifications/')}><IoNotifications /></Link>
+            <Link to="/profile/" style={getLinkStyle('/profile/')}><MdPerson /></Link>
         </div>
     );
 };
