@@ -291,3 +291,12 @@ font-size: 26px;
   background-color: rgba(128, 128, 128, 0.185); 
   font-weight: bold;     
 }
+.status.color-green {
+  color: rgb(15, 118, 15);
+  font-weight: 700;
+}
+
+.status.color-red {
+  color: red;
+  font-weight: 500
+}

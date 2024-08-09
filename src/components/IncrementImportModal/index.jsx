@@ -16,15 +16,12 @@ const refreshAccessToken = async () => {
 const IncrementItemForm = ({ onClose, itemId }) => {
     const [productProvider, setProductProvider] = useState("");
     const [number, setNumber] = useState("");
-    const [date, setDate] = useState({
-        date: new Date().toISOString().split('T')[0],
-        time: new Date().toTimeString().split(' ')[0]
-    });
+   
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
     const [productProviderError, setProductProviderError] = useState("");
     const [numberError, setNumberError] = useState("");
-    const [dateError, setDateError] = useState("");
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -39,12 +36,7 @@ const IncrementItemForm = ({ onClose, itemId }) => {
             setProductProviderError("");
         }
 
-        if (!date.date || !date.time) {
-            setDateError("Tarix və saat sahələri doldurulmalıdır");
-            valid = false;
-        } else {
-            setDateError("");
-        }
+   
 
         if (!number || number <= 0) {
             setNumberError("Bu sahəni doldurmalısınız və sayı müsbət olmalıdır");
@@ -65,7 +57,7 @@ const IncrementItemForm = ({ onClose, itemId }) => {
             item_id: itemId,
             product_provider: productProvider,
             number: number,
-            date: `${date.date}T${date.time}`,
+
         };
 
         try {
@@ -116,20 +108,7 @@ const IncrementItemForm = ({ onClose, itemId }) => {
                             <input type="number" value={number} onChange={(e) => setNumber(e.target.value)} />
                             {numberError && <p className="error-message">{numberError}</p>}
                         </label>
-                        <label>
-                            Tarix və saat
-                            <input
-                                type="date"
-                                value={date.date}
-                                onChange={(e) => setDate(prev => ({ ...prev, date: e.target.value }))}
-                            />
-                            <input
-                                type="time"
-                                value={date.time}
-                                onChange={(e) => setDate(prev => ({ ...prev, time: e.target.value }))}
-                            />
-                            {dateError && <p className="error-message">{dateError}</p>}
-                        </label>
+                       
                     </div>
                     <button type="submit" className="submit-btn">İdxal et</button>
                     {error && <p className="error">{error}</p>}
