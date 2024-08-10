@@ -77,9 +77,9 @@ let ws2;
     useEffect(() => {
       connectWebSocket2();
       
-  
+  // deleted interval 
       return () => {
-    
+        
       };
     }, [loggedInUserId]);
 
