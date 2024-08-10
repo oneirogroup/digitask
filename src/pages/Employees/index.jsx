@@ -105,7 +105,7 @@ let ws2;
         
         return acc;
       }, {});
-      console.log(statusData,'++++++++++++++++++++++++++++++++++++++')
+      console.log(statusData,'+++++++++++++++++++++++++++++++++++++++')
       setStatus(statusData);
       
 
