@@ -76,14 +76,10 @@ let ws2;
   }
     useEffect(() => {
       connectWebSocket2();
-      const myint = setInterval(()=>{
-        if (ws2 && ws2.readyState === WebSocket.OPEN) {
-          ws2.send(JSON.stringify({}));
-        }
-      }, 5000);
+      
   
       return () => {
-        clearInterval(myint);
+    
       };
     }, [loggedInUserId]);
 

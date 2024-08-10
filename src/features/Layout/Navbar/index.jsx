@@ -10,7 +10,7 @@ const Navbar = () => {
     const getLinkStyle = (path) => {
         return location.pathname === path ? { color: '#005ABF' } : {};
     };
-
+    
     return (
         <div className="navbar-icons">
             <Link to="/chat/" style={getLinkStyle('/chat/')}><AiOutlineMessage /></Link>
