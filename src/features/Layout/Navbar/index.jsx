@@ -25,7 +25,7 @@ const Navbar = () => {
         ws3 = new WebSocket(`ws://135.181.42.192/notification/?email=${email}&token=${token}`);
         
         ws3.onopen = () => {
-        console.log(' Notification WebSocket1 connection established.');
+        console.log(' Notification WebSocket1 connection established.------------------------------------');
         
         };
 
@@ -33,13 +33,13 @@ const Navbar = () => {
         console.log('Notification Received raw WebSocket1 message:', event.data);
     
             const data = JSON.parse(event.data);
-            console.log(data)
+            console.log(data,'mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm')
             const decodedMessages = data.message.map(notification => ({
                 ...notification,
                 message: decodeURI(notification.message)
             }));
             setnotificationNumber(decodedMessages.length)
-            console.log(decodedMessages,'mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm')
+            console.log(decodedMessages,'mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm')
       
        
         };
