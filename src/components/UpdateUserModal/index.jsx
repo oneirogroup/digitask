@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import { FaChevronUp, FaChevronDown } from 'react-icons/fa';
 import "./updateuser.css";
+import PasswordChangeModal from '../PasswordChangeModal'
 
 const UpdateUserModal = ({ isOpen, onClose, employee, onUpdateUser }) => {
   if (!isOpen) return null;
@@ -17,8 +18,6 @@ const UpdateUserModal = ({ isOpen, onClose, employee, onUpdateUser }) => {
     groupRegion: '',
     first_name: '',
     last_name: '',
-    password: '',
-    password2: ''
   });
 
   const [groupOptions, setGroupOptions] = useState([]);
@@ -33,6 +32,7 @@ const UpdateUserModal = ({ isOpen, onClose, employee, onUpdateUser }) => {
   const [selectedGroupName, setSelectedGroupName] = useState('');
   const [selectedUserTypeLabel, setSelectedUserTypeLabel] = useState('');
   const [groupChanged, setGroupChanged] = useState(false);
+  const [showPasswordModal, setShowPasswordModal] = useState(false);
 
   useEffect(() => {
     const fetchGroups = async () => {
@@ -59,8 +59,7 @@ const UpdateUserModal = ({ isOpen, onClose, employee, onUpdateUser }) => {
         groupRegion: employee.group?.region || '',
         first_name: employee.first_name || '',
         last_name: employee.last_name || '',
-        password: '',
-        password2: ''
+
       });
       setSelectedGroupName(employee.group?.group || '');
       setSelectedUserTypeLabel(userTypeOptions.find(option => option.value === employee.user_type)?.label || '');
@@ -117,11 +116,6 @@ const UpdateUserModal = ({ isOpen, onClose, employee, onUpdateUser }) => {
       updatedFormData.group = employee.group?.group;
       updatedFormData.groupId = employee.group?.id;
       updatedFormData.groupRegion = employee.group?.region;
-    }
-
-    if (!formData.password) {
-      delete updatedFormData.password;
-      delete updatedFormData.password2;
     }
 
     console.log('Payload being sent:', updatedFormData);
@@ -210,13 +204,9 @@ const UpdateUserModal = ({ isOpen, onClose, employee, onUpdateUser }) => {
                 )}
               </div>
             </div>
-            <div className="form-group">
-              <label>Şifrə</label>
-              <input type="password" placeholder='Şifrəni daxil edin' name="password" value={formData.password} onChange={handleChange} />
-            </div>
-            <div className="form-group">
-              <label>Təkrar Şifrə</label>
-              <input type="password" placeholder='Təkrar şifrəni daxil edin' name="password2" value={formData.password2} onChange={handleChange} />
+            <div className="form-group passwordButton">
+              <label htmlFor="">Şifrə</label>
+              <button type="button" className='change-password-btn' onClick={() => setShowPasswordModal(true)}>Şifrəni yenilə</button>
             </div>
             <div className="form-group">
               <label>Nömrə</label>
@@ -227,6 +217,12 @@ const UpdateUserModal = ({ isOpen, onClose, employee, onUpdateUser }) => {
           <button type="submit" className='add-user-modal-btn update-btn'>Yenilə</button>
         </form>
       </div>
+      <PasswordChangeModal
+        isOpen={showPasswordModal}
+        onClose={() => setShowPasswordModal(false)}
+        employee={employee}
+        onPasswordChange={() => console.log('Password changed successfully')}
+      />
     </div>
   );
 };

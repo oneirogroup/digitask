@@ -300,3 +300,7 @@ font-size: 26px;
   color: red;
   font-weight: 500
 }
+
+.mapIcon {
+  cursor: pointer;
+}

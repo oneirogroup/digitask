@@ -85,7 +85,8 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick }) {
     const [formData, setFormData] = useState({
         task_type: '',
         full_name: '',
-        time: '',
+        start_time: '',
+        end_time: '',
         registration_number: '',
         contact_number: '',
         location: '',
@@ -123,7 +124,8 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick }) {
                     setFormData({
                         task_type: data.task_type,
                         full_name: data.full_name,
-                        time: data.time,
+                        start_time: data.start_time,
+                        end_time: data.end_time,
                         registration_number: data.registration_number,
                         contact_number: data.contact_number,
                         location: data.location,
@@ -394,7 +396,9 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick }) {
                                 <div>
                                     <div>
                                         <label><GoClock /> Zaman</label>
-                                        <input type="text" name="time" value={formData.time} onChange={handleInputChange} />
+                                        <input type="time" name="start_time" value={formData.start_time} onChange={handleInputChange} />
+                                        <input type="time" name="end_time" value={formData.end_time} onChange={handleInputChange} />
+
                                     </div>
                                     <hr />
                                 </div>
@@ -428,10 +432,9 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick }) {
                                                 onClick={toggleDropdownService}
                                             >
                                                 {Array.isArray(formData.services) && formData.services.length > 0
-                                                    ? formData.services
-                                                        .map(service => SERVICE_OPTIONS.find(option => option.value === service)?.label)
-                                                        .join(', ')
-                                                    : 'Xidmət seçin'}                                                <FaChevronDown />
+                                                    ? formData.services.map(service => SERVICE_OPTIONS.find(option => option.value === service)?.label).join(', ')
+                                                    : 'Xidmət seçin'}
+                                                <FaChevronDown />
                                             </div>
                                             {isDropdownOpenService && (
                                                 <div className="taskType-options">

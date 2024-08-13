@@ -122,7 +122,6 @@ const EmployeeList = () => {
     }
   };
 
-
   const handleUserAdded = async (newUser) => {
     setEmployees((prevEmployees) => [...prevEmployees, newUser]);
 
@@ -276,6 +275,7 @@ const EmployeeList = () => {
     event.preventDefault();
   };
 
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (userTypeRef.current && !userTypeRef.current.contains(event.target)) {
@@ -288,7 +288,6 @@ const EmployeeList = () => {
         setEmployeeModals({});
       }
     };
-
 
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
@@ -440,7 +439,7 @@ const EmployeeList = () => {
                   {status[employee.id] !== undefined ? status[employee.id] : 'offline'}
                 </td>
                 <td>
-                  <a onClick={openMapModal}><PiMapPinAreaFill /></a>
+                  <a className='mapIcon' onClick={openMapModal}><PiMapPinAreaFill /></a>
                 </td>
                 <td>
                   <button onClick={() => openSmallModal(employee.id)}><BsThreeDotsVertical /></button>
