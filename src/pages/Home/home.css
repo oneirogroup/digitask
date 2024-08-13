@@ -1,7 +1,7 @@
 .home-meet-section {
     display: flex;
     gap: 15px;
-    padding: 25px 25px 25px 0;
+    padding: 5px 25px 25px 0;
     justify-content: space-between;
 }
 
@@ -27,7 +27,6 @@
 .home-meet-section .meet-time-date >p{
     font-family: Montserrat;
     font-size: 15px;
-
     display: flex;
     align-items: center;
     gap: 5px;

@@ -1,0 +1,85 @@
+.notification-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+}
+
+.notification-modal {
+    position: absolute;
+    top: 85px;
+    right: 72px;
+    background-color: white;
+    border-radius: 8px;
+    width: 450px;
+    max-height: 70%;
+    overflow-y: auto;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 25px;
+}
+
+.notification-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 8px;
+    margin-bottom: 16px;
+}
+
+.notification-modal-close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 25px;
+}
+
+.notification-modal-content {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.notification-item {
+    display: flex;
+    flex-direction: column;
+    padding: 8px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.notification-item p span{
+    margin: 0;
+    font-family: "Poppins", sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+
+.notification-modal-header h3{
+    font-family: Montserrat;
+    font-size: 28px;
+    font-weight: 500;
+}
+
+.notification-email {
+    color: #005ABF;
+    margin-right: 5px;
+}
+
+.notification-message {
+    color: #76777A;
+}
+
+.notification-timestamp {
+    display: block;
+    color: #909094;
+    margin-top: 5px;
+    font-family: Nunito Sans;
+    font-size: 14px;
+    font-weight: 500;
+}

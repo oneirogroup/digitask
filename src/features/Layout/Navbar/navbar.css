@@ -8,8 +8,10 @@
 
 }
 
-.navbar-icons a {
+.navbar-icons a, .navbar-icons  div{
     color: #76777A;
     font-size: 26px;
     text-decoration: none;
+    cursor: pointer;
 }
+
