@@ -21,10 +21,7 @@ const DecrementItemForm = ({ onClose, itemId }) => {
     const [authorizedPerson, setAuthorizedPerson] = useState("");
     const [number, setNumber] = useState("");
     const [texnikUserId, setTexnikUserId] = useState("");
-    const [date, setDate] = useState({
-        date: new Date().toISOString().split('T')[0],
-        time: new Date().toTimeString().split(' ')[0]
-    });
+
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
     const [showUserTypeDropdown, setShowUserTypeDropdown] = useState(false);
@@ -33,7 +30,7 @@ const DecrementItemForm = ({ onClose, itemId }) => {
     const [authorizedPersonError, setAuthorizedPersonError] = useState("");
     const [numberError, setNumberError] = useState("");
     const [texnikUserError, setTexnikUserError] = useState("");
-    const [dateError, setDateError] = useState("");
+    
 
     useEffect(() => {
         fetchTexnikUsers();
@@ -98,12 +95,7 @@ const DecrementItemForm = ({ onClose, itemId }) => {
 
         }
 
-        if (!date.date || !date.time) {
-            setDateError("Tarix və saat sahələri doldurulmalıdır");
-            valid = false;
-        } else {
-            setDateError("");
-        }
+      
 
         if (!number) {
             setNumberError("Bu sahəni doldurmalısınız");
@@ -126,7 +118,7 @@ const DecrementItemForm = ({ onClose, itemId }) => {
             authorized_person: authorizedPerson,
             number: number,
             texnik_user: texnikUserId,
-            date: `${date.date}T${date.time}`,
+        
         };
 
         try {
@@ -211,20 +203,7 @@ const DecrementItemForm = ({ onClose, itemId }) => {
                             <input type="number" value={number} onChange={(e) => setNumber(e.target.value)} />
                             {numberError && <p className="error-message">{numberError}</p>}
                         </label>
-                        <label>
-                            Tarix və saat
-                            <input
-                                type="date"
-                                value={date.date}
-                                onChange={(e) => setDate(prev => ({ ...prev, date: e.target.value }))}
-                            />
-                            <input
-                                type="time"
-                                value={date.time}
-                                onChange={(e) => setDate(prev => ({ ...prev, time: e.target.value }))}
-                            />
-                            {dateError && <p className="error-message">{dateError}</p>}
-                        </label>
+                        
                     </div>
                     <button type="submit" className="submit-btn">İxrac et</button>
                     {error && <p className="error">{error}</p>}

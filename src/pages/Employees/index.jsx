@@ -43,62 +43,45 @@ const EmployeeList = () => {
   const groupRef = useRef(null);
   const modalRef = useRef(null);
   const wsRef = useRef(null);
+
   const [loggedInUserId, setLoggedInUserId] = useState(null);
+ 
 
-  useEffect(() => {
-    let ws;
+let ws2;
+  const connectWebSocket2 = () => {
 
-    const connectWebSocket = () => {
-      ws = new WebSocket('ws://135.181.42.192/ws/');
-      console.log(ws)
-      ws.onopen = () => {
-        console.log('WebSocket connection established.');
-        // const message = JSON.stringify({ userId: 'testUserId', status: 'online' });
-        // console.log('Sending message:', message);
-        // ws.send(message);
-      };
-
-      ws.onmessage = (event) => {
-        console.log('Received raw WebSocket message:', event.data);
-        try {
-          const data = JSON.parse(event.data);
-          console.log('Parsed WebSocket message:', data);
-
-          if (data.type === 'status_update') {
-            setStatus((prevStatus) => ({
-              ...prevStatus,
-              [data.user_id]: data.status,
-            }));
-          }
-        } catch (e) {
-          console.error('Error parsing WebSocket message:', e);
-        }
-      };
-
-
-      ws.onerror = (error) => {
-        console.error('WebSocket error:', error);
-      };
-
-      ws.onclose = (event) => {
-        if (event.wasClean) {
-          console.log(`WebSocket connection closed cleanly, code=${event.code}, reason=${event.reason}`);
-          setTimeout(connectWebSocket, 5000);
-        } else {
-          console.error('WebSocket connection died unexpectedly');
-          setTimeout(connectWebSocket, 5000);
-        }
-      };
+    
+ 
+    ws2 = new WebSocket(`ws://135.181.42.192/userlist/`);
+    
+    ws2.onopen = () => {
+     
+      console.log('vvvvvvvvvvvvvvvvvvvvvvvvvvvvv1.');
     };
 
-    connectWebSocket();
+    ws2.onmessage = (event) => {
+ 
+      try {
+        const data = JSON.parse(event.data);
+        console.log('-------------------',data.message);
+        if (data.message){
+          setStatus(data.message)
+        }
 
-    return () => {
-      if (ws && ws.readyState === WebSocket.OPEN) {
-        ws.close();
+        
+      } catch (e) {
+        console.error('vvvvvvvvvvvvvvvvvvvv4:', e);
       }
     };
-  }, [loggedInUserId]);
+  }
+    useEffect(() => {
+      connectWebSocket2();
+      
+  // deleted interval 
+      return () => {
+        
+      };
+    }, [loggedInUserId]);
 
   const fetchEmployees = async () => {
     try {
@@ -115,10 +98,12 @@ const EmployeeList = () => {
 
       const statusData = employeesData.reduce((acc, employee) => {
         acc[employee.id] = employee.status;
+        
         return acc;
       }, {});
+      console.log(statusData,'+++++++++++++++++++++++++++++++++++++++')
       setStatus(statusData);
-
+      
 
       console.log('Status state:', statusData);
       initializeEmployeeModals(employeesData);
@@ -441,8 +426,8 @@ const EmployeeList = () => {
                 <td>{employee.group ? employee.group.region : '-'}</td>
                 <td>{employee.phone}  {!employee.phone && <span>-</span>}</td>
                 <td>{(employee.user_type)}</td>
-                <td className='status'>
-                  {status[employee.id] !== undefined ? status[employee.id] : '  Status yoxdur'}
+                <td className={`status ${status[employee.id] === 'online' ? 'color-green' : 'color-red'}`}>
+                  {status[employee.id] !== undefined ? status[employee.id] : 'offline'}
                 </td>
 
                 <td><a href=""><PiMapPinAreaFill /></a></td>
