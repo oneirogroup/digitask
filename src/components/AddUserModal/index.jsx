@@ -64,7 +64,7 @@ const AddUserModal = ({ onClose, onUserAdded }) => {
     if (!formData.email) errors.email = 'Email boş buraxıla bilməz';
     if (!formData.username) errors.username = 'İstifadəçi adı boş buraxıla bilməz';
     if (!formData.group) errors.group = 'Qrup seçilməlidir';
-    if (!formData.user_type) errors.user_type = 'İstifadəçi tipi seçilməlidir';
+    if (!formData.user_type) errors.user_type = 'Vəzifə seçilməlidir';
     if (!formData.password) errors.password = 'Şifrə boş buraxıla bilməz';
     if (formData.password !== formData.password2) errors.password2 = 'Şifrələr uyğun deyil';
     if (!formData.phone) errors.phone = 'Nömrə boş buraxıla bilməz';
@@ -186,16 +186,16 @@ const AddUserModal = ({ onClose, onUserAdded }) => {
               {formErrors.group && <span className="error-message">{formErrors.group}</span>}
             </div>
             <div className="form-group">
-              <label>İstifadəçi tipi</label>
+              <label>Vəzifə</label>
               <div className="multi-select-container update-user-modal">
                 <button type="button" className="multi-select-button" onClick={handleUserTypeDropdownToggle}>
-                  {selectedUserTypeLabel ? selectedUserTypeLabel : 'İstifadəçi tipi seçin'}
+                  {selectedUserTypeLabel ? selectedUserTypeLabel : 'Vəzifəni seçin'}
                   <span>{showUserTypeDropdown ? <FaChevronUp /> : <FaChevronDown />}</span>
                 </button>
                 {showUserTypeDropdown && (
                   <div className="multi-select-dropdown">
                     <label htmlFor="closeUserTypeDropdown">
-                      İstifadəçi tipi
+                      Vəzifə
                       <span className="close-dropdown" id="closeUserTypeDropdown" onClick={() => setShowUserTypeDropdown(false)}>&times;</span>
                     </label>
                     {userTypeOptions.map(option => (

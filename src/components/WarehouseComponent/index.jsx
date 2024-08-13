@@ -300,7 +300,7 @@ function Warehouse() {
                 </div>
             </section>
             {showImportModal && <Import showModal={showImportModal} warehouses={warehouses} onClose={() => setShowImportModal(false)} />}
-            {showExportModal && <Export showModal={showExportModal} onClose={handleExportSuccess} itemId={selectedItemId || productData.id} />}
+            {showExportModal && <Export showModal={showExportModal} onClose={handleExportSuccess} itemId={selectedItemId || productData.id} productNumber={productData.count} />}
             {showIncrementImportModal && (
                 <IncrementImportModal
                     showModal={showIncrementImportModal}

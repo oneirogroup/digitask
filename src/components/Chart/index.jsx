@@ -64,7 +64,7 @@ class ApexChart extends React.Component {
                     colors: ['transparent']
                 },
                 xaxis: {
-                    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                    categories: ['Yan', 'Fev', 'Mar', 'Apr', 'May', 'İyun', 'İyul', 'Avq', 'Sen', 'Okt', 'Noy', 'Dek'],
                 },
 
                 fill: {
@@ -158,7 +158,6 @@ class ApexChart extends React.Component {
             }
         }
     }
-
 
     handleIncrementYear = () => {
         const { year } = this.state;

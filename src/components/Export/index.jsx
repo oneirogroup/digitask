@@ -15,7 +15,8 @@ const refreshAccessToken = async () => {
     axios.defaults.headers.common['Authorization'] = `Bearer ${access}`;
 };
 
-const DecrementItemForm = ({ onClose, itemId }) => {
+const DecrementItemForm = ({ onClose, itemId, productNumber }) => {
+    console.log('productNumber:', productNumber);
     const [texnikUsers, setTexnikUsers] = useState([]);
     const [company, setCompany] = useState("");
     const [authorizedPerson, setAuthorizedPerson] = useState("");
@@ -30,10 +31,26 @@ const DecrementItemForm = ({ onClose, itemId }) => {
     const [authorizedPersonError, setAuthorizedPersonError] = useState("");
     const [numberError, setNumberError] = useState("");
     const [texnikUserError, setTexnikUserError] = useState("");
-    
+
 
     useEffect(() => {
         fetchTexnikUsers();
+    }, []);
+
+    useEffect(() => {
+        const inputElement = document.getElementById('number-input');
+        const handleWheel = (e) => {
+            e.preventDefault();
+        };
+
+        if (inputElement) {
+            inputElement.addEventListener('wheel', handleWheel);
+        }
+        return () => {
+            if (inputElement) {
+                inputElement.removeEventListener('wheel', handleWheel);
+            }
+        };
     }, []);
 
     const fetchTexnikUsers = async (isRetry = false) => {
@@ -75,6 +92,16 @@ const DecrementItemForm = ({ onClose, itemId }) => {
         setShowUserTypeDropdown(!showUserTypeDropdown);
     };
 
+    const handleNumberChange = (e) => {
+        const value = e.target.value;
+        if (value === "" || (Number(value) <= Number(productNumber) && Number(value) >= 0)) {
+            setNumber(value);
+            setNumberError("");
+        } else {
+            setNumberError(`Maksimum ${productNumber} ədəd ixrac edə bilərsiniz`);
+        }
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError("");
@@ -95,7 +122,7 @@ const DecrementItemForm = ({ onClose, itemId }) => {
 
         }
 
-      
+
 
         if (!number) {
             setNumberError("Bu sahəni doldurmalısınız");
@@ -118,7 +145,7 @@ const DecrementItemForm = ({ onClose, itemId }) => {
             authorized_person: authorizedPerson,
             number: number,
             texnik_user: texnikUserId,
-        
+
         };
 
         try {
@@ -200,10 +227,16 @@ const DecrementItemForm = ({ onClose, itemId }) => {
                         </label>
                         <label>
                             Sayı
-                            <input type="number" value={number} onChange={(e) => setNumber(e.target.value)} />
+                            <input
+                                id="number-input"
+                                type="number"
+                                value={number}
+                                onChange={handleNumberChange}
+                                max={productNumber}
+                            />
                             {numberError && <p className="error-message">{numberError}</p>}
                         </label>
-                        
+
                     </div>
                     <button type="submit" className="submit-btn">İxrac et</button>
                     {error && <p className="error">{error}</p>}

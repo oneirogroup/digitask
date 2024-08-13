@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import "./eventModal.css";
 import { IoMdClose } from "react-icons/io";
@@ -26,6 +26,9 @@ const AddEventModal = ({ isOpen, onClose, refreshMeetings }) => {
   const [isMeetingTypeModalOpen, setIsMeetingTypeModalOpen] = useState(false);
   const [isParticipantsModalOpen, setIsParticipantsModalOpen] = useState(false);
 
+  const meetingTypeModalRef = useRef(null);
+  const participantsModalRef = useRef(null);
+
   useEffect(() => {
     if (isOpen) {
       const fetchParticipants = async () => {
@@ -48,6 +51,22 @@ const AddEventModal = ({ isOpen, onClose, refreshMeetings }) => {
       fetchParticipants();
     }
   }, [isOpen]);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (isMeetingTypeModalOpen && meetingTypeModalRef.current && !meetingTypeModalRef.current.contains(event.target)) {
+        setIsMeetingTypeModalOpen(false);
+      }
+      if (isParticipantsModalOpen && participantsModalRef.current && !participantsModalRef.current.contains(event.target)) {
+        setIsParticipantsModalOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isMeetingTypeModalOpen, isParticipantsModalOpen]);
 
   const resetModalState = () => {
     setEventName('');
@@ -132,6 +151,7 @@ const AddEventModal = ({ isOpen, onClose, refreshMeetings }) => {
     });
   };
 
+
   return (
     <div className="event-modal-overlay">
       <div className="event-modal">
@@ -169,7 +189,7 @@ const AddEventModal = ({ isOpen, onClose, refreshMeetings }) => {
                 </div>
               </label>
               {isMeetingTypeModalOpen && (
-                <div className="modal-overlay-meetingType">
+                <div className="modal-overlay-meetingType" ref={meetingTypeModalRef}>
                   <div className="modal-content">
                     <div className="modal-header">
                       <h4>Görüş növü seçin</h4>
@@ -197,7 +217,7 @@ const AddEventModal = ({ isOpen, onClose, refreshMeetings }) => {
                 </div>
               </label>
               {isParticipantsModalOpen && (
-                <div className="modal-overlay-participants">
+                <div className="modal-overlay-participants" ref={participantsModalRef}>
                   <div className="modal-content">
                     <div className="modal-header">
                       <h4>İştirakçıları seçin</h4>

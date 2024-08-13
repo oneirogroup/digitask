@@ -185,16 +185,16 @@ const UpdateUserModal = ({ isOpen, onClose, employee, onUpdateUser }) => {
               </div>
             </div>
             <div className="form-group">
-              <label>İstifadəçi tipi</label>
+              <label>Vəzifə</label>
               <div className="multi-select-container update-user-modal">
                 <button type="button" className="multi-select-button" onClick={handleUserTypeDropdownToggle}>
-                  {selectedUserTypeLabel ? selectedUserTypeLabel : 'İstifadəçi tipini seçin'}
+                  {selectedUserTypeLabel ? selectedUserTypeLabel : 'Vəzifəni seçin'}
                   <span>{showUserTypeDropdown ? <FaChevronUp /> : <FaChevronDown />}</span>
                 </button>
                 {showUserTypeDropdown && (
                   <div className="multi-select-dropdown">
                     <label htmlFor="closeUserTypeDropdown">
-                      İstifadəçi tipi
+                      Vəzifə
                       <span className="close-dropdown" id="closeUserTypeDropdown" onClick={() => setShowUserTypeDropdown(false)}>&times;</span>
                     </label>
                     {userTypeOptions.map(option => (

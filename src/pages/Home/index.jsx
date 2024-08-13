@@ -50,7 +50,7 @@ const Home = () => {
                 id: task.id,
                 first_name: task.first_name,
                 last_name: task.last_name,
-                time: task.time,
+                time: task.start_time,
                 tv: task.is_tv,
                 internet: task.is_internet,
                 voice: task.is_voice,
@@ -125,8 +125,8 @@ const Home = () => {
                     </div>
                 ))}
                 {userType !== 'Texnik' && (
-                    <div className="meet-add">
-                        <button onClick={openModal}>
+                    <div className="meet-add" onClick={openModal}>
+                        <button>
                             <IoIosAddCircleOutline />
                             <p>Tədbir əlavə et</p>
                         </button>

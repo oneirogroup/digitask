@@ -10,6 +10,7 @@ import { PiMapPinAreaFill } from "react-icons/pi";
 import "./employees.css";
 import { useUser } from '../../contexts/UserContext';
 import AddUserModal from '../../components/AddUserModal';
+import MapModal from '../../components/MapModal';
 import UpdateUserModal from '../../components/UpdateUserModal';
 
 const refreshAccessToken = async () => {
@@ -37,6 +38,7 @@ const EmployeeList = () => {
   const [employeeModals, setEmployeeModals] = useState({});
   const [status, setStatus] = useState({});
   const [isAddUserModal, setIsAddUserModal] = useState(false);
+  const [isMapModal, setIsMapModal] = useState(false);
   const [isUpdateUserModal, setIsUpdateUserModal] = useState(false);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
   const userTypeRef = useRef(null);
@@ -45,43 +47,43 @@ const EmployeeList = () => {
   const wsRef = useRef(null);
 
   const [loggedInUserId, setLoggedInUserId] = useState(null);
- 
 
-let ws2;
+
+  let ws2;
   const connectWebSocket2 = () => {
 
-    
- 
+
+
     ws2 = new WebSocket(`ws://135.181.42.192/userlist/`);
-    
+
     ws2.onopen = () => {
-     
+
       console.log('vvvvvvvvvvvvvvvvvvvvvvvvvvvvv1.');
     };
 
     ws2.onmessage = (event) => {
- 
+
       try {
         const data = JSON.parse(event.data);
-        console.log('-------------------',data.message);
-        if (data.message){
+        console.log('-------------------', data.message);
+        if (data.message) {
           setStatus(data.message)
         }
 
-        
+
       } catch (e) {
         console.error('vvvvvvvvvvvvvvvvvvvv4:', e);
       }
     };
   }
-    useEffect(() => {
-      connectWebSocket2();
-      
-  // deleted interval 
-      return () => {
-        
-      };
-    }, [loggedInUserId]);
+  useEffect(() => {
+    connectWebSocket2();
+
+    // deleted interval 
+    return () => {
+
+    };
+  }, [loggedInUserId]);
 
   const fetchEmployees = async () => {
     try {
@@ -98,12 +100,12 @@ let ws2;
 
       const statusData = employeesData.reduce((acc, employee) => {
         acc[employee.id] = employee.status;
-        
+
         return acc;
       }, {});
-      console.log(statusData,'+++++++++++++++++++++++++++++++++++++++')
+      console.log(statusData, '+++++++++++++++++++++++++++++++++++++++')
       setStatus(statusData);
-      
+
 
       console.log('Status state:', statusData);
       initializeEmployeeModals(employeesData);
@@ -259,6 +261,14 @@ let ws2;
 
   const closeAddUserModal = () => {
     setIsAddUserModal(false);
+  };
+
+  const openMapModal = () => {
+    setIsMapModal(true);
+  };
+
+  const closeMapModal = () => {
+    setIsMapModal(false);
   };
 
   const handleButtonClick = (event) => {
@@ -429,8 +439,9 @@ let ws2;
                 <td className={`status ${status[employee.id] === 'online' ? 'color-green' : 'color-red'}`}>
                   {status[employee.id] !== undefined ? status[employee.id] : 'offline'}
                 </td>
-
-                <td><a href=""><PiMapPinAreaFill /></a></td>
+                <td>
+                  <a onClick={openMapModal}><PiMapPinAreaFill /></a>
+                </td>
                 <td>
                   <button onClick={() => openSmallModal(employee.id)}><BsThreeDotsVertical /></button>
                   {employeeModals[employee.id] && (
@@ -471,6 +482,7 @@ let ws2;
         </button>
       </div>
       {isAddUserModal && <AddUserModal isOpen={isAddUserModal} onClose={closeAddUserModal} onUserAdded={handleUserAdded} />}
+      {isMapModal && <MapModal isOpen={isMapModal} onClose={closeMapModal} />}
       {isUpdateUserModal && selectedEmployee && (
         <UpdateUserModal
           isOpen={isUpdateUserModal}
