@@ -50,7 +50,8 @@ const Home = () => {
                 id: task.id,
                 first_name: task.first_name,
                 last_name: task.last_name,
-                time: task.start_time,
+                start_time: task.start_time,
+                end_time: task.end_time,
                 tv: task.is_tv,
                 internet: task.is_internet,
                 voice: task.is_voice,
@@ -84,6 +85,15 @@ const Home = () => {
         fetchData();
     }, []);
 
+    const formatTime = (time) => {
+        if (!time) return "-";
+
+        const date = new Date(`1970-01-01T${time}Z`);
+        const hours = date.getUTCHours().toString().padStart(2, '0');
+        const minutes = date.getUTCMinutes().toString().padStart(2, '0');
+
+        return `${hours}:${minutes}`;
+    };
 
     const openModal = () => {
         setIsModalOpen(true);
@@ -186,7 +196,13 @@ const Home = () => {
                                 tasks.slice(0, 5).map((item, index) => (
                                     <tr key={index}>
                                         <td>{item.first_name && item.last_name ? `${item.first_name} ${item.last_name}` : '-'}</td>
-                                        <td>{item.time} {!item.time && <span>-</span>}</td>
+                                        <td>
+                                            {item.start_time && item.end_time
+                                                ? `${formatTime(item.start_time)} - ${formatTime(item.end_time)}`
+                                                : (!item.start_time && !item.end_time)
+                                                    ? "-"
+                                                    : `${item.start_time ? formatTime(item.start_time) : "-"} - ${item.end_time ? formatTime(item.end_time) : "-"}`}
+                                        </td>
                                         <td>{item.tv && <PiTelevisionSimple />}
                                             {item.internet && <TfiWorld />}
                                             {item.voice && <RiVoiceprintFill />}

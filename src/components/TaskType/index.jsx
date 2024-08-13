@@ -100,6 +100,17 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick }) {
 
     });
 
+    const formatTime = (time) => {
+        if (!time) return "-";
+
+        const date = new Date(`1970-01-01T${time}Z`);
+        const hours = date.getUTCHours().toString().padStart(2, '0');
+        const minutes = date.getUTCMinutes().toString().padStart(2, '0');
+
+        return `${hours}:${minutes}`;
+    };
+
+
     const monthNames = [
         "yanvar",
         "fevral",
@@ -519,7 +530,11 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick }) {
                                 <div>
                                     <label><GoClock /> Zaman</label>
                                     {taskDetails.date && (
-                                        <span>{`${taskDetails.date.split('-')[2]} ${monthNames[parseInt(taskDetails.date.split('-')[1], 10) - 1]}, ${taskDetails.time}`}</span>
+                                        <span>{`${taskDetails.date.split('-')[2]} ${monthNames[parseInt(taskDetails.date.split('-')[1], 10) - 1]}${taskDetails.start_time && taskDetails.end_time
+                                            ? `, ${formatTime(taskDetails.start_time)} - ${formatTime(taskDetails.end_time)}`
+                                            : (!taskDetails.start_time && !taskDetails.end_time)
+                                                ? ""
+                                                : `${taskDetails.start_time ? formatTime(taskDetails.start_time) : "-"} - ${taskDetails.end_time ? formatTime(taskDetails.end_time) : "-"}`}`}</span>
                                     )}
                                 </div>
                                 <hr />

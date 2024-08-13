@@ -202,6 +202,16 @@ function Index() {
         setIsAddTaskModalOpen(false);
     };
 
+    const formatTime = (time) => {
+        if (!time) return "-";
+
+        const date = new Date(`1970-01-01T${time}Z`);
+        const hours = date.getUTCHours().toString().padStart(2, '0');
+        const minutes = date.getUTCMinutes().toString().padStart(2, '0');
+
+        return `${hours}:${minutes}`;
+    };
+
     const openSmallModal = (event, index) => {
         const buttonRect = event.target.getBoundingClientRect();
         setSelectedTaskIndex(index);
@@ -381,7 +391,13 @@ function Index() {
                                         {item.task_type === 'problem' ? 'Problem' : 'Qoşulma'}
                                     </td>
                                     <td onClick={() => openTaskDetailsModal(item.id)}>{item.date}</td>
-                                    <td onClick={() => openTaskDetailsModal(item.id)}>{item.time}</td>
+                                    <td onClick={() => openTaskDetailsModal(item.id)}>
+                                        {item.start_time && item.end_time
+                                            ? `${formatTime(item.start_time)} - ${formatTime(item.end_time)}`
+                                            : (!item.start_time && !item.end_time)
+                                                ? "-"
+                                                : `${item.start_time ? formatTime(item.start_time) : "-"} - ${item.end_time ? formatTime(item.end_time) : "-"}`}
+                                    </td>
                                     <td onClick={() => openTaskDetailsModal(item.id)} className="type-icon">
                                         {item.is_tv && <PiTelevisionSimple />}
                                         {item.is_internet && <TfiWorld />}

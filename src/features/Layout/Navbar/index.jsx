@@ -5,6 +5,19 @@ import "./navbar.css";
 import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import NotificationModal from "../../../components/NotificationModal";
+import axios from 'axios';
+
+const refreshAccessToken = async () => {
+    const refresh_token = localStorage.getItem('refresh_token');
+    if (!refresh_token) {
+        throw new Error('No refresh token available');
+    }
+
+    const response = await axios.post('http://135.181.42.192/accounts/token/refresh/', { refresh: refresh_token });
+    const { access } = response.data;
+    localStorage.setItem('access_token', access);
+    axios.defaults.headers.common['Authorization'] = `Bearer ${access}`;
+};
 
 const Navbar = () => {
     const [notificationNumber, setnotificationNumber] = useState(null);
@@ -18,56 +31,66 @@ const Navbar = () => {
 
     let ws3;
 
-    const connectWebSocket3 = () => {
-        const token = localStorage.getItem("access_token");
-        console.log(token, "Notification");
-        const email = localStorage.getItem("saved_email");
-        ws3 = new WebSocket(
-            `ws://135.181.42.192/notification/?email=${email}&token=${token}`
-        );
-
-        ws3.onopen = () => {
-            console.log(
-                " Notification WebSocket1 connection established.------------------------------------"
-            );
-        };
-
-        ws3.onmessage = (event) => {
-            console.log("Notification Received raw WebSocket1 message:", event.data);
-
-            const data = JSON.parse(event.data);
-            console.log(data, "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm");
-            const decodedMessages = data.message.map((notification) => ({
-                ...notification,
-                message: decodeURI(notification.message),
-                user_email: decodeURI(notification.user_email),
-            }));
-            console.log(data)
-
-            setNotifications(decodedMessages);
-            setnotificationNumber(decodedMessages.length);
-            console.log(
-                decodedMessages,
-                "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm"
-            );
-        };
-
-        ws3.onerror = (error) => {
-            console.error("WebSocket3 error:", error);
-        };
-
-        ws3.onclose = (event) => {
-            if (event.wasClean) {
-                console.log(
-                    `WebSocket3 connection closed cleanly, code=${event.code}, reason=${event.reason}`
-                );
-                setTimeout(connectWebSocket3, 5000);
-            } else {
-                console.error("WebSocket3 connection died unexpectedly");
-                setTimeout(connectWebSocket3, 5000);
+    const connectWebSocket3 = async () => {
+        try {
+            const token = localStorage.getItem("access_token");
+            if (!token) {
+                throw new Error('No access token available');
             }
-        };
+
+            const email = localStorage.getItem("saved_email");
+            ws3 = new WebSocket(
+                `ws://135.181.42.192/notification/?email=${email}&token=${token}`
+            );
+
+            ws3.onopen = () => {
+                console.log("WebSocket connection established.");
+            };
+
+            ws3.onmessage = (event) => {
+                console.log("Notification Received raw WebSocket message:", event.data);
+
+                const data = JSON.parse(event.data);
+                const decodedMessages = data.message.map((notification) => ({
+                    ...notification,
+                    message: decodeURI(notification.message),
+                    user_email: decodeURI(notification.user_email),
+                }));
+
+                setNotifications(decodedMessages);
+                setnotificationNumber(decodedMessages.length);
+            };
+
+            ws3.onerror = async (error) => {
+                console.error("WebSocket error:", error);
+
+                try {
+                    await refreshAccessToken();
+                    connectWebSocket3();
+                } catch (refreshError) {
+                    console.error('Error refreshing token:', refreshError);
+                }
+            };
+
+            ws3.onclose = async (event) => {
+                if (event.wasClean) {
+                    console.log(`WebSocket connection closed cleanly, code=${event.code}, reason=${event.reason}`);
+                    setTimeout(connectWebSocket3, 5000);
+                } else {
+                    console.error("WebSocket connection died unexpectedly");
+                    try {
+                        await refreshAccessToken();
+                        setTimeout(connectWebSocket3, 5000);
+                    } catch (refreshError) {
+                        console.error('Error refreshing token:', refreshError);
+                    }
+                }
+            };
+        } catch (error) {
+            console.error('WebSocket connection error:', error);
+        }
     };
+
 
     useEffect(() => {
         connectWebSocket3();
