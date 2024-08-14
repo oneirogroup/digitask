@@ -7,12 +7,20 @@ import { createRoot } from 'react-dom/client';
 import { MapContainer, TileLayer, Marker, Popup,useMap } from 'react-leaflet';
 import "leaflet/dist/leaflet.css"
 import { useState, useEffect, useRef } from 'react';
+import L from 'leaflet';
 function index({ onClose,status }) {
     const [locationList, setLocationList] = useState([40.409264, 49.867092]);
     const position = [45.409264, 42.867092]
     const zoomLevel = 13;
-    
+
     console.log(status,'ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss')
+    
+    const customIcon = new L.Icon({
+        iconUrl: 'https://img.icons8.com/?size=100&id=3723&format=png&color=000000', // Simgenizin yolu
+        iconSize: [32, 32], // Simgenizin boyutu
+        iconAnchor: [16, 32], // Simgenin yere bağlandığı nokta
+        popupAnchor: [0, -32], // Popup'ın simgeye göre yerleşimi
+      });
 
     useEffect(() => {
         if (status.location) {
