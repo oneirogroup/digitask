@@ -51,3 +51,8 @@
   .map-modal-modal-body{
     margin-top: 15px;
   }
+
+  .leaflet-container{
+    height:60vh;
+  }
+ 

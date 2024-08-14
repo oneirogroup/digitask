@@ -41,6 +41,9 @@ const EmployeeList = () => {
   const [isMapModal, setIsMapModal] = useState(false);
   const [isUpdateUserModal, setIsUpdateUserModal] = useState(false);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
+  const [mapEmployee, setMapEmployee] = useState(null);
+
+  
   const userTypeRef = useRef(null);
   const groupRef = useRef(null);
   const modalRef = useRef(null);
@@ -262,7 +265,8 @@ const EmployeeList = () => {
     setIsAddUserModal(false);
   };
 
-  const openMapModal = () => {
+  const openMapModal = (id) => {
+    setMapEmployee(id)
     setIsMapModal(true);
   };
 
@@ -350,7 +354,7 @@ const EmployeeList = () => {
       console.error('Error deleting the user:', error);
     }
   };
-
+console.log(status,'------------------------------------------------')
   return (
     <div className='employee-page'>
       <div className='employee-title'>
@@ -435,11 +439,11 @@ const EmployeeList = () => {
                 <td>{employee.group ? employee.group.region : '-'}</td>
                 <td>{employee.phone}  {!employee.phone && <span>-</span>}</td>
                 <td>{(employee.user_type)}</td>
-                <td className={`status ${status[employee.id] === 'online' ? 'color-green' : 'color-red'}`}>
-                  {status[employee.id] !== undefined ? status[employee.id] : 'offline'}
+                <td className={`status ${status[employee.id]?.status === 'online' ? 'color-green' : 'color-red'}`}>
+                  {status[employee.id]?.status !== undefined ? status[employee.id]?.status : "offline"}
                 </td>
                 <td>
-                  <a className='mapIcon' onClick={openMapModal}><PiMapPinAreaFill /></a>
+                  <a className='mapIcon' onClick={() => openMapModal(employee.id)}><PiMapPinAreaFill /></a>
                 </td>
                 <td>
                   <button onClick={() => openSmallModal(employee.id)}><BsThreeDotsVertical /></button>
@@ -481,7 +485,7 @@ const EmployeeList = () => {
         </button>
       </div>
       {isAddUserModal && <AddUserModal isOpen={isAddUserModal} onClose={closeAddUserModal} onUserAdded={handleUserAdded} />}
-      {isMapModal && <MapModal isOpen={isMapModal} onClose={closeMapModal} />}
+      {isMapModal && <MapModal status={status[mapEmployee]} isOpen={isMapModal} onClose={closeMapModal} />}
       {isUpdateUserModal && selectedEmployee && (
         <UpdateUserModal
           isOpen={isUpdateUserModal}
