@@ -64,7 +64,7 @@ function index({ onClose,status }) {
                         />
                         <Marker icon={customIcon} position={locationList}>
                         <Popup>
-                            A pretty CSS3 popup. <br /> Easily customizable.
+                           {status.user.email}
                         </Popup>
                         </Marker>
                    
