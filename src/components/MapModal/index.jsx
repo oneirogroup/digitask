@@ -62,7 +62,7 @@ function index({ onClose,status }) {
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                         url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
                         />
-                        <Marker position={locationList}>
+                        <Marker icon={customIcon} position={locationList}>
                         <Popup>
                             A pretty CSS3 popup. <br /> Easily customizable.
                         </Popup>
