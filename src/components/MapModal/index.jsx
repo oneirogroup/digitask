@@ -16,7 +16,7 @@ function index({ onClose,status }) {
     console.log(status,'ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss')
     
     const customIcon = new L.Icon({
-        iconUrl: 'https://img.icons8.com/?size=100&id=3723&format=png&color=000000', // Simgenizin yolu
+        iconUrl: 'https://img.icons8.com/?size=100&id=CwAOuD64vULU&format=png&color=000000', // Simgenizin yolu
         iconSize: [32, 32], // Simgenizin boyutu
         iconAnchor: [16, 32], // Simgenin yere bağlandığı nokta
         popupAnchor: [0, -32], // Popup'ın simgeye göre yerleşimi
