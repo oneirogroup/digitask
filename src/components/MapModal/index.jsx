@@ -1,6 +1,42 @@
 import "./mapModal.css";
 
-function index({ onClose }) {
+import { FaCirclePlus } from "react-icons/fa6";
+import { IoSearchOutline } from "react-icons/io5";
+import { CgSortAz } from "react-icons/cg";
+import { createRoot } from 'react-dom/client';
+import { MapContainer, TileLayer, Marker, Popup,useMap } from 'react-leaflet';
+import "leaflet/dist/leaflet.css"
+import { useState, useEffect, useRef } from 'react';
+function index({ onClose,status }) {
+    const [locationList, setLocationList] = useState([40.409264, 49.867092]);
+    const position = [45.409264, 42.867092]
+    const zoomLevel = 13;
+    
+    console.log(status,'ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss')
+
+    useEffect(() => {
+        if (status.location) {
+          const newLocationList = [status.location.latitude, status.location.longitude];
+          setLocationList(newLocationList);
+         
+        }
+      }, [status]);
+      // Extract values into a list
+      
+      const MapRecenter= ({ lat, lng, zoomLevel }) => {
+        const map = useMap();
+      
+        useEffect(() => {
+         console.log(locationList,zoomLevel,'yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy')
+          map.flyTo([lat,lng], zoomLevel );
+        }, locationList);
+        return null;
+      
+      };
+
+   
+    console.log(locationList,'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb')
+      
     return (
         <div className="map-modal-modal-overlay">
             <div className="map-modal-modal-content">
@@ -11,16 +47,20 @@ function index({ onClose }) {
                     </span>
                 </div>
                 <hr />
-                <div className="map-modal-modal-body">
-                    <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d48612.26588875514!2d49.8597888!3d40.402944!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40307d7118f3ebbb%3A0xd6db2a60af775bdf!2sKoala%20Park!5e0!3m2!1saz!2saz!4v1723576985429!5m2!1saz!2saz"
-                        width="645"
-                        height="400"
-                        style={{ border: '0' }}
-                        allowfullscreen=""
-                        loading="lazy"
-                        referrerPolicy="no-referrer-when-downgrade"
-                    ></iframe>
+                <div id="myroot" className="map-modal-modal-body">
+                <MapContainer center={locationList} zoom={zoomLevel} scrollWheelZoom={false}>
+                    <MapRecenter lat={status.location.latitude} lng={status.location.longitude} zoomLevel={13} />
+                        <TileLayer
+                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                        url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+                        />
+                        <Marker position={locationList}>
+                        <Popup>
+                            A pretty CSS3 popup. <br /> Easily customizable.
+                        </Popup>
+                        </Marker>
+                   
+                </MapContainer>
                 </div>
             </div>
         </div>
