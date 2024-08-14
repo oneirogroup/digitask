@@ -9,7 +9,7 @@ import "leaflet/dist/leaflet.css"
 import { useState, useEffect, useRef } from 'react';
 import L from 'leaflet';
 function index({ onClose,status }) {
-    const [locationList, setLocationList] = useState([40.409264, 49.867092]);
+    const [locationList, setLocationList] = useState([30.409264, 49.867092]);
     const position = [45.409264, 42.867092]
     const zoomLevel = 13;
 
@@ -56,13 +56,13 @@ function index({ onClose,status }) {
                 </div>
                 <hr />
                 <div id="myroot" className="map-modal-modal-body">
-                <MapContainer center={locationList} zoom={zoomLevel} scrollWheelZoom={false}>
+                <MapContainer center={[status.location.latitude, status.location.longitude]} zoom={zoomLevel} scrollWheelZoom={false}>
                     <MapRecenter lat={status.location.latitude} lng={status.location.longitude} zoomLevel={13} />
                         <TileLayer
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                         url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
                         />
-                        <Marker key={status.user.email} icon={customIcon} position={locationList}>
+                        <Marker key={status.user.email} icon={customIcon} position={[status.location.latitude, status.location.longitude]}>
                         <Popup>
                            {status.user.email}
                         </Popup>
