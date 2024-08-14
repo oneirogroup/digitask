@@ -33,21 +33,11 @@ function index({ onClose,status }) {
       
       const MapRecenter= ({ lat, lng, zoomLevel }) => {
         const map = useMap();
-        var marker = new L.marker(locationList, { icon:customIcon});
-  
+      
         useEffect(() => {
-
+         console.log(locationList,zoomLevel,'yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy')
           map.flyTo([lat,lng], zoomLevel );
         }, locationList);
-
-
-        marker.bindTooltip("12" , {
-          permanent: true,
-          direction: 'top',
-      
-        });
-        marker.addTo(map);
-
         return null;
       
       };
