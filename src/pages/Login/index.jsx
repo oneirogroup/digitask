@@ -47,23 +47,15 @@ const Login = (props) => {
         setRememberMe(savedRememberMe);
 
         const refreshTokenIfNeeded = async () => {
-            const access_token = localStorage.getItem('access_token');
             const refresh_token = localStorage.getItem('refresh_token');
-            if (access_token && refresh_token) {
-                try {
-                    const response = await axios.post(
-                        'http://135.181.42.192/accounts/gettoken/',
-                        { refresh: refresh_token },
-                        { headers: { 'Content-Type': 'application/json' } }
-                    );
-                    const new_access_token = response.data.access;
-                    localStorage.setItem('access_token', new_access_token);
-                    axios.defaults.headers.common['Authorization'] = `Bearer ${new_access_token}`;
-                } catch (error) {
-                    console.error('Token refresh failed:', error);
-                    dispatch(logout());
-                }
+            if (!refresh_token) {
+                throw new Error('No refresh token available');
             }
+
+            const response = await axios.post('http://135.181.42.192/accounts/token/refresh/', { refresh: refresh_token });
+            const { access } = response.data;
+            localStorage.setItem('access_token', access);
+            axios.defaults.headers.common['Authorization'] = `Bearer ${access}`;
         };
 
         const interval = setInterval(refreshTokenIfNeeded, 15 * 60 * 1000);
@@ -126,8 +118,11 @@ const Login = (props) => {
                 localStorage.setItem('user_type', user_type);
                 localStorage.setItem('is_admin', is_admin);
             } else {
-                localStorage.removeItem('access_token');
-                localStorage.removeItem('refresh_token');
+                localStorage.setItem('access_token', access_token);
+                localStorage.setItem('refresh_token', refresh_token);
+
+                // localStorage.removeItem('access_token');
+                // localStorage.removeItem('refresh_token');
                 localStorage.removeItem('saved_email');
                 localStorage.removeItem('saved_password');
                 localStorage.removeItem('remember_me');
