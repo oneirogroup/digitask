@@ -1,9 +1,21 @@
 import { useState, useEffect, useRef } from 'react';
-import { fetchWithAuth, updateProfileWithAuth } from '../../utils/auth';
+// import { fetchWithAuth, updateProfileWithAuth } from '../../utils/auth';
 import "./profile.css";
 import { FaPhoneAlt, FaChevronRight, FaRegEdit, FaChevronUp, FaChevronDown, FaSave } from "react-icons/fa";
 import { AiFillMail } from "react-icons/ai";
+import axios from 'axios';
 
+const refreshAccessToken = async () => {
+  const refresh_token = localStorage.getItem('refresh_token');
+  if (!refresh_token) {
+    throw new Error('No refresh token available');
+  }
+
+  const response = await axios.post('http://135.181.42.192/accounts/token/refresh/', { refresh: refresh_token });
+  const { access } = response.data;
+  localStorage.setItem('access_token', access);
+  axios.defaults.headers.common['Authorization'] = `Bearer ${access}`;
+};
 
 const Profile = () => {
   const [profileData, setProfileData] = useState({
@@ -25,6 +37,32 @@ const Profile = () => {
 
   const groupDropdownRef = useRef(null);
   const userTypeDropdownRef = useRef(null);
+
+  const fetchWithAuth = async (url) => {
+    const token = localStorage.getItem('access_token');
+    if (!token) {
+      throw new Error('No access token available');
+    }
+
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      }
+    });
+
+    if (!response.ok) {
+      if (response.status === 401) {
+        await refreshAccessToken();
+        return fetchWithAuth(url);
+      }
+      throw new Error('Network response was not ok.');
+    }
+
+    return response.json();
+  };
+
 
   const [userTypeOptions] = useState([
     { value: 'Texnik', label: 'Texnik' },
@@ -107,6 +145,32 @@ const Profile = () => {
     setShowUserTypeDropdown(false);
   };
 
+  const updateProfileWithAuth = async (url, profileData) => {
+    const token = localStorage.getItem('access_token');
+    if (!token) {
+      throw new Error('No access token available');
+    }
+
+    const response = await fetch(url, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+      body: JSON.stringify(profileData),
+    });
+
+    if (!response.ok) {
+      if (response.status === 401) {
+        await refreshAccessToken();
+        return updateProfileWithAuth(url, profileData);
+      }
+      throw new Error('Network response was not ok.');
+    }
+
+    return response.json();
+  };
+
   const handleEditToggle = () => {
     if (editMode) {
       const updatedProfileData = {
@@ -125,6 +189,7 @@ const Profile = () => {
       setEditMode(true);
     }
   };
+
 
   return (
     <div className="profile-container">
