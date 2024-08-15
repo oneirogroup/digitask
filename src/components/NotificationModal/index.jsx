@@ -12,9 +12,18 @@ const NotificationModal = ({ notifications, isOpen, onClose }) => {
 
     const formatTimestamp = (timestamp) => {
         const date = new Date(timestamp);
-        const today = new Date();
-        if (date.toDateString() === today.toDateString()) {
-            return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        const now = new Date();
+
+        const timeDiff = Math.floor((now - date) / 1000);
+        const minutes = Math.floor(timeDiff / 60);
+        const hours = Math.floor(minutes / 60);
+        const days = Math.floor(hours / 24);
+
+        if (date.toDateString() === now.toDateString()) {
+            if (hours < 1) {
+                return `${Math.max(minutes, 1)} dəqiqə əvvəl`;
+            }
+            return `${hours} saat əvvəl`;
         } else {
             const day = date.getDate();
             const month = azMonthNames[date.getMonth()];
