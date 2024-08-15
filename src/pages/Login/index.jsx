@@ -120,14 +120,14 @@ const Login = (props) => {
             } else {
                 localStorage.setItem('access_token', access_token);
                 localStorage.setItem('refresh_token', refresh_token);
-
+                localStorage.setItem('is_admin', is_admin);
                 // localStorage.removeItem('access_token');
                 // localStorage.removeItem('refresh_token');
                 localStorage.removeItem('saved_email');
                 localStorage.removeItem('saved_password');
                 localStorage.removeItem('remember_me');
                 localStorage.removeItem('user_type');
-                localStorage.removeItem('is_admin');
+                // localStorage.removeItem('is_admin');
             }
 
             axios.defaults.headers.common['Authorization'] = `Bearer ${access_token}`;

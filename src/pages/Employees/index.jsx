@@ -43,7 +43,7 @@ const EmployeeList = () => {
   const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [mapEmployee, setMapEmployee] = useState(null);
 
-  
+
   const userTypeRef = useRef(null);
   const groupRef = useRef(null);
   const modalRef = useRef(null);
@@ -354,7 +354,7 @@ const EmployeeList = () => {
       console.error('Error deleting the user:', error);
     }
   };
-console.log(status,'------------------------------------------------')
+  console.log(status, '------------------------------------------------')
   return (
     <div className='employee-page'>
       <div className='employee-title'>

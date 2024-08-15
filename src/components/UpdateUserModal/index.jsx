@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import { FaChevronUp, FaChevronDown } from 'react-icons/fa';
@@ -7,6 +7,11 @@ import PasswordChangeModal from '../PasswordChangeModal'
 
 const UpdateUserModal = ({ isOpen, onClose, employee, onUpdateUser }) => {
   if (!isOpen) return null;
+
+  const formRef = useRef(null);
+  const groupDropdownRef = useRef(null);
+  const userTypeDropdownRef = useRef(null);
+
 
   const [formData, setFormData] = useState({
     email: '',
@@ -33,6 +38,7 @@ const UpdateUserModal = ({ isOpen, onClose, employee, onUpdateUser }) => {
   const [selectedUserTypeLabel, setSelectedUserTypeLabel] = useState('');
   const [groupChanged, setGroupChanged] = useState(false);
   const [showPasswordModal, setShowPasswordModal] = useState(false);
+
 
   useEffect(() => {
     const fetchGroups = async () => {
@@ -73,6 +79,26 @@ const UpdateUserModal = ({ isOpen, onClose, employee, onUpdateUser }) => {
       [name]: value
     });
   };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (groupDropdownRef.current && !groupDropdownRef.current.contains(event.target)) {
+        setShowGroupDropdown(false);
+      }
+      if (userTypeDropdownRef.current && !userTypeDropdownRef.current.contains(event.target)) {
+        setShowUserTypeDropdown(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  useEffect(() => {
+    if (isOpen && formRef.current) {
+      formRef.current.focus();
+    }
+  }, [isOpen]);
 
   const handleGroupDropdownToggle = () => {
     setShowGroupDropdown(!showGroupDropdown);
@@ -142,7 +168,7 @@ const UpdateUserModal = ({ isOpen, onClose, employee, onUpdateUser }) => {
           <span className="close" onClick={onClose}>&times;</span>
         </div>
         <hr />
-        <form onSubmit={handleSubmit}>
+        <form ref={formRef} onSubmit={handleSubmit}>
           <div>
             <div className="form-group">
               <label>Email</label>
@@ -154,7 +180,7 @@ const UpdateUserModal = ({ isOpen, onClose, employee, onUpdateUser }) => {
             </div>
             <div className="form-group">
               <label>Qrup</label>
-              <div className="multi-select-container update-user-modal">
+              <div className="multi-select-container update-user-modal" ref={groupDropdownRef}>
                 <button type="button" className="multi-select-button" onClick={handleGroupDropdownToggle}>
                   {selectedGroupName ? selectedGroupName : 'Qrup seçin'}
                   <span>{showGroupDropdown ? <FaChevronUp /> : <FaChevronDown />}</span>
@@ -180,7 +206,7 @@ const UpdateUserModal = ({ isOpen, onClose, employee, onUpdateUser }) => {
             </div>
             <div className="form-group">
               <label>Vəzifə</label>
-              <div className="multi-select-container update-user-modal">
+              <div className="multi-select-container update-user-modal" ref={userTypeDropdownRef}>
                 <button type="button" className="multi-select-button" onClick={handleUserTypeDropdownToggle}>
                   {selectedUserTypeLabel ? selectedUserTypeLabel : 'Vəzifəni seçin'}
                   <span>{showUserTypeDropdown ? <FaChevronUp /> : <FaChevronDown />}</span>

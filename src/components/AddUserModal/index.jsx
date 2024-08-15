@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { FaChevronUp, FaChevronDown } from 'react-icons/fa';
 import "./adduser.css";
@@ -30,6 +30,10 @@ const AddUserModal = ({ onClose, onUserAdded }) => {
   const [selectedGroupName, setSelectedGroupName] = useState('');
   const [selectedUserTypeLabel, setSelectedUserTypeLabel] = useState('');
   const [loading, setLoading] = useState(false);
+
+  const groupDropdownRef = useRef(null);
+  const userTypeDropdownRef = useRef(null);
+
 
   useEffect(() => {
     const fetchGroups = async () => {
@@ -80,6 +84,23 @@ const AddUserModal = ({ onClose, onUserAdded }) => {
   const handleUserTypeDropdownToggle = () => {
     setShowUserTypeDropdown(!showUserTypeDropdown);
   };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (groupDropdownRef.current && !groupDropdownRef.current.contains(event.target)) {
+        setShowGroupDropdown(false);
+      }
+      if (userTypeDropdownRef.current && !userTypeDropdownRef.current.contains(event.target)) {
+        setShowUserTypeDropdown(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
 
   const handleSelectGroup = (id, groupName) => {
@@ -160,7 +181,7 @@ const AddUserModal = ({ onClose, onUserAdded }) => {
             </div>
             <div className="form-group">
               <label>Qrup</label>
-              <div className="multi-select-container update-user-modal">
+              <div className="multi-select-container update-user-modal" ref={groupDropdownRef}>
                 <button type="button" className="multi-select-button" onClick={handleGroupDropdownToggle}>
                   {selectedGroupName ? selectedGroupName : 'Qrup seçin'}
                   <span>{showGroupDropdown ? <FaChevronUp /> : <FaChevronDown />}</span>
@@ -187,7 +208,7 @@ const AddUserModal = ({ onClose, onUserAdded }) => {
             </div>
             <div className="form-group">
               <label>Vəzifə</label>
-              <div className="multi-select-container update-user-modal">
+              <div className="multi-select-container update-user-modal" ref={userTypeDropdownRef}>
                 <button type="button" className="multi-select-button" onClick={handleUserTypeDropdownToggle}>
                   {selectedUserTypeLabel ? selectedUserTypeLabel : 'Vəzifəni seçin'}
                   <span>{showUserTypeDropdown ? <FaChevronUp /> : <FaChevronDown />}</span>
