@@ -137,12 +137,10 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
 
         try {
             const task_type = activeFilter === "connection" ? "connection" : "problem";
-            const time = `${formData.start_time}-${formData.end_time}`;
 
             const response = await axios.post('http://135.181.42.192/services/create_task/', {
                 ...formData,
                 task_type,
-                time,
             });
 
             if (response.status === 201) {

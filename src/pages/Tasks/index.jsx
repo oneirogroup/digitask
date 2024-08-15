@@ -304,6 +304,11 @@ function Index() {
         setFilteredData(prevTasks => [newTask, ...prevTasks]);
     };
 
+    const handleUpdateTask = (updateTask) => {
+        setData(prevTasks => [updateTask, ...prevTasks]);
+        setFilteredData(prevTasks => [updateTask, ...prevTasks]);
+    };
+
     const showUpdateButtons = (userType, status) => {
         if (userType === 'Texnik') {
             if (status === 'waiting') {
@@ -466,6 +471,7 @@ function Index() {
                 <DetailsModal
                     onClose={closeTaskDetailsModal}
                     onAddSurveyClick={openAddSurveyModal}
+                    onTaskUpdated={handleUpdateTask}
                     taskId={selectedTaskId} userType={userType}
                 />
             )}

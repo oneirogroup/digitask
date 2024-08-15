@@ -1,8 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate, useNavigate } from 'react-router-dom';
-import Form from "react-validation/build/form";
-import CheckButton from "react-validation/build/button";
 import axios from 'axios';
 import "./login.css";
 import ovaltop from "../../assets/images/Oval top.svg";
@@ -21,7 +19,7 @@ const required = (value) => {
 const Login = (props) => {
     let navigate = useNavigate();
 
-    const form = useRef();
+    // const form = useRef();
     const checkBtn = useRef();
 
     const [email, setEmail] = useState("");
@@ -92,8 +90,6 @@ const Login = (props) => {
         setLoading(true);
         setErrors({});
 
-        form.current.validateAll();
-
         const newErrors = {};
 
         if (!email) {
@@ -117,8 +113,11 @@ const Login = (props) => {
                 { withCredentials: true }
             );
 
+            console.log('Login successful:', response.data);
+
             const { access_token, refresh_token, user_type, is_admin } = response.data;
 
+            // Save tokens and user details
             if (rememberMe) {
                 localStorage.setItem('access_token', access_token);
                 localStorage.setItem('refresh_token', refresh_token);
@@ -128,14 +127,8 @@ const Login = (props) => {
                 localStorage.setItem('user_type', user_type);
                 localStorage.setItem('is_admin', is_admin);
             } else {
-                sessionStorage.setItem('access_token', access_token);
-                sessionStorage.setItem('refresh_token', refresh_token);
-                sessionStorage.setItem('saved_email', email);
-                sessionStorage.setItem('saved_password', password);
-                sessionStorage.setItem('remember_me', 'false');
-                sessionStorage.setItem('user_type', user_type);
-                sessionStorage.setItem('is_admin', is_admin);
-
+                localStorage.removeItem('access_token');
+                localStorage.removeItem('refresh_token');
                 localStorage.removeItem('saved_email');
                 localStorage.removeItem('saved_password');
                 localStorage.removeItem('remember_me');
@@ -148,6 +141,8 @@ const Login = (props) => {
             navigate("/");
             window.location.reload();
         } catch (error) {
+            console.log('Login failed:', error.response ? error.response.data : error.message);
+
             setLoading(false);
 
             const newErrors = {};
@@ -156,11 +151,11 @@ const Login = (props) => {
                 const serverErrors = error.response.data;
 
                 if (serverErrors.detail) {
-                    newErrors.global = "Giriş Məlumatları Yanlışdır.\nYanlış istifadəçi adı və ya şifrə.";
+                    newErrors.global = "Giriş Məlumatları Yanlışdır.\nYanlış e-poçt ünvanı və ya şifrə.";
                 } else if (serverErrors.non_field_errors) {
                     newErrors.global = serverErrors.non_field_errors[0];
                 } else {
-                    newErrors.global = "Giriş Məlumatları Yanlışdır.\nYanlış istifadəçi adı və ya şifrə.";
+                    newErrors.global = "Giriş Məlumatları Yanlışdır.\nYanlış e-poçt ünvanı və ya şifrə.";
                 }
 
                 setErrors(newErrors);
@@ -169,8 +164,6 @@ const Login = (props) => {
             }
         }
     };
-
-
 
 
     if (isLoggedIn) {
@@ -187,7 +180,7 @@ const Login = (props) => {
                         <h5>Daxil ol</h5>
                         <hr />
                     </div>
-                    <Form onSubmit={handleLogin} ref={form}>
+                    <form onSubmit={handleLogin}>
                         <div className="login-mail-password">
                             <div>
                                 <p>Mail adresiniz</p>
@@ -243,13 +236,13 @@ const Login = (props) => {
                             </div>
                         ) : (
                             <div className="form-group">
-                                <CheckButton
+                                <button
                                     style={{ display: "none" }}
                                     ref={checkBtn}
-                                />
+                                ></button>
                             </div>
                         )}
-                    </Form>
+                    </form>
                 </div>
             </div>
             <img src={ovalbottom} alt="" />
