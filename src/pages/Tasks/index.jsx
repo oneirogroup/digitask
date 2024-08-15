@@ -304,10 +304,14 @@ function Index() {
         setFilteredData(prevTasks => [newTask, ...prevTasks]);
     };
 
-    const handleUpdateTask = (updateTask) => {
-        setData(prevTasks => [updateTask, ...prevTasks]);
-        setFilteredData(prevTasks => [updateTask, ...prevTasks]);
+    const handleTaskUpdated = (updatedTask) => {
+        setData(prevTasks =>
+            prevTasks.map(task =>
+                task.id === updatedTask.id ? updatedTask : task
+            )
+        );
     };
+
 
     const showUpdateButtons = (userType, status) => {
         if (userType === 'Texnik') {
@@ -471,7 +475,7 @@ function Index() {
                 <DetailsModal
                     onClose={closeTaskDetailsModal}
                     onAddSurveyClick={openAddSurveyModal}
-                    onTaskUpdated={handleUpdateTask}
+                    onTaskUpdated={handleTaskUpdated}
                     taskId={selectedTaskId} userType={userType}
                 />
             )}
