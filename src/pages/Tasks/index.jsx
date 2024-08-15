@@ -417,7 +417,7 @@ function Index() {
                                     <td onClick={() => openTaskDetailsModal(item.id)}>{item.location}</td>
                                     <td onClick={() => openTaskDetailsModal(item.id)}>{item.contact_number ? item.contact_number : 'No Number'}</td>
                                     <td className="task-status">
-                                        {userType === 'Texnik' || item.email === userEmail && !item.email ? (
+                                        {userType === 'Texnik' && item.email === userEmail && !item.email ? (
                                             <>
                                                 {item.status === "waiting" && (
                                                     <button className={`texnikWaiting ${showUpdateButtons(userType, item.status)}`} onClick={() => handleStatusUpdate(item.id, 'inprogress')}>Qəbul et</button>
