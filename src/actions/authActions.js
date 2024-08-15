@@ -48,7 +48,7 @@ export const logout = () => (dispatch) => {
   localStorage.removeItem("saved_email");
   localStorage.removeItem("saved_password");
   localStorage.removeItem("remember_me");
-
+  localStorage.removeItem("phone");
   sessionStorage.removeItem("saved_email");
   sessionStorage.removeItem("saved_password");
   sessionStorage.removeItem("remember_me");

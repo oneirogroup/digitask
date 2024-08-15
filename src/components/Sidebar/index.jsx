@@ -67,6 +67,7 @@ const Sidebar = ({ children }) => {
         localStorage.removeItem('refresh_token');
         localStorage.removeItem('user_type');
         localStorage.removeItem('is_admin');
+        localStorage.removeItem('phone');
         dispatch(logout());
         setShowModal(false);
         navigate('/login/');

@@ -107,7 +107,7 @@ const Login = (props) => {
 
             console.log('Login successful:', response.data);
 
-            const { access_token, refresh_token, user_type, is_admin } = response.data;
+            const { access_token, refresh_token, user_type, is_admin, phone } = response.data;
 
             if (rememberMe) {
                 localStorage.setItem('access_token', access_token);
@@ -116,12 +116,14 @@ const Login = (props) => {
                 localStorage.setItem('saved_password', password);
                 localStorage.setItem('remember_me', 'true');
                 localStorage.setItem('user_type', user_type);
+                localStorage.setItem('phone', phone);               
                 localStorage.setItem('is_admin', is_admin);
             } else {
                 localStorage.setItem('access_token', access_token);
                 localStorage.setItem('refresh_token', refresh_token);
                 localStorage.setItem('is_admin', is_admin);
                 localStorage.setItem('user_type', user_type);
+                localStorage.setItem('phone', phone);
                 // localStorage.removeItem('access_token');
                 // localStorage.removeItem('refresh_token');
                 localStorage.removeItem('saved_email');

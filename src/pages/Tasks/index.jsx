@@ -72,16 +72,16 @@ function Index() {
     const [selectedTaskId, setSelectedTaskId] = useState(null);
     const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
     const [userType, setUserType] = useState(null);
-    const [userEmail, setUserEmail] = useState(null);
+    const [userPhone, setUserPhone] = useState(null);
     const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
 
     const modalRef = useRef(null);
 
     useEffect(() => {
         const storedUserType = localStorage.getItem('user_type') || sessionStorage.getItem('user_type');
-        const storedUserEmail = localStorage.getItem('saved_email') || sessionStorage.getItem('saved_email');
+        const storedUserPhone = localStorage.getItem('phone') || sessionStorage.getItem('phonw');
         setUserType(storedUserType);
-        setUserEmail(storedUserEmail);
+        setUserPhone(storedUserPhone);
 
         fetchTasks("all", selectedMonth, selectedYear, "Hamısı");
     }, [selectedMonth, selectedYear]);
@@ -417,7 +417,7 @@ function Index() {
                                     <td onClick={() => openTaskDetailsModal(item.id)}>{item.location}</td>
                                     <td onClick={() => openTaskDetailsModal(item.id)}>{item.contact_number ? item.contact_number : 'No Number'}</td>
                                     <td className="task-status">
-                                        {userType === 'Texnik' && item.email === userEmail && !item.email ? (
+                                        {userType === 'Texnik' || item.phone === userPhone && !item.phone ? (
                                             <>
                                                 {item.status === "waiting" && (
                                                     <button className={`texnikWaiting ${showUpdateButtons(userType, item.status)}`} onClick={() => handleStatusUpdate(item.id, 'inprogress')}>Qəbul et</button>
