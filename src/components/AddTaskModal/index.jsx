@@ -7,7 +7,7 @@ import { RiVoiceprintFill } from "react-icons/ri";
 import { FaChevronDown } from "react-icons/fa";
 
 /////////////////////////////////////////////////////////////////////////start
-import { MapContainer, TileLayer, useMapEvents } from 'react-leaflet';
+import { MapContainer, TileLayer, useMapEvents,Marker } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 
 function MapClickHandler({ onClick }) {
@@ -221,6 +221,7 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                             />
                             <MapClickHandler onClick={handleMapClick} />
+                            {position && <Marker position={position} />}
                         </MapContainer>
                         <form>
                             <label>
