@@ -6,6 +6,20 @@ import { TfiWorld } from "react-icons/tfi";
 import { RiVoiceprintFill } from "react-icons/ri";
 import { FaChevronDown } from "react-icons/fa";
 
+/////////////////////////////////////////////////////////////////////////start
+import { MapContainer, TileLayer, useMapEvents } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
+
+function MapClickHandler({ onClick }) {
+    useMapEvents({
+      click: (e) => {
+        onClick(e.latlng);
+      },
+    });
+    return null;
+  }
+/////////////////////////////////////////////////////////////////////////end
+
 const CreateTaskModal = ({ onClose, onTaskCreated }) => {
     const [activeFilter, setActiveFilter] = useState("connection");
     const [formData, setFormData] = useState({
@@ -169,6 +183,12 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
         ));
     };
 
+    const [position, setPosition] = useState({ lat: '', lng: '' });
+
+    const handleMapClick = (latlng) => {
+      setPosition({ lat: latlng.lat, lng: latlng.lng });
+    };
+
     return (
         <div className="task-modal" onClick={onClose}>
             <div className="task-modal-content" onClick={(e) => e.stopPropagation()}>
@@ -194,7 +214,29 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
                     </button>
                 </div>
                 <form onSubmit={handleSubmit}>
+                   
+                    <div class="mapDiv">
+                        <MapContainer center={[40.4093, 49.8671]} zoom={13} style={{ height: '400px', width: '100%' }}>
+                            <TileLayer
+                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                            />
+                            <MapClickHandler onClick={handleMapClick} />
+                        </MapContainer>
+                        <form>
+                            <label>
+                            Latitude:
+                            <input type="text" value={position.lat} readOnly />
+                            </label>
+                            <br />
+                            <label>
+                            Longitude:
+                            <input type="text" value={position.lng} readOnly />
+                            </label>
+                        </form>
+                    </div>
+
                     <div className='task-name-date'>
+                    
                         <div className="form-group">
                             <label htmlFor="full_name">Müştərinin ad və soyadı:</label>
                             <input

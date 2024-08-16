@@ -9,7 +9,7 @@ import "leaflet/dist/leaflet.css"
 import { useState, useEffect, useRef } from 'react';
 import L from 'leaflet';
 function index({ onClose,status }) {
-    const [locationList, setLocationList] = useState([30.409264, 49.867092]);
+    const [locationList, setLocationList] = useState(null);
     const position = [45.409264, 42.867092]
     const zoomLevel = 13;
 
@@ -35,9 +35,9 @@ function index({ onClose,status }) {
         const map = useMap();
       
         useEffect(() => {
-         console.log(locationList,zoomLevel,'yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy')
+         console.log([status.location.latitude, status.location.longitude],zoomLevel,'yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy')
           map.flyTo([lat,lng], zoomLevel );
-        }, locationList);
+        }, [status.location.latitude, status.location.longitude]);
         return null;
       
       };

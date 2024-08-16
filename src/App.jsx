@@ -13,7 +13,7 @@ const App = () => {
   const connectWebSocket = () => {
 
     const token = localStorage.getItem('access_token');
-   console.log(token)
+  
     const email = localStorage.getItem('saved_email')
     ws = new WebSocket(`ws://135.181.42.192/ws/?email=${email}&token=${token}`);
     
