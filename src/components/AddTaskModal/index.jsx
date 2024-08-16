@@ -216,7 +216,7 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
                 <form onSubmit={handleSubmit}>
                    
                     <div class="mapDiv">
-                        <MapContainer center={[40.4093, 49.8671]} zoom={13} style={{ height: '400px', width: '100%' }}>
+                        <MapContainer center={[40.4093, 49.8671]} zoom={13} style={{ height: '400px', width: '400px' }}>
                             <TileLayer
                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                             />
