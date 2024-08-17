@@ -302,3 +302,7 @@
   display: block;
   color: white;
 }
+
+.mapDiv {
+  width: 100%;
+}

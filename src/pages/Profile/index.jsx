@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from 'react';
-// import { fetchWithAuth, updateProfileWithAuth } from '../../utils/auth';
 import "./profile.css";
 import { FaPhoneAlt, FaChevronRight, FaRegEdit, FaChevronUp, FaChevronDown, FaSave } from "react-icons/fa";
 import { AiFillMail } from "react-icons/ai";
@@ -11,10 +10,15 @@ const refreshAccessToken = async () => {
     throw new Error('No refresh token available');
   }
 
-  const response = await axios.post('http://135.181.42.192/accounts/token/refresh/', { refresh: refresh_token });
-  const { access } = response.data;
-  localStorage.setItem('access_token', access);
-  axios.defaults.headers.common['Authorization'] = `Bearer ${access}`;
+  try {
+    const response = await axios.post('http://135.181.42.192/accounts/token/refresh/', { refresh: refresh_token });
+    const { access } = response.data;
+    localStorage.setItem('access_token', access);
+    axios.defaults.headers.common['Authorization'] = `Bearer ${access}`;
+  } catch (error) {
+    console.error('Error refreshing access token', error);
+    throw error;
+  }
 };
 
 const Profile = () => {
@@ -44,25 +48,29 @@ const Profile = () => {
       throw new Error('No access token available');
     }
 
-    const response = await fetch(url, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
-      }
-    });
+    try {
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        }
+      });
 
-    if (!response.ok) {
-      if (response.status === 401) {
-        await refreshAccessToken();
-        return fetchWithAuth(url);
+      if (!response.ok) {
+        if (response.status === 401) {
+          await refreshAccessToken();
+          return fetchWithAuth(url);
+        }
+        throw new Error('Network response was not ok.');
       }
-      throw new Error('Network response was not ok.');
+
+      return response.json();
+    } catch (error) {
+      console.error('Error fetching data', error);
+      throw error;
     }
-
-    return response.json();
   };
-
 
   const [userTypeOptions] = useState([
     { value: 'Texnik', label: 'Texnik' },
@@ -98,7 +106,6 @@ const Profile = () => {
         console.error('Error fetching groups', error);
       }
     };
-
     fetchProfileData();
     fetchGroups();
   }, []);
@@ -151,27 +158,32 @@ const Profile = () => {
       throw new Error('No access token available');
     }
 
-    const response = await fetch(url, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
-      },
-      body: JSON.stringify(profileData),
-    });
+    try {
+      const response = await fetch(url, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify(profileData),
+      });
 
-    if (!response.ok) {
-      if (response.status === 401) {
-        await refreshAccessToken();
-        return updateProfileWithAuth(url, profileData);
+      if (!response.ok) {
+        if (response.status === 401) {
+          await refreshAccessToken();
+          return updateProfileWithAuth(url, profileData);
+        }
+        throw new Error('Network response was not ok.');
       }
-      throw new Error('Network response was not ok.');
-    }
 
-    return response.json();
+      return response.json();
+    } catch (error) {
+      console.error('Error updating profile data', error);
+      throw error;
+    }
   };
 
-  const handleEditToggle = () => {
+  const handleEditToggle = async () => {
     if (editMode) {
       const updatedProfileData = {
         ...profileData,
@@ -182,9 +194,12 @@ const Profile = () => {
 
       console.log('Updated Profile Data:', updatedProfileData);
 
-      updateProfileWithAuth('http://135.181.42.192/accounts/profile/', updatedProfileData)
-        .then(() => setEditMode(false))
-        .catch(error => console.error('Error saving profile data', error));
+      try {
+        await updateProfileWithAuth('http://135.181.42.192/accounts/profile/', updatedProfileData);
+        setEditMode(false); 
+      } catch (error) {
+        console.error('Error saving profile data', error);
+      }
     } else {
       setEditMode(true);
     }

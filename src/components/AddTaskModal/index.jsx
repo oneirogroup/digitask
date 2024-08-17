@@ -7,17 +7,17 @@ import { RiVoiceprintFill } from "react-icons/ri";
 import { FaChevronDown } from "react-icons/fa";
 
 /////////////////////////////////////////////////////////////////////////start
-import { MapContainer, TileLayer, useMapEvents,Marker } from 'react-leaflet';
+import { MapContainer, TileLayer, useMapEvents, Marker } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 
 function MapClickHandler({ onClick }) {
     useMapEvents({
-      click: (e) => {
-        onClick(e.latlng);
-      },
+        click: (e) => {
+            onClick(e.latlng);
+        },
     });
     return null;
-  }
+}
 /////////////////////////////////////////////////////////////////////////end
 
 const CreateTaskModal = ({ onClose, onTaskCreated }) => {
@@ -36,6 +36,8 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
         is_tv: false,
         task_type: '',
         group: [],
+        latitude: null,
+        longitude: null,
     });
     const [groups, setGroups] = useState([]);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -186,7 +188,11 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
     const [position, setPosition] = useState({ lat: '', lng: '' });
 
     const handleMapClick = (latlng) => {
-      setPosition({ lat: latlng.lat, lng: latlng.lng });
+        setFormData((prevState) => ({
+            ...prevState,
+            latitude: latlng.lat,
+            longitude: latlng.lng,
+        }));
     };
 
     return (
@@ -214,30 +220,8 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
                     </button>
                 </div>
                 <form onSubmit={handleSubmit}>
-                   
-                    <div class="mapDiv">
-                        <MapContainer center={[40.4093, 49.8671]} zoom={13} style={{ height: '400px', width: '400px' }}>
-                            <TileLayer
-                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                            />
-                            <MapClickHandler onClick={handleMapClick} />
-                            {position && <Marker position={position} />}
-                        </MapContainer>
-                        <form>
-                            <label>
-                            Latitude:
-                            <input type="text" value={position.lat} readOnly />
-                            </label>
-                            <br />
-                            <label>
-                            Longitude:
-                            <input type="text" value={position.lng} readOnly />
-                            </label>
-                        </form>
-                    </div>
-
                     <div className='task-name-date'>
-                    
+
                         <div className="form-group">
                             <label htmlFor="full_name">Müştərinin ad və soyadı:</label>
                             <input
@@ -385,6 +369,19 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
                             </div>
                             {errors.group && <span className="error-message">{errors.group}</span>}
                         </div>
+                    </div>
+                    <div class="form-group mapDiv">
+                        <label htmlFor="note">Müştəri ünvanı:</label>
+                        <MapContainer center={[40.4093, 49.8671]} zoom={13} style={{ height: '300px', width: '100%' }}>
+                            <TileLayer
+                                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                            />
+                            <MapClickHandler onClick={handleMapClick} />
+                            {formData.latitude && formData.longitude && (
+                                <Marker position={[formData.latitude, formData.longitude]} />
+                            )}
+                        </MapContainer>
+
                     </div>
                     <div className="form-group">
                         <label htmlFor="note">Qeydlər:</label>
