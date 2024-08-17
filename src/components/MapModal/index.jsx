@@ -4,19 +4,27 @@ import { FaCirclePlus } from "react-icons/fa6";
 import { IoSearchOutline } from "react-icons/io5";
 import { CgSortAz } from "react-icons/cg";
 import { createRoot } from 'react-dom/client';
-import { MapContainer, TileLayer, Marker, Popup,useMap } from 'react-leaflet';
+import { MapContainer,Polyline, TileLayer, Marker, Popup,useMap } from 'react-leaflet';
 import "leaflet/dist/leaflet.css"
 import { useState, useEffect, useRef } from 'react';
 import L from 'leaflet';
 function index({ onClose,status }) {
     const [locationList, setLocationList] = useState(null);
+    const [positions, setPositions] = useState([[status.location.latitude, status.location.longitude]]);
     const position = [45.409264, 42.867092]
     const zoomLevel = 13;
 
     console.log(status,'ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss')
     
-    const customIcon = new L.Icon({
+    const userIcon = new L.Icon({
         iconUrl: 'https://img.icons8.com/?size=100&id=CwAOuD64vULU&format=png&color=000000', // Simgenizin yolu
+        iconSize: [32, 32], // Simgenizin boyutu
+        iconAnchor: [16, 32], // Simgenin yere bağlandığı nokta
+        popupAnchor: [0, -32], // Popup'ın simgeye göre yerleşimi
+      });
+
+    const startIcon = new L.Icon({
+        iconUrl: 'https://img.icons8.com/?size=100&id=85049&format=png&color=000000', // Simgenizin yolu
         iconSize: [32, 32], // Simgenizin boyutu
         iconAnchor: [16, 32], // Simgenin yere bağlandığı nokta
         popupAnchor: [0, -32], // Popup'ın simgeye göre yerleşimi
@@ -26,7 +34,7 @@ function index({ onClose,status }) {
         if (status.location) {
           const newLocationList = [status.location.latitude, status.location.longitude];
           setLocationList(newLocationList);
-         
+          setPositions((prevPositions) => [...prevPositions, [status.location.latitude, status.location.longitude]]);
         }
       }, [status]);
       // Extract values into a list
@@ -41,8 +49,8 @@ function index({ onClose,status }) {
         return null;
       
       };
-
-   
+      const startPoint = positions.length > 0 ? positions[0] : null;
+      const isStartSameAsCurrent = locationList  === startPoint
     console.log(locationList,'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb')
       
     return (
@@ -62,12 +70,19 @@ function index({ onClose,status }) {
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                         url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
                         />
-                        <Marker key={status.user.email} icon={customIcon} position={[status.location.latitude, status.location.longitude]}>
+                        <Marker key={status.user.email} icon={userIcon} position={[status.location.latitude, status.location.longitude]}>
                         <Popup>
                            {status.user.email}
                         </Popup>
                         </Marker>
-                   
+                        {startPoint && isStartSameAsCurrent && (
+                          <Marker position={startPoint} icon={startIcon}>
+                            <Popup>
+                              Başlangıç noktası
+                            </Popup>
+                          </Marker>
+                        )}
+                        <Polyline positions={positions} color="blue" />
                 </MapContainer>
                 </div>
             </div>

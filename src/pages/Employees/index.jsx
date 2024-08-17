@@ -78,6 +78,15 @@ const EmployeeList = () => {
         console.error('vvvvvvvvvvvvvvvvvvvv4:', e);
       }
     };
+    ws2.onclose = (event) => {
+      if (event.wasClean) {
+        console.log(`WebSocket1 connection closed cleanly, code=${event.code}, reason=${event.reason}`);
+        setTimeout(connectWebSocket2, 5000);
+      } else {
+        console.error('WebSocket1 connection died unexpectedly');
+        setTimeout(connectWebSocket2, 5000);
+      }
+    };
   }
   useEffect(() => {
     connectWebSocket2();
