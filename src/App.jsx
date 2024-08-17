@@ -74,6 +74,11 @@ const App = () => {
         },
         (error) => {
           console.error("Error getting location: ", error);
+        },
+        {
+          enableHighAccuracy: true,  
+          timeout: 10000,            
+          maximumAge: 0             
         }
       );
     } else {

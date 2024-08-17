@@ -11,9 +11,11 @@ import L from 'leaflet';
 function index({ onClose,status }) {
     const [locationList, setLocationList] = useState(null);
     const [positions, setPositions] = useState([[status.location.latitude, status.location.longitude]]);
+ 
     const position = [45.409264, 42.867092]
     const zoomLevel = 13;
-
+    
+    if (status.shared_tasl)
     console.log(status,'ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss')
     
     const userIcon = new L.Icon({
@@ -23,12 +25,10 @@ function index({ onClose,status }) {
         popupAnchor: [0, -32], // Popup'ın simgeye göre yerleşimi
       });
 
-    const startIcon = new L.Icon({
-        iconUrl: 'https://img.icons8.com/?size=100&id=85049&format=png&color=000000', // Simgenizin yolu
-        iconSize: [32, 32], // Simgenizin boyutu
-        iconAnchor: [16, 32], // Simgenin yere bağlandığı nokta
-        popupAnchor: [0, -32], // Popup'ın simgeye göre yerleşimi
-      });
+      const startedTask = status.started_task;
+      const startedTaskLocation = startedTask && startedTask.location 
+      ? [startedTask.location.latitude,  startedTask.location.longitude ] 
+      : null;
 
     useEffect(() => {
         if (status.location) {
@@ -49,8 +49,8 @@ function index({ onClose,status }) {
         return null;
       
       };
-      const startPoint = positions.length > 0 ? positions[0] : null;
-      const isStartSameAsCurrent = locationList  === startPoint
+   
+      
     console.log(locationList,'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb')
       
     return (
@@ -75,13 +75,13 @@ function index({ onClose,status }) {
                            {status.user.email}
                         </Popup>
                         </Marker>
-                        {startPoint && isStartSameAsCurrent && (
-                          <Marker position={startPoint} icon={startIcon}>
-                            <Popup>
-                              Başlangıç noktası
-                            </Popup>
-                          </Marker>
-                        )}
+                        {startedTaskLocation && 
+                          <Marker key={status.user.email} icon={userIcon} position={startedTaskLocation}>
+                        <Popup>
+                           {status.user.email}
+                        </Popup>
+                        </Marker>
+                        }
                         <Polyline positions={positions} color="blue" />
                 </MapContainer>
                 </div>
