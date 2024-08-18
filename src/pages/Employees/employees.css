@@ -304,3 +304,6 @@ font-size: 26px;
 .mapIcon {
   cursor: pointer;
 }
+.deactive{
+  color:gray !important;
+}

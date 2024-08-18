@@ -452,7 +452,7 @@ const EmployeeList = () => {
                   {status[employee.id]?.status !== undefined ? status[employee.id]?.status : "offline"}
                 </td>
                 <td>
-                  <a className='mapIcon' onClick={() => openMapModal(employee.id)}><PiMapPinAreaFill /></a>
+                  <a className={`mapIcon ${status[employee.id]?.status !== "online" ? 'deactive' : ''}`}  onClick={status[employee.id]?.status === "online" ? () => openMapModal(employee.id):null}><PiMapPinAreaFill /></a>
                 </td>
                 <td>
                   <button onClick={() => openSmallModal(employee.id)}><BsThreeDotsVertical /></button>

@@ -18,11 +18,24 @@ function index({ onClose,status }) {
     if (status.shared_tasl)
     console.log(status,'ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss')
     
-    const userIcon = new L.Icon({
-        iconUrl: 'https://img.icons8.com/?size=100&id=CwAOuD64vULU&format=png&color=000000', // Simgenizin yolu
-        iconSize: [32, 32], // Simgenizin boyutu
-        iconAnchor: [16, 32], // Simgenin yere bağlandığı nokta
-        popupAnchor: [0, -32], // Popup'ın simgeye göre yerleşimi
+    const customIcon = (email) => L.divIcon({
+      className: 'custom-icon',
+      html: `
+        <div class="icon-wrapper">
+          <img src="https://img.icons8.com/?size=100&id=CwAOuD64vULU&format=png&color=000000" class="icon-image" />
+          <div class="icon-text">${email}</div>
+        </div>
+      `,
+      iconSize: [16, 16], // İkonun boyutunu ayarla
+      iconAnchor: [16, 32], // İkonun merkeze oturmasını sağla
+    });
+  
+
+      const customerIcon = new L.Icon({
+        iconUrl: 'https://img.icons8.com/?size=100&id=u4VHO3ZaZQa9&format=png&color=000000', 
+        iconSize: [32, 32], 
+        iconAnchor: [16, 32], 
+        popupAnchor: [0, -32], 
       });
 
       const startedTask = status.started_task;
@@ -38,19 +51,8 @@ function index({ onClose,status }) {
         }
       }, [status]);
       // Extract values into a list
-      
-      const MapRecenter= ({ lat, lng, zoomLevel }) => {
-        const map = useMap();
-      
-        useEffect(() => {
-         console.log([status.location.latitude, status.location.longitude],zoomLevel,'yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy')
-          map.flyTo([lat,lng], zoomLevel );
-        }, [status.location.latitude, status.location.longitude]);
-        return null;
-      
-      };
-   
-      
+  
+
     console.log(locationList,'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb')
       
     return (
@@ -64,19 +66,19 @@ function index({ onClose,status }) {
                 </div>
                 <hr />
                 <div id="myroot" className="map-modal-modal-body">
-                <MapContainer center={[status.location.latitude, status.location.longitude]} zoom={zoomLevel} scrollWheelZoom={false}>
-                    <MapRecenter lat={status.location.latitude} lng={status.location.longitude} zoomLevel={13} />
+                <MapContainer center={[status.location.latitude, status.location.longitude]} zoom={zoomLevel} scrollWheelZoom={true}>
+                 
                         <TileLayer
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                         url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
                         />
-                        <Marker key={status.user.email} icon={userIcon} position={[status.location.latitude, status.location.longitude]}>
+                        <Marker key={status.user.email} icon={customIcon(status.user.email)} position={[status.location.latitude, status.location.longitude]}>
                         <Popup>
                            {status.user.email}
                         </Popup>
                         </Marker>
                         {startedTaskLocation && 
-                          <Marker key={status.user.email} icon={userIcon} position={startedTaskLocation}>
+                          <Marker key={status.user.email} icon={customerIcon} position={startedTaskLocation}>
                         <Popup>
                            {status.user.email}
                         </Popup>
