@@ -78,6 +78,15 @@ const EmployeeList = () => {
         console.error('vvvvvvvvvvvvvvvvvvvv4:', e);
       }
     };
+    ws2.onclose = (event) => {
+      if (event.wasClean) {
+        console.log(`WebSocket1 connection closed cleanly, code=${event.code}, reason=${event.reason}`);
+        setTimeout(connectWebSocket2, 5000);
+      } else {
+        console.error('WebSocket1 connection died unexpectedly');
+        setTimeout(connectWebSocket2, 5000);
+      }
+    };
   }
   useEffect(() => {
     connectWebSocket2();
@@ -443,7 +452,7 @@ const EmployeeList = () => {
                   {status[employee.id]?.status !== undefined ? status[employee.id]?.status : "offline"}
                 </td>
                 <td>
-                  <a className='mapIcon' onClick={() => openMapModal(employee.id)}><PiMapPinAreaFill /></a>
+                  <a className={`mapIcon ${status[employee.id]?.status !== "online" ? 'deactive' : ''}`}  onClick={status[employee.id]?.status === "online" ? () => openMapModal(employee.id):null}><PiMapPinAreaFill /></a>
                 </td>
                 <td>
                   <button onClick={() => openSmallModal(employee.id)}><BsThreeDotsVertical /></button>

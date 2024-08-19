@@ -13,7 +13,13 @@ const App = () => {
   const connectWebSocket = () => {
 
     const token = localStorage.getItem('access_token');
-  
+    if (!token) {
+      console.error('No access token found. Closing WebSocket and retrying connection in 5 seconds...');
+      if (ws) {
+        ws.close(); 
+      }
+      return; 
+    }
     const email = localStorage.getItem('saved_email')
     ws = new WebSocket(`ws://135.181.42.192/ws/?email=${email}&token=${token}`);
     
@@ -74,6 +80,11 @@ const App = () => {
         },
         (error) => {
           console.error("Error getting location: ", error);
+        },
+        {
+          enableHighAccuracy: true,  
+          timeout: 10000,            
+          maximumAge: 0             
         }
       );
     } else {
