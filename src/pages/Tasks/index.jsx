@@ -84,7 +84,7 @@ function Index() {
         setUserPhone(storedUserPhone);
 
         fetchTasks("all", selectedMonth, selectedYear, "Hamısı");
-    }, [selectedMonth, selectedYear]);
+    }, [selectedMonth, selectedYear, activeFilter, selectedStatusFilter]);
 
     const statusRef = useRef(null);
 
@@ -168,7 +168,6 @@ function Index() {
             console.error('Error fetching tasks:', error);
         }
     };
-
 
     const handleMonthChange = (change) => {
         const newDate = new Date(selectedMonth.getFullYear(), selectedMonth.getMonth() + change);
@@ -327,6 +326,11 @@ function Index() {
         }
         return null;
     }
+
+    useEffect(() => {
+        fetchTasks(activeFilter, selectedMonth, selectedYear, selectedStatusFilter);
+    }, [selectedMonth, selectedYear, activeFilter, selectedStatusFilter]);
+
     return (
         <div className='task-page'>
             <div className='task-page-title'>
@@ -348,11 +352,11 @@ function Index() {
             </div>
             <div className="task-history-status">
                 <button onClick={() => setIsDateModalOpen(!isDateModalOpen)}>
-                    <div onClick={() => handleMonthChange(-1)}>
+                    <div onClick={(e) => { e.stopPropagation(); handleMonthChange(-1); }}>
                         <span>&lt;</span>
                     </div>
                     <p>{`${monthsAz[selectedMonth.getMonth()]}, ${selectedYear}`}</p>
-                    <div onClick={() => handleMonthChange(1)}>
+                    <div onClick={(e) => { e.stopPropagation(); handleMonthChange(1); }}>
                         <span>&gt;</span>
                     </div>
                 </button>

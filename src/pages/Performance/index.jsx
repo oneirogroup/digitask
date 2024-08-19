@@ -5,8 +5,22 @@ import { MdOutlineEdit } from "react-icons/md";
 import { FaChevronDown } from "react-icons/fa";
 import './performance.css';
 
+import axios from 'axios'
+
+const refreshAccessToken = async () => {
+  const refresh_token = localStorage.getItem('refresh_token');
+  if (!refresh_token) {
+    throw new Error('No refresh token available');
+  }
+
+  const response = await axios.post('http://135.181.42.192/accounts/token/refresh/', { refresh: refresh_token });
+  const { access } = response.data;
+  localStorage.setItem('access_token', access);
+  axios.defaults.headers.common['Authorization'] = `Bearer ${access}`;
+};
+
+
 function Index() {
-  const [isSmallModalOpen, setIsSmallModalOpen] = useState([]);
   const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
@@ -23,6 +37,9 @@ function Index() {
   const [selectedDay, setSelectedDay] = useState('');
   const [isSelectingStartDate, setIsSelectingStartDate] = useState(true);
 
+  const [loggedInUserId, setLoggedInUserId] = useState(null);
+
+
   const modalRef = useRef(null);
 
   useEffect(() => {
@@ -34,43 +51,50 @@ function Index() {
   }, [data, selectedGroupFilter, start_date, end_date, selectedYear, selectedMonth, selectedDay]);
 
   useEffect(() => {
-    setIsSmallModalOpen(new Array(filteredData.length).fill(false));
-  }, [filteredData]);
+  }, [filteredData, loggedInUserId]);
 
-  const fetchData = () => {
-    const url = new URL(`http://135.181.42.192/services/performance/`);
-
-    if (start_date) {
-      url.searchParams.append('start_date', start_date);
-    }
-    if (end_date) {
-      url.searchParams.append('end_date', end_date);
-    }
-
-    console.log('Fetching data from URL:', url.toString());
-
-    fetch(url.toString())
-      .then(response => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+  const fetchData = async () => {
+    try {
+      await refreshAccessToken();
+      const token = localStorage.getItem('access_token');
+      const loggedInUserResponse = await axios.get('http://135.181.42.192/accounts/profile/', {
+        headers: {
+          'Authorization': `Bearer ${token}`
         }
-        return response.json();
-      })
-      .then(data => {
-        console.log('Fetched data:', data);
-        if (Array.isArray(data)) {
-          setData(data);
-          const uniqueGroups = Array.from(new Set(data.map(item => item.group.group).filter(Boolean)));
-          setGroups(uniqueGroups);
-        } else {
-          console.error('Data is not an array:', data);
-        }
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
       });
-  };
+      setLoggedInUserId(loggedInUserResponse.data.id);
 
+      const loggedInUser = loggedInUserResponse.data;
+      console.log('Logged-in user:', loggedInUser);
+
+      const url = new URL('http://135.181.42.192/services/performance/');
+      if (start_date) {
+        url.searchParams.append('start_date', start_date);
+      }
+      if (end_date) {
+        url.searchParams.append('end_date', end_date);
+      }
+
+      console.log('Fetching data from URL:', url.toString());
+
+      const response = await fetch(url.toString());
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      console.log('Fetched data:', data);
+
+      if (Array.isArray(data)) {
+        setData(data);
+        const uniqueGroups = Array.from(new Set(data.map(item => item.group.group).filter(Boolean)));
+        setGroups(uniqueGroups);
+      } else {
+        console.error('Data is not an array:', data);
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
 
   const filterData = () => {
     let filtered = [...data];
@@ -83,18 +107,6 @@ function Index() {
     setFilteredData(filtered);
   };
 
-  const openSmallModal = (index, event) => {
-    event.stopPropagation();
-    const newIsSmallModalOpen = [...isSmallModalOpen];
-    newIsSmallModalOpen[index] = true;
-    setIsSmallModalOpen(newIsSmallModalOpen);
-  };
-
-  const closeSmallModal = (index) => {
-    const newIsSmallModalOpen = [...isSmallModalOpen];
-    newIsSmallModalOpen[index] = false;
-    setIsSmallModalOpen(newIsSmallModalOpen);
-  };
 
   const filterByGroup = (group) => {
     setSelectedGroupFilter(group);
@@ -150,11 +162,6 @@ function Index() {
         setIsGroupModalOpen(false);
       }
 
-      if (!event.target.closest('.small-modal') && isSmallModalOpen.some(modal => modal)) {
-        const newIsSmallModalOpen = [...isSmallModalOpen];
-        newIsSmallModalOpen.fill(false);
-        setIsSmallModalOpen(newIsSmallModalOpen);
-      }
     };
 
     document.addEventListener('mousedown', handleClickOutside);
@@ -162,7 +169,7 @@ function Index() {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [isGroupModalOpen, isSmallModalOpen]);
+  }, [isGroupModalOpen]);
 
   return (
     <div className='performance-page'>
@@ -214,13 +221,12 @@ function Index() {
                 <th>Tapşırıqlar</th>
                 <th>Qoşulma</th>
                 <th>Problem</th>
-                <th></th>
               </tr>
             </thead>
             <tbody>
               {Array.isArray(filteredData) && filteredData.length > 0 ? (
                 filteredData.map((item, index) => (
-                  <tr key={index}>
+                  <tr key={item.id} className={item.id === loggedInUserId ? 'current-user' : ''}>
                     <td>{`${(index + 1).toString().padStart(2, '0')}`}</td>
                     <td>{item.first_name && item.last_name ? `${item.first_name} ${item.last_name.charAt(0)}.` : '-'}</td>
                     <td>{item.group.group ? item.group.group : '-'}</td>
@@ -228,24 +234,7 @@ function Index() {
                     <td>{item.task_count.total !== undefined ? item.task_count.total : 0}</td>
                     <td>{item.task_count.connection !== undefined ? item.task_count.connection : 0}</td>
                     <td>{item.task_count.problem !== undefined ? item.task_count.problem : 0}</td>
-                    <td>
-                      <button onClick={(e) => openSmallModal(index, e)}><BsThreeDotsVertical /></button>
-                      {isSmallModalOpen[index] && (
-                        <div
-                          className={`small-modal ${isSmallModalOpen[index] ? 'active' : ''}`}
-                          ref={modalRef}
-                        >
-                          <div className="small-modal-content">
-                            <button>
-                              <RiDeleteBin6Line />
-                            </button>
-                            <button>
-                              <MdOutlineEdit />
-                            </button>
-                          </div>
-                        </div>
-                      )}
-                    </td>
+
                   </tr>
                 ))
               ) : (

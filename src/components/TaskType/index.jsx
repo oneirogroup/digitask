@@ -4,18 +4,14 @@ import { IoPersonOutline } from "react-icons/io5";
 import { BsTelephone } from "react-icons/bs";
 import { GoClock } from "react-icons/go";
 import { LiaPhoneVolumeSolid } from "react-icons/lia";
-import { RiMapPinLine } from "react-icons/ri";
-import { MdOutlineMiscellaneousServices } from "react-icons/md";
+import { RiMapPinLine, RiVoiceprintFill } from "react-icons/ri";
+import { MdOutlineMiscellaneousServices, MdOutlineEngineering, MdAdd, MdOutlineEdit } from "react-icons/md";
 import { BiComment } from "react-icons/bi";
-import { MdOutlineEngineering } from "react-icons/md";
 import './detailsModal.css';
-import { FaChevronDown } from "react-icons/fa";
-import { MdAdd } from "react-icons/md";
+import { FaChevronDown, FaMapPin } from "react-icons/fa";
 import AddSurveyModal from '../AddSurveyModal';
 import { PiTelevisionSimple } from "react-icons/pi";
 import { TfiWorld } from "react-icons/tfi";
-import { RiVoiceprintFill } from "react-icons/ri";
-import { MdOutlineEdit } from "react-icons/md";
 import { SiTyper } from "react-icons/si";
 import UpdateTVModal from '../UpdateTVModal';
 import UpdateInternetModal from '../UpdateInternetModal';
@@ -40,6 +36,18 @@ const SERVICE_OPTIONS = [
     { value: 'internet', label: 'İnternet' },
     { value: 'voice', label: 'Səs' }
 ];
+
+import { MapContainer, TileLayer, useMapEvents, Marker } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
+
+function MapClickHandler({ onClick }) {
+    useMapEvents({
+        click: (e) => {
+            onClick(e.latlng);
+        },
+    });
+    return null;
+}
 
 function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdated }) {
     const { isAdmin } = useUser();
@@ -90,6 +98,8 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
         status: '',
         group: [],
         note: '',
+        latitude: '',
+        longitude: '',
         is_tv: "",
         is_internet: "",
         is_voice: ""
@@ -140,6 +150,8 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
                         status: data.status,
                         group: data.group.map(g => g.id),
                         note: data.note,
+                        latitude: data.latitude,
+                        longitude: data.longitude,
                         is_tv: data.is_tv,
                         is_voice: data.is_voice,
                         is_internet: data.is_internet
@@ -343,6 +355,37 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
         }));
     };
 
+    const handleMapClick = (latlng) => {
+        if (isEditing) {
+            setFormData((prevState) => ({
+                ...prevState,
+                latitude: latlng.lat,
+                longitude: latlng.lng,
+            }));
+        }
+    };
+
+    const renderMap = () => (
+        <div className="form-group mapDiv" id='detailMap'>
+            <label htmlFor="note"><FaMapPin />
+
+                Müştəri ünvanı:</label>
+            <MapContainer
+                center={formData.latitude && formData.longitude ? [formData.latitude, formData.longitude] : [40.4093, 49.8671]}
+                zoom={13}
+                style={{ height: '300px', width: '100%' }}
+            >
+                <TileLayer
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                />
+                {isEditing && <MapClickHandler onClick={handleMapClick} />}
+                {formData.latitude && formData.longitude && (
+                    <Marker position={[formData.latitude, formData.longitude]} />
+                )}
+            </MapContainer>
+        </div>
+    );
+
     if (!taskDetails) {
         return <div>Loading...</div>;
     }
@@ -353,7 +396,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
                 <div className="taskType-modal-title">
                     {isEditing ? (
                         <div className='details-title'>
-                            <label><span>Tapşırığın Növü </span></label>
+                            <label><span>Tapşırığı yenilə </span></label>
                         </div>
                     ) : (
                         <>
@@ -507,6 +550,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
                                 </div>
 
                             </div>
+                            {renderMap()}
                             <div className="taskType-note details-note">
                                 <div>
                                     <label>Qeyd</label>
@@ -604,6 +648,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
                                 <hr />
                             </div>
                         </div>
+                        {renderMap()}
                         <div className="taskType-note">
                             <div>
                                 <label>Qeyd</label>

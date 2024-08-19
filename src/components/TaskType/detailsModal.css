@@ -87,7 +87,7 @@
 }
 
 .taskType-info label,
-.taskType-note label, .service-detail label {
+.taskType-note label, .service-detail label, #detailMap>label {
     font-family: 'Nunito Sans', sans-serif;
     font-size: 17px;
     font-weight: 500;
@@ -105,7 +105,7 @@
 }
 
 .taskType-info svg,
-.taskType-note div:first-of-type svg {
+.taskType-note div:first-of-type svg, #detailMap>label svg {
     font-size: 23px;
     color: #5B96DB;
 }
@@ -360,13 +360,18 @@ margin-bottom: 10px;
     background-color: #cccccc7e;
   }
 
-  .details-note label{
-    margin-bottom: 10px;
+  .details-note label, 
+  #detailMap>label {
+    margin-bottom: 10px !important;
     font-family: 'Nunito Sans', sans-serif;
     font-weight: 500;
     font-size: 18px;
     font-weight: 500;
     color: #2F3033;
+  }
+
+  .detailMap >div{
+    margin-top: 10px;
   }
 
   .details-note > div{
