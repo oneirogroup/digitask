@@ -16,10 +16,20 @@ const required = (value) => {
     }
 };
 
+const refreshAccessToken = async () => {
+    const refresh_token = localStorage.getItem('refresh_token');
+    if (!refresh_token) {
+        throw new Error('No refresh token available');
+    }
+
+    const response = await axios.post('http://135.181.42.192/accounts/token/refresh/', { refresh: refresh_token });
+    const { access } = response.data;
+    localStorage.setItem('access_token', access);
+    axios.defaults.headers.common['Authorization'] = `Bearer ${access}`;
+};
+
 const Login = (props) => {
     let navigate = useNavigate();
-
-    // const form = useRef();
     const checkBtn = useRef();
 
     const [email, setEmail] = useState("");
@@ -30,7 +40,6 @@ const Login = (props) => {
     const [errors, setErrors] = useState({});
 
     const { isLoggedIn } = useSelector(state => state.auth);
-    const { message } = useSelector(state => state.message);
 
     const dispatch = useDispatch();
 
@@ -46,22 +55,10 @@ const Login = (props) => {
         const savedRememberMe = localStorage.getItem('remember_me') === 'true';
         setRememberMe(savedRememberMe);
 
-        const refreshTokenIfNeeded = async () => {
-            const refresh_token = localStorage.getItem('refresh_token');
-            if (!refresh_token) {
-                throw new Error('No refresh token available');
-            }
-
-            const response = await axios.post('http://135.181.42.192/accounts/token/refresh/', { refresh: refresh_token });
-            const { access } = response.data;
-            localStorage.setItem('access_token', access);
-            axios.defaults.headers.common['Authorization'] = `Bearer ${access}`;
-        };
-
-        const interval = setInterval(refreshTokenIfNeeded, 15 * 60 * 1000);
+        const interval = setInterval(refreshAccessToken, 15 * 60 * 1000);
 
         return () => clearInterval(interval);
-    }, [dispatch]);
+    }, []);
 
     const onChangeEmail = (e) => {
         setEmail(e.target.value);
@@ -74,7 +71,6 @@ const Login = (props) => {
     const toggleRememberMe = () => {
         setRememberMe(!rememberMe);
     };
-
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -116,7 +112,7 @@ const Login = (props) => {
                 localStorage.setItem('saved_password', password);
                 localStorage.setItem('remember_me', 'true');
                 localStorage.setItem('user_type', user_type);
-                localStorage.setItem('phone', phone);               
+                localStorage.setItem('phone', phone);
                 localStorage.setItem('is_admin', is_admin);
             } else {
                 localStorage.setItem('access_token', access_token);
@@ -124,13 +120,9 @@ const Login = (props) => {
                 localStorage.setItem('is_admin', is_admin);
                 localStorage.setItem('user_type', user_type);
                 localStorage.setItem('phone', phone);
-                // localStorage.removeItem('access_token');
-                // localStorage.removeItem('refresh_token');
                 localStorage.removeItem('saved_email');
                 localStorage.removeItem('saved_password');
                 localStorage.removeItem('remember_me');
-                // localStorage.removeItem('user_type');
-                // localStorage.removeItem('is_admin');
             }
 
             axios.defaults.headers.common['Authorization'] = `Bearer ${access_token}`;
@@ -162,7 +154,6 @@ const Login = (props) => {
         }
     };
 
-
     if (isLoggedIn) {
         return <Navigate to="/" />;
     }
@@ -189,7 +180,6 @@ const Login = (props) => {
                                     />
                                 </label>
                                 {errors.email && <div className="error-message">{errors.email}</div>}
-
                             </div>
                             <div>
                                 <p>Şifrəniz</p>
@@ -210,7 +200,6 @@ const Login = (props) => {
                                     </div>
                                 </label>
                                 {errors.password && <div className="error-message">{errors.password}</div>}
-
                             </div>
                             <div className="remember-me">
                                 <label>

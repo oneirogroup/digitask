@@ -26,37 +26,6 @@ const refreshAccessToken = async () => {
     axios.defaults.headers.common['Authorization'] = `Bearer ${access}`;
 };
 
-
-const fetchWithTokenRefresh = async (url, options = {}) => {
-    try {
-        const token = localStorage.getItem('access_token');
-        const response = await fetch(url, {
-            ...options,
-            headers: {
-                ...options.headers,
-                'Authorization': `Bearer ${token}`
-            }
-        });
-
-        if (response.status === 401) {
-            await refreshAccessToken();
-            const newToken = localStorage.getItem('access_token');
-            return fetch(url, {
-                ...options,
-                headers: {
-                    ...options.headers,
-                    'Authorization': `Bearer ${newToken}`
-                }
-            });
-        }
-
-        return response;
-    } catch (error) {
-        console.error('Error in fetchWithTokenRefresh:', error);
-        throw error;
-    }
-};
-
 function Index() {
     const [data, setData] = useState([]);
     const [filteredData, setFilteredData] = useState([]);
@@ -129,7 +98,6 @@ function Index() {
         if (!selectedMonth) return;
 
         try {
-            await refreshAccessToken();
             const token = localStorage.getItem('access_token');
             const month = selectedMonth.getMonth() + 1;
             const year = selectedYear;
@@ -173,15 +141,16 @@ function Index() {
         const newDate = new Date(selectedMonth.getFullYear(), selectedMonth.getMonth() + change);
         setSelectedMonth(newDate);
         setSelectedYear(newDate.getFullYear());
+        setSelectedStatusFilter(selectedStatusFilter);
         fetchTasks(activeFilter, newDate, newDate.getFullYear(), selectedStatusFilter);
     };
 
-    const applyFilters = (taskFilter, selectedMonth, selectedYear, statusFilter) => {
+    const applyFilters = (taskFilter, selectedMonth, selectedYear, selectedStatusFilter) => {
         setActiveFilter(taskFilter);
         setSelectedMonth(selectedMonth);
         setSelectedYear(selectedYear);
-        setSelectedStatusFilter(statusFilter);
-        fetchTasks(taskFilter, selectedMonth, selectedYear, statusFilter);
+        setSelectedStatusFilter(selectedStatusFilter);
+        fetchTasks(taskFilter, selectedMonth, selectedYear, selectedStatusFilter);
     };
 
     const filterData = (filter) => {
@@ -190,6 +159,7 @@ function Index() {
 
     const filterByStatus = (statusFilter) => {
         setIsStatusModalOpen(false);
+        setSelectedStatusFilter(selectedStatusFilter);
         applyFilters(activeFilter, selectedMonth, selectedYear, statusFilter);
     };
 
