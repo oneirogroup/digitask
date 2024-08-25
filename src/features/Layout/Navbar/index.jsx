@@ -1,4 +1,4 @@
-import { AiOutlineMessage } from "react-icons/ai";
+import { BsChatTextFill } from "react-icons/bs";
 import { IoNotifications } from "react-icons/io5";
 import { MdPerson } from "react-icons/md";
 import "./navbar.css";
@@ -113,7 +113,7 @@ const Navbar = () => {
         <>
             <div className="navbar-icons">
                 <Link to="/chat/" style={getLinkStyle("/chat/")}>
-                    <AiOutlineMessage />
+                    <BsChatTextFill />
                 </Link>
                 <div
                     onClick={handleNotificationClick}

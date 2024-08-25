@@ -368,7 +368,6 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
     const renderMap = () => (
         <div className="form-group mapDiv" id='detailMap'>
             <label htmlFor="note"><FaMapPin />
-
                 Müştəri ünvanı:</label>
             <MapContainer
                 center={formData.latitude && formData.longitude ? [formData.latitude, formData.longitude] : [40.4093, 49.8671]}
@@ -648,7 +647,10 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
                                 <hr />
                             </div>
                         </div>
-                        {renderMap()}
+                        {
+                            formData.latitude != null && formData.longitude != null ?
+                                renderMap() : ''
+                        }
                         <div className="taskType-note">
                             <div>
                                 <label>Qeyd</label>

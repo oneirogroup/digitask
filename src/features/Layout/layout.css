@@ -41,7 +41,12 @@ html, body {
   height: calc(100vh - 60px); 
   overflow-y: auto; 
   margin-left: 200px;
+}
 
+.layout-with-sidebar .main-content:has(.chat-container) {
+  background-color: white;
+  overflow-y: inherit;
+  padding: 0 10px 0 20px;
 }
 
 .layout-no-sidebar .main-content {
