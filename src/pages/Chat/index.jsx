@@ -200,32 +200,22 @@ const Chat = () => {
                     </div>
                 </div>
                 <div className="chat-list">
-                    <div
-                        className={`chat-list-item ${activeGroup === 1 ? "active" : ""}`}
-                        onClick={() => setActiveGroup(1)}
-                    >
-                        <div className="avatar"><MdGroups /></div>
-                        <div className="chat-info">
-                            <h4>Qrup 1</h4>
-                            <p>İlkin Əliyev: <span>Bu tapşırığı götürürəm</span></p>
+                    {groups.map(group => (
+                        <div
+                            key={group.id}
+                            className={`chat-list-item ${activeGroup === group.id ? "active" : ""}`}
+                            onClick={() => setActiveGroup(group.id)}
+                        >
+                            <div className="avatar"><MdGroups /></div>
+                            <div className="chat-info">
+                                <h4>{group.name}</h4>
+                                <p>İlkin Əliyev: <span>Bu tapşırığı götürürəm</span></p>
+                            </div>
+                            <div className="chat-meta">
+                                <span className="time">12m</span>
+                            </div>
                         </div>
-                        <div className="chat-meta">
-                            <span className="time">12m</span>
-                        </div>
-                    </div>
-                    <div
-                        className={`chat-list-item ${activeGroup === 2 ? "active" : ""}`}
-                        onClick={() => setActiveGroup(2)}
-                    >
-                        <div className="avatar"><MdGroups /></div>
-                        <div className="chat-info">
-                            <h4>Qrup 2</h4>
-                            <p>Nicat Məmmədli: <span>Problem var</span></p>
-                        </div>
-                        <div className="chat-meta">
-                            <span className="time">5m</span>
-                        </div>
-                    </div>
+                    ))}
                 </div>
             </div>
 
