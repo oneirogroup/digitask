@@ -407,7 +407,6 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
                         </>
                     )}
                     <div>
-
                         <span className="close" onClick={onClose}>&times;</span>
                     </div>
                 </div>

@@ -1,15 +1,34 @@
-import { useState, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import "./chat.css";
 import { FaCirclePlus } from "react-icons/fa6";
 import { IoSearchOutline, IoFilterOutline } from "react-icons/io5";
 import { BsThreeDotsVertical, BsFillSendFill } from "react-icons/bs";
 import { MdGroups } from "react-icons/md";
 import { RiAttachmentLine } from "react-icons/ri";
+import ChatModal from "../../components/ChatModal";
+import axios from "axios"
+
+const refreshAccessToken = async () => {
+    const refresh_token = localStorage.getItem('refresh_token');
+    if (!refresh_token) {
+        throw new Error('No refresh token available');
+    }
+
+    const response = await axios.post('http://135.181.42.192/accounts/token/refresh/', { refresh: refresh_token });
+    const { access } = response.data;
+    localStorage.setItem('access_token', access);
+    axios.defaults.headers.common['Authorization'] = `Bearer ${access}`;
+};
 
 
 const Chat = () => {
     const [activeGroup, setActiveGroup] = useState(null);
+    const [groups, setGroups] = useState([]);
     const fileInputRef = useRef(null);
+
+    const colors = [
+        "#ff5733", "#33ff57", "#3357ff", "#ff33a1", "#33fff7", "#f7ff33"
+    ];
 
     const messages = [
         {
@@ -62,9 +81,13 @@ const Chat = () => {
         }
     ];
 
-    const colors = [
-        "#ff5733", "#33ff57", "#3357ff", "#ff33a1", "#33fff7", "#f7ff33"
-    ];
+    useEffect(() => {
+        fetch('http://135.181.42.192/accounts/RoomsApiView/')
+            .then(response => response.json())
+            .then(data => {
+                setGroups(data);
+            });
+    }, []);
 
     const renderMessages = () => {
         return messages
@@ -89,17 +112,36 @@ const Chat = () => {
 
                         <div className={`message ${isSameAsPrevious ? "indented" : ""}`}>
                             {!isSameAsPrevious && message.type !== "sent" && (
-                                <p style={{ color }}>{message.full_name}</p>
+                                <div className="name" style={{ color }}>
+                                    {message.full_name}
+                                </div>
                             )}
-                            <div className="message-content">
-                                <p>{message.text}</p>
-                                <span className="message-time">{message.time}</span>
-                            </div>
+                            <div className="text">{message.text}</div>
+                            <div className="time">{message.time}</div>
                         </div>
                     </div>
                 );
             });
     };
+    const [modalOpen, setModalOpen] = useState(false);
+    const [selectedGroup, setSelectedGroup] = useState(null);
+    const [members, setMembers] = useState([]);
+    const [groupName, setGroupName] = useState('');
+
+    const handleOpenModal = (group) => {
+        setSelectedGroup(group);
+        const groupName = groups.find(g => g.id === group)?.name || []
+        const groupMembers = groups.find(g => g.id === group)?.members || [];
+        setGroupName(groupName);
+        setMembers(groupMembers);
+        setModalOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        setModalOpen(false);
+        setSelectedGroup(null);
+    };
+
 
     const handleAttachmentClick = () => {
         fileInputRef.current.click();
@@ -109,6 +151,37 @@ const Chat = () => {
         const file = event.target.files[0];
         if (file) {
             console.log("Selected file:", file.name);
+        }
+    };
+
+    const fetchGroups = async () => {
+        try {
+            const response = await axios.get('http://135.181.42.192/accounts/RoomsApiView/');
+            setGroups(response.data);
+        } catch (error) {
+            console.error("Failed to fetch groups:", error);
+        }
+    };
+
+    useEffect(() => {
+        fetchGroups();
+    }, []);
+
+
+    const handleMembersUpdated = () => {
+        fetchMembersList();
+    };
+
+    const fetchMembersList = async () => {
+        try {
+            const token = localStorage.getItem('access_token');
+            const response = await axios.get('http://135.181.42.192/accounts/rooms/{groupId}/members/', {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            setMembers(response.data);
+        } catch (error) {
+            await refreshAccessToken();
+            console.error("Error fetching members:", error);
         }
     };
 
@@ -160,12 +233,19 @@ const Chat = () => {
                 {activeGroup ? (
                     <>
                         <div className="chat-content-header">
-                            <div className="chat-header-avatar-user">
+                            <div className="chat-header-avatar-user" onClick={() => handleOpenModal(activeGroup)}>
                                 <div className="avatar"><MdGroups /></div>
                                 <div className="chat-content-user-info">
-                                    <h3>Qrup {activeGroup}</h3>
-                                    <span className="chat-users">İlkin Əliyev, Ayaz Osmanov, Nadir Osmanov</span>
+                                    <h3>{groups.find(group => group.id === activeGroup)?.name}</h3>
+                                    <span className="chat-users">
+                                        {groups
+                                            .find(group => group.id === activeGroup)
+                                            ?.members
+                                            .map(member => `${member.first_name} ${member.last_name}`)
+                                            .join(", ")}
+                                    </span>
                                 </div>
+
                             </div>
                             <div className="chat-content-actions">
                                 <BsThreeDotsVertical className="action-icon" />
@@ -193,6 +273,14 @@ const Chat = () => {
                     // </div>
                 )}
             </div>
+            <ChatModal
+                isOpen={modalOpen}
+                onClose={handleCloseModal}
+                groupName={groupName}
+                members={members}
+                group={selectedGroup}
+                onMembersUpdated={handleMembersUpdated}
+            />
         </div>
     );
 };
