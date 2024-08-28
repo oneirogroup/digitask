@@ -1,23 +1,57 @@
-/* Home page */
+@media screen and (max-width: 1320px) {
+  /* Task page */
 
-@media screen and (max-width: 1200px) {
+  .task-page th,
+  .task-page td {
+    padding: 11px;
+  }
+}
+
+@media screen and (max-width: 1270px) {
+  /* Task page */
+
+  .table-container tbody tr td:nth-of-type(2),
+  .table-container tbody tr td:nth-of-type(3),
+  .table-container table tbody tr td:nth-of-type(8) {
+    white-space: wrap;
+  }
+  .table-container tbody tr td:not(:first-of-type) {
+    font-size: 15.2px;
+  }
   .task-status button {
     padding: 5px 8px;
-    font-size: 15px;
+    font-size: 15.2px;
   }
+}
+
+@media screen and (max-width: 1200px) {
+  /* Home page */
+
   .home-meet-section .meet-img img {
     display: none;
   }
   .home-tasks table tr td:nth-of-type(2),
-  .home-tasks table tr th:nth-of-type(2) {
+  .home-tasks table tr th:nth-of-type(2),
+  .table-container tbody tr td:nth-of-type(6),
+  .table-container tr th:nth-of-type(6) {
     display: none;
+  }
+
+  /* Task page */
+
+  .task-status button {
+    padding: 5px 8px;
+    font-size: 15px;
   }
 }
 
 @media screen and (max-width: 1050px) {
+  /* Pages */
   .layout-with-sidebar .main-content {
     padding: 25px 15px;
   }
+
+  /* Home page */
 
   .home-tasks table tr td:nth-of-type(5),
   .home-tasks table tr th:nth-of-type(5) {
@@ -26,6 +60,8 @@
 }
 
 @media screen and (max-width: 1000px) {
+  /* Home page */
+
   .home-charts {
     flex-direction: column;
   }
@@ -46,15 +82,24 @@
   .home-meet-section {
     grid-template-columns: repeat(2, 1fr);
   }
-  .home-employee-task{
+  .home-employee-task {
     width: 100%;
   }
   .home-meet-section .meet-time-date-img {
-height: 150px;  
-}
+    height: 150px;
+  }
+
+  /* Performance page */
+
+  .performance-table-container tbody tr td,
+  .performance-page th {
+    font-size: 16px;
+  }
 }
 
 @media screen and (max-width: 960px) {
+  /* Home page */
+
   .home-tasks-sec {
     flex-direction: column;
   }
@@ -78,6 +123,7 @@ height: 150px;
 }
 
 @media screen and (max-width: 900px) {
+  /* Home page */
   .home-tasks table tr td:nth-of-type(3) svg {
     font-size: 20px;
   }
@@ -86,9 +132,27 @@ height: 150px;
   .home-tasks table tr th:nth-of-type(5) {
     display: none;
   }
+
+  /* Performance page */
+
+  .performance-table-container tbody tr td,
+  .performance-page th,
+  .performance-table-container tbody tr td:first-of-type {
+    font-size: 15px;
+  }
+  .date-picker {
+    padding: 0px;
+    width: 126px;
+  }
+  .performance-page th,
+  .performance-page td {
+    padding: 16px 8px !important;
+  }
 }
 
 @media screen and (max-width: 768px) {
+  /* Home page */
+
   .home-tasks th,
   .home-tasks td,
   .home-employee-task th,
@@ -115,9 +179,56 @@ height: 150px;
   .home-meet-section .meet-time-date h5 {
     font-size: 21px;
   }
+
+  /* Performance page */
+  .performance-table-container tbody tr td,
+  .performance-page th,
+  .performance-table-container tbody tr td:first-of-type {
+    font-size: 14px;
+  }
+  .performance-table-container tbody tr td:nth-of-type(3),
+  .performance-table-container tr th:nth-of-type(3) {
+    display: none;
+  }
+  .performance-filter > div:first-of-type button:last-of-type {
+    padding: 8px 7px;
+    font-size: 15px;
+  }
+
+  /* Settings page */
+
+  .settings-fields div div p, .settings-fields button div p {
+    font-size: 18px;
+  }
+
+  .settings-fields div div svg, .settings-fields button div svg {
+    font-size: 21px;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  /* Sidebar */
+  .sidebar {
+    width: 185px;
+  }
+  .aside-link {
+    padding: 9px;
+  }
+  .aside-link .icon {
+    margin-right: 8px;
+  }
+
+  /* Performance page */
+
+  .performance-page th,
+  .performance-page td {
+    padding: 16px 7px !important;
+  }
 }
 
 @media screen and (max-width: 650px) {
+  /* Home page */
+
   .home-meet-section .meet-time-date h5 {
     font-size: 22px;
   }
@@ -131,6 +242,9 @@ height: 150px;
   .home-meet-section {
     padding: 5px 0 25px 0;
   }
+
+  /* Sidebar */
+
   .sidebar {
     display: none;
   }
@@ -149,16 +263,53 @@ height: 150px;
   .layout-with-sidebar .main-content {
     margin-left: 0;
   }
+
+  /* Performance page */
+
+  .performance-table-container tbody tr td:nth-of-type(3),
+  .performance-table-container tr th:nth-of-type(3) {
+    display: table-cell;
+  }
 }
 
 @media screen and (max-width: 550px) {
+  /* Home page */
+
   .home-tasks table tr td:nth-of-type(2),
   .home-tasks table tr th:nth-of-type(2) {
     display: none;
   }
+
+  /* Performance page */
+
+  .performance-table-container tbody tr td:nth-of-type(3),
+  .performance-table-container tr th:nth-of-type(3) {
+    display: none;
+  }
+  .date-picker {
+    padding: 0px 5px;
+    width: 118px;
+    font-size: 15px;
+  }
+  .performance-filter > div:first-of-type button:last-of-type {
+    padding: 8px 5px;
+    font-size: 14px;
+  }
+
+  /* Settings page */
+
+  .settings-fields div div p, .settings-fields button div p {
+    font-size: 17px;
+  }
+
+  .settings-fields div div svg, .settings-fields button div svg {
+    font-size: 19px;
+  }
 }
 
 @media screen and (max-width: 450px) {
+  /* Home page */
+
   .home-meet-section .meet-time-date-img {
     padding: 16px;
   }
@@ -169,9 +320,42 @@ height: 150px;
   .home-tasks tr th:nth-of-type(4) {
     display: none;
   }
-}
+  .performance-page th,
+  .performance-page td {
+    padding: 16px 6px !important;
+  }
+  .performance-table-container tbody tr td,
+  .performance-page th,
+  .performance-table-container tbody tr td:first-of-type {
+    font-size: 13px;
+  }
 
+  .performance-table-container tbody tr td:first-of-type,
+  .performance-table-container tbody tr td:nth-of-type(2) {
+    white-space: wrap;
+  }
+  .performance-table-container tr th:nth-of-type(5),
+  .performance-table-container tbody tr td:nth-of-type(5) {
+    display: none;
+  }
+
+  .performance-filter {
+    display: flex;
+    flex-direction: column;
+    align-items: baseline;
+    gap: 10px;
+  }
+  .date-picker {
+    height: 35px;
+  }
+
+  .performance-page-title {
+    padding: 10px 0;
+  }
+}
 @media screen and (max-width: 412px) {
+  /* Home page */
+
   .apexcharts-text tspan {
     font-size: 10px;
   }
