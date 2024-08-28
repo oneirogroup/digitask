@@ -11,7 +11,6 @@ const Layout = () => {
   const shouldHideNavbar = hideSidebarRoutes.includes(location.pathname);
 
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
-  const [showOverlay, setShowOverlay] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -25,27 +24,20 @@ const Layout = () => {
     };
   }, []);
 
-  useEffect(() => {
-    if (screenWidth < 1300) {
-      setShowOverlay(true);
-    } else {
-      setShowOverlay(false);
-    }
-  }, [screenWidth]);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen(prevState => !prevState);
+  };
+
+
 
   return (
     <div className={shouldHideSidebar ? "layout-no-sidebar" : "layout-with-sidebar"}>
-      {!shouldHideNavbar && <Navbar className="navbar" />}
+      {!shouldHideNavbar && <Navbar className="navbar" onToggleSidebar={toggleSidebar} />}
       {!shouldHideSidebar && (
         <>
-          <Sidebar className="sidebar" />
-          {showOverlay && (
-            <div className="layout-overlay">
-              <div className="layout-overlay-message">
-                Zəhmət olmasa saytımıza kompüterdə daxil olun
-              </div>
-            </div>
-          )}
+          <Sidebar className="sidebar" isSidebarOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
         </>
       )}
       <div className={shouldHideSidebar ? "main-content-no-sidebar" : "main-content"}>

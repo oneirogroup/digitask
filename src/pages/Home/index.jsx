@@ -1,28 +1,31 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
-import './home.css';
-import { Link, useNavigate } from 'react-router-dom';
-import { GoClock } from 'react-icons/go';
-import { IoIosAddCircleOutline } from 'react-icons/io';
-import ApexChart from '../../components/Chart';
-import CircleChart from '../../components/CircleChart';
-import AddEventModal from '../../components/AddEventModal';
-import { PiTelevisionSimple } from 'react-icons/pi';
-import { TfiWorld } from 'react-icons/tfi';
-import { RiVoiceprintFill } from 'react-icons/ri';
-import photo1 from '../../assets/images/photo.svg';
-import MeetingDetailModal from '../../components/MeetingDetailModal';
+import { useState, useEffect } from "react";
+import axios from "axios";
+import "./home.css";
+import { Link, useNavigate } from "react-router-dom";
+import { GoClock } from "react-icons/go";
+import { IoIosAddCircleOutline } from "react-icons/io";
+import ApexChart from "../../components/Chart";
+import CircleChart from "../../components/CircleChart";
+import AddEventModal from "../../components/AddEventModal";
+import { PiTelevisionSimple } from "react-icons/pi";
+import { TfiWorld } from "react-icons/tfi";
+import { RiVoiceprintFill } from "react-icons/ri";
+import photo1 from "../../assets/images/photo.svg";
+import MeetingDetailModal from "../../components/MeetingDetailModal";
 
 const refreshAccessToken = async () => {
-    const refresh_token = localStorage.getItem('refresh_token');
+    const refresh_token = localStorage.getItem("refresh_token");
     if (!refresh_token) {
-        throw new Error('No refresh token available');
+        throw new Error("No refresh token available");
     }
 
-    const response = await axios.post('http://135.181.42.192/accounts/token/refresh/', { refresh: refresh_token });
+    const response = await axios.post(
+        "http://135.181.42.192/accounts/token/refresh/",
+        { refresh: refresh_token }
+    );
     const { access } = response.data;
-    localStorage.setItem('access_token', access);
-    axios.defaults.headers.common['Authorization'] = `Bearer ${access}`;
+    localStorage.setItem("access_token", access);
+    axios.defaults.headers.common["Authorization"] = `Bearer ${access}`;
 };
 
 const Home = () => {
@@ -37,16 +40,19 @@ const Home = () => {
 
     const fetchData = async (isRetry = false) => {
         try {
-            const token = localStorage.getItem('access_token');
+            const token = localStorage.getItem("access_token");
 
-            const responseMainPage = await axios.get('http://135.181.42.192/services/mainpage/', {
-                headers: { 'Authorization': `Bearer ${token}` }
-            });
+            const responseMainPage = await axios.get(
+                "http://135.181.42.192/services/mainpage/",
+                {
+                    headers: { Authorization: `Bearer ${token}` },
+                }
+            );
             setMeetings(responseMainPage.data.meetings || []);
             setUserType(responseMainPage.data.user_type);
 
             const completedTasks = responseMainPage.data.completed_tasks || [];
-            const mappedTasks = completedTasks.map(task => ({
+            const mappedTasks = completedTasks.map((task) => ({
                 id: task.id,
                 first_name: task.first_name,
                 last_name: task.last_name,
@@ -57,26 +63,32 @@ const Home = () => {
                 voice: task.is_voice,
                 location: task.location,
                 phone: task.contact_number,
-                status: task.status
+                status: task.status,
             }));
             setTasks(mappedTasks);
 
-            const responsePerformance = await axios.get('http://135.181.42.192/services/performance/', {
-                headers: { 'Authorization': `Bearer ${token}` }
-            });
+            const responsePerformance = await axios.get(
+                "http://135.181.42.192/services/performance/",
+                {
+                    headers: { Authorization: `Bearer ${token}` },
+                }
+            );
             setPerformanceData(responsePerformance.data);
-
         } catch (error) {
-            if (error.response && (error.response.status === 401 || error.response.status === 403) && !isRetry) {
+            if (
+                error.response &&
+                (error.response.status === 401 || error.response.status === 403) &&
+                !isRetry
+            ) {
                 try {
                     await refreshAccessToken();
                     await fetchData(true);
                 } catch (refreshError) {
-                    console.error('Token refresh failed:', refreshError);
-                    navigate('/login');
+                    console.error("Token refresh failed:", refreshError);
+                    navigate("/login");
                 }
             } else {
-                console.error('Error fetching data:', error);
+                console.error("Error fetching data:", error);
             }
         }
     };
@@ -89,8 +101,8 @@ const Home = () => {
         if (!time) return "-";
 
         const date = new Date(`1970-01-01T${time}Z`);
-        const hours = date.getUTCHours().toString().padStart(2, '0');
-        const minutes = date.getUTCMinutes().toString().padStart(2, '0');
+        const hours = date.getUTCHours().toString().padStart(2, "0");
+        const minutes = date.getUTCMinutes().toString().padStart(2, "0");
 
         return `${hours}:${minutes}`;
     };
@@ -104,7 +116,7 @@ const Home = () => {
     };
 
     const handleEventAdded = (newEvent) => {
-        setMeetings(prevMeetings => [newEvent, ...prevMeetings]);
+        setMeetings((prevMeetings) => [newEvent, ...prevMeetings]);
     };
 
     const openMeetingDetailModal = (meetingId) => {
@@ -121,12 +133,22 @@ const Home = () => {
         <div className="home-page">
             <section className="home-meet-section">
                 {meetings.map((meeting) => (
-                    <div key={meeting.id} className="meet-time-date-img" onClick={() => openMeetingDetailModal(meeting.id)}>
+                    <div
+                        key={meeting.id}
+                        className="meet-time-date-img"
+                        onClick={() => openMeetingDetailModal(meeting.id)}
+                    >
                         <div className="meet-time-date">
-                            <p><GoClock /> {new Date(meeting.date).toLocaleString()}</p>
+                            <p>
+                                <GoClock /> {new Date(meeting.date).toLocaleString()}
+                            </p>
                             <div>
                                 <h5>{meeting.title}</h5>
-                                <p>{meeting.meeting_description.length > 15 ? `${meeting.meeting_description.slice(0, 15)}...` : meeting.meeting_description}</p>
+                                <p>
+                                    {meeting.meeting_description.length > 15
+                                        ? `${meeting.meeting_description.slice(0, 15)}...`
+                                        : meeting.meeting_description}
+                                </p>
                             </div>
                         </div>
                         <div className="meet-img">
@@ -134,7 +156,7 @@ const Home = () => {
                         </div>
                     </div>
                 ))}
-                {userType !== 'Texnik' && (
+                {userType !== "Texnik" && (
                     <div className="meet-add" onClick={openModal}>
                         <button>
                             <IoIosAddCircleOutline />
@@ -143,89 +165,138 @@ const Home = () => {
                     </div>
                 )}
             </section>
-            <div className="home-charts">
-                <ApexChart />
-                <CircleChart />
-            </div>
-            <section className="home-tasks-sec">
-                <div className="home-employee-task">
-                    <div>
-                        <p>İşçilərin performansı</p>
-                    </div>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Ad</th>
-                                <th>Qrup</th>
-                                <th>Tapşırıqlar</th>
-                            </tr>
-                        </thead>
-                        {performanceData.length > 0 ? (
-                            performanceData.slice(0, 5).map((item, index) => (
-                                <tbody key={index}>
-                                    <td>{`${item.first_name} ${item.last_name.charAt(0)}.`}</td>
-                                    <td>{item.group.group ? item.group.group : <span>-</span>}</td>
-                                    <td>{item.task_count.total}</td>
-                                </tbody>
-                            ))
-                        ) : (
+            <div>
+                <div className="home-charts">
+                    <ApexChart />
+                    <CircleChart />
+                </div>
+                <section className="home-tasks-sec">
+                    <div className="home-employee-task">
+                        <div>
+                            <p>İşçilərin performansı</p>
+                        </div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Ad</th>
+                                    <th>Qrup</th>
+                                    <th>Tapşırıqlar</th>
+                                </tr>
+                            </thead>
                             <tbody>
-                                <tr>No performance data available.</tr>
+                                {performanceData.length > 0 ? (
+                                    performanceData.slice(0, 5).map((item, index) => (
+                                        <tr key={index}>
+                                            <td>{`${item.first_name} ${item.last_name.charAt(0)}.`}</td>
+                                            <td>
+                                                {item.group.group ? item.group.group : <span>-</span>}
+                                            </td>
+                                            <td>{item.task_count.total}</td>
+                                        </tr>
+                                    ))
+                                ) : (
+                                    <tr>No performance data available.</tr>
+                                )}
                             </tbody>
-                        )}
-                    </table>
-                </div>
-                <div className="home-tasks">
-                    <div>
-                        <p>Tapşırıqlar</p>
-                        <Link to="/tasks/">Hamısına bax</Link>
+                        </table>
                     </div>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Ad</th>
-                                <th>Saat</th>
-                                <th>Növ</th>
-                                <th>Ünvan</th>
-                                <th>Nömrə</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {tasks.length > 0 ? (
-                                tasks.slice(0, 5).map((item, index) => (
-                                    <tr key={index}>
-                                        <td>{item.first_name && item.last_name ? `${item.first_name} ${item.last_name}` : '-'}</td>
-                                        <td>
-                                            {item.start_time && item.end_time
-                                                ? `${formatTime(item.start_time)} - ${formatTime(item.end_time)}`
-                                                : (!item.start_time && !item.end_time)
-                                                    ? "-"
-                                                    : `${item.start_time ? formatTime(item.start_time) : "-"} - ${item.end_time ? formatTime(item.end_time) : "-"}`}
-                                        </td>
-                                        <td>{item.tv && <PiTelevisionSimple />}
-                                            {item.internet && <TfiWorld />}
-                                            {item.voice && <RiVoiceprintFill />}
-                                            {!item.tv && !item.internet && !item.voice && <span>Xidmət daxil edilməyib</span>}</td>
-                                        <td>{item.location}</td>
-                                        <td>{item.phone ? item.phone : 'No Number'}</td>
-                                        <td className="task-status"><button className={`status ${item.status.toLowerCase().replace(' ', '-')}`}>
-                                            {item.status === 'waiting' ? 'Gözləyir' :
-                                                item.status === 'inprogress' ? 'Qəbul edilib' :
-                                                    item.status === 'started' ? 'Başlanıb' :
-                                                        item.status === 'completed' ? 'Tamamlanıb' : item.status}
-                                        </button></td>
-                                    </tr>
-                                ))
-                            ) : (
-                                <div>No data available.</div>
-                            )}
-                        </tbody>
-                    </table>
-                </div>
-            </section>
-            <AddEventModal isOpen={isModalOpen} onClose={closeModal} refreshMeetings={handleEventAdded} />
-            <MeetingDetailModal isOpen={isMeetingModalOpen} onClose={closeMeetingDetailModal} meetingId={selectedMeeting} />
+                    <div className="home-tasks">
+                        <div>
+                            <p>Tapşırıqlar</p>
+                            <Link to="/tasks/">Hamısına bax</Link>
+                        </div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Ad</th>
+                                    <th>Saat</th>
+                                    <th>Növ</th>
+                                    <th>Ünvan</th>
+                                    <th>Nömrə</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {tasks.length > 0 ? (
+                                    tasks.slice(0, 5).map((item, index) => (
+                                        <tr key={index}>
+                                            <td>
+                                                {item.first_name && item.last_name
+                                                    ? `${item.first_name} ${item.last_name}`
+                                                    : "-"}
+                                            </td>
+                                            <td>
+                                                {item.start_time && item.end_time
+                                                    ? `${formatTime(item.start_time)} - ${formatTime(
+                                                        item.end_time
+                                                    )}`
+                                                    : !item.start_time && !item.end_time
+                                                        ? "-"
+                                                        : `${item.start_time ? formatTime(item.start_time) : "-"
+                                                        } - ${item.end_time ? formatTime(item.end_time) : "-"
+                                                        }`}
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    {item.tv && (
+                                                        <span>
+                                                            <PiTelevisionSimple />
+                                                        </span>
+                                                    )}
+                                                    {item.internet && (
+                                                        <span>
+                                                            <TfiWorld />
+                                                        </span>
+                                                    )}
+                                                    {item.voice && (
+                                                        <span>
+                                                            <RiVoiceprintFill />
+                                                        </span>
+                                                    )}
+                                                    {!item.tv && !item.internet && !item.voice && (
+                                                        <span>Xidmət daxil edilməyib</span>
+                                                    )}
+                                                </div>
+                                            </td>
+                                            <td>{item.location}</td>
+                                            <td>{item.phone ? item.phone : "No Number"}</td>
+                                            <td className="task-status">
+                                                <button
+                                                    className={`status ${item.status
+                                                        .toLowerCase()
+                                                        .replace(" ", "-")}`}
+                                                >
+                                                    {item.status === "waiting"
+                                                        ? "Gözləyir"
+                                                        : item.status === "inprogress"
+                                                            ? "Qəbul edilib"
+                                                            : item.status === "started"
+                                                                ? "Başlanıb"
+                                                                : item.status === "completed"
+                                                                    ? "Tamamlanıb"
+                                                                    : item.status}
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    ))
+                                ) : (
+                                    <div>No data available.</div>
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+            <AddEventModal
+                isOpen={isModalOpen}
+                onClose={closeModal}
+                refreshMeetings={handleEventAdded}
+            />
+            <MeetingDetailModal
+                isOpen={isMeetingModalOpen}
+                onClose={closeMeetingDetailModal}
+                meetingId={selectedMeeting}
+            />
         </div>
     );
 };

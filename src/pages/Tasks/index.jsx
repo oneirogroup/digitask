@@ -101,7 +101,6 @@ function Index() {
             const token = localStorage.getItem('access_token');
             const month = selectedMonth.getMonth() + 1;
             const year = selectedYear;
-
             const monthQueryParam = `&month=${month}&year=${year}`;
             const statusMap = {
                 "Hamısı": "",
@@ -123,6 +122,7 @@ function Index() {
                     'Authorization': `Bearer ${token}`
                 }
             });
+            await refreshAccessToken();
 
             if (!response.ok) {
                 throw new Error('Network response was not ok');
