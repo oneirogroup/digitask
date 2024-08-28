@@ -25,6 +25,13 @@ const ChatModal = ({ isOpen, onClose, groupName, members, group, onMembersUpdate
     const [removeMemberId, setRemoveMemberId] = useState(null);
     const modalRef = useRef(null);
     const removeModalRef = useRef(null);
+    const [localMembers, setLocalMembers] = useState(members);
+
+    useEffect(() => {
+        if (isOpen) {
+            setLocalMembers(members);
+        }
+    }, [isOpen, members]);
 
     useEffect(() => {
         if (showAddMemberModal) {
@@ -73,6 +80,7 @@ const ChatModal = ({ isOpen, onClose, groupName, members, group, onMembersUpdate
             setShowAddMemberModal(false);
 
             if (onMembersUpdated) {
+         
                 onMembersUpdated();
             }
         } catch (error) {
@@ -151,7 +159,7 @@ const ChatModal = ({ isOpen, onClose, groupName, members, group, onMembersUpdate
                             <button onClick={handleAddMemberClick}>Üzv əlavə et</button>
                         </div>
                         <div className="member-list-style">
-                            {members.map(member => (
+                            {localMembers.map(member => (
                                 <div key={member.id} className="member-item">
                                     <div className="member-info">
                                         <div className="avatar">{member.first_name.charAt(0)}</div>

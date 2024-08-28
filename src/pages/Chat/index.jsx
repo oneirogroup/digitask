@@ -25,99 +25,206 @@ const Chat = () => {
     const [activeGroup, setActiveGroup] = useState(null);
     const [groups, setGroups] = useState([]);
     const fileInputRef = useRef(null);
+    const [messagess, setMessages] = useState([])
+    const [inputValue, setInputValue] = useState('');
+    const wsChat = useRef(null);
 
     const colors = [
         "#ff5733", "#33ff57", "#3357ff", "#ff33a1", "#33fff7", "#f7ff33"
     ];
 
-    const messages = [
-        {
-            id: 1,
-            groupId: 1,
-            full_name: "İlkin Əliyev",
-            text: "Bu tapşırığı götürürəm",
-            time: "19:34",
-            type: "received"
-        },
-        {
-            id: 2,
-            groupId: 1,
-            full_name: "Ayaz Osmanov",
-            text: "Mən də burada kömək edəcəyəm.",
-            time: "19:34",
-            type: "received"
-        },
-        {
-            id: 3,
-            groupId: 1,
-            full_name: "Nadir Osmanov",
-            text: "Əla, birlikdə işləyək!",
-            time: "19:34",
-            type: "received"
-        },
-        {
-            id: 4,
-            groupId: 2,
-            full_name: "Aytac",
-            text: "Problem var",
-            time: "19:34",
-            type: "sent"
-        },
-        {
-            id: 5,
-            groupId: 2,
-            full_name: "İlkin Əliyev",
-            text: "Nə problemi?",
-            time: "19:34",
-            type: "received"
-        },
-        {
-            id: 6,
-            groupId: 2,
-            full_name: "Aytac",
-            text: "Socket",
-            time: "19:34",
-            type: "sent"
+    
+    
+
+        const connectWebSocketChat = async () => {
+            try {
+                const token = localStorage.getItem("access_token");
+                if (!token) {
+                    throw new Error('No access token available');
+                }
+                console.log(groups,'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb')
+                const email = localStorage.getItem("saved_email");
+    
+                wsChat.current = new WebSocket(
+                    `ws://135.181.42.192/chat/?email=${email}&token=${token}`
+                );
+
+                wsChat.current.onopen = () => {
+                    console.log("WebSocketChat connection established.");
+                };
+
+                wsChat.current.onmessage = (event) => {
+                    console.log("Chat Received raw WebSocket message:", event.data);
+
+                    const data = JSON.parse(event.data);
+                    console.log(data,messagess,'vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv')
+
+                    setMessages(prevMessages => {
+                        // Check if the message with the same ID already exists
+                        const isDuplicate = prevMessages.some(message => message.id === data.id);
+                    
+                        // Only add the new message if it's not a duplicate
+                        if (!isDuplicate) {
+                            return [...prevMessages, data];
+                        }
+                    
+                        // Return the previous state if it's a duplicate
+                        return prevMessages;
+                    });
+                    console.log(messagess,data,'---------------------------------------')
+                };
+
+                wsChat.current.onerror = async (error) => {
+                    console.error("WebSocketChat error:", error);
+
+                    try {
+                        await refreshAccessToken();
+                        connectWebSocketChat();
+                    } catch (refreshError) {
+                        console.error('Chat Error refreshing token:', refreshError);
+                    }
+                };
+
+                wsChat.current.onclose = async (event) => {
+                    if (event.wasClean) {
+                        console.log(`WebSocketChat connection closed cleanly, code=${event.code}, reason=${event.reason}`);
+                        setTimeout(connectWebSocketChat, 5000);
+                    } else {
+                        console.error("WebSocketChat connection died unexpectedly");
+                        try {
+                            await refreshAccessToken();
+                            setTimeout(connectWebSocketChat, 5000);
+                        } catch (refreshError) {
+                            console.error('Chat Error refreshing token:', refreshError);
+                        }
+                    }
+                };
+            } catch (error) {
+                console.error('WebSocketChat connection error:', error);
+            }
+        };
+
+        const sendMessage = () => {
+            
+            console.log('pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp',wsChat.current)
+            if (wsChat.current) {
+            wsChat.current.send(JSON.stringify({
+               room:activeGroup,
+               content:inputValue
+            }))
+            console.log('oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo',wsChat.current)
         }
-    ];
+        }
+
+        useEffect(() => {
+            connectWebSocketChat();
+          
+            return () => {
+                if (wsChat.current && wsChat.current.readyState === WebSocket.OPEN) {
+                    wsChat.current.close();
+                }
+            };
+        }, []);
+
+    const fetchData = async () => {
+        try {
+
+            const accessToken = localStorage.getItem('access_token');
+    
+            if (!accessToken) {
+                throw new Error('Access token is not available');
+            }
+    
+            const response = await fetch('http://135.181.42.192/accounts/RoomsApiView/', {
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`,
+                    'Content-Type': 'application/json' 
+                }
+            });
+    
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+    
+            const data = await response.json();
+            setGroups(data);
+    
+        } catch (error) {
+            console.error('Fetch error:', error);
+        }
+    };
+  
 
     useEffect(() => {
-        fetch('http://135.181.42.192/accounts/RoomsApiView/')
-            .then(response => response.json())
-            .then(data => {
-                setGroups(data);
-            });
+       
+        fetchData();
     }, []);
 
+
+    const fetchMessages = async () => {
+        try {
+            
+            const accessToken = localStorage.getItem('access_token');
+    
+            if (!accessToken) {
+                throw new Error('Access token is not available');
+            }
+    
+            const response = await fetch('http://135.181.42.192/accounts/messages/', {
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`,
+                    'Content-Type': 'application/json' 
+                }
+            });
+    
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+    
+            const data = await response.json();
+            console.log(data,';;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;')
+            
+            setMessages(data.results.reverse());
+    
+        } catch (error) {
+            console.error('Fetch error:', error);
+        }
+    };
+  
+    useEffect(() => {
+       
+        fetchMessages();
+    }, []);
+   
     const renderMessages = () => {
-        return messages
-            .filter((message) => message.groupId === activeGroup)
+        return messagess
+            .filter((message) => message.room === activeGroup)
             .map((message, index, filteredMessages) => {
                 const isSameAsPrevious =
                     index > 0 &&
-                    filteredMessages[index - 1].type === message.type &&
-                    filteredMessages[index - 1].full_name === message.full_name;
+                    filteredMessages[index - 1].typeM === message.typeM &&
+                    filteredMessages[index - 1].user.first_name === message.user.first_name;
 
                 const color = colors[index % colors.length];
 
                 return (
-                    <div key={message.id} className={`${message.type}`}>
-                        {!isSameAsPrevious && message.type !== "sent" && (
+                    <div key={message.id} className={`${message.typeM}`}>
+                        {!isSameAsPrevious && message.typeM !== "sent" && (
                             <div className="avatar-column">
                                 <div className="avatar" style={{ color }}>
-                                    {message.full_name.charAt(0)}
+                                    {message.user?.first_name ? message.user.first_name.charAt(0) : ''}
                                 </div>
                             </div>
                         )}
 
                         <div className={`message ${isSameAsPrevious ? "indented" : ""}`}>
-                            {!isSameAsPrevious && message.type !== "sent" && (
+                            {!isSameAsPrevious && message.typeM !== "sent" && (
                                 <div className="name" style={{ color }}>
-                                    {message.full_name}
+                                    {message.user.first_name}
                                 </div>
                             )}
-                            <div className="text">{message.text}</div>
-                            <div className="time">{message.time}</div>
+                            <div className="text">{message.content}</div>
+                            <div className="time">{message.timestamp}</div>
                         </div>
                     </div>
                 );
@@ -130,9 +237,9 @@ const Chat = () => {
 
     const handleOpenModal = (group) => {
         setSelectedGroup(group);
-        const groupName = groups.find(g => g.id === group)?.name || []
+        const mygroupName = groups.find(g => g.id === group)?.name || []
         const groupMembers = groups.find(g => g.id === group)?.members || [];
-        setGroupName(groupName);
+        setGroupName(mygroupName);
         setMembers(groupMembers);
         setModalOpen(true);
     };
@@ -154,36 +261,23 @@ const Chat = () => {
         }
     };
 
-    const fetchGroups = async () => {
-        try {
-            const response = await axios.get('http://135.181.42.192/accounts/RoomsApiView/');
-            setGroups(response.data);
-        } catch (error) {
-            console.error("Failed to fetch groups:", error);
-        }
-    };
-
+  
     useEffect(() => {
-        fetchGroups();
-    }, []);
+        if (selectedGroup) {
+            const mygroupName = groups.find(g => g.id === selectedGroup)?.name || [];
+            const groupMembers = groups.find(g => g.id === selectedGroup)?.members || [];
+            setGroupName(mygroupName);
+            setMembers(groupMembers);
+            console.log(groupMembers, '0000000000000000000000000000000000000000000000000');
+        }
+    }, [groups, selectedGroup]);
 
 
     const handleMembersUpdated = () => {
-        fetchMembersList();
+        fetchData();
     };
 
-    const fetchMembersList = async () => {
-        try {
-            const token = localStorage.getItem('access_token');
-            const response = await axios.get('http://135.181.42.192/accounts/rooms/{groupId}/members/', {
-                headers: { 'Authorization': `Bearer ${token}` }
-            });
-            setMembers(response.data);
-        } catch (error) {
-            await refreshAccessToken();
-            console.error("Error fetching members:", error);
-        }
-    };
+   
 
     return (
         <div className="chat-container">
@@ -251,9 +345,10 @@ const Chat = () => {
                                 style={{ display: "none" }}
                                 onChange={handleFileChange}
                             />
-                            <RiAttachmentLine onClick={handleAttachmentClick} className="attachment-icon" />                            <div className="chat-input-icon">
-                                <input type="text" placeholder="Mesaj yaz" />
-                                <BsFillSendFill className="send-icon" />
+                            <RiAttachmentLine onClick={handleAttachmentClick} className="attachment-icon" />                            
+                            <div className="chat-input-icon">
+                                <input   value={inputValue} onChange={(e) => setInputValue(e.target.value)}  type="text" placeholder="Mesaj yaz" />
+                                <BsFillSendFill onClick={sendMessage} className="send-icon" />
                             </div>
                         </div>
                     </>

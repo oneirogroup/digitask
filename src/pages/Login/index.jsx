@@ -94,6 +94,7 @@ const Login = (props) => {
         }
 
         try {
+        
             const response = await axios.post(
                 'http://135.181.42.192/accounts/login/',
                 { email, password, remember_me: rememberMe },
@@ -138,7 +139,7 @@ const Login = (props) => {
 
             if (error.response && error.response.data) {
                 const serverErrors = error.response.data;
-
+                console.log(serverErrors)
                 if (serverErrors.detail) {
                     newErrors.global = "Giriş Məlumatları Yanlışdır.\nYanlış e-poçt ünvanı və ya şifrə.";
                 } else if (serverErrors.non_field_errors) {
