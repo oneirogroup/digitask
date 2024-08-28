@@ -26,7 +26,7 @@ class CircleChart extends React.Component {
             options: {
                 chart: {
                     type: 'donut',
-                    height: 250,
+                    height: 300,
                 },
                 plotOptions: {
                     pie: {
@@ -42,11 +42,34 @@ class CircleChart extends React.Component {
                     breakpoint: 480,
                     options: {
                         chart: {
-                            width: 250,
-                            height: 100,
+                            width: '100%',
+                            height: 300,
                         },
                         legend: {
-                            position: 'bottom'
+                            position: 'bottom',
+                            offsetY: 0,
+                        },
+                        plotOptions: {
+                            pie: {
+                                startAngle: -90,
+                                endAngle: 90,
+                                offsetY: 10,
+                            }
+                        },
+                        tooltip: {
+                            y: {
+                                formatter: function (val) {
+                                    return val.toFixed(0) + '%';
+                                }
+                            },
+                            custom: function ({ seriesIndex, dataPointIndex, w }) {
+                                const series = w.config.series[seriesIndex];
+                                const legendLabels = w.config.legend.labels;
+
+                                return `<div class="apexcharts-tooltip-custom">
+                                            <span>${legendLabels[seriesIndex]}: ${series[dataPointIndex].toFixed(0)}%</span>
+                                        </div>`;
+                            }
                         }
                     }
                 }],

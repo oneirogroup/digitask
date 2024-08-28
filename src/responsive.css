@@ -1,0 +1,187 @@
+/* Home page */
+
+@media screen and (max-width: 1200px) {
+  .task-status button {
+    padding: 5px 8px;
+    font-size: 15px;
+  }
+  .home-meet-section .meet-img img {
+    display: none;
+  }
+  .home-tasks table tr td:nth-of-type(2),
+  .home-tasks table tr th:nth-of-type(2) {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 1050px) {
+  .layout-with-sidebar .main-content {
+    padding: 25px 15px;
+  }
+
+  .home-tasks table tr td:nth-of-type(5),
+  .home-tasks table tr th:nth-of-type(5) {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .home-charts {
+    flex-direction: column;
+  }
+
+  #chart {
+    width: 100%;
+    padding: 7px 0;
+  }
+
+  .home-meet-section .meet-time-date h5 {
+    font-size: 23px;
+  }
+
+  #circlechart {
+    width: 100%;
+  }
+
+  .home-meet-section {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .home-employee-task{
+    width: 100%;
+  }
+  .home-meet-section .meet-time-date-img {
+height: 150px;  
+}
+}
+
+@media screen and (max-width: 960px) {
+  .home-tasks-sec {
+    flex-direction: column;
+  }
+  .home-tasks {
+    width: 100%;
+  }
+
+  .home-tasks table tr td:nth-of-type(2),
+  .home-tasks table tr th:nth-of-type(2),
+  .home-tasks table tr td:nth-of-type(5),
+  .home-tasks table tr th:nth-of-type(5) {
+    display: table-cell;
+  }
+  .home-tasks table tr td:nth-of-type(2) {
+    font-size: 15px;
+  }
+
+  .home-tasks table tr td:nth-of-type(4) {
+    max-width: 140px;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .home-tasks table tr td:nth-of-type(3) svg {
+    font-size: 20px;
+  }
+
+  .home-tasks table tr td:nth-of-type(5),
+  .home-tasks table tr th:nth-of-type(5) {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .home-tasks th,
+  .home-tasks td,
+  .home-employee-task th,
+  .home-employee-task td {
+    padding: 10px;
+  }
+  .task-status button {
+    padding: 4px 7px;
+    font-size: 14px;
+  }
+  .home-tasks table tr td:nth-of-type(2) {
+    font-size: 14px;
+  }
+  .home-tasks table tr td:nth-of-type(4) {
+    max-width: 124px;
+  }
+  .home-tasks table tr td:first-of-type {
+    font-size: 15px;
+  }
+  .home-tasks table tr td:nth-of-type(2),
+  .home-tasks table tr th:nth-of-type(2) {
+    display: none;
+  }
+  .home-meet-section .meet-time-date h5 {
+    font-size: 21px;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .home-meet-section .meet-time-date h5 {
+    font-size: 22px;
+  }
+  .home-meet-section .meet-time-date-img {
+    height: 100%;
+  }
+  .home-tasks table tr td:nth-of-type(2),
+  .home-tasks table tr th:nth-of-type(2) {
+    display: table-cell;
+  }
+  .home-meet-section {
+    padding: 5px 0 25px 0;
+  }
+  .sidebar {
+    display: none;
+  }
+
+  .sidebar.show {
+    display: block;
+    background-color: white;
+  }
+
+  .menu-toggle {
+    display: inline-block;
+    cursor: pointer;
+    font-size: 24px;
+  }
+
+  .layout-with-sidebar .main-content {
+    margin-left: 0;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .home-tasks table tr td:nth-of-type(2),
+  .home-tasks table tr th:nth-of-type(2) {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .home-meet-section .meet-time-date-img {
+    padding: 16px;
+  }
+  .home-meet-section .meet-time-date h5 {
+    font-size: 20px;
+  }
+  .home-tasks table tr td:nth-of-type(4),
+  .home-tasks tr th:nth-of-type(4) {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 412px) {
+  .apexcharts-text tspan {
+    font-size: 10px;
+  }
+  .year-filter {
+    font-size: 18px;
+  }
+  .home-employee-task {
+    width: 100%;
+  }
+  .home-meet-section {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
