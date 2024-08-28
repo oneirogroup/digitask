@@ -28,7 +28,7 @@ const Chat = () => {
     const [messagess, setMessages] = useState([])
     const [inputValue, setInputValue] = useState('');
     const wsChat = useRef(null);
-
+    const divRef = useRef(null);
     const colors = [
         "#ff5733", "#33ff57", "#3357ff", "#ff33a1", "#33fff7", "#f7ff33"
     ];
@@ -57,8 +57,14 @@ const Chat = () => {
                     console.log("Chat Received raw WebSocket message:", event.data);
 
                     const data = JSON.parse(event.data);
-                    console.log(data,messagess,'vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv')
-
+                                
+                    const email = data?.email;
+                    if(email){
+                            localStorage.setItem('socketEmail',email)
+                    }else{
+                    const socketEmail = localStorage.getItem('socketEmail')
+                    const typeM = data.user.email === socketEmail ? 'sent' : 'received';
+                    data.typeM = typeM;
                     setMessages(prevMessages => {
                         // Check if the message with the same ID already exists
                         const isDuplicate = prevMessages.some(message => message.id === data.id);
@@ -71,6 +77,7 @@ const Chat = () => {
                         // Return the previous state if it's a duplicate
                         return prevMessages;
                     });
+                    }
                     console.log(messagess,data,'---------------------------------------')
                 };
 
@@ -112,6 +119,8 @@ const Chat = () => {
                room:activeGroup,
                content:inputValue
             }))
+            console.log(divRef,'ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss')
+            
             console.log('oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo',wsChat.current)
         }
         }
@@ -156,10 +165,15 @@ const Chat = () => {
   
 
     useEffect(() => {
-       
         fetchData();
     }, []);
-
+   
+    useEffect(() => {
+        if (divRef.current) {
+            console.log(divRef,'sssssssssssssssssssssddddssssssssssssssssssssssssssssssssssssssssss')
+            divRef.current.scrollTop = divRef.current.scrollHeight;
+        }
+    }, [messagess]);
 
     const fetchMessages = async () => {
         try {
@@ -335,7 +349,7 @@ const Chat = () => {
                                 <BsThreeDotsVertical className="action-icon" />
                             </div>
                         </div>
-                        <div className="chat-messages">
+                        <div ref={divRef} className="chat-messages">
                             {renderMessages()}
                         </div>
                         <div className="chat-input">
