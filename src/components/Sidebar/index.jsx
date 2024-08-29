@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useUser } from '../../contexts/UserContext';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import logo from "../../assets/images/logo.svg";
@@ -16,7 +16,7 @@ import { useNavigate } from 'react-router-dom';
 import "./sidebar.css";
 import LogoutModal from '../LogoutModal';
 
-const Sidebar = ({ children }) => {
+const Sidebar = ({ children, isSidebarOpen, onClose }) => {
     const { userType } = useUser();
     const [menuItems, setMenuItems] = useState([]);
 
@@ -90,10 +90,30 @@ const Sidebar = ({ children }) => {
         }
     }, [isAuth]);
 
+    const sidebarRef = useRef(null);
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {
+                onClose();
+            }
+        };
+
+        if (isSidebarOpen) {
+            document.addEventListener('mousedown', handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [isSidebarOpen, onClose]);
+
+
     return (
-        <div className={`sidebar${isLoginPage ? ' hidden' : ''}`}>
+        <div className={`sidebar${isLoginPage ? ' hidden' : ''}${isSidebarOpen ? ' show' : ''}`} ref={sidebarRef}>
             <div className="top_section">
                 <img src={logo} alt="" className='digitask-logo' />
+                <button className="sidebar-close-btn" onClick={onClose}>×</button>
             </div>
             <p>Əsas</p>
             <div>

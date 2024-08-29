@@ -15,3 +15,9 @@
     cursor: pointer;
 }
 
+.menu-toggle {
+    display: none;
+    background-color: inherit;
+    border: none;
+}
+

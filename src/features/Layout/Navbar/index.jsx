@@ -1,6 +1,6 @@
 import { BsChatTextFill } from "react-icons/bs";
 import { IoNotifications } from "react-icons/io5";
-import { MdPerson } from "react-icons/md";
+import { MdPerson, MdMenu } from "react-icons/md";
 import "./navbar.css";
 import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -19,7 +19,7 @@ const refreshAccessToken = async () => {
     axios.defaults.headers.common['Authorization'] = `Bearer ${access}`;
 };
 
-const Navbar = () => {
+const Navbar = ({ onToggleSidebar }) => {
     const [notificationNumber, setnotificationNumber] = useState(null);
     const [notifications, setNotifications] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -111,7 +111,11 @@ const Navbar = () => {
 
     return (
         <>
+
             <div className="navbar-icons">
+                <a onClick={onToggleSidebar} className="menu-toggle">
+                    <MdMenu />
+                </a>
                 <Link to="/chat/" style={getLinkStyle("/chat/")}>
                     <BsChatTextFill />
                 </Link>

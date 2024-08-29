@@ -1,0 +1,733 @@
+@media screen and (max-width: 1320px) {
+  /* Task page */
+
+  .task-page th,
+  .task-page td {
+    padding: 11px;
+  }
+}
+
+@media screen and (max-width: 1270px) {
+  /* Task page */
+
+  .table-container tbody tr td:nth-of-type(2),
+  .table-container tbody tr td:nth-of-type(3),
+  .table-container table tbody tr td:nth-of-type(8) {
+    white-space: wrap;
+  }
+  .table-container tbody tr td,
+  .table-container tr th {
+    font-size: 15px !important;
+  }
+  .task-status button {
+    padding: 5px 8px;
+    font-size: 15.2px;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  /* Home page */
+
+  .home-meet-section .meet-img img {
+    display: none;
+  }
+  .home-tasks table tr td:nth-of-type(2),
+  .home-tasks table tr th:nth-of-type(2),
+  .table-container tbody tr td:nth-of-type(9),
+  .table-container tr th:nth-of-type(9) {
+    display: none;
+  }
+
+  /* Task page */
+
+  .task-status button {
+    padding: 5px 8px;
+    font-size: 15px;
+  }
+}
+
+@media screen and (max-width: 1120px) {
+  /* Task Page */
+
+  .table-container tbody tr td:nth-of-type(9),
+  .table-container tr th:nth-of-type(9) {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 1050px) {
+  /* Pages */
+  .layout-with-sidebar .main-content {
+    padding: 25px 15px;
+  }
+
+  /* Home page */
+
+  .home-tasks table tr td:nth-of-type(5),
+  .home-tasks table tr th:nth-of-type(5) {
+    display: none;
+  }
+
+  /* Task page */
+
+  .table-container tbody tr td,
+  .table-container tr th {
+    font-size: 14px !important;
+  }
+
+  .task-page th,
+  .task-page td {
+    padding: 7px 11px;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  /* Home page */
+
+  .home-charts {
+    flex-direction: column;
+  }
+
+  #chart {
+    width: 100%;
+    padding: 7px 0;
+  }
+
+  .home-meet-section .meet-time-date h5 {
+    font-size: 23px;
+  }
+
+  #circlechart {
+    width: 100%;
+  }
+
+  .home-meet-section {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .home-employee-task {
+    width: 100%;
+  }
+  .home-meet-section .meet-time-date-img {
+    height: 150px;
+  }
+
+  /* Performance page */
+
+  .performance-table-container tbody tr td,
+  .performance-page th {
+    font-size: 16px;
+  }
+
+  /* Task page */
+
+  .task-page th,
+  .task-page td {
+    padding: 10px;
+  }
+  .table-container tr th:nth-of-type(3),
+  .table-container tbody tr td:nth-of-type(3) {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 960px) {
+  /* Home page */
+
+  .home-tasks-sec {
+    flex-direction: column;
+  }
+  .home-tasks {
+    width: 100%;
+  }
+
+  .home-tasks table tr td:nth-of-type(2),
+  .home-tasks table tr th:nth-of-type(2),
+  .home-tasks table tr td:nth-of-type(5),
+  .home-tasks table tr th:nth-of-type(5) {
+    display: table-cell;
+  }
+  .home-tasks table tr td:nth-of-type(2) {
+    font-size: 15px;
+  }
+
+  .home-tasks table tr td:nth-of-type(4) {
+    max-width: 140px;
+  }
+
+  /* Task page */
+
+  .task-status button {
+    padding: 5px 7px;
+    font-size: 14px;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  /* Home page */
+  .home-tasks table tr td:nth-of-type(3) svg {
+    font-size: 20px;
+  }
+
+  .home-tasks table tr td:nth-of-type(5),
+  .home-tasks table tr th:nth-of-type(5) {
+    display: none;
+  }
+
+  /* Performance page */
+
+  .performance-table-container tbody tr td,
+  .performance-page th,
+  .performance-table-container tbody tr td:first-of-type {
+    font-size: 15px;
+  }
+  .date-picker {
+    padding: 0px;
+    width: 126px;
+  }
+  .performance-page th,
+  .performance-page td {
+    padding: 16px 8px !important;
+  }
+
+  /* Task page */
+
+  .table-container tbody tr td:nth-of-type(7),
+  .table-container tr th:nth-of-type(7) {
+    display: none;
+  }
+
+  .table-container tbody tr td,
+  .table-container tr th {
+    font-size: 13px !important;
+  }
+  .task-page-title p {
+    font-size: 29px;
+  }
+  .task-page-title div button {
+    padding: 9px;
+    font-size: 15px;
+  }
+  .task-history-status button:first-of-type div span {
+    padding: 7px 9px;
+  }
+  .task-history-status button:first-of-type {
+    width: 290px;
+    height: 36px;
+  }
+  .task-history-status button p {
+    font-size: 17px;
+  }
+
+  /* Employee Page */
+
+  .employee-table-container tbody td:nth-of-type(4),
+  .employee-table-container th:nth-of-type(4) {
+    display: none;
+  }
+
+  .employee-search-filter > div:first-of-type input {
+    padding: 13px 33px 13px 40px;
+    width: 92%;
+    border: none;
+  }
+
+  .employee-search-filter > div:first-of-type {
+    border: 0.5px solid #ababaf;
+    border-radius: 8px;
+  }
+
+  .employee-title button {
+    padding: 9px;
+    font-size: 15px;
+  }
+}
+@media screen and (max-width: 810px) {
+  .employee-table-container tbody td:nth-of-type(3),
+  .employee-table-container th:nth-of-type(3) {
+    display: none;
+  }
+
+  .employee-table-container th,
+  .employee-table-container td {
+    font-size: 15px !important;
+  }
+
+  /* Task page */
+
+  .table-container tbody tr td:nth-of-type(4),
+  .table-container tr th:nth-of-type(4) {
+    display: none;
+  }
+  .table-container tbody tr td:first-of-type,
+  .table-container tr th:first-of-type {
+    display: none;
+  }
+  .taskPage-taskType button {
+    font-size: 17px;
+  }
+  .task-history-status button:first-of-type {
+    width: 240px;
+  }
+  .task-history-status button:last-of-type {
+    padding: 9px 8px;
+    font-size: 14px;
+  }
+
+  .task-page-title div button {
+    padding: 8px;
+    font-size: 14px;
+  }
+
+  .employee-search-filter div div button {
+    padding: 8px;
+  }
+  .employee-search-filter div div button span {
+    font-size: 15px;
+  }
+  .employee-search-filter > div:first-of-type input {
+    padding: 13px 25px 13px 30px;
+  }
+  .employee-search-filter > div:first-of-type svg:first-of-type {
+    left: 5px;
+    top: 10px;
+    font-size: 21px;
+  }
+  .employee-search-filter div div button {
+    padding: 7px;
+  }
+  .employee-search-filter div div button span {
+    font-size: 14px;
+  }
+  .employee-search-filter div:last-of-type {
+    gap: 7px;
+  }
+  .navbar-icons{
+    font-size: 24px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  /* Home page */
+
+  .home-tasks th,
+  .home-tasks td,
+  .home-employee-task th,
+  .home-employee-task td {
+    padding: 10px;
+  }
+  .task-status button {
+    padding: 4px 7px;
+    font-size: 14px;
+  }
+  .home-tasks table tr td:nth-of-type(2) {
+    font-size: 14px;
+  }
+  .home-tasks table tr td:nth-of-type(4) {
+    max-width: 124px;
+  }
+  .home-tasks table tr td:first-of-type {
+    font-size: 15px;
+  }
+  .home-tasks table tr td:nth-of-type(2),
+  .home-tasks table tr th:nth-of-type(2) {
+    display: none;
+  }
+  .home-meet-section .meet-time-date h5 {
+    font-size: 21px;
+  }
+
+  /* Performance page */
+  .performance-table-container tbody tr td,
+  .performance-page th,
+  .performance-table-container tbody tr td:first-of-type {
+    font-size: 14px;
+  }
+  .performance-table-container tbody tr td:nth-of-type(3),
+  .performance-table-container tr th:nth-of-type(3) {
+    display: none;
+  }
+  .performance-filter > div:first-of-type button:last-of-type {
+    padding: 8px 7px;
+    font-size: 15px;
+  }
+
+  /* Settings page */
+
+  .settings-fields div div p,
+  .settings-fields button div p {
+    font-size: 18px;
+  }
+
+  .settings-fields div div svg,
+  .settings-fields button div svg {
+    font-size: 21px;
+  }
+
+  /* Task page */
+
+  .table-container tbody tr td,
+  .table-container tr th {
+    font-size: 12px !important;
+  }
+  .table-container tbody tr td:last-of-type button {
+    font-size: 16px;
+  }
+
+  .employee-search-filter > div:first-of-type input {
+    padding: 10px 0 10px 28px;
+    width: 80%;
+  }
+
+  .employee-search-filter > div:first-of-type input::placeholder {
+    font-size: 14px;
+  }
+
+  .employee-search-filter > div:first-of-type svg:first-of-type {
+    left: 5px;
+    top: 10px;
+    font-size: 18px;
+  }
+
+  .employee-search-filter > div:first-of-type svg:last-of-type {
+    top: 8px;
+    font-size: 21px;
+  }
+  .employee-table-container tbody td:first-of-type,
+  .employee-table-container th:first-of-type {
+    display: none;
+  }
+  .employee-table-container th,
+  .employee-table-container td {
+    font-size: 14px !important;
+  }
+}
+
+@media screen and (max-width: 740px) {
+  .employee-search-filter > div:first-of-type input {
+    width: 72%;
+  }
+  .employee-search-filter > div:first-of-type {
+    width: 35%;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  /* Sidebar */
+  .sidebar {
+    width: 185px;
+  }
+  .aside-link {
+    padding: 9px;
+  }
+  .aside-link .icon {
+    margin-right: 8px;
+  }
+
+  /* Performance page */
+
+  .performance-page th,
+  .performance-page td {
+    padding: 16px 7px !important;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  /* Home page */
+
+  .home-meet-section .meet-time-date h5 {
+    font-size: 22px;
+  }
+  .home-meet-section .meet-time-date-img {
+    height: 100%;
+  }
+  .home-tasks table tr td:nth-of-type(2),
+  .home-tasks table tr th:nth-of-type(2) {
+    display: table-cell;
+  }
+  .home-meet-section {
+    padding: 5px 0 25px 0;
+  }
+
+  /* Sidebar */
+
+  .sidebar {
+    display: none;
+  }
+
+  .sidebar.show {
+    display: block;
+    background-color: white;
+  }
+
+  .menu-toggle {
+    display: inline-block;
+    cursor: pointer;
+    font-size: 24px;
+  }
+
+  .layout-with-sidebar .main-content {
+    margin-left: 0;
+  }
+
+  /* Performance page */
+
+  .performance-table-container tbody tr td:nth-of-type(3),
+  .performance-table-container tr th:nth-of-type(3) {
+    display: table-cell;
+  }
+
+  /* Task page */
+
+  .table-container tr th:nth-of-type(3),
+  .table-container tbody tr td:nth-of-type(3) {
+    display: table-cell;
+  }
+
+  .employee-table-container tbody td:first-of-type,
+  .employee-table-container th:first-of-type {
+    display: table-cell;
+  }
+
+  .navbar-icons {
+    right: 18px;
+    }
+}
+
+@media screen and (max-width: 550px) {
+  /* Home page */
+
+  .home-tasks table tr td:nth-of-type(2),
+  .home-tasks table tr th:nth-of-type(2) {
+    display: none;
+  }
+
+  /* Performance page */
+
+  .performance-table-container tbody tr td:nth-of-type(3),
+  .performance-table-container tr th:nth-of-type(3) {
+    display: none;
+  }
+  .date-picker {
+    padding: 0px 5px;
+    width: 118px;
+    font-size: 15px;
+  }
+  .performance-filter > div:first-of-type button:last-of-type {
+    padding: 8px 5px;
+    font-size: 14px;
+  }
+
+  /* Settings page */
+
+  .settings-fields div div p,
+  .settings-fields button div p {
+    font-size: 17px;
+  }
+
+  .settings-fields div div svg,
+  .settings-fields button div svg {
+    font-size: 19px;
+  }
+
+  /* Task page */
+
+  .table-container tr th:nth-of-type(3),
+  .table-container tbody tr td:nth-of-type(3) {
+    display: none;
+  }
+
+  .taskPage-taskType button {
+    font-size: 16px;
+  }
+  .task-page th,
+  .task-page td {
+    padding: 9px !important;
+  }
+
+  .employee-title button {
+    padding: 8px;
+    font-size: 14px;
+  }
+
+  .employee-table-container tbody td:first-of-type,
+  .employee-table-container th:first-of-type {
+    display: none;
+  }
+
+  .employee-search-filter > div:first-of-type input {
+    width: 74%;
+  }
+  .employee-search-filter > div:first-of-type svg:first-of-type {
+    top: 8px;
+  }
+  .employee-search-filter div div button {
+    padding: 7px 6px;
+  }
+  .employee-search-filter div div button span {
+    font-size: 13px;
+  }
+  .employee-title button {
+    padding: 7px;
+    font-size: 13px;
+}
+}
+
+@media screen and (max-width: 450px) {
+  /* Home page */
+
+  .home-meet-section .meet-time-date-img {
+    padding: 16px;
+  }
+  .home-meet-section .meet-time-date h5 {
+    font-size: 20px;
+  }
+  .home-tasks table tr td:nth-of-type(4),
+  .home-tasks tr th:nth-of-type(4) {
+    display: none;
+  }
+  .performance-page th,
+  .performance-page td {
+    padding: 16px 6px !important;
+  }
+  .performance-table-container tbody tr td,
+  .performance-page th,
+  .performance-table-container tbody tr td:first-of-type {
+    font-size: 13px;
+  }
+
+  .performance-table-container tbody tr td:first-of-type,
+  .performance-table-container tbody tr td:nth-of-type(2) {
+    white-space: wrap;
+  }
+  .performance-table-container tr th:nth-of-type(5),
+  .performance-table-container tbody tr td:nth-of-type(5) {
+    display: none;
+  }
+
+  .performance-filter {
+    display: flex;
+    flex-direction: column;
+    align-items: baseline;
+    gap: 10px;
+  }
+  .date-picker {
+    height: 35px;
+  }
+
+  .performance-page-title {
+    padding: 10px 0;
+  }
+
+  /* Task page */
+
+  .task-page-title div button {
+    padding: 7px;
+  }
+  .task-page-title div {
+    gap: 5px;
+  }
+  .task-history-status button p {
+    font-size: 15px;
+  }
+  .task-history-status button:first-of-type div span {
+    padding: 5px 7px;
+  }
+  .task-history-status button:first-of-type {
+    width: 210px;
+  }
+  .task-history-status button:last-of-type {
+    padding: 7px 8px;
+    font-size: 13px;
+  }
+  .table-container tbody tr td:nth-of-type(5),
+  .table-container tr th:nth-of-type(5) {
+    display: none;
+  }
+  .employee-search-filter {
+    flex-direction: column;
+    align-items: start;
+    gap: 14px;
+  }
+  .employee-search-filter > div:first-of-type {
+    width: 100%;
+}
+.employee-search-filter > div:first-of-type input {
+  width: 89%;
+}
+.employee-table-container th, .employee-table-container td {
+  font-size: 13px !important;
+}
+.employee-table-container th, .employee-table-container td{
+  padding: 15px 9px;
+}
+.employee-table-container tbody tr td:nth-of-type(8) a svg{
+  font-size: 23px;
+}
+.employee-table-container tbody td:nth-of-type(5), .employee-table-container th:nth-of-type(5){
+  display: none;
+
+}
+.navbar-icons a, .navbar-icons div {
+  font-size: 23px
+}
+}
+
+@media screen and (max-width: 412px) {
+  /* Home page */
+
+  .apexcharts-text tspan {
+    font-size: 10px;
+  }
+  .year-filter {
+    font-size: 18px;
+  }
+  .home-employee-task {
+    width: 100%;
+  }
+  .home-meet-section {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  .task-page-title p {
+    font-size: 31px;
+  }
+
+  .task-page-title {
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    padding: 10px 0 20px 0;
+  }
+
+  .task-status button {
+    padding: 3px 7px;
+    font-size: 13px;
+  }
+
+  .task-page-title div {
+    justify-content: space-around;
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .task-page-title div button {
+    padding: 7px 12px;
+    font-size: 15px;
+  }
+  .taskPage-taskType button {
+    font-size: 15px;
+  }
+  .task-history-status button p {
+    font-size: 14px;
+  }
+  .task-history-status button:first-of-type div span {
+    padding: 4px 6px;
+  }
+  .task-history-status button:first-of-type {
+    width: 180px;
+  }
+  .task-history-status button:last-of-type {
+    padding: 7px;
+    font-size: 12px;
+  }
+}
