@@ -45,8 +45,8 @@ function index({ onClose,status }) {
 
     useEffect(() => {
         if (status.location) {
-          const newLocationList = [status.location.latitude, status.location.longitude];
-          setLocationList(newLocationList);
+    
+          setLocationList([status.location.latitude, status.location.longitude]);
           setPositions((prevPositions) => [...prevPositions, [status.location.latitude, status.location.longitude]]);
         }
       }, [status]);

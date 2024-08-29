@@ -26,9 +26,13 @@ const Chat = () => {
     const [groups, setGroups] = useState([]);
     const fileInputRef = useRef(null);
     const [messagess, setMessages] = useState([])
+    const [lastMessages, setLastMessages] = useState({});
     const [inputValue, setInputValue] = useState('');
     const wsChat = useRef(null);
     const divRef = useRef(null);
+    const [messageCount, setMessageCount] = useState(30);
+    const [shouldScroll, setShouldScroll] = useState(true);
+    const messageInputRef = useRef(null);
     const colors = [
         "#ff5733", "#33ff57", "#3357ff", "#ff33a1", "#33fff7", "#f7ff33"
     ];
@@ -65,16 +69,13 @@ const Chat = () => {
                     const socketEmail = localStorage.getItem('socketEmail')
                     const typeM = data.user.email === socketEmail ? 'sent' : 'received';
                     data.typeM = typeM;
+                    setShouldScroll(true)
                     setMessages(prevMessages => {
                         // Check if the message with the same ID already exists
                         const isDuplicate = prevMessages.some(message => message.id === data.id);
-                    
-                        // Only add the new message if it's not a duplicate
                         if (!isDuplicate) {
                             return [...prevMessages, data];
                         }
-                    
-                        // Return the previous state if it's a duplicate
                         return prevMessages;
                     });
                     }
@@ -124,6 +125,11 @@ const Chat = () => {
             console.log('oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo',wsChat.current)
         }
         }
+        const handleSendMessage = () => {
+            sendMessage();
+            // Clear the input field after sending the message
+            setInputValue('');
+          };
 
         useEffect(() => {
             connectWebSocketChat();
@@ -156,6 +162,7 @@ const Chat = () => {
             }
     
             const data = await response.json();
+            
             setGroups(data);
     
         } catch (error) {
@@ -169,13 +176,15 @@ const Chat = () => {
     }, []);
    
     useEffect(() => {
+        if (shouldScroll){
         if (divRef.current) {
             console.log(divRef,'sssssssssssssssssssssddddssssssssssssssssssssssssssssssssssssssssss')
             divRef.current.scrollTop = divRef.current.scrollHeight;
         }
+    }
     }, [messagess,activeGroup]);
 
-    const fetchMessages = async () => {
+    const fetchMessages = async (arg=false) => {
         try {
             
             const accessToken = localStorage.getItem('access_token');
@@ -183,8 +192,8 @@ const Chat = () => {
             if (!accessToken) {
                 throw new Error('Access token is not available');
             }
-    
-            const response = await fetch('http://135.181.42.192/accounts/messages/', {
+        
+            const response = await fetch(`http://135.181.42.192/accounts/messages/?page_size=${messageCount}`, {
                 headers: {
                     'Authorization': `Bearer ${accessToken}`,
                     'Content-Type': 'application/json' 
@@ -192,11 +201,18 @@ const Chat = () => {
             });
     
             if (!response.ok) {
+                
                 throw new Error('Network response was not ok');
             }
-    
+            console.log(messageCount)
+            setMessageCount(prevCount => prevCount + 30);
             const data = await response.json();
             console.log(data,';;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;')
+            if (arg){
+                setShouldScroll(false);
+            }else{
+                setShouldScroll(true)
+            }
             
             setMessages(data.results.reverse());
     
@@ -210,6 +226,26 @@ const Chat = () => {
         fetchMessages();
     }, []);
    
+    useEffect(() => {
+        // Function to update lastMessages based on the latest message for each group
+        const updateLastMessages = () => {
+          const latestMessages = {};
+    
+          messagess.forEach(message => {
+            const { room, timestamp } = message;
+    
+            // Check if this room already has a message or if the current message is newer
+            if (!latestMessages[room] || new Date(latestMessages[room].timestamp) < new Date(timestamp)) {
+              latestMessages[room] = message;
+            }
+          });
+          console.log(latestMessages,'zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz')
+          setLastMessages(latestMessages);
+        };
+    
+        updateLastMessages();
+      }, [messagess]);
+
     const renderMessages = () => {
         return messagess
             .filter((message) => message.room === activeGroup)
@@ -264,16 +300,9 @@ const Chat = () => {
     };
 
 
-    const handleAttachmentClick = () => {
-        fileInputRef.current.click();
-    };
 
-    const handleFileChange = (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            console.log("Selected file:", file.name);
-        }
-    };
+
+    
 
   
     useEffect(() => {
@@ -291,6 +320,12 @@ const Chat = () => {
         fetchData();
     };
 
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault(); 
+          handleSendMessage();
+        }
+      };
    
 
     return (
@@ -308,7 +343,16 @@ const Chat = () => {
                     </div>
                 </div>
                 <div className="chat-list">
-                    {groups.map(group => (
+                  
+                {groups.map(group => {
+                    
+                        const lastMessage = lastMessages[group.id];
+
+                        const userName = lastMessage?.typeM === "received"
+                        ? `${lastMessage.user?.first_name} ${lastMessage.user?.last_name}`
+                        : 'Mən';
+
+                        return (
                         <div
                             key={group.id}
                             className={`chat-list-item ${activeGroup === group.id ? "active" : ""}`}
@@ -316,14 +360,17 @@ const Chat = () => {
                         >
                             <div className="avatar"><MdGroups /></div>
                             <div className="chat-info">
-                                <h4>{group.name}</h4>
-                                <p>İlkin Əliyev: <span>Bu tapşırığı götürürəm</span></p>
+                            <h4>{group.name}</h4>
+                            <p>
+                                {userName}: <span>{lastMessage?.content}</span>
+                            </p>
                             </div>
                             <div className="chat-meta">
-                                <span className="time">12m</span>
+                            {/* <span className="time">{lastMessage?.timestamp[0:10]}</span> */}
                             </div>
                         </div>
-                    ))}
+                        );
+                    })}
                 </div>
             </div>
 
@@ -350,19 +397,15 @@ const Chat = () => {
                             </div>
                         </div>
                         <div ref={divRef} className="chat-messages">
+                        <div class="loadMessages" ><button class="loadButton" onClick={() => fetchMessages(true)}>Daha çox məktub ↻</button></div>
                             {renderMessages()}
                         </div>
                         <div className="chat-input">
-                            <input
-                                type="file"
-                                ref={fileInputRef}
-                                style={{ display: "none" }}
-                                onChange={handleFileChange}
-                            />
-                            <RiAttachmentLine onClick={handleAttachmentClick} className="attachment-icon" />                            
+                          
+                                               
                             <div className="chat-input-icon">
-                                <input   value={inputValue} onChange={(e) => setInputValue(e.target.value)}  type="text" placeholder="Mesaj yaz" />
-                                <BsFillSendFill onClick={sendMessage} className="send-icon" />
+                                <input class="messageInput" onKeyDown={handleKeyDown}  value={inputValue} onChange={(e) => setInputValue(e.target.value)}  type="text" placeholder="Mesaj yaz" />
+                                <BsFillSendFill onClick={handleSendMessage} className="send-icon" />
                             </div>
                         </div>
                     </>

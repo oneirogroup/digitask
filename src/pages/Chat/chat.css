@@ -348,3 +348,19 @@ font-size: 12px;
   font-size: 20px;
   cursor: pointer;
 }
+.loadMessages{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.loadMessages button{
+  padding:4px 8px;
+  border: 1px solid rgb(67, 90, 240);
+  border-radius:10px;
+  cursor:pointer;
+  color:rgb(255, 255, 255);
+  background-color: rgb(67, 90, 240);
+}
+.loadMessages:active{
+  transform: scale(1.1);
+}
