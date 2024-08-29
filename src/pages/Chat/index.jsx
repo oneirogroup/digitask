@@ -173,7 +173,7 @@ const Chat = () => {
             console.log(divRef,'sssssssssssssssssssssddddssssssssssssssssssssssssssssssssssssssssss')
             divRef.current.scrollTop = divRef.current.scrollHeight;
         }
-    }, [messagess]);
+    }, [messagess,activeGroup]);
 
     const fetchMessages = async () => {
         try {
