@@ -44,13 +44,19 @@
     padding: 5px 8px;
     font-size: 15px;
   }
+  .warehouseTable td,
+  .warehouseTable th {
+    font-size: 15px !important;
+  }
 }
 
 @media screen and (max-width: 1120px) {
   /* Task Page */
 
   .table-container tbody tr td:nth-of-type(9),
-  .table-container tr th:nth-of-type(9) {
+  .table-container tr th:nth-of-type(9),
+  .warehouseTable tbody td:nth-of-type(8),
+  .warehouseTable thead th:nth-of-type(8) {
     display: none;
   }
 }
@@ -78,6 +84,13 @@
   .task-page th,
   .task-page td {
     padding: 7px 11px;
+  }
+
+  /* Warehouse Page */
+
+  .warehouseTable td,
+  .warehouseTable th {
+    font-size: 14px !important;
   }
 }
 
@@ -128,6 +141,30 @@
   .table-container tbody tr td:nth-of-type(3) {
     display: none;
   }
+
+  /* Profil page */
+
+  .profile-container h2 {
+    font-size: 22px;
+  }
+
+  .profile-edit button {
+    font-size: 19px;
+  }
+  .profile-edit button {
+    font-size: 18px;
+  }
+  .profile-container input[type="text"] {
+    width: 90%;
+  }
+  .profile-container {
+    margin: 0 0 60px 0;
+  }
+
+  .warehouseTable tbody td:nth-of-type(5),
+  .warehouseTable thead th:nth-of-type(5) {
+    display: none;
+  }
 }
 
 @media screen and (max-width: 960px) {
@@ -159,6 +196,21 @@
   .task-status button {
     padding: 5px 7px;
     font-size: 14px;
+  }
+
+  /* Warehouse Page */
+
+  .warehouse-search-filter > div:first-of-type input {
+    padding: 12px 59px 12px 40px;
+  }
+  .warehouse-search-filter > div:first-of-type svg {
+    font-size: 21px;
+  }
+  .warehouseName button {
+    padding: 9px;
+  }
+  .warehouse-search-filter > div:last-of-type button {
+    padding: 9px;
   }
 }
 
@@ -240,7 +292,24 @@
     padding: 9px;
     font-size: 15px;
   }
+
+  /* Warehouse Page */
+
+  .layout-with-sidebar .main-content {
+    padding: 18px 15px;
+  }
+  .warehouseTable-title div button {
+    padding: 9px;
+  }
 }
+
+@media screen and (max-width: 850px) {
+  .warehouseTable tbody td:nth-of-type(7),
+  .warehouseTable thead th:nth-of-type(7) {
+    display: none;
+  }
+}
+
 @media screen and (max-width: 810px) {
   .employee-table-container tbody td:nth-of-type(3),
   .employee-table-container th:nth-of-type(3) {
@@ -301,8 +370,27 @@
   .employee-search-filter div:last-of-type {
     gap: 7px;
   }
-  .navbar-icons{
+  .navbar-icons {
     font-size: 24px;
+  }
+  .profile-container h2 {
+    font-size: 20px;
+  }
+  .profile-container label {
+    font-size: 17px;
+  }
+  .profile-container input[type="text"],
+  .profile-container textarea {
+    font-size: 15px;
+  }
+
+  .warehouseTable tbody td:first-of-type,
+  .warehouseTable th:first-of-type {
+    display: none;
+  }
+
+  .warehousePage-title p {
+    font-size: 18px;
   }
 }
 
@@ -400,6 +488,30 @@
   .employee-table-container td {
     font-size: 14px !important;
   }
+
+  .profile-edit {
+    flex-direction: column;
+    gap: 20px;
+  }
+  .profile-edit button {
+    margin-bottom: 10px;
+  }
+
+  .warehouseTable tbody td:nth-of-type(4),
+  .warehouseTable th:nth-of-type(4) {
+    display: none;
+  }
+
+  .warehouseTable-title p {
+    font-size: 26px;
+  }
+  .warehouseTable-title div button {
+    padding: 7px;
+    font-size: 15px;
+  }
+  .warehouseName button {
+    padding: 8px;
+  }
 }
 
 @media screen and (max-width: 740px) {
@@ -428,6 +540,19 @@
   .performance-page th,
   .performance-page td {
     padding: 16px 7px !important;
+  }
+
+  /* Warehouse page */
+
+  .warehouse-search-filter > div:first-of-type input {
+    padding: 11px 35px 11px 33px;
+  }
+  .warehouse-search-filter > div:first-of-type svg {
+    top: 8px;
+    font-size: 20px;
+  }
+  .warehouse-search-filter > div:last-of-type button {
+    padding: 8px;
   }
 }
 
@@ -490,7 +615,27 @@
 
   .navbar-icons {
     right: 18px;
-    }
+  }
+
+  /* Profile page */
+
+  .profile-edit {
+    flex-direction: row;
+  }
+
+  .warehouseTable tbody td:first-of-type,
+  .warehouseTable th:first-of-type,
+  .warehouseTable tbody td:nth-of-type(4),
+  .warehouseTable th:nth-of-type(4) {
+    display: table-cell;
+  }
+}
+
+@media screen and (max-width: 570px) {
+  .warehouseTable tbody td:first-of-type,
+  .warehouseTable th:first-of-type {
+    display: none;
+  }
 }
 
 @media screen and (max-width: 550px) {
@@ -569,7 +714,50 @@
   .employee-title button {
     padding: 7px;
     font-size: 13px;
+  }
 }
+
+@media screen and (max-width: 500px) {
+  .profile-edit {
+    flex-direction: column;
+  }
+  .profile-container h2 {
+    font-size: 21px;
+  }
+  .profile-container label {
+    font-size: 16px;
+  }
+  .input-group div div input,
+  .profile-container input[type="text"],
+  .profile-container textarea {
+    font-size: 14px;
+  }
+  .profile-container input[type="text"],
+  .profile-container textarea {
+    padding: 8px 10px;
+  }
+
+  /* Warehouse page */
+
+  .warehouseTable tbody td:nth-of-type(4),
+  .warehouseTable thead th:nth-of-type(4) {
+    display: none;
+  }
+
+  .warehouseTable td,
+  .warehouseTable th {
+    font-size: 13px !important;
+  }
+
+  .warehouse-search-filter > div:first-of-type input {
+    padding: 10px 17px 10px 33px;
+  }
+  .warehouseName button {
+    padding: 7px;
+  }
+  .warehouse-search-filter > div:last-of-type button {
+    padding: 7px;
+  }
 }
 
 @media screen and (max-width: 450px) {
@@ -650,26 +838,50 @@
   }
   .employee-search-filter > div:first-of-type {
     width: 100%;
-}
-.employee-search-filter > div:first-of-type input {
-  width: 89%;
-}
-.employee-table-container th, .employee-table-container td {
-  font-size: 13px !important;
-}
-.employee-table-container th, .employee-table-container td{
-  padding: 15px 9px;
-}
-.employee-table-container tbody tr td:nth-of-type(8) a svg{
-  font-size: 23px;
-}
-.employee-table-container tbody td:nth-of-type(5), .employee-table-container th:nth-of-type(5){
-  display: none;
+  }
+  .employee-search-filter > div:first-of-type input {
+    width: 89%;
+  }
+  .employee-table-container th,
+  .employee-table-container td {
+    font-size: 13px !important;
+  }
+  .employee-table-container th,
+  .employee-table-container td {
+    padding: 15px 9px;
+  }
+  .employee-table-container tbody tr td:nth-of-type(8) a svg {
+    font-size: 23px;
+  }
+  .employee-table-container tbody td:nth-of-type(5),
+  .employee-table-container th:nth-of-type(5) {
+    display: none;
+  }
+  .navbar-icons a,
+  .navbar-icons div {
+    font-size: 23px;
+  }
 
-}
-.navbar-icons a, .navbar-icons div {
-  font-size: 23px
-}
+  .warehouseTable th,
+  .warehouseTable td {
+    padding: 16px 8px;
+  }
+
+  .warehouse-search-filter {
+    align-items: start;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .warehouse-search-filter > div:first-of-type {
+    width: 100%;
+    border: 0.5px solid #ababaf;
+  }
+
+  .warehouse-search-filter > div:first-of-type input {
+    padding: 10px 17px 10px 33px;
+    width: 93%;
+    border: 0;
+  }
 }
 
 @media screen and (max-width: 412px) {
