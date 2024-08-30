@@ -365,12 +365,12 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
         }
     };
     const customerIcon = new L.Icon({
-        iconUrl: 'https://img.icons8.com/?size=100&id=u4VHO3ZaZQa9&format=png&color=000000', 
+        iconUrl: 'https://img.icons8.com/?size=100&id=CwAOuD64vULU&format=png&color=000000', 
         iconSize: [32, 32], 
         iconAnchor: [16, 32], 
         popupAnchor: [0, -32], 
       });
-      
+
     const renderMap = () => (
         <div className="form-group mapDiv" id='detailMap'>
             <label htmlFor="note"><FaMapPin />
