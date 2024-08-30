@@ -63,7 +63,7 @@ const App = () => {
 
       navigator.geolocation.getCurrentPosition(
         (position) => {
-    
+          console.log(position,'cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc ')
           if (ws && ws.readyState === WebSocket.OPEN) {
            console.log('-+++=============================',position.coords.latitude)
            let location = {
@@ -84,7 +84,7 @@ const App = () => {
         {
           enableHighAccuracy: true,  
           timeout: 10000,            
-          maximumAge: 0             
+          maximumAge: 10000             
         }
       );
     } else {

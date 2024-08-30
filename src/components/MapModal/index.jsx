@@ -38,10 +38,8 @@ function index({ onClose,status }) {
         popupAnchor: [0, -32], 
       });
 
-      const startedTask = status.started_task;
-      const startedTaskLocation = startedTask && startedTask.location 
-      ? [startedTask.location.latitude,  startedTask.location.longitude ] 
-      : null;
+      const startedTasks = status.started_task;
+      
 
     useEffect(() => {
         if (status.location) {
@@ -72,18 +70,25 @@ function index({ onClose,status }) {
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                         url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
                         />
-                        <Marker key={status.user.email} icon={customIcon(status.user.email)} position={[status.location.latitude, status.location.longitude]}>
-                        <Popup>
-                           {status.user.email}
-                        </Popup>
+                        
+                        {status.location?.latitude && status.location?.longitude && (
+                        <Marker
+                          key={status.user.email}
+                          icon={customIcon(status.user.email)}
+                          position={[status.location.latitude, status.location.longitude]}
+                        >
+                          <Popup>{status.user.email}</Popup>
                         </Marker>
-                        {startedTaskLocation && 
-                          <Marker key={status.user.email} icon={customerIcon} position={startedTaskLocation}>
-                        <Popup>
-                           {status.user.email}
-                        </Popup>
-                        </Marker>
-                        }
+                        )}
+                        {startedTasks.map((task, index) => {
+                          if (task.location?.latitude && task.location?.longitude) {
+                            return(
+                          <Marker key={task.full_name} icon={customerIcon} position={[task.location.latitude, task.location.longitude]}>
+                            <Popup>{task.full_name}</Popup>
+                          </Marker>
+                            )
+                          }
+                        })}
                         <Polyline positions={positions} color="blue" />
                 </MapContainer>
                 </div>
