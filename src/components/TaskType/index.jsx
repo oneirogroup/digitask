@@ -364,7 +364,13 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
             }));
         }
     };
-
+    const customerIcon = new L.Icon({
+        iconUrl: 'https://img.icons8.com/?size=100&id=u4VHO3ZaZQa9&format=png&color=000000', 
+        iconSize: [32, 32], 
+        iconAnchor: [16, 32], 
+        popupAnchor: [0, -32], 
+      });
+      
     const renderMap = () => (
         <div className="form-group mapDiv" id='detailMap'>
             <label htmlFor="note"><FaMapPin />
@@ -379,7 +385,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
                 />
                 {isEditing && <MapClickHandler onClick={handleMapClick} />}
                 {formData.latitude && formData.longitude && (
-                    <Marker position={[formData.latitude, formData.longitude]} />
+                    <Marker icon={customerIcon} position={[formData.latitude, formData.longitude]} />
                 )}
             </MapContainer>
         </div>
