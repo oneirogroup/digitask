@@ -23,6 +23,13 @@
     padding: 5px 8px;
     font-size: 15.2px;
   }
+
+  /* Warehouse history page */
+
+  .historyTable tbody td:nth-of-type(8),
+  .historyTable th:nth-of-type(8) {
+    display: none;
+  }
 }
 
 @media screen and (max-width: 1200px) {
@@ -44,6 +51,9 @@
     padding: 5px 8px;
     font-size: 15px;
   }
+
+  /* Warehouse Page */
+
   .warehouseTable td,
   .warehouseTable th {
     font-size: 15px !important;
@@ -91,6 +101,17 @@
   .warehouseTable td,
   .warehouseTable th {
     font-size: 14px !important;
+  }
+
+  /* Warehouse history page */
+
+  .historyTable td:nth-of-type(7),
+  .historyTable th:nth-of-type(7) {
+    display: none;
+  }
+
+  .filter-container {
+    gap: 0;
   }
 }
 
@@ -161,9 +182,29 @@
     margin: 0 0 60px 0;
   }
 
+  /* Warehouse Page */
+
   .warehouseTable tbody td:nth-of-type(5),
   .warehouseTable thead th:nth-of-type(5) {
     display: none;
+  }
+
+  /* Warehouse history page */
+
+  .filter-item {
+    padding: 5px 0px;
+  }
+
+  .custom-datepicker {
+    width: 85% !important;
+  }
+
+  .filter-container {
+    width: 60%;
+  }
+
+  .filter-item-modal button span {
+    font-size: 15px;
   }
 }
 
@@ -212,10 +253,24 @@
   .warehouse-search-filter > div:last-of-type button {
     padding: 9px;
   }
+
+  /* Warehouse history page */
+
+  .historyTable th,
+  .historyTable td {
+    font-size: 13px !important;
+  }
 }
 
 @media screen and (max-width: 900px) {
+  /* Pages */
+
+  .layout-with-sidebar .main-content {
+    padding: 18px 15px;
+  }
+
   /* Home page */
+
   .home-tasks table tr td:nth-of-type(3) svg {
     font-size: 20px;
   }
@@ -295,22 +350,49 @@
 
   /* Warehouse Page */
 
-  .layout-with-sidebar .main-content {
-    padding: 18px 15px;
-  }
   .warehouseTable-title div button {
     padding: 9px;
+  }
+
+  /* Warehouse history page */
+
+  .historyTable td:nth-of-type(9),
+  .historyTable th:nth-of-type(9) {
+    display: none;
+  }
+
+  .filter-item-modal button {
+    padding: 8px;
   }
 }
 
 @media screen and (max-width: 850px) {
+  /* Warehouse Page */
+
   .warehouseTable tbody td:nth-of-type(7),
   .warehouseTable thead th:nth-of-type(7) {
     display: none;
   }
+
+  /* Warehouse history page */
+
+  .historyTable td:first-of-type,
+  .historyTable th:first-of-type {
+    display: none;
+  }
+
+  .custom-datepicker {
+    width: 92% !important;
+}
+
+.filter-item-modal button {
+  padding: 6px;
+}
 }
 
 @media screen and (max-width: 810px) {
+  /* Employee Page */
+
   .employee-table-container tbody td:nth-of-type(3),
   .employee-table-container th:nth-of-type(3) {
     display: none;
@@ -347,6 +429,8 @@
     font-size: 14px;
   }
 
+  /* Employee Page */
+
   .employee-search-filter div div button {
     padding: 8px;
   }
@@ -370,9 +454,15 @@
   .employee-search-filter div:last-of-type {
     gap: 7px;
   }
+
+  /* Navbar */
+
   .navbar-icons {
     font-size: 24px;
   }
+
+  /* Profile Page */
+
   .profile-container h2 {
     font-size: 20px;
   }
@@ -384,6 +474,8 @@
     font-size: 15px;
   }
 
+  /* Warehouse Page */
+
   .warehouseTable tbody td:first-of-type,
   .warehouseTable th:first-of-type {
     display: none;
@@ -392,6 +484,22 @@
   .warehousePage-title p {
     font-size: 18px;
   }
+
+  /* Warehouse history page */
+
+  .historyTable td:nth-of-type(2),
+  .historyTable th:nth-of-type(2) {
+    display: none;
+  }
+
+  .historyTable th,
+  .historyTable td {
+    padding: 12px 7px !important;
+  }
+
+  .button-container button {
+    padding: 7px;
+}    
 }
 
 @media screen and (max-width: 768px) {
@@ -425,6 +533,7 @@
   }
 
   /* Performance page */
+
   .performance-table-container tbody tr td,
   .performance-page th,
   .performance-table-container tbody tr td:first-of-type {
@@ -461,6 +570,8 @@
     font-size: 16px;
   }
 
+  /* Employee Page */
+
   .employee-search-filter > div:first-of-type input {
     padding: 10px 0 10px 28px;
     width: 80%;
@@ -489,6 +600,8 @@
     font-size: 14px !important;
   }
 
+  /* Profile Page */
+
   .profile-edit {
     flex-direction: column;
     gap: 20px;
@@ -496,6 +609,8 @@
   .profile-edit button {
     margin-bottom: 10px;
   }
+
+  /* Warehouse Page */
 
   .warehouseTable tbody td:nth-of-type(4),
   .warehouseTable th:nth-of-type(4) {
@@ -515,16 +630,26 @@
 }
 
 @media screen and (max-width: 740px) {
+  /* Employee Page */
+
   .employee-search-filter > div:first-of-type input {
     width: 72%;
   }
   .employee-search-filter > div:first-of-type {
     width: 35%;
   }
+
+  /* Warehouse page */
+
+  .historyTable td:nth-of-type(6),
+  .historyTable th:nth-of-type(6) {
+    display: none;
+  }
 }
 
 @media screen and (max-width: 700px) {
   /* Sidebar */
+
   .sidebar {
     width: 185px;
   }
@@ -613,6 +738,8 @@
     display: table-cell;
   }
 
+  /* Navbar */
+
   .navbar-icons {
     right: 18px;
   }
@@ -623,15 +750,28 @@
     flex-direction: row;
   }
 
+  /* Warehouse Page */
+
   .warehouseTable tbody td:first-of-type,
   .warehouseTable th:first-of-type,
   .warehouseTable tbody td:nth-of-type(4),
   .warehouseTable th:nth-of-type(4) {
     display: table-cell;
   }
+
+  /* Warehouse page */
+
+  .historyTable td:nth-of-type(2),
+  .historyTable th:nth-of-type(2),
+  .historyTable td:first-of-type,
+  .historyTable th:first-of-type {
+    display: table-cell;
+  }
 }
 
 @media screen and (max-width: 570px) {
+  /* Warehouse Page */
+
   .warehouseTable tbody td:first-of-type,
   .warehouseTable th:first-of-type {
     display: none;
@@ -689,6 +829,8 @@
     padding: 9px !important;
   }
 
+  /* Employee page */
+
   .employee-title button {
     padding: 8px;
     font-size: 14px;
@@ -715,9 +857,18 @@
     padding: 7px;
     font-size: 13px;
   }
+
+  /* Warehouse history page */
+
+  .historyTable td:first-of-type,
+  .historyTable th:first-of-type {
+    display: none;
+  }
 }
 
 @media screen and (max-width: 500px) {
+  /* Profile page */
+
   .profile-edit {
     flex-direction: column;
   }
@@ -758,6 +909,28 @@
   .warehouse-search-filter > div:last-of-type button {
     padding: 7px;
   }
+
+  /* Warehouse history page */
+
+  .historyTable td:nth-of-type(2),
+  .historyTable th:nth-of-type(2) {
+    display: none;
+  }
+
+  .history-page section {
+    flex-direction: column;
+    gap: 20px;
+    align-items: start;
+  }
+
+  .custom-datepicker {
+    width: 100% !important;
+}
+.filter-container {
+  width: 92%;
+  gap: 10px;
+}
+
 }
 
 @media screen and (max-width: 450px) {
@@ -773,6 +946,9 @@
   .home-tasks tr th:nth-of-type(4) {
     display: none;
   }
+
+  /* Performance page */
+
   .performance-page th,
   .performance-page td {
     padding: 16px 6px !important;
@@ -831,6 +1007,9 @@
   .table-container tr th:nth-of-type(5) {
     display: none;
   }
+
+  /* Employee page */
+
   .employee-search-filter {
     flex-direction: column;
     align-items: start;
@@ -857,10 +1036,15 @@
   .employee-table-container th:nth-of-type(5) {
     display: none;
   }
+
+  /* Navbar */
+
   .navbar-icons a,
   .navbar-icons div {
     font-size: 23px;
   }
+
+  /* Warehouse Page */
 
   .warehouseTable th,
   .warehouseTable td {
@@ -882,6 +1066,38 @@
     width: 93%;
     border: 0;
   }
+
+  /* Warehouse history page */
+
+  .historyTable th,
+  .historyTable td {
+    font-size: 12px !important;
+  }
+
+  .historyTable td:nth-of-type(10),
+  .historyTable th:nth-of-type(10) {
+    padding: 12px 0 !important;
+  }
+
+  .filter-item-modal button span {
+    font-size: 14px;
+}
+.custom-datepicker {
+  font-size: 13px;
+}
+.button-container button {
+  padding: 6px;
+}
+.history-page section {
+  gap: 15px;
+}
+.warehousePage-title p {
+  font-size: 17px;
+}
+
+.historyTable td:last-of-type, .historyTable th:last-of-type{
+  padding: 12px 7px 12px 0 !important;
+}
 }
 
 @media screen and (max-width: 412px) {
@@ -899,6 +1115,8 @@
   .home-meet-section {
     grid-template-columns: repeat(1, 1fr);
   }
+
+  /* Task page */
 
   .task-page-title p {
     font-size: 31px;
@@ -941,5 +1159,12 @@
   .task-history-status button:last-of-type {
     padding: 7px;
     font-size: 12px;
+  }
+
+  /* Warehouse history page */
+
+  .historyTable th,
+  .historyTable td {
+    font-size: 11px !important;
   }
 }
