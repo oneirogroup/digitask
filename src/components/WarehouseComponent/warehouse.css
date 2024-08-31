@@ -129,29 +129,26 @@
   font-weight: bold !important;
 }
 
-.warehouseTable table {
+.warehouseTable table, .historyTable table {
   border-collapse: collapse;
   width: 100%;
 }
 
-.warehouseTable th,
-.warehouseTable td {
-  padding: 8px;
-  text-align: left;
+.warehouseTable th, .historyTable th,
+.warehouseTable td, .historyTable td {
+  text-align: center;
   padding: 12px 10px;
-  text-align: left;
+  text-align: center;
   border-collapse: collapse;
   font-family: Nunito Sans;
 }
 
-.warehouseTable th {
-  white-space: nowrap;
+.warehouseTable th, .historyTable th {
   font-size: 16px;
   font-weight: bold;
-  text-align: center;
 }
 
-.warehouseTable {
+.warehouseTable, .historyTable {
   margin: 20px 0 10px 0;
   border-radius: 12px;
   width: 100%;
@@ -166,12 +163,12 @@
   overflow-x: auto;
 }
 
-.warehouseTable thead {
+.warehouseTable thead, .historyTable thead{
   background-color: #d2e5fa;
   height: 60px;
 }
 
-.warehouseTable tbody {
+.warehouseTable tbody, .historyTable tbody{
   background-color: white;
 }
 
