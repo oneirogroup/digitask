@@ -30,6 +30,12 @@
   .historyTable th:nth-of-type(8) {
     display: none;
   }
+
+  /* Home page */
+
+  .task-modal-content .form-group {
+    font-size: 15px;
+  }
 }
 
 @media screen and (max-width: 1200px) {
@@ -43,6 +49,14 @@
   .table-container tbody tr td:nth-of-type(9),
   .table-container tr th:nth-of-type(9) {
     display: none;
+  }
+  .taskService-taskGroup {
+    flex-direction: column;
+  }
+  .task-name-date,
+  .registerNumber-contactNumber,
+  .taskService-taskGroup {
+    gap: 12px;
   }
 
   /* Task page */
@@ -143,6 +157,18 @@
   }
   .home-meet-section .meet-time-date-img {
     height: 150px;
+  }
+  .event-modal {
+    max-width: 42%;
+  }
+  .task-name-date {
+    flex-direction: column;
+  }
+  .task-modal-content input[type="date"] {
+    width: 25vw;
+  }
+  .task-modal-content input[type="time"] {
+    width: 11vw;
   }
 
   /* Performance page */
@@ -324,6 +350,12 @@
   .task-history-status button p {
     font-size: 17px;
   }
+  .task-modal-content input[type="date"] {
+    width: 24vw;
+  }
+  .import-modal-content {
+    max-width: 60%;
+  }
 
   /* Employee Page */
 
@@ -383,11 +415,11 @@
 
   .custom-datepicker {
     width: 92% !important;
-}
+  }
 
-.filter-item-modal button {
-  padding: 6px;
-}
+  .filter-item-modal button {
+    padding: 6px;
+  }
 }
 
 @media screen and (max-width: 810px) {
@@ -427,6 +459,12 @@
   .task-page-title div button {
     padding: 8px;
     font-size: 14px;
+  }
+  .task-modal-content input[type="date"] {
+    width: 18vw;
+  }
+  .task-modal-content input[type="time"] {
+    width: 13.5vw;
   }
 
   /* Employee Page */
@@ -499,7 +537,22 @@
 
   .button-container button {
     padding: 7px;
-}    
+  }
+  /* Home page */
+
+  .event-modal input[type="text"],
+  .event-modal input[type="date"],
+  .event-modal input[type="time"],
+  .event-modal textarea,
+  .meetingType-participants label > div {
+    font-size: 15px;
+  }
+  .taskModal-taskType button {
+    font-size: 17px;
+  }
+  .mapDiv > div {
+    height: 285px !important;
+  }
 }
 
 @media screen and (max-width: 768px) {
@@ -510,10 +563,6 @@
   .home-employee-task th,
   .home-employee-task td {
     padding: 10px;
-  }
-  .task-status button {
-    padding: 4px 7px;
-    font-size: 14px;
   }
   .home-tasks table tr td:nth-of-type(2) {
     font-size: 14px;
@@ -530,6 +579,20 @@
   }
   .home-meet-section .meet-time-date h5 {
     font-size: 21px;
+  }
+  .event-modal > div > div {
+    flex-direction: column;
+  }
+  .modal-overlay-meetingType,
+  .modal-overlay-participants {
+    width: 100% !important;
+  }
+  .modal-overlay-meetingType .modal-body div,
+  .modal-overlay-participants .modal-body div {
+    padding: 6px 10px;
+  }
+  .modal-overlay-participants {
+    top: 155px;
   }
 
   /* Performance page */
@@ -568,6 +631,16 @@
   }
   .table-container tbody tr td:last-of-type button {
     font-size: 16px;
+  }
+  .task-status button {
+    padding: 4px 7px;
+    font-size: 14px;
+  }
+  .import-form label {
+    font-size: 15px;
+  }
+  .import-form input {
+    font-size: 13px;
   }
 
   /* Employee Page */
@@ -627,6 +700,9 @@
   .warehouseName button {
     padding: 8px;
   }
+  .importModal-warehouseName button {
+    padding: 10px;
+  }
 }
 
 @media screen and (max-width: 740px) {
@@ -679,6 +755,28 @@
   .warehouse-search-filter > div:last-of-type button {
     padding: 8px;
   }
+
+  /* Task page */
+
+  .task-modal-content input[type="date"] {
+    width: 26vw;
+  }
+  .task-modal-content input[type="time"] {
+    width: 12.5vw;
+  }
+  .task-modal-content input[type="text"],
+  .task-modal-content input[type="date"],
+  .task-modal-content input[type="time"],
+  .task-modal-content select,
+  .task-modal-content textarea {
+    font-size: 13px;
+  }
+  .task-modal-content {
+    max-width: 60%;
+  }
+  .task-date-form {
+    gap: 10px;
+  }
 }
 
 @media screen and (max-width: 650px) {
@@ -696,6 +794,16 @@
   }
   .home-meet-section {
     padding: 5px 0 25px 0;
+  }
+  .event-modal h5 {
+    font-size: 23px;
+    margin: 0;
+  }
+  .event-modal > div {
+    justify-content: space-between;
+  }
+  .event-modal {
+    max-width: 50%;
   }
 
   /* Sidebar */
@@ -732,6 +840,25 @@
   .table-container tbody tr td:nth-of-type(3) {
     display: table-cell;
   }
+  .task-modal-content label {
+    font-size: 15px;
+  }
+  .task-date-form {
+    gap: 7px;
+    flex-direction: column;
+  }
+
+  .task-modal-content input[type="date"],
+  .task-modal-content input[type="time"] {
+    width: 53vw;
+  }
+  .task-name-date,
+  .registerNumber-contactNumber,
+  .taskService-taskGroup {
+    flex-direction: column;
+  }
+
+  /* Employee page */
 
   .employee-table-container tbody td:first-of-type,
   .employee-table-container th:first-of-type {
@@ -759,7 +886,7 @@
     display: table-cell;
   }
 
-  /* Warehouse page */
+  /* Warehouse history page */
 
   .historyTable td:nth-of-type(2),
   .historyTable th:nth-of-type(2),
@@ -776,6 +903,12 @@
   .warehouseTable th:first-of-type {
     display: none;
   }
+
+  /* Task page */
+
+  .task-modal-content {
+    max-width: 70%;
+}
 }
 
 @media screen and (max-width: 550px) {
@@ -784,6 +917,26 @@
   .home-tasks table tr td:nth-of-type(2),
   .home-tasks table tr th:nth-of-type(2) {
     display: none;
+  }
+  .event-modal h5 {
+    font-size: 22px;
+  }
+  .event-modal > div:first-of-type button svg {
+    font-size: 22px;
+  }
+  .event-modal input[type="text"],
+  .event-modal input[type="date"],
+  .event-modal input[type="time"],
+  .event-modal textarea,
+  .meetingType-participants label > div {
+    padding: 5px 7px;
+  }
+  .event-modal label,
+  .meetingType-participants label {
+    font-size: 15px;
+  }
+  .modal-overlay-participants {
+    top: 143px;
   }
 
   /* Performance page */
@@ -828,6 +981,22 @@
   .task-page td {
     padding: 9px !important;
   }
+  .tv-voice-internet {
+    gap: 7px;
+  }
+  .tv-voice-internet label {
+    height: 38px;
+  }
+  .task-modal-content .form-group {
+    font-size: 14px;
+    align-items: center;
+  }
+  .task-modal-title h5 {
+    font-size: 22px;
+  }
+  .taskModal-taskType button {
+    font-size: 16px;
+  }
 
   /* Employee page */
 
@@ -867,6 +1036,12 @@
 }
 
 @media screen and (max-width: 500px) {
+  /* Home page */
+
+  .event-modal {
+    max-width: 54%;
+  }
+
   /* Profile page */
 
   .profile-edit {
@@ -925,12 +1100,21 @@
 
   .custom-datepicker {
     width: 100% !important;
-}
-.filter-container {
-  width: 92%;
-  gap: 10px;
-}
+  }
+  .filter-container {
+    width: 92%;
+    gap: 10px;
+  }
 
+  /* Task page */
+
+  .task-modal-content .form-group {
+    font-size: 13px;
+  }
+  .leaflet-touch .leaflet-bar a {
+    width: 25px;
+    height: 25px;
+  }
 }
 
 @media screen and (max-width: 450px) {
@@ -945,6 +1129,9 @@
   .home-tasks table tr td:nth-of-type(4),
   .home-tasks tr th:nth-of-type(4) {
     display: none;
+  }
+  .event-modal {
+    max-width: 58%;
   }
 
   /* Performance page */
@@ -1007,6 +1194,15 @@
   .table-container tr th:nth-of-type(5) {
     display: none;
   }
+  .task-modal-content{
+    padding: 14px;
+  }
+  .task-modal-content input[type="date"], .task-modal-content input[type="time"] {
+    width: 63vw;
+}
+.task-modal-content label {
+  font-size: 14px;
+}
 
   /* Employee page */
 
@@ -1081,23 +1277,24 @@
 
   .filter-item-modal button span {
     font-size: 14px;
-}
-.custom-datepicker {
-  font-size: 13px;
-}
-.button-container button {
-  padding: 6px;
-}
-.history-page section {
-  gap: 15px;
-}
-.warehousePage-title p {
-  font-size: 17px;
-}
+  }
+  .custom-datepicker {
+    font-size: 13px;
+  }
+  .button-container button {
+    padding: 6px;
+  }
+  .history-page section {
+    gap: 15px;
+  }
+  .warehousePage-title p {
+    font-size: 17px;
+  }
 
-.historyTable td:last-of-type, .historyTable th:last-of-type{
-  padding: 12px 7px 12px 0 !important;
-}
+  .historyTable td:last-of-type,
+  .historyTable th:last-of-type {
+    padding: 12px 7px 12px 0 !important;
+  }
 }
 
 @media screen and (max-width: 412px) {
@@ -1114,6 +1311,9 @@
   }
   .home-meet-section {
     grid-template-columns: repeat(1, 1fr);
+  }
+  .event-modal {
+    max-width: 63%;
   }
 
   /* Task page */
@@ -1160,6 +1360,9 @@
     padding: 7px;
     font-size: 12px;
   }
+  .task-modal-content .form-group {
+    font-size: 12px;
+}
 
   /* Warehouse history page */
 
