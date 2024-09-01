@@ -857,6 +857,9 @@
   .taskService-taskGroup {
     flex-direction: column;
   }
+  .task-modal-content {
+    max-height: 85vh;
+  }
 
   /* Employee page */
 
