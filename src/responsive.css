@@ -913,6 +913,9 @@
   .import-form {
     grid-template-columns: repeat(1, 1fr);
   }
+  .import-modal-content {
+    max-height: 80vh;
+  }
   /* Warehouse history page */
 
   .historyTable td:nth-of-type(2),
