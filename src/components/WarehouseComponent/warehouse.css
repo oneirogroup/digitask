@@ -129,13 +129,13 @@
   font-weight: bold !important;
 }
 
-.warehouseTable table, .historyTable table {
+.warehouseTable table, .historyTable table, .historyImportTable table {
   border-collapse: collapse;
   width: 100%;
 }
 
-.warehouseTable th, .historyTable th,
-.warehouseTable td, .historyTable td {
+.warehouseTable th, .historyTable th, .historyImportTable th,
+.warehouseTable td, .historyTable td, .historyImportTable td {
   text-align: center;
   padding: 12px 10px;
   text-align: center;
@@ -143,12 +143,12 @@
   font-family: Nunito Sans;
 }
 
-.warehouseTable th, .historyTable th {
+.warehouseTable th, .historyTable th, .historyImportTable th {
   font-size: 16px;
   font-weight: bold;
 }
 
-.warehouseTable, .historyTable {
+.warehouseTable, .historyTable, .historyImportTable {
   margin: 20px 0 10px 0;
   border-radius: 12px;
   width: 100%;
@@ -163,12 +163,12 @@
   overflow-x: auto;
 }
 
-.warehouseTable thead, .historyTable thead{
+.warehouseTable thead, .historyTable thead, .historyImportTable thead {
   background-color: #d2e5fa;
   height: 60px;
 }
 
-.warehouseTable tbody, .historyTable tbody{
+.warehouseTable tbody, .historyTable tbody, .historyImportTable tbody {
   background-color: white;
 }
 
