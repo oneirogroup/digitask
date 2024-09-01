@@ -99,8 +99,8 @@
   align-items: center;
 }
 
-.historyTable th,
-.historyTable td {
+.historyTable th, .historyImportTable th,
+.historyImportTable td, .historyTable td {
   font-size: 14px !important;
   padding: 14px 8px !important;
 }

@@ -232,7 +232,7 @@ const Anbar = () => {
       )}
 
       {importSelected && (
-        <div className='warehouseTable historyTable'>
+        <div className='historyImportTable'>
           <table>
             <thead>
               <tr>

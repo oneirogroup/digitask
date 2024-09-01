@@ -72,6 +72,13 @@
   .warehouseTable th {
     font-size: 15px !important;
   }
+
+  /* Warehouse History Import Page */
+
+  .historyImportTable th:nth-of-type(8),
+  .historyImportTable td:nth-of-type(8) {
+    display: none;
+  }
 }
 
 @media screen and (max-width: 1120px) {
@@ -83,6 +90,15 @@
   .warehouseTable thead th:nth-of-type(8) {
     display: none;
   }
+
+  /* History Import Page */
+
+  .historyImportTable th:nth-of-type(10), .historyImportTable td:nth-of-type(10) {
+    display: none;
+}
+.historyImportTable th:nth-of-type(10), .historyImportTable td:nth-of-type(10) {
+  padding: 14px 0px !important;
+}
 }
 
 @media screen and (max-width: 1050px) {
@@ -755,6 +771,9 @@
   .warehouse-search-filter > div:last-of-type button {
     padding: 8px;
   }
+  .import-modal-content {
+    max-width: 67%;
+  }
 
   /* Task page */
 
@@ -888,7 +907,12 @@
   .warehouseTable th:nth-of-type(4) {
     display: table-cell;
   }
-
+  .import-modal-content {
+    max-width: 70%;
+  }
+  .import-form {
+    grid-template-columns: repeat(1, 1fr);
+  }
   /* Warehouse history page */
 
   .historyTable td:nth-of-type(2),
@@ -906,12 +930,24 @@
   .warehouseTable th:first-of-type {
     display: none;
   }
+  .submit-btn {
+    padding: 10px;
+  }
+  .importModal-warehouseName button {
+    font-size: 17px;
+  }
+  .import-form label {
+    font-size: 14px;
+  }
+  .submit-btn {
+    font-size: 16px;
+  }
 
   /* Task page */
 
   .task-modal-content {
     max-width: 70%;
-}
+  }
 }
 
 @media screen and (max-width: 550px) {
@@ -1087,6 +1123,9 @@
   .warehouse-search-filter > div:last-of-type button {
     padding: 7px;
   }
+  .import-modal-content {
+    padding: 14px 15px 20px 15px;
+  }
 
   /* Warehouse history page */
 
@@ -1135,7 +1174,7 @@
   }
   .event-modal {
     max-width: 70%;
-}
+  }
 
   /* Performance page */
 
@@ -1197,15 +1236,16 @@
   .table-container tr th:nth-of-type(5) {
     display: none;
   }
-  .task-modal-content{
+  .task-modal-content {
     padding: 14px;
   }
-  .task-modal-content input[type="date"], .task-modal-content input[type="time"] {
+  .task-modal-content input[type="date"],
+  .task-modal-content input[type="time"] {
     width: 63vw;
-}
-.task-modal-content label {
-  font-size: 14px;
-}
+  }
+  .task-modal-content label {
+    font-size: 14px;
+  }
 
   /* Employee page */
 
@@ -1365,7 +1405,7 @@
   }
   .task-modal-content .form-group {
     font-size: 12px;
-}
+  }
 
   /* Warehouse history page */
 
