@@ -41,7 +41,7 @@ const HistoryModal = ({ itemData, onClose }) => {
                         <div>
                             <div className="modal-row">
                                 <div className="modal-label">Tarix</div>
-                                <div className="modal-value">{itemData.date ? formatDate(itemData.date) : 'N/A'}</div>
+                                <div className="modal-value">{itemData.date ? formatDate(itemData.date) : '-'}</div>
                             </div>
                             <hr />
                         </div>

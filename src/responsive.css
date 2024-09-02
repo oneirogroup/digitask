@@ -93,12 +93,23 @@
 
   /* History Import Page */
 
-  .historyImportTable th:nth-of-type(10), .historyImportTable td:nth-of-type(10) {
+  .historyImportTable th:nth-of-type(10),
+  .historyImportTable td:nth-of-type(10) {
     display: none;
+  }
+  .historyImportTable th:nth-of-type(11),
+  .historyImportTable td:nth-of-type(11) {
+    padding: 14px 0px !important;
+  }
 }
-.historyImportTable th:nth-of-type(10), .historyImportTable td:nth-of-type(10) {
-  padding: 14px 0px !important;
-}
+
+@media screen and (max-width: 1070px) {
+  /* Warehouse Import History Table  */
+
+  .historyImportTable th:nth-of-type(7),
+  .historyImportTable td:nth-of-type(7) {
+    display: none;
+  }
 }
 
 @media screen and (max-width: 1050px) {
@@ -248,6 +259,13 @@
   .filter-item-modal button span {
     font-size: 15px;
   }
+
+  /* Warehouse Import History Table  */
+
+  .historyImportTable th,
+  .historyImportTable td {
+    font-size: 13px !important;
+  }
 }
 
 @media screen and (max-width: 960px) {
@@ -301,6 +319,11 @@
   .historyTable th,
   .historyTable td {
     font-size: 13px !important;
+  }
+
+  .historyImportTable th:nth-of-type(6),
+  .historyImportTable td:nth-of-type(6) {
+    display: none;
   }
 }
 
@@ -411,6 +434,13 @@
 
   .filter-item-modal button {
     padding: 8px;
+  }
+
+  /* Warehouse Import History Table  */
+
+  .historyImportTable th:first-of-type,
+  .historyImportTable td:first-of-type {
+    display: none;
   }
 }
 
@@ -568,6 +598,13 @@
   }
   .mapDiv > div {
     height: 285px !important;
+  }
+
+  /* Warehouse Import History Table  */
+
+  .historyImportTable th:nth-of-type(9),
+  .historyImportTable td:nth-of-type(9) {
+    display: none;
   }
 }
 
@@ -737,6 +774,11 @@
   .historyTable th:nth-of-type(6) {
     display: none;
   }
+
+  .historyImportTable th,
+  .historyImportTable td {
+    padding: 14px 5px !important;
+  }
 }
 
 @media screen and (max-width: 700px) {
@@ -795,6 +837,13 @@
   }
   .task-date-form {
     gap: 10px;
+  }
+
+  /* Warehouse Import History Table  */
+
+  .historyImportTable th:nth-of-type(5),
+  .historyImportTable td:nth-of-type(5) {
+    display: none;
   }
 }
 
@@ -924,6 +973,26 @@
   .historyTable th:first-of-type {
     display: table-cell;
   }
+
+  /* Warehouse Import History Table  */
+
+  .historyImportTable th:first-of-type,
+  .historyImportTable td:first-of-type,
+  .historyImportTable th:nth-of-type(5),
+  .historyImportTable td:nth-of-type(5),
+  .historyImportTable th:nth-of-type(9),
+  .historyImportTable td:nth-of-type(9) {
+    display: table-cell;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  /* Warehouse Import History Table  */
+
+  .historyImportTable th:nth-of-type(9),
+  .historyImportTable td:nth-of-type(9) {
+    display: none;
+  }
 }
 
 @media screen and (max-width: 570px) {
@@ -944,6 +1013,13 @@
   }
   .submit-btn {
     font-size: 16px;
+  }
+
+  /* Warehouse Import History Table  */
+
+  .historyImportTable th,
+  .historyImportTable td {
+    padding: 12px 5px !important;
   }
 
   /* Task page */
@@ -1075,6 +1151,13 @@
   .historyTable th:first-of-type {
     display: none;
   }
+
+  /* Warehouse Import History Table  */
+
+  .historyImportTable th:first-of-type,
+  .historyImportTable td:first-of-type {
+    display: none;
+  }
 }
 
 @media screen and (max-width: 500px) {
@@ -1159,6 +1242,13 @@
   .leaflet-touch .leaflet-bar a {
     width: 25px;
     height: 25px;
+  }
+
+  /* Warehouse Import History Table  */
+
+  .historyImportTable th:nth-of-type(5),
+  .historyImportTable td:nth-of-type(5) {
+    display: none;
   }
 }
 
@@ -1415,5 +1505,15 @@
   .historyTable th,
   .historyTable td {
     font-size: 11px !important;
+  }
+
+  /* Warehouse Import History Table  */
+  .historyImportTable th,
+  .historyImportTable td {
+    font-size: 12px !important;
+  }
+  .historyImportTable th:last-of-type,
+  .historyImportTable td:last-of-type {
+    padding: 12px 5px 12px 0 !important;
   }
 }

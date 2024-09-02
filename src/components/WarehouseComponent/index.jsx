@@ -97,17 +97,17 @@ function Warehouse() {
 
                 const formattedData = filteredData.map((item) => ({
                     id: item.id,
-                    name: item.equipment_name || 'N/A',
-                    marka: item.brand || 'N/A',
-                    model: item.model || 'N/A',
-                    sn: item.serial_number || 'N/A',
+                    name: item.equipment_name || '-',
+                    marka: item.brand || '-',
+                    model: item.model || '-',
+                    sn: item.serial_number || '-',
                     count: item.number || 0,
-                    port_number: item.port_number || 'N/A',
-                    mac: item.mac || 'N/A',
-                    date: item.date || 'N/A',
-                    region: item.warehouse.region || 'N/A',
-                    warehouse_name: item.warehouse.name || 'N/A',
-                    measure: item.size_length || 'N/A',
+                    port_number: item.port_number || '-',
+                    mac: item.mac || '-',
+                    date: item.date || '-',
+                    region: item.warehouse.region || '-',
+                    warehouse_name: item.warehouse.name || '-',
+                    measure: item.size_length || '-',
                 }));
                 setTableData(formattedData);
             })

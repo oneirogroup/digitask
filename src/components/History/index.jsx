@@ -212,13 +212,13 @@ const Anbar = () => {
                   <td onClick={() => handleActionClick(data, 'history')} >{`#${(index + 1).toString().padStart(4, "0")}`}</td>
                   <td onClick={() => handleActionClick(data, 'history')} >{data.item_created_by.first_name} {data.item_created_by.last_name}</td>
                   <td onClick={() => handleActionClick(data, 'history')} >{data.company || data.authorized_person || (data.texnik_user ? `${data.texnik_user.first_name} ${data.texnik_user.last_name}` : '')}</td>
-                  <td onClick={() => handleActionClick(data, 'history')} >{data.date ? formatDate(data.date) : 'N/A'}</td>
+                  <td onClick={() => handleActionClick(data, 'history')} >{data.date ? formatDate(data.date) : '-'}</td>
                   <td onClick={() => handleActionClick(data, 'history')} >{data.item_equipment_name}</td>
                   <td onClick={() => handleActionClick(data, 'history')} >{data.item_brand}</td>
                   <td onClick={() => handleActionClick(data, 'history')} >{data.item_model}</td>
                   <td onClick={() => handleActionClick(data, 'history')} >{data.item_serial_number}</td>
                   {/* <td>{data.item_mac}</td> */}
-                  {/* <td>{(data.item_warehouse && data.item_warehouse.region) || 'N/A'}</td> */}
+                  {/* <td>{(data.item_warehouse && data.item_warehouse.region) || '-'}</td> */}
                   <td onClick={() => handleActionClick(data, 'history')} >{data.item_port_number}</td>
                   <td onClick={() => handleActionClick(data, 'history')} >{data.number}</td>
                   <td>
@@ -256,13 +256,13 @@ const Anbar = () => {
                 <tr key={index}>
                   <td onClick={() => handleActionClick(data, 'warehouse')} >{`#${(index + 1).toString().padStart(4, "0")}`}</td>
                   <td onClick={() => handleActionClick(data, 'warehouse')} >{data.product_provider}</td>
-                  <td onClick={() => handleActionClick(data, 'warehouse')} >{data.date ? formatDate(data.date) : 'N/A'}</td>
+                  <td onClick={() => handleActionClick(data, 'warehouse')} >{data.date ? formatDate(data.date) : '-'}</td>
                   <td onClick={() => handleActionClick(data, 'warehouse')} >{data.item_equipment_name}</td>
                   <td onClick={() => handleActionClick(data, 'warehouse')} >{data.item_brand}</td>
                   <td onClick={() => handleActionClick(data, 'warehouse')} >{data.item_model}</td>
                   <td onClick={() => handleActionClick(data, 'warehouse')} >{data.item_serial_number}</td>
                   <td onClick={() => handleActionClick(data, 'warehouse')} >{data.item_mac}</td>
-                  <td onClick={() => handleActionClick(data, 'warehouse')} >{(data.item_warehouse && data.item_warehouse.region) || 'N/A'}</td>
+                  <td onClick={() => handleActionClick(data, 'warehouse')} >{(data.item_warehouse && data.item_warehouse.region) || '-'}</td>
                   <td onClick={() => handleActionClick(data, 'warehouse')} >{data.item_port_number}</td>
                   <td onClick={() => handleActionClick(data, 'warehouse')} >{data.number}</td>
 
