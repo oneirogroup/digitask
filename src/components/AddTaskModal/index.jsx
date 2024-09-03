@@ -72,10 +72,22 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData((prevState) => ({
-            ...prevState,
-            [name]: value,
-        }));
+    
+        // Check if the input field is the contact field
+        if (name === "contact_number" || name == "registration_number") {
+            // Allow only numbers, spaces, and the characters ()+
+            const filteredValue = value.replace(/[^0-9()+\s]/g, "");
+    
+            setFormData((prevState) => ({
+                ...prevState,
+                [name]: filteredValue,
+            }));
+        } else {
+            setFormData((prevState) => ({
+                ...prevState,
+                [name]: value,
+            }));
+        }
     };
 
     const handleCheckboxChange = (e) => {
@@ -104,10 +116,10 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
     };
 
     const [errorText, setErrorText] = useState('');
-
+    
     const validateForm = () => {
         const newErrors = {};
-        if (!formData.full_name) newErrors.full_name = 'Ad və soyadınızı daxil edin!';
+        if (!formData.full_name) newErrors.full_name = 'Müştəri adını daxil edin!';
         if (!formData.date) newErrors.date = 'tarixi';
         if (!formData.start_time) newErrors.start_time = 'başlanğıc saatı';
         if (!formData.end_time) newErrors.end_time = 'bitmə saatı';

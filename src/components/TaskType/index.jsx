@@ -168,10 +168,22 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setFormData({
-            ...formData,
-            [name]: value
-        });
+
+  
+        if (name === "registration_number" || name ==="contact_number") {
+      
+            const filteredValue = value.replace(/[^0-9()+\s]/g, "");
+    
+            setFormData((prevState) => ({
+                ...prevState,
+                [name]: filteredValue,
+            }));
+        } else {
+            setFormData((prevState) => ({
+                ...prevState,
+                [name]: value,
+            }));
+        }
     };
 
     const handleEditClick = () => {
