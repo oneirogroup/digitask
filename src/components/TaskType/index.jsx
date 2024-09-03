@@ -194,7 +194,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
-        console.log("formData:", formData);
+   
 
         const updatedData = {};
         Object.keys(formData).forEach(key => {
@@ -549,9 +549,12 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
                                                 className="dropdown-task-toggle"
                                                 onClick={() => setIsDropdownOpenGroup(!isDropdownOpenGroup)}
                                             >
-                                                {formData.group.length > 0
-                                                    ? `Qrup ${formData.group.join(', Qrup ')}`
-                                                    : 'Qrup Seçin'}
+                                             {formData.group.length > 0
+                                                            ? ` ${groups
+                                                                .filter(group => formData.group.includes(group.id))
+                                                                .map(group => group.group)
+                                                                .join(',  ')}`
+                                                                        : 'Qrup seçin'}
                                                 <FaChevronDown />
                                             </div>
                                             {isDropdownOpenGroup && (

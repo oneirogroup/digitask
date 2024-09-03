@@ -58,7 +58,7 @@ const Navbar = ({ onToggleSidebar }) => {
                 }));
 
                 setNotifications(decodedMessages);
-                setnotificationNumber(decodedMessages.length);
+                setnotificationNumber(decodedMessages.filter(message => !message.read_by).length);
             };
 
             ws3.onerror = async (error) => {
@@ -101,8 +101,54 @@ const Navbar = ({ onToggleSidebar }) => {
         };
     }, []);
 
+    const markNotificationsAsRead = async (notificationIds) => {
+        try {
+      
+            const accessToken = localStorage.getItem('access_token');
+    
+            if (!accessToken) {
+                throw new Error('Access token not found');
+            }
+    
+   
+            const apiEndpoint = 'http://135.181.42.192/accounts/notifications/mark-as-read/';
+    
+            const payload = {
+                notification_ids: notificationIds,
+            };
+    
+            // Make the POST request
+            const response = await fetch(apiEndpoint, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`, 
+                },
+                body: JSON.stringify(payload),
+            });
+  
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            console.log('Notification status updated:', data);
+         
+            return data;
+        } catch (error) {
+   
+            console.error('Error marking notifications as read:', error);
+
+        }
+    };
+
     const handleNotificationClick = () => {
         setIsModalOpen(true);
+        
+        markNotificationsAsRead(notifications
+            .filter(notification => notification.id)  
+            .map(notification => notification.id))
+        setnotificationNumber('0')
     };
 
     const handleCloseModal = () => {
