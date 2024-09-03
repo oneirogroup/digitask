@@ -114,14 +114,14 @@ const Sidebar = ({ children }) => {
             <p>Digər</p>
             <div>
                 <ul>
-                    <li className={location.pathname === "/settings/" ? "active" : ""}>
+                    {/* <li className={location.pathname === "/settings/" ? "active" : ""}>
                         <IoMdSettings />
                         <Link to="/settings/">Parametrlər</Link>
                     </li>
                     <li className={location.pathname === "/contact/" ? "active" : ""}>
                         <BiSupport />
                         <Link to="/contact/">Əlaqə</Link>
-                    </li>
+                    </li> */}
                     {isAuth ? (
                         <li onClick={handleLogout}>
                             <MdLogout />

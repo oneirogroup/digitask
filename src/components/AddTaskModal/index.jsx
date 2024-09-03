@@ -124,7 +124,6 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
         if (!formData.start_time) newErrors.start_time = 'başlanğıc saatı';
         if (!formData.end_time) newErrors.end_time = 'bitmə saatı';
         if (!formData.registration_number) newErrors.registration_number = 'Qeydiyyat nömrəsi daxil edin!';
-        if (!formData.contact_number) newErrors.contact_number = 'Əlaqə nömrəsini daxil edin!';
         if (!formData.location) newErrors.location = 'Ünvanı daxil edin!';
         if (!formData.is_tv && !formData.is_internet && !formData.is_voice)
             newErrors.service = 'Tv, internet və ya səs xidmətini seçin!';
@@ -198,6 +197,12 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
     };
 
     const [position, setPosition] = useState({ lat: '', lng: '' });
+    const customerIcon = new L.Icon({
+        iconUrl: 'https://img.icons8.com/?size=100&id=CwAOuD64vULU&format=png&color=000000', 
+        iconSize: [32, 32], 
+        iconAnchor: [16, 32], 
+        popupAnchor: [0, -32], 
+      });
 
     const handleMapClick = (latlng) => {
         setFormData((prevState) => ({
@@ -368,9 +373,12 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
                                     className="dropdown-task-toggle"
                                     onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                                 >
-                                    {formData.group.length > 0
-                                        ? `Qrup ${formData.group.join(', Qrup ')}`
-                                        : 'Qrup seçin'}
+                                 {formData.group.length > 0
+                            ? ` ${groups
+                                .filter(group => formData.group.includes(group.id))
+                                .map(group => group.group)
+                                .join(',  ')}`
+                                         : 'Qrup seçin'}
                                     <FaChevronDown />
                                 </div>
                                 {isDropdownOpen && (
@@ -390,7 +398,7 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
                             />
                             <MapClickHandler onClick={handleMapClick} />
                             {formData.latitude && formData.longitude && (
-                                <Marker position={[formData.latitude, formData.longitude]} />
+                                <Marker  icon={customerIcon} position={[formData.latitude, formData.longitude]} />
                             )}
                         </MapContainer>
 

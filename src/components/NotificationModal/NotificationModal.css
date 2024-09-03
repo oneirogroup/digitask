@@ -51,7 +51,7 @@
 .notification-item {
     display: flex;
     flex-direction: column;
-    padding: 8px 0;
+    padding: 8px 7px;
     border-bottom: 1px solid #f0f0f0;
 }
 
