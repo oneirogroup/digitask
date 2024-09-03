@@ -164,7 +164,7 @@ const Chat = () => {
             const data = await response.json();
             
             setGroups(data);
-    
+        
         } catch (error) {
             console.error('Fetch error:', error);
         }
@@ -284,11 +284,21 @@ const Chat = () => {
     const [selectedGroup, setSelectedGroup] = useState(null);
     const [members, setMembers] = useState([]);
     const [groupName, setGroupName] = useState('');
+    const [adminId, setAdminId] = useState('');
+
+    const [searchTerm, setSearchTerm] = useState('');
+
+ 
+    const handleSearchChange = (e) => {
+        setSearchTerm(e.target.value);
+    };
 
     const handleOpenModal = (group) => {
         setSelectedGroup(group);
         const mygroupName = groups.find(g => g.id === group)?.name || []
         const groupMembers = groups.find(g => g.id === group)?.members || [];
+        const groupAdminId = groups.find(g => g.id === group)?.admin?.id || [];
+        setAdminId(groupAdminId);
         setGroupName(mygroupName);
         setMembers(groupMembers);
         setModalOpen(true);
@@ -338,31 +348,33 @@ const Chat = () => {
                     </h2>
                     <div className="chat-search">
                         <IoSearchOutline className="search-icon" />
-                        <input type="text" placeholder="Axtar" />
+                        <input value={searchTerm} onChange={handleSearchChange} type="text" placeholder="Axtar" />
                         <IoFilterOutline className="sort-icon" />
                     </div>
                 </div>
                 <div className="chat-list">
                   
-                {groups.map(group => {
+                {groups.filter(group => group.name.toLowerCase().includes(searchTerm.toLowerCase())).map(group => {
                     
                         const lastMessage = lastMessages[group.id];
-
+                        const limitedContent = lastMessage?.content?.length > 80 
+                        ? `${lastMessage?.content.substring(0, 80)}...` 
+                        : lastMessage?.content;
                         const userName = lastMessage?.typeM === "received"
                         ? `${lastMessage.user?.first_name} ${lastMessage.user?.last_name}`
                         : 'Mən';
 
                         return (
-                        <div
+                            <div
                             key={group.id}
                             className={`chat-list-item ${activeGroup === group.id ? "active" : ""}`}
                             onClick={() => setActiveGroup(group.id)}
-                        >
+                            >
                             <div className="avatar"><MdGroups /></div>
                             <div className="chat-info">
                             <h4>{group.name}</h4>
                             <p>
-                                {userName}: <span>{lastMessage?.content}</span>
+                                {userName}: <span>{limitedContent}</span>
                             </p>
                             </div>
                             <div className="chat-meta">
@@ -422,6 +434,7 @@ const Chat = () => {
                 members={members}
                 group={selectedGroup}
                 onMembersUpdated={handleMembersUpdated}
+                admin={adminId}
             />
         </div>
     );
