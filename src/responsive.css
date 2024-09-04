@@ -325,6 +325,12 @@
   .historyImportTable td:nth-of-type(6) {
     display: none;
   }
+
+  /* Employee page group modal */
+
+  .add-group-modal-content {
+    max-width: 50%;
+  }
 }
 
 @media screen and (max-width: 900px) {
@@ -480,6 +486,10 @@
   .employee-table-container td {
     font-size: 15px !important;
   }
+
+  .add-group-modal-content {
+    max-width: 57%;
+}
 
   /* Task page */
 
@@ -936,6 +946,14 @@
     display: table-cell;
   }
 
+  .add-group-modal-content {
+    max-width: 60%;
+}
+
+.add-group-modal-title h5{
+  font-size: 23px;
+}
+
   /* Navbar */
 
   .navbar-icons {
@@ -1145,6 +1163,7 @@
     font-size: 13px;
   }
 
+  
   /* Warehouse history page */
 
   .historyTable td:first-of-type,
@@ -1250,6 +1269,16 @@
   .historyImportTable td:nth-of-type(5) {
     display: none;
   }
+
+  /* Employee page group modal */
+
+  .add-group-modal-content button {
+    font-size: 14px;
+      }
+      .add-group-modal-content .form-group label {
+        font-size: 17px;
+        padding-left: 0;
+      }
 }
 
 @media screen and (max-width: 450px) {

@@ -306,3 +306,8 @@ font-size: 26px;
 .deactive{
   color:gray !important;
 }
+
+.employee-add-buttons {
+  display: flex;
+  gap: 5px;
+}
