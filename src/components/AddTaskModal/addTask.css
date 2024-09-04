@@ -22,20 +22,20 @@
   box-sizing: border-box;
 }
 
-.task-modal-title, .add-user-modal-title {
+.task-modal-title, .add-user-modal-title, .add-group-modal-title {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.task-modal-title h5, .add-user-modal-title h5{
+.task-modal-title h5, .add-user-modal-title h5, .add-group-modal-title h5 {
   font-family: Montserrat;
   font-size: 26px;
   font-weight: 500;
   margin: 0 auto;
 }
 
-.task-modal-title span, .add-user-modal-title span {
+.task-modal-title span, .add-user-modal-title span, .add-group-modal-title span {
   color: #5E5E62;
   font-size: 36px;
   cursor: pointer;
@@ -48,8 +48,6 @@
   background-color: #5E5E62; 
   margin: 10px 0;
 }
-
-
 
 .taskModal-taskType{
   display: flex;

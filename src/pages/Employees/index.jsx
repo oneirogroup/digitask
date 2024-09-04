@@ -10,6 +10,7 @@ import { PiMapPinAreaFill } from "react-icons/pi";
 import "./employees.css";
 import { useUser } from '../../contexts/UserContext';
 import AddUserModal from '../../components/AddUserModal';
+import AddGroupModal from '../../components/AddGroupModal';
 import MapModal from '../../components/MapModal';
 import UpdateUserModal from '../../components/UpdateUserModal';
 
@@ -38,6 +39,7 @@ const EmployeeList = () => {
   const [employeeModals, setEmployeeModals] = useState({});
   const [status, setStatus] = useState({});
   const [isAddUserModal, setIsAddUserModal] = useState(false);
+  const [isAddGroupModal, setIsAddGroupModal] = useState(false);
   const [isMapModal, setIsMapModal] = useState(false);
   const [isUpdateUserModal, setIsUpdateUserModal] = useState(false);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
@@ -138,6 +140,14 @@ const EmployeeList = () => {
     setEmployees((prevEmployees) => [...prevEmployees, newUser]);
 
     initializeEmployeeModals([...employees, newUser]);
+
+    await fetchEmployees();
+  };
+
+  const handleGroupAdded = async (newGroup) => {
+    setEmployees((prevEmployees) => [...prevEmployees, newGroup]);
+
+    initializeEmployeeModals([...employees, newGroup]);
 
     await fetchEmployees();
   };
@@ -273,6 +283,13 @@ const EmployeeList = () => {
   const closeAddUserModal = () => {
     setIsAddUserModal(false);
   };
+  const openAddGroupModal = () => {
+    setIsAddGroupModal(true);
+  };
+
+  const closeAddGroupModal = () => {
+    setIsAddGroupModal(false);
+  };
 
   const openMapModal = (id) => {
     setMapEmployee(id)
@@ -368,9 +385,12 @@ const EmployeeList = () => {
     <div className='employee-page'>
       <div className='employee-title'>
         <h1>İşçilər</h1>
-        {isAdmin && (
-          <button onClick={openAddUserModal}><IoAdd />Istifadəçi əlavə et</button>
-        )}
+        <div className='employee-add-buttons'>
+          <button onClick={openAddGroupModal}>Qrup əlavə et</button>
+          {isAdmin && (
+            <button onClick={openAddUserModal}><IoAdd />Istifadəçi əlavə et</button>
+          )}
+        </div>
       </div>
       <div className='employee-search-filter'>
         <div>
@@ -452,7 +472,7 @@ const EmployeeList = () => {
                   {status[employee.id]?.status !== undefined ? status[employee.id]?.status : "offline"}
                 </td>
                 <td>
-                  <a className={`mapIcon ${status[employee.id]?.status !== "online" ? 'deactive' : ''}`}  onClick={status[employee.id]?.status === "online" ? () => openMapModal(employee.id):null}><PiMapPinAreaFill /></a>
+                  <a className={`mapIcon ${status[employee.id]?.status !== "online" ? 'deactive' : ''}`} onClick={status[employee.id]?.status === "online" ? () => openMapModal(employee.id) : null}><PiMapPinAreaFill /></a>
                 </td>
                 <td>
                   <button onClick={() => openSmallModal(employee.id)}><BsThreeDotsVertical /></button>
@@ -494,6 +514,7 @@ const EmployeeList = () => {
         </button>
       </div>
       {isAddUserModal && <AddUserModal isOpen={isAddUserModal} onClose={closeAddUserModal} onUserAdded={handleUserAdded} />}
+      {isAddGroupModal && <AddGroupModal isOpen={isAddGroupModal} onClose={closeAddGroupModal} onGroupAdded={handleGroupAdded} />}
       {isMapModal && <MapModal status={status[mapEmployee]} isOpen={isMapModal} onClose={closeMapModal} />}
       {isUpdateUserModal && selectedEmployee && (
         <UpdateUserModal
