@@ -26,7 +26,7 @@ const MeetingDetailModal = ({ isOpen, onClose, meetingId }) => {
     }
 
     return (
-        <div className="item-detail-modal-overlay">
+        <div className="meeting-detail-modal-overlay">
             <div className="item-detail-modal-content">
                 <div className="item-detail-modal-header">
                     <h2>Tədbir məlumatları</h2>
@@ -43,7 +43,7 @@ const MeetingDetailModal = ({ isOpen, onClose, meetingId }) => {
                         <div className="modal-value">{meeting.participants.join(', ') || 'Qeyd yoxdur'}</div>
                     </div>
                     <hr />
-                    <div className='warehouse-item-detail-grid'>
+                    <div className='meeting-item-detail-grid'>
                         <div>
                             <div className="modal-row">
                                 <div className="modal-label">Görüş növü</div>
