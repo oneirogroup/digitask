@@ -36,6 +36,9 @@
   .task-modal-content .form-group {
     font-size: 15px;
   }
+  .meeting-detail-modal-overlay .item-detail-modal-body .modal-label, .meeting-detail-modal-overlay .item-detail-modal-body .modal-value {
+    font-size: 17px;
+  }
 }
 
 @media screen and (max-width: 1200px) {
@@ -50,6 +53,9 @@
   .table-container tr th:nth-of-type(9) {
     display: none;
   }
+  .meeting-detail-modal-overlay .item-detail-modal-body .modal-label, .meeting-detail-modal-overlay .item-detail-modal-body .modal-value {
+    font-size: 16px;
+}
   .taskService-taskGroup {
     flex-direction: column;
   }
@@ -100,6 +106,13 @@
   .historyImportTable th:nth-of-type(11),
   .historyImportTable td:nth-of-type(11) {
     padding: 14px 0px !important;
+  }
+
+  /* Home page */
+
+  .meeting-detail-modal-overlay .meeting-item-detail-grid{
+    display: flex;
+    flex-direction: column;
   }
 }
 
@@ -349,6 +362,10 @@
   .home-tasks table tr td:nth-of-type(5),
   .home-tasks table tr th:nth-of-type(5) {
     display: none;
+  }
+
+  .meeting-detail-modal-overlay .item-detail-modal-content {
+    max-width: 50%;
   }
 
   /* Performance page */
@@ -657,6 +674,10 @@
   .modal-overlay-participants {
     top: 155px;
   }
+  .meeting-detail-modal-overlay .item-detail-modal-content {
+    width: 60%;
+    max-width: 60%;
+  }
 
   /* Performance page */
 
@@ -883,6 +904,9 @@
   .event-modal {
     max-width: 50%;
   }
+  .meeting-detail-modal-overlay .item-detail-modal-header h2 {
+    font-size: 24px;
+  }
 
   /* Sidebar */
 
@@ -1011,6 +1035,12 @@
   .historyImportTable td:nth-of-type(9) {
     display: none;
   }
+
+  /* Home page */
+
+  .meeting-detail-modal-overlay .item-detail-modal-body .modal-label, .meeting-detail-modal-overlay .item-detail-modal-body .modal-value {
+    font-size: 15px;
+}
 }
 
 @media screen and (max-width: 570px) {
@@ -1074,6 +1104,18 @@
   .modal-overlay-participants {
     top: 143px;
   }
+
+  .meeting-detail-modal-overlay .item-detail-modal-body .modal-row {
+    gap: 20px;
+  }
+
+  .meeting-detail-modal-overlay .item-detail-modal-header h2 {
+    font-size: 23px;
+}
+
+.meeting-detail-modal-overlay .item-detail-close-button {
+  font-size: 32px;
+}
 
   /* Performance page */
 
@@ -1185,6 +1227,24 @@
   .event-modal {
     max-width: 54%;
   }
+  .meeting-detail-modal-overlay .item-detail-modal-header h2 {
+    font-size: 21px;
+}
+.meeting-detail-modal-overlay .item-detail-close-button {
+  font-size: 29px;
+}
+
+.meeting-detail-modal-overlay .item-detail-modal-header h2{
+  margin: 0;
+}
+.meeting-detail-modal-overlay .item-detail-modal-content {
+  width: 67%;
+  max-width: 67%;
+}
+
+.meeting-detail-modal-overlay .item-detail-modal-content{
+  padding: 17px;
+}
 
   /* Profile page */
 
@@ -1296,6 +1356,9 @@
   }
   .event-modal {
     max-width: 70%;
+  }
+  .meeting-detail-modal-overlay .item-detail-modal-header {
+    margin-bottom: 20px;
   }
 
   /* Performance page */
@@ -1480,6 +1543,14 @@
   .event-modal {
     max-width: 63%;
   }
+  .meeting-detail-modal-overlay .item-detail-modal-body .modal-label,
+  .meeting-detail-modal-overlay .item-detail-modal-body .modal-value {
+    font-size: 14px;
+}
+
+.meeting-detail-modal-overlay .item-detail-modal-body .modal-row {
+  margin: 15px 0 5px 0;
+}
 
   /* Task page */
 

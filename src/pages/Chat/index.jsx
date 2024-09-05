@@ -227,7 +227,6 @@ const Chat = () => {
     }, []);
    
     useEffect(() => {
-        // Function to update lastMessages based on the latest message for each group
         const updateLastMessages = () => {
           const latestMessages = {};
     
@@ -308,11 +307,6 @@ const Chat = () => {
         setModalOpen(false);
         setSelectedGroup(null);
     };
-
-
-
-
-    
 
   
     useEffect(() => {
