@@ -1,4 +1,4 @@
-.add-user-modal-content > hr:first-of-type, .add-group-modal-content > hr{
+.add-user-modal-content > hr:first-of-type, .add-group-modal-content > hr,  .add-room-modal-content >hr {
     border: none;           
     width: 100%;            
     height: 0.3px;            
@@ -23,7 +23,7 @@
 
 
   
-  .add-user-modal .form-group label, .add-group-modal-content .form-group label{
+  .add-user-modal .form-group label, .add-group-modal-content .form-group label,  .add-room-modal-content .form-group label {
     font-weight: bold;
     display: block;
     font-size: 18px;
@@ -46,8 +46,9 @@
   
   .add-user-modal .form-group input[type="text"],
   .add-user-modal .form-group input[type="email"],
-  .add-user-modal .form-group input[type="password"], .add-group-modal-content .form-group input,
-  .multi-select-container button {
+  .add-user-modal .form-group input[type="password"], 
+  .add-group-modal-content .form-group input,  
+  .add-room-modal-content .form-group input{
     width: 100%;
     padding: 8px;
     font-size: 1rem;
@@ -62,7 +63,7 @@
   }
 
 
-  .add-group-modal-content .form-group input{
+  .add-group-modal-content .form-group input, .add-room-modal-content .form-group input {
     height: 30px;
   }
 
@@ -115,7 +116,7 @@
     margin-right: 5px;
   }
   
-  .add-user-modal button[type="submit"], .add-group-modal-content button {
+  .add-user-modal button[type="submit"], .add-group-modal-content button, .add-room-modal-content form> button {
     background-color: #005ABF;
     color: white;
     border: none;
@@ -133,7 +134,7 @@
     margin-top: 20px;
   }
 
-  .add-group-modal-content button {
+  .add-group-modal-content button,  .add-room-modal-content button {
     height: 35px;
   }
   

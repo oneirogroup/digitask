@@ -53,11 +53,8 @@ const EmployeeList = () => {
 
   const [loggedInUserId, setLoggedInUserId] = useState(null);
 
-
   let ws2;
   const connectWebSocket2 = () => {
-
-
 
     ws2 = new WebSocket(`ws://135.181.42.192/userlist/`);
 

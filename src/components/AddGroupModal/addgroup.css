@@ -11,12 +11,6 @@
   z-index: 20000;
 }
 
-.add-user-modal-title span {
-  color: #5e5e62;
-  font-size: 36px;
-  cursor: pointer;
-}
-
 .add-group-modal-content {
   background-color: #fff;
   padding: 20px;
