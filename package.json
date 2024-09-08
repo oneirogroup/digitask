@@ -1,0 +1,16 @@
+{
+  "name": "expo-next-nativewind",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "libs/*",
+    "modules/*"
+  ],
+  "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^4.3.0",
+    "prettier": "^3.3.3",
+    "prettier-plugin-packagejson": "^2.5.2",
+    "prettier-plugin-tailwindcss": "^0.6.6"
+  },
+  "packageManager": "yarn@4.4.1"
+}

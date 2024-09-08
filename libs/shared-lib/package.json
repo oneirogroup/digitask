@@ -1,0 +1,22 @@
+{
+  "name": "shared-lib",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@oneiro/ui-kit": "workspace:^"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react-swc": "^3.7.0",
+    "rollup-preserve-directives": "^1.1.1",
+    "typescript": "^5.5.4",
+    "vite": "^5.4.3",
+    "vite-plugin-dts": "^4.1.1",
+    "vite-tsconfig-paths": "^5.0.1"
+  }
+}
