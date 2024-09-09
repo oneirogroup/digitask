@@ -1,3 +1,3 @@
 [submodule "ui-kit"]
 	path = modules/ui-kit
-	url = git@github.com:MedProjectOneiro/ui-kit.git
+	url = git@github.com:oneirogroup/ui-kit.git
