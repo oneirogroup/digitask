@@ -8,7 +8,7 @@ import { RiMapPinLine, RiVoiceprintFill } from "react-icons/ri";
 import { MdOutlineMiscellaneousServices, MdOutlineEngineering, MdAdd, MdOutlineEdit } from "react-icons/md";
 import { BiComment } from "react-icons/bi";
 import './detailsModal.css';
-import { FaChevronDown, FaMapPin } from "react-icons/fa";
+import { FaChevronDown, FaMapPin, FaPassport } from "react-icons/fa";
 import AddSurveyModal from '../AddSurveyModal';
 import { PiTelevisionSimple } from "react-icons/pi";
 import { TfiWorld } from "react-icons/tfi";
@@ -94,6 +94,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
         registration_number: '',
         contact_number: '',
         location: '',
+        passport: '',
         services: [],
         status: '',
         group: [],
@@ -146,6 +147,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
                         registration_number: data.registration_number,
                         contact_number: data.contact_number,
                         location: data.location,
+                        passport: data.passport,
                         services: data.services,
                         status: data.status,
                         group: data.group.map(g => g.id),
@@ -169,11 +171,11 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
     const handleInputChange = (e) => {
         const { name, value } = e.target;
 
-  
-        if (name === "registration_number" || name ==="contact_number") {
-      
+
+        if (name === "registration_number" || name === "contact_number") {
+
             const filteredValue = value.replace(/[^0-9()+\s]/g, "");
-    
+
             setFormData((prevState) => ({
                 ...prevState,
                 [name]: filteredValue,
@@ -194,7 +196,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
-   
+
 
         const updatedData = {};
         Object.keys(formData).forEach(key => {
@@ -377,11 +379,11 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
         }
     };
     const customerIcon = new L.Icon({
-        iconUrl: 'https://img.icons8.com/?size=100&id=CwAOuD64vULU&format=png&color=000000', 
-        iconSize: [32, 32], 
-        iconAnchor: [16, 32], 
-        popupAnchor: [0, -32], 
-      });
+        iconUrl: 'https://img.icons8.com/?size=100&id=CwAOuD64vULU&format=png&color=000000',
+        iconSize: [32, 32],
+        iconAnchor: [16, 32],
+        popupAnchor: [0, -32],
+    });
 
     const renderMap = () => (
         <div className="form-group mapDiv" id='detailMap'>
@@ -549,12 +551,12 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
                                                 className="dropdown-task-toggle"
                                                 onClick={() => setIsDropdownOpenGroup(!isDropdownOpenGroup)}
                                             >
-                                             {formData.group.length > 0
-                                                            ? ` ${groups
-                                                                .filter(group => formData.group.includes(group.id))
-                                                                .map(group => group.group)
-                                                                .join(',  ')}`
-                                                                        : 'Qrup seçin'}
+                                                {formData.group.length > 0
+                                                    ? ` ${groups
+                                                        .filter(group => formData.group.includes(group.id))
+                                                        .map(group => group.group)
+                                                        .join(',  ')}`
+                                                    : 'Qrup seçin'}
                                                 <FaChevronDown />
                                             </div>
                                             {isDropdownOpenGroup && (
@@ -663,6 +665,13 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
                                 <div className='taskType-address'>
                                     <label><RiMapPinLine /> Adres</label>
                                     <span>{taskDetails.location}</span>
+                                </div>
+                                <hr />
+                            </div>
+                            <div>
+                                <div className='taskType-photo'>
+                                    <label><FaPassport /> Müştərinin şəxsiyyət vəsiqəsi</label>
+                                    <img src={taskDetails.passport} alt="" />
                                 </div>
                                 <hr />
                             </div>

@@ -4,7 +4,8 @@ import "./addTask.css";
 import { PiTelevisionSimpleLight } from "react-icons/pi";
 import { TfiWorld } from "react-icons/tfi";
 import { RiVoiceprintFill } from "react-icons/ri";
-import { FaChevronDown } from "react-icons/fa";
+import { FaChevronDown, FaPassport } from "react-icons/fa";
+
 
 /////////////////////////////////////////////////////////////////////////start
 import { MapContainer, TileLayer, useMapEvents, Marker } from 'react-leaflet';
@@ -72,12 +73,12 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-    
+
         // Check if the input field is the contact field
         if (name === "contact_number" || name == "registration_number") {
             // Allow only numbers, spaces, and the characters ()+
             const filteredValue = value.replace(/[^0-9()+\s]/g, "");
-    
+
             setFormData((prevState) => ({
                 ...prevState,
                 [name]: filteredValue,
@@ -116,7 +117,7 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
     };
 
     const [errorText, setErrorText] = useState('');
-    
+
     const validateForm = () => {
         const newErrors = {};
         if (!formData.full_name) newErrors.full_name = 'Müştəri adını daxil edin!';
@@ -198,11 +199,11 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
 
     const [position, setPosition] = useState({ lat: '', lng: '' });
     const customerIcon = new L.Icon({
-        iconUrl: 'https://img.icons8.com/?size=100&id=CwAOuD64vULU&format=png&color=000000', 
-        iconSize: [32, 32], 
-        iconAnchor: [16, 32], 
-        popupAnchor: [0, -32], 
-      });
+        iconUrl: 'https://img.icons8.com/?size=100&id=CwAOuD64vULU&format=png&color=000000',
+        iconSize: [32, 32],
+        iconAnchor: [16, 32],
+        popupAnchor: [0, -32],
+    });
 
     const handleMapClick = (latlng) => {
         setFormData((prevState) => ({
@@ -373,12 +374,12 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
                                     className="dropdown-task-toggle"
                                     onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                                 >
-                                 {formData.group.length > 0
-                            ? ` ${groups
-                                .filter(group => formData.group.includes(group.id))
-                                .map(group => group.group)
-                                .join(',  ')}`
-                                         : 'Qrup seçin'}
+                                    {formData.group.length > 0
+                                        ? ` ${groups
+                                            .filter(group => formData.group.includes(group.id))
+                                            .map(group => group.group)
+                                            .join(',  ')}`
+                                        : 'Qrup seçin'}
                                     <FaChevronDown />
                                 </div>
                                 {isDropdownOpen && (
@@ -390,7 +391,7 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
                             {errors.group && <span className="error-message">{errors.group}</span>}
                         </div>
                     </div>
-                    <div class="form-group mapDiv">
+                    <div className="form-group mapDiv">
                         <label htmlFor="note">Müştəri ünvanı:</label>
                         <MapContainer center={[40.4093, 49.8671]} zoom={13} style={{ height: '300px', width: '100%' }}>
                             <TileLayer
@@ -398,11 +399,16 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
                             />
                             <MapClickHandler onClick={handleMapClick} />
                             {formData.latitude && formData.longitude && (
-                                <Marker  icon={customerIcon} position={[formData.latitude, formData.longitude]} />
+                                <Marker icon={customerIcon} position={[formData.latitude, formData.longitude]} />
                             )}
                         </MapContainer>
 
                     </div>
+                    {/* <div className="form-group">
+                        <label htmlFor="note">Müştərinin şəxsiyyət vəsiqəsi:</label>
+                        <FaPassport />
+                        <input type="file" />
+                    </div> */}
                     <div className="form-group">
                         <label htmlFor="note">Qeydlər:</label>
                         <textarea

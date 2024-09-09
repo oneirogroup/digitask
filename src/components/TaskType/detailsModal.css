@@ -147,6 +147,10 @@
     gap: 10px;
 }
 
+.taskType-photo img{
+  height: 16vh;
+}
+
 .taskType-adress span {
     color: #005ABF;
 }
