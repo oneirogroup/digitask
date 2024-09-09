@@ -218,29 +218,29 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
         const regex1 = /@(-?\d+\.\d+),(-?\d+\.\d+),/; // For URLs with '@lat,lng'
         const regex2 = /q=(-?\d+\.\d+),(-?\d+\.\d+)/; // For URLs with 'q=lat,lng'
         const regex3 = /place\/(-?\d+\.\d+),(-?\d+\.\d+)/; // For URLs with 'place/lat,lng'
-        
+
         // Test the URL with different regex patterns
         let match = url.match(regex1) || url.match(regex2) || url.match(regex3);
-        
+
         if (match) {
             return {
                 latitude: parseFloat(match[1]),
                 longitude: parseFloat(match[2]),
             };
         }
-        
+
         return null; // Return null if no coordinates found
     }
 
     const handleMapLink = (url) => {
         const location = extractCoordinatesFromUrl(url)
-        if (location?.latitude && location.longitude){
-        setFormData((prevState) => ({
-            ...prevState,
-            latitude: location.latitude,
-            longitude: location.longitude,
-        }));
-    }
+        if (location?.latitude && location.longitude) {
+            setFormData((prevState) => ({
+                ...prevState,
+                latitude: location.latitude,
+                longitude: location.longitude,
+            }));
+        }
     };
 
     const handleChangeMapLink = (event) => {
@@ -448,10 +448,10 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
                             id="location_link"
                             name="location_link"
                             onChange={handleChangeMapLink}
-                           
+
                             className="form-control"
                         />
-                       
+
                     </div>
                     {/* <div className="form-group">
                         <label htmlFor="note">Müştərinin şəxsiyyət vəsiqəsi:</label>
