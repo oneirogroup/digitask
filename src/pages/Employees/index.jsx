@@ -12,6 +12,7 @@ import { useUser } from '../../contexts/UserContext';
 import AddUserModal from '../../components/AddUserModal';
 import AddGroupModal from '../../components/AddGroupModal';
 import MapModal from '../../components/MapModal';
+import FullMapModal from '../../components/FullMapModal';
 import UpdateUserModal from '../../components/UpdateUserModal';
 
 const refreshAccessToken = async () => {
@@ -41,6 +42,7 @@ const EmployeeList = () => {
   const [isAddUserModal, setIsAddUserModal] = useState(false);
   const [isAddGroupModal, setIsAddGroupModal] = useState(false);
   const [isMapModal, setIsMapModal] = useState(false);
+  const [isFullMapModal, setIsFullMapModal] = useState(false);
   const [isUpdateUserModal, setIsUpdateUserModal] = useState(false);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [mapEmployee, setMapEmployee] = useState(null);
@@ -297,6 +299,14 @@ const EmployeeList = () => {
     setIsMapModal(false);
   };
 
+  const openFullMapModal = () => {
+    setIsFullMapModal(true);
+  };
+
+  const closeFullMapModal = () => {
+    setIsFullMapModal(false);
+  };
+
   const handleButtonClick = (event) => {
     event.stopPropagation();
     event.preventDefault();
@@ -357,11 +367,11 @@ const EmployeeList = () => {
       console.error('Error fetching updated employee:', error);
     }
   };
-
+  
   const handleDeleteUser = async (employeeId) => {
     const confirmDelete = window.confirm("Are you sure you want to delete this user?");
     if (!confirmDelete) return;
-
+  
     try {
       await refreshAccessToken();
       const token = localStorage.getItem('access_token');
@@ -383,6 +393,7 @@ const EmployeeList = () => {
       <div className='employee-title'>
         <h1>İşçilər</h1>
         <div className='employee-add-buttons'>
+          <button onClick={openFullMapModal}>Xəritə</button>
           <button onClick={openAddGroupModal}>Qrup əlavə et</button>
           {isAdmin && (
             <button onClick={openAddUserModal}><IoAdd />Istifadəçi əlavə et</button>
@@ -513,6 +524,7 @@ const EmployeeList = () => {
       {isAddUserModal && <AddUserModal isOpen={isAddUserModal} onClose={closeAddUserModal} onUserAdded={handleUserAdded} />}
       {isAddGroupModal && <AddGroupModal isOpen={isAddGroupModal} onClose={closeAddGroupModal} onGroupAdded={handleGroupAdded} />}
       {isMapModal && <MapModal status={status[mapEmployee]} isOpen={isMapModal} onClose={closeMapModal} />}
+      {isFullMapModal && <FullMapModal status={status} isOpen={isFullMapModal} onClose={closeFullMapModal} />}
       {isUpdateUserModal && selectedEmployee && (
         <UpdateUserModal
           isOpen={isUpdateUserModal}

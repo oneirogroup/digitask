@@ -1,0 +1,103 @@
+.map-modal-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .map-modal-modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 24px;
+    width: 50%;
+    max-width: 50%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-sizing: border-box;
+    position: relative;
+  }
+  
+  .map-modal-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .map-modal-modal-header h2 {
+    margin: 0 auto;
+    font-family: Montserrat;
+    font-size: 26px;
+    font-weight: 600;
+  }
+  
+  .map-modal-close-button {
+    background: none;
+    border: none;
+    font-size: 36px;
+    font-weight: 500;
+    cursor: pointer;
+    color: #5e5e62;
+    font-size: 36px;
+    cursor: pointer;
+  }
+
+  .map-modal-modal-body{
+    margin-top: 15px;
+  }
+
+  .leaflet-container{
+    height:60vh;
+  }
+ .leaflet-control-attribution{
+  display: none;
+ }
+ .custom-icon {
+  background: transparent; /* Arka planı şeffaf yap */
+  border: none; /* Kenarlıkları kaldır */
+  padding: 0; /* İç boşluğu kaldır */
+}
+
+.icon-wrapper {
+
+  width: 32px;
+  height: 32px;
+}
+
+.icon-image {
+  width: 100%;
+  height: 30px;
+}
+
+.icon-text {
+  position: absolute;
+  top: -30%;
+  left: 100%;
+  transform: translate(-50%, -50%);
+
+  font-size: 10px; /* Yazı boyutunu ayarla */
+  color: black; /* Yazı rengi */
+ 
+  border-radius: 3px; /* Köşeleri yuvarla */
+  padding: 1px; /* İç boşluk */
+
+}
+
+.userButton{
+    padding: 5px 7px;
+    border-radius:5px;
+    background-color: #949494;
+    color:rgb(255, 255, 255);
+    cursor:pointer;
+    margin:8px 5px 0px 5px; 
+    
+}
+.activeFly{
+    background-color: #002D5F;
+}

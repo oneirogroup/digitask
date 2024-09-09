@@ -213,6 +213,43 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
         }));
     };
 
+    function extractCoordinatesFromUrl(url) {
+        // Regular expressions for different URL formats
+        const regex1 = /@(-?\d+\.\d+),(-?\d+\.\d+),/; // For URLs with '@lat,lng'
+        const regex2 = /q=(-?\d+\.\d+),(-?\d+\.\d+)/; // For URLs with 'q=lat,lng'
+        const regex3 = /place\/(-?\d+\.\d+),(-?\d+\.\d+)/; // For URLs with 'place/lat,lng'
+        
+        // Test the URL with different regex patterns
+        let match = url.match(regex1) || url.match(regex2) || url.match(regex3);
+        
+        if (match) {
+            return {
+                latitude: parseFloat(match[1]),
+                longitude: parseFloat(match[2]),
+            };
+        }
+        
+        return null; // Return null if no coordinates found
+    }
+
+    const handleMapLink = (url) => {
+        const location = extractCoordinatesFromUrl(url)
+        if (location?.latitude && location.longitude){
+        setFormData((prevState) => ({
+            ...prevState,
+            latitude: location.latitude,
+            longitude: location.longitude,
+        }));
+    }
+    };
+
+    const handleChangeMapLink = (event) => {
+        const { value } = event.target;
+
+        // Call handleMapLink with the new value to update latitude and longitude
+        handleMapLink(value);
+    };
+
     return (
         <div className="task-modal" onClick={onClose}>
             <div className="task-modal-content" onClick={(e) => e.stopPropagation()}>
@@ -398,11 +435,23 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
                                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                             />
                             <MapClickHandler onClick={handleMapClick} />
-                            {formData.latitude && formData.longitude && (
-                                <Marker icon={customerIcon} position={[formData.latitude, formData.longitude]} />
+                            {formData?.latitude && formData?.longitude && (
+                                <Marker icon={customerIcon} position={[formData?.latitude, formData?.longitude]} />
                             )}
                         </MapContainer>
 
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="location_link">Unvan linki</label>
+                        <input
+                            type="text"
+                            id="location_link"
+                            name="location_link"
+                            onChange={handleChangeMapLink}
+                           
+                            className="form-control"
+                        />
+                       
                     </div>
                     {/* <div className="form-group">
                         <label htmlFor="note">Müştərinin şəxsiyyət vəsiqəsi:</label>
