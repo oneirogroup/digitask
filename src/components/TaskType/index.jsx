@@ -668,13 +668,15 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
                                 </div>
                                 <hr />
                             </div>
-                            <div>
-                                <div className='taskType-photo'>
-                                    <label><FaPassport /> Müştərinin şəxsiyyət vəsiqəsi</label>
-                                    <img src={taskDetails.passport} alt="" />
+                            {taskDetails.passport &&
+                                <div>
+                                    <div className='taskType-photo'>
+                                        <label><FaPassport /> Müştərinin şəxsiyyət vəsiqəsi</label>
+                                        <img src={taskDetails.passport} alt="" />
+                                    </div>
+                                    <hr />
                                 </div>
-                                <hr />
-                            </div>
+                            }
                         </div>
                         {
                             formData.latitude != null && formData.longitude != null ?
