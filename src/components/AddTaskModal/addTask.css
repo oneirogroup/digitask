@@ -304,3 +304,39 @@
 .mapDiv {
   width: 100%;
 }
+
+.mapDiv > div{
+  z-index: 0;
+}
+
+/* .task-modal-content .form-group > img{
+  width: 50vh;
+} */
+
+.passportImage{
+display: flex;
+align-items: center;
+justify-content: space-between;
+
+}
+
+.passportImage label {
+  font-size: 18px;
+  align-items: center;
+}
+.passportImage label>span {
+  color: #005abf;
+  font-family: Nunito Sans, sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+}
+.passportImage label span {
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.passportImage label {
+  display: flex;
+  align-items: center;
+}

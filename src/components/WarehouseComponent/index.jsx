@@ -8,6 +8,8 @@ import Import from "../Import";
 import Export from "../Export";
 import ItemDetail from "../ItemDetail/ItemDetail";
 import IncrementImportModal from "../IncrementImportModal";
+import AddWarehouseModal from "../AddWarehouseModal";
+
 import "./warehouse.css";
 
 function Warehouse() {
@@ -28,6 +30,7 @@ function Warehouse() {
     const [actionModalPosition, setActionModalPosition] = useState({ index: null });
     const [productData, setProductData] = useState(null);
     const [showIncrementImportModal, setShowIncrementImportModal] = useState(false);
+    const [isAddWarehouseModal, setIsAddWarehouseModal] = useState(false);
     const regionModalRef = useRef(null);
     const actionModalRef = useRef(null);
 
@@ -63,14 +66,19 @@ function Warehouse() {
         fetch("http://135.181.42.192/services/warehouses/")
             .then((response) => response.json())
             .then((data) => {
-                setWarehouses(data);
-                const uniqueRegions = Array.from(
-                    new Set(data.map((warehouse) => warehouse.region))
-                );
-                setRegions(uniqueRegions);
+                if (Array.isArray(data)) {
+                    setWarehouses(data);
+                    const uniqueRegions = Array.from(
+                        new Set(data.map((warehouse) => warehouse.region))
+                    );
+                    setRegions(uniqueRegions);
+                } else {
+                    console.error("Error: Expected an array but received:", data);
+                }
             })
             .catch((error) => console.error("Error fetching warehouses:", error));
     };
+
 
     const fetchData = () => {
         let url = "http://135.181.42.192/services/warehouse_item/";
@@ -185,6 +193,29 @@ function Warehouse() {
         fetchData();
     };
 
+    const openAddWarehouseModal = () => {
+        setIsAddWarehouseModal(true);
+    };
+
+    const closeAddWarehouseModal = () => {
+        setIsAddWarehouseModal(false);
+    };
+
+    const initializeWarehouseModals = (warehousesData) => {
+        const initialModals = warehousesData.reduce((acc, warehouse) => {
+            acc[warehouse.id] = false;
+            return acc;
+        }, {});
+        setWarehouses(initialModals);
+    };
+
+
+    const handleWarehouseAdded = async (newWarehouse) => {
+        setWarehouses((prevWarehouses) => [...prevWarehouses, newWarehouse]);
+        await fetchWarehouses();
+    };
+
+
 
     return (
         <div>
@@ -198,6 +229,11 @@ function Warehouse() {
                             onClick={handleImportClick}
                         >
                             <BiImport /> İdxal
+                        </button>
+                        <button
+                            onClick={openAddWarehouseModal}
+                        >
+                            Anbar əlavə et
                         </button>
                     </div>
                 </div>
@@ -318,6 +354,7 @@ function Warehouse() {
                     handleExportModalOpen={() => handleExportModalOpen(selectedItemId)}
                 />
             )}
+            {isAddWarehouseModal && <AddWarehouseModal isOpen={isAddWarehouseModal} onClose={closeAddWarehouseModal} onWarehouseAdded={handleWarehouseAdded} />}
         </div>
     );
 }
