@@ -149,6 +149,8 @@
 
 .taskType-photo img{
   height: 16vh;
+  width: max-content;
+  object-fit: contain;
 }
 
 .taskType-adress span {
@@ -309,7 +311,7 @@ margin-bottom: 10px;
     right: 0px;
     gap: 3px;
     width: 54%;
-
+z-index: 10000;
   }
 
   .status-dropdown .taskType-options .taskType-option{
@@ -473,3 +475,63 @@ margin-bottom: 10px;
     display: flex;
     gap: 7px;
   }
+  .passportUpdate{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    }
+
+    .passportUpdate > label{
+      margin: 10px 0 !important;
+    font-family: 'Nunito Sans', sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+    font-weight: 500;
+    color: #2F3033;
+    }
+    
+    .passportUpdate label {
+      font-size: 18px;
+      align-items: center;
+    }
+    .passportUpdate label>span {
+      color: #005abf;
+      font-family: Nunito Sans, sans-serif;
+      font-size: 18px;
+      font-weight: 600;
+    }
+    .passportUpdate label span {
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+    }
+    
+    .passportUpdate label {
+      display: flex;
+      align-items: center;
+    }
+
+.passportUpdate .upload-container{
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+}
+
+.upload-passport-button{
+  width: 70vh !important;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed #ccc;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  height: 80px;
+  width: 100%;
+  color: #005abf;
+  font-family: Nunito Sans, sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+}

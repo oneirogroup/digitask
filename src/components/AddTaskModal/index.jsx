@@ -5,7 +5,7 @@ import { PiTelevisionSimpleLight } from "react-icons/pi";
 import { TfiWorld } from "react-icons/tfi";
 import { RiVoiceprintFill } from "react-icons/ri";
 import { FaChevronDown, FaPassport } from "react-icons/fa";
-
+import upload from "../../assets/images/document-upload.svg";
 
 /////////////////////////////////////////////////////////////////////////start
 import { MapContainer, TileLayer, useMapEvents, Marker } from 'react-leaflet';
@@ -166,15 +166,41 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
         try {
             const task_type = activeFilter === "connection" ? "connection" : "problem";
 
-            const response = await axios.post('http://135.181.42.192/services/create_task/', {
-                ...formData,
-                task_type,
+            const formDataToSend = new FormData();
+            formDataToSend.append('full_name', formData.full_name);
+            formDataToSend.append('registration_number', formData.registration_number);
+            formDataToSend.append('contact_number', formData.contact_number);
+            formDataToSend.append('location', formData.location);
+            formDataToSend.append('date', formData.date);
+            formDataToSend.append('start_time', formData.start_time);
+            formDataToSend.append('end_time', formData.end_time);
+            formDataToSend.append('note', formData.note);
+            formDataToSend.append('is_voice', formData.is_voice);
+            formDataToSend.append('is_internet', formData.is_internet);
+            formDataToSend.append('is_tv', formData.is_tv);
+            formDataToSend.append('task_type', task_type);
+            formDataToSend.append('groupId', JSON.stringify(formData.groupId));
+
+            if (formData.latitude) {
+                formDataToSend.append('latitude', formData.latitude);
+            }
+            if (formData.longitude) {
+                formDataToSend.append('longitude', formData.longitude);
+            }
+
+            if (imageFile) {
+                formDataToSend.append('passport', imageFile);
+            }
+
+            const response = await axios.post('http://135.181.42.192/services/create_task/', formDataToSend, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
             });
 
             if (response.status === 201) {
                 onTaskCreated(response.data);
                 onClose();
-                onClose(response.data);
             } else {
                 console.error('Failed to create task', response);
             }
@@ -183,6 +209,8 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
             console.error('Error creating task:', error);
         }
     };
+
+
 
     const renderGroups = () => {
         return groups.map((group) => (
@@ -249,6 +277,23 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
         // Call handleMapLink with the new value to update latitude and longitude
         handleMapLink(value);
     };
+
+    const [imageFile, setImageFile] = useState(null);
+    const [preview, setPreview] = useState(null);
+
+    const handleInputChange = (event) => {
+        const file = event.target.files[0];
+
+        if (file) {
+            setImageFile(file);
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setPreview(reader.result);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
 
     return (
         <div className="task-modal" onClick={onClose}>
@@ -441,8 +486,10 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
                         </MapContainer>
 
                     </div>
+
+
                     <div className="form-group">
-                        <label htmlFor="location_link">Unvan linki</label>
+                        <label htmlFor="location_link">Ünvan linki</label>
                         <input
                             type="text"
                             id="location_link"
@@ -451,13 +498,51 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
 
                             className="form-control"
                         />
-
                     </div>
-                    {/* <div className="form-group">
+                    {/* <div className="form-group passportImage">
                         <label htmlFor="note">Müştərinin şəxsiyyət vəsiqəsi:</label>
-                        <FaPassport />
-                        <input type="file" />
+                        <div className="upload-icon-password">
+                            <label htmlFor=""></label>
+                            <input type="file" name="passport" onChange={handleInputChange} />
+                        </div>
+                        {preview && (
+                            <img
+                                src={preview}
+                                alt="Preview"
+                                className="image-preview"
+                            />
+                        )}
                     </div> */}
+
+                    <div className="form-group passportImage">
+                        <label>Müştərinin şəxsiyyət vəsiqəsi:</label>
+                        <div className="upload-container">
+                            {!preview ? (
+                                <label htmlFor="passport" className="upload-label">
+                                    <span>
+                                        Yükləmək üçün klikləyin
+                                        {/* <span className="file-size">(Maksimum fayl ölçüsü: 25 MB)</span> */}
+                                    </span>
+                                    <div className="upload-icon">
+                                        <img src={upload} alt="" />
+                                    </div>
+                                </label>
+                            ) : (
+                                <img
+                                    src={preview}
+                                    alt="Preview"
+                                    className="image-preview"
+                                />
+                            )}
+                            <input
+                                type="file"
+                                id="passport"
+                                name="passport"
+                                onChange={handleInputChange}
+                            />
+                        </div>
+                    </div>
+
                     <div className="form-group">
                         <label htmlFor="note">Qeydlər:</label>
                         <textarea

@@ -17,6 +17,7 @@ import UpdateTVModal from '../UpdateTVModal';
 import UpdateInternetModal from '../UpdateInternetModal';
 import UpdateVoiceModal from '../UpdateVoiceModal';
 import { useUser } from '../../contexts/UserContext';
+import upload from "../../assets/images/document-upload.svg";
 
 
 const TASK_TYPES = [
@@ -58,6 +59,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
     const statusDropdownRef = useRef(null);
     const serviceDropdownRef = useRef(null);
     const groupDropdownRef = useRef(null);
+    const [preview, setPreview] = useState(null);
     const modalRef = useRef(null);
 
     useEffect(() => {
@@ -94,7 +96,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
         registration_number: '',
         contact_number: '',
         location: '',
-        passport: '',
+        passport: null,
         services: [],
         status: '',
         group: [],
@@ -147,7 +149,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
                         registration_number: data.registration_number,
                         contact_number: data.contact_number,
                         location: data.location,
-                        passport: data.passport,
+                        passport: null,
                         services: data.services,
                         status: data.status,
                         group: data.group.map(g => g.id),
@@ -156,7 +158,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
                         longitude: data.longitude,
                         is_tv: data.is_tv,
                         is_voice: data.is_voice,
-                        is_internet: data.is_internet
+                        is_internet: data.is_internet,
                     });
                 })
                 .catch(error => console.error('Error fetching task details:', error));
@@ -167,6 +169,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
             .then(data => setGroups(data))
             .catch(error => console.error('Error fetching groups:', error));
     }, [taskId, isEditing]);
+
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -193,30 +196,41 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
     };
 
     const [addedServices, setAddedServices] = useState([]);
+    const [imageFile, setImageFile] = useState(null);
+
+    const handleInputPhotoChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setImageFile(file);
+            setFormData(prevState => ({
+                ...prevState,
+                passport: file
+            }));
+            setPreview(URL.createObjectURL(file));
+        }
+    };
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
 
+        const formData = new FormData();
 
-        const updatedData = {};
+        // Append non-file data
         Object.keys(formData).forEach(key => {
             if (formData[key] !== taskDetails[key]) {
-                updatedData[key] = formData[key];
+                formData.append(key, formData[key]);
             }
         });
 
-        if (updatedData.id) {
-            updatedData.id = formData.id;
+        // Append the file if it exists
+        if (imageFile) {
+            formData.append('passport', imageFile);
         }
 
         fetch(`http://135.181.42.192/services/update_task/${taskId}/`, {
             method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(updatedData)
+            body: formData
         })
-
             .then(response => {
                 if (!response.ok) {
                     return response.json().then(err => {
@@ -237,6 +251,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
             })
             .catch(error => console.error('Error updating task:', error));
     };
+
 
     const handleGroupSelect = (groupId) => {
         setFormData((prevFormData) => {
@@ -579,6 +594,50 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
                                 </div>
                                 <hr />
                             </div>
+                            <div className="form-group passportUpdate">
+                                <label>Müştərinin şəxsiyyət vəsiqəsi:</label>
+                                <div className="upload-container">
+                                    {preview ? (
+                                        <img
+                                            src={preview}
+                                            alt="Preview"
+                                            className="image-preview"
+                                        />
+                                    ) : (
+                                        taskDetails && taskDetails.passport ? (
+                                            <img
+                                                src={taskDetails.passport}
+                                                alt="Current Passport"
+                                                className="image-preview"
+                                            />
+                                        ) : (
+                                            <label htmlFor="passport" className="upload-label">
+                                                <span>Yükləmək üçün klikləyin</span>
+                                                <div className="upload-icon">
+                                                    <img src={upload} alt="Upload Icon" />
+                                                </div>
+                                            </label>
+                                        )
+                                    )}
+
+                                    <input
+                                        type="file"
+                                        id="passport"
+                                        name="passport"
+                                        accept="image/*"
+                                        onChange={handleInputPhotoChange}
+                                        style={{ display: 'none' }}
+                                    />
+                                    {preview ? (
+                                        <label htmlFor="passport" className="upload-button upload-passport-button">
+                                            {preview ? "Şəkli dəyişin" : "Yükləmək üçün klikləyin"}
+                                        </label>
+                                    ) :
+                                        <></>
+                                    }
+
+                                </div>
+                            </div>
                             <button className='updateTask-button' type="submit">Yenilə</button>
                         </div>
                     </form>
@@ -847,44 +906,52 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
                     </div>
                 )}
             </div>
-            {isAddSurveyModalOpen && (
-                <AddSurveyModal
-                    onClose={() => setIsAddSurveyModalOpen(false)}
-                    selectedServices={{
-                        tv: taskDetails.is_tv,
-                        internet: taskDetails.is_internet,
-                        voice: taskDetails.is_voice
-                    }}
-                    taskId={taskId}
-                    initialAddedServices={addedServices}
-                    onSurveyAdded={handleSurveyAdded}
-                />
-            )}
-            {isUpdateTVModalOpen && (
-                <UpdateTVModal
-                    onClose={() => setIsUpdateTVModalOpen(false)}
-                    serviceId={taskDetails.tv.id}
-                    serviceData={taskDetails.tv}
-                    onServiceUpdate={handleServiceUpdate}
-                />
-            )}
-            {isUpdateInternetModalOpen && (
-                <UpdateInternetModal
-                    onClose={() => setIsUpdateInternetModalOpen(false)}
-                    serviceId={taskDetails.internet.id}
-                    serviceData={taskDetails.internet}
-                    onServiceUpdate={handleServiceUpdate}
-                />
-            )}
-            {isUpdateVoiceModalOpen && (
-                <UpdateVoiceModal
-                    onClose={() => setIsUpdateVoiceModalOpen(false)}
-                    serviceId={taskDetails.voice.id}
-                    serviceData={taskDetails.voice}
-                    onServiceUpdate={handleServiceUpdate}
-                />
-            )}
-        </div>
+            {
+                isAddSurveyModalOpen && (
+                    <AddSurveyModal
+                        onClose={() => setIsAddSurveyModalOpen(false)}
+                        selectedServices={{
+                            tv: taskDetails.is_tv,
+                            internet: taskDetails.is_internet,
+                            voice: taskDetails.is_voice
+                        }}
+                        taskId={taskId}
+                        initialAddedServices={addedServices}
+                        onSurveyAdded={handleSurveyAdded}
+                    />
+                )
+            }
+            {
+                isUpdateTVModalOpen && (
+                    <UpdateTVModal
+                        onClose={() => setIsUpdateTVModalOpen(false)}
+                        serviceId={taskDetails.tv.id}
+                        serviceData={taskDetails.tv}
+                        onServiceUpdate={handleServiceUpdate}
+                    />
+                )
+            }
+            {
+                isUpdateInternetModalOpen && (
+                    <UpdateInternetModal
+                        onClose={() => setIsUpdateInternetModalOpen(false)}
+                        serviceId={taskDetails.internet.id}
+                        serviceData={taskDetails.internet}
+                        onServiceUpdate={handleServiceUpdate}
+                    />
+                )
+            }
+            {
+                isUpdateVoiceModalOpen && (
+                    <UpdateVoiceModal
+                        onClose={() => setIsUpdateVoiceModalOpen(false)}
+                        serviceId={taskDetails.voice.id}
+                        serviceData={taskDetails.voice}
+                        onServiceUpdate={handleServiceUpdate}
+                    />
+                )
+            }
+        </div >
     );
 }
 
