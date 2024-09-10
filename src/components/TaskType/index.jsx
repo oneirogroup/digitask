@@ -628,16 +628,15 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
                                         onChange={handleInputPhotoChange}
                                         style={{ display: 'none' }}
                                     />
-                                    {preview ? (
+
+                                    {(preview || taskDetails?.passport) && (
                                         <label htmlFor="passport" className="upload-button upload-passport-button">
                                             {preview ? "Şəkli dəyişin" : "Yükləmək üçün klikləyin"}
                                         </label>
-                                    ) :
-                                        <></>
-                                    }
-
+                                    )}
                                 </div>
                             </div>
+
                             <button className='updateTask-button' type="submit">Yenilə</button>
                         </div>
                     </form>
