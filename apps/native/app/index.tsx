@@ -1,16 +1,10 @@
-import { Text, View } from "react-native";
+import { Text } from "react-native";
 
-import { Button } from "@oneiro/ui-kit/native";
+import { Button, View } from "@oneiro/ui-kit/native";
 
 export default function Index() {
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center"
-      }}
-    >
+    <View className="flex-1 items-center justify-center">
       <Text>Edit app/index.tsx to edit this screen.</Text>
 
       <Button onPress={() => console.log("Pressed")}>
