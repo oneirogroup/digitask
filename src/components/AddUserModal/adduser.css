@@ -20,8 +20,6 @@
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
   }
-
-
   
   .add-user-modal .form-group label, .add-group-modal-content .form-group label,  .add-room-modal-content .form-group label {
     font-weight: bold;
@@ -47,6 +45,7 @@
   .add-user-modal .form-group input[type="text"],
   .add-user-modal .form-group input[type="email"],
   .add-user-modal .form-group input[type="password"], 
+  .multi-select-container button,
   .add-group-modal-content .form-group input,  
   .add-room-modal-content .form-group input{
     width: 100%;

@@ -36,18 +36,26 @@ const Profile = () => {
   });
   const [loading, setLoading] = useState(true);
   const [editMode, setEditMode] = useState(false);
+  const [error, setError] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(null);
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file && file.size <= 2 * 1024 * 1024) { // 2MB file size limit
+      setSelectedFile(file);
+    } else {
+      setError('File size exceeds the 2MB limit.');
+    }
+  };
+
+
   const [groups, setGroups] = useState([]);
   const [showGroupDropdown, setShowGroupDropdown] = useState(false);
   const [showUserTypeDropdown, setShowUserTypeDropdown] = useState(false);
-  const [error, setError] = useState(null); // State for handling errors
-  const [selectedFile, setSelectedFile] = useState(null);
 
   const groupDropdownRef = useRef(null);
   const userTypeDropdownRef = useRef(null);
 
-  const handleFileChange = (event) => {
-    setSelectedFile(event.target.files[0]);
-  };
 
   const handlePhotoUpload = async () => {
     if (!selectedFile) return;
@@ -290,12 +298,14 @@ const Profile = () => {
                 <div className="profile-photo">
                   <img src={profileData.profil_picture} alt="Profile" />
                 </div>
-                {editMode && (
-                  <div className="input-group">
-                    <label htmlFor="photo">Upload Photo</label>
-                    <input type="image" id="photo" onChange={handleFileChange} />
-                  </div>
-                )}
+
+                <div className='left'>
+                  {editMode && (
+                    <input type="file" accept="image/*" onChange={handleFileChange} />
+                  )}
+                </div>
+
+
                 <div className="input-group">
                   <label htmlFor="first_name">Ad</label>
                   <input type="text" id="first_name" value={profileData.first_name} onChange={handleChange} disabled={!editMode} />
