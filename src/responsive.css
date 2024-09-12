@@ -672,7 +672,7 @@
   .modal-overlay-participants .modal-body div {
     padding: 6px 10px;
   }
-  .modal-overlay-participants {
+  .modal-overlay-participantfs {
     top: 155px;
   }
   .meeting-detail-modal-overlay .item-detail-modal-content {
@@ -964,6 +964,10 @@
     max-height: 85vh;
   }
 
+  .passportImage label>span {
+font-size: 15px;
+  }
+
   /* Employee page */
 
   .employee-table-container tbody td:first-of-type,
@@ -1176,7 +1180,19 @@
   .taskModal-taskType button {
     font-size: 16px;
   }
+  .passportImage{
+    flex-direction: column;
+    align-items: flex-start !important;
+  }
 
+  .upload-container{
+    width: 100%;
+    margin-right: 0;
+  }
+  .passportImage label>span {
+    font-size: 17px;
+      }
+    
   /* Employee page */
 
   .employee-title button {
@@ -1323,6 +1339,15 @@
     width: 25px;
     height: 25px;
   }
+    .passportImage label>span {
+        font-size: 15px;
+    }
+    .upload-container label {
+height: 60px;
+}
+.upload-icon img {
+  width: 25px;
+}
 
   /* Warehouse Import History Table  */
 
