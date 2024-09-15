@@ -1,6 +1,6 @@
-import { defineConfig } from "@oneiro/ui-kit/server";
+import { baseConfig } from "../../tailwind.config";
 
-export default defineConfig({
+export default baseConfig.extend({
   content: ["./{components,app}/**/*.{js,ts,jsx,tsx,mdx}"],
   extra: { important: "html", presets: [require("nativewind/preset")] }
 });
