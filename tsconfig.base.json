@@ -9,8 +9,8 @@
     "baseUrl": ".",
     "moduleResolution": "Bundler",
     "paths": {
-      "@oneiro/ui-kit": ["modules/ui-kit/src/client.ts"],
-      "@oneiro/ui-kit/server": ["modules/ui-kit/src/main.ts"]
+      "@oneiro/ui-kit": ["modules/ui-kit/src/main.ts"],
+      "@oneiro/ui-kit/server": ["modules/ui-kit/src/server.ts"]
     },
     "jsx": "react-jsx"
   }
