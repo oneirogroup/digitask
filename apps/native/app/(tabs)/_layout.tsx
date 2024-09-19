@@ -9,28 +9,36 @@ export default function TabLayout() {
         name="index"
         options={{
           title: "Home",
-          tabBarIcon: ({ focused }) => <Icon name="home" state={focused && "active"} />
+          tabBarIcon: ({ focused, color }) => (
+            <Icon name="home" state={focused && "active"} variables={{ fillPath: color }} />
+          )
         }}
       />
       <Tabs.Screen
         name="performance"
         options={{
           title: "Performance",
-          tabBarIcon: ({ focused }) => <Icon name="monitor" state={focused && "active"} />
+          tabBarIcon: ({ focused, color }) => (
+            <Icon name="monitor" state={focused && "active"} variables={{ fillPath: color }} />
+          )
         }}
       />
       <Tabs.Screen
         name="task"
         options={{
           title: "Task",
-          tabBarIcon: ({ focused }) => <Icon name="task" state={focused && "active"} />
+          tabBarIcon: ({ focused, color }) => (
+            <Icon name="task" state={focused && "active"} variables={{ fillPath: color }} />
+          )
         }}
       />
       <Tabs.Screen
         name="profile"
         options={{
           title: "Profile",
-          tabBarIcon: ({ focused }) => <Icon name="profile" state={focused && "active"} />
+          tabBarIcon: ({ focused, color }) => (
+            <Icon name="profile" state={focused && "active"} variables={{ fillPath: color }} />
+          )
         }}
       />
     </Tabs>
