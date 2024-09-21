@@ -239,3 +239,4 @@ dist
 .pnp.*
 
 .turbo
+expo-env.d.ts
