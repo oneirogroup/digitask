@@ -71,12 +71,22 @@ const palette = {
 export const baseConfig = defineConfig({
   colors(colors) {
     return {
-      primary: { DEFAULT: "" },
+      primary: { DEFAULT: colors.primary["60"] },
       secondary: { DEFAULT: "" },
       success: { DEFAULT: "" },
       error: { DEFAULT: "" },
-      neutral: { DEFAULT: "" }
+      neutral: { DEFAULT: "" },
+      link: { DEFAULT: colors.primary["50"] }
     };
   },
-  palette
+  palette,
+  extra: {
+    theme: {
+      extend: {
+        fontSize: {
+          "1.5xl": "1.375rem"
+        }
+      }
+    }
+  }
 });
