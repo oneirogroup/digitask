@@ -1,0 +1,34 @@
+import { Image } from "expo-image";
+import { router } from "expo-router";
+
+import { Block, Button, Text, View } from "@oneiro/ui-kit";
+
+import logo from "../assets/images/logo.png";
+
+export default function Welcome() {
+  return (
+    <View className="grid h-screen grid-rows-1 items-center justify-between px-4 py-40">
+      <Block className="flex items-center gap-6">
+        <Block className="bg-primary w-68 rounded-2xl p-6">
+          <Image source={logo} style={{ width: 150, height: 140 }} />
+        </Block>
+
+        <Block>
+          <Text className="text-1.5xl text-center">
+            <Text className="text-primary">DigiTask</Text>a xoş gəlmisiniz
+          </Text>
+
+          <Block>
+            <Text className="text-lg text-neutral-50">
+              Tapşırıqlarınızı daha rahat icra edin, performansını qiymətləndirin
+            </Text>
+          </Block>
+        </Block>
+      </Block>
+
+      <Button variant="primary" className="w-full p-4" onClick={() => router.push("/sign-in")}>
+        <Text className="text-center text-white">Daxil ol</Text>
+      </Button>
+    </View>
+  );
+}
