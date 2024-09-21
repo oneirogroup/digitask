@@ -2,9 +2,9 @@
   "expo": {
     "name": "DigiTask",
     "slug": "digitask",
+    "scheme": "digitask",
     "version": "1.0.0",
     "orientation": "portrait",
-    "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "splash": {
       "resizeMode": "contain",
