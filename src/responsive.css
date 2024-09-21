@@ -5,6 +5,10 @@
   .task-page td {
     padding: 11px;
   }
+
+  .taskType-photo label {
+    font-size: 16px;
+  }
 }
 
 @media screen and (max-width: 1270px) {
@@ -36,7 +40,8 @@
   .task-modal-content .form-group {
     font-size: 15px;
   }
-  .meeting-detail-modal-overlay .item-detail-modal-body .modal-label, .meeting-detail-modal-overlay .item-detail-modal-body .modal-value {
+  .meeting-detail-modal-overlay .item-detail-modal-body .modal-label,
+  .meeting-detail-modal-overlay .item-detail-modal-body .modal-value {
     font-size: 17px;
   }
 }
@@ -53,9 +58,10 @@
   .table-container tr th:nth-of-type(9) {
     display: none;
   }
-  .meeting-detail-modal-overlay .item-detail-modal-body .modal-label, .meeting-detail-modal-overlay .item-detail-modal-body .modal-value {
+  .meeting-detail-modal-overlay .item-detail-modal-body .modal-label,
+  .meeting-detail-modal-overlay .item-detail-modal-body .modal-value {
     font-size: 16px;
-}
+  }
   .taskService-taskGroup {
     flex-direction: column;
   }
@@ -70,6 +76,9 @@
   .task-status button {
     padding: 5px 8px;
     font-size: 15px;
+  }
+  .taskType-modal-content {
+    max-width: 58%;
   }
 
   /* Warehouse Page */
@@ -110,7 +119,7 @@
 
   /* Home page */
 
-  .meeting-detail-modal-overlay .meeting-item-detail-grid{
+  .meeting-detail-modal-overlay .meeting-item-detail-grid {
     display: flex;
     flex-direction: column;
   }
@@ -209,6 +218,10 @@
   }
   .task-modal-content input[type="time"] {
     width: 11vw;
+  }
+
+  .taskType-modal-content {
+    max-width: 65%;
   }
 
   /* Performance page */
@@ -489,6 +502,22 @@
   .filter-item-modal button {
     padding: 6px;
   }
+
+  /* Task Page */
+
+  .taskType-modal-content {
+    max-width: 68%;
+  }
+
+  .taskType-info label,
+  .taskType-note label,
+  .service-detail span {
+    font-size: 16px;
+  }
+
+  .service-detail > h5 {
+    font-size: 23px;
+  }
 }
 
 @media screen and (max-width: 810px) {
@@ -506,7 +535,7 @@
 
   .add-group-modal-content {
     max-width: 57%;
-}
+  }
 
   /* Task page */
 
@@ -625,7 +654,6 @@
   }
   .mapDiv > div {
     height: 285px !important;
-
   }
 
   /* Warehouse Import History Table  */
@@ -726,6 +754,15 @@
   }
   .import-form input {
     font-size: 13px;
+  }
+  .taskType-modal-content {
+    max-width: 72%;
+  }
+
+  .taskType-info,
+  .details-info,
+  .service-detail > div {
+    gap: 20px;
   }
 
   /* Employee Page */
@@ -870,6 +907,12 @@
   .task-date-form {
     gap: 10px;
   }
+  .taskType-modal-title h5 {
+    font-size: 25px;
+  }
+  .taskType-modal-content {
+    max-width: 75%;
+  }
 
   /* Warehouse Import History Table  */
 
@@ -964,8 +1007,14 @@
     max-height: 85vh;
   }
 
-  .passportImage label>span {
-font-size: 15px;
+  .passportImage label > span {
+    font-size: 15px;
+  }
+
+  .taskType-info,
+  .details-info,
+  .service-detail > div {
+    grid-template-columns: none;
   }
 
   /* Employee page */
@@ -977,11 +1026,11 @@ font-size: 15px;
 
   .add-group-modal-content {
     max-width: 60%;
-}
+  }
 
-.add-group-modal-title h5{
-  font-size: 23px;
-}
+  .add-group-modal-title h5 {
+    font-size: 23px;
+  }
 
   /* Navbar */
 
@@ -1043,9 +1092,15 @@ font-size: 15px;
 
   /* Home page */
 
-  .meeting-detail-modal-overlay .item-detail-modal-body .modal-label, .meeting-detail-modal-overlay .item-detail-modal-body .modal-value {
+  .meeting-detail-modal-overlay .item-detail-modal-body .modal-label,
+  .meeting-detail-modal-overlay .item-detail-modal-body .modal-value {
     font-size: 15px;
-}
+  }
+
+  /* Task Page  */
+  .taskType-modal-title h5 {
+    font-size: 23px;
+  }
 }
 
 @media screen and (max-width: 570px) {
@@ -1116,11 +1171,11 @@ font-size: 15px;
 
   .meeting-detail-modal-overlay .item-detail-modal-header h2 {
     font-size: 23px;
-}
+  }
 
-.meeting-detail-modal-overlay .item-detail-close-button {
-  font-size: 32px;
-}
+  .meeting-detail-modal-overlay .item-detail-close-button {
+    font-size: 32px;
+  }
 
   /* Performance page */
 
@@ -1180,19 +1235,19 @@ font-size: 15px;
   .taskModal-taskType button {
     font-size: 16px;
   }
-  .passportImage{
+  .passportImage {
     flex-direction: column;
     align-items: flex-start !important;
   }
 
-  .upload-container{
+  .upload-container {
     width: 100%;
     margin-right: 0;
   }
-  .passportImage label>span {
+  .passportImage label > span {
     font-size: 17px;
-      }
-    
+  }
+
   /* Employee page */
 
   .employee-title button {
@@ -1222,7 +1277,6 @@ font-size: 15px;
     font-size: 13px;
   }
 
-  
   /* Warehouse history page */
 
   .historyTable td:first-of-type,
@@ -1246,22 +1300,22 @@ font-size: 15px;
   }
   .meeting-detail-modal-overlay .item-detail-modal-header h2 {
     font-size: 21px;
-}
-.meeting-detail-modal-overlay .item-detail-close-button {
-  font-size: 29px;
-}
+  }
+  .meeting-detail-modal-overlay .item-detail-close-button {
+    font-size: 29px;
+  }
 
-.meeting-detail-modal-overlay .item-detail-modal-header h2{
-  margin: 0;
-}
-.meeting-detail-modal-overlay .item-detail-modal-content {
-  width: 67%;
-  max-width: 67%;
-}
+  .meeting-detail-modal-overlay .item-detail-modal-header h2 {
+    margin: 0;
+  }
+  .meeting-detail-modal-overlay .item-detail-modal-content {
+    width: 67%;
+    max-width: 67%;
+  }
 
-.meeting-detail-modal-overlay .item-detail-modal-content{
-  padding: 17px;
-}
+  .meeting-detail-modal-overlay .item-detail-modal-content {
+    padding: 17px;
+  }
 
   /* Profile page */
 
@@ -1339,15 +1393,15 @@ font-size: 15px;
     width: 25px;
     height: 25px;
   }
-    .passportImage label>span {
-        font-size: 15px;
-    }
-    .upload-container label {
-height: 60px;
-}
-.upload-icon img {
-  width: 25px;
-}
+  .passportImage label > span {
+    font-size: 15px;
+  }
+  .upload-container label {
+    height: 60px;
+  }
+  .upload-icon img {
+    width: 25px;
+  }
 
   /* Warehouse Import History Table  */
 
@@ -1360,11 +1414,11 @@ height: 60px;
 
   .add-group-modal-content button {
     font-size: 14px;
-      }
-      .add-group-modal-content .form-group label {
-        font-size: 17px;
-        padding-left: 0;
-      }
+  }
+  .add-group-modal-content .form-group label {
+    font-size: 17px;
+    padding-left: 0;
+  }
 }
 
 @media screen and (max-width: 450px) {
@@ -1456,6 +1510,27 @@ height: 60px;
   }
   .task-modal-content label {
     font-size: 14px;
+  }
+  .taskType-info span,
+  .taskType-note div span,
+  .service-detail span {
+    font-size: 15px;
+  }
+  .taskType-info span,
+  .taskType-note div span,
+  .service-detail span {
+    text-align: end;
+  }
+  .taskType-info span,
+  .taskType-note div span,
+  .service-detail span {
+    font-size: 15px;
+  }
+  .taskType-info label,
+  .taskType-note label,
+  .service-detail label,
+  #detailMap > label {
+    font-size: 16px;
   }
 
   /* Employee page */
@@ -1572,11 +1647,11 @@ height: 60px;
   .meeting-detail-modal-overlay .item-detail-modal-body .modal-label,
   .meeting-detail-modal-overlay .item-detail-modal-body .modal-value {
     font-size: 14px;
-}
+  }
 
-.meeting-detail-modal-overlay .item-detail-modal-body .modal-row {
-  margin: 15px 0 5px 0;
-}
+  .meeting-detail-modal-overlay .item-detail-modal-body .modal-row {
+    margin: 15px 0 5px 0;
+  }
 
   /* Task page */
 

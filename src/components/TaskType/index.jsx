@@ -706,15 +706,17 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
                             <div>
                                 <div>
                                     <label><MdOutlineEngineering /> Texniki qrup</label>
-                                    {taskDetails.group && taskDetails.group.length > 0 ? (
-                                        taskDetails.group.map((group, index) => (
-                                            <div key={index}>
-                                                <span>{group.group}</span>
-                                            </div>
-                                        ))
-                                    ) : (
-                                        <span>Texniki qrup seçilməyib.</span>
-                                    )}
+                                    <div>
+                                        {taskDetails.group && taskDetails.group.length > 0 ? (
+                                            taskDetails.group.map((group, index) => (
+                                                <div key={index}>
+                                                    <span>{group.group}</span>
+                                                </div>
+                                            ))
+                                        ) : (
+                                            <span>Texniki qrup seçilməyib.</span>
+                                        )}
+                                    </div>
                                 </div>
                                 <hr />
                             </div>
