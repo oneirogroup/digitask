@@ -149,6 +149,7 @@
 
 .taskType-photo img{
   height: 16vh;
+  max-width: 32vh;
   width: max-content;
   object-fit: contain;
 }
