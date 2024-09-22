@@ -15,6 +15,12 @@
   .home-tasks table tr td:nth-of-type(2) {
     white-space: normal;
   }
+  .upload-passport-button {
+    width: 100vh !important;
+  }
+  .taskType-modal-content {
+    max-width: 58%;
+}
 }
 
 @media screen and (max-width: 1270px) {
@@ -96,9 +102,6 @@
     padding: 5px 8px;
     font-size: 15px;
   }
-  .taskType-modal-content {
-    max-width: 58%;
-  }
   .import-modal-content {
     max-width: 60%;
   }
@@ -122,6 +125,11 @@
   .home-tasks table tr td:nth-of-type(5),
   .home-tasks table tr th:nth-of-type(5) {
     display: none;
+  }
+  .passportUpdate .upload-container {
+    display: flex;
+    gap: 64px;
+    justify-content: flex-start;
   }
 }
 
