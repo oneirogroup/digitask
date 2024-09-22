@@ -1701,6 +1701,10 @@
     font-size: 12px;
   }
 
+  .taskType-photo img {
+    width: 90px;
+  }
+
   /* Warehouse history page */
 
   .historyTable th,
