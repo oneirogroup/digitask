@@ -620,20 +620,22 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
                                         )
                                     )}
 
-                                    <input
-                                        type="file"
-                                        id="passport"
-                                        name="passport"
-                                        accept="image/*"
-                                        onChange={handleInputPhotoChange}
-                                        style={{ display: 'none' }}
-                                    />
+                                    <div>
+                                        <input
+                                            type="file"
+                                            id="passport"
+                                            name="passport"
+                                            accept="image/*"
+                                            onChange={handleInputPhotoChange}
+                                            style={{ display: 'none' }}
+                                        />
 
-                                    {(preview || taskDetails?.passport) && (
-                                        <label htmlFor="passport" className="upload-button upload-passport-button">
-                                            {preview ? "Şəkli dəyişin" : "Yükləmək üçün klikləyin"}
-                                        </label>
-                                    )}
+                                        {(preview || taskDetails?.passport) && (
+                                            <label htmlFor="passport" className="upload-button upload-passport-button">
+                                                {preview ? "Şəkli dəyişin" : "Yükləmək üçün klikləyin"}
+                                            </label>
+                                        )}
+                                    </div>
                                 </div>
                             </div>
 
@@ -843,6 +845,13 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
                                             <div className="detail-item">
                                                 <label>Siqnal:</label>
                                                 <span>{taskDetails.internet.siqnal || '-'}</span>
+                                            </div>
+                                            <hr />
+                                        </div>
+                                        <div>
+                                            <div className="detail-item">
+                                                <label>İnternet tarifi:</label>
+                                                <span>{taskDetails.internet.internet_packs || '-'}</span>
                                             </div>
                                             <hr />
                                         </div>
