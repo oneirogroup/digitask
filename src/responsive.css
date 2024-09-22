@@ -9,6 +9,12 @@
   .taskType-photo label {
     font-size: 16px;
   }
+  .home-tasks table tr {
+    font-size: 15px;
+  }
+  .home-tasks table tr td:nth-of-type(2) {
+    white-space: normal;
+  }
 }
 
 @media screen and (max-width: 1270px) {
@@ -46,6 +52,12 @@
   }
 }
 
+@media screen and (max-width: 1230px) {
+  .importModal-warehouseName button {
+    font-size: 17px;
+  }
+}
+
 @media screen and (max-width: 1200px) {
   /* Home page */
 
@@ -70,6 +82,13 @@
   .taskService-taskGroup {
     gap: 12px;
   }
+  .home-tasks th, .home-tasks td, .home-employee-task th, .home-employee-task td {
+    font-size: 15px;
+  }
+  .home-employee-task table td {
+    padding: 12px 8px;
+    font-size: 15px;
+  }
 
   /* Task page */
 
@@ -79,6 +98,9 @@
   }
   .taskType-modal-content {
     max-width: 58%;
+  }
+  .import-modal-content {
+    max-width: 60%;
   }
 
   /* Warehouse Page */
@@ -92,6 +114,13 @@
 
   .historyImportTable th:nth-of-type(8),
   .historyImportTable td:nth-of-type(8) {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 1140px) {
+  .home-tasks table tr td:nth-of-type(5),
+  .home-tasks table tr th:nth-of-type(5) {
     display: none;
   }
 }
@@ -132,19 +161,20 @@
   .historyImportTable td:nth-of-type(7) {
     display: none;
   }
+
+  /* Warehouse Page  */
+  .small-modal-warehouse-content button {
+    font-size: 14px;
+    padding: 8px;
+  }
+  .small-modal-warehouse {
+    right: 10px;
 }
 
 @media screen and (max-width: 1050px) {
   /* Pages */
   .layout-with-sidebar .main-content {
     padding: 25px 15px;
-  }
-
-  /* Home page */
-
-  .home-tasks table tr td:nth-of-type(5),
-  .home-tasks table tr th:nth-of-type(5) {
-    display: none;
   }
 
   /* Task page */
@@ -268,6 +298,10 @@
     display: none;
   }
 
+  .importModal-warehouseName button {
+    font-size: 16px;
+  }
+
   /* Warehouse history page */
 
   .filter-item {
@@ -338,6 +372,9 @@
   }
   .warehouse-search-filter > div:last-of-type button {
     padding: 9px;
+  }
+  .import-modal-content {
+    max-width: 65%;
   }
 
   /* Warehouse history page */
@@ -428,9 +465,6 @@
   .task-modal-content input[type="date"] {
     width: 24vw;
   }
-  .import-modal-content {
-    max-width: 60%;
-  }
 
   /* Employee Page */
 
@@ -460,6 +494,13 @@
   .warehouseTable-title div button {
     padding: 9px;
   }
+  .export-modal-content {
+    max-width: 52%;
+  }
+  .small-modal-warehouse-content button {
+    font-size: 13px;
+    padding: 7px;
+}
 
   /* Warehouse history page */
 
@@ -480,12 +521,23 @@
   }
 }
 
+@media screen and (max-width: 870px) {
+  /* Warehouse Page  */
+  .import-modal-content {
+    max-width: 68%;
+  }
+}
+
 @media screen and (max-width: 850px) {
   /* Warehouse Page */
 
   .warehouseTable tbody td:nth-of-type(7),
   .warehouseTable thead th:nth-of-type(7) {
     display: none;
+  }
+
+  .warehouseName button {
+    font-size: 17px;
   }
 
   /* Warehouse history page */
@@ -623,6 +675,17 @@
 
   .warehousePage-title p {
     font-size: 18px;
+  }
+
+  .importModal-warehouseName button {
+    font-size: 15px;
+  }
+  .import-modal-content {
+    max-width: 72%;
+  }
+  .warehouseName button {
+    font-size: 16px;
+    width: calc(34.33% - 20px);
   }
 
   /* Warehouse history page */
@@ -764,6 +827,9 @@
   .service-detail > div {
     gap: 20px;
   }
+  .warehouseName button {
+    font-size: 15px;
+  }
 
   /* Employee Page */
 
@@ -825,6 +891,20 @@
   .importModal-warehouseName button {
     padding: 10px;
   }
+  .warehouseName {
+    align-items: center;
+    justify-content: left;
+  }
+  .warehouseName button {
+    width: auto;
+  }
+  .importModal-warehouseName {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .importModal-warehouseName button {
+    width: 100%;
+  }
 }
 
 @media screen and (max-width: 740px) {
@@ -884,6 +964,13 @@
   }
   .import-modal-content {
     max-width: 67%;
+  }
+  .export-modal-content {
+    max-width: 60%;
+  }
+  .submit-btn {
+    padding: 10px;
+    font-size: 16px;
   }
 
   /* Task page */
@@ -1061,6 +1148,10 @@
   .import-modal-content {
     max-height: 80vh;
   }
+  .warehouseName button {
+    width: calc(34.33% - 20px);
+  }
+
   /* Warehouse history page */
 
   .historyTable td:nth-of-type(2),
@@ -1284,11 +1375,35 @@
     display: none;
   }
 
+  /* Warehouse Page  */
+  .warehouseName button {
+    font-size: 14px;
+  }
+  .importModal-warehouseName button {
+    font-size: 16px;
+  }
+  .import-modal-content {
+    max-width: 76%;
+  }
+  .export-modal-content {
+    max-width: 70%;
+  }
+
   /* Warehouse Import History Table  */
 
   .historyImportTable th:first-of-type,
   .historyImportTable td:first-of-type {
     display: none;
+  }
+}
+
+@media screen and (max-width: 510px) {
+  .warehouseName {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .warehouseName button {
+    width: 100%;
   }
 }
 
@@ -1591,6 +1706,9 @@
     width: 93%;
     border: 0;
   }
+  .importModal-warehouseName button {
+    font-size: 14px;
+  }
 
   /* Warehouse history page */
 
@@ -1704,12 +1822,24 @@
   .taskType-photo img {
     width: 90px;
   }
+  .table-container tbody tr td,
+  .table-container tr th {
+    font-size: 11px !important;
+  }
+  .task-page th,
+  .task-page td {
+    padding: 8px !important;
+  }
 
   /* Warehouse history page */
 
   .historyTable th,
   .historyTable td {
     font-size: 11px !important;
+  }
+  .importModal-warehouseName {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
   }
 
   /* Warehouse Import History Table  */
