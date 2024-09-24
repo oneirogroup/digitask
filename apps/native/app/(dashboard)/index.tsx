@@ -2,10 +2,10 @@ import { Text } from "react-native";
 
 import { View } from "@oneiro/ui-kit";
 
-export default function Profile() {
+export default function Index() {
   return (
     <View>
-      <Text>Hello, Profile!</Text>
+      <Text>Hello, Home!</Text>
     </View>
   );
 }

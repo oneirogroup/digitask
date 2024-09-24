@@ -16,6 +16,7 @@ export default function Index() {
       .then(() => AsyncStorage.getItem(Tokens.ACCESS_TOKEN))
       .then(token => {
         if (!token) return Promise.reject();
+        router.replace("/(dashboard)");
       })
       .catch(() => router.replace("/welcome"));
   }, []);
