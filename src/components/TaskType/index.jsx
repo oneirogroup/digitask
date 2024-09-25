@@ -486,9 +486,9 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
                                 <div>
                                     <div>
                                         <label><GoClock /> Saat</label>
-                                        <input type="time" name="start_time" value={formData.start_time} onChange={handleInputChange} />
-                                        <input type="time" name="end_time" value={formData.end_time} onChange={handleInputChange} />
-
+                                        <div className='taskDetailTime'> <input type="time" name="start_time" value={formData.start_time} onChange={handleInputChange} />
+                                            <input type="time" name="end_time" value={formData.end_time} onChange={handleInputChange} />
+                                        </div>
                                     </div>
                                     <hr />
                                 </div>
