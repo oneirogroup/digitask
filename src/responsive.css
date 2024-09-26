@@ -20,7 +20,7 @@
   }
   .taskType-modal-content {
     max-width: 58%;
-}
+  }
 }
 
 @media screen and (max-width: 1270px) {
@@ -88,7 +88,10 @@
   .taskService-taskGroup {
     gap: 12px;
   }
-  .home-tasks th, .home-tasks td, .home-employee-task th, .home-employee-task td {
+  .home-tasks th,
+  .home-tasks td,
+  .home-employee-task th,
+  .home-employee-task td {
     font-size: 15px;
   }
   .home-employee-task table td {
@@ -104,6 +107,9 @@
   }
   .import-modal-content {
     max-width: 60%;
+  }
+  .taskType-modal-content {
+    max-width: 65%;
   }
 
   /* Warehouse Page */
@@ -177,6 +183,7 @@
   }
   .small-modal-warehouse {
     right: 10px;
+  }
 }
 
 @media screen and (max-width: 1050px) {
@@ -195,6 +202,9 @@
   .task-page th,
   .task-page td {
     padding: 7px 11px;
+  }
+  .taskType-modal-content {
+    max-width: 70%;
   }
 
   /* Warehouse Page */
@@ -256,10 +266,6 @@
   }
   .task-modal-content input[type="time"] {
     width: 11vw;
-  }
-
-  .taskType-modal-content {
-    max-width: 65%;
   }
 
   /* Performance page */
@@ -365,6 +371,33 @@
   .task-status button {
     padding: 5px 7px;
     font-size: 14px;
+  }
+  .upload-container > img {
+    width: 250px;
+  }
+  .taskType-info label,
+  .taskType-note label,
+  .service-detail label,
+  #detailMap > label,
+  .taskType-option,
+  .passportUpdate label {
+    font-size: 16px;
+  }
+  .task-type-select .taskType-options {
+    width: 42%;
+  }
+  .details-modal-body input,
+  .status-dropdown .details-toggle,
+  .details-note textarea, .status-dropdown .taskType-options .taskType-option, #details-task .dropdown-task-toggle, .details-modal-body input {
+    font-size: 15px;
+  }
+  .taskType-info svg,
+  .taskType-note div:first-of-type svg,
+  #detailMap > label svg {
+    font-size: 18px;
+  }
+  .details-info > div > div {
+    gap: 12px;
   }
 
   /* Warehouse Page */
@@ -508,7 +541,7 @@
   .small-modal-warehouse-content button {
     font-size: 13px;
     padding: 7px;
-}
+  }
 
   /* Warehouse history page */
 
@@ -566,7 +599,7 @@
   /* Task Page */
 
   .taskType-modal-content {
-    max-width: 68%;
+    max-width: 75%;
   }
 
   .taskType-info label,
@@ -628,6 +661,28 @@
   .task-modal-content input[type="time"] {
     width: 13.5vw;
   }
+
+  .taskType-modal-content {
+    max-width: 78%;
+  }
+  .details-info{
+    grid-template-columns: repeat(1, 1fr);
+  }
+   .service-detail span {
+    font-size: 17px;
+  }
+
+  .passportUpdate label {
+    width: 48vh !important;
+  }
+  .status-dropdown .taskType-options {
+    width: 24vh;
+  }
+  #details-task .dropdown-task-menu {
+    top: 60px !important;
+    width: 31%;
+    left: 393px !important;
+}
 
   /* Employee Page */
 
@@ -826,15 +881,41 @@
   .import-form input {
     font-size: 13px;
   }
-  .taskType-modal-content {
-    max-width: 72%;
+  .passportUpdate .upload-container {
+    gap: 30px;
   }
+  .taskType-modal-content {
+    max-width: 80%;
+}
+ 
+  .details-info > div > div {
+    gap: 9px;
+}
+#details-task .dropdown-task-toggle {
+  padding: 7px;
+  gap: 5px;
+}    .details-modal-body input, .status-dropdown .details-toggle, .details-note textarea {
+  font-size: 14px;
+}
+.details-modal-body input {
+  padding: 6px;
+}
+.taskType-info, .details-info, .service-detail > div {
+  gap: 20px;
+}
+.taskType-info label, .taskType-note label, .service-detail span {
+  font-size: 15px;
+  gap: 5px;
+}
 
   .taskType-info,
   .details-info,
   .service-detail > div {
     gap: 20px;
   }
+  #details-task .dropdown-task-menu {
+    left: 379px !important;
+}
   .warehouseName button {
     font-size: 15px;
   }
@@ -936,6 +1017,10 @@
   .historyImportTable td {
     padding: 14px 5px !important;
   }
+
+  #details-task .dropdown-task-menu {
+    left: 361px !important;
+}
 }
 
 @media screen and (max-width: 700px) {
@@ -1006,8 +1091,20 @@
     font-size: 25px;
   }
   .taskType-modal-content {
-    max-width: 75%;
+    max-width: 85%;
   }
+  .passportUpdate .upload-container {
+    gap: 22px;
+    flex-direction: column;
+    align-items: baseline;
+}
+.upload-container > img {
+  width: 270px;
+}
+
+#details-task .dropdown-task-menu {
+  left: 342px !important;
+}
 
   /* Warehouse Import History Table  */
 
@@ -1111,6 +1208,9 @@
   .service-detail > div {
     grid-template-columns: none;
   }
+  #details-task .dropdown-task-menu {
+    left: 330px !important;
+}
 
   /* Employee page */
 
@@ -1181,6 +1281,13 @@
   }
 }
 
+@media screen and (max-width: 620px) {
+  #details-task .dropdown-task-menu {
+    left: 276px !important;
+    width: 36%;
+}
+}
+
 @media screen and (max-width: 600px) {
   /* Warehouse Import History Table  */
 
@@ -1197,9 +1304,18 @@
   }
 
   /* Task Page  */
+
   .taskType-modal-title h5 {
     font-size: 23px;
   }
+
+  .taskType-modal-title span {
+    font-size: 36px;
+  }
+  #details-task .dropdown-task-menu {
+    left: 260px !important;
+    width: 38%;
+}
 }
 
 @media screen and (max-width: 570px) {
@@ -1346,6 +1462,10 @@
   .passportImage label > span {
     font-size: 17px;
   }
+  #details-task .dropdown-task-menu {
+    left: 245px !important;
+    width: 38%;
+}
 
   /* Employee page */
 
@@ -1405,6 +1525,13 @@
   }
 }
 
+@media screen and (max-width: 525px) {
+  #details-task .dropdown-task-menu {
+    left: 222px !important;
+    width: 38%;
+  }
+}
+
 @media screen and (max-width: 510px) {
   .warehouseName {
     display: grid;
@@ -1413,6 +1540,25 @@
   .warehouseName button {
     width: 100%;
   }
+
+  /* Task page  */
+
+  .details-info > div > div {
+    flex-direction: column;
+    align-items: baseline;
+}
+.upload-container > img {
+  width: 260px;
+}
+#details-task .dropdown-task-menu {
+  top: 75px !important;
+  left: 0 !important;
+  width: 30vh;
+}
+.status-dropdown .taskType-options {
+  top: 68px;
+  left: 0;
+}
 }
 
 @media screen and (max-width: 500px) {

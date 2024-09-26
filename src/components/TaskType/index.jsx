@@ -152,7 +152,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
                         passport: null,
                         services: data.services,
                         status: data.status,
-                        group: data.group.map(g => g.id),
+                        group: data.group.map(g => g.group),
                         note: data.note,
                         latitude: data.latitude,
                         longitude: data.longitude,
@@ -215,14 +215,12 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
 
         const formData = new FormData();
 
-        // Append non-file data
         Object.keys(formData).forEach(key => {
             if (formData[key] !== taskDetails[key]) {
                 formData.append(key, formData[key]);
             }
         });
 
-        // Append the file if it exists
         if (imageFile) {
             formData.append('passport', imageFile);
         }
@@ -353,7 +351,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
                 <input
                     type="checkbox"
                     checked={formData.group.includes(group.id)}
-                    onChange={() => handleGroupSelect(group.id)}
+                    onChange={() => handleGroupSelect(group.group)}
                 />
                 {group.group}
             </label>
@@ -419,6 +417,16 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
             </MapContainer>
         </div>
     );
+    const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
+    useEffect(() => {
+        if (isDropdownOpenGroup && groupDropdownRef.current) {
+            const rect = groupDropdownRef.current.getBoundingClientRect();
+            setDropdownPosition({
+                top: rect.bottom + window.scrollY,
+                left: rect.left,
+            });
+        }
+    }, [isDropdownOpenGroup]);
 
     if (!taskDetails) {
         return <div>Loading...</div>;
@@ -486,9 +494,9 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
                                 <div>
                                     <div>
                                         <label><GoClock /> Saat</label>
-                                        <input type="time" name="start_time" value={formData.start_time} onChange={handleInputChange} />
-                                        <input type="time" name="end_time" value={formData.end_time} onChange={handleInputChange} />
-
+                                        <div className='taskDetailTime'> <input type="time" name="start_time" value={formData.start_time} onChange={handleInputChange} />
+                                            <input type="time" name="end_time" value={formData.end_time} onChange={handleInputChange} />
+                                        </div>
                                     </div>
                                     <hr />
                                 </div>
@@ -567,15 +575,19 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
                                                 onClick={() => setIsDropdownOpenGroup(!isDropdownOpenGroup)}
                                             >
                                                 {formData.group.length > 0
-                                                    ? ` ${groups
-                                                        .filter(group => formData.group.includes(group.id))
-                                                        .map(group => group.group)
-                                                        .join(',  ')}`
-                                                    : 'Qrup seçin'}
+                                                    ? `${formData.group.join(', ')}`
+                                                    : 'Qrup Seçin'}
                                                 <FaChevronDown />
                                             </div>
                                             {isDropdownOpenGroup && (
-                                                <div className="dropdown-task-menu">
+                                                <div
+                                                    className="dropdown-task-menu"
+                                                    style={{
+                                                        position: 'absolute',
+                                                        top: dropdownPosition.top,
+                                                        left: dropdownPosition.left,
+                                                    }}
+                                                >
                                                     {renderGroups()}
                                                 </div>
                                             )}
