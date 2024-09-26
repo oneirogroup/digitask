@@ -388,7 +388,7 @@
   }
   .details-modal-body input,
   .status-dropdown .details-toggle,
-  .details-note textarea {
+  .details-note textarea, .status-dropdown .taskType-options .taskType-option, #details-task .dropdown-task-toggle, .details-modal-body input {
     font-size: 15px;
   }
   .taskType-info svg,
@@ -668,9 +668,6 @@
   .details-info{
     grid-template-columns: repeat(1, 1fr);
   }
-  #details-task .dropdown-task-toggle, .details-modal-body input{
-    width: max-content;
-  }
    .service-detail span {
     font-size: 17px;
   }
@@ -681,6 +678,11 @@
   .status-dropdown .taskType-options {
     width: 24vh;
   }
+  #details-task .dropdown-task-menu {
+    top: 60px !important;
+    width: 31%;
+    left: 393px !important;
+}
 
   /* Employee Page */
 
@@ -911,6 +913,9 @@
   .service-detail > div {
     gap: 20px;
   }
+  #details-task .dropdown-task-menu {
+    left: 379px !important;
+}
   .warehouseName button {
     font-size: 15px;
   }
@@ -1012,6 +1017,10 @@
   .historyImportTable td {
     padding: 14px 5px !important;
   }
+
+  #details-task .dropdown-task-menu {
+    left: 361px !important;
+}
 }
 
 @media screen and (max-width: 700px) {
@@ -1093,6 +1102,9 @@
   width: 270px;
 }
 
+#details-task .dropdown-task-menu {
+  left: 342px !important;
+}
 
   /* Warehouse Import History Table  */
 
@@ -1196,6 +1208,9 @@
   .service-detail > div {
     grid-template-columns: none;
   }
+  #details-task .dropdown-task-menu {
+    left: 330px !important;
+}
 
   /* Employee page */
 
@@ -1266,6 +1281,13 @@
   }
 }
 
+@media screen and (max-width: 620px) {
+  #details-task .dropdown-task-menu {
+    left: 276px !important;
+    width: 36%;
+}
+}
+
 @media screen and (max-width: 600px) {
   /* Warehouse Import History Table  */
 
@@ -1282,6 +1304,7 @@
   }
 
   /* Task Page  */
+
   .taskType-modal-title h5 {
     font-size: 23px;
   }
@@ -1289,6 +1312,10 @@
   .taskType-modal-title span {
     font-size: 36px;
   }
+  #details-task .dropdown-task-menu {
+    left: 260px !important;
+    width: 38%;
+}
 }
 
 @media screen and (max-width: 570px) {
@@ -1435,6 +1462,10 @@
   .passportImage label > span {
     font-size: 17px;
   }
+  #details-task .dropdown-task-menu {
+    left: 245px !important;
+    width: 38%;
+}
 
   /* Employee page */
 
@@ -1494,6 +1525,13 @@
   }
 }
 
+@media screen and (max-width: 525px) {
+  #details-task .dropdown-task-menu {
+    left: 222px !important;
+    width: 38%;
+  }
+}
+
 @media screen and (max-width: 510px) {
   .warehouseName {
     display: grid;
@@ -1511,6 +1549,15 @@
 }
 .upload-container > img {
   width: 260px;
+}
+#details-task .dropdown-task-menu {
+  top: 75px !important;
+  left: 0 !important;
+  width: 30vh;
+}
+.status-dropdown .taskType-options {
+  top: 68px;
+  left: 0;
 }
 }
 

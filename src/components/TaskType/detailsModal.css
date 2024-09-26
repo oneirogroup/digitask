@@ -172,6 +172,8 @@
 .details-info > div > div{
 padding: 0;
 margin-bottom: 10px;
+z-index: revert-layer;
+position: relative;
 }
 
   
@@ -323,6 +325,10 @@ z-index: 10000;
 
   }
 
+  .dropdown-task {
+    position: relative;
+  }
+
   #details-task .dropdown-task-toggle {
     padding: 9px;
     gap: 15px;
@@ -342,8 +348,10 @@ z-index: 10000;
   }
 
   #details-task .dropdown-task-menu{
-    margin-top: 8px;
-    width: 100%;
+    top: 60px !important;
+    width: 58%;
+    left: 127px !important;
+
   }
 
   #details-task .dropdown-task-item{
