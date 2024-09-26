@@ -381,7 +381,7 @@
   #detailMap > label,
   .taskType-option,
   .passportUpdate label {
-    font-size: 16px;
+    font-size: 15px;
   }
   .task-type-select .taskType-options {
     width: 42%;
@@ -683,7 +683,9 @@
     width: 31%;
     left: 393px !important;
 }
-
+#details-task .dropdown-task-toggle, .task-type-select .taskType-options {
+  width: 22%;
+}
   /* Employee Page */
 
   .employee-search-filter div div button {
@@ -1555,9 +1557,20 @@
   left: 0 !important;
   width: 30vh;
 }
-.status-dropdown .taskType-options {
+.status-dropdown .taskType-options, .task-type-select .taskType-options{
   top: 68px;
   left: 0;
+}
+
+.task-type-select .taskType-options, #details-task .dropdown-task-toggle{
+  width: 22vh;
+}
+.passportUpdate label {
+  width: 40vh !important;
+}
+.taskType-modal-title h5 {
+  font-size: 22px;
+  margin: 0;
 }
 }
 
