@@ -220,6 +220,14 @@
   display: contents;
 }
 
+.add-task-group-dropdown .dropdown-task {
+  display: block;
+}
+
+.add-task-group-dropdown .dropdown-task-menu{
+  top: 122% !important;
+}
+
 .dropdown-task-toggle {
   display: flex;
   align-items: center;
