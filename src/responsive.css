@@ -184,6 +184,17 @@
   .small-modal-warehouse {
     right: 10px;
   }
+
+  /* Employee page  */
+
+  .map-modal-modal-content {
+    width: 60%;
+    max-width: 60%;
+  }
+
+  .add-user-modal-content{
+    max-width: 60%;
+  }
 }
 
 @media screen and (max-width: 1050px) {
@@ -435,6 +446,10 @@
   .add-group-modal-content {
     max-width: 50%;
   }
+
+  .add-user-modal-content {
+    max-width: 68%;
+}
 }
 
 @media screen and (max-width: 900px) {
@@ -530,6 +545,28 @@
     font-size: 15px;
   }
 
+  .map-modal-modal-content {
+    width: 70%;
+    max-width: 70%;
+}
+
+.logout-modal-content h2 {
+  font-size: 30px;
+  font-weight: 600;
+}
+
+.logout-modal-content p {
+  font-size: 20px;
+}
+
+.logout-modal-content div button {
+  font-size: 19px;
+  padding: 12px 0;
+}
+
+.logout-modal-content {
+  padding: 19px;
+}
   /* Warehouse Page */
 
   .warehouseTable-title div button {
@@ -952,6 +989,14 @@
     font-size: 14px !important;
   }
 
+  .add-user-modal-content {
+    max-width: 72%;
+}
+
+.add-user-modal .form-group input[type="text"], .add-user-modal .form-group input[type="email"], .add-user-modal .form-group input[type="password"], .multi-select-container button, .add-group-modal-content .form-group input, .add-room-modal-content .form-group input{
+  font-size: 15px;
+}
+
   /* Profile Page */
 
   .profile-edit {
@@ -1007,6 +1052,11 @@
   .employee-search-filter > div:first-of-type {
     width: 35%;
   }
+
+  .map-modal-modal-content {
+    width: 73%;
+    max-width: 73%;
+}
 
   /* Warehouse page */
 
@@ -1229,6 +1279,27 @@
     font-size: 23px;
   }
 
+  .map-modal-modal-header h2 {
+    font-size: 24px;
+  }
+
+  .map-modal-modal-content {
+    width: 75%;
+    max-width: 75%;
+}
+
+.add-user-modal-content {
+  max-width: 74%;
+}
+
+.add-user-modal-title h5{
+  font-size: 24px;
+}
+
+.add-user-modal-title span{
+  font-size: 34px;
+}
+
   /* Navbar */
 
   .navbar-icons {
@@ -1317,6 +1388,30 @@
   #details-task .dropdown-task-menu {
     left: 260px !important;
     width: 38%;
+}
+
+  /* Employee page  */
+
+  .map-modal-modal-content {
+    width: 77%;
+    max-width: 77%;
+}
+
+/* Logout modal  */
+
+.logout-modal-content {
+  padding: 17px;
+}
+
+.logout-modal-content h2 {
+  font-size: 28px;
+}
+.logout-modal-content p {
+  font-size: 18px;
+}
+.logout-modal-content div button {
+  font-size: 18px;
+  padding: 10px 0;
 }
 }
 
@@ -1498,6 +1593,10 @@
     font-size: 13px;
   }
 
+  .add-user-modal form >div:first-of-type{
+    grid-template-columns: repeat(1, 1fr);
+  }
+
   /* Warehouse history page */
 
   .historyTable td:first-of-type,
@@ -1532,6 +1631,26 @@
     left: 222px !important;
     width: 38%;
   }
+
+  /* Logout page  */
+
+  .logout-modal-content {
+    padding: 14px;
+}
+.logout-modal-content h2 {
+  font-size: 26px;
+}
+.logout-modal-content p {
+  font-size: 17px;
+}
+.logout-modal-content div button {
+  font-size: 17px;
+  padding: 9px 0;
+}
+
+.logout-modal-content div {
+  gap: 10px;
+}
 }
 
 @media screen and (max-width: 510px) {
@@ -1844,6 +1963,12 @@
     display: none;
   }
 
+  .employee-title {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
   /* Navbar */
 
   .navbar-icons a,
@@ -1909,6 +2034,22 @@
   .historyTable th:last-of-type {
     padding: 12px 7px 12px 0 !important;
   }
+
+  /* Logout modal */
+
+  .logout-modal-content p {
+    font-size: 15px;
+}
+.logout-modal-content h2 {
+  font-size: 25px;
+}
+.logout-modal-content div button {
+  font-size: 16px;
+}
+
+.logout-modal-content {
+  padding: 13px;
+}
 }
 
 @media screen and (max-width: 412px) {
@@ -2018,4 +2159,10 @@
   .historyImportTable td:last-of-type {
     padding: 12px 5px 12px 0 !important;
   }
+
+  /* Logout modal */
+
+  .logout-modal-content p {
+    font-size: 14px;
+}
 }
