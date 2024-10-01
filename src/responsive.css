@@ -1264,6 +1264,10 @@
     left: 330px !important;
 }
 
+.taskType-modal-content, .add-user-modal-content {
+  max-height: 82vh;
+}
+
   /* Employee page */
 
   .employee-table-container tbody td:first-of-type,
@@ -1393,8 +1397,8 @@
   /* Employee page  */
 
   .map-modal-modal-content {
-    width: 77%;
-    max-width: 77%;
+    width: 80%;
+    max-width: 80%;
 }
 
 /* Logout modal  */
