@@ -1,8 +1,7 @@
 import { Image } from "expo-image";
 import { Link, router } from "expo-router";
-import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
+import { SubmitErrorHandler, SubmitHandler } from "react-hook-form";
 
-import { zodResolver } from "@hookform/resolvers/zod";
 import { AuthHttp, Block, Form, Input, Text, logger } from "@oneiro/ui-kit";
 import AsyncStorageNative from "@react-native-async-storage/async-storage";
 
@@ -14,11 +13,6 @@ import { Tokens } from "../../types/tokens";
 import logo from "../../assets/images/logo.png";
 
 export default function Welcome() {
-  const form = useForm<SignInSchema>({
-    resolver: zodResolver(signInSchema),
-    defaultValues: { email: "", password: "" }
-  });
-
   const onSubmit: SubmitHandler<SignInSchema> = data => {
     logger.log("digitask.native:auth:sign-in.form-values", data);
 
@@ -36,8 +30,6 @@ export default function Welcome() {
   const onFormError: SubmitErrorHandler<SignInSchema> = errors => {
     logger.log("errors", errors);
   };
-
-  logger.debug("digitask.native:auth:sign-in.form-values", form.watch());
 
   return (
     <Form<SignInSchema> schema={signInSchema} onSubmit={onSubmit} onFormError={onFormError}>
