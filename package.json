@@ -6,6 +6,8 @@
     "libs/*",
     "modules/*"
   ],
+  "scripts": {
+    "format:svg": "prettier --plugin @prettier/plugin-xml --write \"**/*.svg\""
   },
   "resolutions": {
     "babel-plugin-react-compiler": "latest"
