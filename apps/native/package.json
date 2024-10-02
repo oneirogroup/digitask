@@ -8,8 +8,7 @@
     "ios": "yarn start --ios",
     "lint": "expo lint",
     "start": "expo start",
-    "test": "jest --watchAll",
-    "web": "yarn start --web"
+    "test": "jest --watchAll"
   },
   "jest": {
     "preset": "jest-expo"
