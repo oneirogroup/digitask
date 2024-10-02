@@ -2,42 +2,57 @@ import { Tabs } from "expo-router";
 
 import { Icon } from "@oneiro/ui-kit";
 
+import { HeaderLeft } from "../../components/header/header-left";
+import { HeaderRight } from "../../components/header/header-right";
+
 export default function TabLayout() {
   return (
     <Tabs screenOptions={{ tabBarActiveTintColor: "blue" }}>
       <Tabs.Screen
         name="index"
         options={{
-          title: "Home",
+          title: "Ana səhifə",
+          headerTitleStyle: { display: "none" },
+          headerLeft: () => <HeaderLeft title="Xoş gəlmisən!" />,
+          headerRight: () => <HeaderRight />,
           tabBarIcon: ({ focused, color }) => (
-            <Icon name="home" state={focused && "active"} variables={{ fillPath: color }} />
+            <Icon name="home" state={focused && "active"} variables={{ fill: color }} />
           )
         }}
       />
       <Tabs.Screen
         name="performance"
         options={{
-          title: "Performance",
+          title: "Performans",
+          headerTitleStyle: { display: "none" },
+          headerLeft: () => <HeaderLeft title="Xoş gəlmisən!" />,
+          headerRight: () => <HeaderRight />,
           tabBarIcon: ({ focused, color }) => (
-            <Icon name="monitor" state={focused && "active"} variables={{ fillPath: color }} />
+            <Icon name="monitor" state={focused && "active"} variables={{ fill: color }} />
           )
         }}
       />
       <Tabs.Screen
         name="task"
         options={{
-          title: "Task",
+          title: "Tapşırıq",
+          headerTitleStyle: { display: "none" },
+          headerLeft: () => <HeaderLeft title="Xoş gəlmisən!" />,
+          headerRight: () => <HeaderRight />,
           tabBarIcon: ({ focused, color }) => (
-            <Icon name="task" state={focused && "active"} variables={{ fillPath: color }} />
+            <Icon name="task" state={focused && "active"} variables={{ fill: color }} />
           )
         }}
       />
       <Tabs.Screen
         name="profile"
         options={{
-          title: "Profile",
+          title: "Profil",
+          headerTitleStyle: { display: "none" },
+          headerLeft: () => <HeaderLeft title="Xoş gəlmisən!" />,
+          headerRight: () => <HeaderRight />,
           tabBarIcon: ({ focused, color }) => (
-            <Icon name="profile" state={focused && "active"} variables={{ fillPath: color }} />
+            <Icon name="profile" state={focused && "active"} variables={{ fill: color }} />
           )
         }}
       />

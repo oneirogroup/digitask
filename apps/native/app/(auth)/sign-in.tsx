@@ -1,9 +1,9 @@
 import { Image } from "expo-image";
 import { Link, router } from "expo-router";
-import { FormProvider, SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
+import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { AuthHttp, Block, Button, Input, Text, logger } from "@oneiro/ui-kit";
+import { AuthHttp, Block, Form, Input, Text, logger } from "@oneiro/ui-kit";
 import AsyncStorageNative from "@react-native-async-storage/async-storage";
 
 import { PageLayout } from "../../components/page-layout";
@@ -22,7 +22,7 @@ export default function Welcome() {
   const onSubmit: SubmitHandler<SignInSchema> = data => {
     logger.log("digitask.native:auth:sign-in.form-values", data);
 
-    AuthHttp.instance(() => AsyncStorageNative.getItem(Tokens.ACCESS_TOKEN))
+    AuthHttp.instance()
       .post<AuthToken>("/accounts/login/", { ...data, remember_me: false })
       .then(async response => {
         logger.debug("digitask.native:auth:sign-in.auth-response", response);
@@ -33,14 +33,14 @@ export default function Welcome() {
       .catch(logger.error.bind(logger, "digitask.native:auth:sign-in.auth-error"));
   };
 
-  const onInvalid: SubmitErrorHandler<SignInSchema> = errors => {
+  const onFormError: SubmitErrorHandler<SignInSchema> = errors => {
     logger.log("errors", errors);
   };
 
   logger.debug("digitask.native:auth:sign-in.form-values", form.watch());
 
   return (
-    <FormProvider {...form}>
+    <Form<SignInSchema> schema={signInSchema} onSubmit={onSubmit} onFormError={onFormError}>
       <PageLayout>
         <Block className="flex items-center gap-6">
           <Block className="bg-primary w-68 rounded-2xl p-6">
@@ -48,15 +48,21 @@ export default function Welcome() {
           </Block>
 
           <Block className="flex gap-6">
-            <Input.Controlled name="email" type="text" label="Email" variant="secondary" />
-            <Input.Controlled name="password" type="password" label="Password" variant="secondary" />
+            <Input.Controlled name="email" type="text" label="Email" variant="secondary" icon={{ left: "email" }} />
+            <Input.Controlled
+              name="password"
+              type="password"
+              label="Password"
+              variant="secondary"
+              icon={{ left: "key" }}
+            />
           </Block>
         </Block>
 
         <Block className="flex gap-6">
-          <Button variant="primary" className="w-full p-4" onClick={form.handleSubmit(onSubmit, onInvalid)}>
+          <Form.Button variant="primary" className="w-full p-4">
             <Text className="text-center text-white">Daxil ol</Text>
-          </Button>
+          </Form.Button>
 
           <Block>
             <Link href="/forgot-password">
@@ -65,6 +71,6 @@ export default function Welcome() {
           </Block>
         </Block>
       </PageLayout>
-    </FormProvider>
+    </Form>
   );
 }
