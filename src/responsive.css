@@ -166,6 +166,13 @@
     display: flex;
     flex-direction: column;
   }
+
+   /* Warehouse Page */
+
+  .item-detail-modal-content {
+    width: 52%;
+    max-width: 52%;
+  }
 }
 
 @media screen and (max-width: 1070px) {
@@ -580,6 +587,14 @@
     padding: 7px;
   }
 
+  .item-detail-modal-content {
+    width: 60%;
+    max-width: 60%;
+}
+.item-detail-modal-body .modal-label, .item-detail-modal-body .modal-value {
+  font-size: 17px;
+}
+
   /* Warehouse history page */
 
   .historyTable td:nth-of-type(9),
@@ -617,6 +632,17 @@
   .warehouseName button {
     font-size: 17px;
   }
+  .item-detail-modal-content {
+    width: 62%;
+    max-width: 62%;
+}
+
+/* Login page  */
+
+.submit-btn {
+  padding: 9px;
+  font-size: 17px;
+}
 
   /* Warehouse history page */
 
@@ -1041,6 +1067,13 @@
   .importModal-warehouseName button {
     width: 100%;
   }
+
+  .item-detail-modal-header h2 {
+    font-size: 24px;
+  }
+  .item-detail-close-button {
+    font-size: 34px;
+  }
 }
 
 @media screen and (max-width: 740px) {
@@ -1072,6 +1105,10 @@
 
   #details-task .dropdown-task-menu {
     left: 361px !important;
+}
+.item-detail-modal-content {
+  width: 68%;
+  max-width: 68%;
 }
 }
 
@@ -1163,6 +1200,16 @@
   .historyImportTable th:nth-of-type(5),
   .historyImportTable td:nth-of-type(5) {
     display: none;
+  }
+
+   /* Login page */
+   .login-page {
+    height: 423px;
+    width: 440px;
+    padding: 43px 66px;
+  }
+  .login-mail-password div label input:not(.remember-me input) {
+    width: 275px;
   }
 }
 
@@ -1337,6 +1384,19 @@
     width: calc(34.33% - 20px);
   }
 
+  .warehouse-item-detail-grid {
+    grid-template-columns: repeat(1, 1fr);
+    gap: 10px;
+  }
+  .submit-btn {
+    padding: 8px;
+    font-size: 16px;
+}
+.item-detail-modal-footer svg {
+  font-size: 19px;
+}
+
+
   /* Warehouse history page */
 
   .historyTable td:nth-of-type(2),
@@ -1451,6 +1511,16 @@
   .task-modal-content {
     max-width: 70%;
   }
+
+   /* Login page */
+   .login-page {
+    height: 414px;
+    width: 375px;
+    padding: 43px 56px;
+}
+.login-mail-password div label input:not(.remember-me input) {
+  width: 228px;
+}
 }
 
 @media screen and (max-width: 550px) {
@@ -1768,6 +1838,16 @@
     padding: 14px 15px 20px 15px;
   }
 
+  .item-detail-modal-header h2 {
+    font-size: 23px;
+}
+.item-detail-modal-body .modal-label, .item-detail-modal-body .modal-value {
+  font-size: 16px;
+}
+.item-detail-modal-body .modal-row {
+  margin: 10px 0 10px 0;
+}
+
   /* Warehouse history page */
 
   .historyTable td:nth-of-type(2),
@@ -1807,6 +1887,10 @@
   .upload-icon img {
     width: 25px;
   }
+  .submit-btn {
+    padding: 9px;
+    margin-top: 0;
+  }
 
   /* Warehouse Import History Table  */
 
@@ -1824,6 +1908,7 @@
     font-size: 17px;
     padding-left: 0;
   }
+  
 }
 
 @media screen and (max-width: 450px) {
@@ -2006,6 +2091,20 @@
     font-size: 14px;
   }
 
+  .item-detail-modal-header h2 {
+    font-size: 22px;
+    margin: 0;
+  }
+  .item-detail-modal-header {
+    margin-bottom: 5px;
+  }
+  .item-detail-close-button {
+    font-size: 33px;
+}
+.submit-btn {
+  padding: 8px;
+}
+
   /* Warehouse history page */
 
   .historyTable th,
@@ -2053,6 +2152,13 @@
 
 .logout-modal-content {
   padding: 13px;
+}
+
+ /* Login page */
+  
+ .login-page {
+  width: 318px;
+  padding: 43px 28px;
 }
 }
 
