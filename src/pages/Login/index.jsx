@@ -94,10 +94,9 @@ const Login = (props) => {
         }
 
         try {
-        
             const response = await axios.post(
                 'http://135.181.42.192/accounts/login/',
-                { email, password, remember_me: rememberMe },
+                { email: email.toLowerCase(), password, remember_me: rememberMe },
                 { headers: { 'Content-Type': 'application/json' } },
                 { withCredentials: true }
             );
