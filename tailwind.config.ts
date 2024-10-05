@@ -6,10 +6,10 @@ export const baseConfig = defineConfig({
   colors(colors) {
     return {
       primary: { DEFAULT: colors.primary["60"] },
-      secondary: { DEFAULT: "" },
-      success: { DEFAULT: "" },
-      error: { DEFAULT: "" },
-      neutral: { DEFAULT: "" },
+      secondary: { DEFAULT: colors.secondary["60"] },
+      success: { DEFAULT: colors.success["60"] },
+      error: { DEFAULT: colors.error["60"] },
+      neutral: { DEFAULT: colors.neutral["60"] },
       link: { DEFAULT: colors.primary["50"] }
     };
   },

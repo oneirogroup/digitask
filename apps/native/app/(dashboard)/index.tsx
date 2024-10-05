@@ -3,6 +3,7 @@ import { Block, Icon, Text, View, logger } from "@oneiro/ui-kit";
 import { palette } from "../../../../palette";
 import { BlockContainer, BlockSection } from "../../components/blocks";
 import { Event } from "../../components/event";
+import { Task } from "../../components/task";
 import { DateService } from "../../services/date-service";
 
 logger.disable();
@@ -10,6 +11,8 @@ logger.disable();
 export default function Index() {
   const date = new DateService();
   const formattedDate = date.format("dd MM");
+
+  const startDate = DateService.from().add.hours(1);
 
   return (
     <View.Scroll contentClassName="flex justify-center items-start gap-4 p-4 ">
@@ -44,13 +47,21 @@ export default function Index() {
       </BlockContainer>
 
       <BlockSection title="Davam edən tasklar">
-        <BlockContainer>
-          <Text>Ayxan O. ve s. WIP... Task</Text>
-        </BlockContainer>
+        <Task
+          reporter="Ayxan Osmanov"
+          tags={[
+            { id: "1", tag: "Tv", icon: "tv" },
+            { id: "2", tag: "Internet", icon: "web" }
+          ]}
+          location="Yasamal, Mirzə Şərifzadə 14"
+          date={{ start: startDate, end: startDate.add.hours(2) }}
+          phone="+994 55 555 55 55"
+          status="done"
+        />
       </BlockSection>
 
       <BlockSection title="Tədbirlər">
-        <Event />
+        <Event name="Tədbir adı" date={new Date()} />
       </BlockSection>
     </View.Scroll>
   );

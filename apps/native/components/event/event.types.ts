@@ -1,1 +1,4 @@
-export interface EventProps {}
+export interface EventProps {
+  name: string;
+  date: Date;
+}

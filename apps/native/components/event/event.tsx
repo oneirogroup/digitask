@@ -1,20 +1,36 @@
+import { Image } from "expo-image";
 import { FC } from "react";
 
-import { Block, Text } from "@oneiro/ui-kit";
+import { Block, Icon, Text, View } from "@oneiro/ui-kit";
 
+import { DateService } from "../../services/date-service";
 import { BlockContainer } from "../blocks";
 import { EventProps } from "./event.types";
 
-export const Event: FC<EventProps> = () => {
+import event from "../../assets/images/event.png";
+
+export const Event: FC<EventProps> = ({ name, date }) => {
   return (
-    <BlockContainer className="rounded-2xl p-4" gradient={{ from: "primary-50", to: "primary-50/60", sideTo: "lt" }}>
-      <Block className="grid grid-cols-2">
-        <Block>
-          <Text>Event 1</Text>
-        </Block>
-        <Block>
-          <Text>Event 2</Text>
-        </Block>
+    <BlockContainer className="rounded-2xl p-6" gradient={{ from: "primary-50", to: "primary-50/60", sideTo: "lt" }}>
+      <Block className="flex flex-row">
+        <View className="flex flex-1 gap-4">
+          <View className="flex flex-row gap-4">
+            <Icon name="clock" variables={{ fill: "white" }} />
+            <Text className="text-base text-white">{DateService.from(date).toLocaleDateString("az-AZ")}</Text>
+          </View>
+          <View>
+            <Text className="text-2xl text-white">{name}</Text>
+          </View>
+        </View>
+
+        <View>
+          <Image source={event} style={{ width: 140, height: 140 }} />
+        </View>
+      </Block>
+
+      <Block className="flex flex-row items-center justify-between">
+        <Text className="text-xl text-white">Keçirələcəyi yer</Text>
+        <Icon name="arrow-right" variables={{ fill: "white" }} />
       </Block>
     </BlockContainer>
   );
