@@ -1,3 +1,5 @@
+import { type Dayjs, isDayjs } from "dayjs";
+
 export class DateService extends Date {
   static months = [
     "Yanvar",
@@ -25,44 +27,53 @@ export class DateService extends Date {
   };
 
   static getFormats(date: Date) {
-    const today = new DateService();
-    const diff = today.diff(date);
-    const pronounsDateKey =
-      diff.days === 0
-        ? "today"
-        : diff.days === 1
-          ? "yesterday"
-          : diff.days === -1
-            ? "tomorrow"
-            : diff.days === 2
-              ? "afterTomorrow"
-              : diff.days === -2
-                ? "beforeYesterday"
-                : new DateService(date);
-
     return {
-      dd: date.getDate().toString().padStart(2, "0"),
-      d: date.getDate(),
-      mm: date.getMonth() + 1,
-      yyyy: date.getFullYear(),
-      yy: date.getFullYear().toString().slice(-2),
-      hh: date.getHours().toString().padStart(2, "0"),
-      h: date.getHours(),
-      m: date.getMinutes(),
-      s: date.getSeconds(),
-      MM: this.months[date.getMonth() + 1],
-      pr: pronounsDateKey instanceof DateService ? pronounsDateKey.format("dd MM") : this.pronounsDays[pronounsDateKey]
+      dd: () => date.getDate().toString().padStart(2, "0"),
+      d: () => date.getDate(),
+      mm: () => date.getMonth() + 1,
+      yyyy: () => date.getFullYear(),
+      yy: () => date.getFullYear().toString().slice(-2),
+      hh: () => date.getHours().toString().padStart(2, "0"),
+      h: () => date.getHours(),
+      m: () => date.getMinutes(),
+      s: () => date.getSeconds(),
+      MM: () => DateService.months[date.getMonth() + 1],
+      pr() {
+        const today = new DateService();
+        const diff = today.diff(date);
+        const pronounsDateKey =
+          diff.days === 0
+            ? "today"
+            : diff.days === 1
+              ? "yesterday"
+              : diff.days === -1
+                ? "tomorrow"
+                : diff.days === 2
+                  ? "afterTomorrow"
+                  : diff.days === -2
+                    ? "beforeYesterday"
+                    : DateService.from(date);
+
+        const formats = this;
+        return pronounsDateKey instanceof DateService
+          ? "dd MM".split(" ").map(key => formats[key as keyof typeof formats])
+          : DateService.pronounsDays[pronounsDateKey];
+      }
     };
   }
 
-  static from(date: Date = new Date()) {
+  static from(date: string | number | Date | Dayjs = new Date()) {
+    if (isDayjs(date)) {
+      return new DateService(date.toDate());
+    }
     return new DateService(date);
   }
 
   format(format: string) {
     const formats = DateService.getFormats(this);
     const keys = Object.keys(formats);
-    keys.forEach(key => (format = format.replace(key, formats[key as keyof typeof formats]?.toString() || "")));
+    const formatFn = (key: string) => formats[key as keyof typeof formats]()?.toString() || "";
+    keys.forEach(key => (format = format.replace(key, formatFn(key))));
     return format;
   }
 
