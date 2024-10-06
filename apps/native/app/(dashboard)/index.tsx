@@ -6,8 +6,6 @@ import { Event } from "../../components/event";
 import { Task } from "../../components/task";
 import { DateService } from "../../services/date-service";
 
-logger.disable();
-
 export default function Index() {
   const date = new DateService();
   const formattedDate = date.format("dd MM");
