@@ -5,7 +5,7 @@ import { Icon } from "@oneiro/ui-kit";
 import { HeaderLeft } from "../../components/header/header-left";
 import { HeaderRight } from "../../components/header/header-right";
 
-export default function TabLayout() {
+export default function DashboardLayout() {
   return (
     <Tabs screenOptions={{ tabBarActiveTintColor: "blue" }}>
       <Tabs.Screen
