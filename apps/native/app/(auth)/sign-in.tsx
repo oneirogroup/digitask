@@ -4,6 +4,7 @@ import { SubmitErrorHandler, SubmitHandler } from "react-hook-form";
 
 import { AuthHttp, Block, Form, Input, Text, logger } from "@oneiro/ui-kit";
 import AsyncStorageNative from "@react-native-async-storage/async-storage";
+import { useMutation } from "@tanstack/react-query";
 
 import { PageLayout } from "../../components/page-layout";
 import { SignInSchema, signInSchema } from "../../schemas/auth/sign-in.schema";
@@ -13,18 +14,19 @@ import { Tokens } from "../../types/tokens";
 import logo from "../../assets/images/logo.png";
 
 export default function Welcome() {
-  const onSubmit: SubmitHandler<SignInSchema> = data => {
-    logger.log("digitask.native:auth:sign-in.form-values", data);
+  const signInMutation = useMutation({
+    mutationFn: (data: SignInSchema) =>
+      AuthHttp.instance().post<AuthToken>("/accounts/login/", { ...data, remember_me: false }),
+    onError: logger.error.bind(logger, "digitask.native:auth:sign-in.auth-error")
+  });
 
-    AuthHttp.instance()
-      .post<AuthToken>("/accounts/login/", { ...data, remember_me: false })
-      .then(async response => {
-        logger.debug("digitask.native:auth:sign-in.auth-response", response);
-        await AsyncStorageNative.setItem(Tokens.ACCESS_TOKEN, response.access_token);
-        await AsyncStorageNative.setItem(Tokens.REFRESH_TOKEN, response.refresh_token);
-        router.replace("/(dashboard)");
-      })
-      .catch(logger.error.bind(logger, "digitask.native:auth:sign-in.auth-error"));
+  const onSubmit: SubmitHandler<SignInSchema> = async data => {
+    logger.debug("digitask.native:auth:sign-in.form-values", data);
+    const response = await signInMutation.mutateAsync(data);
+    logger.debug("digitask.native:auth:sign-in.auth-response", response);
+    await AsyncStorageNative.setItem(Tokens.ACCESS_TOKEN, response.access_token);
+    await AsyncStorageNative.setItem(Tokens.REFRESH_TOKEN, response.refresh_token);
+    router.replace("/(dashboard)");
   };
 
   const onFormError: SubmitErrorHandler<SignInSchema> = errors => {
@@ -40,19 +42,27 @@ export default function Welcome() {
           </Block>
 
           <Block className="flex gap-6">
-            <Input.Controlled name="email" type="text" label="Email" variant="secondary" icon={{ left: "email" }} />
+            <Input.Controlled
+              name="email"
+              type="text"
+              label="Email"
+              variant="secondary"
+              icon={{ left: "email" }}
+              disabled={signInMutation.isPending}
+            />
             <Input.Controlled
               name="password"
               type="password"
               label="Password"
               variant="secondary"
               icon={{ left: "key" }}
+              disabled={signInMutation.isPending}
             />
           </Block>
         </Block>
 
         <Block className="flex gap-6">
-          <Form.Button variant="primary" className="w-full p-4">
+          <Form.Button variant="primary" className="w-full p-4" isLoading={signInMutation.isPending}>
             <Text className="text-center text-white">Daxil ol</Text>
           </Form.Button>
 
