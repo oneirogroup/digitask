@@ -193,6 +193,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
 
     const handleEditClick = () => {
         setIsEditing(true);
+        event.stopPropagation();
     };
 
     const [addedServices, setAddedServices] = useState([]);
@@ -244,6 +245,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
                     ...prevFormData,
                 }));
                 setIsEditing(false);
+                event.stopPropagation();
                 onClose();
                 onTaskUpdated(data);
             })
@@ -434,500 +436,504 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
 
     return (
         <div className="taskType-modal">
-            <div className="taskType-modal-content">
-                <div className="taskType-modal-title">
+            <div className="taskType-modal-content" ref={modalRef}>
+                <div className="taskType-modal-title" ref={modalRef}>
                     {isEditing ? (
                         <div className='details-title'>
                             <label><span>Tapşırığı yenilə </span></label>
                         </div>
                     ) : (
-                        <>
-                            <h5>{taskDetails?.task_type ? (taskDetails.task_type === "connection" ? "Qoşulma" : "Problem") + " məlumatları" : ""}</h5>
+                        <div>
+                            <div>
+                                <h5>{taskDetails?.task_type ? (taskDetails.task_type === "connection" ? "Qoşulma" : "Problem") + " məlumatları" : ""}</h5>
+
+                            </div>
                             {/* {userType !== 'Texnik' && ( */}
                             <RiEdit2Line onClick={handleEditClick} />
-
                             {/* )} */}
-                        </>
+                        </div>
                     )}
                     <div>
                         <span className="close" onClick={onClose}>&times;</span>
                     </div>
                 </div>
                 <hr />
-                {isEditing ? (
-                    <form onSubmit={handleFormSubmit} className="details-modal-body">
-                        <div>
-                            <div className="taskType-info details-info">
-                                <div>
-                                    <div className="status-dropdown-div task-type-select">
-                                        <label><SiTyper />
-                                            Tapşırığın növü</label>
-                                        <div className="dropdown-task" id="details-task" ref={taskTypeDropdownRef}>
-                                            <div className="dropdown-task-toggle" onClick={toggleDropdownTaskType}>
-                                                {formData.task_type ? formData.task_type === 'connection' ? 'Qoşulma' : 'Problem' : 'Tapşırığı Seçin'}
-                                                <FaChevronDown />
+                {
+                    isEditing ? (
+                        <form onSubmit={handleFormSubmit} className="details-modal-body">
+                            <div>
+                                <div className="taskType-info details-info">
+                                    <div>
+                                        <div className="status-dropdown-div task-type-select">
+                                            <label><SiTyper />
+                                                Tapşırığın növü</label>
+                                            <div className="dropdown-task" id="details-task" ref={taskTypeDropdownRef}>
+                                                <div className="dropdown-task-toggle" onClick={toggleDropdownTaskType}>
+                                                    {formData.task_type ? formData.task_type === 'connection' ? 'Qoşulma' : 'Problem' : 'Tapşırığı Seçin'}
+                                                    <FaChevronDown />
 
+                                                </div>
                                             </div>
-                                        </div>
-                                        {isDropdownOpenTaskType && (
-                                            <div className="taskType-options">
-                                                {renderTaskTypeOptions()}
-                                            </div>
-                                        )}
-                                    </div>
-                                    <hr />
-                                </div>
-                                <div>
-                                    <div>
-                                        <label><IoPersonOutline /> Müştəri</label>
-                                        <input type="text" name="full_name" value={formData.full_name} onChange={handleInputChange} />
-                                    </div>
-                                    <hr />
-                                </div>
-                                <div>
-                                    <div>
-                                        <label><GoClock /> Tarix</label>
-                                        <input type="date" id="" name="date" value={formData.date} onChange={handleInputChange} />
-                                    </div>
-                                    <hr />
-                                </div>
-                                <div>
-                                    <div>
-                                        <label><GoClock /> Saat</label>
-                                        <div className='taskDetailTime'> <input type="time" name="start_time" value={formData.start_time} onChange={handleInputChange} />
-                                            <input type="time" name="end_time" value={formData.end_time} onChange={handleInputChange} />
-                                        </div>
-                                    </div>
-                                    <hr />
-                                </div>
-                                <div>
-                                    <div>
-                                        <label><BsTelephone /> Qeydiyyat nömrəsi</label>
-                                        <input type="text" name="registration_number" value={formData.registration_number} onChange={handleInputChange} />
-                                    </div>
-                                    <hr />
-                                </div>
-                                <div>
-                                    <div>
-                                        <label><LiaPhoneVolumeSolid /> Əlaqə nömrəsi</label>
-                                        <input type="text" name="contact_number" value={formData.contact_number} onChange={handleInputChange} />
-                                    </div>
-                                    <hr />
-                                </div>
-                                <div>
-                                    <div>
-                                        <label><RiMapPinLine /> Adres</label>
-                                        <input type="text" name="location" value={formData.location} onChange={handleInputChange} />
-                                    </div>
-                                    <hr />
-                                </div>
-                                <div>
-                                    <div className='status-dropdown-div'>
-                                        <label><MdOutlineMiscellaneousServices /> Xidmət</label>
-                                        <div className="status-dropdown" ref={serviceDropdownRef}>
-                                            <div
-                                                className="taskType-toggle details-toggle"
-                                                onClick={toggleDropdownService}
-                                            >
-                                                {formData.is_tv || formData.is_internet || formData.is_voice
-                                                    ? SERVICE_OPTIONS.filter(option =>
-                                                        (option.value === 'tv' && formData.is_tv) ||
-                                                        (option.value === 'internet' && formData.is_internet) ||
-                                                        (option.value === 'voice' && formData.is_voice)
-                                                    ).map(service => service.label).join(', ')
-                                                    : 'Xidmət seçin'}
-                                                <FaChevronDown />
-                                            </div>
-
-                                            {isDropdownOpenService && (
+                                            {isDropdownOpenTaskType && (
                                                 <div className="taskType-options">
-                                                    {renderServiceOptions()}
+                                                    {renderTaskTypeOptions()}
                                                 </div>
                                             )}
                                         </div>
+                                        <hr />
                                     </div>
-                                    <hr />
-                                </div>
-                                <div>
-                                    <div className='status-dropdown-div'>
-                                        <label><BiComment /> Status</label>
-                                        <div className="status-dropdown" ref={statusDropdownRef}>
-                                            <div className="taskType-toggle details-toggle" onClick={toggleDropdownStatus}>
-                                                {formData.status ? STATUS_OPTIONS.find(option => option.value === formData.status)?.label : 'Status Seçin'}
-                                                <FaChevronDown />
-
-                                            </div>
-                                            {isDropdownOpenStatus && (
-                                                <div className="taskType-options">
-                                                    {renderStatusOptions()}
-                                                </div>
-                                            )}
+                                    <div>
+                                        <div>
+                                            <label><IoPersonOutline /> Müştəri</label>
+                                            <input type="text" name="full_name" value={formData.full_name} onChange={handleInputChange} />
                                         </div>
+                                        <hr />
                                     </div>
-                                    <hr />
-                                </div>
-                                <div>
-                                    <div className="form-group">
-                                        <label><MdOutlineEngineering /> Texniki qrup</label>
-                                        <div className="dropdown-task" id='details-task' ref={groupDropdownRef}>
-                                            <div
-                                                className="dropdown-task-toggle"
-                                                onClick={() => setIsDropdownOpenGroup(!isDropdownOpenGroup)}
-                                            >
-                                                {formData.group.length > 0
-                                                    ? `${formData.group.join(', ')}`
-                                                    : 'Qrup Seçin'}
-                                                <FaChevronDown />
+                                    <div>
+                                        <div>
+                                            <label><GoClock /> Tarix</label>
+                                            <input type="date" id="" name="date" value={formData.date} onChange={handleInputChange} />
+                                        </div>
+                                        <hr />
+                                    </div>
+                                    <div>
+                                        <div>
+                                            <label><GoClock /> Saat</label>
+                                            <div className='taskDetailTime'> <input type="time" name="start_time" value={formData.start_time} onChange={handleInputChange} />
+                                                <input type="time" name="end_time" value={formData.end_time} onChange={handleInputChange} />
                                             </div>
-                                            {isDropdownOpenGroup && (
+                                        </div>
+                                        <hr />
+                                    </div>
+                                    <div>
+                                        <div>
+                                            <label><BsTelephone /> Qeydiyyat nömrəsi</label>
+                                            <input type="text" name="registration_number" value={formData.registration_number} onChange={handleInputChange} />
+                                        </div>
+                                        <hr />
+                                    </div>
+                                    <div>
+                                        <div>
+                                            <label><LiaPhoneVolumeSolid /> Əlaqə nömrəsi</label>
+                                            <input type="text" name="contact_number" value={formData.contact_number} onChange={handleInputChange} />
+                                        </div>
+                                        <hr />
+                                    </div>
+                                    <div>
+                                        <div>
+                                            <label><RiMapPinLine /> Adres</label>
+                                            <input type="text" name="location" value={formData.location} onChange={handleInputChange} />
+                                        </div>
+                                        <hr />
+                                    </div>
+                                    <div>
+                                        <div className='status-dropdown-div'>
+                                            <label><MdOutlineMiscellaneousServices /> Xidmət</label>
+                                            <div className="status-dropdown" ref={serviceDropdownRef}>
                                                 <div
-                                                    className="dropdown-task-menu"
-                                                    style={{
-                                                        position: 'absolute',
-                                                        top: dropdownPosition.top,
-                                                        left: dropdownPosition.left,
-                                                    }}
+                                                    className="taskType-toggle details-toggle"
+                                                    onClick={toggleDropdownService}
                                                 >
-                                                    {renderGroups()}
+                                                    {formData.is_tv || formData.is_internet || formData.is_voice
+                                                        ? SERVICE_OPTIONS.filter(option =>
+                                                            (option.value === 'tv' && formData.is_tv) ||
+                                                            (option.value === 'internet' && formData.is_internet) ||
+                                                            (option.value === 'voice' && formData.is_voice)
+                                                        ).map(service => service.label).join(', ')
+                                                        : 'Xidmət seçin'}
+                                                    <FaChevronDown />
                                                 </div>
-                                            )}
+
+                                                {isDropdownOpenService && (
+                                                    <div className="taskType-options">
+                                                        {renderServiceOptions()}
+                                                    </div>
+                                                )}
+                                            </div>
                                         </div>
+                                        <hr />
+                                    </div>
+                                    <div>
+                                        <div className='status-dropdown-div'>
+                                            <label><BiComment /> Status</label>
+                                            <div className="status-dropdown" ref={statusDropdownRef}>
+                                                <div className="taskType-toggle details-toggle" onClick={toggleDropdownStatus}>
+                                                    {formData.status ? STATUS_OPTIONS.find(option => option.value === formData.status)?.label : 'Status Seçin'}
+                                                    <FaChevronDown />
+
+                                                </div>
+                                                {isDropdownOpenStatus && (
+                                                    <div className="taskType-options">
+                                                        {renderStatusOptions()}
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
+                                        <hr />
+                                    </div>
+                                    <div>
+                                        <div className="form-group">
+                                            <label><MdOutlineEngineering /> Texniki qrup</label>
+                                            <div className="dropdown-task" id='details-task' ref={groupDropdownRef}>
+                                                <div
+                                                    className="dropdown-task-toggle"
+                                                    onClick={() => setIsDropdownOpenGroup(!isDropdownOpenGroup)}
+                                                >
+                                                    {formData.group.length > 0
+                                                        ? `${formData.group.join(', ')}`
+                                                        : 'Qrup Seçin'}
+                                                    <FaChevronDown />
+                                                </div>
+                                                {isDropdownOpenGroup && (
+                                                    <div
+                                                        className="dropdown-task-menu"
+                                                        style={{
+                                                            position: 'absolute',
+                                                            top: dropdownPosition.top,
+                                                            left: dropdownPosition.left,
+                                                        }}
+                                                    >
+                                                        {renderGroups()}
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
+                                        <hr />
+
+                                    </div>
+
+                                </div>
+                                {renderMap()}
+                                <div className="taskType-note details-note">
+                                    <div>
+                                        <label>Qeyd</label>
+                                        <textarea name="note" value={formData.note} onChange={handleInputChange}></textarea>
                                     </div>
                                     <hr />
-
                                 </div>
-
-                            </div>
-                            {renderMap()}
-                            <div className="taskType-note details-note">
-                                <div>
-                                    <label>Qeyd</label>
-                                    <textarea name="note" value={formData.note} onChange={handleInputChange}></textarea>
-                                </div>
-                                <hr />
-                            </div>
-                            <div className="form-group passportUpdate">
-                                <label>Müştərinin şəxsiyyət vəsiqəsi:</label>
-                                <div className="upload-container">
-                                    {preview ? (
-                                        <img
-                                            src={preview}
-                                            alt="Preview"
-                                            className="image-preview"
-                                        />
-                                    ) : (
-                                        taskDetails && taskDetails.passport ? (
+                                <div className="form-group passportUpdate">
+                                    <label>Müştərinin şəxsiyyət vəsiqəsi:</label>
+                                    <div className="upload-container">
+                                        {preview ? (
                                             <img
-                                                src={taskDetails.passport}
-                                                alt="Current Passport"
+                                                src={preview}
+                                                alt="Preview"
                                                 className="image-preview"
                                             />
                                         ) : (
-                                            <label htmlFor="passport" className="upload-label">
-                                                <span>Yükləmək üçün klikləyin</span>
-                                                <div className="upload-icon">
-                                                    <img src={upload} alt="Upload Icon" />
-                                                </div>
-                                            </label>
-                                        )
-                                    )}
-
-                                    <div>
-                                        <input
-                                            type="file"
-                                            id="passport"
-                                            name="passport"
-                                            accept="image/*"
-                                            onChange={handleInputPhotoChange}
-                                            style={{ display: 'none' }}
-                                        />
-
-                                        {(preview || taskDetails?.passport) && (
-                                            <label htmlFor="passport" className="upload-button upload-passport-button">
-                                                {preview ? "Şəkli dəyişin" : "Yükləmək üçün klikləyin"}
-                                            </label>
+                                            taskDetails && taskDetails.passport ? (
+                                                <img
+                                                    src={taskDetails.passport}
+                                                    alt="Current Passport"
+                                                    className="image-preview"
+                                                />
+                                            ) : (
+                                                <label htmlFor="passport" className="upload-label">
+                                                    <span>Yükləmək üçün klikləyin</span>
+                                                    <div className="upload-icon">
+                                                        <img src={upload} alt="Upload Icon" />
+                                                    </div>
+                                                </label>
+                                            )
                                         )}
+
+                                        <div>
+                                            <input
+                                                type="file"
+                                                id="passport"
+                                                name="passport"
+                                                accept="image/*"
+                                                onChange={handleInputPhotoChange}
+                                                style={{ display: 'none' }}
+                                            />
+
+                                            {(preview || taskDetails?.passport) && (
+                                                <label htmlFor="passport" className="upload-button upload-passport-button">
+                                                    {preview ? "Şəkli dəyişin" : "Yükləmək üçün klikləyin"}
+                                                </label>
+                                            )}
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <button className='updateTask-button' type="submit">Yenilə</button>
-                        </div>
-                    </form>
-                ) : (
-                    <div className="taskType-modal-body">
-                        <div className="taskType-info">
-                            <div>
+                                <button className='updateTask-button' type="submit">Yenilə</button>
+                            </div>
+                        </form>
+                    ) : (
+                        <div className="taskType-modal-body" ref={modalRef}>
+                            <div className="taskType-info">
                                 <div>
-                                    <label><IoPersonOutline /> Müştəri</label>
-                                    <span>{taskDetails.full_name}</span>
-                                </div>
-                                <hr />
-                            </div>
-                            <div>
-                                <div>
-                                    <label><IoPersonOutline /> İcraçı</label>
-                                    <span>{taskDetails.first_name} {taskDetails.last_name}</span>
-                                </div>
-                                <hr />
-                            </div>
-                            <div>
-                                <div>
-                                    <label><GoClock /> Zaman</label>
-                                    {taskDetails.date && (
-                                        <span>{`${taskDetails.date.split('-')[2]} ${monthNames[parseInt(taskDetails.date.split('-')[1], 10) - 1]}${taskDetails.start_time && taskDetails.end_time
-                                            ? `, ${formatTime(taskDetails.start_time)} - ${formatTime(taskDetails.end_time)}`
-                                            : (!taskDetails.start_time && !taskDetails.end_time)
-                                                ? ""
-                                                : `${taskDetails.start_time ? formatTime(taskDetails.start_time) : "-"} - ${taskDetails.end_time ? formatTime(taskDetails.end_time) : "-"}`}`}</span>
-                                    )}
-                                </div>
-                                <hr />
-                            </div>
-                            <div>
-                                <div className='registrationNumber'>
-                                    <label><BsTelephone /> Qeydiyyat nömrəsi</label>
-                                    <span>{taskDetails.registration_number}</span>
-                                </div>
-                                <hr />
-                            </div>
-                            <div>
-                                <div className='taskType-phone'>
-                                    <label><LiaPhoneVolumeSolid /> Əlaqə nömrəsi</label>
-                                    <span>{taskDetails.contact_number}</span>
-                                </div>
-                                <hr />
-                            </div>
-                            <div>
-                                <div>
-                                    <label><MdOutlineMiscellaneousServices /> Xidmət</label>
-                                    <span className="type-icon">
-                                        {taskDetails.is_tv && <PiTelevisionSimple />}
-                                        {taskDetails.is_internet && <TfiWorld />}
-                                        {taskDetails.is_voice && <RiVoiceprintFill />}
-                                        {!taskDetails.is_tv && !taskDetails.is_internet && !taskDetails.is_voice && <span>-</span>}
-                                    </span>
-                                </div>
-                                <hr />
-                            </div>
-                            <div>
-                                <div className='taskType-status'>
-                                    <label><BiComment /> Status</label>
-                                    <span>{taskDetails.status}</span>
-                                </div>
-                                <hr />
-                            </div>
-                            <div>
-                                <div>
-                                    <label><MdOutlineEngineering /> Texniki qrup</label>
                                     <div>
-                                        {taskDetails.group && taskDetails.group.length > 0 ? (
-                                            taskDetails.group.map((group, index) => (
-                                                <div key={index}>
-                                                    <span>{group.group}</span>
-                                                </div>
-                                            ))
-                                        ) : (
-                                            <span>Texniki qrup seçilməyib.</span>
-                                        )}
-                                    </div>
-                                </div>
-                                <hr />
-                            </div>
-
-                            <div>
-                                <div className='taskType-address'>
-                                    <label><RiMapPinLine /> Adres</label>
-                                    <span>{taskDetails.location}</span>
-                                </div>
-                                <hr />
-                            </div>
-                            {taskDetails.passport &&
-                                <div>
-                                    <div className='taskType-photo'>
-                                        <label><FaPassport /> Müştərinin şəxsiyyət vəsiqəsi</label>
-                                        <img src={taskDetails.passport} alt="" />
+                                        <label><IoPersonOutline /> Müştəri</label>
+                                        <span>{taskDetails.full_name}</span>
                                     </div>
                                     <hr />
                                 </div>
+                                <div>
+                                    <div>
+                                        <label><IoPersonOutline /> İcraçı</label>
+                                        <span>{taskDetails.first_name} {taskDetails.last_name}</span>
+                                    </div>
+                                    <hr />
+                                </div>
+                                <div>
+                                    <div>
+                                        <label><GoClock /> Zaman</label>
+                                        {taskDetails.date && (
+                                            <span>{`${taskDetails.date.split('-')[2]} ${monthNames[parseInt(taskDetails.date.split('-')[1], 10) - 1]}${taskDetails.start_time && taskDetails.end_time
+                                                ? `, ${formatTime(taskDetails.start_time)} - ${formatTime(taskDetails.end_time)}`
+                                                : (!taskDetails.start_time && !taskDetails.end_time)
+                                                    ? ""
+                                                    : `${taskDetails.start_time ? formatTime(taskDetails.start_time) : "-"} - ${taskDetails.end_time ? formatTime(taskDetails.end_time) : "-"}`}`}</span>
+                                        )}
+                                    </div>
+                                    <hr />
+                                </div>
+                                <div>
+                                    <div className='registrationNumber'>
+                                        <label><BsTelephone /> Qeydiyyat nömrəsi</label>
+                                        <span>{taskDetails.registration_number}</span>
+                                    </div>
+                                    <hr />
+                                </div>
+                                <div>
+                                    <div className='taskType-phone'>
+                                        <label><LiaPhoneVolumeSolid /> Əlaqə nömrəsi</label>
+                                        <span>{taskDetails.contact_number}</span>
+                                    </div>
+                                    <hr />
+                                </div>
+                                <div>
+                                    <div>
+                                        <label><MdOutlineMiscellaneousServices /> Xidmət</label>
+                                        <span className="type-icon">
+                                            {taskDetails.is_tv && <PiTelevisionSimple />}
+                                            {taskDetails.is_internet && <TfiWorld />}
+                                            {taskDetails.is_voice && <RiVoiceprintFill />}
+                                            {!taskDetails.is_tv && !taskDetails.is_internet && !taskDetails.is_voice && <span>-</span>}
+                                        </span>
+                                    </div>
+                                    <hr />
+                                </div>
+                                <div>
+                                    <div className='taskType-status'>
+                                        <label><BiComment /> Status</label>
+                                        <span>{taskDetails.status}</span>
+                                    </div>
+                                    <hr />
+                                </div>
+                                <div>
+                                    <div>
+                                        <label><MdOutlineEngineering /> Texniki qrup</label>
+                                        <div>
+                                            {taskDetails.group && taskDetails.group.length > 0 ? (
+                                                taskDetails.group.map((group, index) => (
+                                                    <div key={index}>
+                                                        <span>{group.group}</span>
+                                                    </div>
+                                                ))
+                                            ) : (
+                                                <span>Texniki qrup seçilməyib.</span>
+                                            )}
+                                        </div>
+                                    </div>
+                                    <hr />
+                                </div>
+
+                                <div>
+                                    <div className='taskType-address'>
+                                        <label><RiMapPinLine /> Adres</label>
+                                        <span>{taskDetails.location}</span>
+                                    </div>
+                                    <hr />
+                                </div>
+                                {taskDetails.passport &&
+                                    <div>
+                                        <div className='taskType-photo'>
+                                            <label><FaPassport /> Müştərinin şəxsiyyət vəsiqəsi</label>
+                                            <img src={taskDetails.passport} alt="" />
+                                        </div>
+                                        <hr />
+                                    </div>
+                                }
+                            </div>
+                            {
+                                formData.latitude != null && formData.longitude != null ?
+                                    renderMap() : ''
                             }
-                        </div>
-                        {
-                            formData.latitude != null && formData.longitude != null ?
-                                renderMap() : ''
-                        }
-                        <div className="taskType-note">
-                            <div>
-                                <label>Qeyd</label>
-                                <span>{taskDetails.note}</span>
+                            <div className="taskType-note">
+                                <div>
+                                    <label>Qeyd</label>
+                                    <span>{taskDetails.note}</span>
+                                </div>
+                                <hr />
                             </div>
-                            <hr />
+
+                            <div className="service-details">
+                                {taskDetails.is_tv && taskDetails.tv && (
+                                    <div className="service-detail">
+                                        <h5>Tv xidməti<span>
+                                            {/* {isAdmin && ( */}
+                                            <MdOutlineEdit onClick={() => setIsUpdateTVModalOpen(true)} />
+                                            {/* )} */}
+                                        </span></h5>
+                                        <hr />
+                                        <div>
+                                            <div>
+                                                {taskDetails.tv.photo_modem ?
+                                                    <div className="detail-item">
+                                                        <label>Modemin şəkli:</label>
+                                                        <img src={taskDetails.tv.photo_modem || '-'} alt="" />
+                                                    </div>
+                                                    : <span>Şəkil əlavə olunmayıb</span>}
+                                                <hr />
+                                            </div>
+                                            <div>
+                                                <div className="detail-item">
+                                                    <label>Modem Serial Nömrəsi:</label>
+                                                    <span>{taskDetails.tv.modem_SN || '-'}</span>
+                                                </div>
+                                                <hr />
+                                            </div>
+                                            <div>
+                                                <div className="detail-item">
+                                                    <label>Rg6 Kabel:</label>
+                                                    <span>{taskDetails.tv.rg6_cable || '-'}</span>
+                                                </div>
+                                                <hr />
+                                            </div>
+                                            <div>
+                                                <div className="detail-item">
+                                                    <label>F Connector:</label>
+                                                    <span>{taskDetails.tv.f_connector || '-'}</span>
+                                                </div>
+                                                <hr />
+                                            </div>
+                                            <div>
+                                                <div className="detail-item">
+                                                    <label>Splitter:</label>
+                                                    <span>{taskDetails.tv.splitter || '-'}</span>
+                                                </div>
+                                                <hr />
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+                                {taskDetails.is_internet && taskDetails.internet && (
+                                    <div className="service-detail">
+                                        <h5>İnternet xidməti <span>
+                                            {/* {isAdmin && ( */}
+                                            <MdOutlineEdit onClick={() => setIsUpdateInternetModalOpen(true)} />
+                                            {/* )} */}
+                                        </span></h5>
+                                        <hr />
+                                        <div>
+                                            <div>
+                                                {taskDetails.internet.photo_modem ?
+                                                    <div className="detail-item">
+                                                        <label>Modemin şəkli:</label>
+                                                        <img src={taskDetails.internet.photo_modem || '-'} alt="" />
+                                                    </div>
+                                                    : <span>Şəkil əlavə olunmayıb</span>}
+                                                <hr />
+                                            </div>
+                                            <div>
+                                                <div className="detail-item">
+                                                    <label>Modem Serial Nömrəsi:</label>
+                                                    <span>{taskDetails.internet.modem_SN || '-'}</span>
+                                                </div>
+                                                <hr />
+                                            </div>
+                                            <div>
+                                                <div className="detail-item">
+                                                    <label>Optik Kabel:</label>
+                                                    <span>{taskDetails.internet.optical_cable || '-'}</span>
+                                                </div>
+                                                <hr />
+                                            </div>
+                                            <div>
+                                                <div className="detail-item">
+                                                    <label>Fastconnector:</label>
+                                                    <span>{taskDetails.internet.fastconnector || '-'}</span>
+                                                </div>
+                                                <hr />
+                                            </div>
+                                            <div>
+                                                <div className="detail-item">
+                                                    <label>Siqnal:</label>
+                                                    <span>{taskDetails.internet.siqnal || '-'}</span>
+                                                </div>
+                                                <hr />
+                                            </div>
+                                            <div>
+                                                <div className="detail-item">
+                                                    <label>İnternet tarifi:</label>
+                                                    <span>{taskDetails.internet.internet_packs || '-'}</span>
+                                                </div>
+                                                <hr />
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+                                {taskDetails.is_voice && taskDetails.voice && (
+                                    <div className="service-detail">
+                                        <h5>Səs xidməti <span>
+                                            {/* {isAdmin && ( */}
+                                            <MdOutlineEdit onClick={() => setIsUpdateVoiceModalOpen(true)} />
+                                            {/* )} */}
+                                        </span></h5>
+                                        <hr />
+                                        <div>
+                                            <div>
+                                                {taskDetails.voice.photo_modem ?
+                                                    <div className="detail-item">
+                                                        <label>Modemin şəkli:</label>
+                                                        <img src={taskDetails.voice.photo_modem || '-'} alt="" />
+                                                    </div>
+                                                    : <span>Şəkil əlavə olunmayıb</span>}
+                                                <hr />
+                                            </div>
+                                            <div>
+                                                <div className="detail-item">
+                                                    <label>Modem Serial Nömrəsi:</label>
+                                                    <span>{taskDetails.voice.modem_SN || '-'}</span>
+                                                </div>
+                                                <hr />
+                                            </div>
+                                            <div>
+                                                <div className="detail-item">
+                                                    <label>Ev Nömrəsi:</label>
+                                                    <span>{taskDetails.voice.home_number || '-'}</span>
+                                                </div>
+                                                <hr />
+                                            </div>
+                                            <div>
+                                                <div className="detail-item">
+                                                    <label>Şifrə:</label>
+                                                    <span>{taskDetails.voice.password || '-'}</span>
+                                                </div>
+                                                <hr />
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* {userType === 'Texnik' && shouldShowAddSurveyButton && ( */}
+                            {shouldShowAddSurveyButton && (
+                                <button
+                                    className="add-survey-button"
+                                    onClick={openAddSurveyModal}
+                                >
+                                    <p>Anket əlavə et</p>
+                                    <MdAdd />
+                                </button>
+                            )}
+
                         </div>
-
-                        <div className="service-details">
-                            {taskDetails.is_tv && taskDetails.tv && (
-                                <div className="service-detail">
-                                    <h5>Tv xidməti<span>
-                                        {/* {isAdmin && ( */}
-                                        <MdOutlineEdit onClick={() => setIsUpdateTVModalOpen(true)} />
-                                        {/* )} */}
-                                    </span></h5>
-                                    <hr />
-                                    <div>
-                                        <div>
-                                            {taskDetails.tv.photo_modem ?
-                                                <div className="detail-item">
-                                                    <label>Modemin şəkli:</label>
-                                                    <img src={taskDetails.tv.photo_modem || '-'} alt="" />
-                                                </div>
-                                                : <span>Şəkil əlavə olunmayıb</span>}
-                                            <hr />
-                                        </div>
-                                        <div>
-                                            <div className="detail-item">
-                                                <label>Modem Serial Nömrəsi:</label>
-                                                <span>{taskDetails.tv.modem_SN || '-'}</span>
-                                            </div>
-                                            <hr />
-                                        </div>
-                                        <div>
-                                            <div className="detail-item">
-                                                <label>Rg6 Kabel:</label>
-                                                <span>{taskDetails.tv.rg6_cable || '-'}</span>
-                                            </div>
-                                            <hr />
-                                        </div>
-                                        <div>
-                                            <div className="detail-item">
-                                                <label>F Connector:</label>
-                                                <span>{taskDetails.tv.f_connector || '-'}</span>
-                                            </div>
-                                            <hr />
-                                        </div>
-                                        <div>
-                                            <div className="detail-item">
-                                                <label>Splitter:</label>
-                                                <span>{taskDetails.tv.splitter || '-'}</span>
-                                            </div>
-                                            <hr />
-                                        </div>
-                                    </div>
-                                </div>
-                            )}
-                            {taskDetails.is_internet && taskDetails.internet && (
-                                <div className="service-detail">
-                                    <h5>İnternet xidməti <span>
-                                        {/* {isAdmin && ( */}
-                                        <MdOutlineEdit onClick={() => setIsUpdateInternetModalOpen(true)} />
-                                        {/* )} */}
-                                    </span></h5>
-                                    <hr />
-                                    <div>
-                                        <div>
-                                            {taskDetails.internet.photo_modem ?
-                                                <div className="detail-item">
-                                                    <label>Modemin şəkli:</label>
-                                                    <img src={taskDetails.internet.photo_modem || '-'} alt="" />
-                                                </div>
-                                                : <span>Şəkil əlavə olunmayıb</span>}
-                                            <hr />
-                                        </div>
-                                        <div>
-                                            <div className="detail-item">
-                                                <label>Modem Serial Nömrəsi:</label>
-                                                <span>{taskDetails.internet.modem_SN || '-'}</span>
-                                            </div>
-                                            <hr />
-                                        </div>
-                                        <div>
-                                            <div className="detail-item">
-                                                <label>Optik Kabel:</label>
-                                                <span>{taskDetails.internet.optical_cable || '-'}</span>
-                                            </div>
-                                            <hr />
-                                        </div>
-                                        <div>
-                                            <div className="detail-item">
-                                                <label>Fastconnector:</label>
-                                                <span>{taskDetails.internet.fastconnector || '-'}</span>
-                                            </div>
-                                            <hr />
-                                        </div>
-                                        <div>
-                                            <div className="detail-item">
-                                                <label>Siqnal:</label>
-                                                <span>{taskDetails.internet.siqnal || '-'}</span>
-                                            </div>
-                                            <hr />
-                                        </div>
-                                        <div>
-                                            <div className="detail-item">
-                                                <label>İnternet tarifi:</label>
-                                                <span>{taskDetails.internet.internet_packs || '-'}</span>
-                                            </div>
-                                            <hr />
-                                        </div>
-                                    </div>
-                                </div>
-                            )}
-                            {taskDetails.is_voice && taskDetails.voice && (
-                                <div className="service-detail">
-                                    <h5>Səs xidməti <span>
-                                        {/* {isAdmin && ( */}
-                                        <MdOutlineEdit onClick={() => setIsUpdateVoiceModalOpen(true)} />
-                                        {/* )} */}
-                                    </span></h5>
-                                    <hr />
-                                    <div>
-                                        <div>
-                                            {taskDetails.voice.photo_modem ?
-                                                <div className="detail-item">
-                                                    <label>Modemin şəkli:</label>
-                                                    <img src={taskDetails.voice.photo_modem || '-'} alt="" />
-                                                </div>
-                                                : <span>Şəkil əlavə olunmayıb</span>}
-                                            <hr />
-                                        </div>
-                                        <div>
-                                            <div className="detail-item">
-                                                <label>Modem Serial Nömrəsi:</label>
-                                                <span>{taskDetails.voice.modem_SN || '-'}</span>
-                                            </div>
-                                            <hr />
-                                        </div>
-                                        <div>
-                                            <div className="detail-item">
-                                                <label>Ev Nömrəsi:</label>
-                                                <span>{taskDetails.voice.home_number || '-'}</span>
-                                            </div>
-                                            <hr />
-                                        </div>
-                                        <div>
-                                            <div className="detail-item">
-                                                <label>Şifrə:</label>
-                                                <span>{taskDetails.voice.password || '-'}</span>
-                                            </div>
-                                            <hr />
-                                        </div>
-                                    </div>
-                                </div>
-                            )}
-                        </div>
-
-                        {/* {userType === 'Texnik' && shouldShowAddSurveyButton && ( */}
-                        {shouldShowAddSurveyButton && (
-                            <button
-                                className="add-survey-button"
-                                onClick={openAddSurveyModal}
-                            >
-                                <p>Anket əlavə et</p>
-                                <MdAdd />
-                            </button>
-                        )}
-
-                    </div>
-                )}
-            </div>
+                    )
+                }
+            </div >
             {
                 isAddSurveyModalOpen && (
                     <AddSurveyModal

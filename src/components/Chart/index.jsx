@@ -68,7 +68,7 @@ class ApexChart extends React.Component {
                 },
 
                 fill: {
-                    colors: ["#FF5449", "#36C43D", "transparent"],
+                    colors: ["#FF5449", "#005ABF", "transparent"],
                 },
                 tooltip: {
                     y: {

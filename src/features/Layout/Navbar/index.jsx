@@ -168,6 +168,7 @@ const Navbar = ({ onToggleSidebar }) => {
                 <div
                     onClick={handleNotificationClick}
                     style={getLinkStyle("/notifications/")}
+                    className="notification-icon-div"
                 >
                     <IoNotifications />
                     <span>{notificationNumber}</span>
