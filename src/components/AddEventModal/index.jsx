@@ -1,23 +1,25 @@
-import { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
+import { useState, useEffect, useRef } from "react";
+import axios from "axios";
 import "./eventModal.css";
 import { IoMdClose } from "react-icons/io";
 import { RiMapPinAddFill } from "react-icons/ri";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
+import DatePicker from "react-datepicker";
+import { az } from "date-fns/locale";
 
 const MEETING_TYPES = [
-  { value: 'Şənlik', label: 'Şənlik' },
-  { value: 'Toplantı', label: 'Toplantı' },
-  { value: 'Konfrans', label: 'Konfrans' },
-  { value: 'Seminar', label: 'Seminar' }
+  { value: "Şənlik", label: "Şənlik" },
+  { value: "Toplantı", label: "Toplantı" },
+  { value: "Konfrans", label: "Konfrans" },
+  { value: "Seminar", label: "Seminar" },
 ];
 
 const AddEventModal = ({ isOpen, onClose, refreshMeetings }) => {
-  const [eventName, setEventName] = useState('');
-  const [eventDate, setEventDate] = useState('');
-  const [eventTime, setEventTime] = useState('');
-  const [eventLocation, setEventLocation] = useState('');
-  const [eventDescription, setEventDescription] = useState('');
+  const [eventName, setEventName] = useState("");
+  const [eventDate, setEventDate] = useState("");
+  const [eventTime, setEventTime] = useState("");
+  const [eventLocation, setEventLocation] = useState("");
+  const [eventDescription, setEventDescription] = useState("");
   const [meetingType, setMeetingType] = useState(null);
   const [participants, setParticipants] = useState([]);
   const [selectedParticipants, setSelectedParticipants] = useState([]);
@@ -33,18 +35,21 @@ const AddEventModal = ({ isOpen, onClose, refreshMeetings }) => {
     if (isOpen) {
       const fetchParticipants = async () => {
         try {
-          const response = await axios.get('http://135.181.42.192/accounts/users/', {
-            headers: {
-              'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+          const response = await axios.get(
+            "http://135.181.42.192/accounts/users/",
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+              },
             }
-          });
+          );
           if (response.data) {
             setParticipants(response.data);
           } else {
-            console.error('Unexpected response format:', response);
+            console.error("Unexpected response format:", response);
           }
         } catch (error) {
-          console.error('Error fetching participants:', error);
+          console.error("Error fetching participants:", error);
         }
       };
 
@@ -54,38 +59,49 @@ const AddEventModal = ({ isOpen, onClose, refreshMeetings }) => {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (isMeetingTypeModalOpen && meetingTypeModalRef.current && !meetingTypeModalRef.current.contains(event.target)) {
+      if (
+        isMeetingTypeModalOpen &&
+        meetingTypeModalRef.current &&
+        !meetingTypeModalRef.current.contains(event.target)
+      ) {
         setIsMeetingTypeModalOpen(false);
       }
-      if (isParticipantsModalOpen && participantsModalRef.current && !participantsModalRef.current.contains(event.target)) {
+      if (
+        isParticipantsModalOpen &&
+        participantsModalRef.current &&
+        !participantsModalRef.current.contains(event.target)
+      ) {
         setIsParticipantsModalOpen(false);
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isMeetingTypeModalOpen, isParticipantsModalOpen]);
 
   const resetModalState = () => {
-    setEventName('');
-    setEventDate('');
-    setEventTime('');
-    setEventLocation('');
-    setEventDescription('');
+    setEventName("");
+    setEventDate("");
+    setEventTime("");
+    setEventLocation("");
+    setEventDescription("");
     setMeetingType(null);
     setSelectedParticipants([]);
+    setError({});
   };
 
   const validateForm = () => {
     const newErrors = {};
-    if (!eventName) newErrors.eventName = 'Tədbirin adını daxil edin!';
-    if (!eventDate) newErrors.eventDate = 'Tarixi daxil edin!';
-    if (!eventTime) newErrors.eventTime = 'Saatı daxil edin!';
-    if (!eventLocation) newErrors.eventLocation = 'Keçiriləcəyi yeri daxil edin!';
-    if (!meetingType) newErrors.meetingType = 'Görüş növünü seçin!';
-    if (selectedParticipants.length === 0) newErrors.participants = 'İştirakçıları seçin!';
+    if (!eventName) newErrors.eventName = "Tədbirin adını daxil edin!";
+    if (!eventDate) newErrors.eventDate = "Tarixi daxil edin!";
+    if (!eventTime) newErrors.eventTime = "Saatı daxil edin!";
+    if (!eventLocation)
+      newErrors.eventLocation = "Keçiriləcəyi yeri daxil edin!";
+    if (!meetingType) newErrors.meetingType = "Görüş növünü seçin!";
+    if (selectedParticipants.length === 0)
+      newErrors.participants = "İştirakçıları seçin!";
     return newErrors;
   };
 
@@ -103,27 +119,31 @@ const AddEventModal = ({ isOpen, onClose, refreshMeetings }) => {
     const eventData = {
       title: eventName,
       meeting_type: meetingType,
-      participants: selectedParticipants.map(participant => participant.id),
+      participants: selectedParticipants.map((participant) => participant.id),
       date: `${eventDate}T${eventTime}:00`,
-      meeting_description: eventDescription
+      meeting_description: eventDescription,
     };
 
     try {
-      const response = await axios.post('http://135.181.42.192/services/create_meeting/', eventData, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+      const response = await axios.post(
+        "http://135.181.42.192/services/create_meeting/",
+        eventData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          },
         }
-      });
+      );
       if (response.status === 201) {
         refreshMeetings(response.data);
         onClose();
         resetModalState();
       }
-      console.log('Event added:', response.data);
+      console.log("Event added:", response.data);
     } catch (error) {
-      console.error('Error adding event:', error);
-      setError({ general: 'Tədbir əlavə edilərkən xəta baş verdi.' });
+      console.error("Error adding event:", error);
+      setError({ general: "Tədbir əlavə edilərkən xəta baş verdi." });
     } finally {
       setLoading(false);
     }
@@ -133,8 +153,10 @@ const AddEventModal = ({ isOpen, onClose, refreshMeetings }) => {
     return null;
   }
 
-  const toggleMeetingTypeModal = () => setIsMeetingTypeModalOpen(!isMeetingTypeModalOpen);
-  const toggleParticipantsModal = () => setIsParticipantsModalOpen(!isParticipantsModalOpen);
+  const toggleMeetingTypeModal = () =>
+    setIsMeetingTypeModalOpen(!isMeetingTypeModalOpen);
+  const toggleParticipantsModal = () =>
+    setIsParticipantsModalOpen(!isParticipantsModalOpen);
 
   const handleMeetingTypeSelect = (type) => {
     setMeetingType(type);
@@ -142,62 +164,122 @@ const AddEventModal = ({ isOpen, onClose, refreshMeetings }) => {
   };
 
   const handleParticipantSelect = (participant) => {
-    setSelectedParticipants(prevParticipants => {
-      if (prevParticipants.some(p => p.id === participant.id)) {
-        return prevParticipants.filter(p => p.id !== participant.id);
+    setSelectedParticipants((prevParticipants) => {
+      if (prevParticipants.some((p) => p.id === participant.id)) {
+        return prevParticipants.filter((p) => p.id !== participant.id);
       } else {
         return [...prevParticipants, participant];
       }
     });
   };
 
-
   return (
     <div className="event-modal-overlay">
       <div className="event-modal">
         <div className="modal-header">
           <h5>Yeni tədbir</h5>
-          <button onClick={() => { onClose(); resetModalState(); }}><IoMdClose /></button>
+          <button
+            onClick={() => {
+              onClose();
+              resetModalState();
+            }}
+          >
+            <IoMdClose />
+          </button>
         </div>
         <hr />
         <div className="modal-body">
-          <label>
-            Tədbirin adı:
-            <input type="text" value={eventName} onChange={(e) => setEventName(e.target.value)} />
-            {error.eventName && <p className="error-message">{error.eventName}</p>}
-          </label>
+          <section className="meeting-label-input">
+            <label>
+              Tədbirin adı:
+            </label>
+            <input
+              type="text"
+              value={eventName}
+              onChange={(e) => setEventName(e.target.value)}
+            />
+          </section>
+          {error.eventName && (
+            <p className="error-message">{error.eventName}</p>
+          )}
+          <section className="meeting-label-input">
+            <label>
+              Tədbir haqqında:
+            </label>
+            <textarea
+              value={eventDescription}
+              onChange={(e) => setEventDescription(e.target.value)}
+            />
+          </section>
+          {error.general && <p className="error-message">{error.general}</p>}
+
           <div className="date-time-container">
-            <label>
-              Keçiriləcəyi gün:
-              <input type="date" value={eventDate} onChange={(e) => setEventDate(e.target.value)} />
-              {error.eventDate && <p className="error-message">{error.eventDate}</p>}
-            </label>
-            <label>
-              Saat:
-              <input type="time" value={eventTime} onChange={(e) => setEventTime(e.target.value)} />
-              {error.eventTime && <p className="error-message">{error.eventTime}</p>}
-            </label>
-          </div>
-          <div className='meetingType-participants'>
-            <div>
-              <label onClick={toggleMeetingTypeModal}>
-                Görüş növü:
-                <div> <span>
-                  {meetingType ? meetingType : 'Seçin'}
-                  <span>{isMeetingTypeModalOpen ? <FaChevronUp /> : <FaChevronDown />}</span>
-                </span>
-                </div>
+            <section className="meeting-label-input">
+              <label>
+                Keçiriləcəyi gün:
               </label>
+              <input
+                type="date"
+                value={eventDate}
+                onChange={(e) => setEventDate(e.target.value)}
+                lang="az"
+              />
+              {error.eventDate && (
+                <p className="error-message">{error.eventDate}</p>
+              )}
+            </section>
+            <section className="meeting-label-input">
+              <label>
+                Saat:
+              </label>
+              <input
+                type="time"
+                value={eventTime}
+                onChange={(e) => setEventTime(e.target.value)}
+              />
+              {error.eventTime && (
+                <p className="error-message">{error.eventTime}</p>
+              )}
+            </section>
+
+          </div>
+          <div className="meetingType-participants">
+            <div>
+              <section className="meeting-label-input">
+                <label>
+                  Görüş növü:
+                </label>
+                <div onClick={toggleMeetingTypeModal}>
+                  <span>
+                    {meetingType ? meetingType : "Seçin"}
+                    <span>
+                      {isMeetingTypeModalOpen ? (
+                        <FaChevronUp />
+                      ) : (
+                        <FaChevronDown />
+                      )}
+                    </span>
+                  </span>
+                </div>
+              </section>
               {isMeetingTypeModalOpen && (
-                <div className="modal-overlay-meetingType" ref={meetingTypeModalRef}>
+                <div
+                  className="modal-overlay-meetingType"
+                  ref={meetingTypeModalRef}
+                >
                   <div className="modal-content">
                     <div className="modal-header">
                       <h4>Görüş növü seçin</h4>
-                      <button onClick={toggleMeetingTypeModal}><IoMdClose /></button>
+                      <button onClick={toggleMeetingTypeModal}>
+                        <IoMdClose />
+                      </button>
                     </div>
                     <div className="modal-body">
-                      {MEETING_TYPES.map(type => (
-                        <div key={type.value} onClick={() => handleMeetingTypeSelect(type.value)}>
+                      {MEETING_TYPES.map((type) => (
+                        <div
+                          key={type.value}
+                          onClick={() => handleMeetingTypeSelect(type.value)}
+                        >
                           {type.label}
                         </div>
                       ))}
@@ -205,27 +287,52 @@ const AddEventModal = ({ isOpen, onClose, refreshMeetings }) => {
                   </div>
                 </div>
               )}
-              {error.meetingType && <p className="error-message">{error.meetingType}</p>}
+              {error.meetingType && (
+                <p className="error-message">{error.meetingType}</p>
+              )}
             </div>
             <div>
-              <label onClick={toggleParticipantsModal}>
-                İştirakçılar:
-                <div>
-                  {selectedParticipants.length > 0
-                    ? selectedParticipants.map(p => `${p.first_name} ${p.last_name}`).join(', ')
-                    : <span>Seçin <span>{isParticipantsModalOpen ? <FaChevronUp /> : <FaChevronDown />}</span></span>}
+              <section className="meeting-label-input">
+                <label>
+                  İştirakçılar:
+                </label>
+                <div onClick={toggleParticipantsModal}>
+                  {selectedParticipants.length > 0 ? (
+                    selectedParticipants
+                      .map((p) => `${p.first_name} ${p.last_name}`)
+                      .join(", ")
+                  ) : (
+                    <span>
+                      Seçin{" "}
+                      <span>
+                        {isParticipantsModalOpen ? (
+                          <FaChevronUp />
+                        ) : (
+                          <FaChevronDown />
+                        )}
+                      </span>
+                    </span>
+                  )}
                 </div>
-              </label>
+              </section>
               {isParticipantsModalOpen && (
-                <div className="modal-overlay-participants" ref={participantsModalRef}>
+                <div
+                  className="modal-overlay-participants"
+                  ref={participantsModalRef}
+                >
                   <div className="modal-content">
                     <div className="modal-header">
                       <h4>İştirakçıları seçin</h4>
-                      <button onClick={toggleParticipantsModal}><IoMdClose /></button>
+                      <button onClick={toggleParticipantsModal}>
+                        <IoMdClose />
+                      </button>
                     </div>
                     <div className="modal-body">
-                      {participants.map(participant => (
-                        <div key={participant.id} onClick={() => handleParticipantSelect(participant)}>
+                      {participants.map((participant) => (
+                        <div
+                          key={participant.id}
+                          onClick={() => handleParticipantSelect(participant)}
+                        >
                           {participant.first_name} {participant.last_name}
                         </div>
                       ))}
@@ -233,22 +340,28 @@ const AddEventModal = ({ isOpen, onClose, refreshMeetings }) => {
                   </div>
                 </div>
               )}
-              {error.participants && <p className="error-message">{error.participants}</p>}
+              {error.participants && (
+                <p className="error-message">{error.participants}</p>
+              )}
             </div>
           </div>
-          <label>
-            Keçiriləcəyi yer:
-            <input type="text" value={eventLocation} onChange={(e) => setEventLocation(e.target.value)} />
+          <section className="meeting-label-input">
+            <label>
+              Keçiriləcəyi yer:
+            </label>
+            <input
+              type="text"
+              value={eventLocation}
+              onChange={(e) => setEventLocation(e.target.value)}
+            />
             <RiMapPinAddFill />
-            {error.eventLocation && <p className="error-message">{error.eventLocation}</p>}
-          </label>
-          <label>
-            Tədbir haqqında:
-            <textarea value={eventDescription} onChange={(e) => setEventDescription(e.target.value)} />
-          </label>
-          {error.general && <p className="error-message">{error.general}</p>}
+          </section>
+
+          {error.eventLocation && (
+            <p className="error-message">{error.eventLocation}</p>
+          )}
           <button onClick={handleAddEvent} disabled={loading}>
-            {loading ? 'Yüklənir...' : 'Tədbiri əlavə et'}
+            {loading ? "Yüklənir..." : "Tədbiri əlavə et"}
           </button>
         </div>
       </div>

@@ -42,6 +42,7 @@ const AddGroupModal = ({ onClose, onGroupAdded }) => {
                                 value={group}
                                 onChange={(e) => setGroup(e.target.value)}
                                 required
+                                maxLength={30}
                             />
                         </div>
                         <div className='form-group'>
@@ -52,6 +53,7 @@ const AddGroupModal = ({ onClose, onGroupAdded }) => {
                                 value={region}
                                 onChange={(e) => setRegion(e.target.value)}
                                 required
+                                maxLength={30}
                             />
                         </div>
                     </div>

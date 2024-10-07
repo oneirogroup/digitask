@@ -50,9 +50,13 @@
   margin-bottom: 20px;
 }
 
-.event-modal label, .meetingType-participants label {
+.event-modal section, .meetingType-participants section {
   display: block;
   margin-bottom: 10px;
+  width: 100%;
+}
+
+.meetingType-participants section label, .event-modal label {
   width: 100%;
   font-family: Nunito Sans;
   font-size: 16px;
@@ -67,7 +71,7 @@
 .event-modal input[type="text"],
 .event-modal input[type="date"],
 .event-modal input[type="time"],
-.event-modal textarea, .meetingType-participants label > div {
+.event-modal textarea, .meetingType-participants section > div {
   width: 100%;
   padding: 7px;
   margin-top: 4px;
@@ -80,7 +84,7 @@
   font-size: 16px;
 }
 
-.meetingType-participants label > div{
+.meetingType-participants section > div{
   color: black;
   font-family: Nunito Sans;
   font-size: 16px;
@@ -89,23 +93,32 @@
   align-items: center;
 }
 
-.meetingType-participants label > div > span {
+.meetingType-participants section > div > span {
   display: flex;
     justify-content: space-between;
     width: 100%;
     align-items: center;
 }
 
-.meetingType-participants label > div span svg{
+.meetingType-participants section > div > span > span{
+  display: flex;
+}
+
+.meetingType-participants section > div span svg{
   font-size: 16px;
   color: black !important;
 }
 
 .event-modal textarea {
-  height: 84px;
+  max-width: 393px;
+  width: 100%;
+  height: 100px;
+  overflow: auto; 
+  resize: none;
+  scrollbar-width: thin;
 }
 
-.event-modal div:last-of-type > button {
+.event-modal div:last-of-type:not(.meeting-datepicker button) > button {
   margin-top: 10px;
   background-color: #005ABF;
   color: white;
@@ -141,18 +154,18 @@
 }
 
 
-.event-modal div>label:nth-of-type(2){
+.event-modal div>section:nth-of-type(3){
   position: relative;
 }
 
-.event-modal div>label:nth-of-type(2) svg{
+.event-modal div>section:nth-of-type(3) svg{
   position: absolute;
   right: 10px;
   top: 34px;
   color: #005ABF;
 }
 
-.meetingType-participants label{
+.meetingType-participants section{
   position: relative;
 }
 

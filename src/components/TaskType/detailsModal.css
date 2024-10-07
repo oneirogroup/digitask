@@ -22,23 +22,38 @@
     box-sizing: border-box;
 }
 
-.taskType-modal-title {
+.taskType-modal-title div:first-of-type h5{
+  margin: 0 auto;
+
+}
+
+.taskType-modal-title div{
+  display: flex;
+}
+
+.taskType-modal-title div div:first-of-type{
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
 
-.taskType-modal-title h5 {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 26px;
-    font-weight: 500;
-    margin: 0 auto;
+
+.taskType-modal-title{
+  display: flex;
+  align-items: center;
 }
 
-.taskType-modal-title > div {
+
+.taskType-modal-title h5 {
+  font-family: Montserrat, sans-serif;
+  font-size: 26px;
+  font-weight: 500;
+  margin: 0 auto;
+}
+
+.taskType-modal-title >  div div {
     display: flex;
     gap: 4px;
-    align-items: center;
 }
 
 .taskType-modal-title span {

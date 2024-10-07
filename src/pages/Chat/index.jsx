@@ -127,6 +127,12 @@ const Chat = () => {
         setInputValue('');
     };
 
+    const formatDate = (dateString) => {
+        const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false, locale: 'az-AZ' };
+        const date = new Date(dateString);
+        return new Intl.DateTimeFormat('az-AZ', options).format(date);
+    };
+
     useEffect(() => {
         connectWebSocketChat();
 
@@ -276,8 +282,10 @@ const Chat = () => {
                                     {message.user.first_name}
                                 </div>
                             )}
+
                             <div className="text">{message.content}</div>
-                            <div className="time">{message.timestamp}</div>
+
+                            <div className="time">{new Date(message.timestamp).toLocaleString()}</div>
                         </div>
                     </div>
                 );
@@ -423,8 +431,6 @@ const Chat = () => {
                             {renderMessages()}
                         </div>
                         <div className="chat-input">
-
-
                             <div className="chat-input-icon">
                                 <input class="messageInput" onKeyDown={handleKeyDown} value={inputValue} onChange={(e) => setInputValue(e.target.value)} type="text" placeholder="Mesaj yaz" />
                                 <BsFillSendFill onClick={handleSendMessage} className="send-icon" />

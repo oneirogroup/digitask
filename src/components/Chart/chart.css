@@ -13,6 +13,11 @@
     font-size: 20px;
 }
 
+.year-filter span{
+    font-family: Montserrat;
+    font-weight: 500;
+}
+
 .year-filter svg {
     cursor: pointer;
 }

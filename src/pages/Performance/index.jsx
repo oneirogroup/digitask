@@ -199,6 +199,7 @@ function Index() {
               className="date-picker"
               value={start_date}
               onClick={handleStartDateClick}
+              placeholder="ay/gün/il"
               readOnly
             />
             <input
@@ -206,6 +207,7 @@ function Index() {
               className="date-picker"
               value={end_date}
               onClick={handleEndDateClick}
+              placeholder="ay/gün/il"
               readOnly
             />
           </div>
