@@ -20,7 +20,13 @@ AuthHttp.waitForToken({ timeout: 1e5 })
   .catch(console.log)
   .catch(AuthHttp.stopWaiting);
 
-const queryClient = new QueryClient({});
+const queryClient = new QueryClient({
+  defaultOptions: {
+    mutations: {
+      onError: logger.error.bind(logger, "digitask.native:providers:query-client.mutation-error")
+    }
+  }
+});
 const onAppStateChange = (status: AppStateStatus) => {
   if (Platform.OS !== "web") {
     focusManager.setFocused(status === "active");
