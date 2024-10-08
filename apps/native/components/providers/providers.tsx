@@ -1,6 +1,5 @@
 import { FC, PropsWithChildren, useEffect } from "react";
 import { AppState, AppStateStatus, Platform } from "react-native";
-import { ClickOutsideProvider } from "react-native-click-outside";
 
 import { useAsyncStorageDevTools } from "@dev-plugins/async-storage";
 import { useReactQueryDevTools } from "@dev-plugins/react-query";
@@ -39,9 +38,7 @@ export const Providers: FC<PropsWithChildren> = ({ children }) => {
 
   return (
     <TailwindConfigProvider>
-      <ClickOutsideProvider>
-        <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-      </ClickOutsideProvider>
+      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
     </TailwindConfigProvider>
   );
 };

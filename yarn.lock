@@ -1484,7 +1484,6 @@ __metadata:
     react: "npm:18.2.0"
     react-hook-form: "npm:^7.53.0"
     react-native: "npm:0.74.5"
-    react-native-click-outside: "npm:^0.1.1"
     react-native-gesture-handler: "npm:~2.16.1"
     react-native-reanimated: "npm:~3.10.1"
     react-native-safe-area-context: "npm:4.10.5"
@@ -15494,16 +15493,6 @@ __metadata:
   version: 17.0.2
   resolution: "react-is@npm:17.0.2"
   checksum: 10c0/2bdb6b93fbb1820b024b496042cce405c57e2f85e777c9aabd55f9b26d145408f9f74f5934676ffdc46f3dcff656d78413a6e43968e7b3f92eea35b3052e9053
-  languageName: node
-  linkType: hard
-
-"react-native-click-outside@npm:^0.1.1":
-  version: 0.1.1
-  resolution: "react-native-click-outside@npm:0.1.1"
-  peerDependencies:
-    react: "*"
-    react-native: "*"
-  checksum: 10c0/9857295c2b7b262b317132d1d99687ec6d3d7f4faedc9cb6db0c898594d2bafcfa80181cdaf6241062a047c9c7f2c598a5d63828df841f53d3d35a07cf03190b
   languageName: node
   linkType: hard
 
