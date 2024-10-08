@@ -17,8 +17,8 @@ const PasswordResetRequest = () => {
         event.preventDefault();
         try {
             const response = await axios.post('http://135.181.42.192/accounts/password-reset/', { email });
-            const { email: responseEmail } = response.data; 
-            navigate('/re-password-code', { state: { email: responseEmail } }); 
+            const { email: responseEmail } = response.data;
+            navigate('/re-password-code', { state: { email: responseEmail } });
         } catch (error) {
             setMessage('Xəta baş verdi. Zəhmət olmasa bir daha cəhd edin.');
         }
@@ -37,15 +37,15 @@ const PasswordResetRequest = () => {
                     <Form onSubmit={handleSubmit}>
                         <div className="re-password-page">
                             <div>
-                                <p>Mail adresinizi daxil edin.</p>
+                                <p>Mail ünvanınızı daxil edin.</p>
                             </div>
                             <div className="re-password-mail">
-                                <p>Mail adresiniz</p>
+                                <p>Mail ünvanınız</p>
                                 <label htmlFor="">
                                     <CiMail />
                                     <input
                                         type="email"
-                                        placeholder="Mail adresiniz"
+                                        placeholder="Mail ünvanınız"
                                         value={email}
                                         onChange={(e) => setEmail(e.target.value)}
                                         required

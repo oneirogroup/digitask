@@ -1,22 +1,10 @@
 import axios from 'axios';
 import { useState } from 'react';
 
-const refreshAccessToken = async () => {
-    const refresh_token = localStorage.getItem('refresh_token');
-    if (!refresh_token) {
-        throw new Error('No refresh token available');
-    }
-
-    const response = await axios.post('http://135.181.42.192/accounts/token/refresh/', { refresh: refresh_token });
-    const { access } = response.data;
-    localStorage.setItem('access_token', access);
-    axios.defaults.headers.common['Authorization'] = `Bearer ${access}`;
-};
-
 const IncrementItemForm = ({ onClose, itemId }) => {
     const [productProvider, setProductProvider] = useState("");
     const [number, setNumber] = useState("");
-   
+
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
     const [productProviderError, setProductProviderError] = useState("");
@@ -36,7 +24,7 @@ const IncrementItemForm = ({ onClose, itemId }) => {
             setProductProviderError("");
         }
 
-   
+
 
         if (!number || number <= 0) {
             setNumberError("Bu sahəni doldurmalısınız və sayı müsbət olmalıdır");
@@ -76,7 +64,6 @@ const IncrementItemForm = ({ onClose, itemId }) => {
         } catch (error) {
             if (error.response && (error.response.status === 401 || error.response.status === 403)) {
                 try {
-                    await refreshAccessToken();
                     await handleSubmit(e);
                 } catch (refreshError) {
                     console.error('Token refresh failed:', refreshError);
@@ -108,7 +95,7 @@ const IncrementItemForm = ({ onClose, itemId }) => {
                             <input type="number" value={number} onChange={(e) => setNumber(e.target.value)} />
                             {numberError && <p className="error-message">{numberError}</p>}
                         </label>
-                       
+
                     </div>
                     <button type="submit" className="submit-btn">İdxal et</button>
                     {error && <p className="error">{error}</p>}

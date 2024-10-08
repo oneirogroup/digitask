@@ -1,6 +1,6 @@
 import {
-  REGISTER_SUCCESS,
-  REGISTER_FAIL,
+//   REGISTER_SUCCESS,
+//   REGISTER_FAIL,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
@@ -16,16 +16,16 @@ export default function (state = initialState, action) {
   const { type, payload } = action;
 
   switch (type) {
-    case REGISTER_SUCCESS:
-      return {
-        ...state,
-        isLoggedIn: false,
-      };
-    case REGISTER_FAIL:
-      return {
-        ...state,
-        isLoggedIn: false,
-      };
+    // case REGISTER_SUCCESS:
+    //   return {
+    //     ...state,
+    //     isLoggedIn: false,
+    //   };
+    // case REGISTER_FAIL:
+    //   return {
+    //     ...state,
+    //     isLoggedIn: false,
+    //   };
     case LOGIN_SUCCESS:
       return {
         ...state,
@@ -48,4 +48,3 @@ export default function (state = initialState, action) {
       return state;
   }
 }
-

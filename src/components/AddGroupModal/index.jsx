@@ -10,7 +10,7 @@ const AddGroupModal = ({ onClose, onGroupAdded }) => {
         e.preventDefault();
 
         try {
-            const token = localStorage.getItem('access_token');
+            const token = localStorage.getItem('refresh_token');
             const response = await axios.post('http://135.181.42.192/services/create_employee_group', { group, region }, {
                 headers: {
                     'Authorization': `Bearer ${token}`

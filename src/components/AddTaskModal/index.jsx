@@ -213,6 +213,7 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
         return groups.map((group) => (
             <div key={group.id} className="dropdown-task-item" onClick={() => handleGroupSelect(group.id)}>
                 <input
+                    onClick={() => handleGroupSelect(group.id)}
                     type="checkbox"
                     checked={formData.group.includes(group.id)}
                     onChange={() => handleGroupSelect(group.id)}
@@ -293,7 +294,7 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
 
     return (
         <div className="task-modal" onClick={onClose}>
-            <div className="task-modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="task-modal-content">
                 <div className='task-modal-title'>
                     <h5>Yeni tapşırıq</h5>
                     <span className="close" onClick={onClose}>&times;</span>

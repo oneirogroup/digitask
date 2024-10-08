@@ -14,18 +14,6 @@ import { MdOutlineEdit } from "react-icons/md";
 import './tasks.css';
 import axios from "axios";
 
-const refreshAccessToken = async () => {
-    const refresh_token = localStorage.getItem('refresh_token');
-    if (!refresh_token) {
-        throw new Error('No refresh token available');
-    }
-
-    const response = await axios.post('http://135.181.42.192/accounts/token/refresh/', { refresh: refresh_token });
-    const { access } = response.data;
-    localStorage.setItem('access_token', access);
-    axios.defaults.headers.common['Authorization'] = `Bearer ${access}`;
-};
-
 function Index() {
     const [data, setData] = useState([]);
     const [filteredData, setFilteredData] = useState([]);
@@ -122,7 +110,6 @@ function Index() {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            await refreshAccessToken();
 
             if (!response.ok) {
                 throw new Error('Network response was not ok');

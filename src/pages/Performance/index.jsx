@@ -7,19 +7,6 @@ import './performance.css';
 
 import axios from 'axios'
 
-const refreshAccessToken = async () => {
-  const refresh_token = localStorage.getItem('refresh_token');
-  if (!refresh_token) {
-    throw new Error('No refresh token available');
-  }
-
-  const response = await axios.post('http://135.181.42.192/accounts/token/refresh/', { refresh: refresh_token });
-  const { access } = response.data;
-  localStorage.setItem('access_token', access);
-  axios.defaults.headers.common['Authorization'] = `Bearer ${access}`;
-};
-
-
 function Index() {
   const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
   const [data, setData] = useState([]);
@@ -55,7 +42,6 @@ function Index() {
 
   const fetchData = async () => {
     try {
-      await refreshAccessToken();
       const token = localStorage.getItem('access_token');
       const loggedInUserResponse = await axios.get('http://135.181.42.192/accounts/profile/', {
         headers: {

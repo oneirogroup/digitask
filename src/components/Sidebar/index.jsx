@@ -59,7 +59,10 @@ const Sidebar = ({ children, isSidebarOpen, onClose }) => {
     const [showModal, setShowModal] = useState(false);
 
     const handleLogout = () => {
-        setShowModal(true);
+        setShowModal(true); 
+    };
+    const handleLogin = () => {
+        navigate('/login/');
     };
 
     const confirmLogout = () => {
@@ -68,13 +71,9 @@ const Sidebar = ({ children, isSidebarOpen, onClose }) => {
         localStorage.removeItem('user_type');
         localStorage.removeItem('is_admin');
         localStorage.removeItem('phone');
-        dispatch(logout());
+        dispatch(logout());  // Dispatch the logout action
         setShowModal(false);
-        navigate('/login/');
-    };
-
-    const handleLogin = () => {
-        navigate('/login/');
+        navigate('/login/');  // Navigate to login page
     };
 
     const handleModalClose = () => {

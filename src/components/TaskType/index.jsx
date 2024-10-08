@@ -245,7 +245,6 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
                     ...prevFormData,
                 }));
                 setIsEditing(false);
-                event.stopPropagation();
                 onClose();
                 onTaskUpdated(data);
             })
@@ -430,6 +429,11 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
         }
     }, [isDropdownOpenGroup]);
 
+    const getStatusLabel = (status) => {
+        const statusOption = STATUS_OPTIONS.find(option => option.value === status);
+        return statusOption ? statusOption.label : status;
+    };
+
     if (!taskDetails) {
         return <div>Loading...</div>;
     }
@@ -443,15 +447,12 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
                             <label><span>Tapşırığı yenilə </span></label>
                         </div>
                     ) : (
-                        <div>
-                            <div>
-                                <h5>{taskDetails?.task_type ? (taskDetails.task_type === "connection" ? "Qoşulma" : "Problem") + " məlumatları" : ""}</h5>
-
-                            </div>
+                        <>
+                            <h5>{taskDetails?.task_type ? (taskDetails.task_type === "connection" ? "Qoşulma" : "Problem") + " məlumatları" : ""}</h5>
                             {/* {userType !== 'Texnik' && ( */}
                             <RiEdit2Line onClick={handleEditClick} />
                             {/* )} */}
-                        </div>
+                        </>
                     )}
                     <div>
                         <span className="close" onClick={onClose}>&times;</span>
@@ -521,7 +522,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
                                     </div>
                                     <div>
                                         <div>
-                                            <label><RiMapPinLine /> Adres</label>
+                                            <label><RiMapPinLine /> Ünvan</label>
                                             <input type="text" name="location" value={formData.location} onChange={handleInputChange} />
                                         </div>
                                         <hr />
@@ -614,46 +615,36 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
                                 <div className="form-group passportUpdate">
                                     <label>Müştərinin şəxsiyyət vəsiqəsi:</label>
                                     <div className="upload-container">
-                                        {preview ? (
-                                            <img
-                                                src={preview}
-                                                alt="Preview"
-                                                className="image-preview"
-                                            />
-                                        ) : (
-                                            taskDetails && taskDetails.passport ? (
+                                        {preview || taskDetails?.passport ? (
+                                            <>
                                                 <img
-                                                    src={taskDetails.passport}
-                                                    alt="Current Passport"
+                                                    src={preview || taskDetails.passport}
+                                                    alt="Passport"
                                                     className="image-preview"
                                                 />
-                                            ) : (
-                                                <label htmlFor="passport" className="upload-label">
-                                                    <span>Yükləmək üçün klikləyin</span>
-                                                    <div className="upload-icon">
-                                                        <img src={upload} alt="Upload Icon" />
-                                                    </div>
+                                                <label htmlFor="passport" className="upload-button upload-passport-button">
+                                                    {preview ? "Dəyişmək üçün klikləyin" : "Dəyişmək üçün klikləyin"}
                                                 </label>
-                                            )
+                                            </>
+                                        ) : (
+                                            <label htmlFor="passport" className="upload-label">
+                                                <span>Yükləmək üçün klikləyin</span>
+                                                <div className="upload-icon">
+                                                    <img src={upload} alt="Upload Icon" />
+                                                </div>
+                                            </label>
                                         )}
 
-                                        <div>
-                                            <input
-                                                type="file"
-                                                id="passport"
-                                                name="passport"
-                                                accept="image/*"
-                                                onChange={handleInputPhotoChange}
-                                                style={{ display: 'none' }}
-                                            />
-
-                                            {(preview || taskDetails?.passport) && (
-                                                <label htmlFor="passport" className="upload-button upload-passport-button">
-                                                    {preview ? "Şəkli dəyişin" : "Yükləmək üçün klikləyin"}
-                                                </label>
-                                            )}
-                                        </div>
+                                        <input
+                                            type="file"
+                                            id="passport"
+                                            name="passport"
+                                            accept="image/*"
+                                            onChange={handleInputPhotoChange}
+                                            style={{ display: 'none' }}
+                                        />
                                     </div>
+
                                 </div>
 
                                 <button className='updateTask-button' type="submit">Yenilə</button>
@@ -718,7 +709,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
                                 <div>
                                     <div className='taskType-status'>
                                         <label><BiComment /> Status</label>
-                                        <span>{taskDetails.status}</span>
+                                        <span>{getStatusLabel(taskDetails.status)}</span>
                                     </div>
                                     <hr />
                                 </div>
@@ -742,7 +733,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
 
                                 <div>
                                     <div className='taskType-address'>
-                                        <label><RiMapPinLine /> Adres</label>
+                                        <label><RiMapPinLine /> Ünvan</label>
                                         <span>{taskDetails.location}</span>
                                     </div>
                                     <hr />

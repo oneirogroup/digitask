@@ -15,17 +15,6 @@ import MapModal from '../../components/MapModal';
 import FullMapModal from '../../components/FullMapModal';
 import UpdateUserModal from '../../components/UpdateUserModal';
 
-const refreshAccessToken = async () => {
-  const refresh_token = localStorage.getItem('refresh_token');
-  if (!refresh_token) {
-    throw new Error('No refresh token available');
-  }
-
-  const response = await axios.post('http://135.181.42.192/accounts/token/refresh/', { refresh: refresh_token });
-  const { access } = response.data;
-  localStorage.setItem('access_token', access);
-  axios.defaults.headers.common['Authorization'] = `Bearer ${access}`;
-};
 
 const EmployeeList = () => {
   const { isAdmin } = useUser();
@@ -100,7 +89,6 @@ const EmployeeList = () => {
 
   const fetchEmployees = async () => {
     try {
-      await refreshAccessToken();
       const token = localStorage.getItem('access_token');
 
       const response = await axios.get('http://135.181.42.192/accounts/users/', {
@@ -176,7 +164,6 @@ const EmployeeList = () => {
       async (error) => {
         if (error.response && error.response.status === 401) {
           try {
-            await refreshAccessToken();
             return axios(error.config);
           } catch (refreshError) {
             console.error('Error: Token refresh failed:', refreshError);
@@ -344,7 +331,6 @@ const EmployeeList = () => {
 
   const handleUpdateEmployee = async (employeeId, updatedData) => {
     try {
-      await refreshAccessToken();
       const token = localStorage.getItem('access_token');
 
       const response = await axios.get(`http://135.181.42.192/accounts/update_user/${employeeId}/`, {
@@ -367,13 +353,12 @@ const EmployeeList = () => {
       console.error('Error fetching updated employee:', error);
     }
   };
-  
+
   const handleDeleteUser = async (employeeId) => {
     const confirmDelete = window.confirm("Are you sure you want to delete this user?");
     if (!confirmDelete) return;
-  
+
     try {
-      await refreshAccessToken();
       const token = localStorage.getItem('access_token');
 
       await axios.delete(`http://135.181.42.192/accounts/delete_user/${employeeId}/`, {

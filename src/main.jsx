@@ -1,27 +1,25 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App.jsx'
-import { store, persistor } from './app/store'
-import { Provider } from 'react-redux'
-import { PersistGate } from "redux-persist/integration/react";
-import axios from 'axios';
-import { UserProvider } from './contexts/UserContext';
+import React from "react";
+import { createRoot } from "react-dom/client";
+import { Provider } from "react-redux";
+import store from "./store";
+import App from "./App";
+import * as serviceWorker from "./serviceWorker";
+import ReactDOM from 'react-dom';
+import { BrowserRouter } from "react-router-dom";
+import { UserProvider } from "./contexts/UserContext";
 
+const container = document.getElementById("root");
+const root = createRoot(container);
 
-const accessToken = localStorage.getItem('access_token');
-if (accessToken) {
-    axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-}
-ReactDOM.createRoot(document.getElementById('root')).render(
+ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <UserProvider>
-          <App />
-        </UserProvider>
-      </PersistGate>
+      <UserProvider>
+        <App />
+      </UserProvider>
     </Provider>
   </React.StrictMode>,
-)
+  document.getElementById('root')
+);
 
-
+serviceWorker.unregister();

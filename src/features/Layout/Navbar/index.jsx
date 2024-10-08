@@ -7,17 +7,6 @@ import { useEffect, useState } from "react";
 import NotificationModal from "../../../components/NotificationModal";
 import axios from 'axios';
 
-const refreshAccessToken = async () => {
-    const refresh_token = localStorage.getItem('refresh_token');
-    if (!refresh_token) {
-        throw new Error('No refresh token available');
-    }
-
-    const response = await axios.post('http://135.181.42.192/accounts/token/refresh/', { refresh: refresh_token });
-    const { access } = response.data;
-    localStorage.setItem('access_token', access);
-    axios.defaults.headers.common['Authorization'] = `Bearer ${access}`;
-};
 
 const Navbar = ({ onToggleSidebar }) => {
     const [notificationNumber, setnotificationNumber] = useState(null);
@@ -65,7 +54,6 @@ const Navbar = ({ onToggleSidebar }) => {
                 console.error("WebSocket error:", error);
 
                 try {
-                    await refreshAccessToken();
                     connectWebSocket3();
                 } catch (refreshError) {
                     console.error('Error refreshing token:', refreshError);
@@ -79,7 +67,6 @@ const Navbar = ({ onToggleSidebar }) => {
                 } else {
                     console.error("WebSocket connection died unexpectedly");
                     try {
-                        await refreshAccessToken();
                         setTimeout(connectWebSocket3, 5000);
                     } catch (refreshError) {
                         console.error('Error refreshing token:', refreshError);
@@ -103,40 +90,40 @@ const Navbar = ({ onToggleSidebar }) => {
 
     const markNotificationsAsRead = async (notificationIds) => {
         try {
-      
+
             const accessToken = localStorage.getItem('access_token');
-    
+
             if (!accessToken) {
                 throw new Error('Access token not found');
             }
-    
-   
+
+
             const apiEndpoint = 'http://135.181.42.192/accounts/notifications/mark-as-read/';
-    
+
             const payload = {
                 notification_ids: notificationIds,
             };
-    
+
             // Make the POST request
             const response = await fetch(apiEndpoint, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${accessToken}`, 
+                    'Authorization': `Bearer ${accessToken}`,
                 },
                 body: JSON.stringify(payload),
             });
-  
+
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
 
             const data = await response.json();
             console.log('Notification status updated:', data);
-         
+
             return data;
         } catch (error) {
-   
+
             console.error('Error marking notifications as read:', error);
 
         }
@@ -144,9 +131,9 @@ const Navbar = ({ onToggleSidebar }) => {
 
     const handleNotificationClick = () => {
         setIsModalOpen(true);
-        
+
         markNotificationsAsRead(notifications
-            .filter(notification => notification.id)  
+            .filter(notification => notification.id)
             .map(notification => notification.id))
         setnotificationNumber('0')
     };
