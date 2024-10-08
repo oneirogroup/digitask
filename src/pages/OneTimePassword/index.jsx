@@ -107,7 +107,7 @@ const OneTimePassword = () => {
                     <Form onSubmit={handleSubmit} ref={form}>
                         <div className="onetimepassword-mail-password">
                             <div>
-                                <p><a>{email}</a> adresinə göndərdiyimiz 4 rəqəmli kodu daxil edin</p>
+                                <p><a>{email}</a> ünvanına göndərdiyimiz 4 rəqəmli kodu daxil edin</p>
                                 <div>
                                     {otp.map((digit, index) => (
                                         <input

@@ -80,7 +80,7 @@ const ChatModal = ({ isOpen, onClose, groupName, members, group, onMembersUpdate
             setShowAddMemberModal(false);
 
             if (onMembersUpdated) {
-         
+
                 onMembersUpdated();
             }
         } catch (error) {
@@ -143,7 +143,7 @@ const ChatModal = ({ isOpen, onClose, groupName, members, group, onMembersUpdate
     );
 
     if (!isOpen) return null;
-    
+
 
     return (
         <div className="chatModal-overlay" onClick={handleOverlayClick}>
@@ -164,8 +164,8 @@ const ChatModal = ({ isOpen, onClose, groupName, members, group, onMembersUpdate
                                     <div className="member-info">
                                         <div className="avatar">{member.first_name.charAt(0)}</div>
                                         <div className="member-name">
-                                  
-                                            {member.first_name} {member.last_name} 
+
+                                            {member.first_name} {member.last_name}
                                             <span className="adminText">{member.id === admin && " (qrup admini)"}</span>
                                         </div>
                                     </div>

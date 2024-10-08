@@ -5,18 +5,6 @@ import "./circlechart.css";
 import { IoMdInformationCircle } from "react-icons/io";
 import { FaCircle } from "react-icons/fa";
 
-const refreshAccessToken = async () => {
-    const refresh_token = localStorage.getItem('refresh_token');
-    if (!refresh_token) {
-        throw new Error('No refresh token available');
-    }
-
-    const response = await axios.post('http://135.181.42.192/accounts/token/refresh/', { refresh: refresh_token });
-    const { access } = response.data;
-    localStorage.setItem('access_token', access);
-    axios.defaults.headers.common['Authorization'] = `Bearer ${access}`;
-};
-
 class CircleChart extends React.Component {
     constructor(props) {
         super(props);
@@ -27,6 +15,12 @@ class CircleChart extends React.Component {
                 chart: {
                     type: 'donut',
                     height: 300,
+                    events: {
+                        // Handle the click event at the chart level
+                        dataPointSelection: (event, chartContext, { dataPointIndex }) => {
+                            this.handleSegmentClick(dataPointIndex);
+                        }
+                    }
                 },
                 plotOptions: {
                     pie: {
@@ -49,28 +43,6 @@ class CircleChart extends React.Component {
                             position: 'bottom',
                             offsetY: 0,
                         },
-                        plotOptions: {
-                            pie: {
-                                startAngle: -90,
-                                endAngle: 90,
-                                offsetY: 10,
-                            }
-                        },
-                        tooltip: {
-                            y: {
-                                formatter: function (val) {
-                                    return val.toFixed(0) + '%';
-                                }
-                            },
-                            custom: function ({ seriesIndex, dataPointIndex, w }) {
-                                const series = w.config.series[seriesIndex];
-                                const legendLabels = w.config.legend.labels;
-
-                                return `<div class="apexcharts-tooltip-custom">
-                                            <span>${legendLabels[seriesIndex]}: ${series[dataPointIndex].toFixed(0)}%</span>
-                                        </div>`;
-                            }
-                        }
                     }
                 }],
                 tooltip: {
@@ -79,26 +51,37 @@ class CircleChart extends React.Component {
                         formatter: function (val) {
                             return val.toFixed(0) + '%';
                         }
-                    },
-                    custom: function ({ seriesIndex, dataPointIndex, w }) {
-                        const series = w.config.series[seriesIndex];
-                        const legendLabels = w.config.legend.labels;
-
-                        return `<div class="apexcharts-tooltip-custom">
-                                    <span>${legendLabels[seriesIndex]}: ${series[dataPointIndex].toFixed(0)}%</span>
-                                </div>`;
                     }
                 }
             },
             userType: '',
             isAdmin: false,
             legendLabels: ['İnternet', 'TV', 'Səs'],
+            expandedSegment: null, // New state variable
         };
     }
 
     componentDidMount() {
         this.fetchData();
+        document.addEventListener('click', this.handleClickOutside);
     }
+
+    componentWillUnmount() {
+        document.removeEventListener('click', this.handleClickOutside);
+    }
+
+    handleSegmentClick = (index) => {
+        this.setState((prevState) => ({
+            expandedSegment: prevState.expandedSegment === index ? null : index,
+        }));
+    };
+
+    handleClickOutside = (event) => {
+        const chartContainer = document.getElementById('circlechart');
+        if (chartContainer && !chartContainer.contains(event.target)) {
+            this.setState({ expandedSegment: null });
+        }
+    };
 
     fetchData = async (isRetry = false) => {
         try {
@@ -144,7 +127,6 @@ class CircleChart extends React.Component {
         } catch (error) {
             if (error.response && (error.response.status === 401 || error.response.status === 403) && !isRetry) {
                 try {
-                    await refreshAccessToken();
                     await this.fetchData(true);
                 } catch (refreshError) {
                     console.error('Error: Token refresh failed:', refreshError);
@@ -156,7 +138,7 @@ class CircleChart extends React.Component {
     }
 
     render() {
-        const { series, options, legendLabels } = this.state;
+        const { series, options, legendLabels, expandedSegment } = this.state;
 
         return (
             <div id="circlechart">

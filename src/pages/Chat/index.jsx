@@ -9,18 +9,6 @@ import AddRoomModal from "../../components/AddRoomModal"
 import ChatModal from "../../components/ChatModal";
 import axios from "axios"
 
-const refreshAccessToken = async () => {
-    const refresh_token = localStorage.getItem('refresh_token');
-    if (!refresh_token) {
-        throw new Error('No refresh token available');
-    }
-
-    const response = await axios.post('http://135.181.42.192/accounts/token/refresh/', { refresh: refresh_token });
-    const { access } = response.data;
-    localStorage.setItem('access_token', access);
-    axios.defaults.headers.common['Authorization'] = `Bearer ${access}`;
-};
-
 
 const Chat = () => {
     const [activeGroup, setActiveGroup] = useState(null);
@@ -83,7 +71,6 @@ const Chat = () => {
                 console.error("WebSocketChat error:", error);
 
                 try {
-                    await refreshAccessToken();
                     connectWebSocketChat();
                 } catch (refreshError) {
                     console.error('Chat Error refreshing token:', refreshError);
@@ -97,7 +84,6 @@ const Chat = () => {
                 } else {
                     console.error("WebSocketChat connection died unexpectedly");
                     try {
-                        await refreshAccessToken();
                         setTimeout(connectWebSocketChat, 5000);
                     } catch (refreshError) {
                         console.error('Chat Error refreshing token:', refreshError);

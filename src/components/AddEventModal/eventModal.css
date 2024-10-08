@@ -110,12 +110,11 @@
 }
 
 .event-modal textarea {
-  max-width: 393px;
+  max-width: 100vw;
   width: 100%;
   height: 100px;
-  overflow: auto; 
+  overflow: hidden; 
   resize: none;
-  scrollbar-width: thin;
 }
 
 .event-modal div:last-of-type:not(.meeting-datepicker button) > button {
@@ -154,11 +153,11 @@
 }
 
 
-.event-modal div>section:nth-of-type(3){
+.event-modal div>section:nth-of-type(2){
   position: relative;
 }
 
-.event-modal div>section:nth-of-type(3) svg{
+.event-modal div>section:nth-of-type(2) svg{
   position: absolute;
   right: 10px;
   top: 34px;

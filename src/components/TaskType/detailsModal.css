@@ -212,6 +212,7 @@ position: relative;
     display: flex !important;
     gap: 30px !important;
     position: relative;
+    margin: 0 auto;
   }
   
   .details-modal-title label {

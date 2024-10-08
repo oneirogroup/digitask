@@ -5,17 +5,6 @@ import "./chart.css";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import { FaCircle } from "react-icons/fa";
 
-const refreshAccessToken = async () => {
-    const refresh_token = localStorage.getItem('refresh_token');
-    if (!refresh_token) {
-        throw new Error('No refresh token available');
-    }
-
-    const response = await axios.post('http://135.181.42.192/accounts/token/refresh/', { refresh: refresh_token });
-    const { access } = response.data;
-    localStorage.setItem('access_token', access);
-    axios.defaults.headers.common['Authorization'] = `Bearer ${access}`;
-};
 
 class ApexChart extends React.Component {
     constructor(props) {
@@ -148,7 +137,6 @@ class ApexChart extends React.Component {
         } catch (error) {
             if (error.response && (error.response.status === 401 || error.response.status === 403) && !isRetry) {
                 try {
-                    await refreshAccessToken();
                     await this.fetchData(year, true);
                 } catch (refreshError) {
                     console.error('Error: Token refresh failed:', refreshError);

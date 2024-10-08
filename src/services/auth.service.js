@@ -1,17 +1,18 @@
 import axios from "axios";
 
 const API_URL = "http://135.181.42.192/accounts/";
+import axiosInstance from "../actions/axiosInstance";
 
-const register = (username, email, password) => {
-  return axios.post(API_URL + "register/", {
-    username,
-    email,
-    password,
-  });
-};
+// const register = (username, email, password) => {
+//   return axios.post(API_URL + "register", {
+//     username,
+//     email,
+//     password,
+//   });
+// };
 
 const login = (email, password) => {
-  return axios
+  return axiosInstance
     .post(API_URL + "login/", {
       email,
       password,
@@ -30,7 +31,7 @@ const logout = () => {
 };
 
 export default {
-  register,
+  // register,
   login,
   logout,
 };

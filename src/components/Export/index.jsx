@@ -3,18 +3,6 @@ import { useState, useEffect } from 'react';
 import "./export.css";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 
-const refreshAccessToken = async () => {
-    const refresh_token = localStorage.getItem('refresh_token');
-    if (!refresh_token) {
-        throw new Error('No refresh token available');
-    }
-
-    const response = await axios.post('http://135.181.42.192/accounts/token/refresh/', { refresh: refresh_token });
-    const { access } = response.data;
-    localStorage.setItem('access_token', access);
-    axios.defaults.headers.common['Authorization'] = `Bearer ${access}`;
-};
-
 const DecrementItemForm = ({ onClose, itemId, productNumber }) => {
     console.log('productNumber:', productNumber);
     const [texnikUsers, setTexnikUsers] = useState([]);
@@ -70,7 +58,6 @@ const DecrementItemForm = ({ onClose, itemId, productNumber }) => {
         } catch (error) {
             if (error.response && (error.response.status === 401 || error.response.status === 403) && !isRetry) {
                 try {
-                    await refreshAccessToken();
                     await fetchTexnikUsers(true);
                 } catch (refreshError) {
                     console.error('Token refresh failed:', refreshError);
@@ -165,7 +152,6 @@ const DecrementItemForm = ({ onClose, itemId, productNumber }) => {
         } catch (error) {
             if (error.response && (error.response.status === 401 || error.response.status === 403)) {
                 try {
-                    await refreshAccessToken();
                     await handleSubmit(e);
                 } catch (refreshError) {
                     console.error('Token refresh failed:', refreshError);

@@ -149,9 +149,15 @@ const AddEventModal = ({ isOpen, onClose, refreshMeetings }) => {
     }
   };
 
-  if (!isOpen) {
-    return null;
-  }
+  useEffect(() => {
+    const textarea = document.querySelector('.textarea');
+    if (textarea) {
+      adjustHeight(textarea);
+    }
+  }, [eventDescription]);
+
+
+
 
   const toggleMeetingTypeModal = () =>
     setIsMeetingTypeModalOpen(!isMeetingTypeModalOpen);
@@ -172,6 +178,26 @@ const AddEventModal = ({ isOpen, onClose, refreshMeetings }) => {
       }
     });
   };
+
+  const handleTextareaInputChange = (e) => {
+    setEventDescription(e.target.value);
+  };
+
+  const adjustHeight = (element) => {
+    element.style.height = '100px';
+    element.style.height = `${element.scrollHeight}px`;
+  };
+
+
+  const combinedInputChange = (e) => {
+    setEventDescription(e.target.value);
+    handleTextareaInputChange(e);
+  };
+
+  if (!isOpen) {
+    return null;
+  }
+
 
   return (
     <div className="event-modal-overlay">
@@ -202,15 +228,6 @@ const AddEventModal = ({ isOpen, onClose, refreshMeetings }) => {
           {error.eventName && (
             <p className="error-message">{error.eventName}</p>
           )}
-          <section className="meeting-label-input">
-            <label>
-              Tədbir haqqında:
-            </label>
-            <textarea
-              value={eventDescription}
-              onChange={(e) => setEventDescription(e.target.value)}
-            />
-          </section>
           {error.general && <p className="error-message">{error.general}</p>}
 
           <div className="date-time-container">
@@ -355,6 +372,17 @@ const AddEventModal = ({ isOpen, onClose, refreshMeetings }) => {
               onChange={(e) => setEventLocation(e.target.value)}
             />
             <RiMapPinAddFill />
+          </section>
+          <section className="meeting-label-input">
+            <label>
+              Tədbir haqqında:
+            </label>
+            <textarea
+              className="textarea"
+              rows={1}
+              value={eventDescription}
+              onChange={combinedInputChange}
+            />
           </section>
 
           {error.eventLocation && (
