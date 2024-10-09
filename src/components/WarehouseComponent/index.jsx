@@ -215,8 +215,6 @@ function Warehouse() {
         await fetchWarehouses();
     };
 
-
-
     return (
         <div>
             <section>

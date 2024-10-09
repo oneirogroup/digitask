@@ -9,6 +9,7 @@ import {
 } from "./types";
 
 import AuthService from "../services/auth.service";
+import { setAuthToken } from "../common/setAuthToken";
 
 // export const register = (username, email, password) => (dispatch) => {
 //   return AuthService.register(username, email, password).then(
@@ -49,11 +50,17 @@ import AuthService from "../services/auth.service";
 export const login = (email, password) => (dispatch) => {
   return AuthService.login(email, password).then(
     (data) => {
+      if (!data || !data.access_token || !data.refresh_token) {
+        throw new Error("Invalid login response. Token data is missing.");
+      }
+
       const { access_token, refresh_token, user_type } = data;
 
       localStorage.setItem("access_token", access_token);
       localStorage.setItem("refresh_token", refresh_token);
       localStorage.setItem("user_type", user_type);
+
+      setAuthToken(access_token);
 
       dispatch({
         type: LOGIN_SUCCESS,

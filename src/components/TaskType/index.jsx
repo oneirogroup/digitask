@@ -62,30 +62,34 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
     const [preview, setPreview] = useState(null);
     const modalRef = useRef(null);
 
-    useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (modalRef.current && !modalRef.current.contains(event.target)) {
-                onClose();
-            }
-            if (taskTypeDropdownRef.current && !taskTypeDropdownRef.current.contains(event.target)) {
-                setIsDropdownOpenTaskType(false);
-            }
-            if (statusDropdownRef.current && !statusDropdownRef.current.contains(event.target)) {
-                setIsDropdownOpenStatus(false);
-            }
-            if (serviceDropdownRef.current && !serviceDropdownRef.current.contains(event.target)) {
-                setIsDropdownOpenService(false);
-            }
-            if (groupDropdownRef.current && !groupDropdownRef.current.contains(event.target)) {
-                setIsDropdownOpenGroup(false);
-            }
-        };
+    const handleClickOutside = (event) => {
+        if (modalRef.current && !modalRef.current.contains(event.target)) {
+            onClose();
+        }
+        if (taskTypeDropdownRef.current && !taskTypeDropdownRef.current.contains(event.target)) {
+            setIsDropdownOpenTaskType(false);
+        }
+        if (statusDropdownRef.current && !statusDropdownRef.current.contains(event.target)) {
+            setIsDropdownOpenStatus(false);
+        }
+        if (serviceDropdownRef.current && !serviceDropdownRef.current.contains(event.target)) {
+            setIsDropdownOpenService(false);
+        }
+        if (groupDropdownRef.current && !groupDropdownRef.current.contains(event.target)) {
+            setIsDropdownOpenGroup(false);
+        }
+    };
 
+
+
+    useEffect(() => {
+        // Event listener'ı ekle
         document.addEventListener('mousedown', handleClickOutside);
         return () => {
+            // Event listener'ı kaldır
             document.removeEventListener('mousedown', handleClickOutside);
         };
-    }, [onClose]);
+    }, [])
 
     const [formData, setFormData] = useState({
         task_type: '',
@@ -193,7 +197,6 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
 
     const handleEditClick = () => {
         setIsEditing(true);
-        event.stopPropagation();
     };
 
     const [addedServices, setAddedServices] = useState([]);
@@ -214,21 +217,24 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
     const handleFormSubmit = (e) => {
         e.preventDefault();
 
-        const formData = new FormData();
+        const updatedFormData = new FormData();
 
+        // Update only fields that have changed
         Object.keys(formData).forEach(key => {
             if (formData[key] !== taskDetails[key]) {
-                formData.append(key, formData[key]);
+                updatedFormData.append(key, formData[key]);
             }
         });
 
+        // Append the image file if it exists
         if (imageFile) {
-            formData.append('passport', imageFile);
+            updatedFormData.append('passport', imageFile);
         }
 
+        // Send the updated form data to the server
         fetch(`http://135.181.42.192/services/update_task/${taskId}/`, {
             method: 'PATCH',
-            body: formData
+            body: updatedFormData,
         })
             .then(response => {
                 if (!response.ok) {
@@ -239,11 +245,35 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
                 return response.json();
             })
             .then(data => {
+                // Update state with the returned data
                 setTaskDetails(data);
-                setAddedServices(data.addedServices);
-                setFormData(prevFormData => ({
-                    ...prevFormData,
-                }));
+                setAddedServices(data.addedServices || []); // Ensure addedServices is handled correctly
+
+                const groupIds = Array.isArray(data.group) && data.group.length > 0
+                    ? data.group.map(g => Number(g.id))
+                    : [];
+
+                setFormData({
+                    task_type: data.task_type,
+                    full_name: data.full_name,
+                    start_time: data.start_time,
+                    end_time: data.end_time,
+                    date: data.date,
+                    registration_number: data.registration_number,
+                    contact_number: data.contact_number,
+                    location: data.location,
+                    passport: null, // Reset passport in formData
+                    services: data.services,
+                    status: data.status,
+                    group: groupIds, // Ensure this is correct
+                    note: data.note,
+                    latitude: data.latitude,
+                    longitude: data.longitude,
+                    is_tv: data.is_tv,
+                    is_voice: data.is_voice,
+                    is_internet: data.is_internet,
+                });
+
                 setIsEditing(false);
                 onClose();
                 onTaskUpdated(data);
@@ -252,14 +282,15 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
     };
 
 
-    const handleGroupSelect = (groupId) => {
-        setFormData((prevFormData) => {
-            const newGroup = prevFormData.group.includes(groupId)
-                ? prevFormData.group.filter(id => id !== groupId)
-                : [...prevFormData.group, groupId];
-            return { ...prevFormData, group: newGroup };
-        });
-    };
+    useEffect(() => {
+        if (taskDetails && taskDetails.group) {
+            setFormData((prevData) => ({
+                ...prevData,
+                group: taskDetails.group.map(g => g.id), // Make sure to set the initial group IDs
+            }));
+        }
+    }, [taskDetails]);
+
     const [isDropdownOpenTaskType, setIsDropdownOpenTaskType] = useState(false);
     const [isDropdownOpenStatus, setIsDropdownOpenStatus] = useState(false);
     const [isDropdownOpenGroup, setIsDropdownOpenGroup] = useState(false);
@@ -346,19 +377,42 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
         setIsAddSurveyModalOpen(true);
     };
 
+    const getSelectedGroupNames = () => {
+        return formData.group
+            .map(groupId => groups.find(group => group.id === groupId)?.group) // Get group name by ID
+            .filter(name => name) // Filter out any undefined names
+            .join(', '); // Join names into a single string
+    };
+
     const renderGroups = () => {
         return groups.map((group) => (
             <label key={group.id} className="dropdown-task-item">
                 <input
                     type="checkbox"
                     checked={formData.group.includes(group.id)}
-                    onChange={() => handleGroupSelect(group.group)}
+                    onChange={() => handleGroupSelect(group.id)} // Use group.id here
                 />
                 {group.group}
             </label>
         ));
     };
 
+    const handleGroupSelect = (groupId) => {
+        setFormData((prevData) => {
+            // Debugging: Log previous data and group ID being toggled
+            console.log('Previous formData:', prevData);
+            console.log('Toggling group ID:', groupId);
+
+            const newGroups = prevData.group.includes(groupId)
+                ? prevData.group.filter(id => id !== groupId) // Remove group if already selected
+                : [...prevData.group, groupId]; // Add group if not selected
+
+            // Debugging: Log new group data
+            console.log('Updated groups:', newGroups);
+
+            return { ...prevData, group: newGroups };
+        });
+    }
     const shouldShowAddSurveyButton = (
         (taskDetails?.is_tv && !taskDetails?.tv) ||
         (taskDetails?.is_internet && !taskDetails?.internet) ||
@@ -444,7 +498,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
                 <div className="taskType-modal-title" ref={modalRef}>
                     {isEditing ? (
                         <div className='details-title'>
-                            <label><span>Tapşırığı yenilə </span></label>
+                            <h5>Tapşırığı yenilə </h5>
                         </div>
                     ) : (
                         <>
@@ -454,7 +508,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
                             {/* )} */}
                         </>
                     )}
-                    <div>
+                    <div ref={modalRef}>
                         <span className="close" onClick={onClose}>&times;</span>
                     </div>
                 </div>
@@ -581,7 +635,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
                                                     onClick={() => setIsDropdownOpenGroup(!isDropdownOpenGroup)}
                                                 >
                                                     {formData.group.length > 0
-                                                        ? `${formData.group.join(', ')}`
+                                                        ? `${getSelectedGroupNames()}`
                                                         : 'Qrup Seçin'}
                                                     <FaChevronDown />
                                                 </div>
@@ -644,12 +698,11 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
                                             style={{ display: 'none' }}
                                         />
                                     </div>
-
                                 </div>
 
                                 <button className='updateTask-button' type="submit">Yenilə</button>
                             </div>
-                        </form>
+                        </form >
                     ) : (
                         <div className="taskType-modal-body" ref={modalRef}>
                             <div className="taskType-info">

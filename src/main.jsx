@@ -7,9 +7,12 @@ import * as serviceWorker from "./serviceWorker";
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from "react-router-dom";
 import { UserProvider } from "./contexts/UserContext";
+import setupInterceptors from "./services/interceptors";
 
 const container = document.getElementById("root");
 const root = createRoot(container);
+
+setupInterceptors(store);
 
 ReactDOM.render(
   <React.StrictMode>
