@@ -46,7 +46,7 @@
 
 .taskType-modal-title h5 {
   font-family: Montserrat, sans-serif;
-  font-size: 26px;
+  font-size: 27px;
   font-weight: 500;
   margin: 0 auto;
 }
@@ -55,11 +55,10 @@
     display: flex;
     gap: 4px;
 }
+.taskType-modal-title .close {
+  font-size: 44px;
+  cursor: pointer;
 
-.taskType-modal-title span {
-    color: #5E5E62;
-    font-size: 44px;
-    cursor: pointer;
 }
 
 .taskType-modal-title svg {

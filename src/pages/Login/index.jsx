@@ -53,12 +53,14 @@ const Login = (props) => {
 
     const handleLogin = (e) => {
         e.preventDefault();
-
         setLoading(true);
+
+        console.log('Form reference:', form.current);
+        console.log('Check button reference:', checkBtn.current);
 
         form.current.validateAll();
 
-        if (checkBtn.current.context._errors.length === 0) {
+        if (checkBtn.current.context && checkBtn.current.context._errors.length === 0) {
             dispatch(login(email, password))
                 .then(() => {
                     navigate("/profile");
@@ -71,6 +73,7 @@ const Login = (props) => {
             setLoading(false);
         }
     };
+
 
     if (isLoggedIn) {
         return <Navigate to="/profile" />;
@@ -95,7 +98,7 @@ const Login = (props) => {
                                     <Input type="text" placeholder="Mail ünvanınız" name="email"
                                         value={email}
                                         onChange={onChangeEmail}
-                                        validations={[required]}
+                                        // validations={[required]}
                                     />
                                 </label>
                                 {/* {errors.email && <div className="error-message">{errors.email}</div>} */}
@@ -108,7 +111,7 @@ const Login = (props) => {
                                         <input type="password" placeholder="*****" name="password"
                                             value={password}
                                             onChange={onChangePassword}
-                                            validations={[required]}
+                                            // validations={[required]}
                                         />
                                         {/* <button
                                             type="button"
