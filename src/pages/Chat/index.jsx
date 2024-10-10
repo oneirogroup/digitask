@@ -113,11 +113,11 @@ const Chat = () => {
         setInputValue('');
     };
 
-    const formatDate = (dateString) => {
-        const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false, locale: 'az-AZ' };
-        const date = new Date(dateString);
-        return new Intl.DateTimeFormat('az-AZ', options).format(date);
-    };
+    // const formatDate = (dateString) => {
+    //     const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false, locale: 'az-AZ' };
+    //     const date = new Date(dateString);
+    //     return new Intl.DateTimeFormat('az-AZ', options).format(date);
+    // };
 
     useEffect(() => {
         connectWebSocketChat();
@@ -271,7 +271,7 @@ const Chat = () => {
 
                             <div className="text">{message.content}</div>
 
-                            <div className="time">{new Date(message.timestamp).toLocaleString()}</div>
+                            <div className="time">{formatDate(message.timestamp)}</div>
                         </div>
                     </div>
                 );
@@ -332,6 +332,13 @@ const Chat = () => {
             handleSendMessage();
         }
     };
+
+    const formatDate = (dateString) => {
+        const options = { hour: "2-digit", minute: "2-digit", hour12: false };
+        return new Intl.DateTimeFormat("az-AZ", options).format(new Date(dateString));
+    };
+
+
     const [isAddRoomModal, setIsAddRoomModal] = useState(false);
 
     const openAddGroupModal = () => {

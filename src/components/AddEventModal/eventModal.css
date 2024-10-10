@@ -232,4 +232,7 @@ font-weight: 500;
 
 .event-modal-overlay .error-message {
   margin-bottom: 8px;
+  font-family: Nunito Sans;
+  font-size: 16px;
+  font-weight: 500;
 }
