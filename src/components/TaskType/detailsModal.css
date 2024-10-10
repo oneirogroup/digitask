@@ -149,6 +149,8 @@
 
 .taskType-note div:last-of-type span {
     margin-top:10px;
+    overflow: auto;
+    scrollbar-width: thin;
 }
 
 .taskType-phone span {

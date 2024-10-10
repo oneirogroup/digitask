@@ -83,10 +83,8 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
 
 
     useEffect(() => {
-        // Event listener'ı ekle
         document.addEventListener('mousedown', handleClickOutside);
         return () => {
-            // Event listener'ı kaldır
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, [])
@@ -211,27 +209,39 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
                 passport: file
             }));
             setPreview(URL.createObjectURL(file));
+        } else {
+            setFormData(prevState => ({
+                ...prevState,
+                passport: prevState.passport
+            }));
         }
     };
+
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
 
         const updatedFormData = new FormData();
 
-        // Update only fields that have changed
         Object.keys(formData).forEach(key => {
             if (formData[key] !== taskDetails[key]) {
                 updatedFormData.append(key, formData[key]);
             }
         });
 
-        // Append the image file if it exists
+        for (const [key, value] of Object.entries(setFormData)) {
+            if (key === "passport" && value) {
+                formData.append(key, value);
+            } else {
+                formData.append(key, value);
+            }
+        }
+
         if (imageFile) {
             updatedFormData.append('passport', imageFile);
         }
 
-        // Send the updated form data to the server
+
         fetch(`http://135.181.42.192/services/update_task/${taskId}/`, {
             method: 'PATCH',
             body: updatedFormData,
@@ -245,9 +255,8 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
                 return response.json();
             })
             .then(data => {
-                // Update state with the returned data
                 setTaskDetails(data);
-                setAddedServices(data.addedServices || []); // Ensure addedServices is handled correctly
+                setAddedServices(data.addedServices || []);
 
                 const groupIds = Array.isArray(data.group) && data.group.length > 0
                     ? data.group.map(g => Number(g.id))
@@ -262,10 +271,10 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
                     registration_number: data.registration_number,
                     contact_number: data.contact_number,
                     location: data.location,
-                    passport: null, // Reset passport in formData
+                    passport: null,
                     services: data.services,
                     status: data.status,
-                    group: groupIds, // Ensure this is correct
+                    group: Array.isArray(groupIds) ? groupIds : [groupIds],
                     note: data.note,
                     latitude: data.latitude,
                     longitude: data.longitude,
@@ -273,6 +282,12 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
                     is_voice: data.is_voice,
                     is_internet: data.is_internet,
                 });
+
+                const groupIdsArray = Array.isArray(groupIds) ? groupIds : [groupIds];
+                setFormData(prevState => ({
+                    ...prevState,
+                    group: groupIdsArray,
+                }));
 
                 setIsEditing(false);
                 onClose();
@@ -286,7 +301,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
         if (taskDetails && taskDetails.group) {
             setFormData((prevData) => ({
                 ...prevData,
-                group: taskDetails.group.map(g => g.id), // Make sure to set the initial group IDs
+                group: taskDetails.group.map(g => g.id),
             }));
         }
     }, [taskDetails]);
@@ -379,9 +394,9 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
 
     const getSelectedGroupNames = () => {
         return formData.group
-            .map(groupId => groups.find(group => group.id === groupId)?.group) // Get group name by ID
-            .filter(name => name) // Filter out any undefined names
-            .join(', '); // Join names into a single string
+            .map(groupId => groups.find(group => group.id === groupId)?.group)
+            .filter(name => name)
+            .join(', ');
     };
 
     const renderGroups = () => {
@@ -390,7 +405,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
                 <input
                     type="checkbox"
                     checked={formData.group.includes(group.id)}
-                    onChange={() => handleGroupSelect(group.id)} // Use group.id here
+                    onChange={() => handleGroupSelect(group.id)}
                 />
                 {group.group}
             </label>
@@ -399,15 +414,13 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
 
     const handleGroupSelect = (groupId) => {
         setFormData((prevData) => {
-            // Debugging: Log previous data and group ID being toggled
             console.log('Previous formData:', prevData);
             console.log('Toggling group ID:', groupId);
 
             const newGroups = prevData.group.includes(groupId)
-                ? prevData.group.filter(id => id !== groupId) // Remove group if already selected
-                : [...prevData.group, groupId]; // Add group if not selected
+                ? prevData.group.filter(id => id !== groupId)
+                : [...prevData.group, groupId];
 
-            // Debugging: Log new group data
             console.log('Updated groups:', newGroups);
 
             return { ...prevData, group: newGroups };
@@ -570,7 +583,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
                                     <div>
                                         <div>
                                             <label><LiaPhoneVolumeSolid /> Əlaqə nömrəsi</label>
-                                            <input type="text" name="contact_number" value={formData.contact_number} onChange={handleInputChange} />
+                                            <input type="text" name="contact_number" maxLength={30} value={formData.contact_number} onChange={handleInputChange} />
                                         </div>
                                         <hr />
                                     </div>

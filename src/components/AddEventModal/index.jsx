@@ -373,6 +373,9 @@ const AddEventModal = ({ isOpen, onClose, refreshMeetings }) => {
             />
             <RiMapPinAddFill />
           </section>
+          {error.eventLocation && (
+            <p className="error-message">{error.eventLocation}</p>
+          )}
           <section className="meeting-label-input">
             <label>
               Tədbir haqqında:
@@ -384,10 +387,6 @@ const AddEventModal = ({ isOpen, onClose, refreshMeetings }) => {
               onChange={combinedInputChange}
             />
           </section>
-
-          {error.eventLocation && (
-            <p className="error-message">{error.eventLocation}</p>
-          )}
           <button onClick={handleAddEvent} disabled={loading}>
             {loading ? "Yüklənir..." : "Tədbiri əlavə et"}
           </button>
