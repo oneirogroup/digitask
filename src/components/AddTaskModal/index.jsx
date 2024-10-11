@@ -36,7 +36,7 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
         is_internet: false,
         is_tv: false,
         task_type: '',
-        group: [],
+        group: '',
         latitude: null,
         longitude: null,
     });
@@ -44,10 +44,6 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [errors, setErrors] = useState({});
     const dropdownRef = useRef(null);
-
-    useEffect(() => {
-        fetchGroups();
-    }, []);
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -70,6 +66,11 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
             console.error('Error fetching groups:', error);
         }
     };
+
+    useEffect(() => {
+        fetchGroups();
+    }, []);
+
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -103,6 +104,9 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
             ...prevState,
             task_type: type,
         }));
+        console.log(type)
+        console.log(setFormData)
+
     };
 
     const handleGroupSelect = (groupId) => {
@@ -113,6 +117,8 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
             return { ...prevState, group: updatedGroups };
         });
     };
+
+
 
     const [errorText, setErrorText] = useState('');
 
@@ -127,6 +133,7 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
         if (!formData.is_tv && !formData.is_internet && !formData.is_voice)
             newErrors.service = 'Tv, internet və ya səs xidmətini seçin!';
         if (formData.group.length === 0) newErrors.group = 'Qrup seçin!';
+        console.log(formData.group)
 
         const errorMessages = [
             newErrors.date,
@@ -177,7 +184,7 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
             formDataToSend.append('is_internet', formData.is_internet);
             formDataToSend.append('is_tv', formData.is_tv);
             formDataToSend.append('task_type', task_type);
-            formDataToSend.append('groupId', formDataToSend.append('group', JSON.stringify(formData.group)));
+            formDataToSend.append('group', formData.group);
 
             if (formData.latitude) {
                 formDataToSend.append('latitude', formData.latitude);
@@ -211,9 +218,8 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
 
     const renderGroups = () => {
         return groups.map((group) => (
-            <div key={group.id} className="dropdown-task-item" onClick={() => handleGroupSelect(group.id)}>
+            <div key={group.id} className="dropdown-task-item" onClick={() => handleGroupSelect(Number(group.id))}>
                 <input
-                    onClick={() => handleGroupSelect(group.id)}
                     type="checkbox"
                     checked={formData.group.includes(group.id)}
                     onChange={() => handleGroupSelect(group.id)}

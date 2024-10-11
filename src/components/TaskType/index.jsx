@@ -23,6 +23,7 @@ import UpdateInternetModal from "../UpdateInternetModal";
 import UpdateVoiceModal from "../UpdateVoiceModal";
 import { useUser } from "../../contexts/UserContext";
 import upload from "../../assets/images/document-upload.svg";
+import ImageModal from "../ImageModal";
 
 const TASK_TYPES = [
     { value: "connection", label: "Qoşulma" },
@@ -480,6 +481,45 @@ function DetailsModal({
             }));
         }
     };
+
+    const [mapLink, setMapLink] = useState('');
+
+    function extractCoordinatesFromUrl(url) {
+        // Regular expressions for different URL formats
+        const regex1 = /@(-?\d+\.\d+),(-?\d+\.\d+),/; // For URLs with '@lat,lng'
+        const regex2 = /q=(-?\d+\.\d+),(-?\d+\.\d+)/; // For URLs with 'q=lat,lng'
+        const regex3 = /place\/(-?\d+\.\d+),(-?\d+\.\d+)/; // For URLs with 'place/lat,lng'
+
+        // Test the URL with different regex patterns
+        let match = url.match(regex1) || url.match(regex2) || url.match(regex3);
+
+        if (match) {
+            return {
+                latitude: parseFloat(match[1]),
+                longitude: parseFloat(match[2]),
+            };
+        }
+
+        return null; // Return null if no coordinates found
+    }
+
+    const handleMapLink = (url) => {
+        const location = extractCoordinatesFromUrl(url);
+        if (location?.latitude && location.longitude) {
+            setFormData((prevState) => ({
+                ...prevState,
+                latitude: location.latitude,
+                longitude: location.longitude,
+            }));
+            setMapLink(url); // Store the map link for rendering
+        }
+    };
+
+    const handleChangeMapLink = (event) => {
+        const { value } = event.target;
+        handleMapLink(value);
+    };
+
     const customerIcon = new L.Icon({
         iconUrl:
             "https://img.icons8.com/?size=100&id=CwAOuD64vULU&format=png&color=000000",
@@ -530,6 +570,18 @@ function DetailsModal({
             (option) => option.value === status
         );
         return statusOption ? statusOption.label : status;
+    };
+
+    const [isImageModalOpen, setIsImageModalOpen] = useState(false);
+    const [selectedImage, setSelectedImage] = useState(null);
+
+    const handleImageClick = (imageSrc) => {
+        setSelectedImage(imageSrc);
+        setIsImageModalOpen(true);
+    };
+
+    const handleModalClose = () => {
+        setIsImageModalOpen(false);
     };
 
     if (!taskDetails) {
@@ -695,6 +747,21 @@ function DetailsModal({
                                     <hr />
                                 </div>
                                 <div>
+                                    <div>
+                                        <label htmlFor="location_link">Ünvan linki</label>
+                                        <input
+                                            type="text"
+                                            id="location_link"
+                                            name="location_link"
+                                            onChange={handleChangeMapLink}
+
+                                            className="form-control"
+                                        />
+                                    </div>
+                                    <hr />
+                                </div>
+
+                                <div>
                                     <div className="status-dropdown-div">
                                         <label>
                                             <MdOutlineMiscellaneousServices /> Xidmət
@@ -815,6 +882,7 @@ function DetailsModal({
                                                 src={preview || taskDetails.passport}
                                                 alt="Passport"
                                                 className="image-preview"
+
                                             />
                                             <label
                                                 htmlFor="passport"
@@ -972,13 +1040,26 @@ function DetailsModal({
                                 </div>
                                 <hr />
                             </div>
+                            {mapLink ? (
+                                <div>
+                                    <div>
+                                        <label htmlFor="location_link">Ünvan linki</label>
+
+                                        <span>
+                                            Link: <a href={mapLink} target="_blank" rel="noopener noreferrer">{mapLink}</a>
+                                        </span>
+
+                                    </div>
+                                    <hr />
+                                </div>
+                            ) : ''}
                             {taskDetails.passport && (
                                 <div>
                                     <div className="taskType-photo">
                                         <label>
                                             <FaPassport /> Müştərinin şəxsiyyət vəsiqəsi
                                         </label>
-                                        <img src={taskDetails.passport} alt="" />
+                                        <img onClick={() => handleImageClick(taskDetails.passport)} src={taskDetails.passport} alt="" />
                                     </div>
                                     <hr />
                                 </div>
@@ -1224,6 +1305,11 @@ function DetailsModal({
                     onServiceUpdate={handleServiceUpdate}
                 />
             )}
+            <ImageModal
+                isOpen={isImageModalOpen}
+                onClose={handleModalClose}
+                image={selectedImage}
+            />
         </div>
     );
 }

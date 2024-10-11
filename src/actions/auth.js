@@ -54,11 +54,12 @@ export const login = (email, password) => (dispatch) => {
         throw new Error("Invalid login response. Token data is missing.");
       }
 
-      const { access_token, refresh_token, user_type } = data;
+      const { access_token, refresh_token, user_type, is_admin } = data;
 
       localStorage.setItem("access_token", access_token);
       localStorage.setItem("refresh_token", refresh_token);
       localStorage.setItem("user_type", user_type);
+      localStorage.setItem("is_admin", is_admin);
 
       setAuthToken(access_token);
 
@@ -102,6 +103,7 @@ export const logout = () => (dispatch) => {
   localStorage.removeItem("access_token");
   localStorage.removeItem("refresh_token");
   localStorage.removeItem("user_type");
+  localStorage.removeItem("is_admin");
 
   dispatch({
     type: LOGOUT,

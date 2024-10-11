@@ -35,6 +35,7 @@ const EmployeeList = () => {
   const [isUpdateUserModal, setIsUpdateUserModal] = useState(false);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [mapEmployee, setMapEmployee] = useState(null);
+  const [allGroups, setAllGroups] = useState([]);
 
 
   const userTypeRef = useRef(null);
@@ -177,6 +178,25 @@ const EmployeeList = () => {
       axios.interceptors.request.eject(requestInterceptor);
       axios.interceptors.response.eject(responseInterceptor);
     };
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const token = localStorage.getItem('access_token');
+      const groupsResponse = await axios.get('http://135.181.42.192/services/groups/', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      const groupsData = groupsResponse.data;
+      console.log('Fetched groups:', groupsData);
+      setAllGroups(groupsData);
+    } catch (error) {
+      console.error('Error fetching groups:', error);
+    }
+  };
+  useEffect(() => {
+    fetchData();
   }, []);
 
   const initializeEmployeeModals = (employeesData) => {
@@ -422,16 +442,17 @@ const EmployeeList = () => {
             {showGroupOptions && (
               <div className="group-modal employee-modal-group" ref={groupRef}>
                 <div onClick={() => handleGroupFilter(null)}>Hamısı</div>
-                {[...new Set(employees.map(employee => employee.group && employee.group.group))]
+                {allGroups
                   .filter(group => group)
                   .map((group, index) => (
-                    <div key={index} onClick={() => handleGroupFilter(group)}>
-                      {group}
+                    <div key={index} onClick={() => handleGroupFilter(group.group)}>
+                      {group.group}
                     </div>
                   ))}
               </div>
             )}
           </div>
+
         </div>
       </div>
       <div className="employee-table-container">
