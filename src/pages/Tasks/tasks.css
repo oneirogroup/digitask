@@ -47,6 +47,13 @@
   
   .task-page .type-icon {
     font-size: 20px;
+
+  }
+
+  .taskType-modal-body .type-icon{
+    text-align: right;
+    display: flex;
+    justify-content: end;
   }
   
   .task-page-title{

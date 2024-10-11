@@ -203,6 +203,7 @@
 
 .region-small-modal {
   position: absolute;
+  height: 250px;
   z-index: 100;
   background-color: white;
   top: 56px;

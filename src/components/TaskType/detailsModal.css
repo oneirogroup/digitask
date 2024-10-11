@@ -116,6 +116,10 @@
     font-family: 'Nunito Sans', sans-serif;
     font-size: 17px;
     font-weight: 700;
+    overflow: auto;
+    scrollbar-width: thin;
+    width: 15vw;
+    text-align: right;
 }
 
 .taskType-info svg,
@@ -149,8 +153,10 @@
 
 .taskType-note div:last-of-type span {
     margin-top:10px;
+    width: 100% !important;
     overflow: auto;
     scrollbar-width: thin;
+    text-align: left !important;
 }
 
 .taskType-phone span {
