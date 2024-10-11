@@ -384,7 +384,6 @@ z-index: 10000;
   #details-task .dropdown-task-item input{
     width: max-content;
     margin-bottom: 0;
-    display: none;
   }
 
   #details-task .dropdown-task-item:hover{

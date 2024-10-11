@@ -177,7 +177,7 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
             formDataToSend.append('is_internet', formData.is_internet);
             formDataToSend.append('is_tv', formData.is_tv);
             formDataToSend.append('task_type', task_type);
-            formDataToSend.append('groupId', JSON.stringify(formData.groupId));
+            formDataToSend.append('groupId', formDataToSend.append('group', JSON.stringify(formData.group)));
 
             if (formData.latitude) {
                 formDataToSend.append('latitude', formData.latitude);

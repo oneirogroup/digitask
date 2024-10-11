@@ -378,7 +378,7 @@ function Index() {
                                     </td>
 
                                     <td onClick={() => openTaskDetailsModal(item.id)}>{item.location}</td>
-                                    <td onClick={() => openTaskDetailsModal(item.id)}>{item.contact_number ? item.contact_number : 'No Number'}</td>
+                                    <td onClick={() => openTaskDetailsModal(item.id)}>{item.contact_number ? item.contact_number : '-'}</td>
                                     <td className="task-status">
                                         {userType === 'Texnik' || item.phone === userPhone && !item.phone ? (
                                             <>

@@ -117,9 +117,9 @@
   resize: none;
 }
 
-.event-modal div:last-of-type:not(.meeting-datepicker button) > button {
+.event-submit {
   margin-top: 10px;
-  background-color: #005ABF;
+  background-color: #005ABF !important;
   color: white;
   border: none;
   border-radius:10px;
