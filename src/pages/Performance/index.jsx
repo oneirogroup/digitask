@@ -179,23 +179,29 @@ function Index() {
               </div>
             )}
           </div>
-          <div className="date-picker-container">
-            <input
-              type="date"
-              className="date-picker"
-              value={start_date}
-              onClick={handleStartDateClick}
-              placeholder="ay/gün/il"
-              readOnly
-            />
-            <input
-              type="date"
-              className="date-picker"
-              value={end_date}
-              onClick={handleEndDateClick}
-              placeholder="ay/gün/il"
-              readOnly
-            />
+          <div className="date-picker-container performance-date">
+            <div className="date-picker-wrapper">
+              {!start_date && <span className="placeholder">ay/gün/il</span>}
+              <input
+                type="date"
+                className="date-picker"
+                value={start_date}
+                onClick={handleStartDateClick}
+                onChange={(e) => setStartDate(e.target.value)}
+
+              />
+            </div>
+
+            <div className="date-picker-wrapper">
+              {!end_date && <span className="placeholder">ay/gün/il</span>}
+              <input
+                type="date"
+                className="date-picker"
+                value={end_date}
+                onClick={handleEndDateClick}
+                onChange={(e) => setEndDate(e.target.value)}
+              />
+            </div>
           </div>
         </div>
         <div className="performance-table-container">

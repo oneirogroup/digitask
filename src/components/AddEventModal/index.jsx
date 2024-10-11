@@ -5,7 +5,13 @@ import { IoMdClose } from "react-icons/io";
 import { RiMapPinAddFill } from "react-icons/ri";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 import DatePicker from "react-datepicker";
-import { az } from "date-fns/locale";
+import { registerLocale, setDefaultLocale } from 'react-datepicker';
+
+
+import az from 'date-fns/locale/az';
+
+registerLocale('az', az);
+
 
 const MEETING_TYPES = [
   { value: "Şənlik", label: "Şənlik" },
@@ -15,6 +21,7 @@ const MEETING_TYPES = [
 ];
 
 const AddEventModal = ({ isOpen, onClose, refreshMeetings }) => {
+
   const [eventName, setEventName] = useState("");
   const [eventDate, setEventDate] = useState("");
   const [eventTime, setEventTime] = useState("");
@@ -235,11 +242,12 @@ const AddEventModal = ({ isOpen, onClose, refreshMeetings }) => {
               <label>
                 Keçiriləcəyi gün:
               </label>
-              <input
-                type="date"
-                value={eventDate}
-                onChange={(e) => setEventDate(e.target.value)}
-                lang="az"
+              <DatePicker
+                selected={eventDate}
+                onChange={(date) => setEventDate(date)}
+                locale="az"
+                placeholderText="gün/ay/il"
+                dateFormat="dd.MM.yyyy"
               />
               {error.eventDate && (
                 <p className="error-message">{error.eventDate}</p>
@@ -253,6 +261,7 @@ const AddEventModal = ({ isOpen, onClose, refreshMeetings }) => {
                 type="time"
                 value={eventTime}
                 onChange={(e) => setEventTime(e.target.value)}
+                step="1"
               />
               {error.eventTime && (
                 <p className="error-message">{error.eventTime}</p>
@@ -387,7 +396,7 @@ const AddEventModal = ({ isOpen, onClose, refreshMeetings }) => {
               onChange={combinedInputChange}
             />
           </section>
-          <button onClick={handleAddEvent} disabled={loading}>
+          <button className="event-submit" onClick={handleAddEvent} disabled={loading}>
             {loading ? "Yüklənir..." : "Tədbiri əlavə et"}
           </button>
         </div>

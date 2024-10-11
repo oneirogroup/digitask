@@ -243,7 +243,7 @@ const Home = () => {
                                                 </div>
                                             </td>
                                             <td>{item.location}</td>
-                                            <td>{item.phone ? item.phone : "No Number"}</td>
+                                            <td>{item.phone ? item.phone : "-"}</td>
                                             <td className="task-status">
                                                 <button
                                                     className={`status ${item.status
