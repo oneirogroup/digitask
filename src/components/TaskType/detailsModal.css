@@ -41,6 +41,7 @@
 .taskType-modal-title{
   display: flex;
   align-items: center;
+  gap: 7px;
 }
 
 
@@ -49,6 +50,7 @@
   font-size: 27px;
   font-weight: 500;
   margin: 0 auto;
+  padding-left: 62px;
 }
 
 .taskType-modal-title >  div div {
