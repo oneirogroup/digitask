@@ -1,16 +1,13 @@
-import { WithId } from "../../types/with-id";
+import { DateService } from "../../services/date-service";
+import { Task } from "../../types/backend/task";
 import { TagProps } from "./components/tag.types";
 
 export interface TaskDate {
-  start: Date;
-  end?: Date;
+  start: DateService;
+  end?: DateService;
 }
 
 export interface TaskProps {
-  reporter: string;
-  tags: WithId<TagProps>[];
-  location: string;
-  date: TaskDate;
-  phone: string;
-  status: string;
+  task: Task;
+  tags: TagProps[];
 }
