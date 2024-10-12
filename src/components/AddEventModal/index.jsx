@@ -127,9 +127,10 @@ const AddEventModal = ({ isOpen, onClose, refreshMeetings }) => {
       title: eventName,
       meeting_type: meetingType,
       participants: selectedParticipants.map((participant) => participant.id),
-      date: `${eventDate}T${eventTime}:00`,
+      date: `${eventDate.toISOString().split('T')[0]}T${eventTime}:00`,
       meeting_description: eventDescription,
     };
+
 
     try {
       const response = await axios.post(
@@ -235,8 +236,6 @@ const AddEventModal = ({ isOpen, onClose, refreshMeetings }) => {
           {error.eventName && (
             <p className="error-message">{error.eventName}</p>
           )}
-          {error.general && <p className="error-message">{error.general}</p>}
-
           <div className="date-time-container">
             <section className="meeting-label-input">
               <label>
@@ -261,7 +260,6 @@ const AddEventModal = ({ isOpen, onClose, refreshMeetings }) => {
                 type="time"
                 value={eventTime}
                 onChange={(e) => setEventTime(e.target.value)}
-                step="1"
               />
               {error.eventTime && (
                 <p className="error-message">{error.eventTime}</p>
@@ -396,8 +394,10 @@ const AddEventModal = ({ isOpen, onClose, refreshMeetings }) => {
               onChange={combinedInputChange}
             />
           </section>
+          {error.general && <p className="error-message">{error.general}</p>}
+
           <button className="event-submit" onClick={handleAddEvent} disabled={loading}>
-            {loading ? "Yüklənir..." : "Tədbiri əlavə et"}
+            {loading ? "Yüklənir..." : "Tədbir əlavə et"}
           </button>
         </div>
       </div>

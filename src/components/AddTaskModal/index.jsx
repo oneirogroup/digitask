@@ -223,6 +223,7 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
                     type="checkbox"
                     checked={formData.group.includes(group.id)}
                     onChange={() => handleGroupSelect(group.id)}
+                    onClick={() => handleGroupSelect(Number(group.id))}
                 />
                 {group.group}
             </div>
@@ -246,7 +247,6 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
     };
 
     function extractCoordinatesFromUrl(url) {
-        // Regular expressions for different URL formats
         const regex1 = /@(-?\d+\.\d+),(-?\d+\.\d+),/; // For URLs with '@lat,lng'
         const regex2 = /q=(-?\d+\.\d+),(-?\d+\.\d+)/; // For URLs with 'q=lat,lng'
         const regex3 = /place\/(-?\d+\.\d+),(-?\d+\.\d+)/; // For URLs with 'place/lat,lng'
