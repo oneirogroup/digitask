@@ -1,90 +1,48 @@
-import { type Dayjs, isDayjs } from "dayjs";
+import dayjs, { Dayjs, isDayjs } from "dayjs";
+import advancedFormat from "dayjs/plugin/advancedFormat";
+import calendar from "dayjs/plugin/calendar";
+import devHelper from "dayjs/plugin/devHelper";
+import timezone from "dayjs/plugin/timezone";
+
+dayjs.extend(advancedFormat);
+dayjs.extend(calendar);
+dayjs.extend(devHelper);
+dayjs.extend(timezone);
+dayjs.extend((option, dayjsClass, dayjsFactory) => {});
 
 export class DateService extends Date {
-  static months = [
-    "Yanvar",
-    "Fevral",
-    "Mart",
-    "Aprel",
-    "May",
-    "İyun",
-    "İyul",
-    "Avqust",
-    "Sentyabr",
-    "Oktyabr",
-    "Noyabr",
-    "Dekabr"
-  ];
+  private readonly dayjs: Dayjs;
 
-  static days = ["Bazar ertəsi", "Çərşənbə axşamı", "Çərşənbə", "Cümə axşamı", "Cümə", "Şənbə", "Bazar"];
-
-  static pronounsDays = {
-    beforeYesterday: "Sırağan gün",
-    today: "Bu gün",
-    yesterday: "Dünən",
-    tomorrow: "Sabah",
-    afterTomorrow: "Biri gün"
-  };
-
-  static getFormats(date: Date) {
-    return {
-      dd: () => date.getDate().toString().padStart(2, "0"),
-      d: () => date.getDate(),
-      mm: () => date.getMonth() + 1,
-      yyyy: () => date.getFullYear(),
-      yy: () => date.getFullYear().toString().slice(-2),
-      hh: () => date.getHours().toString().padStart(2, "0"),
-      h: () => date.getHours(),
-      m: () => date.getMinutes(),
-      s: () => date.getSeconds(),
-      MM: () => DateService.months[date.getMonth() + 1],
-      pr() {
-        const today = new DateService();
-        const diff = today.diff(date);
-        const pronounsDateKey =
-          diff.days === 0
-            ? "today"
-            : diff.days === 1
-              ? "yesterday"
-              : diff.days === -1
-                ? "tomorrow"
-                : diff.days === 2
-                  ? "afterTomorrow"
-                  : diff.days === -2
-                    ? "beforeYesterday"
-                    : DateService.from(date);
-
-        const formats = this;
-        return pronounsDateKey instanceof DateService
-          ? "dd MM".split(" ").map(key => formats[key as keyof typeof formats])
-          : DateService.pronounsDays[pronounsDateKey];
-      }
-    };
+  private constructor(date: number | string | Date) {
+    super(date);
+    this.dayjs = dayjs(date);
   }
 
-  static from(date: string | number | Date | Dayjs = new Date()) {
+  static from(date: number | string | Date | Dayjs, tz = "Asia/Baku") {
     if (isDayjs(date)) {
-      return new DateService(date.toDate());
+      return new DateService(date.toDate()).tz(tz);
     }
-    return new DateService(date);
+    return new DateService(date).tz(tz);
   }
 
   format(format: string) {
-    const formats = DateService.getFormats(this);
-    const keys = Object.keys(formats);
-    const formatFn = (key: string) => formats[key as keyof typeof formats]()?.toString() || "";
-    keys.forEach(key => (format = format.replace(key, formatFn(key))));
-    return format;
+    return this.dayjs.format(format);
   }
 
-  diff(until: Date) {
-    const diff = until.getTime() - this.getTime();
+  diff(date: Date) {
     return {
-      seconds: Math.floor(diff / 1000),
-      minutes: Math.floor(diff / 1000 / 60),
-      hours: Math.floor(diff / 1000 / 60 / 60),
-      days: Math.floor(diff / 1000 / 60 / 60 / 24)
+      seconds: this.dayjs.diff(date, "second"),
+      minutes: this.dayjs.diff(date, "minute"),
+      hours: this.dayjs.diff(date, "hour"),
+      days: this.dayjs.diff(date, "day"),
+      months: this.dayjs.diff(date, "month"),
+      years: this.dayjs.diff(date, "year")
     };
+  }
+
+  tz(tz: string) {
+    // this.dayjs.tz(tz);
+    return this;
   }
 
   get add() {
