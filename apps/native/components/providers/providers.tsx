@@ -3,27 +3,20 @@ import { AppState, AppStateStatus, Platform } from "react-native";
 
 import { useAsyncStorageDevTools } from "@dev-plugins/async-storage";
 import { useReactQueryDevTools } from "@dev-plugins/react-query";
-import { AuthHttp, TailwindConfigProvider, logger } from "@oneiro/ui-kit";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { TailwindConfigProvider, logger } from "@oneiro/ui-kit";
 import NetInfo from "@react-native-community/netinfo";
 import { QueryClient, QueryClientProvider, focusManager, onlineManager } from "@tanstack/react-query";
 
 import { isDev } from "../../const";
-import { Tokens } from "../../types/tokens";
 
 onlineManager.setEventListener(setOnline => NetInfo.addEventListener(state => setOnline(!!state.isConnected)));
 
 logger.setLogLevel(isDev ? "debug" : "log");
-AuthHttp.waitForToken({ timeout: 1e5 })
-  .then(() => AsyncStorage.getItem(Tokens.ACCESS_TOKEN))
-  .then(AuthHttp.setToken)
-  .catch(console.log)
-  .catch(AuthHttp.stopWaiting);
 
 const queryClient = new QueryClient({
   defaultOptions: {
     mutations: {
-      onError: logger.error.bind(logger, "digitask.native:providers:query-client.mutation-error")
+      onError: logger.debug.bind(logger, "digitask.native:providers:query-client.mutation-error")
     }
   }
 });
