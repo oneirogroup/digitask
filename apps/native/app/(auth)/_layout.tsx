@@ -4,7 +4,7 @@ import { AuthHttp } from "@oneiro/ui-kit";
 
 import { env } from "../../utils/env";
 
-AuthHttp.setBaseUrl(env.EXPO_PUBLIC_API_URL);
+AuthHttp.settings().setBaseUrl(env.EXPO_PUBLIC_API_URL);
 
 export default function AuthLayout() {
   return (

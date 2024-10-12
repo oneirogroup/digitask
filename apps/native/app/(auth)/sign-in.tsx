@@ -13,6 +13,8 @@ import { Tokens } from "../../types/tokens";
 
 import logo from "../../assets/images/logo.png";
 
+const authHttpSettings = AuthHttp.settings();
+
 export default function Welcome() {
   const signInMutation = useMutation({
     mutationFn: (data: SignInSchema) =>
@@ -26,6 +28,7 @@ export default function Welcome() {
     logger.debug("digitask.native:auth:sign-in.auth-response", response);
     await AsyncStorageNative.setItem(Tokens.ACCESS_TOKEN, response.access_token);
     await AsyncStorageNative.setItem(Tokens.REFRESH_TOKEN, response.refresh_token);
+    await authHttpSettings.retrieveTokens()();
     router.replace("/(dashboard)");
   };
 
