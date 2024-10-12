@@ -26,6 +26,9 @@ export const baseConfig = defineConfig({
         },
         keyframes: {
           spin: { "0%": { transform: "rotate(0deg)" }, "100%": { transform: "rotate(360deg)" } }
+        },
+        borderRadius: {
+          "2.25xl": "1.125rem"
         }
       }
     }
