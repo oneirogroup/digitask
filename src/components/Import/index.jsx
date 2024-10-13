@@ -152,7 +152,7 @@ function Import({ onClose, warehouses }) {
                         <label>
                             Port sayı
                             <input
-                                type="text"
+                                type="number"
                                 name="port_number"
                                 placeholder='Port sayı'
                                 value={formData.port_number}
@@ -163,7 +163,7 @@ function Import({ onClose, warehouses }) {
                         <label>
                             Seriya nömrəsi
                             <input
-                                type="text"
+                                type="number"
                                 name="serial_number"
                                 placeholder='Seriya nömrəsi'
                                 value={formData.serial_number}

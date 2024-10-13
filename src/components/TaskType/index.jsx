@@ -174,7 +174,7 @@ function DetailsModal({
                         passport: data.passport ? data.passport : null,
                         services: data.services,
                         status: data.status,
-                        group: data.group?.map((g) => g.group),
+                        group: data.group,
                         note: data.note,
                         latitude: data.latitude,
                         longitude: data.longitude,
@@ -348,26 +348,27 @@ function DetailsModal({
             .join(", ");
     };
 
-    const renderGroups = () => {
-        return groups.map((group) => (
-            <label key={group.id} className="dropdown-task-item">
-                <input
-                    type="checkbox"
-                    checked={formData.group.includes(group.id)}
-                    onChange={() => handleGroupSelect(group.id)}
-                />
-                {group.group}
-            </label>
-        ));
-    };
-
     const handleGroupSelect = (groupId) => {
         setFormData((prevState) => {
             const updatedGroups = prevState.group.includes(groupId)
                 ? prevState.group.filter((id) => id !== groupId)
                 : [...prevState.group, groupId];
-            return { ...prevState, group: updatedGroups };
+            return { ...prevState, group: updatedGroups.map(Number) };
         });
+    };
+
+    const renderGroups = () => {
+        return groups.map((group) => (
+            <label key={group.id} className="dropdown-task-item" onClick={() => handleGroupSelect(Number(group.id))}>
+                <input
+                    type="checkbox"
+                    checked={formData.group.includes(group.id)}
+                    onChange={() => handleGroupSelect(group.id)}
+                // onClick={() => handleGroupSelect(Number(group.id))}
+                />
+                {group.group}
+            </label>
+        ));
     };
 
     const handleFormSubmit = (e) => {
@@ -375,20 +376,16 @@ function DetailsModal({
 
         const updatedFormData = new FormData();
 
-
-
         Object.keys(formData).forEach((key) => {
             if (formData[key] !== taskDetails[key]) {
                 updatedFormData.append(key, formData[key]);
             }
         });
 
-        for (const [key, value] of Object.entries(setFormData)) {
-            if (key === "passport" && value) {
-                formData.append(key, value);
-            } else {
-                formData.append(key, value);
-            }
+        if (formData.group && typeof formData.group === 'string') {
+            updatedFormData.append('group', parseInt(formData.group));
+        } else {
+            updatedFormData.append('group', formData.group);
         }
 
         if (imageFile) {
@@ -403,20 +400,15 @@ function DetailsModal({
                 if (!response.ok) {
                     return response.json().then((err) => {
                         throw new Error(
-                            `Error: ${response.status} ${response.statusText
-                            } - ${JSON.stringify(err)}`
+                            `Error: ${response.status} ${response.statusText} - ${JSON.stringify(err)}`
                         );
                     });
                 }
-                console.log(response)
-
                 return response.json();
             })
             .then((data) => {
                 setTaskDetails(data);
                 setAddedServices(data.addedServices || []);
-
-
                 setFormData({
                     task_type: data.task_type,
                     full_name: data.full_name,
@@ -429,7 +421,7 @@ function DetailsModal({
                     passport: data.passport ? data.passport : null,
                     services: data.services,
                     status: data.status,
-                    group: JSON.stringify(formData.groupId),
+                    group: data.group,
                     note: data.note,
                     latitude: data.latitude,
                     longitude: data.longitude,
@@ -440,8 +432,6 @@ function DetailsModal({
                 setIsEditing(false);
                 onClose();
                 onTaskUpdated(data);
-                console.log(data)
-
             })
             .catch((error) => console.error("Error updating task:", error));
     };
