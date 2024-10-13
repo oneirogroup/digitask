@@ -19,6 +19,7 @@
     "@expo/vector-icons": "^14.0.4",
     "@hookform/resolvers": "^3.9.0",
     "@oneiro/ui-kit": "workspace:^",
+    "@oneiro/ws-client": "workspace:^",
     "@react-native-async-storage/async-storage": "1.23.1",
     "@react-native-community/netinfo": "11.3.1",
     "@react-navigation/material-top-tabs": "^6.6.14",

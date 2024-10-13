@@ -4,6 +4,7 @@ import { AppState, AppStateStatus, Platform } from "react-native";
 import { useAsyncStorageDevTools } from "@dev-plugins/async-storage";
 import { useReactQueryDevTools } from "@dev-plugins/react-query";
 import { TailwindConfigProvider, logger } from "@oneiro/ui-kit";
+import { WebsocketProvider } from "@oneiro/ws-client/src/components/websocket-provider";
 import NetInfo from "@react-native-community/netinfo";
 import { QueryClient, QueryClientProvider, focusManager, onlineManager } from "@tanstack/react-query";
 
@@ -36,8 +37,10 @@ export const Providers: FC<PropsWithChildren> = ({ children }) => {
   }, []);
 
   return (
-    <TailwindConfigProvider>
-      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-    </TailwindConfigProvider>
+    <WebsocketProvider>
+      <TailwindConfigProvider>
+        <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+      </TailwindConfigProvider>
+    </WebsocketProvider>
   );
 };
