@@ -6,8 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { TasksWithStatuses } from "../../../components/task";
 import { Status } from "../../../components/task/task-list-with-tags.types";
 import { Task } from "../../../types/backend/task";
-
-const uppercase = (str: string) => str[0]?.toUpperCase() + str.slice(1);
+import { uppercase } from "../../../utils/uppercase";
 
 export default function Connections() {
   const [statuses, setStatuses] = useState<Status[]>([]);

@@ -2,15 +2,18 @@ import { FC } from "react";
 
 import { Text } from "@oneiro/ui-kit";
 
+import { DateService } from "../../../services/date-service";
 import { TaskDate as TaskDateProps } from "../task.types";
 
 export const TaskDate: FC<TaskDateProps> = ({ start, end }) => {
-  // const startDate = DateService.from(start);
-  // const endDate = end ? DateService.from(end) : null;
-  // const diff = endDate ? startDate.diff(endDate) : null;
-  // const isDiffInNextDay =
-  //   !endDate || (diff && endDate && diff.seconds > 0 && diff.days > 1 && endDate.getDay() !== startDate.getDay());
-  //
+  const startDate = DateService.from(start);
+  const endDate = end ? DateService.from(end) : null;
+  const diff = endDate ? startDate.diff(endDate) : null;
+  const isDiffInNextDay =
+    !endDate || (diff && endDate && diff.seconds > 0 && diff.days > 1 && endDate.getDay() !== startDate.getDay());
+
+  console.log({ startDate: startDate.toString(), endDate: endDate?.toString(), diff });
+
   // console.log({ startDate, endDate, diff, isDiffInNextDay });
   //
   const dateParts: string[] = [];

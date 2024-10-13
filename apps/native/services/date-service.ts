@@ -1,11 +1,13 @@
 import dayjs, { Dayjs, isDayjs } from "dayjs";
 import advancedFormat from "dayjs/plugin/advancedFormat";
 import calendar from "dayjs/plugin/calendar";
+import customParseFormat from "dayjs/plugin/customParseFormat";
 import devHelper from "dayjs/plugin/devHelper";
 import timezone from "dayjs/plugin/timezone";
 
 dayjs.extend(advancedFormat);
 dayjs.extend(calendar);
+dayjs.extend(customParseFormat);
 dayjs.extend(devHelper);
 dayjs.extend(timezone);
 dayjs.extend((option, dayjsClass, dayjsFactory) => {});

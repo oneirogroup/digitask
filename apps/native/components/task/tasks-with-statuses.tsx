@@ -49,7 +49,7 @@ export const TasksWithStatuses: FC<TaskListWithTagsProps> = ({
       </View.Scroll>
 
       <Block className="flex gap-6 p-6">
-        {filteredTasks.map(task => (
+        {filteredTasks.slice(0, 12).map(task => (
           <Task key={task.id} task={task} tags={getTags(task)} />
         ))}
       </Block>

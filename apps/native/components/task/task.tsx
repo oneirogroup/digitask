@@ -10,6 +10,8 @@ import { TaskDate } from "./components/task-date";
 import { TaskProps } from "./task.types";
 
 export const Task: FC<TaskProps> = ({ tags, task }) => {
+  console.log(task);
+
   const startDate = DateService.from(Date.parse(task.date) + Date.parse(`1970-01-01 ${task.start_time}`));
   const endDate = DateService.from(Date.parse(task.date) + Date.parse(`1970-01-01 ${task.end_time}`));
 
@@ -27,7 +29,7 @@ export const Task: FC<TaskProps> = ({ tags, task }) => {
       </Block>
       <Block className="flex flex-row gap-2">
         <Icon name="location" variables={{ fill: palette.primary["50"] }} />
-        {/*<Text className="text-primary">{location}</Text>*/}
+        <Text className="text-primary">{task.location}</Text>
       </Block>
       <Block className="flex flex-row gap-2">
         <Icon name="clock" state="filled" variables={{ fill: palette.neutral["50"] }} />
