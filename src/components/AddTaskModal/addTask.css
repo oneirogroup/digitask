@@ -175,6 +175,7 @@
 
 .task-modal-content input[type="checkbox"] {
   margin-right: 10px;
+  cursor: pointer;
 }
 
 .task-modal-content button[type="submit"] {

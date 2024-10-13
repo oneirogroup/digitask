@@ -36,7 +36,7 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
         is_internet: false,
         is_tv: false,
         task_type: '',
-        group: '',
+        group: [],
         latitude: null,
         longitude: null,
     });
@@ -114,10 +114,9 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
             const updatedGroups = prevState.group.includes(groupId)
                 ? prevState.group.filter((id) => id !== groupId)
                 : [...prevState.group, groupId];
-            return { ...prevState, group: updatedGroups };
+            return { ...prevState, group: updatedGroups.map(Number) };
         });
     };
-
 
 
     const [errorText, setErrorText] = useState('');
@@ -133,7 +132,6 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
         if (!formData.is_tv && !formData.is_internet && !formData.is_voice)
             newErrors.service = 'Tv, internet və ya səs xidmətini seçin!';
         if (formData.group.length === 0) newErrors.group = 'Qrup seçin!';
-        console.log(formData.group)
 
         const errorMessages = [
             newErrors.date,
@@ -171,35 +169,27 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
         try {
             const task_type = activeFilter === "connection" ? "connection" : "problem";
 
-            const formDataToSend = new FormData();
-            formDataToSend.append('full_name', formData.full_name);
-            formDataToSend.append('registration_number', formData.registration_number);
-            formDataToSend.append('contact_number', formData.contact_number);
-            formDataToSend.append('location', formData.location);
-            formDataToSend.append('date', formData.date);
-            formDataToSend.append('start_time', formData.start_time);
-            formDataToSend.append('end_time', formData.end_time);
-            formDataToSend.append('note', formData.note);
-            formDataToSend.append('is_voice', formData.is_voice);
-            formDataToSend.append('is_internet', formData.is_internet);
-            formDataToSend.append('is_tv', formData.is_tv);
-            formDataToSend.append('task_type', task_type);
-            formDataToSend.append('group', formData.group);
+            const payload = {
+                full_name: formData.full_name,
+                registration_number: formData.registration_number,
+                contact_number: formData.contact_number,
+                location: formData.location,
+                date: formData.date,
+                start_time: formData.start_time,
+                end_time: formData.end_time,
+                note: formData.note,
+                is_voice: formData.is_voice,
+                is_internet: formData.is_internet,
+                is_tv: formData.is_tv,
+                task_type: task_type,
+                group: formData.group,
+                latitude: formData.latitude,
+                longitude: formData.longitude,
+            };
 
-            if (formData.latitude) {
-                formDataToSend.append('latitude', formData.latitude);
-            }
-            if (formData.longitude) {
-                formDataToSend.append('longitude', formData.longitude);
-            }
-
-            if (imageFile) {
-                formDataToSend.append('passport', imageFile);
-            }
-
-            const response = await axios.post('http://135.181.42.192/services/create_task/', formDataToSend, {
+            const response = await axios.post('http://135.181.42.192/services/create_task/', payload, {
                 headers: {
-                    'Content-Type': 'multipart/form-data',
+                    'Content-Type': 'application/json',
                 },
             });
 
@@ -214,6 +204,7 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
             console.error('Error creating task:', error);
         }
     };
+
 
 
     const renderGroups = () => {
@@ -247,9 +238,9 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
     };
 
     function extractCoordinatesFromUrl(url) {
-        const regex1 = /@(-?\d+\.\d+),(-?\d+\.\d+),/; // For URLs with '@lat,lng'
-        const regex2 = /q=(-?\d+\.\d+),(-?\d+\.\d+)/; // For URLs with 'q=lat,lng'
-        const regex3 = /place\/(-?\d+\.\d+),(-?\d+\.\d+)/; // For URLs with 'place/lat,lng'
+        const regex1 = /@(-?\d+\.\d+),(-?\d+\.\d+),/; 
+        const regex2 = /q=(-?\d+\.\d+),(-?\d+\.\d+)/; 
+        const regex3 = /place\/(-?\d+\.\d+),(-?\d+\.\d+)/;
 
         // Test the URL with different regex patterns
         let match = url.match(regex1) || url.match(regex2) || url.match(regex3);
@@ -261,7 +252,7 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
             };
         }
 
-        return null; // Return null if no coordinates found
+        return null;
     }
 
     const handleMapLink = (url) => {
