@@ -240,3 +240,5 @@ dist
 
 .turbo
 expo-env.d.ts
+
+libs/*/build
