@@ -16,10 +16,38 @@ export const UserProvider = ({ children }) => {
         const storedAccessToken = localStorage.getItem('access_token');
         const storedRefreshToken = localStorage.getItem('refresh_token');
 
+        const refreshToken = localStorage.getItem('refresh_token');
+
+        if (refreshToken) {
+            fetch('http://135.181.42.192/accounts/token/refresh/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    refresh: refreshToken,
+                }),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.access) {
+                        localStorage.setItem('access_token', data.access);
+                        console.log('New access token set in localStorage');
+                    } else {
+                        console.error('Failed to retrieve new access token:', data);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error during token refresh:', error);
+                });
+        } else {
+            console.error('No refresh token found in localStorage');
+        }
+
         setUserType(storedUserType);
         setIsAdmin(storedIsAdmin);
         setAccessToken(storedAccessToken);
-        setRefreshToken(storedRefreshToken);
+        setRefreshToken(refreshToken);
     }, []);
 
     return (
