@@ -4,32 +4,39 @@ import { useEffect } from "react";
 
 import { AuthHttp, Block, Text, View, cn } from "@oneiro/ui-kit";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useMutation } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 
 import { Tokens } from "../types/tokens";
 import { cache } from "../utils/cache";
 
 import logo from "../assets/images/logo.png";
 
+const authHttpSettings = AuthHttp.settings();
+
+authHttpSettings
+  .setStorage(AsyncStorage)
+  .setStorageTokenKeys({ access: Tokens.ACCESS_TOKEN, refresh: Tokens.REFRESH_TOKEN })
+  .setRefreshUrl("/accounts/token/refresh/")
+  .waitForToken({ timeout: 1e5 })
+  .then(authHttpSettings.retrieveTokens());
+
 export default function Index() {
-  const profileMutation = useMutation({
-    mutationKey: [cache.user.profile.$value],
-    mutationFn: () => AuthHttp.instance().get("/accounts/profile/")
+  const { isSuccess, isError } = useQuery({
+    queryKey: [cache.user.profile.$value],
+    queryFn: () => AuthHttp.instance().get("/accounts/profile/")
   });
 
   useEffect(() => {
-    const authHttpSettings = AuthHttp.settings();
+    if (isSuccess) {
+      router.replace("/chat");
+    }
+  }, [isSuccess]);
 
-    authHttpSettings
-      .setStorage(AsyncStorage)
-      .setStorageTokenKeys({ access: Tokens.ACCESS_TOKEN, refresh: Tokens.REFRESH_TOKEN })
-      .setRefreshUrl("/accounts/token/refresh/")
-      .waitForToken({ timeout: 1e5 })
-      .then(authHttpSettings.retrieveTokens())
-      .then(profileMutation.mutateAsync)
-      .then(() => router.replace("/(dashboard)"))
-      .catch(() => router.replace("/welcome"));
-  }, []);
+  useEffect(() => {
+    if (isError) {
+      router.replace("/welcome");
+    }
+  }, [isError]);
 
   return (
     <View className={cn("flex items-center pt-60", "bg-primary h-full w-full")}>
