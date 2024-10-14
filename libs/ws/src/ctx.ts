@@ -1,9 +1,12 @@
 import { createContext } from "react";
-import { WebSocket } from "ws";
+
+import { WebsocketClient } from "./utils/websocket-client";
 
 export interface WebSocketClients {
-  clients: Record<string, WebSocket>;
-  addClient(name: string, client: WebSocket): void;
+  clients: Record<string, WebsocketClient>;
+
+  addClient(name: string, client: WebsocketClient): void;
+
   removeClient(name: string): void;
 }
 

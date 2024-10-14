@@ -1468,7 +1468,7 @@ __metadata:
     react-native-pager-view: "npm:6.3.0"
     react-native-reanimated: "npm:~3.10.1"
     react-native-safe-area-context: "npm:4.10.5"
-    react-native-screens: "npm:3.31.1"
+    react-native-screens: "npm:~3.29.0"
     react-native-svg: "npm:15.2.0"
     react-native-tab-view: "npm:^3.5.2"
     react-native-ui-datepicker: "npm:^2.0.4"
@@ -3131,14 +3131,12 @@ __metadata:
   resolution: "@oneiro/ws-client@workspace:libs/ws"
   dependencies:
     "@types/react": "npm:^18.3.11"
-    "@types/ws": "npm:^8"
     "@vitejs/plugin-react-swc": "npm:^3.7.1"
     react: "npm:^18.3.1"
     typescript: "npm:5.4.2"
     vite: "npm:^5.4.8"
     vite-plugin-dts: "npm:^4.2.3"
     vite-tsconfig-paths: "npm:^5.0.1"
-    ws: "npm:^8.18.0"
   languageName: unknown
   linkType: soft
 
@@ -5739,15 +5737,6 @@ __metadata:
   version: 9.0.8
   resolution: "@types/uuid@npm:9.0.8"
   checksum: 10c0/b411b93054cb1d4361919579ef3508a1f12bf15b5fdd97337d3d351bece6c921b52b6daeef89b62340fd73fd60da407878432a1af777f40648cbe53a01723489
-  languageName: node
-  linkType: hard
-
-"@types/ws@npm:^8":
-  version: 8.5.12
-  resolution: "@types/ws@npm:8.5.12"
-  dependencies:
-    "@types/node": "npm:*"
-  checksum: 10c0/3fd77c9e4e05c24ce42bfc7647f7506b08c40a40fe2aea236ef6d4e96fc7cb4006a81ed1b28ec9c457e177a74a72924f4768b7b4652680b42dfd52bc380e15f9
   languageName: node
   linkType: hard
 
@@ -14621,16 +14610,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-screens@npm:3.31.1":
-  version: 3.31.1
-  resolution: "react-native-screens@npm:3.31.1"
+"react-native-screens@npm:~3.29.0":
+  version: 3.29.0
+  resolution: "react-native-screens@npm:3.29.0"
   dependencies:
     react-freeze: "npm:^1.0.0"
     warn-once: "npm:^0.1.0"
   peerDependencies:
     react: "*"
     react-native: "*"
-  checksum: 10c0/899a02751ecbc6231ce3c869268fb510e5b53428c788135ae46f4bbd768efe78bf74f17fec5becc4c4c1e81a5f224a907dc890ba2406181ff9e21830dda95dec
+  checksum: 10c0/90c32eb5452007f64c2f56412c671de98b4b89f09cf09cc7a7dca1cb23b1ac6de9bc726c67e774c7cb68dbd05bb329c053c1c2f071f534ad4e27d9d60be76eb0
   languageName: node
   linkType: hard
 

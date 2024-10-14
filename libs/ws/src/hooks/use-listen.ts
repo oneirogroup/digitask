@@ -11,14 +11,20 @@ export const useListen = <TData, TIsValueArrayList extends boolean>(
   const [message, setMessage] = useState<TData | null>(null);
 
   useEffect(() => {
-    wsClient.addEventListener("message", event => {
+    if (!wsClient) return;
+    const unsubscribe = wsClient.listen((data: TData) => {
+      console.log(data);
       if (isListOfValues) {
-        setMessages(prev => [...prev, JSON.parse(event.data.toString())]);
+        setMessages(prev => [...prev, data]);
         return;
       }
-      setMessage(JSON.parse(event.data.toString()));
+      setMessage(data);
     });
-  }, []);
+
+    return () => {
+      unsubscribe();
+    };
+  }, [wsClient]);
 
   // @ts-ignore
   return isListOfValues ? messages : message;
