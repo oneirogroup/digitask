@@ -11,7 +11,7 @@ export const useWebsocket = (name: string, url?: string): WebsocketClient | unde
       throw new Error("useWebsocket must be used within a WebsocketProvider");
     }
 
-    const { clients, addClient } = wsClients;
+    const { clients, addClient, removeClient } = wsClients;
     if (!clients) {
       throw new Error("useWebsocket must be used within a WebsocketProvider");
     }
@@ -25,6 +25,13 @@ export const useWebsocket = (name: string, url?: string): WebsocketClient | unde
       addClient(name, client);
       return;
     }
+
+    return () => {
+      if (clients[name]) {
+        clients[name].close();
+        removeClient(name);
+      }
+    };
   }, []);
 
   return wsClients.clients[name];

@@ -4,6 +4,7 @@ export class WebsocketClient {
   private ws: WebSocket;
   private tried = 0;
   private tries = 5;
+  private isForceClosed = false;
   private emittedData: [string, any][] = [];
   private subscriptions: Record<string | symbol, ((data: any) => void)[]> = {};
 
@@ -41,7 +42,12 @@ export class WebsocketClient {
 
     return () => {
       this.subscriptions[subscriptions] = this.subscriptions[subscriptions].filter(sub => sub !== cb);
-    }
+    };
+  }
+
+  close() {
+    this.isForceClosed = true;
+    this.ws.close();
   }
 
   private prepare() {
@@ -65,7 +71,7 @@ export class WebsocketClient {
         try {
           const { event, data: datum } = JSON.parse(data);
           this.subscriptions[event]?.forEach(cb => cb(datum));
-          this.subscriptions[subscriptions]?.forEach(cb => cb(data));
+          this.subscriptions[subscriptions]?.forEach(cb => cb(JSON.parse(data)));
         } catch (e) {
           console.error(e);
         }
@@ -73,7 +79,9 @@ export class WebsocketClient {
     });
 
     this.ws.addEventListener("close", () => {
-      this.reconnect();
+      if (!this.isForceClosed) {
+        // this.reconnect();
+      }
     });
   }
 

@@ -27,5 +27,5 @@ export const useListen = <TData, TIsValueArrayList extends boolean>(
   }, [wsClient]);
 
   // @ts-ignore
-  return isListOfValues ? messages : message;
+  return isListOfValues ? Object.assign(messages, { last: messages.at(-1) }) : message;
 };
