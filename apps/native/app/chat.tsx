@@ -1,6 +1,6 @@
 import { Text, View } from "react-native";
 
-import { AuthHttp, Input } from "@oneiro/ui-kit";
+import { AuthHttp, Input, logger } from "@oneiro/ui-kit";
 import { useListen, useWebsocket } from "@oneiro/ws-client";
 import { useQuery } from "@tanstack/react-query";
 
@@ -12,12 +12,10 @@ interface Message {}
 export default function Chat() {
   const { data } = useQuery<ProfileData>({ queryKey: [cache.user.profile.$value], initialData: {} as any });
   const tokens = AuthHttp.settings().getTokens();
-  console.log(data);
 
-  console.log(`ws://135.181.42.192/chat/?email=${data.email}&token=${tokens.access}`);
+  logger.debug("digitask.native:chat:url", `ws://135.181.42.192/chat/?email=${data.email}&token=${tokens.access}`);
   useWebsocket("chat", `ws://135.181.42.192/chat/?email=${data.email}&token=${tokens.access}`);
   const messages = useListen<Message, true>("chat", true);
-  console.log(messages);
 
   return (
     <View>
