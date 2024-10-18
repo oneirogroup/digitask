@@ -1,6 +1,5 @@
 import { FC } from "react";
-
-import { Text } from "@oneiro/ui-kit";
+import { Text } from "react-native";
 
 import { DateService } from "../../../services/date-service";
 import { TaskDate as TaskDateProps } from "../task.types";
