@@ -16,6 +16,7 @@ export default {
     supportsTablet: true
   },
   android: {
+    package: "com.oneirogroup.digitask",
     adaptiveIcon: {
       backgroundColor: "#ffffff"
     }
@@ -24,5 +25,10 @@ export default {
   experiments: {
     typedRoutes: true,
     reactCompiler: true
+  },
+  extra: {
+    eas: {
+      projectId: "6bd68789-3a70-4f7f-8e96-c813e131dfd0"
+    }
   }
 } satisfies ExpoConfig;
