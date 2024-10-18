@@ -1,7 +1,8 @@
 import { TagProps } from "../components/task/components/tag.types";
 import { Task } from "../types/backend/task";
 
-export const getTags = (task: Task) => {
+export const getTags = (task?: Task) => {
+  if (!task) return [];
   const tags: TagProps[] = [];
   task.has_tv && tags.push({ tag: "tv", icon: "tv" });
   task.has_internet && tags.push({ tag: "internet", icon: "web" });
