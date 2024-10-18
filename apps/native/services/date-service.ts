@@ -15,12 +15,12 @@ dayjs.extend((option, dayjsClass, dayjsFactory) => {});
 export class DateService extends Date {
   private readonly dayjs: Dayjs;
 
-  private constructor(date: number | string | Date) {
-    super(date);
+  private constructor(date?: number | string | Date) {
+    super(date || new Date());
     this.dayjs = dayjs(date);
   }
 
-  static from(date: number | string | Date | Dayjs, tz = "Asia/Baku") {
+  static from(date?: number | string | Date | Dayjs, tz = "Asia/Baku") {
     if (isDayjs(date)) {
       return new DateService(date.toDate()).tz(tz);
     }
