@@ -38,7 +38,7 @@ export const palette = {
     "95": "#C9FFBD",
     "99": "#F6FFEF"
   },
-  error: {
+  danger: {
     "10": "#750606",
     "20": "#940707",
     "30": "#BB0707",

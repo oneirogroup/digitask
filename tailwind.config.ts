@@ -8,7 +8,7 @@ export const baseConfig = defineConfig({
       primary: { DEFAULT: colors.primary["60"] },
       secondary: { DEFAULT: colors.secondary["60"] },
       success: { DEFAULT: colors.success["60"] },
-      error: { DEFAULT: colors.error["60"] },
+      danger: { DEFAULT: colors.danger["60"] },
       neutral: { DEFAULT: colors.neutral["60"] },
       link: { DEFAULT: colors.primary["50"] }
     };
