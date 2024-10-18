@@ -25,36 +25,37 @@ export default function Index() {
   const formattedDate = date.format("DD MMM");
 
   return (
-    <Block.Scroll contentClassName="flex justify-center items-start gap-4 p-4">
-      <Text className="text-xl">{formattedDate}</Text>
+    <Block.Fade>
+      <Block.Scroll contentClassName="flex justify-center items-start gap-4 p-4">
+        <Text className="text-xl">{formattedDate}</Text>
 
-      <BlockContainer className="flex items-center">
-        <Block className="size-28">
-          <Icon
-            name="circle"
-            variables={{
-              percentage: Math.round((12 / (12 + 20)) * 100),
-              fillFgColor: palette.secondary["80"],
-              fillBgColor: palette.primary["50"],
-              text: "32 task",
-              subtext: "tamamlandı",
-              textColor: "black"
-            }}
-          />
-        </Block>
+        <BlockContainer className="flex items-center">
+          <Block className="size-28">
+            <Icon
+              name="circle"
+              variables={{
+                percentage: Math.round((12 / (12 + 20)) * 100),
+                fillFgColor: palette.secondary["80"],
+                fillBgColor: palette.primary["50"],
+                text: "32 task",
+                subtext: "tamamlandı",
+                textColor: "black"
+              }}
+            />
+          </Block>
 
-        <Block className="flex flex-row justify-center gap-4">
-          <Text>
-            <Text>Qoşulmalar</Text>
-            <Text>12</Text>
-          </Text>
+          <Block className="flex flex-row justify-center gap-4">
+            <Text>
+              <Text>Qoşulmalar</Text>
+              <Text>12</Text>
+            </Text>
 
-          <Text>
-            <Text>Problemlər</Text>
-            <Text>20</Text>
-          </Text>
-        </Block>
-      </BlockContainer>
+            <Text>
+              <Text>Problemlər</Text>
+              <Text>20</Text>
+            </Text>
+          </Block>
+        </BlockContainer>
 
       <BlockSection title="Davam edən tasklar">
         <If condition={!!task}>
@@ -62,11 +63,11 @@ export default function Index() {
             <Task task={task!} tags={getTags(task)} />
           </If.Then>
 
-          <If.Else>
-            <Text>Task tapılmadı</Text>
-          </If.Else>
-        </If>
-      </BlockSection>
+            <If.Else>
+              <Text>Task tapılmadı</Text>
+            </If.Else>
+          </If>
+        </BlockSection>
 
       <BlockSection title="Tədbirlər">
         <Event name="Tədbir adı" date={new Date()} />
