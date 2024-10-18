@@ -1,19 +1,20 @@
 import { useState } from "react";
 
-import { AuthHttp, Block } from "@oneiro/ui-kit";
+import { Block } from "@oneiro/ui-kit";
 import { useQuery } from "@tanstack/react-query";
 
+import { api } from "../../../api";
 import { TasksWithStatuses } from "../../../components/task";
 import { Status } from "../../../components/task/task-list-with-tags.types";
-import { Task } from "../../../types/backend/task";
+import { cache } from "../../../utils/cache";
 import { uppercase } from "../../../utils/uppercase";
 
 export default function Connections() {
   const [statuses, setStatuses] = useState<Status[]>([]);
 
   const { data: tasks = [] } = useQuery({
-    queryKey: ["digitask.native:dashboard:connections"],
-    queryFn: () => AuthHttp.instance().get<Task[]>("/services/tasks"),
+    queryKey: [cache.user.profile.tasks],
+    queryFn: () => api.services.tasks.$get,
     select(tasks) {
       const states = Array.from(new Set(tasks.map(task => task.status)));
       const statuses = states.map<Status>(status => ({ name: uppercase(status), status }));
