@@ -1,21 +1,31 @@
-import { Text, View } from "react-native";
+import { Text } from "react-native";
 
-import { Block, Icon, logger } from "@oneiro/ui-kit";
+import { Block, Icon, If } from "@oneiro/ui-kit";
+import { useQuery } from "@tanstack/react-query";
 
 import { palette } from "../../../../palette";
+import { api } from "../../api";
 import { BlockContainer, BlockSection } from "../../components/blocks";
 import { Event } from "../../components/event";
 import { Task } from "../../components/task";
 import { DateService } from "../../services/date-service";
+import { cache } from "../../utils/cache";
+import { getTags } from "../../utils/get-tags";
 
 export default function Index() {
-  const date = new DateService();
-  const formattedDate = date.format("dd MM");
+  const { data: task } = useQuery({
+    queryKey: [cache.user.profile.tasks],
+    queryFn: () => api.services.tasks.$get,
+    select(tasks) {
+      return tasks[0];
+    }
+  });
 
-  const startDate = DateService.from().add.hours(1);
+  const date = DateService.from();
+  const formattedDate = date.format("DD MMM");
 
   return (
-    <View.Scroll contentClassName="flex justify-center items-start gap-4 p-4 ">
+    <Block.Scroll contentClassName="flex justify-center items-start gap-4 p-4">
       <Text className="text-xl">{formattedDate}</Text>
 
       <BlockContainer className="flex items-center">
@@ -47,22 +57,20 @@ export default function Index() {
       </BlockContainer>
 
       <BlockSection title="Davam edən tasklar">
-        <Task
-          reporter="Ayxan Osmanov"
-          tags={[
-            { id: "1", tag: "Tv", icon: "tv" },
-            { id: "2", tag: "Internet", icon: "web" }
-          ]}
-          location="Yasamal, Mirzə Şərifzadə 14"
-          date={{ start: startDate, end: startDate.add.hours(2) }}
-          phone="+994 55 555 55 55"
-          status="done"
-        />
+        <If condition={!!task}>
+          <If.Then>
+            <Task task={task!} tags={getTags(task)} />
+          </If.Then>
+
+          <If.Else>
+            <Text>Task tapılmadı</Text>
+          </If.Else>
+        </If>
       </BlockSection>
 
       <BlockSection title="Tədbirlər">
         <Event name="Tədbir adı" date={new Date()} />
       </BlockSection>
-    </View.Scroll>
+    </Block.Scroll>
   );
 }
