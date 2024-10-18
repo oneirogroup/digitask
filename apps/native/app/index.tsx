@@ -1,11 +1,13 @@
 import { Image } from "expo-image";
 import { router } from "expo-router";
 import { useEffect } from "react";
+import { Text, View } from "react-native";
 
-import { AuthHttp, Block, Text, View, cn } from "@oneiro/ui-kit";
+import { AuthHttp, Block, cn } from "@oneiro/ui-kit";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useQuery } from "@tanstack/react-query";
 
+import { api } from "../api";
 import { Tokens } from "../types/tokens";
 import { cache } from "../utils/cache";
 
@@ -23,12 +25,13 @@ authHttpSettings
 export default function Index() {
   const { isSuccess, isError } = useQuery({
     queryKey: [cache.user.profile.$value],
-    queryFn: () => AuthHttp.instance().get("/accounts/profile/")
+    queryFn: () => api.accounts.profile.$get,
+    retry: false
   });
 
   useEffect(() => {
     if (isSuccess) {
-      router.replace("/chat");
+      router.replace("/(dashboard)");
     }
   }, [isSuccess]);
 
