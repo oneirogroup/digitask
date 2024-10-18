@@ -1,6 +1,7 @@
 import { FC, useEffect } from "react";
+import { Text } from "react-native";
 
-import { Block, If, Table, Text } from "@oneiro/ui-kit";
+import { Block, If, Table, cn } from "@oneiro/ui-kit";
 import { useMutation } from "@tanstack/react-query";
 
 import { DateRange, RangePicker } from "../../components/date-time-picker";

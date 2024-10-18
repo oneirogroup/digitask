@@ -1,6 +1,7 @@
 import { FC } from "react";
+import { Text, View } from "react-native";
 
-import { Block, Icon, Text, View } from "@oneiro/ui-kit";
+import { Block, Icon } from "@oneiro/ui-kit";
 
 import { palette } from "../../../../palette";
 import { DateService } from "../../services/date-service";

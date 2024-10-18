@@ -1,8 +1,9 @@
 import { Image } from "expo-image";
 import { Link, router } from "expo-router";
 import { SubmitErrorHandler, SubmitHandler } from "react-hook-form";
+import { Text } from "react-native";
 
-import { AuthHttp, Block, Form, Input, Text, logger } from "@oneiro/ui-kit";
+import { AuthHttp, Block, Form, Input, logger } from "@oneiro/ui-kit";
 import AsyncStorageNative from "@react-native-async-storage/async-storage";
 import { useMutation } from "@tanstack/react-query";
 

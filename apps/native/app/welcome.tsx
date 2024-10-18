@@ -1,7 +1,8 @@
 import { Image } from "expo-image";
 import { router } from "expo-router";
+import { Text } from "react-native";
 
-import { Block, Button, Text } from "@oneiro/ui-kit";
+import { Block, Button } from "@oneiro/ui-kit";
 
 import { PageLayout } from "../components/page-layout";
 

@@ -1,4 +1,6 @@
-import { Block, Icon, Text, View, logger } from "@oneiro/ui-kit";
+import { Text, View } from "react-native";
+
+import { Block, Icon, logger } from "@oneiro/ui-kit";
 
 import { palette } from "../../../../palette";
 import { BlockContainer, BlockSection } from "../../components/blocks";

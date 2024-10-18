@@ -1,6 +1,7 @@
 import { FC } from "react";
+import { Text, View } from "react-native";
 
-import { Icon, Text, View } from "@oneiro/ui-kit";
+import { Icon } from "@oneiro/ui-kit";
 
 import { palette } from "../../../../../palette";
 import { uppercase } from "../../../utils/uppercase";

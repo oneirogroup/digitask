@@ -1,4 +1,6 @@
-import { Block, Input, Text } from "@oneiro/ui-kit";
+import { Text } from "react-native";
+
+import { Block, Input } from "@oneiro/ui-kit";
 
 import { PageLayout } from "../../components/page-layout";
 

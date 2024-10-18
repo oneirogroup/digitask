@@ -1,4 +1,4 @@
-import { Text, View } from "@oneiro/ui-kit";
+import { Text, View } from "react-native";
 
 export default function ForgotPassword() {
   return (

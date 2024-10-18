@@ -1,6 +1,7 @@
 import { FC, useRef, useState } from "react";
 import { Dimensions } from "react-native";
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
+import { Text, View } from "react-native";
 import DateTimePicker from "react-native-ui-datepicker";
 import { RangeChange } from "react-native-ui-datepicker/src/types";
 import { useBoolean } from "react-use";

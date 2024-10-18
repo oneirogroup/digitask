@@ -1,6 +1,7 @@
 import { FC, PropsWithChildren } from "react";
+import { Text } from "react-native";
 
-import { Block, Icon, Text, cn } from "@oneiro/ui-kit";
+import { Block, Icon, cn } from "@oneiro/ui-kit";
 
 import { BlockSectionProps } from "./block-section.types";
 
