@@ -9,7 +9,7 @@ import type { ParamListBase, TabNavigationState } from "@react-navigation/native
 
 const { Navigator } = createMaterialTopTabNavigator();
 
-export const MaterialTopTabs = withLayoutContext<
+export const NavbarTopTabs = withLayoutContext<
   MaterialTopTabNavigationOptions,
   typeof Navigator,
   TabNavigationState<ParamListBase>,

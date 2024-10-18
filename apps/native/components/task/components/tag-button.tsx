@@ -1,6 +1,7 @@
 import { FC } from "react";
+import { Text } from "react-native";
 
-import { Button, Text, cn } from "@oneiro/ui-kit";
+import { Button, cn } from "@oneiro/ui-kit";
 
 import { TagButtonProps } from "./tag-button.types";
 

@@ -31,7 +31,7 @@ export const TasksWithStatuses: FC<TaskListWithTagsProps> = ({
 
   return (
     <View className={cn(className, "flex gap-6")}>
-      <View.Scroll horizontal showsHorizontalScrollIndicator={false} contentClassName="flex flex-row gap-4">
+      <Block.Scroll horizontal showsHorizontalScrollIndicator={false} contentClassName="flex flex-row gap-4">
         <View />
         <TagButton
           status={allStatus}
@@ -47,7 +47,7 @@ export const TasksWithStatuses: FC<TaskListWithTagsProps> = ({
           />
         ))}
         <View />
-      </View.Scroll>
+      </Block.Scroll>
 
       <Block className="flex gap-6 p-6">
         {filteredTasks.slice(0, 12).map(task => (

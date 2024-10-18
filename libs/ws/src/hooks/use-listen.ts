@@ -13,7 +13,6 @@ export const useListen = <TData, TIsValueArrayList extends boolean>(
   useEffect(() => {
     if (!wsClient) return;
     const unsubscribe = wsClient.listen((data: TData) => {
-      console.log(data);
       if (isListOfValues) {
         setMessages(prev => [...prev, data]);
         return;

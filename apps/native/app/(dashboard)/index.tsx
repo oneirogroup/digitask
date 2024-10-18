@@ -57,11 +57,11 @@ export default function Index() {
           </Block>
         </BlockContainer>
 
-      <BlockSection title="Davam edən tasklar">
-        <If condition={!!task}>
-          <If.Then>
-            <Task task={task!} tags={getTags(task)} />
-          </If.Then>
+        <BlockSection title="Davam edən tasklar" href="/(dashboard)/task">
+          <If condition={!!task}>
+            <If.Then>
+              <Task task={task!} tags={getTags(task)} />
+            </If.Then>
 
             <If.Else>
               <Text>Task tapılmadı</Text>
@@ -69,9 +69,10 @@ export default function Index() {
           </If>
         </BlockSection>
 
-      <BlockSection title="Tədbirlər">
-        <Event name="Tədbir adı" date={new Date()} />
-      </BlockSection>
-    </Block.Scroll>
+        <BlockSection title="Tədbirlər" href="/">
+          <Event name="Tədbir adı" date={new Date()} />
+        </BlockSection>
+      </Block.Scroll>
+    </Block.Fade>
   );
 }

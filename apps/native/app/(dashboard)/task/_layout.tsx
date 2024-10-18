@@ -1,10 +1,14 @@
-import { MaterialTopTabs } from "../../../components/top-navbar-tabs";
+import { Block } from "@oneiro/ui-kit";
+
+import { NavbarTopTabs } from "../../../components/navbar/top-tabs";
 
 export default function DashboardLayout() {
   return (
-    <MaterialTopTabs screenOptions={{ tabBarContentContainerStyle: { justifyContent: "space-evenly" } }}>
-      <MaterialTopTabs.Screen name="connections" options={{ title: "Qosulmalar" }} />
-      <MaterialTopTabs.Screen name="problems" options={{ title: "Problemler" }} />
-    </MaterialTopTabs>
+    <Block.Fade>
+      <NavbarTopTabs screenOptions={{ tabBarContentContainerStyle: { justifyContent: "space-evenly" } }}>
+        <NavbarTopTabs.Screen name="connections" options={{ title: "Qosulmalar" }} />
+        <NavbarTopTabs.Screen name="problems" options={{ title: "Problemler" }} />
+      </NavbarTopTabs>
+    </Block.Fade>
   );
 }

@@ -11,8 +11,6 @@ import { TaskDate } from "./components/task-date";
 import { TaskProps } from "./task.types";
 
 export const Task: FC<TaskProps> = ({ tags, task }) => {
-  console.log(task);
-
   const startDate = DateService.from(Date.parse(task.date) + Date.parse(`1970-01-01 ${task.start_time}`));
   const endDate = DateService.from(Date.parse(task.date) + Date.parse(`1970-01-01 ${task.end_time}`));
 
