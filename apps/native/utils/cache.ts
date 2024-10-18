@@ -6,7 +6,7 @@ const extendedCacheKey = <TKey extends string, TExtension extends object>(key: T
 export const cache = {
   user: {
     profile: extendedCacheKey("digitask.native:user:profile", {
-      data: 1243
+      tasks: "digitask.native:user:profile:tasks"
     })
   }
 } as const;
