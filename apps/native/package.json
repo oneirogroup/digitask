@@ -5,6 +5,7 @@
   "main": "main.js",
   "scripts": {
     "android": "yarn start --android",
+    "build:android": "eas build --platform android --local --non-interactive --json --clear-cache --output build/android.zip",
     "ios": "yarn start --ios",
     "lint": "expo lint",
     "start": "expo start",
