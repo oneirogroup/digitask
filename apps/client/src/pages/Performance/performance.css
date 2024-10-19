@@ -1,0 +1,232 @@
+.performance-page {
+  width: 100%;
+}
+.performance-page .table-container {
+  margin-top: 20px;
+  border-radius: 12px;
+}
+
+.performance-page table {
+  width: 100%;
+  border-spacing: 10px;
+  border-collapse: collapse;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.performance-page th,
+.performance-page td {
+  padding: 16px 10px !important;
+  border-bottom: 1px solid #ddd;
+  text-align: center;
+}
+
+.performance-page th {
+  font-family: Montserrat;
+  font-size: 18px;
+  font-weight: 400;
+  color: #fff;
+}
+
+.performance-table-container th {
+  text-align: center;
+}
+
+.performance-page thead {
+  background-color: #005abf;
+  height: 60px;
+}
+
+.performance-page tbody {
+  background-color: white;
+}
+
+.performance-page-title {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 0;
+  align-items: center;
+}
+
+.performance-page-title p {
+  font-family: Montserrat;
+  font-size: 32px;
+  font-weight: 500;
+}
+
+.performance-table-container tbody tr {
+  position: relative;
+}
+
+.performance-table-container tbody tr td {
+  font-family: Nunito Sans;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.performance-table-container tbody tr td:first-of-type {
+  font-size: 16px;
+}
+
+.performance-table-container tbody tr td:first-of-type,
+.performance-table-container tbody tr td:nth-of-type(2) {
+  color: #005abf;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.performance-table-container tbody tr td:nth-of-type(3) {
+  color: #5e5e62;
+}
+
+.performance-table-container tbody tr td:nth-of-type(4),
+.performance-table-container tbody tr td:nth-of-type(6),
+.performance-table-container tbody tr td:nth-of-type(7) {
+  color: #2f3033;
+}
+
+.performance-table-container tbody tr td:nth-of-type(5) {
+  color: #005abf;
+}
+
+.performance-table-container tbody tr td:last-of-type button {
+  background-color: inherit;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.performance-table-container tbody tr td:not(:first-of-type, :nth-of-type(2)) {
+  text-align: center;
+}
+
+.performance-filter {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0 25px 0;
+}
+
+.performance-filter > div:first-of-type button:last-of-type {
+  background-color: white;
+  border: 1px solid #909094;
+  padding: 9px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 15px;
+  font-family: Nunito Sans;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.performance-filter > div:first-of-type button span:first-of-type {
+  color: #5e5e62;
+}
+
+.performance-filter > div:first-of-type button span:last-of-type {
+  font-weight: bold;
+}
+
+.date-picker-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.date-picker {
+  width: 150px;
+  height: 40px;
+  border: none;
+  border-radius: 8px;
+  padding: 7px;
+  font-size: 16px;
+  color: #76777a;
+  background-color: white;
+  text-align: center;
+}
+
+.group-modal {
+  display: flex;
+  flex-direction: column;
+  gap: 0 !important;
+}
+
+.group-modal div {
+  cursor: pointer;
+  padding: 10px 5px 7px 10px;
+}
+
+.group-modal div:hover {
+  background-color: #f0f0f0;
+}
+
+.group-modal,
+.year-modal,
+.month-modal,
+.day-modal {
+  position: absolute;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.group-modal {
+  width: 140px;
+}
+
+.year-modal,
+.month-modal,
+.day-modal {
+  width: 150px;
+}
+
+.modal-item {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.modal-item:hover {
+  background: #f0f0f0;
+}
+
+.date-picker-container {
+  display: flex;
+  gap: 10px;
+}
+
+.performance-date .date-picker {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.performance-date .date-picker-wrapper {
+  position: relative;
+}
+
+.performance-date .placeholder {
+  position: absolute;
+  background-color: white;
+  z-index: 1000;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  color: #aaa;
+  pointer-events: none;
+  width: 105px;
+  height: 23px;
+  font-family: Nunito Sans;
+  font-size: 17px;
+}
+
+.performance-date .date-picker {
+  position: relative;
+  z-index: 1;
+}

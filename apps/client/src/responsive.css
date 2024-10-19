@@ -1,0 +1,2278 @@
+@media screen and (max-width: 1320px) {
+  /* Task page */
+
+  .task-page th,
+  .task-page td {
+    padding: 11px;
+  }
+
+  .taskType-photo label {
+    font-size: 16px;
+  }
+  .home-tasks table tr {
+    font-size: 15px;
+  }
+  .home-tasks table tr td:nth-of-type(2) {
+    white-space: normal;
+  }
+  .upload-passport-button {
+    width: 100vh !important;
+  }
+  .taskType-modal-content {
+    max-width: 58%;
+  }
+}
+
+@media screen and (max-width: 1270px) {
+  /* Task page */
+
+  .table-container tbody tr td:nth-of-type(2),
+  .table-container tbody tr td:nth-of-type(3),
+  .table-container table tbody tr td:nth-of-type(8) {
+    white-space: wrap;
+  }
+  .table-container tbody tr td,
+  .table-container tr th {
+    font-size: 15px !important;
+  }
+  .task-status button {
+    padding: 5px 8px;
+    font-size: 15.2px;
+  }
+
+  /* Warehouse history page */
+
+  .historyTable tbody td:nth-of-type(8),
+  .historyTable th:nth-of-type(8) {
+    display: none;
+  }
+
+  /* Home page */
+
+  .task-modal-content .form-group {
+    font-size: 15px;
+  }
+  .meeting-detail-modal-overlay .item-detail-modal-body .modal-label,
+  .meeting-detail-modal-overlay .item-detail-modal-body .modal-value {
+    font-size: 17px;
+  }
+}
+
+@media screen and (max-width: 1230px) {
+  .importModal-warehouseName button {
+    font-size: 17px;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  /* Home page */
+
+  .home-meet-section .meet-img img {
+    display: none;
+  }
+  .home-tasks table tr td:nth-of-type(2),
+  .home-tasks table tr th:nth-of-type(2),
+  .table-container tbody tr td:nth-of-type(9),
+  .table-container tr th:nth-of-type(9) {
+    display: none;
+  }
+  .meeting-detail-modal-overlay .item-detail-modal-body .modal-label,
+  .meeting-detail-modal-overlay .item-detail-modal-body .modal-value {
+    font-size: 16px;
+  }
+  .taskService-taskGroup {
+    flex-direction: column;
+  }
+  .task-name-date,
+  .registerNumber-contactNumber,
+  .taskService-taskGroup {
+    gap: 12px;
+  }
+  .home-tasks th,
+  .home-tasks td,
+  .home-employee-task th,
+  .home-employee-task td {
+    font-size: 15px;
+  }
+  .home-employee-task table td {
+    padding: 12px 8px;
+    font-size: 15px;
+  }
+
+  /* Task page */
+
+  .task-status button {
+    padding: 5px 8px;
+    font-size: 15px;
+  }
+  .import-modal-content {
+    max-width: 60%;
+  }
+  .taskType-modal-content {
+    max-width: 65%;
+  }
+
+  /* Warehouse Page */
+
+  .warehouseTable td,
+  .warehouseTable th {
+    font-size: 15px !important;
+  }
+
+  /* Warehouse History Import Page */
+
+  .historyImportTable th:nth-of-type(8),
+  .historyImportTable td:nth-of-type(8) {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 1140px) {
+  .home-tasks table tr td:nth-of-type(5),
+  .home-tasks table tr th:nth-of-type(5) {
+    display: none;
+  }
+  .passportUpdate .upload-container {
+    display: flex;
+    gap: 64px;
+    justify-content: flex-start;
+  }
+}
+
+@media screen and (max-width: 1120px) {
+  /* Task Page */
+
+  .table-container tbody tr td:nth-of-type(9),
+  .table-container tr th:nth-of-type(9),
+  .warehouseTable tbody td:nth-of-type(8),
+  .warehouseTable thead th:nth-of-type(8) {
+    display: none;
+  }
+
+  /* History Import Page */
+
+  .historyImportTable th:nth-of-type(10),
+  .historyImportTable td:nth-of-type(10) {
+    display: none;
+  }
+  .historyImportTable th:nth-of-type(11),
+  .historyImportTable td:nth-of-type(11) {
+    padding: 14px 0px !important;
+  }
+
+  /* Home page */
+
+  .meeting-detail-modal-overlay .meeting-item-detail-grid {
+    display: flex;
+    flex-direction: column;
+  }
+
+   /* Warehouse Page */
+
+  .item-detail-modal-content {
+    width: 52%;
+    max-width: 52%;
+  }
+}
+
+@media screen and (max-width: 1070px) {
+  /* Warehouse Import History Table  */
+
+  .historyImportTable th:nth-of-type(7),
+  .historyImportTable td:nth-of-type(7) {
+    display: none;
+  }
+
+  /* Warehouse Page  */
+  .small-modal-warehouse-content button {
+    font-size: 14px;
+    padding: 8px;
+  }
+  .small-modal-warehouse {
+    right: 10px;
+  }
+
+  /* Employee page  */
+
+  .map-modal-modal-content {
+    width: 60%;
+    max-width: 60%;
+  }
+
+  .add-user-modal-content{
+    max-width: 60%;
+  }
+}
+
+@media screen and (max-width: 1050px) {
+  /* Pages */
+  .layout-with-sidebar .main-content {
+    padding: 25px 15px;
+  }
+
+  /* Task page */
+
+  .table-container tbody tr td,
+  .table-container tr th {
+    font-size: 14px !important;
+  }
+
+  .task-page th,
+  .task-page td {
+    padding: 7px 11px;
+  }
+  .taskType-modal-content {
+    max-width: 70%;
+  }
+
+  /* Warehouse Page */
+
+  .warehouseTable td,
+  .warehouseTable th {
+    font-size: 14px !important;
+  }
+
+  /* Warehouse history page */
+
+  .historyTable td:nth-of-type(7),
+  .historyTable th:nth-of-type(7) {
+    display: none;
+  }
+
+  .filter-container {
+    gap: 0;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  /* Home page */
+
+  .home-charts {
+    flex-direction: column;
+  }
+
+  #chart {
+    width: 100%;
+    padding: 7px 0;
+  }
+
+  .home-meet-section .meet-time-date h5 {
+    font-size: 23px;
+  }
+
+  #circlechart {
+    width: 100%;
+  }
+
+  .home-meet-section {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .home-employee-task {
+    width: 100%;
+  }
+  .home-meet-section .meet-time-date-img {
+    height: 150px;
+  }
+  .event-modal {
+    max-width: 42%;
+  }
+  .task-name-date {
+    flex-direction: column;
+  }
+  .task-modal-content input[type="date"] {
+    width: 25vw;
+  }
+  .task-modal-content input[type="time"] {
+    width: 11vw;
+  }
+
+  /* Performance page */
+
+  .performance-table-container tbody tr td,
+  .performance-page th {
+    font-size: 16px;
+  }
+
+  /* Task page */
+
+  .task-page th,
+  .task-page td {
+    padding: 10px;
+  }
+  .table-container tr th:nth-of-type(3),
+  .table-container tbody tr td:nth-of-type(3) {
+    display: none;
+  }
+
+  /* Profil page */
+
+  .profile-container h2 {
+    font-size: 22px;
+  }
+
+  .profile-edit button {
+    font-size: 19px;
+  }
+  .profile-edit button {
+    font-size: 18px;
+  }
+  .profile-container input[type="text"] {
+    width: 90%;
+  }
+  .profile-container {
+    margin: 0 0 60px 0;
+  }
+
+  /* Warehouse Page */
+
+  .warehouseTable tbody td:nth-of-type(5),
+  .warehouseTable thead th:nth-of-type(5) {
+    display: none;
+  }
+
+  .importModal-warehouseName button {
+    font-size: 16px;
+  }
+
+  /* Warehouse history page */
+
+  .filter-item {
+    padding: 5px 0px;
+  }
+
+  .custom-datepicker {
+    width: 85% !important;
+  }
+
+  .filter-container {
+    width: 60%;
+  }
+
+  .filter-item-modal button span {
+    font-size: 15px;
+  }
+
+  /* Warehouse Import History Table  */
+
+  .historyImportTable th,
+  .historyImportTable td {
+    font-size: 13px !important;
+  }
+}
+
+@media screen and (max-width: 960px) {
+  /* Home page */
+
+  .home-tasks-sec {
+    flex-direction: column;
+  }
+  .home-tasks {
+    width: 100%;
+  }
+
+  .home-tasks table tr td:nth-of-type(2),
+  .home-tasks table tr th:nth-of-type(2),
+  .home-tasks table tr td:nth-of-type(5),
+  .home-tasks table tr th:nth-of-type(5) {
+    display: table-cell;
+  }
+  .home-tasks table tr td:nth-of-type(2) {
+    font-size: 15px;
+  }
+
+  .home-tasks table tr td:nth-of-type(4) {
+    max-width: 140px;
+  }
+
+  /* Task page */
+
+  .task-status button {
+    padding: 5px 7px;
+    font-size: 14px;
+  }
+  .upload-container > img {
+    width: 250px;
+  }
+  .taskType-info label,
+  .taskType-note label,
+  .service-detail label,
+  #detailMap > label,
+  .taskType-option,
+  .passportUpdate label {
+    font-size: 15px;
+  }
+  .task-type-select .taskType-options {
+    width: 42%;
+  }
+  .details-modal-body input,
+  .status-dropdown .details-toggle,
+  .details-note textarea, .status-dropdown .taskType-options .taskType-option, #details-task .dropdown-task-toggle, .details-modal-body input {
+    font-size: 15px;
+  }
+  .taskType-info svg,
+  .taskType-note div:first-of-type svg,
+  #detailMap > label svg {
+    font-size: 18px;
+  }
+  .details-info > div > div {
+    gap: 12px;
+  }
+
+  /* Warehouse Page */
+
+  .warehouse-search-filter > div:first-of-type input {
+    padding: 12px 59px 12px 40px;
+  }
+  .warehouse-search-filter > div:first-of-type svg {
+    font-size: 21px;
+  }
+  .warehouseName button {
+    padding: 9px;
+  }
+  .warehouse-search-filter > div:last-of-type button {
+    padding: 9px;
+  }
+  .import-modal-content {
+    max-width: 65%;
+  }
+
+  /* Warehouse history page */
+
+  .historyTable th,
+  .historyTable td {
+    font-size: 13px !important;
+  }
+
+  .historyImportTable th:nth-of-type(6),
+  .historyImportTable td:nth-of-type(6) {
+    display: none;
+  }
+
+  /* Employee page group modal */
+
+  .add-group-modal-content {
+    max-width: 50%;
+  }
+
+  .add-user-modal-content {
+    max-width: 68%;
+}
+}
+
+@media screen and (max-width: 900px) {
+  /* Pages */
+
+  .layout-with-sidebar .main-content {
+    padding: 18px 15px;
+  }
+
+  /* Home page */
+
+  .home-tasks table tr td:nth-of-type(3) svg {
+    font-size: 20px;
+  }
+
+  .home-tasks table tr td:nth-of-type(5),
+  .home-tasks table tr th:nth-of-type(5) {
+    display: none;
+  }
+
+  .meeting-detail-modal-overlay .item-detail-modal-content {
+    max-width: 50%;
+  }
+
+  /* Performance page */
+
+  .performance-table-container tbody tr td,
+  .performance-page th,
+  .performance-table-container tbody tr td:first-of-type {
+    font-size: 15px;
+  }
+  .date-picker {
+    padding: 0px;
+    width: 126px;
+  }
+  .performance-page th,
+  .performance-page td {
+    padding: 16px 8px !important;
+  }
+
+  /* Task page */
+
+  .table-container tbody tr td:nth-of-type(7),
+  .table-container tr th:nth-of-type(7) {
+    display: none;
+  }
+
+  .table-container tbody tr td,
+  .table-container tr th {
+    font-size: 13px !important;
+  }
+  .task-page-title p {
+    font-size: 29px;
+  }
+  .task-page-title div button {
+    padding: 9px;
+    font-size: 15px;
+  }
+  .task-history-status button:first-of-type div span {
+    padding: 7px 9px;
+  }
+  .task-history-status button:first-of-type {
+    width: 290px;
+    height: 36px;
+  }
+  .task-history-status button p {
+    font-size: 17px;
+  }
+  .task-modal-content input[type="date"] {
+    width: 24vw;
+  }
+
+  /* Employee Page */
+
+  .employee-table-container tbody td:nth-of-type(4),
+  .employee-table-container th:nth-of-type(4) {
+    display: none;
+  }
+
+  .employee-search-filter > div:first-of-type input {
+    padding: 13px 33px 13px 40px;
+    width: 92%;
+    border: none;
+  }
+
+  .employee-search-filter > div:first-of-type {
+    border: 0.5px solid #ababaf;
+    border-radius: 8px;
+  }
+
+  .employee-title button {
+    padding: 9px;
+    font-size: 15px;
+  }
+
+  .map-modal-modal-content {
+    width: 70%;
+    max-width: 70%;
+}
+
+.logout-modal-content h2 {
+  font-size: 30px;
+  font-weight: 600;
+}
+
+.logout-modal-content p {
+  font-size: 20px;
+}
+
+.logout-modal-content div button {
+  font-size: 19px;
+  padding: 12px 0;
+}
+
+.logout-modal-content {
+  padding: 19px;
+}
+  /* Warehouse Page */
+
+  .warehouseTable-title div button {
+    padding: 9px;
+  }
+  .export-modal-content {
+    max-width: 52%;
+  }
+  .small-modal-warehouse-content button {
+    font-size: 13px;
+    padding: 7px;
+  }
+
+  .item-detail-modal-content {
+    width: 60%;
+    max-width: 60%;
+}
+.item-detail-modal-body .modal-label, .item-detail-modal-body .modal-value {
+  font-size: 17px;
+}
+
+  /* Warehouse history page */
+
+  .historyTable td:nth-of-type(9),
+  .historyTable th:nth-of-type(9) {
+    display: none;
+  }
+
+  .filter-item-modal button {
+    padding: 8px;
+  }
+
+  /* Warehouse Import History Table  */
+
+  .historyImportTable th:first-of-type,
+  .historyImportTable td:first-of-type {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 870px) {
+  /* Warehouse Page  */
+  .import-modal-content {
+    max-width: 68%;
+  }
+}
+
+@media screen and (max-width: 850px) {
+  /* Warehouse Page */
+
+  .warehouseTable tbody td:nth-of-type(7),
+  .warehouseTable thead th:nth-of-type(7) {
+    display: none;
+  }
+
+  .warehouseName button {
+    font-size: 17px;
+  }
+  .item-detail-modal-content {
+    width: 62%;
+    max-width: 62%;
+}
+
+/* Login page  */
+
+.submit-btn {
+  padding: 9px;
+  font-size: 17px;
+}
+
+  /* Warehouse history page */
+
+  .historyTable td:first-of-type,
+  .historyTable th:first-of-type {
+    display: none;
+  }
+
+  .custom-datepicker {
+    width: 92% !important;
+  }
+
+  .filter-item-modal button {
+    padding: 6px;
+  }
+
+  /* Task Page */
+
+  .taskType-modal-content {
+    max-width: 75%;
+  }
+
+  .taskType-info label,
+  .taskType-note label,
+  .service-detail span {
+    font-size: 16px;
+  }
+
+  .service-detail > h5 {
+    font-size: 23px;
+  }
+}
+
+@media screen and (max-width: 810px) {
+  /* Employee Page */
+
+  .employee-table-container tbody td:nth-of-type(3),
+  .employee-table-container th:nth-of-type(3) {
+    display: none;
+  }
+
+  .employee-table-container th,
+  .employee-table-container td {
+    font-size: 15px !important;
+  }
+
+  .add-group-modal-content {
+    max-width: 57%;
+  }
+
+  /* Task page */
+
+  .table-container tbody tr td:nth-of-type(4),
+  .table-container tr th:nth-of-type(4) {
+    display: none;
+  }
+  .table-container tbody tr td:first-of-type,
+  .table-container tr th:first-of-type {
+    display: none;
+  }
+  .taskPage-taskType button {
+    font-size: 17px;
+  }
+  .task-history-status button:first-of-type {
+    width: 240px;
+  }
+  .task-history-status button:last-of-type {
+    padding: 9px 8px;
+    font-size: 14px;
+  }
+
+  .task-page-title div button {
+    padding: 8px;
+    font-size: 14px;
+  }
+  .task-modal-content input[type="date"] {
+    width: 18vw;
+  }
+  .task-modal-content input[type="time"] {
+    width: 13.5vw;
+  }
+
+  .taskType-modal-content {
+    max-width: 78%;
+  }
+  .details-info{
+    grid-template-columns: repeat(1, 1fr);
+  }
+   .service-detail span {
+    font-size: 17px;
+  }
+
+  .passportUpdate label {
+    width: 48vh !important;
+  }
+  .status-dropdown .taskType-options {
+    width: 24vh;
+  }
+  #details-task .dropdown-task-menu {
+    top: 60px !important;
+    width: 31%;
+    left: 393px !important;
+}
+#details-task .dropdown-task-toggle, .task-type-select .taskType-options {
+  width: 22%;
+}
+  /* Employee Page */
+
+  .employee-search-filter div div button {
+    padding: 8px;
+  }
+  .employee-search-filter div div button span {
+    font-size: 15px;
+  }
+  .employee-search-filter > div:first-of-type input {
+    padding: 13px 25px 13px 30px;
+  }
+  .employee-search-filter > div:first-of-type svg:first-of-type {
+    left: 5px;
+    top: 10px;
+    font-size: 21px;
+  }
+  .employee-search-filter div div button {
+    padding: 7px;
+  }
+  .employee-search-filter div div button span {
+    font-size: 14px;
+  }
+  .employee-search-filter div:last-of-type {
+    gap: 7px;
+  }
+
+  /* Navbar */
+
+  .navbar-icons {
+    font-size: 24px;
+  }
+
+  /* Profile Page */
+
+  .profile-container h2 {
+    font-size: 20px;
+  }
+  .profile-container label {
+    font-size: 17px;
+  }
+  .profile-container input[type="text"],
+  .profile-container textarea {
+    font-size: 15px;
+  }
+
+  /* Warehouse Page */
+
+  .warehouseTable tbody td:first-of-type,
+  .warehouseTable th:first-of-type {
+    display: none;
+  }
+
+  .warehousePage-title p {
+    font-size: 18px;
+  }
+
+  .importModal-warehouseName button {
+    font-size: 15px;
+  }
+  .import-modal-content {
+    max-width: 72%;
+  }
+  .warehouseName button {
+    font-size: 16px;
+    width: calc(34.33% - 20px);
+  }
+
+  /* Warehouse history page */
+
+  .historyTable td:nth-of-type(2),
+  .historyTable th:nth-of-type(2) {
+    display: none;
+  }
+
+  .historyTable th,
+  .historyTable td {
+    padding: 12px 7px !important;
+  }
+
+  .button-container button {
+    padding: 7px;
+  }
+  /* Home page */
+
+  .event-modal input[type="text"],
+  .event-modal input[type="date"],
+  .event-modal input[type="time"],
+  .event-modal textarea,
+  .meetingType-participants label > div {
+    font-size: 15px;
+  }
+  .taskModal-taskType button {
+    font-size: 17px;
+  }
+  .mapDiv > div {
+    height: 285px !important;
+  }
+
+  /* Warehouse Import History Table  */
+
+  .historyImportTable th:nth-of-type(9),
+  .historyImportTable td:nth-of-type(9) {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  /* Home page */
+
+  .home-tasks th,
+  .home-tasks td,
+  .home-employee-task th,
+  .home-employee-task td {
+    padding: 10px;
+  }
+  .home-tasks table tr td:nth-of-type(2) {
+    font-size: 14px;
+  }
+  .home-tasks table tr td:nth-of-type(4) {
+    max-width: 124px;
+  }
+  .home-tasks table tr td:first-of-type {
+    font-size: 15px;
+  }
+  .home-tasks table tr td:nth-of-type(2),
+  .home-tasks table tr th:nth-of-type(2) {
+    display: none;
+  }
+  .home-meet-section .meet-time-date h5 {
+    font-size: 21px;
+  }
+  .event-modal > div > div {
+    flex-direction: column;
+  }
+  .modal-overlay-meetingType,
+  .modal-overlay-participants {
+    width: 100% !important;
+  }
+  .modal-overlay-meetingType .modal-body div,
+  .modal-overlay-participants .modal-body div {
+    padding: 6px 10px;
+  }
+  .modal-overlay-participantfs {
+    top: 155px;
+  }
+  .meeting-detail-modal-overlay .item-detail-modal-content {
+    width: 60%;
+    max-width: 60%;
+  }
+
+  /* Performance page */
+
+  .performance-table-container tbody tr td,
+  .performance-page th,
+  .performance-table-container tbody tr td:first-of-type {
+    font-size: 14px;
+  }
+  .performance-table-container tbody tr td:nth-of-type(3),
+  .performance-table-container tr th:nth-of-type(3) {
+    display: none;
+  }
+  .performance-filter > div:first-of-type button:last-of-type {
+    padding: 8px 7px;
+    font-size: 15px;
+  }
+
+  /* Settings page */
+
+  .settings-fields div div p,
+  .settings-fields button div p {
+    font-size: 18px;
+  }
+
+  .settings-fields div div svg,
+  .settings-fields button div svg {
+    font-size: 21px;
+  }
+
+  /* Task page */
+
+  .table-container tbody tr td,
+  .table-container tr th {
+    font-size: 12px !important;
+  }
+  .table-container tbody tr td:last-of-type button {
+    font-size: 16px;
+  }
+  .task-status button {
+    padding: 4px 7px;
+    font-size: 14px;
+  }
+  .import-form label {
+    font-size: 15px;
+  }
+  .import-form input {
+    font-size: 13px;
+  }
+  .passportUpdate .upload-container {
+    gap: 30px;
+  }
+  .taskType-modal-content {
+    max-width: 80%;
+}
+ 
+  .details-info > div > div {
+    gap: 9px;
+}
+#details-task .dropdown-task-toggle {
+  padding: 7px;
+  gap: 5px;
+}    .details-modal-body input, .status-dropdown .details-toggle, .details-note textarea {
+  font-size: 14px;
+}
+.details-modal-body input {
+  padding: 6px;
+}
+.taskType-info, .details-info, .service-detail > div {
+  gap: 20px;
+}
+.taskType-info label, .taskType-note label, .service-detail span {
+  font-size: 15px;
+  gap: 5px;
+}
+
+  .taskType-info,
+  .details-info,
+  .service-detail > div {
+    gap: 20px;
+  }
+  #details-task .dropdown-task-menu {
+    left: 379px !important;
+}
+  .warehouseName button {
+    font-size: 15px;
+  }
+
+  /* Employee Page */
+
+  .employee-search-filter > div:first-of-type input {
+    padding: 10px 0 10px 28px;
+    width: 80%;
+  }
+
+  .employee-search-filter > div:first-of-type input::placeholder {
+    font-size: 14px;
+  }
+
+  .employee-search-filter > div:first-of-type svg:first-of-type {
+    left: 5px;
+    top: 10px;
+    font-size: 18px;
+  }
+
+  .employee-search-filter > div:first-of-type svg:last-of-type {
+    top: 8px;
+    font-size: 21px;
+  }
+  .employee-table-container tbody td:first-of-type,
+  .employee-table-container th:first-of-type {
+    display: none;
+  }
+  .employee-table-container th,
+  .employee-table-container td {
+    font-size: 14px !important;
+  }
+
+  .add-user-modal-content {
+    max-width: 72%;
+}
+
+.add-user-modal .form-group input[type="text"], .add-user-modal .form-group input[type="email"], .add-user-modal .form-group input[type="password"], .multi-select-container button, .add-group-modal-content .form-group input, .add-room-modal-content .form-group input{
+  font-size: 15px;
+}
+
+  /* Profile Page */
+
+  .profile-edit {
+    flex-direction: column;
+    gap: 20px;
+  }
+  .profile-edit button {
+    margin-bottom: 10px;
+  }
+
+  /* Warehouse Page */
+
+  .warehouseTable tbody td:nth-of-type(4),
+  .warehouseTable th:nth-of-type(4) {
+    display: none;
+  }
+
+  .warehouseTable-title p {
+    font-size: 26px;
+  }
+  .warehouseTable-title div button {
+    padding: 7px;
+    font-size: 15px;
+  }
+  .warehouseName button {
+    padding: 8px;
+  }
+  .importModal-warehouseName button {
+    padding: 10px;
+  }
+  .warehouseName {
+    align-items: center;
+    justify-content: left;
+  }
+  .warehouseName button {
+    width: auto;
+  }
+  .importModal-warehouseName {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .importModal-warehouseName button {
+    width: 100%;
+  }
+
+  .item-detail-modal-header h2 {
+    font-size: 24px;
+  }
+  .item-detail-close-button {
+    font-size: 34px;
+  }
+}
+
+@media screen and (max-width: 740px) {
+  /* Employee Page */
+
+  .employee-search-filter > div:first-of-type input {
+    width: 72%;
+  }
+  .employee-search-filter > div:first-of-type {
+    width: 35%;
+  }
+
+  .map-modal-modal-content {
+    width: 73%;
+    max-width: 73%;
+}
+
+  /* Warehouse page */
+
+  .historyTable td:nth-of-type(6),
+  .historyTable th:nth-of-type(6) {
+    display: none;
+  }
+
+  .historyImportTable th,
+  .historyImportTable td {
+    padding: 14px 5px !important;
+  }
+
+  #details-task .dropdown-task-menu {
+    left: 361px !important;
+}
+.item-detail-modal-content {
+  width: 68%;
+  max-width: 68%;
+}
+}
+
+@media screen and (max-width: 700px) {
+  /* Sidebar */
+
+  .sidebar {
+    width: 185px;
+  }
+  .aside-link {
+    padding: 9px;
+  }
+  .aside-link .icon {
+    margin-right: 8px;
+  }
+
+  /* Performance page */
+
+  .performance-page th,
+  .performance-page td {
+    padding: 16px 7px !important;
+  }
+
+  /* Warehouse page */
+
+  .warehouse-search-filter > div:first-of-type input {
+    padding: 11px 35px 11px 33px;
+  }
+  .warehouse-search-filter > div:first-of-type svg {
+    top: 8px;
+    font-size: 20px;
+  }
+  .warehouse-search-filter > div:last-of-type button {
+    padding: 8px;
+  }
+  .import-modal-content {
+    max-width: 67%;
+  }
+  .export-modal-content {
+    max-width: 60%;
+  }
+  .submit-btn {
+    padding: 10px;
+    font-size: 16px;
+  }
+
+  /* Task page */
+
+  .task-modal-content input[type="date"] {
+    width: 26vw;
+  }
+  .task-modal-content input[type="time"] {
+    width: 12.5vw;
+  }
+  .task-modal-content input[type="text"],
+  .task-modal-content input[type="date"],
+  .task-modal-content input[type="time"],
+  .task-modal-content select,
+  .task-modal-content textarea {
+    font-size: 13px;
+  }
+  .task-modal-content {
+    max-width: 60%;
+  }
+  .task-date-form {
+    gap: 10px;
+  }
+  .taskType-modal-title h5 {
+    font-size: 25px;
+  }
+  .taskType-modal-content {
+    max-width: 85%;
+  }
+  .passportUpdate .upload-container {
+    gap: 22px;
+    flex-direction: column;
+    align-items: baseline;
+}
+.upload-container > img {
+  width: 270px;
+}
+
+#details-task .dropdown-task-menu {
+  left: 342px !important;
+}
+
+  /* Warehouse Import History Table  */
+
+  .historyImportTable th:nth-of-type(5),
+  .historyImportTable td:nth-of-type(5) {
+    display: none;
+  }
+
+   /* Login page */
+   .login-page {
+    height: 423px;
+    width: 440px;
+    padding: 43px 66px;
+  }
+  .login-mail-password div label input:not(.remember-me input) {
+    width: 275px;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  /* Home page */
+
+  .home-meet-section .meet-time-date h5 {
+    font-size: 22px;
+  }
+  .home-meet-section .meet-time-date-img {
+    height: 100%;
+  }
+  .home-tasks table tr td:nth-of-type(2),
+  .home-tasks table tr th:nth-of-type(2) {
+    display: table-cell;
+  }
+  .home-meet-section {
+    padding: 5px 0 25px 0;
+  }
+  .event-modal h5 {
+    font-size: 23px;
+    margin: 0;
+  }
+  .event-modal > div {
+    justify-content: space-between;
+  }
+  .event-modal {
+    max-width: 50%;
+  }
+  .meeting-detail-modal-overlay .item-detail-modal-header h2 {
+    font-size: 24px;
+  }
+
+  /* Sidebar */
+
+  .sidebar {
+    display: none;
+  }
+
+  .sidebar.show {
+    display: block;
+    background-color: white;
+  }
+
+  .menu-toggle {
+    display: inline-block;
+    cursor: pointer;
+    font-size: 24px;
+  }
+
+  .layout-with-sidebar .main-content {
+    margin-left: 0;
+  }
+
+  /* Performance page */
+
+  .performance-table-container tbody tr td:nth-of-type(3),
+  .performance-table-container tr th:nth-of-type(3) {
+    display: table-cell;
+  }
+
+  /* Task page */
+
+  .table-container tr th:nth-of-type(3),
+  .table-container tbody tr td:nth-of-type(3) {
+    display: table-cell;
+  }
+  .task-modal-content label {
+    font-size: 15px;
+  }
+  .task-date-form {
+    gap: 7px;
+    flex-direction: column;
+  }
+
+  .task-modal-content input[type="date"],
+  .task-modal-content input[type="time"] {
+    width: 53vw;
+  }
+  .task-name-date,
+  .registerNumber-contactNumber,
+  .taskService-taskGroup {
+    flex-direction: column;
+  }
+  .task-modal-content {
+    max-height: 85vh;
+  }
+
+  .passportImage label > span {
+    font-size: 15px;
+  }
+
+  .taskType-info,
+  .details-info,
+  .service-detail > div {
+    grid-template-columns: none;
+  }
+  #details-task .dropdown-task-menu {
+    left: 330px !important;
+}
+
+.taskType-modal-content, .add-user-modal-content {
+  max-height: 82vh;
+}
+
+  /* Employee page */
+
+  .employee-table-container tbody td:first-of-type,
+  .employee-table-container th:first-of-type {
+    display: table-cell;
+  }
+
+  .add-group-modal-content {
+    max-width: 60%;
+  }
+
+  .add-group-modal-title h5 {
+    font-size: 23px;
+  }
+
+  .map-modal-modal-header h2 {
+    font-size: 24px;
+  }
+
+  .map-modal-modal-content {
+    width: 75%;
+    max-width: 75%;
+}
+
+.add-user-modal-content {
+  max-width: 74%;
+}
+
+.add-user-modal-title h5{
+  font-size: 24px;
+}
+
+.add-user-modal-title span{
+  font-size: 34px;
+}
+
+  /* Navbar */
+
+  .navbar-icons {
+    right: 18px;
+  }
+
+  /* Profile page */
+
+  .profile-edit {
+    flex-direction: row;
+  }
+
+  /* Warehouse Page */
+
+  .warehouseTable tbody td:first-of-type,
+  .warehouseTable th:first-of-type,
+  .warehouseTable tbody td:nth-of-type(4),
+  .warehouseTable th:nth-of-type(4) {
+    display: table-cell;
+  }
+  .import-modal-content {
+    max-width: 70%;
+  }
+  .import-form {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  .import-modal-content {
+    max-height: 80vh;
+  }
+  .warehouseName button {
+    width: calc(34.33% - 20px);
+  }
+
+  .warehouse-item-detail-grid {
+    grid-template-columns: repeat(1, 1fr);
+    gap: 10px;
+  }
+  .submit-btn {
+    padding: 8px;
+    font-size: 16px;
+}
+.item-detail-modal-footer svg {
+  font-size: 19px;
+}
+
+
+  /* Warehouse history page */
+
+  .historyTable td:nth-of-type(2),
+  .historyTable th:nth-of-type(2),
+  .historyTable td:first-of-type,
+  .historyTable th:first-of-type {
+    display: table-cell;
+  }
+
+  /* Warehouse Import History Table  */
+
+  .historyImportTable th:first-of-type,
+  .historyImportTable td:first-of-type,
+  .historyImportTable th:nth-of-type(5),
+  .historyImportTable td:nth-of-type(5),
+  .historyImportTable th:nth-of-type(9),
+  .historyImportTable td:nth-of-type(9) {
+    display: table-cell;
+  }
+}
+
+@media screen and (max-width: 620px) {
+  #details-task .dropdown-task-menu {
+    left: 276px !important;
+    width: 36%;
+}
+}
+
+@media screen and (max-width: 600px) {
+  /* Warehouse Import History Table  */
+
+  .historyImportTable th:nth-of-type(9),
+  .historyImportTable td:nth-of-type(9) {
+    display: none;
+  }
+
+  /* Home page */
+
+  .meeting-detail-modal-overlay .item-detail-modal-body .modal-label,
+  .meeting-detail-modal-overlay .item-detail-modal-body .modal-value {
+    font-size: 15px;
+  }
+
+  /* Task Page  */
+
+  .taskType-modal-title h5 {
+    font-size: 23px;
+  }
+
+  .taskType-modal-title span {
+    font-size: 36px;
+  }
+  #details-task .dropdown-task-menu {
+    left: 260px !important;
+    width: 38%;
+}
+
+  /* Employee page  */
+
+  .map-modal-modal-content {
+    width: 80%;
+    max-width: 80%;
+}
+
+/* Logout modal  */
+
+.logout-modal-content {
+  padding: 17px;
+}
+
+.logout-modal-content h2 {
+  font-size: 28px;
+}
+.logout-modal-content p {
+  font-size: 18px;
+}
+.logout-modal-content div button {
+  font-size: 18px;
+  padding: 10px 0;
+}
+}
+
+@media screen and (max-width: 570px) {
+  /* Warehouse Page */
+
+  .warehouseTable tbody td:first-of-type,
+  .warehouseTable th:first-of-type {
+    display: none;
+  }
+  .submit-btn {
+    padding: 10px;
+  }
+  .importModal-warehouseName button {
+    font-size: 17px;
+  }
+  .import-form label {
+    font-size: 14px;
+  }
+  .submit-btn {
+    font-size: 16px;
+  }
+
+  /* Warehouse Import History Table  */
+
+  .historyImportTable th,
+  .historyImportTable td {
+    padding: 12px 5px !important;
+  }
+
+  /* Task page */
+
+  .task-modal-content {
+    max-width: 70%;
+  }
+
+   /* Login page */
+   .login-page {
+    height: 414px;
+    width: 375px;
+    padding: 43px 56px;
+}
+.login-mail-password div label input:not(.remember-me input) {
+  width: 228px;
+}
+}
+
+@media screen and (max-width: 550px) {
+  /* Home page */
+
+  .home-tasks table tr td:nth-of-type(2),
+  .home-tasks table tr th:nth-of-type(2) {
+    display: none;
+  }
+  .event-modal h5 {
+    font-size: 22px;
+  }
+  .event-modal > div:first-of-type button svg {
+    font-size: 22px;
+  }
+  .event-modal input[type="text"],
+  .event-modal input[type="date"],
+  .event-modal input[type="time"],
+  .event-modal textarea,
+  .meetingType-participants label > div {
+    padding: 5px 7px;
+  }
+  .event-modal label,
+  .meetingType-participants label {
+    font-size: 15px;
+  }
+  .modal-overlay-participants {
+    top: 143px;
+  }
+
+  .meeting-detail-modal-overlay .item-detail-modal-body .modal-row {
+    gap: 20px;
+  }
+
+  .meeting-detail-modal-overlay .item-detail-modal-header h2 {
+    font-size: 23px;
+  }
+
+  .meeting-detail-modal-overlay .item-detail-close-button {
+    font-size: 32px;
+  }
+
+  /* Performance page */
+
+  .performance-table-container tbody tr td:nth-of-type(3),
+  .performance-table-container tr th:nth-of-type(3) {
+    display: none;
+  }
+  .date-picker {
+    padding: 0px 5px;
+    width: 118px;
+    font-size: 15px;
+  }
+  .performance-filter > div:first-of-type button:last-of-type {
+    padding: 8px 5px;
+    font-size: 14px;
+  }
+
+  /* Settings page */
+
+  .settings-fields div div p,
+  .settings-fields button div p {
+    font-size: 17px;
+  }
+
+  .settings-fields div div svg,
+  .settings-fields button div svg {
+    font-size: 19px;
+  }
+
+  /* Task page */
+
+  .table-container tr th:nth-of-type(3),
+  .table-container tbody tr td:nth-of-type(3) {
+    display: none;
+  }
+
+  .taskPage-taskType button {
+    font-size: 16px;
+  }
+  .task-page th,
+  .task-page td {
+    padding: 9px !important;
+  }
+  .tv-voice-internet {
+    gap: 7px;
+  }
+  .tv-voice-internet label {
+    height: 38px;
+  }
+  .task-modal-content .form-group {
+    font-size: 14px;
+    align-items: center;
+  }
+  .task-modal-title h5 {
+    font-size: 22px;
+  }
+  .taskModal-taskType button {
+    font-size: 16px;
+  }
+  .passportImage {
+    flex-direction: column;
+    align-items: flex-start !important;
+  }
+
+  .upload-container {
+    width: 100%;
+    margin-right: 0;
+  }
+  .passportImage label > span {
+    font-size: 17px;
+  }
+  #details-task .dropdown-task-menu {
+    left: 245px !important;
+    width: 38%;
+}
+
+  /* Employee page */
+
+  .employee-title button {
+    padding: 8px;
+    font-size: 14px;
+  }
+
+  .employee-table-container tbody td:first-of-type,
+  .employee-table-container th:first-of-type {
+    display: none;
+  }
+
+  .employee-search-filter > div:first-of-type input {
+    width: 74%;
+  }
+  .employee-search-filter > div:first-of-type svg:first-of-type {
+    top: 8px;
+  }
+  .employee-search-filter div div button {
+    padding: 7px 6px;
+  }
+  .employee-search-filter div div button span {
+    font-size: 13px;
+  }
+  .employee-title button {
+    padding: 7px;
+    font-size: 13px;
+  }
+
+  .add-user-modal form >div:first-of-type{
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  /* Warehouse history page */
+
+  .historyTable td:first-of-type,
+  .historyTable th:first-of-type {
+    display: none;
+  }
+
+  /* Warehouse Page  */
+  .warehouseName button {
+    font-size: 14px;
+  }
+  .importModal-warehouseName button {
+    font-size: 16px;
+  }
+  .import-modal-content {
+    max-width: 76%;
+  }
+  .export-modal-content {
+    max-width: 70%;
+  }
+
+  /* Warehouse Import History Table  */
+
+  .historyImportTable th:first-of-type,
+  .historyImportTable td:first-of-type {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 525px) {
+  #details-task .dropdown-task-menu {
+    left: 222px !important;
+    width: 38%;
+  }
+
+  /* Logout page  */
+
+  .logout-modal-content {
+    padding: 14px;
+}
+.logout-modal-content h2 {
+  font-size: 26px;
+}
+.logout-modal-content p {
+  font-size: 17px;
+}
+.logout-modal-content div button {
+  font-size: 17px;
+  padding: 9px 0;
+}
+
+.logout-modal-content div {
+  gap: 10px;
+}
+}
+
+@media screen and (max-width: 510px) {
+  .warehouseName {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .warehouseName button {
+    width: 100%;
+  }
+
+  /* Task page  */
+
+  .details-info > div > div {
+    flex-direction: column;
+    align-items: baseline;
+}
+.upload-container > img {
+  width: 260px;
+}
+#details-task .dropdown-task-menu {
+  top: 75px !important;
+  left: 0 !important;
+  width: 30vh;
+}
+.status-dropdown .taskType-options, .task-type-select .taskType-options{
+  top: 68px;
+  left: 0;
+}
+
+.task-type-select .taskType-options, #details-task .dropdown-task-toggle{
+  width: 22vh;
+}
+.passportUpdate label {
+  width: 40vh !important;
+}
+.taskType-modal-title h5 {
+  font-size: 22px;
+  margin: 0;
+}
+}
+
+@media screen and (max-width: 500px) {
+  /* Home page */
+
+  .event-modal {
+    max-width: 54%;
+  }
+  .meeting-detail-modal-overlay .item-detail-modal-header h2 {
+    font-size: 21px;
+  }
+  .meeting-detail-modal-overlay .item-detail-close-button {
+    font-size: 29px;
+  }
+
+  .meeting-detail-modal-overlay .item-detail-modal-header h2 {
+    margin: 0;
+  }
+  .meeting-detail-modal-overlay .item-detail-modal-content {
+    width: 67%;
+    max-width: 67%;
+  }
+
+  .meeting-detail-modal-overlay .item-detail-modal-content {
+    padding: 17px;
+  }
+
+  /* Profile page */
+
+  .profile-edit {
+    flex-direction: column;
+  }
+  .profile-container h2 {
+    font-size: 21px;
+  }
+  .profile-container label {
+    font-size: 16px;
+  }
+  .input-group div div input,
+  .profile-container input[type="text"],
+  .profile-container textarea {
+    font-size: 14px;
+  }
+  .profile-container input[type="text"],
+  .profile-container textarea {
+    padding: 8px 10px;
+  }
+
+  /* Warehouse page */
+
+  .warehouseTable tbody td:nth-of-type(4),
+  .warehouseTable thead th:nth-of-type(4) {
+    display: none;
+  }
+
+  .warehouseTable td,
+  .warehouseTable th {
+    font-size: 13px !important;
+  }
+
+  .warehouse-search-filter > div:first-of-type input {
+    padding: 10px 17px 10px 33px;
+  }
+  .warehouseName button {
+    padding: 7px;
+  }
+  .warehouse-search-filter > div:last-of-type button {
+    padding: 7px;
+  }
+  .import-modal-content {
+    padding: 14px 15px 20px 15px;
+  }
+
+  .item-detail-modal-header h2 {
+    font-size: 23px;
+}
+.item-detail-modal-body .modal-label, .item-detail-modal-body .modal-value {
+  font-size: 16px;
+}
+.item-detail-modal-body .modal-row {
+  margin: 10px 0 10px 0;
+}
+
+  /* Warehouse history page */
+
+  .historyTable td:nth-of-type(2),
+  .historyTable th:nth-of-type(2) {
+    display: none;
+  }
+
+  .history-page section {
+    flex-direction: column;
+    gap: 20px;
+    align-items: start;
+  }
+
+  .custom-datepicker {
+    width: 100% !important;
+  }
+  .filter-container {
+    width: 92%;
+    gap: 10px;
+  }
+
+  /* Task page */
+
+  .task-modal-content .form-group {
+    font-size: 13px;
+  }
+  .leaflet-touch .leaflet-bar a {
+    width: 25px;
+    height: 25px;
+  }
+  .passportImage label > span {
+    font-size: 15px;
+  }
+  .upload-container label {
+    height: 60px;
+  }
+  .upload-icon img {
+    width: 25px;
+  }
+  .submit-btn {
+    padding: 9px;
+    margin-top: 0;
+  }
+
+  /* Warehouse Import History Table  */
+
+  .historyImportTable th:nth-of-type(5),
+  .historyImportTable td:nth-of-type(5) {
+    display: none;
+  }
+
+  /* Employee page group modal */
+
+  .add-group-modal-content button {
+    font-size: 14px;
+  }
+  .add-group-modal-content .form-group label {
+    font-size: 17px;
+    padding-left: 0;
+  }
+  
+}
+
+@media screen and (max-width: 450px) {
+  /* Home page */
+
+  .home-meet-section .meet-time-date-img {
+    padding: 16px;
+  }
+  .home-meet-section .meet-time-date h5 {
+    font-size: 20px;
+  }
+  .home-tasks table tr td:nth-of-type(4),
+  .home-tasks tr th:nth-of-type(4) {
+    display: none;
+  }
+  .event-modal {
+    max-width: 70%;
+  }
+  .meeting-detail-modal-overlay .item-detail-modal-header {
+    margin-bottom: 20px;
+  }
+
+  /* Performance page */
+
+  .performance-page th,
+  .performance-page td {
+    padding: 16px 6px !important;
+  }
+  .performance-table-container tbody tr td,
+  .performance-page th,
+  .performance-table-container tbody tr td:first-of-type {
+    font-size: 13px;
+  }
+
+  .performance-table-container tbody tr td:first-of-type,
+  .performance-table-container tbody tr td:nth-of-type(2) {
+    white-space: wrap;
+  }
+  .performance-table-container tr th:nth-of-type(5),
+  .performance-table-container tbody tr td:nth-of-type(5) {
+    display: none;
+  }
+
+  .performance-filter {
+    display: flex;
+    flex-direction: column;
+    align-items: baseline;
+    gap: 10px;
+  }
+  .date-picker {
+    height: 35px;
+  }
+
+  .performance-page-title {
+    padding: 10px 0;
+  }
+
+  /* Task page */
+
+  .task-page-title div button {
+    padding: 7px;
+  }
+  .task-page-title div {
+    gap: 5px;
+  }
+  .task-history-status button p {
+    font-size: 15px;
+  }
+  .task-history-status button:first-of-type div span {
+    padding: 5px 7px;
+  }
+  .task-history-status button:first-of-type {
+    width: 210px;
+  }
+  .task-history-status button:last-of-type {
+    padding: 7px 8px;
+    font-size: 13px;
+  }
+  .table-container tbody tr td:nth-of-type(5),
+  .table-container tr th:nth-of-type(5) {
+    display: none;
+  }
+  .task-modal-content {
+    padding: 14px;
+  }
+  .task-modal-content input[type="date"],
+  .task-modal-content input[type="time"] {
+    width: 63vw;
+  }
+  .task-modal-content label {
+    font-size: 14px;
+  }
+  .taskType-info span,
+  .taskType-note div span,
+  .service-detail span {
+    font-size: 15px;
+  }
+  .taskType-info span,
+  .taskType-note div span,
+  .service-detail span {
+    text-align: end;
+  }
+  .taskType-info span,
+  .taskType-note div span,
+  .service-detail span {
+    font-size: 15px;
+  }
+  .taskType-info label,
+  .taskType-note label,
+  .service-detail label,
+  #detailMap > label {
+    font-size: 16px;
+  }
+
+  /* Employee page */
+
+  .employee-search-filter {
+    flex-direction: column;
+    align-items: start;
+    gap: 14px;
+  }
+  .employee-search-filter > div:first-of-type {
+    width: 100%;
+  }
+  .employee-search-filter > div:first-of-type input {
+    width: 89%;
+  }
+  .employee-table-container th,
+  .employee-table-container td {
+    font-size: 13px !important;
+  }
+  .employee-table-container th,
+  .employee-table-container td {
+    padding: 15px 9px;
+  }
+  .employee-table-container tbody tr td:nth-of-type(8) a svg {
+    font-size: 23px;
+  }
+  .employee-table-container tbody td:nth-of-type(5),
+  .employee-table-container th:nth-of-type(5) {
+    display: none;
+  }
+
+  .employee-title {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  /* Navbar */
+
+  .navbar-icons a,
+  .navbar-icons div {
+    font-size: 23px;
+  }
+
+  /* Warehouse Page */
+
+  .warehouseTable th,
+  .warehouseTable td {
+    padding: 16px 8px;
+  }
+
+  .warehouse-search-filter {
+    align-items: start;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .warehouse-search-filter > div:first-of-type {
+    width: 100%;
+    border: 0.5px solid #ababaf;
+  }
+
+  .warehouse-search-filter > div:first-of-type input {
+    padding: 10px 17px 10px 33px;
+    width: 93%;
+    border: 0;
+  }
+  .importModal-warehouseName button {
+    font-size: 14px;
+  }
+
+  .item-detail-modal-header h2 {
+    font-size: 22px;
+    margin: 0;
+  }
+  .item-detail-modal-header {
+    margin-bottom: 5px;
+  }
+  .item-detail-close-button {
+    font-size: 33px;
+}
+.submit-btn {
+  padding: 8px;
+}
+
+  /* Warehouse history page */
+
+  .historyTable th,
+  .historyTable td {
+    font-size: 12px !important;
+  }
+
+  .historyTable td:nth-of-type(10),
+  .historyTable th:nth-of-type(10) {
+    padding: 12px 0 !important;
+  }
+
+  .filter-item-modal button span {
+    font-size: 14px;
+  }
+  .custom-datepicker {
+    font-size: 13px;
+  }
+  .button-container button {
+    padding: 6px;
+  }
+  .history-page section {
+    gap: 15px;
+  }
+  .warehousePage-title p {
+    font-size: 17px;
+  }
+
+  .historyTable td:last-of-type,
+  .historyTable th:last-of-type {
+    padding: 12px 7px 12px 0 !important;
+  }
+
+  /* Logout modal */
+
+  .logout-modal-content p {
+    font-size: 15px;
+}
+.logout-modal-content h2 {
+  font-size: 25px;
+}
+.logout-modal-content div button {
+  font-size: 16px;
+}
+
+.logout-modal-content {
+  padding: 13px;
+}
+
+ /* Login page */
+  
+ .login-page {
+  width: 318px;
+  padding: 43px 28px;
+}
+}
+
+@media screen and (max-width: 412px) {
+  /* Home page */
+
+  .apexcharts-text tspan {
+    font-size: 10px;
+  }
+  .year-filter {
+    font-size: 18px;
+  }
+  .home-employee-task {
+    width: 100%;
+  }
+  .home-meet-section {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  .event-modal {
+    max-width: 63%;
+  }
+  .meeting-detail-modal-overlay .item-detail-modal-body .modal-label,
+  .meeting-detail-modal-overlay .item-detail-modal-body .modal-value {
+    font-size: 14px;
+  }
+
+  .meeting-detail-modal-overlay .item-detail-modal-body .modal-row {
+    margin: 15px 0 5px 0;
+  }
+
+  /* Task page */
+
+  .task-page-title p {
+    font-size: 31px;
+  }
+
+  .task-page-title {
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    padding: 10px 0 20px 0;
+  }
+
+  .task-status button {
+    padding: 3px 7px;
+    font-size: 13px;
+  }
+
+  .task-page-title div {
+    justify-content: space-around;
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .task-page-title div button {
+    padding: 7px 12px;
+    font-size: 15px;
+  }
+  .taskPage-taskType button {
+    font-size: 15px;
+  }
+  .task-history-status button p {
+    font-size: 14px;
+  }
+  .task-history-status button:first-of-type div span {
+    padding: 4px 6px;
+  }
+  .task-history-status button:first-of-type {
+    width: 180px;
+  }
+  .task-history-status button:last-of-type {
+    padding: 7px;
+    font-size: 12px;
+  }
+  .task-modal-content .form-group {
+    font-size: 12px;
+  }
+
+  .taskType-photo img {
+    width: 90px;
+  }
+  .table-container tbody tr td,
+  .table-container tr th {
+    font-size: 11px !important;
+  }
+  .task-page th,
+  .task-page td {
+    padding: 8px !important;
+  }
+
+  /* Warehouse history page */
+
+  .historyTable th,
+  .historyTable td {
+    font-size: 11px !important;
+  }
+  .importModal-warehouseName {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  /* Warehouse Import History Table  */
+  .historyImportTable th,
+  .historyImportTable td {
+    font-size: 12px !important;
+  }
+  .historyImportTable th:last-of-type,
+  .historyImportTable td:last-of-type {
+    padding: 12px 5px 12px 0 !important;
+  }
+
+  /* Logout modal */
+
+  .logout-modal-content p {
+    font-size: 14px;
+}
+}

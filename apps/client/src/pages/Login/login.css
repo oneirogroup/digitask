@@ -1,0 +1,184 @@
+.bg-color{
+    background-color: #2B75CC;
+    width: 100%;
+    height: 100vh;
+    position: relative;
+}
+.login-page{
+    height: 500px;
+    width: 480px;
+    background-color: white;
+    margin: 0 auto;
+    padding: 60px 100px;
+    border-radius: 20px;  
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.bg-color img{
+    width: 600px;
+    height: 450px;
+}
+
+.bg-color img:first-of-type{
+    position: absolute;
+    right: 0;
+}
+
+.bg-color img:last-of-type{
+    position: absolute;
+    left: 0;
+    bottom: 0;
+}
+
+.login-text{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-text h5{
+    font-family: Montserrat;
+    font-size: 28px;
+    font-weight: 600;
+    text-align: center;
+    white-space: nowrap;
+    margin: 0 15px;
+}
+
+.login-text hr {
+    border: none;           
+    border-top: 2px solid #5E5E62;  
+    width: 100%;            
+    height: 2px;            
+    background-color: #5E5E62; 
+}
+
+.login-mail-password{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 25px;
+}
+
+.login-mail-password label{
+    display: flex;
+    align-items: center;
+}
+
+.login-mail-password p{
+    font-family: Nunito Sans;
+    font-size: 16px;
+    font-weight: 600;
+
+    text-align: left;
+    color: #5E5E62;
+
+}
+
+.login-mail-password label input::placeholder{
+    font-family: Nunito Sans;
+    font-size: 16px;
+    font-weight: 400;
+
+    text-align: left;
+    color:  #ABABAF;
+}
+
+.login-mail-password div label input:not(.remember-me input){
+    height: 40px;
+    border: 0;
+    width: 240px;
+    outline: none;
+}
+
+.login-mail-password div{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.login-mail-password div:last-of-type{
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.login-mail-password div label:not(.remember-me label){
+    border: 1px solid #C7C6CA;
+    border-radius:8px;
+    gap: 10px;
+    align-items: center;
+    overflow: hidden;
+}
+
+.login-mail-password div label svg{
+    color:  #75777e;
+    width: 17px;
+    margin-left: 5px;
+}
+
+.login-mail-password > button{
+    background: #014FA7;
+    border-radius: 10px;
+    opacity: 0px;
+    color: white;
+    border: 0;
+    outline: none;
+    margin-top: 15px;
+    padding: 15px 0;
+    cursor: pointer;
+}
+
+.login-mail-password div:last-of-type p svg{
+    color: #005ABF;
+    cursor: pointer;
+}
+
+.remember-me label{
+    font-family: Nunito Sans;
+    font-size: 14px;
+    font-weight: 400;
+    text-align: center;
+    color: #2F3033;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+}
+
+.login-mail-password div:last-of-type a{
+    font-family: Nunito Sans;
+    font-size: 14px;
+    font-weight: 600;
+
+    text-align: center;
+    color: #005ABF;
+}
+
+.login-eye{
+    display: flex;
+    position: relative;
+}
+
+.login-eye button{
+    position: absolute;
+    right: 5px;
+    cursor: pointer;
+    background-color: inherit;
+    border: none;
+}
+
+.login-alert-text {
+    background-color: rgba(177, 42, 42, 0.322);
+    padding: 10px 8px ;
+    border-radius: 10px;
+    font-weight: 600;
+}

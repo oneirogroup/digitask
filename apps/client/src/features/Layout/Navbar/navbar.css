@@ -1,0 +1,37 @@
+.navbar-icons {
+    position: absolute;
+    top: 20px;
+    right: 40px;
+    display: flex;
+    gap: 14px;
+    z-index: 1000;
+
+}
+
+.navbar-icons a, .navbar-icons  div{
+    color: #76777A;
+    font-size: 26px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.menu-toggle {
+    display: none;
+    background-color: inherit;
+    border: none;
+}
+
+.notification-icon-div {
+    position: relative;
+    padding-right: 7px;
+}
+
+.notification-icon-div span {
+    font-family: "Crimson Text", serif;
+    font-weight: 500;
+    font-size: 24px;
+    position: absolute;
+    right: -3px;
+    top: 5px;
+}
+

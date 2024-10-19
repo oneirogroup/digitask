@@ -1,0 +1,45 @@
+#chart {
+    width: 66%;  
+    padding: 10px;  
+    background-color: white;
+    height: 340px;
+    border-radius: 10px;
+}
+
+.year-filter {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 20px;
+}
+
+.year-filter span{
+    font-family: Montserrat;
+    font-weight: 500;
+}
+
+.year-filter svg {
+    cursor: pointer;
+}
+
+.home-chart-services-chart {
+    display: flex;
+    margin-left: 30px;
+    gap: 30px;
+}
+
+.home-chart-services-chart div {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.home-chart-services-chart div p{
+    font-family: Nunito Sans;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.home-chart-services-chart div svg{
+    font-size: 10px;
+}

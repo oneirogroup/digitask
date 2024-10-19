@@ -1,0 +1,9 @@
+.service-update img{
+    width: 30%;
+    height: 150px;
+    object-fit: contain;
+}
+
+.update-fields{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);}

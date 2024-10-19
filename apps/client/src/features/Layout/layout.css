@@ -1,0 +1,80 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden; 
+}
+
+#root {
+  height: 100%;
+}
+
+.layout-no-sidebar {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  height: 100%;
+}
+
+.layout-with-sidebar {
+  display: flex;
+  min-height: 100vh;
+  height: 100%;
+}
+
+.layout-with-sidebar .navbar,
+.layout-no-sidebar .navbar {
+  width: 100%;
+}
+
+.layout-with-sidebar .sidebar {
+  flex: 0 0 200px; 
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.layout-with-sidebar .main-content {
+  flex: 1;
+  margin-top: 60px;
+  background-color: rgba(128, 128, 128, 0.103);
+  padding: 25px 20px;
+  height: calc(100vh - 60px); 
+  overflow-y: auto; 
+  margin-left: 200px;
+  scrollbar-width: thin;
+}
+
+.layout-with-sidebar .main-content:has(.chat-container) {
+  background-color: white;
+  overflow-y: inherit;
+  padding: 0 10px 0 20px;
+}
+
+.layout-no-sidebar .main-content {
+  margin-top: 60px;
+  background-color: rgba(128, 128, 128, 0.103);
+  padding: 25px;
+  flex: 1; 
+  height: calc(100vh - 60px); 
+  overflow-y: auto;
+}
+
+.layout-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.9); 
+  z-index: 1000; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.layout-overlay-message {
+  font-size: 2rem;
+  color: white;
+  text-align: center;
+  padding: 20px;
+}

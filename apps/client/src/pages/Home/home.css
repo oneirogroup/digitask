@@ -1,0 +1,271 @@
+.home-meet-section {
+  display: flex;
+  gap: 15px;
+  padding: 5px 25px 25px 0;
+  justify-content: space-between;
+}
+
+.home-meet-section .meet-time-date-img {
+  background: linear-gradient(
+    107deg,
+    rgba(0, 89, 191, 0.589) 0%,
+    rgba(0, 89, 191, 0.849) 100%
+  );
+  border-radius: 10px;
+  padding: 20px;
+  color: white;
+  width: 100%;
+  height: 170px;
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.home-meet-section .meet-time-date {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.home-meet-section .meet-time-date > p {
+  font-family: Montserrat;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 10px;
+}
+
+.home-meet-section .meet-time-date div {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.home-meet-section .meet-time-date h5 {
+  font-family: Montserrat;
+  font-size: 25px;
+  font-weight: 600;
+}
+
+.home-meet-section .meet-time-date div p {
+  font-family: Montserrat;
+  font-size: 17px;
+}
+
+.home-meet-section .meet-img {
+  align-self: center;
+}
+
+.home-meet-section .meet-img img {
+  width: 100%;
+}
+
+.home-meet-section .meet-add {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin: 0 auto;
+  border: 1px dashed #909094;
+  width: 100%;
+  height: 170px;
+  border-radius: 16px;
+  border-width: 2px;
+  transition-duration: 0.5s;
+  cursor: pointer;
+}
+
+.home-meet-section .meet-add:hover {
+  background-color: #e4effb;
+}
+
+.home-meet-section .meet-add button {
+  background-color: inherit;
+  border: none;
+  color: #909094;
+  font-family: Montserrat;
+  font-size: 20px;
+
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.home-meet-section .meet-add svg {
+  font-size: 30px;
+}
+
+.home-charts {
+  display: flex;
+  gap: 20px;
+}
+
+.home-employee-task {
+  display: flex;
+  flex-direction: column;
+  width: 310px;
+  height: 100%;
+  margin-top: 20px;
+  background-color: #fff;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.home-employee-task div p {
+  font-family: Montserrat;
+  font-size: 20px;
+  font-weight: 600;
+  padding: 15px 20px;
+}
+
+.home-tasks > div p {
+  font-family: Montserrat;
+  font-size: 20px;
+  font-weight: 600;
+  padding: 10px 20px;
+}
+
+.home-employee-task table td {
+  padding: 12px 6px;
+  font-family: Montserrat;
+  font-size: 16px;
+  border-bottom: 1px solid #c7c6ca;
+}
+
+.home-tasks table tr th {
+  font-family: Montserrat;
+  font-size: 16px;
+  padding: 8px !important;
+}
+
+.home-tasks table tr td:nth-of-type(2) {
+  white-space: nowrap;
+  color: #5e5e62;
+}
+
+.home-tasks div table tbody td:nth-of-type(3) {
+  width: 164px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.home-tasks table,
+.home-employee-task table {
+  border-spacing: 0 !important;
+}
+
+.home-employee-task th{
+  font-family: Montserrat;
+  font-size: 15px;
+
+}
+
+.home-tasks th,
+.home-tasks td,
+.home-employee-task th,
+.home-employee-task td {
+  padding: 12px 7px;
+  border-bottom: 1px solid #ddd;
+  text-align: center;
+}
+
+.home-tasks table tr td:nth-of-type(3) svg {
+  font-size: 22px;
+}
+
+.home-employee-task thead tr:first-of-type,
+.home-tasks thead tr:first-of-type {
+  background-color: #2b75cc;
+  color: white;
+  font-weight: 600;
+}
+
+.home-employee-task table td:first-of-type,
+.home-employee-task table td:last-of-type {
+  color: #005abf;
+  font-weight: 500;
+}
+
+.home-employee-task table td:last-of-type {
+  font-weight: 600;
+}
+
+.home-tasks {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  margin-top: 20px;
+  background-color: #fff;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.home-tasks > div:first-of-type {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 20px 5px 0;
+}
+
+.home-tasks > div:first-of-type a {
+  text-decoration: underline;
+  color: #2B75CC;
+  font-family: Nunito Sans;
+  font-size: 16px;
+}
+
+.home-tasks-sec {
+  display: flex;
+  gap: 10px;
+}
+
+.home-tasks table tr {
+  font-family: Nunito Sans;
+  font-size: 16px;
+  text-align: center;
+}
+
+.home-tasks table tr td:first-of-type {
+  font-weight: 700;
+}
+
+.home-tasks table tr td svg {
+  color: #e5c208;
+  font-weight: 700;
+}
+
+.home-tasks table tr td:nth-of-type(3) {
+  text-align: center;
+}
+
+.home-tasks table tr td:nth-of-type(3) div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+}
+
+.home-tasks table tr td:nth-of-type(4) {
+  color: #008b1b;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 150px;
+  padding: 0 10px;
+}
+
+.event-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.home-meet-section {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 13px;
+}
