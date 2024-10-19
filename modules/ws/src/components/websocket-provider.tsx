@@ -1,12 +1,12 @@
 import { FC, PropsWithChildren, useState } from "react";
-import { WebSocket } from "ws";
 
 import { WebSocketClients, WebsocketContext } from "../ctx";
+import { WebsocketClient } from "../utils/websocket-client";
 
 export const WebsocketProvider: FC<PropsWithChildren> = ({ children }) => {
   const [clients, setClients] = useState<WebSocketClients["clients"]>({});
 
-  const addClient = (name: string, client: WebSocket) => {
+  const addClient = (name: string, client: WebsocketClient) => {
     setClients(prev => ({ ...prev, [name]: client }));
   };
 

@@ -1,5 +1,7 @@
 import { useContext, useEffect } from "react";
 
+import { logger } from "@oneiro/ui-kit";
+
 import { WebsocketContext } from "../ctx";
 import { WebsocketClient } from "../utils/websocket-client";
 
@@ -21,6 +23,7 @@ export const useWebsocket = (name: string, url?: string): WebsocketClient | unde
     }
 
     if (url && !clients[name]) {
+      logger.debug(`ws-client:connection`, url);
       const client = new WebsocketClient(url);
       addClient(name, client);
       return;

@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 
 import { useWebsocket } from "./use-websocket";
 
-export const useListen = <TData, TIsValueArrayList extends boolean>(
+export const useListen = <TData>(
   name: string,
-  isListOfValues: TIsValueArrayList
-): TIsValueArrayList extends true ? TData[] : TData | null => {
+  isListOfValues: boolean
+): typeof isListOfValues extends true ? TData[] : TData | null => {
   const wsClient = useWebsocket(name);
   const [messages, setMessages] = useState<TData[]>([]);
   const [message, setMessage] = useState<TData | null>(null);

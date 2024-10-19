@@ -66,6 +66,7 @@ export class WebsocketClient {
       });
 
       this.ws.addEventListener("message", event => {
+        console.log(event.data);
         const data = event.data;
 
         try {

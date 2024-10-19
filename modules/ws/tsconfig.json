@@ -19,5 +19,7 @@
     "noFallthroughCasesInSwitch": true,
     "jsx": "react-jsxdev"
   },
-  "include": ["src"]
+  "include": [
+    "src"
+  ]
 }

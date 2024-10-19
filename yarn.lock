@@ -3797,9 +3797,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@oneiro/ws-client@workspace:^, @oneiro/ws-client@workspace:libs/ws":
+"@oneiro/ws-client@workspace:^, @oneiro/ws-client@workspace:modules/ws":
   version: 0.0.0-use.local
-  resolution: "@oneiro/ws-client@workspace:libs/ws"
+  resolution: "@oneiro/ws-client@workspace:modules/ws"
   dependencies:
     "@types/react": "npm:^18.3.11"
     "@vitejs/plugin-react-swc": "npm:^3.7.1"
