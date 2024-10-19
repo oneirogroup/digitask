@@ -4,6 +4,7 @@ import { DateRange } from "./components/date-time-picker";
 import { PerformanceProfile } from "./types/backend/performance-profile";
 import { ProfileData } from "./types/backend/profile-data";
 import { Task } from "./types/backend/task";
+import { urlBuilder } from "./utils/url-builder";
 
 export const authHttp = AuthHttp.instance();
 
@@ -22,9 +23,12 @@ export const api = {
       }
     },
     performance: {
-        return AuthHttp.instance().get<PerformanceProfile[]>(
-          `/services/performance/?start_date=${range.start.format("YYYY-MM-DD")}&end_date=${range.end.format("YYYY-MM-DD")}`
       $get(range: Partial<DateRange>) {
+        return authHttp.get<PerformanceProfile[]>(
+          urlBuilder("/services/performance/", {
+            start_date: range.start ? range.start.format("YYYY-MM-DD") : null,
+            end_date: range.end ? range.end.format("YYYY-MM-DD") : null
+          })
         );
       }
     }
