@@ -17,6 +17,7 @@
   "dependencies": {
     "@dev-plugins/async-storage": "^0.0.3",
     "@dev-plugins/react-query": "^0.0.7",
+    "@digitask/shared-lib": "workspace:^",
     "@expo/vector-icons": "^14.0.4",
     "@hookform/resolvers": "^3.9.0",
     "@oneiro/ui-kit": "workspace:^",
@@ -51,7 +52,6 @@
     "react-native-ui-datepicker": "^2.0.4",
     "react-use": "^17.5.1",
     "react-use-native": "^0.2.0",
-    "shared-lib": "workspace:^",
     "zod": "^3.23.8"
   },
   "devDependencies": {
