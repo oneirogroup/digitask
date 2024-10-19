@@ -1,11 +1,11 @@
 {
-  "name": "applicationfront",
-  "private": true,
+  "name": "@digitask/client",
   "version": "0.0.0",
+  "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite",
     "build": "vite build",
+    "dev": "vite",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
@@ -17,6 +17,7 @@
     "apexcharts": "^3.49.1",
     "axios": "^1.7.2",
     "date-fns": "^4.1.0",
+    "leaflet": "^1.9.4",
     "moment": "^2.30.1",
     "react": "^18.2.0",
     "react-apexcharts": "^1.4.1",

@@ -819,7 +819,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/plugin-transform-class-properties@npm:^7.24.1":
+"@babel/plugin-transform-class-properties@npm:^7.0.0-0, @babel/plugin-transform-class-properties@npm:^7.24.1":
   version: 7.25.7
   resolution: "@babel/plugin-transform-class-properties@npm:7.25.7"
   dependencies:
@@ -831,7 +831,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/plugin-transform-classes@npm:^7.0.0":
+"@babel/plugin-transform-classes@npm:^7.0.0, @babel/plugin-transform-classes@npm:^7.0.0-0":
   version: 7.25.7
   resolution: "@babel/plugin-transform-classes@npm:7.25.7"
   dependencies:
@@ -1226,7 +1226,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/plugin-transform-unicode-regex@npm:^7.0.0":
+"@babel/plugin-transform-unicode-regex@npm:^7.0.0, @babel/plugin-transform-unicode-regex@npm:^7.0.0-0":
   version: 7.25.7
   resolution: "@babel/plugin-transform-unicode-regex@npm:7.25.7"
   dependencies:
@@ -1433,6 +1433,49 @@ __metadata:
   checksum: 10c0/35aecb2dfc9e4307856acce5339a0437a6a84a21adf6492bbfeef58c4de3d4033827b7c7efdc72dff3e0758d6ed426d61813344a57b3389dae419ce6be20f795
   languageName: node
   linkType: hard
+
+"@digitask/client@workspace:apps/client":
+  version: 0.0.0-use.local
+  resolution: "@digitask/client@workspace:apps/client"
+  dependencies:
+    "@emotion/react": "npm:^11.11.4"
+    "@emotion/styled": "npm:^11.11.5"
+    "@mui/material": "npm:^5.15.19"
+    "@reduxjs/toolkit": "npm:^2.2.4"
+    "@types/react": "npm:^18.2.66"
+    "@types/react-dom": "npm:^18.2.22"
+    "@vitejs/plugin-react": "npm:^4.2.1"
+    apexcharts: "npm:^3.49.1"
+    axios: "npm:^1.7.2"
+    date-fns: "npm:^4.1.0"
+    eslint: "npm:^8.57.0"
+    eslint-plugin-react: "npm:^7.34.1"
+    eslint-plugin-react-hooks: "npm:^4.6.0"
+    eslint-plugin-react-refresh: "npm:^0.4.6"
+    leaflet: "npm:^1.9.4"
+    moment: "npm:^2.30.1"
+    react: "npm:^18.2.0"
+    react-apexcharts: "npm:^1.4.1"
+    react-bootstrap: "npm:^2.10.2"
+    react-datepicker: "npm:^6.9.0"
+    react-dom: "npm:^18.2.0"
+    react-icons: "npm:^5.2.1"
+    react-leaflet: "npm:^4.2.1"
+    react-modal: "npm:^3.16.1"
+    react-redux: "npm:^9.1.2"
+    react-router-dom: "npm:^6.23.1"
+    react-thunk: "npm:^1.0.0"
+    react-time-picker: "npm:^7.0.0"
+    react-validation: "npm:^3.0.7"
+    redux-devtools-extension: "npm:^2.13.9"
+    redux-persist: "npm:^6.0.0"
+    redux-thunk: "npm:^3.1.0"
+    socket.io: "npm:^4.7.5"
+    socket.io-client: "npm:^4.7.5"
+    thunk: "npm:^0.0.1"
+    vite: "npm:^5.2.0"
+  languageName: unknown
+  linkType: soft
 
 "@digitask/native@workspace:apps/native":
   version: 0.0.0-use.local
@@ -3723,6 +3766,7 @@ __metadata:
     react-dom: "npm:^18.3.1"
     react-hook-form: "npm:^7.53.0"
     react-native: "npm:^0.75.4"
+    react-native-reanimated: "npm:^3.16.0"
     react-native-svg: "npm:^15.7.1"
     rollup-preserve-directives: "npm:^1.1.1"
     storybook: "npm:^8.3.4"
@@ -7325,48 +7369,6 @@ __metadata:
   checksum: 10c0/32afb4d6fd66596119d37bc697353a29e0496ffcceddc60abfc954dbd063d45e4b9875b05ad413d8b0ab05e800bcb0decfb32c8c22fd1e55b5c9fba8936f0e86
   languageName: node
   linkType: hard
-
-"applicationfront@workspace:apps/client":
-  version: 0.0.0-use.local
-  resolution: "applicationfront@workspace:apps/client"
-  dependencies:
-    "@emotion/react": "npm:^11.11.4"
-    "@emotion/styled": "npm:^11.11.5"
-    "@mui/material": "npm:^5.15.19"
-    "@reduxjs/toolkit": "npm:^2.2.4"
-    "@types/react": "npm:^18.2.66"
-    "@types/react-dom": "npm:^18.2.22"
-    "@vitejs/plugin-react": "npm:^4.2.1"
-    apexcharts: "npm:^3.49.1"
-    axios: "npm:^1.7.2"
-    date-fns: "npm:^4.1.0"
-    eslint: "npm:^8.57.0"
-    eslint-plugin-react: "npm:^7.34.1"
-    eslint-plugin-react-hooks: "npm:^4.6.0"
-    eslint-plugin-react-refresh: "npm:^0.4.6"
-    moment: "npm:^2.30.1"
-    react: "npm:^18.2.0"
-    react-apexcharts: "npm:^1.4.1"
-    react-bootstrap: "npm:^2.10.2"
-    react-datepicker: "npm:^6.9.0"
-    react-dom: "npm:^18.2.0"
-    react-icons: "npm:^5.2.1"
-    react-leaflet: "npm:^4.2.1"
-    react-modal: "npm:^3.16.1"
-    react-redux: "npm:^9.1.2"
-    react-router-dom: "npm:^6.23.1"
-    react-thunk: "npm:^1.0.0"
-    react-time-picker: "npm:^7.0.0"
-    react-validation: "npm:^3.0.7"
-    redux-devtools-extension: "npm:^2.13.9"
-    redux-persist: "npm:^6.0.0"
-    redux-thunk: "npm:^3.1.0"
-    socket.io: "npm:^4.7.5"
-    socket.io-client: "npm:^4.7.5"
-    thunk: "npm:^0.0.1"
-    vite: "npm:^5.2.0"
-  languageName: unknown
-  linkType: soft
 
 "arg@npm:4.1.0":
   version: 4.1.0
@@ -13891,6 +13893,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"leaflet@npm:^1.9.4":
+  version: 1.9.4
+  resolution: "leaflet@npm:1.9.4"
+  checksum: 10c0/f639441dbb7eb9ae3fcd29ffd7d3508f6c6106892441634b0232fafb9ffb1588b05a8244ec7085de2c98b5ed703894df246898477836cfd0ce5b96d4717b5ca1
+  languageName: node
+  linkType: hard
+
 "leven@npm:^3.1.0":
   version: 3.1.0
   resolution: "leven@npm:3.1.0"
@@ -16973,6 +16982,29 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: 10c0/4b159080e3771bf1c9aa600521f53fdd4a7082ac94c63e6985f778e00280f0a7c777c822f5fdb2ddf55f1630194290f1051b1d30b9a969528dfd522953fb5e74
+  languageName: node
+  linkType: hard
+
+"react-native-reanimated@npm:^3.16.0":
+  version: 3.16.0
+  resolution: "react-native-reanimated@npm:3.16.0"
+  dependencies:
+    "@babel/plugin-transform-arrow-functions": "npm:^7.0.0-0"
+    "@babel/plugin-transform-class-properties": "npm:^7.0.0-0"
+    "@babel/plugin-transform-classes": "npm:^7.0.0-0"
+    "@babel/plugin-transform-nullish-coalescing-operator": "npm:^7.0.0-0"
+    "@babel/plugin-transform-optional-chaining": "npm:^7.0.0-0"
+    "@babel/plugin-transform-shorthand-properties": "npm:^7.0.0-0"
+    "@babel/plugin-transform-template-literals": "npm:^7.0.0-0"
+    "@babel/plugin-transform-unicode-regex": "npm:^7.0.0-0"
+    "@babel/preset-typescript": "npm:^7.16.7"
+    convert-source-map: "npm:^2.0.0"
+    invariant: "npm:^2.2.4"
+  peerDependencies:
+    "@babel/core": ^7.0.0-0
+    react: "*"
+    react-native: "*"
+  checksum: 10c0/0d98694d7e90b0950566739666c4d58405f3e2c3355e6ed604bb0b8ae93bde3736462ec63da4ea1383836aa98db258cf6a33005542710cd302fc650abcac0d50
   languageName: node
   linkType: hard
 
