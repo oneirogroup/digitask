@@ -23,7 +23,7 @@ export default function Performance() {
   });
 
   useEffect(() => {
-    rangeTableMutate({ start: DateService.from(new Date()), end: DateService.from(new Date()) });
+    rangeTableMutate({});
   }, []);
 
   return (
