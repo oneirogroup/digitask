@@ -5,18 +5,20 @@ import { PerformanceProfile } from "./types/backend/performance-profile";
 import { ProfileData } from "./types/backend/profile-data";
 import { Task } from "./types/backend/task";
 
+export const authHttp = AuthHttp.instance();
+
 export const api = {
   accounts: {
     profile: {
       get $get() {
-        return AuthHttp.instance().get<ProfileData>("/accounts/profile/");
+        return authHttp.get<ProfileData>("/accounts/profile/");
       }
     }
   },
   services: {
     tasks: {
       get $get() {
-        return AuthHttp.instance().get<Task[]>("/services/tasks");
+        return authHttp.get<Task[]>("/services/tasks");
       }
     },
     performance: {
