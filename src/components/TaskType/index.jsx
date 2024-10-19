@@ -353,6 +353,7 @@ function DetailsModal({
             const updatedGroups = prevState.group.includes(groupId)
                 ? prevState.group.filter((id) => id !== groupId)
                 : [...prevState.group, groupId];
+            console.log('updatedGroups', updatedGroups)
             return { ...prevState, group: updatedGroups.map(Number) };
         });
     };
@@ -374,27 +375,33 @@ function DetailsModal({
     const handleFormSubmit = (e) => {
         e.preventDefault();
 
-        const updatedFormData = new FormData();
+        // const updatedFormData = new FormData();
 
-        Object.keys(formData).forEach((key) => {
-            if (formData[key] !== taskDetails[key]) {
-                updatedFormData.append(key, formData[key]);
-            }
-        });
+        // console.log("updatedFormData.before", updatedFormData, formData)
+        // Object.keys(formData).forEach((key) => {
+        //     if (formData[key] !== taskDetails[key]) {
+        //         updatedFormData.append(key, formData[key]);
+        //     }
+        // });
 
-        if (formData.group && typeof formData.group === 'string') {
-            updatedFormData.append('group', parseInt(formData.group));
-        } else {
-            updatedFormData.append('group', formData.group);
-        }
+        // if (formData.group && typeof formData.group === 'string') {
+        //     updatedFormData.append('group', parseInt(formData.group));
+        // } else {
+        //     updatedFormData.append('group', formData.group);
+        // }
 
         if (imageFile) {
-            updatedFormData.append("passport", imageFile);
+            formData.passport = imageFile;
         }
 
+        console.log('updatedFormData', formData)
         fetch(`http://135.181.42.192/services/update_task/${taskId}/`, {
             method: "PATCH",
-            body: updatedFormData,
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+            },
+            body: JSON.stringify(formData),
         })
             .then((response) => {
                 if (!response.ok) {
@@ -580,8 +587,8 @@ function DetailsModal({
 
     return (
         <div className="taskType-modal">
-            <div className="taskType-modal-content" ref={modalRef}>
-                <div className="taskType-modal-title" ref={modalRef}>
+            <div className="taskType-modal-content">
+                <div className="taskType-modal-title">
                     {isEditing ? (
                         <div className="details-title">
                             <h5>Tapşırığı yenilə </h5>
@@ -600,7 +607,7 @@ function DetailsModal({
                             {/* )} */}
                         </>
                     )}
-                    <div ref={modalRef}>
+                    <div>
                         <span className="close" onClick={onClose}>
                             &times;
                         </span>
@@ -909,7 +916,7 @@ function DetailsModal({
                         </div>
                     </form>
                 ) : (
-                    <div className="taskType-modal-body" ref={modalRef}>
+                    <div className="taskType-modal-body">
                         <div className="taskType-info">
                             <div>
                                 <div>

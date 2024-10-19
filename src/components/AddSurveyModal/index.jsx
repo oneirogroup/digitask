@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import './addsurveymodal.css';
 import axios from 'axios';
+import upload from "../../assets/images/document-upload.svg";
 
 const AddSurveyModal = ({ onClose, selectedServices, taskId, onSurveyAdded }) => {
     const [surveyData, setSurveyData] = useState({
