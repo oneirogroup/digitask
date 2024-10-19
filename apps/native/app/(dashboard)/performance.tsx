@@ -19,10 +19,10 @@ export default function Performance() {
     isError: isRangeTableError
   } = useMutation({
     mutationKey: ["performance/range-table"],
-    mutationFn: (range: DateRange) => api.services.performance.$get(range)
+    mutationFn: (range: Partial<DateRange>) => api.services.performance.$get(range)
   });
 
-  useEffect(() => {
+  useEffect(
     rangeTableMutate({});
   }, []);
 

@@ -22,9 +22,9 @@ export const api = {
       }
     },
     performance: {
-      $get(range: DateRange) {
         return AuthHttp.instance().get<PerformanceProfile[]>(
           `/services/performance/?start_date=${range.start.format("YYYY-MM-DD")}&end_date=${range.end.format("YYYY-MM-DD")}`
+      $get(range: Partial<DateRange>) {
         );
       }
     }
