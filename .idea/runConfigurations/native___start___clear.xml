@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="native &gt; start --clear" type="js.build_tools.npm" nameIsGenerated="true">
+  <configuration default="false" name="native &gt; start --clear" type="js.build_tools.npm" folderName="Native" nameIsGenerated="true">
     <package-json value="$PROJECT_DIR$/apps/native/package.json" />
     <command value="run" />
     <scripts>
