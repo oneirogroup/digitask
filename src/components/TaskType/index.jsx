@@ -360,41 +360,55 @@ function DetailsModal({
 
     const renderGroups = () => {
         return groups.map((group) => (
-            <label key={group.id} className="dropdown-task-item" onClick={() => handleGroupSelect(Number(group.id))}>
+            <label
+                key={group.id}
+                className="dropdown-task-item"
+                htmlFor={`group-${group.id}`}
+            >
                 <input
                     type="checkbox"
+                    id={`group-${group.id}`}
                     checked={formData.group.includes(group.id)}
                     onChange={() => handleGroupSelect(group.id)}
-                // onClick={() => handleGroupSelect(Number(group.id))}
                 />
                 {group.group}
             </label>
+
         ));
     };
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
 
-        // const updatedFormData = new FormData();
-
-        // console.log("updatedFormData.before", updatedFormData, formData)
-        // Object.keys(formData).forEach((key) => {
-        //     if (formData[key] !== taskDetails[key]) {
-        //         updatedFormData.append(key, formData[key]);
-        //     }
-        // });
-
-        // if (formData.group && typeof formData.group === 'string') {
-        //     updatedFormData.append('group', parseInt(formData.group));
-        // } else {
-        //     updatedFormData.append('group', formData.group);
-        // }
+        console.log('updatedFormData', formData);
 
         if (imageFile) {
-            formData.passport = imageFile;
+            const imageFormData = new FormData();
+            imageFormData.append('passport', imageFile);
+
+            fetch(`http://135.181.42.192/services/update_task_image/${taskId}/`, {
+                method: "PATCH",
+                body: imageFormData,
+            })
+                .then((response) => {
+                    if (!response.ok) {
+                        return response.json().then((err) => {
+                            throw new Error(
+                                `Error: ${response.status} ${response.statusText} - ${JSON.stringify(err)}`
+                            );
+                        });
+                    }
+                    return response.json();
+                })
+                .then((imageData) => {
+                    setFormData((prevFormData) => ({
+                        ...prevFormData,
+                        passport: imageData.passport,
+                    }));
+                })
+                .catch((error) => console.error("Error updating task image:", error));
         }
 
-        console.log('updatedFormData', formData)
         fetch(`http://135.181.42.192/services/update_task/${taskId}/`, {
             method: "PATCH",
             headers: {
@@ -425,7 +439,7 @@ function DetailsModal({
                     registration_number: data.registration_number,
                     contact_number: data.contact_number,
                     location: data.location,
-                    passport: data.passport ? data.passport : null,
+                    passport: data.passport || null,
                     services: data.services,
                     status: data.status,
                     group: data.group,
@@ -442,6 +456,7 @@ function DetailsModal({
             })
             .catch((error) => console.error("Error updating task:", error));
     };
+
 
     const shouldShowAddSurveyButton =
         ((taskDetails?.is_tv && !taskDetails?.tv) ||
@@ -580,6 +595,7 @@ function DetailsModal({
     const handleModalClose = () => {
         setIsImageModalOpen(false);
     };
+
 
     if (!taskDetails) {
         return <div>Loading...</div>;
@@ -879,7 +895,7 @@ function DetailsModal({
                                                 src={preview || taskDetails.passport}
                                                 alt="Passport"
                                                 className="image-preview"
-
+                                                onClick={() => handleImageClick(preview || taskDetails.passport)}
                                             />
                                             <label
                                                 htmlFor="passport"
@@ -909,6 +925,7 @@ function DetailsModal({
                                     />
                                 </div>
                             </div>
+
 
                             <button className="updateTask-button" type="submit">
                                 Yenilə
@@ -1252,8 +1269,7 @@ function DetailsModal({
                             )}
                         </div>
 
-                        {/* {userType === 'Texnik' && shouldShowAddSurveyButton && ( */}
-                        {shouldShowAddSurveyButton && (
+                        {userType === 'Texnik' && shouldShowAddSurveyButton && (
                             <button
                                 className="add-survey-button"
                                 onClick={openAddSurveyModal}
