@@ -56,7 +56,7 @@ export const UserProvider = ({ children }) => {
             <div className="loading-container">
                 <div className="loading-content">
                     <div className="spinner"></div>
-                    <p className="loading-text">Yüklənir gözləyin zəhmət olmasa...</p>
+                    <p className="loading-text">Yüklənir, gözləyin zəhmət olmasa...</p>
                 </div>
             </div>
         );
