@@ -1,4 +1,7 @@
+import merge from "lodash.merge";
+
 import { withLayoutContext } from "expo-router";
+import { ComponentProps, FC } from "react";
 
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import type {
@@ -9,9 +12,20 @@ import type { ParamListBase, TabNavigationState } from "@react-navigation/native
 
 const { Navigator } = createMaterialTopTabNavigator();
 
+const NavbarNavigator: FC<ComponentProps<typeof Navigator>> = ({ children, ...props }) => {
+  return (
+    <Navigator
+      {...props}
+      screenOptions={merge({ tabBarContentContainerStyle: { justifyContent: "space-evenly" } }, props.screenOptions)}
+    >
+      {children}
+    </Navigator>
+  );
+};
+
 export const NavbarTopTabs = withLayoutContext<
   MaterialTopTabNavigationOptions,
   typeof Navigator,
   TabNavigationState<ParamListBase>,
   MaterialTopTabNavigationEventMap
->(Navigator);
+>(NavbarNavigator);

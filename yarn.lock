@@ -1477,6 +1477,7 @@ __metadata:
     "@tanstack/react-query": "npm:^5.59.0"
     "@types/express": "npm:^4"
     "@types/jest": "npm:^29.5.13"
+    "@types/lodash.merge": "npm:^4"
     "@types/react": "npm:~18.2.79"
     "@types/react-test-renderer": "npm:^18.3.0"
     babel-plugin-module-resolver: "npm:^5.0.2"
@@ -1496,15 +1497,16 @@ __metadata:
     express: "npm:^4.21.1"
     jest: "npm:^29.7.0"
     jest-expo: "npm:~51.0.4"
+    lodash.merge: "npm:^4.6.2"
     nativewind: "npm:^4.1.16"
-    react: "npm:rc"
+    react: "npm:18.2.0"
     react-hook-form: "npm:^7.53.0"
     react-native: "npm:0.74.5"
     react-native-gesture-handler: "npm:~2.16.1"
     react-native-pager-view: "npm:6.3.0"
     react-native-reanimated: "npm:~3.10.1"
     react-native-safe-area-context: "npm:4.10.5"
-    react-native-screens: "npm:3.31.1"
+    react-native-screens: "npm:~3.29.0"
     react-native-svg: "npm:15.2.0"
     react-native-tab-view: "npm:^3.5.2"
     react-native-ui-datepicker: "npm:^2.0.4"
@@ -6357,7 +6359,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/lodash@npm:^4.14.167, @types/lodash@npm:^4.17.9":
+"@types/lodash.merge@npm:^4":
+  version: 4.6.9
+  resolution: "@types/lodash.merge@npm:4.6.9"
+  dependencies:
+    "@types/lodash": "npm:*"
+  checksum: 10c0/2e2ccacdceb2e23343a514e8c24540fc4e1f1ffd616b645eb72ec685da9389d99a2544f04d61921e46a6768f8cc0fe5f58d4f7edaba9bc50552f0ca7df905e83
+  languageName: node
+  linkType: hard
+
+"@types/lodash@npm:*, @types/lodash@npm:^4.14.167, @types/lodash@npm:^4.17.9":
   version: 4.17.12
   resolution: "@types/lodash@npm:4.17.12"
   checksum: 10c0/106008f628ea3c74ed7ee7842dee79e230c84e3721ac38c293700031adb5bd130113048c22f476dbde0d0c119506b0fc447d4bd62eca922682d11e00e1377967
@@ -7743,9 +7754,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"babel-plugin-react-compiler@npm:latest":
-  version: 19.0.0-beta-9ee70a1-20241017
-  resolution: "babel-plugin-react-compiler@npm:19.0.0-beta-9ee70a1-20241017"
+"babel-plugin-react-compiler@npm:0.0.0-experimental-592953e-20240517":
+  version: 0.0.0-experimental-592953e-20240517
+  resolution: "babel-plugin-react-compiler@npm:0.0.0-experimental-592953e-20240517"
   dependencies:
     "@babel/generator": "npm:7.2.0"
     "@babel/types": "npm:^7.19.0"
@@ -7754,7 +7765,7 @@ __metadata:
     pretty-format: "npm:^24"
     zod: "npm:^3.22.4"
     zod-validation-error: "npm:^2.1.0"
-  checksum: 10c0/65210bf0b299a39a3618c39fe93bc47b365e273fb3824bd690b4ceea4569a3ec315a56086ef03936b9dc06ce6c360ad8a9cca6333068852a4b8299d360c232bb
+  checksum: 10c0/28a48cd55a3157eef5998ede92a68c3f5b081175396f1be8327f1e31eab57c1cee824897bd193db7af09bc45d7c3dcf57514305ad3f236df1bd922ade180fa2e
   languageName: node
   linkType: hard
 
@@ -10270,11 +10281,11 @@ __metadata:
   linkType: hard
 
 "eslint-plugin-react-refresh@npm:^0.4.6":
-  version: 0.4.12
-  resolution: "eslint-plugin-react-refresh@npm:0.4.12"
+  version: 0.4.13
+  resolution: "eslint-plugin-react-refresh@npm:0.4.13"
   peerDependencies:
     eslint: ">=7"
-  checksum: 10c0/33dd82450f7c5fa884c5c84ffaf9d9a8b363bc155432807dc09904c7db6ba724888fac4562b058268259aa7c9270b622ef411488011b3469a2add275ed5c2273
+  checksum: 10c0/c15a2122c3f092d7a5388e480a033ae054a61b2d0f7da50c896e90ca4616c0cba0d6249c77545b94262c9c9af3b78817e2ace3ead210206ab91c672ac6de4497
   languageName: node
   linkType: hard
 
@@ -16976,16 +16987,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-screens@npm:3.31.1":
-  version: 3.31.1
-  resolution: "react-native-screens@npm:3.31.1"
+"react-native-screens@npm:~3.29.0":
+  version: 3.29.0
+  resolution: "react-native-screens@npm:3.29.0"
   dependencies:
     react-freeze: "npm:^1.0.0"
     warn-once: "npm:^0.1.0"
   peerDependencies:
     react: "*"
     react-native: "*"
-  checksum: 10c0/899a02751ecbc6231ce3c869268fb510e5b53428c788135ae46f4bbd768efe78bf74f17fec5becc4c4c1e81a5f224a907dc890ba2406181ff9e21830dda95dec
+  checksum: 10c0/90c32eb5452007f64c2f56412c671de98b4b89f09cf09cc7a7dca1cb23b1ac6de9bc726c67e774c7cb68dbd05bb329c053c1c2f071f534ad4e27d9d60be76eb0
   languageName: node
   linkType: hard
 
@@ -17364,6 +17375,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react@npm:18.2.0":
+  version: 18.2.0
+  resolution: "react@npm:18.2.0"
+  dependencies:
+    loose-envify: "npm:^1.1.0"
+  checksum: 10c0/b562d9b569b0cb315e44b48099f7712283d93df36b19a39a67c254c6686479d3980b7f013dc931f4a5a3ae7645eae6386b4aa5eea933baa54ecd0f9acb0902b8
+  languageName: node
+  linkType: hard
+
 "react@npm:^16.0.0":
   version: 16.14.0
   resolution: "react@npm:16.14.0"
@@ -17381,13 +17401,6 @@ __metadata:
   dependencies:
     loose-envify: "npm:^1.1.0"
   checksum: 10c0/283e8c5efcf37802c9d1ce767f302dd569dd97a70d9bb8c7be79a789b9902451e0d16334b05d73299b20f048cbc3c7d288bbbde10b701fa194e2089c237dbea3
-  languageName: node
-  linkType: hard
-
-"react@npm:rc":
-  version: 19.0.0-rc-c1e1358b-20241020
-  resolution: "react@npm:19.0.0-rc-c1e1358b-20241020"
-  checksum: 10c0/25e8edc67642bb7523da876be97bfb7be793e904f1afbc8a49707e0c0992ad43aa42d178cb74fd62c0f1a97fda522f6c8aae8f79560464d0fe467e982d24ed32
   languageName: node
   linkType: hard
 

@@ -11,8 +11,7 @@ export const TaskDate: FC<TaskDateProps> = ({ start, end }) => {
   const isDiffInNextDay =
     !endDate || (diff && endDate && diff.seconds > 0 && diff.days > 1 && endDate.getDay() !== startDate.getDay());
 
-  console.log({ startDate: startDate.toString(), endDate: endDate?.toString(), diff });
-
+  // console.log({ startDate: startDate.toString(), endDate: endDate?.toString(), diff });
   // console.log({ startDate, endDate, diff, isDiffInNextDay });
   //
   const dateParts: string[] = [];
