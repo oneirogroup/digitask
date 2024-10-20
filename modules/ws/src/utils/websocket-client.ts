@@ -5,7 +5,7 @@ export class WebsocketClient {
   private tried = 0;
   private tries = 5;
   private isForceClosed = false;
-  private emittedData: [string, any][] = [];
+  private emitData: string[] = [];
   private subscriptions: Record<string | symbol, ((data: any) => void)[]> = {};
 
   constructor(private readonly url: string) {
@@ -18,10 +18,19 @@ export class WebsocketClient {
   }
 
   emit<TData>(event: string, data: TData) {
+    const stringData = JSON.stringify({ event, data });
     if (this.ws.readyState === this.ws.OPEN) {
-      this.ws.send(JSON.stringify({ event, data }));
+      this.send(stringData);
     } else {
-      this.emittedData.push([event, data]);
+      this.emitData.push(stringData);
+    }
+  }
+
+  send(data: string) {
+    if (this.ws.readyState === this.ws.OPEN) {
+      this.ws.send(data);
+    } else {
+      this.emitData.push(data);
     }
   }
 
@@ -52,8 +61,8 @@ export class WebsocketClient {
 
   private prepare() {
     this.ws.addEventListener("open", () => {
-      this.emittedData.forEach(([event, data]) => this.emit(event, data));
-      this.emittedData = [];
+      this.emitData.forEach(data => this.send(data));
+      this.emitData = [];
 
       Object.entries(this.subscriptions).forEach(([subs, listeners]) => {
         // @ts-ignore
@@ -86,6 +95,7 @@ export class WebsocketClient {
     });
   }
 
+  // @ts-ignore
   private reconnect() {
     if (this.tried === this.tries) {
       throw new Error("Max tries reached");

@@ -1,6 +1,6 @@
 import { useContext, useEffect } from "react";
 
-import { logger } from "@oneiro/ui-kit";
+import { logger } from "@oneiro/ui-kit/utils";
 
 import { WebsocketContext } from "../ctx";
 import { WebsocketClient } from "../utils/websocket-client";

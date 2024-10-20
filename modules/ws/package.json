@@ -11,6 +11,7 @@
     "watch": "yarn build --watch"
   },
   "dependencies": {
+    "@oneiro/ui-kit": "workspace:^",
     "react": "^18.3.1"
   },
   "devDependencies": {
