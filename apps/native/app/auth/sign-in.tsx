@@ -1,5 +1,5 @@
 import { Image } from "expo-image";
-import { Link, router } from "expo-router";
+import { Link, useNavigationContainerRef } from "expo-router";
 import { SubmitErrorHandler, SubmitHandler } from "react-hook-form";
 import { Text } from "react-native";
 
@@ -17,6 +17,8 @@ import logo from "../../assets/images/logo.png";
 const authHttpSettings = AuthHttp.settings();
 
 export default function Welcome() {
+  const rootNavigation = useNavigationContainerRef();
+
   const signInMutation = useMutation({
     mutationFn: (data: SignInSchema) =>
       AuthHttp.instance().post<AuthToken>("/accounts/login/", { ...data, remember_me: false }),
@@ -30,7 +32,8 @@ export default function Welcome() {
     await AsyncStorageNative.setItem(Tokens.ACCESS_TOKEN, response.access_token);
     await AsyncStorageNative.setItem(Tokens.REFRESH_TOKEN, response.refresh_token);
     await authHttpSettings.retrieveTokens()();
-    router.replace("/(dashboard)");
+    // @ts-ignore
+    rootNavigation.navigate("/dashboard");
   };
 
   const onFormError: SubmitErrorHandler<SignInSchema> = errors => {

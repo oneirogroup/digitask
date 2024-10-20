@@ -9,9 +9,6 @@
   "scripts": {
     "format:svg": "prettier --plugin @prettier/plugin-xml --write \"**/*.svg\""
   },
-  "resolutions": {
-    "babel-plugin-react-compiler": "latest"
-  },
   "devDependencies": {
     "@oneiro/ui-kit": "workspace:^",
     "@prettier/plugin-xml": "^3.4.1",
