@@ -6,24 +6,38 @@ import { useListen } from "@oneiro/ws-client";
 import { useQuery } from "@tanstack/react-query";
 
 import { api } from "../../../api";
-import { ChatRoom } from "../../../components/chat";
+import { ChatRoom, Message } from "../../../components/chat";
+import { ProfileData } from "../../../types/backend/profile-data";
 import { cache } from "../../../utils/cache";
-
-interface Message {}
 
 export default function Chat() {
   const { roomId } = useLocalSearchParams();
+  if (!roomId) {
+    return (
+      <View>
+        <Text>Room not found</Text>
+      </View>
+    );
+  }
 
-  // const { data: rooms = [], isPending } = useQuery({
-  //   queryKey: [cache.user.profile.chat.rooms],
-  //   queryFn: () => api.accounts.RoomsApiView.$get
-  // });
-  //
-  // const messages = useListen<Message>("chat", true);
-  // console.log("messages", messages);
+  const { data: currentUserId } = useQuery({
+    queryKey: [cache.user.profile.$value],
+    select: (data: ProfileData) => data?.id
+  });
+  if (!currentUserId) return null;
+
+  const { data: previousMessages } = useQuery({
+    queryKey: [cache.user.profile.chat.messages],
+    queryFn: () => api.accounts.messages.$get({ room: +roomId })
+  });
+
+  console.log("currentUserId", currentUserId);
+  console.log("previousMessages", previousMessages);
 
   return (
     <Block.Scroll>
+      {previousMessages?.results?.map(message => <Message key={message.id} message={message} />)}
+
       {/*<View className="px-6 py-3">*/}
       {/*  <Input*/}
       {/*    placeholder="Axtar"*/}
