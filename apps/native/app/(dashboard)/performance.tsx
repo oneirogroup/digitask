@@ -6,7 +6,6 @@ import { useMutation } from "@tanstack/react-query";
 
 import { api } from "../../api";
 import { DateRange, RangePicker } from "../../components/date-time-picker";
-import { DateService } from "../../services/date-service";
 
 const Loading: FC = () => <Text className="text-center">Loading...</Text>;
 
@@ -22,7 +21,7 @@ export default function Performance() {
     mutationFn: (range: Partial<DateRange>) => api.services.performance.$get(range)
   });
 
-  useEffect(
+  useEffect(() => {
     rangeTableMutate({});
   }, []);
 
