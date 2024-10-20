@@ -1,8 +1,8 @@
 import isNil from "lodash/isNil";
 
-export const urlBuilder = (url: string, params: Record<string, undefined | null | string | number | boolean>) => {
+export const urlBuilder = <TParams extends object>(url: string, params?: TParams) => {
   const paramsStrings: string[] = [];
-  Object.entries(params).forEach(([param, value]) => {
+  Object.entries(params || {}).forEach(([param, value]) => {
     if (!isNil(value)) {
       paramsStrings.push(`${param}=${value}`);
     }

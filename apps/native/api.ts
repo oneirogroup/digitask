@@ -1,10 +1,13 @@
 import { AuthHttp } from "@oneiro/ui-kit";
 
 import { DateRange } from "./components/date-time-picker";
+import { MessageOptions } from "./types/api/message-options";
 import { ChatRoom } from "./types/backend/chat-room";
 import { PerformanceProfile } from "./types/backend/performance-profile";
+import { PreviousMessages } from "./types/backend/previous-messages";
 import { ProfileData } from "./types/backend/profile-data";
 import { Task } from "./types/backend/task";
+import { WithPagination } from "./types/with/pagination";
 import { urlBuilder } from "./utils/url-builder";
 
 export const authHttp = AuthHttp.instance();
@@ -14,6 +17,11 @@ export const api = {
     profile: {
       get $get() {
         return authHttp.get<ProfileData>("/accounts/profile/");
+      }
+    },
+    messages: {
+      $get(options?: WithPagination<MessageOptions>) {
+        return authHttp.get<PreviousMessages>(urlBuilder("/accounts/messages/", options));
       }
     },
     RoomsApiView: {

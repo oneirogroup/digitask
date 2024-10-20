@@ -8,7 +8,8 @@ export const cache = {
     profile: extendedCacheKey("digitask.native:user:profile", {
       tasks: "digitask.native:user:profile:tasks",
       chat: {
-        rooms: "digitask.native:user:profile:chat:rooms"
+        rooms: "digitask.native:user:profile:chat:rooms",
+        messages: "digitask.native:user:profile:chat:messages"
       }
     })
   }
