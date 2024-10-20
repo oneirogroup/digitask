@@ -1,6 +1,7 @@
 import { AuthHttp } from "@oneiro/ui-kit";
 
 import { DateRange } from "./components/date-time-picker";
+import { ChatRoom } from "./types/backend/chat-room";
 import { PerformanceProfile } from "./types/backend/performance-profile";
 import { ProfileData } from "./types/backend/profile-data";
 import { Task } from "./types/backend/task";
@@ -13,6 +14,11 @@ export const api = {
     profile: {
       get $get() {
         return authHttp.get<ProfileData>("/accounts/profile/");
+      }
+    },
+    RoomsApiView: {
+      get $get() {
+        return authHttp.get<ChatRoom[]>("/accounts/RoomsApiView/");
       }
     }
   },
