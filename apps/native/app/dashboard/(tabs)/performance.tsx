@@ -4,8 +4,8 @@ import { Text } from "react-native";
 import { Block, If, Table, cn } from "@oneiro/ui-kit";
 import { useMutation } from "@tanstack/react-query";
 
-import { api } from "../../api";
-import { DateRange, RangePicker } from "../../components/date-time-picker";
+import { api } from "../../../api";
+import { DateRange, RangePicker } from "../../../components/date-time-picker";
 
 const Loading: FC = () => <Text className="text-center">Loading...</Text>;
 
