@@ -16,6 +16,9 @@ export default defineConfig({
       entry: { ws: "src/main.ts" },
       name: "Websocket Library",
       formats: ["es"]
+    },
+    rollupOptions: {
+      external: [/@oneiro\/.*$/]
     }
   },
   test: {
