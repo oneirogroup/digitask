@@ -1,6 +1,4 @@
-import { BlockContainer } from "apps/native/components/blocks";
 import { router } from "expo-router";
-import { palette } from "palette";
 import { useRef } from "react";
 import { Text, View } from "react-native";
 import { runOnJS } from "react-native-reanimated";
@@ -9,9 +7,11 @@ import { Block, Button, Icon, Modal, ModalRef } from "@oneiro/ui-kit";
 import AsyncStorageNative from "@react-native-async-storage/async-storage";
 import { useQuery } from "@tanstack/react-query";
 
-import { ProfileData } from "../../types/backend/profile-data";
-import { Tokens } from "../../types/tokens";
-import { cache } from "../../utils/cache";
+import { palette } from "../../../../../palette";
+import { BlockContainer } from "../../../components/blocks";
+import { ProfileData } from "../../../types/backend/profile-data";
+import { Tokens } from "../../../types/tokens";
+import { cache } from "../../../utils/cache";
 
 export default function Profile() {
   const modalRef = useRef<ModalRef>(null);

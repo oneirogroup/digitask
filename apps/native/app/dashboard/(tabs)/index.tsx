@@ -3,14 +3,14 @@ import { Text } from "react-native";
 import { Block, Icon, If } from "@oneiro/ui-kit";
 import { useQuery } from "@tanstack/react-query";
 
-import { palette } from "../../../../palette";
-import { api } from "../../api";
-import { BlockContainer, BlockSection } from "../../components/blocks";
-import { Event } from "../../components/event";
-import { Task } from "../../components/task";
-import { DateService } from "../../services/date-service";
-import { cache } from "../../utils/cache";
-import { getTags } from "../../utils/get-tags";
+import { palette } from "../../../../../palette";
+import { api } from "../../../api";
+import { BlockContainer, BlockSection } from "../../../components/blocks";
+import { Event } from "../../../components/event";
+import { Task } from "../../../components/task";
+import { DateService } from "../../../services/date-service";
+import { cache } from "../../../utils/cache";
+import { getTags } from "../../../utils/get-tags";
 
 export default function Index() {
   const { data: task } = useQuery({
@@ -57,7 +57,7 @@ export default function Index() {
           </Block>
         </BlockContainer>
 
-        <BlockSection title="Davam edən tasklar" href="/(dashboard)/task">
+        <BlockSection title="Davam edən tasklar" href="/dashboard/task">
           <If condition={!!task}>
             <If.Then>
               <Task task={task!} tags={getTags(task)} />

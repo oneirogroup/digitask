@@ -10,12 +10,14 @@ import { useQuery } from "@tanstack/react-query";
 import { api } from "../api";
 import { Tokens } from "../types/tokens";
 import { cache } from "../utils/cache";
+import { env } from "../utils/env";
 
 import logo from "../assets/images/logo.png";
 
 const authHttpSettings = AuthHttp.settings();
 
 authHttpSettings
+  .setBaseUrl(env.EXPO_PUBLIC_API_URL)
   .setStorage(AsyncStorage)
   .setStorageTokenKeys({ access: Tokens.ACCESS_TOKEN, refresh: Tokens.REFRESH_TOKEN })
   .setRefreshUrl("/accounts/token/refresh/")
@@ -31,7 +33,7 @@ export default function Index() {
 
   useEffect(() => {
     if (isSuccess) {
-      router.replace("/(dashboard)");
+      router.replace("/dashboard");
     }
   }, [isSuccess]);
 
