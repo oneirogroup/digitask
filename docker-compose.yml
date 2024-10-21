@@ -1,16 +1,4 @@
 services:
-  ui-kit:
-    image: ui-kit-builder
-    build:
-      context: modules/ui-kit
-      dockerfile: Dockerfile
-
-  ws-client:
-    image: ws-client-builder
-    build:
-      context: modules/ws-client
-      dockerfile: Dockerfile
-
   base:
     image: base
     build:
@@ -21,6 +9,16 @@ services:
     image: client
     build:
       context: apps/client
+      dockerfile: Dockerfile
+    depends_on:
+      - base
+    ports:
+      - "5000:4173"
+
+  native:
+    image: native
+    build:
+      context: apps/native
       dockerfile: Dockerfile
     depends_on:
       - base
