@@ -3771,11 +3771,10 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@oneiro/ws-client@workspace:^, @oneiro/ws-client@workspace:modules/ws":
+"@oneiro/ws-client@workspace:^, @oneiro/ws-client@workspace:modules/ws-client":
   version: 0.0.0-use.local
-  resolution: "@oneiro/ws-client@workspace:modules/ws"
+  resolution: "@oneiro/ws-client@workspace:modules/ws-client"
   dependencies:
-    "@oneiro/ui-kit": "workspace:^"
     "@types/react": "npm:^18.3.11"
     "@vitejs/plugin-react-swc": "npm:^3.7.1"
     react: "npm:^18.3.1"
@@ -6641,12 +6640,12 @@ __metadata:
   linkType: hard
 
 "@urql/core@npm:>=2.3.1, @urql/core@npm:>=4.0.0":
-  version: 5.0.7
-  resolution: "@urql/core@npm:5.0.7"
+  version: 5.0.8
+  resolution: "@urql/core@npm:5.0.8"
   dependencies:
     "@0no-co/graphql.web": "npm:^1.0.5"
     wonka: "npm:^6.3.2"
-  checksum: 10c0/01b0536303d21d4acfe0a87a6341abf370e58c13a08f70deb65c347bd1f5d05c52d7722759479b11a2ec062ca7a430dab5db947d4c604a06e5e20c67525cc6a5
+  checksum: 10c0/a17c5ca0e2f02657e57bfc0b567dc6075f27e6604a27baf65d26df9c01007ff6f552b496c33fd9b3eb121485d8b82029a2d860fd82c156dfed52abbb341c78ed
   languageName: node
   linkType: hard
 
@@ -15179,15 +15178,15 @@ __metadata:
   linkType: hard
 
 "nativewind@npm:^4.1.16":
-  version: 4.1.17
-  resolution: "nativewind@npm:4.1.17"
+  version: 4.1.18
+  resolution: "nativewind@npm:4.1.18"
   dependencies:
     comment-json: "npm:^4.2.5"
     debug: "npm:^4.3.7"
-    react-native-css-interop: "npm:0.1.16"
+    react-native-css-interop: "npm:0.1.17"
   peerDependencies:
     tailwindcss: ">3.3.0"
-  checksum: 10c0/abf00ed7804a4667d78da32829147cdd898327e292a7555e7f529a4b2fe0c927074bdf218817e527811e17a521aa9058b50f4073c0696a0a66f6c58254d5b61e
+  checksum: 10c0/1328b440722e97c082cc091c6f15808215477e606acfb1218fedc5c76b72d8affdb903b9709a0b4e8e23b33fbf4401fe2f266ae93ced9e38fca75ded0fe9cd24
   languageName: node
   linkType: hard
 
@@ -16871,9 +16870,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-css-interop@npm:0.1.16":
-  version: 0.1.16
-  resolution: "react-native-css-interop@npm:0.1.16"
+"react-native-css-interop@npm:0.1.17":
+  version: 0.1.17
+  resolution: "react-native-css-interop@npm:0.1.17"
   dependencies:
     "@babel/helper-module-imports": "npm:^7.22.15"
     "@babel/traverse": "npm:^7.23.0"
@@ -16891,7 +16890,7 @@ __metadata:
       optional: true
     react-native-svg:
       optional: true
-  checksum: 10c0/46e4b9a280657102a4469a3aaf0f14d5528e2024beefb21f55292fd2e06628a325df7daed265603c86f85563f7269c77cc25af64a15635a7907eb6dea6ac05fe
+  checksum: 10c0/0304473fafb7202cf4e5f9128cc00ccef24295bdca8f3a8ef12d390424a6b8b4c74381d9c269c068c0e2ba35d9b31ae320a540ba0908a99c70b1f4f7753ef107
   languageName: node
   linkType: hard
 
@@ -16935,8 +16934,8 @@ __metadata:
   linkType: hard
 
 "react-native-reanimated@npm:^3.16.0":
-  version: 3.16.0
-  resolution: "react-native-reanimated@npm:3.16.0"
+  version: 3.16.1
+  resolution: "react-native-reanimated@npm:3.16.1"
   dependencies:
     "@babel/plugin-transform-arrow-functions": "npm:^7.0.0-0"
     "@babel/plugin-transform-class-properties": "npm:^7.0.0-0"
@@ -16953,7 +16952,7 @@ __metadata:
     "@babel/core": ^7.0.0-0
     react: "*"
     react-native: "*"
-  checksum: 10c0/0d98694d7e90b0950566739666c4d58405f3e2c3355e6ed604bb0b8ae93bde3736462ec63da4ea1383836aa98db258cf6a33005542710cd302fc650abcac0d50
+  checksum: 10c0/18202fce7e96d7cd0dbab2f8938ddf89efa6687e5f17c43ba6548de5563efb270b7b8d7507598be706d5d53224bb12fcfcd70150d15ca5d9fd46cb2c54751d59
   languageName: node
   linkType: hard
 
@@ -17820,7 +17819,7 @@ __metadata:
     supports-preserve-symlinks-flag: "npm:^1.0.0"
   bin:
     resolve: bin/resolve
-  checksum: 10c0/00a53f0deb94db2ee629812a979917baaef58ca638c700d66f0823cc1fa25f44345014e41abc20f7c55f8845efba7f74ac65137d27fccbd6e2d24de4b02a5c6e
+  checksum: 10c0/0446f024439cd2e50c6c8fa8ba77eaa8370b4180f401a96abf3d1ebc770ac51c1955e12764cde449fde3fff480a61f84388e3505ecdbab778f4bef5f8212c729
   languageName: node
   linkType: hard
 
@@ -17833,7 +17832,7 @@ __metadata:
     supports-preserve-symlinks-flag: "npm:^1.0.0"
   bin:
     resolve: bin/resolve
-  checksum: 10c0/2abc0b8bc32abc259289b6fc12f7d92fdad6a2b66ae71d1b0710382919947b1102bbe86b4f8c5c6b698efbcfdf5e30ff2fbe7ab9c7c8694576d23eb2465a289e
+  checksum: 10c0/78ad6edb8309a2bfb720c2c1898f7907a37f858866ce11a5974643af1203a6a6e05b2fa9c53d8064a673a447b83d42569260c306d43628bff5bb101969708355
   languageName: node
   linkType: hard
 
@@ -17842,7 +17841,7 @@ __metadata:
   resolution: "resolve@patch:resolve@npm%3A1.7.1#optional!builtin<compat/resolve>::version=1.7.1&hash=3bafbf"
   dependencies:
     path-parse: "npm:^1.0.5"
-  checksum: 10c0/7445c818af6640ead6f50093ef6e751751422679f0c1055ea67c86c2597025aeceb981975cc81182f20f290eb0417a0d171cca4555332386f9e1e0cac51f0de2
+  checksum: 10c0/1301dba7c12cd9dab2ab4eee8518089f25bb7480db34b746a923ded472c4c0600ebb1ba9b8028ca843f7c6017ac76524355800c52b82633e53bd601ca288b4de
   languageName: node
   linkType: hard
 
@@ -20071,7 +20070,7 @@ __metadata:
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 10c0/110f497ecf20dfc5450875f6e749eb28d7eeb6fe4278a4481006df7dde0347309a4434bbd37c83eb1530dbdd43f500d506b35688cc0b672633682f85cfe6c66a
+  checksum: 10c0/fcf6658073d07283910d9a0e04b1d5d0ebc822c04dbb7abdd74c3151c7aa92fcddbac7d799404e358197222006ccdc4c0db219d223d2ee4ccd9e2b01333b49be
   languageName: node
   linkType: hard
 
@@ -20081,7 +20080,7 @@ __metadata:
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 10c0/2b42fedcda84ac6a788b037315ae75cbcdc486d891e5c182a5d58691b1e09fce05e77109dadb6328a8b4fbaefbdbda7afd145d0515d500aabf3e8c9a7f30037c
+  checksum: 10c0/1d0a5f4ce496c42caa9a30e659c467c5686eae15d54b027ee7866744952547f1be1262f2d40de911618c242b510029d51d43ff605dba8fb740ec85ca2d3f9500
   languageName: node
   linkType: hard
 
