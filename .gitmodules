@@ -1,6 +1,0 @@
-[submodule "ui-kit"]
-	path = modules/ui-kit
-	url = git@github.com:oneirogroup/ui-kit.git
-[submodule "modules/ws-client"]
-	path = modules/ws-client
-	url = git@github.com:oneirogroup/ws-client.git
