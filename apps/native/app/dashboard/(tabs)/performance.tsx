@@ -1,7 +1,7 @@
 import { FC, useEffect } from "react";
 import { Text } from "react-native";
 
-import { Block, If, Table, cn } from "@oneiro/ui-kit";
+import { Block, If, Table, cn } from "@mdreal/ui-kit";
 import { useMutation } from "@tanstack/react-query";
 
 import { api } from "../../../api";

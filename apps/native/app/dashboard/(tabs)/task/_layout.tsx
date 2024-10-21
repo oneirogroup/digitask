@@ -1,4 +1,4 @@
-import { Block } from "@oneiro/ui-kit";
+import { Block } from "@mdreal/ui-kit";
 
 import { NavbarTopTabs } from "../../../../components/navbar/top-tabs";
 

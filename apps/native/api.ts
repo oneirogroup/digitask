@@ -1,4 +1,4 @@
-import { AuthHttp } from "@oneiro/ui-kit";
+import { AuthHttp } from "@mdreal/ui-kit";
 
 import { DateRange } from "./components/date-time-picker";
 import { MessageOptions } from "./types/api/message-options";

@@ -1,8 +1,8 @@
 import { useLocalSearchParams } from "expo-router";
 import { Text, View } from "react-native";
 
-import { Block, If, Input } from "@oneiro/ui-kit";
-import { useListen } from "@oneiro/ws-client";
+import { Block, If, Input } from "@mdreal/ui-kit";
+import { useListen } from "@mdreal/ws-client";
 import { useQuery } from "@tanstack/react-query";
 
 import { api } from "../../../api";

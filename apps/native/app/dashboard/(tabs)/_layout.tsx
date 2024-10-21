@@ -1,6 +1,6 @@
 import { Tabs } from "expo-router";
 
-import { Icon } from "@oneiro/ui-kit";
+import { Icon } from "@mdreal/ui-kit";
 
 import { HeaderLeft } from "../../../components/header/dashboard-layout/header-left";
 import { HeaderRight } from "../../../components/header/dashboard-layout/header-right";

@@ -1,7 +1,7 @@
 import { FC, useState } from "react";
 import { View } from "react-native";
 
-import { Block, cn } from "@oneiro/ui-kit";
+import { Block, cn } from "@mdreal/ui-kit";
 
 import { getTags } from "../../utils/get-tags";
 import { TagButton } from "./components/tag-button";

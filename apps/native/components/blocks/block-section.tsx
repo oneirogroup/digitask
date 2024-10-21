@@ -2,7 +2,7 @@ import { Link } from "expo-router";
 import { FC, PropsWithChildren } from "react";
 import { Text } from "react-native";
 
-import { Block, Icon, cn } from "@oneiro/ui-kit";
+import { Block, Icon, cn } from "@mdreal/ui-kit";
 
 import { BlockSectionProps } from "./block-section.types";
 

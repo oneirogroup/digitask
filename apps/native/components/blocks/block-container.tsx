@@ -1,6 +1,6 @@
 import { ForwardRefRenderFunction, PropsWithChildren, forwardRef } from "react";
 
-import { Block, BlockRef, LinearGradient, LinearGradientRef, cn } from "@oneiro/ui-kit";
+import { Block, BlockRef, LinearGradient, LinearGradientRef, cn } from "@mdreal/ui-kit";
 
 import { BlockContainerProps } from "./block-container.types";
 

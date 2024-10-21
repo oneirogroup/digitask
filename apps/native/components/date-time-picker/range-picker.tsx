@@ -3,7 +3,7 @@ import { Text, View } from "react-native";
 import DateTimePicker from "react-native-ui-datepicker";
 import { RangeChange } from "react-native-ui-datepicker/src/types";
 
-import { Button, Icon, Modal, ModalRef } from "@oneiro/ui-kit";
+import { Button, Icon, Modal, ModalRef } from "@mdreal/ui-kit";
 
 import { DateService } from "../../services/date-service";
 import { BlockContainer } from "../blocks";

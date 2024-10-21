@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { Text, View } from "react-native";
 
-import { Icon } from "@oneiro/ui-kit";
+import { Icon } from "@mdreal/ui-kit";
 
 export const ChatRoomHeaderRightTitle: FC = () => {
   return (

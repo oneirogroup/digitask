@@ -2,7 +2,7 @@ import { router, useNavigation } from "expo-router";
 import { FC } from "react";
 import { Pressable, Text, View } from "react-native";
 
-import { Block } from "@oneiro/ui-kit";
+import { Block } from "@mdreal/ui-kit";
 
 import { ChatRoomProps } from "./chat-room.types";
 

@@ -1,6 +1,6 @@
 import { Text } from "react-native";
 
-import { Block, Icon, If } from "@oneiro/ui-kit";
+import { Block, Icon, If } from "@mdreal/ui-kit";
 import { useQuery } from "@tanstack/react-query";
 
 import { palette } from "../../../../../palette";

@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { Text, View } from "react-native";
 
-import { Block } from "@oneiro/ui-kit";
+import { Block } from "@mdreal/ui-kit";
 import { useQuery } from "@tanstack/react-query";
 
 import { ChatRoom } from "../../../types/backend/chat-room";

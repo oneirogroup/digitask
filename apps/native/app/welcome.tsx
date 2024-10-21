@@ -2,7 +2,7 @@ import { Image } from "expo-image";
 import { router } from "expo-router";
 import { Text } from "react-native";
 
-import { Block, Button } from "@oneiro/ui-kit";
+import { Block, Button } from "@mdreal/ui-kit";
 
 import { PageLayout } from "../components/page-layout";
 

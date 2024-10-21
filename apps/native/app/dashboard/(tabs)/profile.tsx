@@ -3,7 +3,7 @@ import { useRef } from "react";
 import { Text, View } from "react-native";
 import { runOnJS } from "react-native-reanimated";
 
-import { Block, Button, Icon, Modal, ModalRef } from "@oneiro/ui-kit";
+import { Block, Button, Icon, Modal, ModalRef } from "@mdreal/ui-kit";
 import AsyncStorageNative from "@react-native-async-storage/async-storage";
 import { useQuery } from "@tanstack/react-query";
 

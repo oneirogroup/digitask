@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { Block } from "@oneiro/ui-kit";
+import { Block } from "@mdreal/ui-kit";
 import { useQuery } from "@tanstack/react-query";
 
 import { api } from "../../../../api";

@@ -3,7 +3,7 @@ import { router } from "expo-router";
 import { useEffect } from "react";
 import { Text, View } from "react-native";
 
-import { AuthHttp, Block, cn } from "@oneiro/ui-kit";
+import { AuthHttp, Block, cn } from "@mdreal/ui-kit";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useQuery } from "@tanstack/react-query";
 
