@@ -161,7 +161,7 @@ function DetailsModal({
             fetch(`http://135.181.42.192/services/task/${taskId}/`)
                 .then((response) => response.json())
                 .then((data) => {
-                    setTaskDetails(data);
+
                     setFormData({
                         task_type: data.task_type,
                         full_name: data.full_name,
@@ -182,7 +182,9 @@ function DetailsModal({
                         is_voice: data.is_voice,
                         is_internet: data.is_internet,
                     });
+                  setTaskDetails(data);
                 })
+
                 .catch((error) => console.error("Error fetching task details:", error));
         }
 
@@ -380,6 +382,8 @@ function DetailsModal({
     const handleFormSubmit = (e) => {
         e.preventDefault();
 
+
+
         console.log('updatedFormData', formData);
 
         if (imageFile) {
@@ -453,6 +457,8 @@ function DetailsModal({
                 setIsEditing(false);
                 onClose();
                 onTaskUpdated(data);
+                taskDetails(data)
+
             })
             .catch((error) => console.error("Error updating task:", error));
     };

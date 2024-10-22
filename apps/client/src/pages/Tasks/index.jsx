@@ -187,6 +187,9 @@ function Index() {
     };
 
     const closeTaskDetailsModal = () => {
+      if (selectedTaskId) {
+        fetchTasks(activeFilter, selectedMonth, selectedYear, selectedStatusFilter);
+      }
         setIsTaskDetailsModalOpen(false);
     };
 
@@ -268,6 +271,11 @@ function Index() {
                 task.id === updatedTask.id ? updatedTask : task
             )
         );
+      setFilteredData(prevTasks =>
+        prevTasks.map(task =>
+          task.id === updatedTask.id ? updatedTask : task
+        )
+      );
     };
 
 

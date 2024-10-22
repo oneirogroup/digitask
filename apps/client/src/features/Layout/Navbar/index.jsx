@@ -12,6 +12,7 @@ const Navbar = ({ onToggleSidebar }) => {
     const [notificationNumber, setnotificationNumber] = useState(null);
     const [notifications, setNotifications] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [profilePicture, setProfilePicture] = useState(null);
     const location = useLocation();
 
     const getLinkStyle = (path) => {
@@ -142,6 +143,24 @@ const Navbar = ({ onToggleSidebar }) => {
         setIsModalOpen(false);
     };
 
+  useEffect(() => {
+    const fetchProfilePicture = async () => {
+      try {
+        const accessToken = localStorage.getItem('access_token');
+        const response = await axios.get('http://135.181.42.192/accounts/profile/', {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+        setProfilePicture(response.data.profil_picture);
+      } catch (error) {
+        console.error('Error fetching profile picture:', error);
+      }
+    };
+
+    fetchProfilePicture();
+  }, []);
+
     return (
         <>
 
@@ -160,9 +179,19 @@ const Navbar = ({ onToggleSidebar }) => {
                     <IoNotifications />
                     <span>{notificationNumber}</span>
                 </div>
-                <Link to="/profile/" style={getLinkStyle("/profile/")}>
+              <Link to="/profile/" style={getLinkStyle("/profile/")}>
+                {profilePicture ? (
+                  <img
+                    src={profilePicture}
+                    alt="Profile"
+                    className="profile-picture"
+                  />
+                ) : (
+                  <div className="profile-placeholder">
                     <MdPerson />
-                </Link>
+                  </div>
+                )}
+              </Link>
             </div>
             <NotificationModal
                 notifications={notifications}
