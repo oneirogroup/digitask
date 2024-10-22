@@ -455,10 +455,10 @@ function DetailsModal({
                     is_internet: data.is_internet,
                 });
                 setIsEditing(false);
-
+                onClose();
                 onTaskUpdated(data);
                 taskDetails(data)
-              onClose();
+
             })
             .catch((error) => console.error("Error updating task:", error));
     };
