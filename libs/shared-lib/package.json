@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@mdreal/ui-kit": "0.0.0-dev"
+    "@mdreal/ui-kit": "0.0.0-dev.3"
   },
   "devDependencies": {
     "@vitejs/plugin-react-swc": "^3.7.1",

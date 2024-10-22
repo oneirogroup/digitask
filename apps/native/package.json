@@ -16,7 +16,7 @@
     "@digitask/shared-lib": "workspace:^",
     "@expo/vector-icons": "^14.0.4",
     "@hookform/resolvers": "^3.9.0",
-    "@mdreal/ui-kit": "^0.0.0-dev.1",
+    "@mdreal/ui-kit": "^0.0.0-dev.3",
     "@mdreal/ws-client": "^0.0.0-dev.1",
     "@react-native-async-storage/async-storage": "1.23.1",
     "@react-native-community/netinfo": "11.3.1",

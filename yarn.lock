@@ -1388,7 +1388,7 @@ __metadata:
     "@digitask/shared-lib": "workspace:^"
     "@emotion/react": "npm:^11.11.4"
     "@emotion/styled": "npm:^11.11.5"
-    "@mdreal/ui-kit": "npm:0.0.0-dev"
+    "@mdreal/ui-kit": "npm:0.0.0-dev.3"
     "@mui/material": "npm:^5.15.19"
     "@reduxjs/toolkit": "npm:^2.2.4"
     "@types/react": "npm:^18.2.66"
@@ -1436,7 +1436,7 @@ __metadata:
     "@digitask/shared-lib": "workspace:^"
     "@expo/vector-icons": "npm:^14.0.4"
     "@hookform/resolvers": "npm:^3.9.0"
-    "@mdreal/ui-kit": "npm:^0.0.0-dev.1"
+    "@mdreal/ui-kit": "npm:^0.0.0-dev.3"
     "@mdreal/ws-client": "npm:^0.0.0-dev.1"
     "@react-native-async-storage/async-storage": "npm:1.23.1"
     "@react-native-community/netinfo": "npm:11.3.1"
@@ -1492,7 +1492,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@digitask/shared-lib@workspace:libs/shared-lib"
   dependencies:
-    "@mdreal/ui-kit": "npm:0.0.0-dev"
+    "@mdreal/ui-kit": "npm:0.0.0-dev.3"
     "@vitejs/plugin-react-swc": "npm:^3.7.1"
     typescript: "npm:5.4.2"
     vite: "npm:^5.4.8"
@@ -3135,15 +3135,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mdreal/ui-kit@npm:0.0.0-dev":
-  version: 0.0.0-dev
-  resolution: "@mdreal/ui-kit@npm:0.0.0-dev"
+"@mdreal/ui-kit@npm:0.0.0-dev.3, @mdreal/ui-kit@npm:^0.0.0-dev.3":
+  version: 0.0.0-dev.3
+  resolution: "@mdreal/ui-kit@npm:0.0.0-dev.3"
   dependencies:
     "@hookform/resolvers": "npm:^3.9.0"
     clsx: "npm:^2.1.1"
     expo-linear-gradient: "npm:^13.0.2"
     framer-motion: "npm:^11.11.9"
-    lodash: "npm:^4.17.21"
+    lodash.merge: "npm:^4.6.2"
     react: "npm:^18.3.1"
     react-dom: "npm:^18.3.1"
     react-hook-form: "npm:^7.53.0"
@@ -3152,28 +3152,7 @@ __metadata:
     react-native-svg: "npm:^15.7.1"
     tailwind-merge: "npm:^2.5.4"
     zod: "npm:^3.23.8"
-  checksum: 10c0/1cc512add7c4080396f60a903fb5a8deb59b84434e39b207f47a1a5bd7432d3504bf8117aa5f89b572baf6b0e92c55232934448e6cb85f6e9b17799fe683e13b
-  languageName: node
-  linkType: hard
-
-"@mdreal/ui-kit@npm:^0.0.0-dev.1":
-  version: 0.0.0-dev.1
-  resolution: "@mdreal/ui-kit@npm:0.0.0-dev.1"
-  dependencies:
-    "@hookform/resolvers": "npm:^3.9.0"
-    clsx: "npm:^2.1.1"
-    expo-linear-gradient: "npm:^13.0.2"
-    framer-motion: "npm:^11.11.9"
-    lodash: "npm:^4.17.21"
-    react: "npm:^18.3.1"
-    react-dom: "npm:^18.3.1"
-    react-hook-form: "npm:^7.53.0"
-    react-native: "npm:^0.75.4"
-    react-native-reanimated: "npm:^3.16.0"
-    react-native-svg: "npm:^15.7.1"
-    tailwind-merge: "npm:^2.5.4"
-    zod: "npm:^3.23.8"
-  checksum: 10c0/5b9ab01fff414b129b82115f58c87f111f4b73107e52ee63e524bc0fe076848468e916b158c391cf04bb8fe3cc8cef41eb90906a6ff7891715742f0e848be5e2
+  checksum: 10c0/b7ebeab95a4ab0a3c7b4cdc9d89979ac4bf89540e2bca029e2139d89dd85032fb2653f44f9e79caadd5e5b4faa12a756486669557f7b6e6d3a9c58c9708d536d
   languageName: node
   linkType: hard
 
@@ -3527,7 +3506,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@oneiro/digitask@workspace:."
   dependencies:
-    "@mdreal/ui-kit": "npm:0.0.0-dev"
+    "@mdreal/ui-kit": "npm:0.0.0-dev.3"
     "@prettier/plugin-xml": "npm:^3.4.1"
     "@trivago/prettier-plugin-sort-imports": "npm:^4.3.0"
     prettier: "npm:^3.3.3"
