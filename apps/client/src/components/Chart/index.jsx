@@ -35,17 +35,16 @@ class ApexChart extends React.Component {
                         columnWidth: '50%',
                         endingShape: 'rounded',
                         dataLabels: {
-                            position: 'top'
+                            enable:false
                         },
+                      onColumnHover: {
+                        highlight: false
+                      },
                     },
                 },
                 dataLabels: {
                     enabled: false,
-                    offsetY: -10,
-                    style: {
-                        fontSize: '12px',
-                        colors: ["#304758"]
-                    }
+
                 },
                 stroke: {
                     show: true,

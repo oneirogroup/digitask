@@ -66,13 +66,21 @@ const MeetingDetailModal = ({ isOpen, onClose, meetingId }) => {
                     <div>
                         <div className="modal-row">
                             <div className="modal-label">Tədbir haqqında</div>
-                            <div className="modal-value">{meeting.meeting_description || 'Qeyd yoxdur'}</div>
+                          <textarea
+                            value={meeting.meeting_description || 'Qeyd yoxdur'}
+                            className="event-modal-textarea"
+                            readOnly
+
+                            rows={1
+                            }
+                          />
+
                         </div>
                     </div>
-                    <hr />
+                  <hr/>
                 </div>
             </div>
-        </div >
+        </div>
     );
 };
 
