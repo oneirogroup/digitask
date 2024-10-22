@@ -1,5 +1,5 @@
 import { Image } from "expo-image";
-import { Link, useNavigationContainerRef } from "expo-router";
+import { Link, router } from "expo-router";
 import { SubmitErrorHandler, SubmitHandler } from "react-hook-form";
 import { Text } from "react-native";
 
@@ -17,11 +17,12 @@ import logo from "../../assets/images/logo.png";
 const authHttpSettings = AuthHttp.settings();
 
 export default function Welcome() {
-  const rootNavigation = useNavigationContainerRef();
-
   const signInMutation = useMutation({
     mutationFn: (data: SignInSchema) =>
-      AuthHttp.instance().post<AuthToken>("/accounts/login/", { ...data, remember_me: false }),
+      AuthHttp.instance().post<AuthToken>("/accounts/login/", {
+        ...data,
+        remember_me: false
+      }),
     onError: logger.error.bind(logger, "digitask.native:auth:sign-in.auth-error")
   });
 
@@ -33,7 +34,7 @@ export default function Welcome() {
     await AsyncStorageNative.setItem(Tokens.REFRESH_TOKEN, response.refresh_token);
     await authHttpSettings.retrieveTokens()();
     // @ts-ignore
-    rootNavigation.navigate("/dashboard");
+    router.replace("/dashboard");
   };
 
   const onFormError: SubmitErrorHandler<SignInSchema> = errors => {
@@ -74,7 +75,7 @@ export default function Welcome() {
           </Form.Button>
 
           <Block>
-            <Link href="/forgot-password">
+            <Link href="/auth/forgot-password">
               <Text className="text-link text-center underline">Şifrəni unutmusunuz?</Text>
             </Link>
           </Block>
