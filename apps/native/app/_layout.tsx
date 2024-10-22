@@ -1,5 +1,7 @@
 import { Stack } from "expo-router";
 
+import "@mdreal/ui-kit/style.css";
+
 import { Providers } from "../components/providers";
 
 import "./main.css";
