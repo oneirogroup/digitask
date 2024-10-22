@@ -104,6 +104,7 @@
   display: flex;
   justify-content: space-between;
   margin: 10px 0 25px 0;
+  width: 100%;
 }
 
 .performance-filter > div:first-of-type button:last-of-type {
@@ -200,33 +201,13 @@
   gap: 10px;
 }
 
-.performance-date .date-picker {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  cursor: pointer;
+
+.performance-date input{
+  width: 150px;
+  border-radius: 8px;
+  outline: none;
 }
 
-.performance-date .date-picker-wrapper {
-  position: relative;
-}
-
-.performance-date .placeholder {
-  position: absolute;
-  background-color: white;
-  z-index: 1000;
-  top: 50%;
-  left: 10px;
-  transform: translateY(-50%);
-  color: #aaa;
-  pointer-events: none;
-  width: 105px;
-  height: 23px;
-  font-family: Nunito Sans;
-  font-size: 17px;
-}
-
-.performance-date .date-picker {
-  position: relative;
-  z-index: 1;
+.react-datepicker {
+  right: 45px !important;
 }
