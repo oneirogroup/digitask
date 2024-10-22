@@ -4,7 +4,7 @@
   "private": true,
   "main": "main.js",
   "scripts": {
-    "build:android": "eas build --platform android --local --non-interactive --json --clear-cache --output build/android.zip",
+    "build:android": "eas build --platform android --non-interactive --clear-cache",
     "lint": "expo lint",
     "start": "expo start",
     "test": "jest --watchAll"
@@ -16,8 +16,8 @@
     "@digitask/shared-lib": "workspace:^",
     "@expo/vector-icons": "^14.0.4",
     "@hookform/resolvers": "^3.9.0",
-    "@mdreal/ui-kit": "0.0.0-dev",
-    "@mdreal/ws-client": "0.0.0-dev",
+    "@mdreal/ui-kit": "^0.0.0-dev.1",
+    "@mdreal/ws-client": "^0.0.0-dev.1",
     "@react-native-async-storage/async-storage": "1.23.1",
     "@react-native-community/netinfo": "11.3.1",
     "@react-navigation/material-top-tabs": "^6.6.14",

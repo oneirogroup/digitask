@@ -3,12 +3,8 @@
   "private": true,
   "workspaces": [
     "apps/*",
-    "libs/*",
-    "modules/*"
+    "libs/*"
   ],
-  "scripts": {
-    "format:svg": "prettier --plugin @prettier/plugin-xml --write \"**/*.svg\""
-  },
   "devDependencies": {
     "@mdreal/ui-kit": "0.0.0-dev",
     "@prettier/plugin-xml": "^3.4.1",

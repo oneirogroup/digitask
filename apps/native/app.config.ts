@@ -5,6 +5,7 @@ export default {
   name: "DigiTask",
   slug: "digitask",
   scheme: "digitask",
+  owner: "oneirogroup",
   version: "1.0.0",
   orientation: "portrait",
   userInterfaceStyle: "automatic",
@@ -28,7 +29,7 @@ export default {
   },
   extra: {
     eas: {
-      projectId: "6bd68789-3a70-4f7f-8e96-c813e131dfd0"
+      projectId: "19a90db8-9dbf-4462-82b1-20715313aebb"
     }
   }
 } satisfies ExpoConfig;
