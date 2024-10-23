@@ -1,15 +1,16 @@
 import { Text, View } from "react-native";
 
 import { Block, If, Input } from "@mdreal/ui-kit";
-import { useQuery } from "@tanstack/react-query";
 
 import { api } from "../../../api";
+import { RoomsApiViewAtom } from "../../../atoms/backend/accounts/RoomsApiView";
 import { ChatRoom } from "../../../components/chat";
-import { cache } from "../../../utils/cache";
+import { useRecoilQuery } from "../../../hooks/use-recoil-query";
+import { fields } from "../../../utils/fields";
 
 export default function Chat() {
-  const { data: rooms = [], isPending } = useQuery({
-    queryKey: [cache.user.profile.chat.rooms],
+  const { data: rooms = [], isPending } = useRecoilQuery(RoomsApiViewAtom, {
+    queryKey: [fields.user.profile.chat.rooms],
     queryFn: () => api.accounts.RoomsApiView.$get
   });
 

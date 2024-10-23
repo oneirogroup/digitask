@@ -2,17 +2,18 @@ import { FC, useEffect } from "react";
 import { Text } from "react-native";
 
 import { Block, If, Table, cn } from "@mdreal/ui-kit";
-import { useMutation } from "@tanstack/react-query";
 
 import { api } from "../../../api";
+import { performanceAtom } from "../../../atoms/backend/services/performance";
 import { DateRange, RangePicker } from "../../../components/date-time-picker";
-import { cache } from "../../../utils/cache";
+import { useRecoilMutation } from "../../../hooks/use-recoil-mutation";
+import { fields } from "../../../utils/fields";
 
 const Loading: FC = () => <Text className="text-center">Loading...</Text>;
 
 export default function Performance() {
-  const rangeTableMutation = useMutation({
-    mutationKey: [cache.performance],
+  const rangeTableMutation = useRecoilMutation(performanceAtom, {
+    mutationKey: [fields.performance],
     mutationFn: (range: Partial<DateRange> | null) => api.services.performance.$get(range)
   });
 
@@ -23,7 +24,7 @@ export default function Performance() {
   const rangeTableData = rangeTableMutation.data || [];
 
   return (
-    <Block.Fade>
+    <Block.Fade className="bg-neutral-95">
       <Block.Scroll className="relative p-4" contentClassName="flex gap-3">
         <RangePicker onChange={range => rangeTableMutation.mutate(range)} />
 

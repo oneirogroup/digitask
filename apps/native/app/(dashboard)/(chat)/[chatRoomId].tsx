@@ -1,13 +1,14 @@
 import { useLocalSearchParams } from "expo-router";
 import { Text, View } from "react-native";
+import { useRecoilValue } from "recoil";
 
 import { Block } from "@mdreal/ui-kit";
 import { useQuery } from "@tanstack/react-query";
 
 import { api } from "../../../api";
+import { profileAtom } from "../../../atoms/backend/accounts/profile";
 import { Message } from "../../../components/chat";
-import { ProfileData } from "../../../types/backend/profile-data";
-import { cache } from "../../../utils/cache";
+import { fields } from "../../../utils/fields";
 
 export default function Chat() {
   const { chatRoomId } = useLocalSearchParams();
@@ -19,18 +20,15 @@ export default function Chat() {
     );
   }
 
-  const { data: currentUserId } = useQuery({
-    queryKey: [cache.user.profile],
-    select: (data: ProfileData) => data?.id
-  });
-  if (!currentUserId) return null;
+  const userProfile = useRecoilValue(profileAtom);
+  if (!userProfile) return null;
 
   const { data: previousMessages } = useQuery({
-    queryKey: [cache.user.profile.chat.messages],
+    queryKey: [fields.user.profile.chat.messages],
     queryFn: () => api.accounts.messages.$get({ room: +chatRoomId })
   });
 
-  console.log("currentUserId", currentUserId);
+  console.log("currentUserId", userProfile.id);
   console.log("previousMessages", previousMessages);
 
   return (

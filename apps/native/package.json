@@ -49,6 +49,7 @@
     "react-native-ui-datepicker": "^2.0.4",
     "react-use": "^17.5.1",
     "react-use-native": "^0.2.0",
+    "recoil": "^0.7.7",
     "zod": "^3.23.8"
   },
   "devDependencies": {

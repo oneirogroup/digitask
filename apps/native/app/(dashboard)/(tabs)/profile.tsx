@@ -2,36 +2,34 @@ import { Link, router } from "expo-router";
 import { useRef } from "react";
 import { Text, View } from "react-native";
 import { runOnJS } from "react-native-reanimated";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 
 import { Block, Button, Icon, Modal, ModalRef } from "@mdreal/ui-kit";
-import AsyncStorageNative from "@react-native-async-storage/async-storage";
-import { useQuery } from "@tanstack/react-query";
 
 import { palette } from "../../../../../palette";
+import { tokenAtom } from "../../../atoms/backend/accounts/login";
+import { profileAtom } from "../../../atoms/backend/accounts/profile";
 import { BlockContainer } from "../../../components/blocks";
-import { ProfileData } from "../../../types/backend/profile-data";
-import { Tokens } from "../../../types/tokens";
-import { cache } from "../../../utils/cache";
 
 export default function Profile() {
   const modalRef = useRef<ModalRef>(null);
-  const { data } = useQuery<ProfileData>({ queryKey: [cache.user.profile] });
-  if (!data) return null;
+  const userProfile = useRecoilValue(profileAtom);
+  const setToken = useSetRecoilState(tokenAtom);
+  if (!userProfile) return null;
 
   const logout = async () => {
-    await AsyncStorageNative.removeItem(Tokens.ACCESS_TOKEN);
-    await AsyncStorageNative.removeItem(Tokens.REFRESH_TOKEN);
+    setToken({ access_token: null, refresh_token: null });
     router.replace("/welcome");
   };
 
   return (
-    <Block.Fade>
+    <Block.Fade className="bg-neutral-95">
       <Block.Scroll className="px-6 py-4" contentClassName="flex gap-6">
         <Link href="/(dashboard)/(profile)/profile-data">
           <BlockContainer className="flex flex-row justify-between">
             <View className="flex gap-1">
               <Text className="text-1.5xl font-bold">Texnik adi</Text>
-              <Text className="text-neutral text-lg">{data.email}</Text>
+              <Text className="text-neutral text-lg">{userProfile.email}</Text>
             </View>
             <View className="flex items-center justify-center">
               <Icon name="arrow-right" />

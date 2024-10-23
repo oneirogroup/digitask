@@ -1,27 +1,18 @@
-import { useState } from "react";
+import { useRecoilValue } from "recoil";
 
 import { Block } from "@mdreal/ui-kit";
-import { useQuery } from "@tanstack/react-query";
 
-import { api } from "../../../../../api";
+import { tasksAtom } from "../../../../../atoms/backend/services/tasks";
 import { TasksWithStatuses } from "../../../../../components/task";
 import { Status } from "../../../../../components/task/task-list-with-tags.types";
-import { cache } from "../../../../../utils/cache";
 import { uppercase } from "../../../../../utils/uppercase";
 
 export default function Connections() {
-  const [statuses, setStatuses] = useState<Status[]>([]);
-
-  const { data: tasks = [] } = useQuery({
-    queryKey: [cache.user.profile.tasks],
-    queryFn: () => api.services.tasks.$get,
-    select(tasks) {
-      const states = Array.from(new Set(tasks.map(task => task.status)));
-      const statuses = states.map<Status>(status => ({ name: uppercase(status), status }));
-      setStatuses(statuses);
-      return tasks;
-    }
-  });
+  const tasks = useRecoilValue(tasksAtom);
+  const statuses = Array.from(new Set(tasks.map(task => task.status))).map<Status>(status => ({
+    name: uppercase(status),
+    status
+  }));
 
   return (
     <Block.Scroll>

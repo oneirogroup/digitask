@@ -6,13 +6,15 @@ import { Text } from "react-native";
 import { AuthHttp, Block, Form, Input, logger } from "@mdreal/ui-kit";
 import AsyncStorageNative from "@react-native-async-storage/async-storage";
 import { StackActions } from "@react-navigation/native";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { api } from "../../api";
+import { tokenAtom } from "../../atoms/backend/accounts/login";
+import { profileAtom } from "../../atoms/backend/accounts/profile";
 import { PageLayout } from "../../components/page-layout";
+import { useRecoilMutation } from "../../hooks/use-recoil-mutation";
 import { SignInSchema, signInSchema } from "../../schemas/auth/sign-in.schema";
 import { Tokens } from "../../types/tokens";
-import { cache } from "../../utils/cache";
+import { fields } from "../../utils/fields";
 
 import logo from "../../assets/images/logo.png";
 
@@ -20,18 +22,14 @@ const authHttpSettings = AuthHttp.settings();
 
 export default function Welcome() {
   const navigation = useNavigation();
-  const queryClient = useQueryClient();
 
-  const signInMutation = useMutation({
+  const signInMutation = useRecoilMutation(tokenAtom, {
     mutationFn: (data: SignInSchema) => api.accounts.login.$post(data),
     onError: logger.error.bind(logger, "digitask.native:auth:sign-in.auth-error")
   });
-  const profileMutation = useMutation({
-    mutationKey: [cache.user.profile],
-    mutationFn: () => api.accounts.profile.$get,
-    onSuccess(data) {
-      queryClient.setQueryData([cache.user.profile], data);
-    }
+  const profileMutation = useRecoilMutation(profileAtom, {
+    mutationKey: [fields.user.profile],
+    mutationFn: () => api.accounts.profile.$get
   });
 
   const onSubmit: SubmitHandler<SignInSchema> = async data => {

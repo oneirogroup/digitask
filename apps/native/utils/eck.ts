@@ -7,8 +7,8 @@ export const eck = <TKey extends string, TExtension extends object>(
     extension((...keys) => `${key}:${keys.join(":")}`)
   );
 
-eck.c = (
-  c: (...keys: (TemplateStringsArray | string)[]) => string,
-  key: string,
-  extension: (cb: (...keys: (TemplateStringsArray | string)[]) => string) => object
-) => eck(c(key), extension);
+eck.c = <TKey extends string, TExtension extends object>(
+  c: (...keys: (TemplateStringsArray | string)[]) => TKey,
+  key: TKey,
+  extension: (cb: (...keys: (TemplateStringsArray | string)[]) => string) => TExtension
+) => eck<TKey, TExtension>(c(key), extension);

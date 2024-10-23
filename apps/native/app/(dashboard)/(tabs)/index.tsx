@@ -1,20 +1,21 @@
 import { Text } from "react-native";
 
 import { Block, Icon, If } from "@mdreal/ui-kit";
-import { useQuery } from "@tanstack/react-query";
 
 import { palette } from "../../../../../palette";
 import { api } from "../../../api";
+import { tasksAtom } from "../../../atoms/backend/services/tasks";
 import { BlockContainer, BlockSection } from "../../../components/blocks";
 import { Event } from "../../../components/event";
 import { Task } from "../../../components/task";
+import { useRecoilQuery } from "../../../hooks/use-recoil-query";
 import { DateService } from "../../../services/date-service";
-import { cache } from "../../../utils/cache";
+import { fields } from "../../../utils/fields";
 import { getTags } from "../../../utils/get-tags";
 
 export default function Index() {
-  const { data: task } = useQuery({
-    queryKey: [cache.user.profile.tasks],
+  const { data: task } = useRecoilQuery(tasksAtom, {
+    queryKey: [fields.user.profile.tasks],
     queryFn: () => api.services.tasks.$get,
     select(tasks) {
       return tasks[0];
@@ -25,7 +26,7 @@ export default function Index() {
   const formattedDate = date.format("DD MMM");
 
   return (
-    <Block.Fade>
+    <Block.Fade className="bg-neutral-95">
       <Block.Scroll contentClassName="flex justify-center items-start gap-4 p-4">
         <Text className="text-xl">{formattedDate}</Text>
 
