@@ -1388,7 +1388,7 @@ __metadata:
     "@digitask/shared-lib": "workspace:^"
     "@emotion/react": "npm:^11.11.4"
     "@emotion/styled": "npm:^11.11.5"
-    "@mdreal/ui-kit": "npm:0.0.0-dev.3"
+    "@mdreal/ui-kit": "npm:^0.0.0-dev.4"
     "@mui/material": "npm:^5.15.19"
     "@reduxjs/toolkit": "npm:^2.2.4"
     "@types/react": "npm:^18.2.66"
@@ -1436,7 +1436,7 @@ __metadata:
     "@digitask/shared-lib": "workspace:^"
     "@expo/vector-icons": "npm:^14.0.4"
     "@hookform/resolvers": "npm:^3.9.0"
-    "@mdreal/ui-kit": "npm:^0.0.0-dev.3"
+    "@mdreal/ui-kit": "npm:^0.0.0-dev.4"
     "@mdreal/ws-client": "npm:^0.0.0-dev.1"
     "@react-native-async-storage/async-storage": "npm:1.23.1"
     "@react-native-community/netinfo": "npm:11.3.1"
@@ -1492,7 +1492,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@digitask/shared-lib@workspace:libs/shared-lib"
   dependencies:
-    "@mdreal/ui-kit": "npm:0.0.0-dev.3"
+    "@mdreal/ui-kit": "npm:^0.0.0-dev.4"
     "@vitejs/plugin-react-swc": "npm:^3.7.1"
     typescript: "npm:5.4.2"
     vite: "npm:^5.4.8"
@@ -3135,9 +3135,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mdreal/ui-kit@npm:0.0.0-dev.3, @mdreal/ui-kit@npm:^0.0.0-dev.3":
-  version: 0.0.0-dev.3
-  resolution: "@mdreal/ui-kit@npm:0.0.0-dev.3"
+"@mdreal/ui-kit@npm:^0.0.0-dev.4":
+  version: 0.0.0-dev.4
+  resolution: "@mdreal/ui-kit@npm:0.0.0-dev.4"
   dependencies:
     "@hookform/resolvers": "npm:^3.9.0"
     clsx: "npm:^2.1.1"
@@ -3152,7 +3152,7 @@ __metadata:
     react-native-svg: "npm:^15.7.1"
     tailwind-merge: "npm:^2.5.4"
     zod: "npm:^3.23.8"
-  checksum: 10c0/b7ebeab95a4ab0a3c7b4cdc9d89979ac4bf89540e2bca029e2139d89dd85032fb2653f44f9e79caadd5e5b4faa12a756486669557f7b6e6d3a9c58c9708d536d
+  checksum: 10c0/7f101344389974cd5dfe4069e36cbd3f01be0248430043ed6b57803fec361cdfa246d41d0509affd351813fbce93c94dd32250fcf015428d0d9522bb6d1a85f5
   languageName: node
   linkType: hard
 
@@ -3506,7 +3506,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@oneiro/digitask@workspace:."
   dependencies:
-    "@mdreal/ui-kit": "npm:0.0.0-dev.3"
+    "@mdreal/ui-kit": "npm:^0.0.0-dev.4"
     "@prettier/plugin-xml": "npm:^3.4.1"
     "@trivago/prettier-plugin-sort-imports": "npm:^4.3.0"
     prettier: "npm:^3.3.3"
