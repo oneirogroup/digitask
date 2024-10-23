@@ -26,7 +26,7 @@ authHttpSettings
 
 export default function Index() {
   const { isSuccess, isError } = useQuery({
-    queryKey: [cache.user.profile.$value],
+    queryKey: [cache.user.profile],
     queryFn: () => api.accounts.profile.$get,
     retry: false
   });

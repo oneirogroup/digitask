@@ -6,5 +6,5 @@ export interface DateRange {
 }
 
 export interface RangePickerProps {
-  onChange?(range: DateRange): void;
+  onChange?(range: DateRange | null): void;
 }

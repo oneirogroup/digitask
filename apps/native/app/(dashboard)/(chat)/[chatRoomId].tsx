@@ -20,7 +20,7 @@ export default function Chat() {
   }
 
   const { data: currentUserId } = useQuery({
-    queryKey: [cache.user.profile.$value],
+    queryKey: [cache.user.profile],
     select: (data: ProfileData) => data?.id
   });
   if (!currentUserId) return null;

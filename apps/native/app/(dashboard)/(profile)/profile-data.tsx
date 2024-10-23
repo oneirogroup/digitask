@@ -10,7 +10,7 @@ import { formatPhoneNumber } from "../../../utils/format-phone-number";
 
 export default function UserProfileData() {
   const { data: userProfileData } = useQuery<ProfileData>({
-    queryKey: [cache.user.profile.$value]
+    queryKey: [cache.user.profile]
   });
   if (!userProfileData) {
     return (

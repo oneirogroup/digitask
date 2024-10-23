@@ -27,10 +27,10 @@ export default function Welcome() {
     onError: logger.error.bind(logger, "digitask.native:auth:sign-in.auth-error")
   });
   const profileMutation = useMutation({
-    mutationKey: [cache.user.profile.$value],
+    mutationKey: [cache.user.profile],
     mutationFn: () => api.accounts.profile.$get,
     onSuccess(data) {
-      queryClient.setQueryData([cache.user.profile.$value], data);
+      queryClient.setQueryData([cache.user.profile], data);
     }
   });
 

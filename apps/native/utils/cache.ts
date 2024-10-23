@@ -1,16 +1,14 @@
-const extendedCacheKey = <TKey extends string, TExtension extends object>(key: TKey, extension: TExtension) => ({
-  $value: key,
-  ...extension
-});
+import { eck } from "./eck";
 
 export const cache = {
   user: {
-    profile: extendedCacheKey("digitask.native:user:profile", {
-      tasks: "digitask.native:user:profile:tasks",
+    profile: eck("digitask.native:user:profile", c => ({
+      tasks: c`tasks`,
       chat: {
-        rooms: "digitask.native:user:profile:chat:rooms",
-        messages: "digitask.native:user:profile:chat:messages"
+        rooms: c`chat:rooms`,
+        messages: c`chat:messages`
       }
-    })
-  }
+    }))
+  },
+  performance: "digitask.native:performance"
 } as const;

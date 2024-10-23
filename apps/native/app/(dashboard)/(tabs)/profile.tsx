@@ -15,7 +15,7 @@ import { cache } from "../../../utils/cache";
 
 export default function Profile() {
   const modalRef = useRef<ModalRef>(null);
-  const { data } = useQuery<ProfileData>({ queryKey: [cache.user.profile.$value] });
+  const { data } = useQuery<ProfileData>({ queryKey: [cache.user.profile] });
   if (!data) return null;
 
   const logout = async () => {
