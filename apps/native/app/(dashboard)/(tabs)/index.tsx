@@ -57,7 +57,7 @@ export default function Index() {
           </Block>
         </BlockContainer>
 
-        <BlockSection title="Davam edən tasklar" href="/dashboard/task">
+        <BlockSection title="Davam edən tasklar" href="/(dashboard)/task">
           <If condition={!!task}>
             <If.Then>
               <Task task={task!} tags={getTags(task)} />
@@ -76,3 +76,9 @@ export default function Index() {
     </Block.Fade>
   );
 }
+
+export const config = {
+  navigationOptions: {
+    title: "Dashboard"
+  }
+};

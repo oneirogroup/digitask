@@ -1,9 +1,9 @@
 import { FC } from "react";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 
 import { Icon } from "@mdreal/ui-kit";
 
-export const ChatRoomHeaderRightTitle: FC = () => {
+export const ChatRoomHeaderRight: FC = () => {
   return (
     <View>
       <Icon name="three-dots" variables={{ stroke: "black" }} />
