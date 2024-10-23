@@ -1,4 +1,4 @@
-import { router } from "expo-router";
+import { Link, router } from "expo-router";
 import { useRef } from "react";
 import { Text, View } from "react-native";
 import { runOnJS } from "react-native-reanimated";
@@ -7,13 +7,13 @@ import { Block, Button, Icon, Modal, ModalRef } from "@mdreal/ui-kit";
 import AsyncStorageNative from "@react-native-async-storage/async-storage";
 import { useQuery } from "@tanstack/react-query";
 
-import { palette } from "../../../../../palette";
-import { BlockContainer } from "../../../components/blocks";
-import { ProfileData } from "../../../types/backend/profile-data";
-import { Tokens } from "../../../types/tokens";
-import { cache } from "../../../utils/cache";
+import { palette } from "../../../../../../palette";
+import { BlockContainer } from "../../../../components/blocks";
+import { ProfileData } from "../../../../types/backend/profile-data";
+import { Tokens } from "../../../../types/tokens";
+import { cache } from "../../../../utils/cache";
 
-export default function Profile() {
+export default function UserProfile() {
   const modalRef = useRef<ModalRef>(null);
   const { data } = useQuery<ProfileData>({ queryKey: [cache.user.profile.$value] });
   if (!data) return null;
@@ -27,15 +27,17 @@ export default function Profile() {
   return (
     <Block.Fade>
       <Block.Scroll className="px-6 py-4" contentClassName="flex gap-6">
-        <BlockContainer className="flex flex-row justify-between">
-          <View className="flex gap-1">
-            <Text className="text-1.5xl font-bold">Texnik adi</Text>
-            <Text className="text-neutral text-lg">{data.email}</Text>
-          </View>
-          <View className="flex items-center justify-center">
-            <Icon name="arrow-right" />
-          </View>
-        </BlockContainer>
+        <Link href="/dashboard/profile/user-profile-data">
+          <BlockContainer className="flex flex-row justify-between">
+            <View className="flex gap-1">
+              <Text className="text-1.5xl font-bold">Texnik adi</Text>
+              <Text className="text-neutral text-lg">{data.email}</Text>
+            </View>
+            <View className="flex items-center justify-center">
+              <Icon name="arrow-right" />
+            </View>
+          </BlockContainer>
+        </Link>
 
         <Block className="flex gap-3">
           <BlockContainer className="flex flex-row justify-between">
