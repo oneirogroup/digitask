@@ -44,11 +44,11 @@ export const api = {
       }
     },
     performance: {
-      $get(range: Partial<DateRange>) {
+      $get(range: Partial<DateRange> | null) {
         return authHttp.get<PerformanceProfile[]>(
           urlBuilder("/services/performance/", {
-            start_date: range.start ? range.start.format("YYYY-MM-DD") : null,
-            end_date: range.end ? range.end.format("YYYY-MM-DD") : null
+            start_date: range?.start ? range?.start.format("YYYY-MM-DD") : null,
+            end_date: range?.end ? range?.end.format("YYYY-MM-DD") : null
           })
         );
       }
