@@ -1,18 +1,17 @@
 import { useLocalSearchParams } from "expo-router";
 import { Text, View } from "react-native";
 
-import { Block, If, Input } from "@mdreal/ui-kit";
-import { useListen } from "@mdreal/ws-client";
+import { Block } from "@mdreal/ui-kit";
 import { useQuery } from "@tanstack/react-query";
 
 import { api } from "../../../api";
-import { ChatRoom, Message } from "../../../components/chat";
+import { Message } from "../../../components/chat";
 import { ProfileData } from "../../../types/backend/profile-data";
 import { cache } from "../../../utils/cache";
 
 export default function Chat() {
-  const { roomId } = useLocalSearchParams();
-  if (!roomId) {
+  const { chatRoomId } = useLocalSearchParams();
+  if (!chatRoomId) {
     return (
       <View>
         <Text>Room not found</Text>
@@ -28,7 +27,7 @@ export default function Chat() {
 
   const { data: previousMessages } = useQuery({
     queryKey: [cache.user.profile.chat.messages],
-    queryFn: () => api.accounts.messages.$get({ room: +roomId })
+    queryFn: () => api.accounts.messages.$get({ room: +chatRoomId })
   });
 
   console.log("currentUserId", currentUserId);

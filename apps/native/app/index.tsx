@@ -33,7 +33,7 @@ export default function Index() {
 
   useEffect(() => {
     if (isSuccess) {
-      router.replace("/dashboard");
+      router.replace("/(dashboard)");
     }
   }, [isSuccess]);
 

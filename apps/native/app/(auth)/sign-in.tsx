@@ -1,29 +1,37 @@
 import { Image } from "expo-image";
-import { Link, router } from "expo-router";
+import { Link, useNavigation } from "expo-router";
 import { SubmitErrorHandler, SubmitHandler } from "react-hook-form";
 import { Text } from "react-native";
 
 import { AuthHttp, Block, Form, Input, logger } from "@mdreal/ui-kit";
 import AsyncStorageNative from "@react-native-async-storage/async-storage";
-import { useMutation } from "@tanstack/react-query";
+import { StackActions } from "@react-navigation/native";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
+import { api } from "../../api";
 import { PageLayout } from "../../components/page-layout";
 import { SignInSchema, signInSchema } from "../../schemas/auth/sign-in.schema";
-import { AuthToken } from "../../types/backend/auth-token";
 import { Tokens } from "../../types/tokens";
+import { cache } from "../../utils/cache";
 
 import logo from "../../assets/images/logo.png";
 
 const authHttpSettings = AuthHttp.settings();
 
 export default function Welcome() {
+  const navigation = useNavigation();
+  const queryClient = useQueryClient();
+
   const signInMutation = useMutation({
-    mutationFn: (data: SignInSchema) =>
-      AuthHttp.instance().post<AuthToken>("/accounts/login/", {
-        ...data,
-        remember_me: false
-      }),
+    mutationFn: (data: SignInSchema) => api.accounts.login.$post(data),
     onError: logger.error.bind(logger, "digitask.native:auth:sign-in.auth-error")
+  });
+  const profileMutation = useMutation({
+    mutationKey: [cache.user.profile.$value],
+    mutationFn: () => api.accounts.profile.$get,
+    onSuccess(data) {
+      queryClient.setQueryData([cache.user.profile.$value], data);
+    }
   });
 
   const onSubmit: SubmitHandler<SignInSchema> = async data => {
@@ -33,8 +41,10 @@ export default function Welcome() {
     await AsyncStorageNative.setItem(Tokens.ACCESS_TOKEN, response.access_token);
     await AsyncStorageNative.setItem(Tokens.REFRESH_TOKEN, response.refresh_token);
     await authHttpSettings.retrieveTokens()();
+    await profileMutation.mutateAsync();
+    navigation.dispatch(StackActions.popToTop());
     // @ts-ignore
-    router.replace("/dashboard");
+    navigation.replace("(dashboard)");
   };
 
   const onFormError: SubmitErrorHandler<SignInSchema> = errors => {
@@ -75,7 +85,7 @@ export default function Welcome() {
           </Form.Button>
 
           <Block>
-            <Link href="/auth/forgot-password">
+            <Link href="./forgot-password">
               <Text className="text-link text-center underline">Şifrəni unutmusunuz?</Text>
             </Link>
           </Block>

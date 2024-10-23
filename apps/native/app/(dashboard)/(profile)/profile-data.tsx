@@ -3,10 +3,10 @@ import { Text, View } from "react-native";
 import { Block } from "@mdreal/ui-kit";
 import { useQuery } from "@tanstack/react-query";
 
-import { ProfileViewData } from "../../../../components/profile";
-import { ProfileData } from "../../../../types/backend/profile-data";
-import { cache } from "../../../../utils/cache";
-import { formatPhoneNumber } from "../../../../utils/format-phone-number";
+import { ProfileViewData } from "../../../components/profile";
+import { ProfileData } from "../../../types/backend/profile-data";
+import { cache } from "../../../utils/cache";
+import { formatPhoneNumber } from "../../../utils/format-phone-number";
 
 export default function UserProfileData() {
   const { data: userProfileData } = useQuery<ProfileData>({
