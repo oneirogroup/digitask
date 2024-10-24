@@ -10,6 +10,12 @@ import upload from "../../assets/images/document-upload.svg";
 /////////////////////////////////////////////////////////////////////////start
 import { MapContainer, TileLayer, useMapEvents, Marker } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
+import DatePicker from "react-datepicker";
+import { registerLocale, setDefaultLocale } from 'react-datepicker';
+
+import az from 'date-fns/locale/az';
+
+registerLocale('az', az);
 
 function MapClickHandler({ onClick }) {
     useMapEvents({
@@ -106,8 +112,19 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
         }));
         console.log(type)
         console.log(setFormData)
-
     };
+
+  const handleSelectDate = (date) => {
+    if (date instanceof Date && !isNaN(date)) {
+      const formattedDate = date.toISOString().split('T')[0]; // Format to YYYY-MM-DD
+      setFormData((prevState) => ({
+        ...prevState,
+        date: formattedDate,
+      }));
+    } else {
+      console.error('Invalid date selected:', date);
+    }
+  };
 
     const handleGroupSelect = (groupId) => {
         setFormData((prevState) => {
@@ -315,7 +332,6 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
                 </div>
                 <form onSubmit={handleSubmit}>
                     <div className='task-name-date'>
-
                         <div className="form-group">
                             <label htmlFor="full_name">Müştərinin ad və soyadı:</label>
                             <input
@@ -332,14 +348,16 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
                             <div className='task-date-form'>
                                 <div className="">
                                     <label htmlFor="date">Tarix:</label>
-                                    <input
-                                        type="date"
-                                        id="date"
-                                        name="date"
-                                        value={formData.date}
-                                        onChange={handleChange}
-                                        className="form-control"
-                                    />
+                                  <DatePicker
+                                    selected={formData.date}
+                                    id="date"
+                                    name="date"
+                                    onChange={handleSelectDate}
+                                    locale="az"
+                                    placeholderText="gün/ay/il"
+                                    dateFormat="dd.MM.yyyy"
+                                    minDate={new Date().toISOString().split('T')[0]}
+                                  />
                                 </div>
                                 <div className="">
                                     <label htmlFor="start_time">Başlayır:</label>

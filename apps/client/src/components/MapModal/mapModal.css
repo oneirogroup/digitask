@@ -10,7 +10,7 @@
     align-items: center;
     z-index: 1000;
   }
-  
+
   .map-modal-modal-content {
     background-color: white;
     padding: 20px;
@@ -22,21 +22,21 @@
     box-sizing: border-box;
     position: relative;
   }
-  
+
   .map-modal-modal-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
   }
-  
+
   .map-modal-modal-header h2 {
     margin: 0 auto;
     font-family: Montserrat;
     font-size: 26px;
     font-weight: 600;
   }
-  
+
   .map-modal-close-button {
     background: none;
     border: none;
@@ -83,7 +83,7 @@
 
   font-size: 10px; /* Yazı boyutunu ayarla */
   color: black; /* Yazı rengi */
- 
+
   border-radius: 3px; /* Köşeleri yuvarla */
   padding: 1px; /* İç boşluk */
 
