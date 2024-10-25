@@ -1,6 +1,6 @@
 import { FC, PropsWithChildren } from "react";
 
-import { Block, cn } from "@oneiro/ui-kit";
+import { Block, cn } from "@mdreal/ui-kit";
 
 import { PageLayoutProps } from "./page-layout.types";
 

@@ -2,14 +2,14 @@ import { useNavigation } from "expo-router";
 import { FC } from "react";
 import { Pressable } from "react-native";
 
-import { Block, Icon } from "@oneiro/ui-kit";
+import { Block, Icon } from "@mdreal/ui-kit";
 
 export const HeaderRight: FC = () => {
-  const navigation = useNavigation("/dashboard");
+  const navigation = useNavigation("/(dashboard)");
 
   const redirect = () => {
     // @ts-ignore
-    navigation.navigate("(chat)");
+    navigation.navigate("(chat)/chat");
   };
 
   return (

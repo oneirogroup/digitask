@@ -15,6 +15,11 @@
     justify-content: space-around;
 }
 
+.expanded {
+  transform: scale(1.1);
+  transition: transform 0.3s ease;
+}
+
 .home-chart-services div {
     display: flex;
     align-items: center;

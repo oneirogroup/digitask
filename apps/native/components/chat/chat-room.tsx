@@ -1,17 +1,17 @@
-import { router, useNavigation } from "expo-router";
+import { useNavigation } from "expo-router";
 import { FC } from "react";
 import { Pressable, Text, View } from "react-native";
 
-import { Block } from "@oneiro/ui-kit";
+import { Block } from "@mdreal/ui-kit";
 
 import { ChatRoomProps } from "./chat-room.types";
 
 export const ChatRoom: FC<ChatRoomProps> = ({ room }) => {
-  const navigation = useNavigation();
+  const navigation = useNavigation("/(dashboard)");
 
   const redirect = () => {
     // @ts-ignore
-    navigation.navigate("[roomId]", { roomId: room.id });
+    navigation.navigate("(chat)/[chatRoomId]", { chatRoomId: room.id });
   };
 
   return (

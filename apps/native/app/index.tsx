@@ -3,14 +3,15 @@ import { router } from "expo-router";
 import { useEffect } from "react";
 import { Text, View } from "react-native";
 
-import { AuthHttp, Block, cn } from "@oneiro/ui-kit";
+import { AuthHttp, Block, cn } from "@mdreal/ui-kit";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useQuery } from "@tanstack/react-query";
 
 import { api } from "../api";
+import { profileAtom } from "../atoms/backend/accounts/profile";
+import { useRecoilQuery } from "../hooks/use-recoil-query";
 import { Tokens } from "../types/tokens";
-import { cache } from "../utils/cache";
 import { env } from "../utils/env";
+import { fields } from "../utils/fields";
 
 import logo from "../assets/images/logo.png";
 
@@ -25,15 +26,15 @@ authHttpSettings
   .then(authHttpSettings.retrieveTokens());
 
 export default function Index() {
-  const { isSuccess, isError } = useQuery({
-    queryKey: [cache.user.profile.$value],
+  const { isSuccess, isError } = useRecoilQuery(profileAtom, {
+    queryKey: [fields.user.profile.toString()],
     queryFn: () => api.accounts.profile.$get,
     retry: false
   });
 
   useEffect(() => {
     if (isSuccess) {
-      router.replace("/dashboard");
+      router.replace("/(dashboard)");
     }
   }, [isSuccess]);
 

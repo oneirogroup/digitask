@@ -18,7 +18,7 @@
   width: 50%;
   max-width: 42%;
   max-height: 90vh;
-  overflow-y: auto;
+  overflow: auto;
   box-sizing: border-box;
   position: relative;
 }
@@ -54,6 +54,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 10px;
 }
 
 .item-detail-modal-body .modal-label {
@@ -66,11 +67,14 @@
 }
 
 .item-detail-modal-body .modal-value {
-  font-family: Nunito Sans;
+  font-family: 'Nunito Sans', sans-serif;
   font-size: 18px;
   font-weight: 600;
   color: black;
   text-align: right;
+  height: auto;
+  white-space: normal;
+  transition: max-height 0.3s ease;
 }
 
 .item-detail-modal-footer {

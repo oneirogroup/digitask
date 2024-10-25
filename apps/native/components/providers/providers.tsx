@@ -1,14 +1,16 @@
 import { FC, PropsWithChildren, useEffect } from "react";
 import { AppState, AppStateStatus, Platform } from "react-native";
+import { RecoilRoot } from "recoil";
 
 import { useAsyncStorageDevTools } from "@dev-plugins/async-storage";
 import { useReactQueryDevTools } from "@dev-plugins/react-query";
-import { TailwindConfigProvider, logger } from "@oneiro/ui-kit";
-import { WebsocketProvider } from "@oneiro/ws-client";
+import { TailwindConfigProvider, logger } from "@mdreal/ui-kit";
+import { WebsocketProvider } from "@mdreal/ws-client";
 import NetInfo from "@react-native-community/netinfo";
 import { QueryClient, QueryClientProvider, focusManager, onlineManager } from "@tanstack/react-query";
 
 import { isDev } from "../../const";
+import { RecoilUtils } from "../recoil-utils";
 
 onlineManager.setEventListener(setOnline => NetInfo.addEventListener(state => setOnline(!!state.isConnected)));
 
@@ -39,7 +41,10 @@ export const Providers: FC<PropsWithChildren> = ({ children }) => {
   return (
     <WebsocketProvider>
       <TailwindConfigProvider>
-        <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+        <RecoilRoot>
+          <RecoilUtils />
+          <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+        </RecoilRoot>
       </TailwindConfigProvider>
     </WebsocketProvider>
   );

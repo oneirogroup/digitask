@@ -1,4 +1,4 @@
-import type { Icons } from "@oneiro/ui-kit";
+import type { Icons } from "@mdreal/ui-kit";
 
 export interface TagProps {
   tag: string;

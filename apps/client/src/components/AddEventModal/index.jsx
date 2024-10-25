@@ -247,6 +247,7 @@ const AddEventModal = ({ isOpen, onClose, refreshMeetings }) => {
                 locale="az"
                 placeholderText="gün/ay/il"
                 dateFormat="dd.MM.yyyy"
+                minDate={new Date().toISOString().split('T')[0]}
               />
               {error.eventDate && (
                 <p className="error-message">{error.eventDate}</p>

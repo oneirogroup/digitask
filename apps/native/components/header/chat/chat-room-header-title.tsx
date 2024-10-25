@@ -1,17 +1,20 @@
+import { useLocalSearchParams } from "expo-router";
 import { FC } from "react";
 import { Text, View } from "react-native";
 
-import { Block } from "@oneiro/ui-kit";
+import { Block } from "@mdreal/ui-kit";
 import { useQuery } from "@tanstack/react-query";
 
 import { ChatRoom } from "../../../types/backend/chat-room";
-import { cache } from "../../../utils/cache";
-import { ChatRoomHeaderTitleProps } from "./chat-room-header-title.types";
+import { fields } from "../../../utils/fields";
 
-export const ChatRoomHeaderTitle: FC<ChatRoomHeaderTitleProps> = ({ roomId }) => {
+export const ChatRoomHeaderTitle: FC = () => {
+  const { chatRoomId } = useLocalSearchParams();
+  if (!chatRoomId) return null;
+
   const { data: room } = useQuery({
-    queryKey: [cache.user.profile.chat.rooms],
-    select: (rooms: ChatRoom[]) => rooms.find(room => room.id === roomId)
+    queryKey: [fields.user.profile.chat.rooms],
+    select: (rooms: ChatRoom[]) => rooms.find(room => room.id === +chatRoomId)
   });
   if (!room) return null;
 

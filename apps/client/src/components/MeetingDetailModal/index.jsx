@@ -1,10 +1,11 @@
-import { useState, useEffect } from 'react';
+import {useState, useEffect, useRef} from 'react';
 import axios from 'axios';
 
 import './MeetingDetailModal.css';
 
 const MeetingDetailModal = ({ isOpen, onClose, meetingId }) => {
     const [meeting, setMeeting] = useState(null);
+  const textAreaRef = useRef(null);
 
     useEffect(() => {
         if (isOpen && meetingId) {
@@ -20,6 +21,13 @@ const MeetingDetailModal = ({ isOpen, onClose, meetingId }) => {
             fetchMeetingDetails();
         }
     }, [isOpen, meetingId]);
+
+  useEffect(() => {
+    if (textAreaRef.current) {
+      textAreaRef.current.style.height = 'auto';
+      textAreaRef.current.style.height = `${textAreaRef.current.scrollHeight}px`;
+    }
+  }, [meeting ? meeting.meeting_description : '']);
 
     if (!isOpen || !meeting) {
         return null;
@@ -66,13 +74,21 @@ const MeetingDetailModal = ({ isOpen, onClose, meetingId }) => {
                     <div>
                         <div className="modal-row">
                             <div className="modal-label">Tədbir haqqında</div>
-                            <div className="modal-value">{meeting.meeting_description || 'Qeyd yoxdur'}</div>
+                          <textarea
+                            value={meeting.meeting_description || 'Qeyd yoxdur'}
+                            className="event-modal-textarea"
+                            readOnly
+                            ref={textAreaRef}
+                            rows={1
+                            }
+                          />
+
                         </div>
                     </div>
-                    <hr />
+                  <hr/>
                 </div>
             </div>
-        </div >
+        </div>
     );
 };
 

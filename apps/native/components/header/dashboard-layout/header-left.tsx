@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { Text } from "react-native";
 
-import { Block } from "@oneiro/ui-kit";
+import { Block } from "@mdreal/ui-kit";
 
 import { HeaderLeftProps } from "./header-left.types";
 

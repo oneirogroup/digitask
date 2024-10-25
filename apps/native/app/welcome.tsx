@@ -2,7 +2,7 @@ import { Image } from "expo-image";
 import { router } from "expo-router";
 import { Text } from "react-native";
 
-import { Block, Button } from "@oneiro/ui-kit";
+import { Block, Button } from "@mdreal/ui-kit";
 
 import { PageLayout } from "../components/page-layout";
 
@@ -29,7 +29,7 @@ export default function Welcome() {
         </Block>
       </Block>
 
-      <Button variant="primary" className="w-full p-4" onClick={() => router.push("/sign-in")}>
+      <Button variant="primary" className="w-full p-4" onClick={() => router.push("/(auth)/sign-in")}>
         <Text className="text-center text-white">Daxil ol</Text>
       </Button>
     </PageLayout>

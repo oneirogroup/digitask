@@ -1,7 +1,9 @@
-import { AuthHttp } from "@oneiro/ui-kit";
+import { AuthHttp } from "@mdreal/ui-kit";
 
 import { DateRange } from "./components/date-time-picker";
+import { SignInSchema } from "./schemas/auth/sign-in.schema";
 import { MessageOptions } from "./types/api/message-options";
+import { AuthToken } from "./types/backend/auth-token";
 import { ChatRoom } from "./types/backend/chat-room";
 import { PerformanceProfile } from "./types/backend/performance-profile";
 import { PreviousMessages } from "./types/backend/previous-messages";
@@ -14,6 +16,11 @@ export const authHttp = AuthHttp.instance();
 
 export const api = {
   accounts: {
+    login: {
+      $post(data: SignInSchema) {
+        return authHttp.post<AuthToken>("/accounts/login/", data);
+      }
+    },
     profile: {
       get $get() {
         return authHttp.get<ProfileData>("/accounts/profile/");
@@ -37,11 +44,11 @@ export const api = {
       }
     },
     performance: {
-      $get(range: Partial<DateRange>) {
+      $get(range: Partial<DateRange> | null) {
         return authHttp.get<PerformanceProfile[]>(
           urlBuilder("/services/performance/", {
-            start_date: range.start ? range.start.format("YYYY-MM-DD") : null,
-            end_date: range.end ? range.end.format("YYYY-MM-DD") : null
+            start_date: range?.start ? range?.start.format("YYYY-MM-DD") : null,
+            end_date: range?.end ? range?.end.format("YYYY-MM-DD") : null
           })
         );
       }
