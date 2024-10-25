@@ -34,7 +34,7 @@ const DecrementItemForm = ({ onClose, itemId, productNumber,action,fetchData }) 
   }
 
   const handleNumberChange = (e) => {
-    const value = e.target.value;
+    let value = e.target.value;
 
 
     if (value < 0) {
