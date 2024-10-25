@@ -1,14 +1,14 @@
 import { useEffect } from "react";
-import { RecoilState, useRecoilState } from "recoil";
+import { RecoilState, useSetRecoilState } from "recoil";
 
 import { DefaultError, QueryClient, UseMutationOptions, useMutation } from "@tanstack/react-query";
 
 export function useRecoilMutation<TData = unknown, TError = DefaultError, TVariables = void, TContext = unknown>(
-  atom: RecoilState<TData>,
+  atom: RecoilState<NoInfer<TData> | null>,
   options: UseMutationOptions<TData, TError, TVariables, TContext>,
   queryClient?: QueryClient
 ) {
-  const [recoilState, setRecoilState] = useRecoilState(atom);
+  const setRecoilState = useSetRecoilState(atom);
   const mutation = useMutation(options, queryClient);
 
   useEffect(() => {
@@ -17,5 +17,5 @@ export function useRecoilMutation<TData = unknown, TError = DefaultError, TVaria
     }
   }, [mutation.data]);
 
-  return { ...mutation, data: recoilState };
+  return mutation;
 }

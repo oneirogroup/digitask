@@ -6,8 +6,11 @@
     "strict": true,
     "strictNullChecks": true,
     "noUncheckedIndexedAccess": true,
-    "baseUrl": ".",
     "moduleResolution": "Bundler",
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "baseUrl": ".",
+    "paths": {
+      "@digitask/shared-lib": ["libs/shared-lib"]
+    }
   }
 }

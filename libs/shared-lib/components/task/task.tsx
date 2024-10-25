@@ -1,11 +1,11 @@
 import { FC } from "react";
 import { Text, View } from "react-native";
 
+import { BlockContainer } from "@digitask/native/components/blocks";
 import { Block, Icon } from "@mdreal/ui-kit";
 
 import { palette } from "../../../../palette";
 import { DateService } from "../../services/date-service";
-import { BlockContainer } from "../blocks";
 import { Tag } from "./components/tag";
 import { TaskDate } from "./components/task-date";
 import { TaskProps } from "./task.types";

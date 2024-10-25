@@ -1,6 +1,5 @@
-import merge from "lodash.merge";
-
 import { withLayoutContext } from "expo-router";
+import { merge } from "lodash";
 import { ComponentProps, FC } from "react";
 
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";

@@ -1,12 +1,12 @@
 import { Text, View } from "react-native";
 
+import { api } from "@digitask/shared-lib/api";
+import { RoomsApiViewAtom } from "@digitask/shared-lib/atoms/backend/accounts/RoomsApiView";
+import { useRecoilQuery } from "@digitask/shared-lib/hooks/use-recoil-query";
+import { fields } from "@digitask/shared-lib/utils/fields";
 import { Block, If, Input } from "@mdreal/ui-kit";
 
-import { api } from "../../../api";
-import { RoomsApiViewAtom } from "../../../atoms/backend/accounts/RoomsApiView";
 import { ChatRoom } from "../../../components/chat";
-import { useRecoilQuery } from "../../../hooks/use-recoil-query";
-import { fields } from "../../../utils/fields";
 
 export default function Chat() {
   const { data: rooms = [], isPending } = useRecoilQuery(RoomsApiViewAtom, {

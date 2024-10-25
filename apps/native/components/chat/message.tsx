@@ -1,9 +1,9 @@
 import { FC } from "react";
 import { Text, View } from "react-native";
 
+import { DateService } from "@digitask/shared-lib/services/date-service";
 import { Block } from "@mdreal/ui-kit";
 
-import { DateService } from "../../services/date-service";
 import { MessageProps } from "./message.types";
 
 export const Message: FC<MessageProps> = ({ message }) => {

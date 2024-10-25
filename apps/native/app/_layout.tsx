@@ -1,10 +1,14 @@
 import { Stack } from "expo-router";
 
-import { Providers } from "../components/providers";
+import { Providers } from "@digitask/shared-lib/components/providers";
 
-import "../app/main.css";
+import { useDev } from "../hooks/use-dev";
+
+import "./main.css";
 
 export default function RootLayout() {
+  useDev();
+
   return (
     <Providers>
       <Stack screenOptions={{ headerShown: false }}>

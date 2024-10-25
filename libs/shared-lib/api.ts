@@ -1,6 +1,5 @@
 import { AuthHttp } from "@mdreal/ui-kit";
 
-import { DateRange } from "./components/date-time-picker";
 import { SignInSchema } from "./schemas/auth/sign-in.schema";
 import { MessageOptions } from "./types/api/message-options";
 import { AuthToken } from "./types/backend/auth-token";
@@ -9,6 +8,7 @@ import { PerformanceProfile } from "./types/backend/performance-profile";
 import { PreviousMessages } from "./types/backend/previous-messages";
 import { ProfileData } from "./types/backend/profile-data";
 import { Task } from "./types/backend/task";
+import { DateRange } from "./types/date-range";
 import { WithPagination } from "./types/with/pagination";
 import { urlBuilder } from "./utils/url-builder";
 

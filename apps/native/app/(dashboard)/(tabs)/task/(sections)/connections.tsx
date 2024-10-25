@@ -1,11 +1,10 @@
 import { useRecoilValue } from "recoil";
 
+import { tasksAtom } from "@digitask/shared-lib/atoms/backend/services/tasks";
+import { TasksWithStatuses } from "@digitask/shared-lib/components/task";
+import { Status } from "@digitask/shared-lib/components/task/tasks-with-statuses.types";
+import { uppercase } from "@digitask/shared-lib/utils/uppercase";
 import { Block } from "@mdreal/ui-kit";
-
-import { tasksAtom } from "../../../../../atoms/backend/services/tasks";
-import { TasksWithStatuses } from "../../../../../components/task";
-import { Status } from "../../../../../components/task/task-list-with-tags.types";
-import { uppercase } from "../../../../../utils/uppercase";
 
 export default function Connections() {
   const tasks = useRecoilValue(tasksAtom);

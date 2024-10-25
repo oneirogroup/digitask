@@ -3,15 +3,14 @@ import { router } from "expo-router";
 import { useEffect } from "react";
 import { Text, View } from "react-native";
 
+import { api } from "@digitask/shared-lib/api";
+import { profileAtom } from "@digitask/shared-lib/atoms/backend/accounts/profile";
+import { useRecoilQuery } from "@digitask/shared-lib/hooks/use-recoil-query";
+import { Tokens } from "@digitask/shared-lib/types/tokens";
+import { env } from "@digitask/shared-lib/utils/env";
+import { fields } from "@digitask/shared-lib/utils/fields";
 import { AuthHttp, Block, cn } from "@mdreal/ui-kit";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
-import { api } from "../api";
-import { profileAtom } from "../atoms/backend/accounts/profile";
-import { useRecoilQuery } from "../hooks/use-recoil-query";
-import { Tokens } from "../types/tokens";
-import { env } from "../utils/env";
-import { fields } from "../utils/fields";
 
 import logo from "../assets/images/logo.png";
 

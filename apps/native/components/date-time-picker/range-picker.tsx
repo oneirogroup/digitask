@@ -4,12 +4,13 @@ import DateTimePicker from "react-native-ui-datepicker";
 import { RangeChange } from "react-native-ui-datepicker/src/types";
 import { useRecoilState } from "recoil";
 
+import { rangeDateAtom } from "@digitask/shared-lib/atoms/backend/services/performance";
+import { DateService } from "@digitask/shared-lib/services/date-service";
+import { DateRange } from "@digitask/shared-lib/types/date-range";
 import { Button, Icon, Modal, ModalRef, When } from "@mdreal/ui-kit";
 
-import { rangeDateAtom } from "../../atoms/backend/services/performance";
-import { DateService } from "../../services/date-service";
 import { BlockContainer } from "../blocks";
-import { DateRange, RangePickerProps } from "./range-picker.types";
+import { RangePickerProps } from "./range-picker.types";
 
 export const RangePicker: FC<RangePickerProps> = ({ onChange }) => {
   const [range, setRange] = useRecoilState(rangeDateAtom);

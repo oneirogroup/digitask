@@ -1,4 +1,4 @@
-import isNil from "lodash/isNil";
+import isNil from "lodash.isnil";
 
 export const urlBuilder = <TParams extends object>(url: string, params?: TParams) => {
   const paramsStrings: string[] = [];

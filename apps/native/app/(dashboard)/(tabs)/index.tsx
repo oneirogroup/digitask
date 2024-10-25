@@ -1,17 +1,17 @@
 import { Text } from "react-native";
 
+import { api } from "@digitask/shared-lib/api";
+import { tasksAtom } from "@digitask/shared-lib/atoms/backend/services/tasks";
+import { Task } from "@digitask/shared-lib/components/task";
+import { useRecoilQuery } from "@digitask/shared-lib/hooks/use-recoil-query";
+import { DateService } from "@digitask/shared-lib/services/date-service";
+import { fields } from "@digitask/shared-lib/utils/fields";
+import { getTags } from "@digitask/shared-lib/utils/get-tags";
 import { Block, Icon, If } from "@mdreal/ui-kit";
 
 import { palette } from "../../../../../palette";
-import { api } from "../../../api";
-import { tasksAtom } from "../../../atoms/backend/services/tasks";
 import { BlockContainer, BlockSection } from "../../../components/blocks";
 import { Event } from "../../../components/event";
-import { Task } from "../../../components/task";
-import { useRecoilQuery } from "../../../hooks/use-recoil-query";
-import { DateService } from "../../../services/date-service";
-import { fields } from "../../../utils/fields";
-import { getTags } from "../../../utils/get-tags";
 
 export default function Index() {
   const { data: task } = useRecoilQuery(tasksAtom, {

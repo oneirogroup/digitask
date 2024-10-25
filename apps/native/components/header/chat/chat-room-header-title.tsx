@@ -2,11 +2,10 @@ import { useLocalSearchParams } from "expo-router";
 import { FC } from "react";
 import { Text, View } from "react-native";
 
+import { ChatRoom } from "@digitask/shared-lib/types/backend/chat-room";
+import { fields } from "@digitask/shared-lib/utils/fields";
 import { Block } from "@mdreal/ui-kit";
 import { useQuery } from "@tanstack/react-query";
-
-import { ChatRoom } from "../../../types/backend/chat-room";
-import { fields } from "../../../utils/fields";
 
 export const ChatRoomHeaderTitle: FC = () => {
   const { chatRoomId } = useLocalSearchParams();
