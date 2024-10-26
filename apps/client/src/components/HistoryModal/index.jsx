@@ -1,7 +1,10 @@
 import { formatDate } from '../History/utils';
 import "./historyModal.css"
 
-const HistoryModal = ({ itemData, onClose }) => {
+const HistoryModal = ({ warehouses, itemData, onClose }) => {
+
+    const warehouse = warehouses.find(w => w.id === itemData.item.warehouse);
+
     return (
         <div className="item-detail-modal-overlay">
             <div className="item-detail-modal-content">
@@ -13,7 +16,7 @@ const HistoryModal = ({ itemData, onClose }) => {
                 <div className="item-detail-modal-body">
                     <div className="modal-row">
                         <div className="modal-label">Anbar</div>
-                        <div className="modal-value">{itemData.item_warehouse.name}</div>
+                        <div className="modal-value">{warehouse.name}</div> 
                     </div>
                     <hr />
                     <div className='warehouse-item-detail-grid'>
