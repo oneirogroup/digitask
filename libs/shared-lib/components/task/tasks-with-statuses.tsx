@@ -6,7 +6,7 @@ import { Block, cn } from "@mdreal/ui-kit";
 import { getTags } from "../../utils/get-tags";
 import { TagButton } from "./components/tag-button";
 import { Task } from "./task";
-import { Status, TaskListWithTagsProps } from "./task-list-with-tags.types";
+import { Status, TaskListWithTagsProps } from "./tasks-with-statuses.types";
 
 const allStatus: Status = { name: "All", status: "all" };
 

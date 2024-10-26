@@ -4,21 +4,21 @@ import { Text, View } from "react-native";
 import { runOnJS } from "react-native-reanimated";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 
+import { tokenSelector } from "@digitask/shared-lib/atoms/auth/sign-in/token";
+import { profileAtom } from "@digitask/shared-lib/atoms/backend/accounts/profile";
 import { Block, Button, Icon, Modal, ModalRef } from "@mdreal/ui-kit";
 
 import { palette } from "../../../../../palette";
-import { tokenAtom } from "../../../atoms/backend/accounts/login";
-import { profileAtom } from "../../../atoms/backend/accounts/profile";
 import { BlockContainer } from "../../../components/blocks";
 
 export default function Profile() {
   const modalRef = useRef<ModalRef>(null);
   const userProfile = useRecoilValue(profileAtom);
-  const setToken = useSetRecoilState(tokenAtom);
+  const setToken = useSetRecoilState(tokenSelector);
   if (!userProfile) return null;
 
   const logout = async () => {
-    setToken({ access_token: null, refresh_token: null });
+    setToken(null);
     router.replace("/welcome");
   };
 

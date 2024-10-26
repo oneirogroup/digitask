@@ -1,9 +1,9 @@
 import { atom } from "recoil";
 
-import { ProfileData } from "../../../types/backend/profile-data";
+import { AuthToken } from "../../../types/backend/auth-token";
 import { fields } from "../../../utils/fields";
 
-export const profileAtom = atom<ProfileData | null>({
+export const signInAtom = atom<AuthToken | null>({
   key: fields.user.profile.toString(),
   default: null
 });

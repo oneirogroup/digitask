@@ -2,13 +2,13 @@ import { useLocalSearchParams } from "expo-router";
 import { Text, View } from "react-native";
 import { useRecoilValue } from "recoil";
 
+import { api } from "@digitask/shared-lib/api";
+import { profileAtom } from "@digitask/shared-lib/atoms/backend/accounts/profile";
+import { fields } from "@digitask/shared-lib/utils/fields";
 import { Block } from "@mdreal/ui-kit";
 import { useQuery } from "@tanstack/react-query";
 
-import { api } from "../../../api";
-import { profileAtom } from "../../../atoms/backend/accounts/profile";
 import { Message } from "../../../components/chat";
-import { fields } from "../../../utils/fields";
 
 export default function Chat() {
   const { chatRoomId } = useLocalSearchParams();

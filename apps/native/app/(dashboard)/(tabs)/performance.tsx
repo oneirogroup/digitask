@@ -1,13 +1,14 @@
 import { FC, useEffect } from "react";
 import { Text } from "react-native";
 
+import { api } from "@digitask/shared-lib/api";
+import { performanceAtom } from "@digitask/shared-lib/atoms/backend/services/performance";
+import { useRecoilMutation } from "@digitask/shared-lib/hooks/use-recoil-mutation";
+import { DateRange } from "@digitask/shared-lib/types/date-range";
+import { fields } from "@digitask/shared-lib/utils/fields";
 import { Block, If, Table, cn } from "@mdreal/ui-kit";
 
-import { api } from "../../../api";
-import { performanceAtom } from "../../../atoms/backend/services/performance";
-import { DateRange, RangePicker } from "../../../components/date-time-picker";
-import { useRecoilMutation } from "../../../hooks/use-recoil-mutation";
-import { fields } from "../../../utils/fields";
+import { RangePicker } from "../../../components/date-time-picker";
 
 const Loading: FC = () => <Text className="text-center">Loading...</Text>;
 
