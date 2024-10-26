@@ -71,9 +71,7 @@
     display: none;
   }
   .home-tasks table tr td:nth-of-type(2),
-  .home-tasks table tr th:nth-of-type(2),
-  .table-container tbody tr td:nth-of-type(9),
-  .table-container tr th:nth-of-type(9) {
+  .home-tasks table tr th:nth-of-type(2){
     display: none;
   }
   .meeting-detail-modal-overlay .item-detail-modal-body .modal-label,
@@ -140,15 +138,6 @@
 }
 
 @media screen and (max-width: 1120px) {
-  /* Task Page */
-
-  .table-container tbody tr td:nth-of-type(9),
-  .table-container tr th:nth-of-type(9),
-  .warehouseTable tbody td:nth-of-type(8),
-  .warehouseTable thead th:nth-of-type(8) {
-    display: none;
-  }
-
   /* History Import Page */
 
   .historyImportTable th:nth-of-type(10),
@@ -172,6 +161,10 @@
   .item-detail-modal-content {
     width: 52%;
     max-width: 52%;
+  }
+  .warehouseTable tbody td:nth-of-type(8),
+  .warehouseTable thead th:nth-of-type(8) {
+    display: none;
   }
 }
 
@@ -298,10 +291,6 @@
   .task-page th,
   .task-page td {
     padding: 10px;
-  }
-  .table-container tr th:nth-of-type(3),
-  .table-container tbody tr td:nth-of-type(3) {
-    display: none;
   }
 
   /* Profil page */
@@ -499,11 +488,6 @@
 
   /* Task page */
 
-  .table-container tbody tr td:nth-of-type(7),
-  .table-container tr th:nth-of-type(7) {
-    display: none;
-  }
-
   .table-container tbody tr td,
   .table-container tr th {
     font-size: 13px !important;
@@ -530,11 +514,6 @@
   }
 
   /* Employee Page */
-
-  .employee-table-container tbody td:nth-of-type(4),
-  .employee-table-container th:nth-of-type(4) {
-    display: none;
-  }
 
   .employee-search-filter > div:first-of-type input {
     padding: 13px 33px 13px 40px;
@@ -679,11 +658,6 @@
 @media screen and (max-width: 810px) {
   /* Employee Page */
 
-  .employee-table-container tbody td:nth-of-type(3),
-  .employee-table-container th:nth-of-type(3) {
-    display: none;
-  }
-
   .employee-table-container th,
   .employee-table-container td {
     font-size: 15px !important;
@@ -695,14 +669,6 @@
 
   /* Task page */
 
-  .table-container tbody tr td:nth-of-type(4),
-  .table-container tr th:nth-of-type(4) {
-    display: none;
-  }
-  .table-container tbody tr td:first-of-type,
-  .table-container tr th:first-of-type {
-    display: none;
-  }
   .taskPage-taskType button {
     font-size: 17px;
   }
@@ -906,10 +872,6 @@
   .performance-table-container tbody tr td:first-of-type {
     font-size: 14px;
   }
-  .performance-table-container tbody tr td:nth-of-type(3),
-  .performance-table-container tr th:nth-of-type(3) {
-    display: none;
-  }
   .performance-filter > div:first-of-type button:last-of-type {
     padding: 8px 7px;
     font-size: 15px;
@@ -1005,10 +967,6 @@
   .employee-search-filter > div:first-of-type svg:last-of-type {
     top: 8px;
     font-size: 21px;
-  }
-  .employee-table-container tbody td:first-of-type,
-  .employee-table-container th:first-of-type {
-    display: none;
   }
   .employee-table-container th,
   .employee-table-container td {
@@ -1565,10 +1523,6 @@
 
   /* Performance page */
 
-  .performance-table-container tbody tr td:nth-of-type(3),
-  .performance-table-container tr th:nth-of-type(3) {
-    display: none;
-  }
   .date-picker {
     padding: 0px 5px;
     width: 118px;
@@ -1592,11 +1546,6 @@
   }
 
   /* Task page */
-
-  .table-container tr th:nth-of-type(3),
-  .table-container tbody tr td:nth-of-type(3) {
-    display: none;
-  }
 
   .taskPage-taskType button {
     font-size: 16px;
@@ -1643,11 +1592,6 @@
   .employee-title button {
     padding: 8px;
     font-size: 14px;
-  }
-
-  .employee-table-container tbody td:first-of-type,
-  .employee-table-container th:first-of-type {
-    display: none;
   }
 
   .employee-search-filter > div:first-of-type input {
@@ -1947,10 +1891,6 @@
   .performance-table-container tbody tr td:nth-of-type(2) {
     white-space: wrap;
   }
-  .performance-table-container tr th:nth-of-type(5),
-  .performance-table-container tbody tr td:nth-of-type(5) {
-    display: none;
-  }
 
   .performance-filter {
     display: flex;
@@ -1986,10 +1926,6 @@
   .task-history-status button:last-of-type {
     padding: 7px 8px;
     font-size: 13px;
-  }
-  .table-container tbody tr td:nth-of-type(5),
-  .table-container tr th:nth-of-type(5) {
-    display: none;
   }
   .task-modal-content {
     padding: 14px;
@@ -2046,10 +1982,6 @@
   }
   .employee-table-container tbody tr td:nth-of-type(8) a svg {
     font-size: 23px;
-  }
-  .employee-table-container tbody td:nth-of-type(5),
-  .employee-table-container th:nth-of-type(5) {
-    display: none;
   }
 
   .employee-title {

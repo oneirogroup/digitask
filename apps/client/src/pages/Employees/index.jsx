@@ -132,8 +132,11 @@ const EmployeeList = () => {
     await fetchEmployees();
   };
 
+
   const handleGroupAdded = async (newGroup) => {
     setEmployees((prevEmployees) => [...prevEmployees, newGroup]);
+
+    setAllGroups((prevGroups) => [...prevGroups, newGroup]);
 
     initializeEmployeeModals([...employees, newGroup]);
 

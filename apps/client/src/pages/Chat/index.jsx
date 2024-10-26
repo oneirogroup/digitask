@@ -109,6 +109,9 @@ const Chat = () => {
         }
     }
     const handleSendMessage = () => {
+      if (!inputValue.trim()) {
+        return;
+      }
         sendMessage();
         setInputValue('');
     };
@@ -198,7 +201,6 @@ const Chat = () => {
             });
 
             if (!response.ok) {
-
                 throw new Error('Network response was not ok');
             }
             console.log(messageCount)
