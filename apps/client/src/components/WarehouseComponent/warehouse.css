@@ -65,7 +65,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 20px 0;
+  margin: 15px 0;
 }
 
 .warehouse-search-filter > div:first-of-type {
@@ -134,6 +134,17 @@
   width: 100%;
 }
 
+.warehouseTable {
+    width: 100%;
+    max-height: 52vh;
+    overflow-x: auto;
+    scrollbar-width: thin;
+}
+
+.historyTable{
+  height: 59vh;
+}
+
 .warehouseTable th, .historyTable th, .historyImportTable th,
 .warehouseTable td, .historyTable td, .historyImportTable td {
   text-align: center;
@@ -184,11 +195,11 @@
 
 .warehouseTable tbody td:nth-of-type(2),
 .warehouseTable
-  tbody
-  td:nth-of-type(2)
-  .warehouseTable
-  tbody
-  td:nth-of-type(4) {
+tbody
+td:nth-of-type(2)
+.warehouseTable
+tbody
+td:nth-of-type(4) {
   font-size: 16px;
   color: #2f3033;
 }
@@ -199,6 +210,22 @@
 
 .region-filter {
   position: relative;
+  display: flex;
+  gap:10px;
+  height: 42px;
+}
+
+.warehouse-small-modal {
+  z-index: 100;
+  background-color: white;
+  display: flex;
+  font-weight: 500;
+  border-radius: 8px;
+  text-align: center;
+  background-color: white;
+  border: 0.5px solid #ababaf;
+  width: 100%;
+  overflow: auto;
 }
 
 .region-small-modal {
@@ -214,7 +241,10 @@
   border: 0.5px solid #ababaf;
   width: 100%;
   overflow: auto;
-
+}
+option{
+  text-align: center;
+  width: 100%;
 }
 
 .region-small-modal div {
@@ -242,6 +272,12 @@
   gap: 5px;
   background-color: inherit;
 }
+.small-css{
+  position: absolute;
+  left: -60px;
+  width: 60px;
+  border:1px solid rgb(154, 154, 154);
+}
 
 
 .tableRow {
@@ -255,10 +291,10 @@
 }
 
 .small-modal-warehouse {
-  position: absolute; 
+  position: absolute;
   right: -12px;
-    top: 27px;
-  transform: translateY(-50%) translateX(10px); 
+  top: 27px;
+  transform: translateY(-50%) translateX(10px);
   background-color: white;
   border-radius: 10px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);

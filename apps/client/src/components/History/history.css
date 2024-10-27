@@ -10,7 +10,7 @@
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 .button-container div {
@@ -112,4 +112,18 @@
 .warehouseTable tbody tr:hover {
   background-color: #f1f1f1;
   transition-duration: 0.5s;
+}
+
+.warehouse-small-modal {
+  z-index: 100;
+  background-color: white;
+  display: flex;
+  font-weight: 500;
+  border-radius: 8px;
+  text-align: center;
+  height: 100%;
+  background-color: white;
+  border: 0.5px solid #ababaf;
+  width: 100%;
+  overflow: auto;
 }

@@ -28,7 +28,7 @@ html, body {
 }
 
 .layout-with-sidebar .sidebar {
-  flex: 0 0 200px; 
+  flex: 0 0 200px;
   height: 100vh;
   overflow-y: auto;
 }
@@ -37,10 +37,9 @@ html, body {
   flex: 1;
   margin-top: 60px;
   background-color: rgba(128, 128, 128, 0.103);
-  padding: 25px 20px;
+  padding: 10px 20px;
   height: calc(100vh - 60px); 
   overflow: auto;
-  margin-left: 200px;
   scrollbar-width: thin;
 }
 
@@ -77,4 +76,12 @@ html, body {
   color: white;
   text-align: center;
   padding: 20px;
+}
+
+.main-content.expanded {
+  margin-left: 190px !important;
+}
+
+.layout-with-sidebar .main-content {
+  margin-left: 100px;
 }
