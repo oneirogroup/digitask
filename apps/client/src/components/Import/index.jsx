@@ -158,6 +158,7 @@ function Import({ onClose, warehouses,fetchData }) {
                 placeholder='Port sayı'
                 value={formData.port_number}
                 onChange={handleInputChange}
+                onKeyDown={(evt) => (evt.key === 'e' || evt.key === '-') && evt.preventDefault()}
               />
               {errors.port_number && <span className="error-message">{errors.port_number}</span>}
             </label>
@@ -169,6 +170,7 @@ function Import({ onClose, warehouses,fetchData }) {
                 placeholder='Seriya nömrəsi'
                 value={formData.serial_number}
                 onChange={handleInputChange}
+                onKeyDown={(evt) => (evt.key === 'e' || evt.key === '-') && evt.preventDefault()}
               />
               {errors.serial_number && <span className="error-message">{errors.serial_number}</span>}
             </label>
@@ -180,6 +182,7 @@ function Import({ onClose, warehouses,fetchData }) {
                 name="count"
                 value={formData.count}
                 onChange={handleInputChange}
+                onKeyDown={(evt) => (evt.key === 'e' || evt.key === '-') && evt.preventDefault()}
               />
               {errors.count && <span className="error-message">{errors.count}</span>}
             </label>
@@ -192,6 +195,7 @@ function Import({ onClose, warehouses,fetchData }) {
                 placeholder='Ölçüsü'
                 value={formData.size_length}
                 onChange={handleInputChange}
+                onKeyDown={(evt) => (evt.key === 'e' || evt.key === '-') && evt.preventDefault()}
               />
               {errors.size_length && <span className="error-message">{errors.size_length}</span>}
             </label>

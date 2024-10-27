@@ -39,7 +39,7 @@
 
 .performance-table-container {
   width: 100%;
-  height: 60vh;
+  max-height: 65vh;
   overflow-x: auto;
   scrollbar-width: thin;
 }
@@ -116,7 +116,7 @@
 .performance-filter {
   display: flex;
   justify-content: space-between;
-  margin: 10px 0 25px 0;
+  margin: 10px 0 20px 0;
   width: 100%;
 }
 

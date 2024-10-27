@@ -103,7 +103,7 @@
 .home-employee-task {
   display: flex;
   flex-direction: column;
-  width: 310px;
+  width: 30%;
   height: 100%;
   margin-top: 20px;
   background-color: #fff;
@@ -195,6 +195,7 @@
   display: flex;
   flex-direction: column;
   height: 100%;
+  width: 68%;
   margin-top: 20px;
   background-color: #fff;
   border-radius: 20px;

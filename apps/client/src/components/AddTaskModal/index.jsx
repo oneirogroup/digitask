@@ -486,31 +486,35 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
                             {errors.group && <span className="error-message">{errors.group}</span>}
                         </div>
                     </div>
-                    <div className="form-group mapDiv">
-                        <label htmlFor="note">Müştəri ünvanı:</label>
-                        <MapContainer center={[40.4093, 49.8671]} zoom={13} style={{ height: '300px', width: '100%' }}>
-                            <TileLayer
-                                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                            />
-                            <MapClickHandler onClick={handleMapClick} />
-                            {formData?.latitude && formData?.longitude && (
-                                <Marker icon={customerIcon} position={[formData?.latitude, formData?.longitude]} />
-                            )}
-                        </MapContainer>
-
-                    </div>
-
-
-                    <div className="form-group">
-                        <label htmlFor="location_link">Ünvan linki</label>
-                        <input
-                            type="text"
-                            id="location_link"
-                            name="location_link"
-                            onChange={handleChangeMapLink}
-
-                            className="form-control"
+                  <div className="form-group mapDiv">
+                    <label htmlFor="note">Müştəri ünvanı:</label>
+                    <MapContainer
+                      center={[formData.latitude || 40.4093, formData.longitude || 49.8671]}
+                      zoom={13}
+                      style={{height: '300px', width: '100%'}}
+                    >
+                      <TileLayer
+                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                      />
+                      <MapClickHandler onClick={handleMapClick}/>
+                      {formData?.latitude && formData?.longitude && (
+                        <Marker
+                          icon={customerIcon}
+                          position={[formData.latitude, formData.longitude]}
                         />
+                      )}
+                    </MapContainer>
+                  </div>
+                    <div className="form-group">
+                      <label htmlFor="location_link">Ünvan linki</label>
+                      <input
+                        type="text"
+                        id="location_link"
+                        name="location_link"
+                        onChange={handleChangeMapLink}
+                        className="form-control"
+                        placeholder="Google Maps linkini buraya yapışdırın"
+                      />
                     </div>
                     {/* <div className="form-group passportImage">
                         <label htmlFor="note">Müştərinin şəxsiyyət vəsiqəsi:</label>
@@ -528,52 +532,52 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
                     </div> */}
 
                     <div className="form-group passportImage">
-                        <label>Müştərinin şəxsiyyət vəsiqəsi:</label>
-                        <div className="upload-container">
-                            {!preview ? (
-                                <label htmlFor="passport" className="upload-label">
+                      <label>Müştərinin şəxsiyyət vəsiqəsi:</label>
+                      <div className="upload-container">
+                        {!preview ? (
+                          <label htmlFor="passport" className="upload-label">
                                     <span>
                                         Yükləmək üçün klikləyin
-                                        {/* <span className="file-size">(Maksimum fayl ölçüsü: 25 MB)</span> */}
+                                      {/* <span className="file-size">(Maksimum fayl ölçüsü: 25 MB)</span> */}
                                     </span>
-                                    <div className="upload-icon">
-                                        <img src={upload} alt="" />
-                                    </div>
-                                </label>
-                            ) : (
-                                <img
-                                    src={preview}
-                                    alt="Preview"
-                                    className="image-preview"
-                                />
-                            )}
-                            <input
-                                type="file"
-                                id="passport"
-                                name="passport"
-                                onChange={handleInputChange}
-                            />
-                        </div>
+                            <div className="upload-icon">
+                              <img src={upload} alt=""/>
+                            </div>
+                          </label>
+                        ) : (
+                          <img
+                            src={preview}
+                            alt="Preview"
+                            className="image-preview"
+                          />
+                        )}
+                        <input
+                          type="file"
+                          id="passport"
+                          name="passport"
+                          onChange={handleInputChange}
+                        />
+                      </div>
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="note">Qeydlər:</label>
-                        <textarea
-                            id="note"
-                            name="note"
-                            value={formData.note}
-                            onChange={handleChange}
-                            className="form-control"
-                        />
-                        {errors.note && <span className="error-message">{errors.note}</span>}
+                      <label htmlFor="note">Qeydlər:</label>
+                      <textarea
+                        id="note"
+                        name="note"
+                        value={formData.note}
+                        onChange={handleChange}
+                        className="form-control"
+                      />
+                      {errors.note && <span className="error-message">{errors.note}</span>}
                     </div>
                     <button type="submit" className="btn btn-primary">
-                        Əlavə et
+                      Əlavə et
                     </button>
                 </form>
             </div>
         </div>
-    );
+);
 };
 
 export default CreateTaskModal;

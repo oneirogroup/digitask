@@ -25,26 +25,34 @@ const Layout = () => {
   }, []);
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
 
   const toggleSidebar = () => {
     setIsSidebarOpen(prevState => !prevState);
   };
 
-
+  const handleSidebarToggle = (isExpanded) => {
+    setIsSidebarExpanded(isExpanded);
+  };
 
   return (
     <div className={shouldHideSidebar ? "layout-no-sidebar" : "layout-with-sidebar"}>
       {!shouldHideNavbar && <Navbar className="navbar" onToggleSidebar={toggleSidebar} />}
       {!shouldHideSidebar && (
         <>
-          <Sidebar className="sidebar" isSidebarOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
+          <Sidebar
+            className="sidebar"
+            isSidebarOpen={isSidebarOpen}
+            onClose={() => setIsSidebarOpen(false)}
+            onToggleExpand={handleSidebarToggle}
+          />
         </>
       )}
-      <div className={shouldHideSidebar ? "main-content-no-sidebar" : "main-content"}>
+      <div className={`main-content ${isSidebarExpanded ? 'expanded' : ''}`}>
         <Outlet />
       </div>
     </div>
   );
-}
+};
 
 export default Layout;

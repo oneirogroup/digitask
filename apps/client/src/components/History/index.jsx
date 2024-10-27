@@ -224,7 +224,7 @@ const Anbar = () => {
 
 
       {showWarehouseItemModal && <WarehouseItemModal itemData={selectedItemData} onClose={handleWarehouseItemModalClose} />}
-      {showHistoryModal && <HistoryModal itemData={selectedItemData} onClose={handleHistoryModalClose} />}
+      {showHistoryModal && <HistoryModal warehouses={warehouses} itemData={selectedItemData} onClose={handleHistoryModalClose} />}
     </div>
   );
 };
