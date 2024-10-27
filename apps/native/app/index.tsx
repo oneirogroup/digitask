@@ -3,19 +3,21 @@ import { router } from "expo-router";
 import { useEffect } from "react";
 import { Text, View } from "react-native";
 
-import { AuthHttp, Block, cn } from "@oneiro/ui-kit";
+import { api } from "@digitask/shared-lib/api";
+import { profileAtom } from "@digitask/shared-lib/atoms/backend/accounts/profile";
+import { useRecoilQuery } from "@digitask/shared-lib/hooks/use-recoil-query";
+import { Tokens } from "@digitask/shared-lib/types/tokens";
+import { env } from "@digitask/shared-lib/utils/env";
+import { fields } from "@digitask/shared-lib/utils/fields";
+import { AuthHttp, Block, cn } from "@mdreal/ui-kit";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useQuery } from "@tanstack/react-query";
-
-import { api } from "../api";
-import { Tokens } from "../types/tokens";
-import { cache } from "../utils/cache";
 
 import logo from "../assets/images/logo.png";
 
 const authHttpSettings = AuthHttp.settings();
 
 authHttpSettings
+  .setBaseUrl(env.EXPO_PUBLIC_API_URL)
   .setStorage(AsyncStorage)
   .setStorageTokenKeys({ access: Tokens.ACCESS_TOKEN, refresh: Tokens.REFRESH_TOKEN })
   .setRefreshUrl("/accounts/token/refresh/")
@@ -23,8 +25,8 @@ authHttpSettings
   .then(authHttpSettings.retrieveTokens());
 
 export default function Index() {
-  const { isSuccess, isError } = useQuery({
-    queryKey: [cache.user.profile.$value],
+  const { isSuccess, isError } = useRecoilQuery(profileAtom, {
+    queryKey: [fields.user.profile.toString()],
     queryFn: () => api.accounts.profile.$get,
     retry: false
   });

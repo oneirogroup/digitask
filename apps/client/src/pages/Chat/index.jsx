@@ -12,16 +12,16 @@ import axios from "axios"
 
 const Chat = () => {
     const [activeGroup, setActiveGroup] = useState(null);
+    const [page, setPage] = useState(2);
+    const [room, setRoom] = useState('');
     const [groups, setGroups] = useState([]);
-    const fileInputRef = useRef(null);
     const [messagess, setMessages] = useState([])
     const [lastMessages, setLastMessages] = useState({});
     const [inputValue, setInputValue] = useState('');
     const wsChat = useRef(null);
     const divRef = useRef(null);
-    const [messageCount, setMessageCount] = useState(30);
     const [shouldScroll, setShouldScroll] = useState(true);
-    const messageInputRef = useRef(null);
+
     const colors = [
         "#ff5733", "#33ff57", "#3357ff", "#ff33a1", "#33fff7", "#f7ff33"
     ];
@@ -32,7 +32,7 @@ const Chat = () => {
             if (!token) {
                 throw new Error('No access token available');
             }
-            console.log(groups, 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb')
+     
             const email = localStorage.getItem("saved_email");
 
             wsChat.current = new WebSocket(
@@ -64,7 +64,7 @@ const Chat = () => {
                         return prevMessages;
                     });
                 }
-                console.log(messagess, data, '---------------------------------------')
+         
             };
 
             wsChat.current.onerror = async (error) => {
@@ -97,15 +97,13 @@ const Chat = () => {
 
     const sendMessage = () => {
 
-        console.log('pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp', wsChat.current)
+      
         if (wsChat.current) {
             wsChat.current.send(JSON.stringify({
                 room: activeGroup,
                 content: inputValue
             }))
-            console.log(divRef, 'ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss')
 
-            console.log('oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo', wsChat.current)
         }
     }
     const handleSendMessage = () => {
@@ -178,11 +176,21 @@ const Chat = () => {
     useEffect(() => {
         if (shouldScroll) {
             if (divRef.current) {
-                console.log(divRef, 'sssssssssssssssssssssddddssssssssssssssssssssssssssssssssssssssssss')
+         
                 divRef.current.scrollTop = divRef.current.scrollHeight;
             }
         }
     }, [messagess, activeGroup]);
+
+    const handleMessagePage = () => {
+        if (room == activeGroup){
+            setPage((prevPage) => Number(prevPage) + 1)
+        }else{
+            setRoom(activeGroup);
+            setPage(page)
+        }
+
+    }
 
     const fetchMessages = async (arg = false) => {
         try {
@@ -192,28 +200,33 @@ const Chat = () => {
             if (!accessToken) {
                 throw new Error('Access token is not available');
             }
+            const params = new URLSearchParams();
+            
+            if (room && page) {
+                params.append('room', room);
+                params.append('page', page);
+            }
 
-            const response = await fetch(`http://135.181.42.192/accounts/messages/?page_size=${messageCount}`, {
+            const response = await fetch(`http://135.181.42.192/accounts/messages/?${params.toString()}`, {
                 headers: {
                     'Authorization': `Bearer ${accessToken}`,
                     'Content-Type': 'application/json'
                 }
             });
-
+            
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
-            console.log(messageCount)
-            setMessageCount(prevCount => prevCount + 30);
+
             const data = await response.json();
-            console.log(data, ';;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;')
+    
             if (arg) {
                 setShouldScroll(false);
             } else {
                 setShouldScroll(true)
             }
-
-            setMessages(data.results.reverse());
+  
+            setMessages(data.reverse());
 
         } catch (error) {
             console.error('Fetch error:', error);
@@ -221,9 +234,10 @@ const Chat = () => {
     };
 
     useEffect(() => {
+        const arg = room && page
+        fetchMessages(arg);
+    }, [room, page]);
 
-        fetchMessages();
-    }, []);
 
     useEffect(() => {
         const updateLastMessages = () => {
@@ -231,12 +245,11 @@ const Chat = () => {
 
             messagess.forEach(message => {
                 const { room, timestamp } = message;
-
                 if (!latestMessages[room] || new Date(latestMessages[room].timestamp) < new Date(timestamp)) {
                     latestMessages[room] = message;
                 }
             });
-            console.log(latestMessages, 'zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz')
+          
             setLastMessages(latestMessages);
         };
 
@@ -312,7 +325,7 @@ const Chat = () => {
             const groupMembers = groups.find(g => g.id === selectedGroup)?.members || [];
             setGroupName(mygroupName);
             setMembers(groupMembers);
-            console.log(groupMembers, '0000000000000000000000000000000000000000000000000');
+  
         }
     }, [groups, selectedGroup]);
 
@@ -422,7 +435,7 @@ const Chat = () => {
                             </div>
                         </div>
                         <div ref={divRef} className="chat-messages">
-                            <div class="loadMessages" ><button class="loadButton" onClick={() => fetchMessages(true)}>Daha çox məktub ↻</button></div>
+                            <div class="loadMessages" ><button class="loadButton" onClick={() => handleMessagePage()}>Daha çox məktub ↻</button></div>
                             {renderMessages()}
                         </div>
                         <div className="chat-input">

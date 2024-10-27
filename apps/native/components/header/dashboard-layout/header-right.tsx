@@ -1,14 +1,22 @@
-import { Link } from "expo-router";
+import { useNavigation } from "expo-router";
 import { FC } from "react";
+import { Pressable } from "react-native";
 
-import { Block, Icon } from "@oneiro/ui-kit";
+import { Block, Icon } from "@mdreal/ui-kit";
 
 export const HeaderRight: FC = () => {
+  const navigation = useNavigation("/(dashboard)");
+
+  const redirect = () => {
+    // @ts-ignore
+    navigation.navigate("(chat)/chat");
+  };
+
   return (
     <Block className="flex flex-row items-center justify-end gap-4 pr-4">
-      <Link href="/chat">
+      <Pressable onPress={redirect}>
         <Icon name="chat" variables={{ stroke: "#005ABF" }} />
-      </Link>
+      </Pressable>
       <Icon name="notifications" variables={{ stroke: "#005ABF", checkmark: "none" }} />
     </Block>
   );

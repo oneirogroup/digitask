@@ -2,15 +2,13 @@ import { Image } from "expo-image";
 import { router } from "expo-router";
 import { Text } from "react-native";
 
-import { Block, Button } from "@oneiro/ui-kit";
-
-import { PageLayout } from "../components/page-layout";
+import { Block, Button } from "@mdreal/ui-kit";
 
 import logo from "../assets/images/logo.png";
 
 export default function Welcome() {
   return (
-    <PageLayout>
+    <Block.Scroll className="h-screen px-4 py-28" contentClassName="grid items-center justify-between">
       <Block className="flex items-center gap-6">
         <Block className="bg-primary w-68 rounded-2xl p-6">
           <Image source={logo} style={{ width: 150, height: 140 }} />
@@ -29,9 +27,9 @@ export default function Welcome() {
         </Block>
       </Block>
 
-      <Button variant="primary" className="w-full p-4" onClick={() => router.push("/sign-in")}>
+      <Button variant="primary" className="w-full p-4" onClick={() => router.push("/(auth)/sign-in")}>
         <Text className="text-center text-white">Daxil ol</Text>
       </Button>
-    </PageLayout>
+    </Block.Scroll>
   );
 }

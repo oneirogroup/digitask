@@ -2,16 +2,20 @@ import { FC, useRef, useState } from "react";
 import { Text, View } from "react-native";
 import DateTimePicker from "react-native-ui-datepicker";
 import { RangeChange } from "react-native-ui-datepicker/src/types";
+import { useRecoilState } from "recoil";
 
-import { Button, Icon, Modal, ModalRef } from "@oneiro/ui-kit";
+import { rangeDateAtom } from "@digitask/shared-lib/atoms/backend/services/performance";
+import { DateService } from "@digitask/shared-lib/services/date-service";
+import { DateRange } from "@digitask/shared-lib/types/date-range";
+import { Button, Icon, Modal, ModalRef, When } from "@mdreal/ui-kit";
 
-import { DateService } from "../../services/date-service";
 import { BlockContainer } from "../blocks";
-import { DateRange, RangePickerProps } from "./range-picker.types";
+import { RangePickerProps } from "./range-picker.types";
 
 export const RangePicker: FC<RangePickerProps> = ({ onChange }) => {
+  const [range, setRange] = useRecoilState(rangeDateAtom);
+
   const modalRef = useRef<ModalRef>(null);
-  const [range, setRange] = useState<Partial<DateRange> | null>(null);
   const [debouncedRange, setDebouncedRange] = useState<Partial<DateRange> | null>(null);
   const tmpStartDate = useRef<DateService | null>(null);
 
@@ -48,6 +52,12 @@ export const RangePicker: FC<RangePickerProps> = ({ onChange }) => {
     modalRef.current?.open();
   };
 
+  const reset = () => {
+    setRange(null);
+    setDebouncedRange(null);
+    onChange?.(null);
+  };
+
   return (
     <BlockContainer className="relative">
       <Button variant="none" onClick={toggleDatePicker} className="flex flex-row justify-between">
@@ -62,7 +72,16 @@ export const RangePicker: FC<RangePickerProps> = ({ onChange }) => {
             <Text className="text-lg">{debouncedRange?.end?.format("DD/MMM/YYYY") || "Select to date"}</Text>
           </View>
         </View>
-        <Icon name="calendar" state="raw" variables={{ fill: "black" }} />
+
+        <View className="flex flex-row gap-4">
+          <When condition={!!debouncedRange}>
+            <Button variant="none" onClick={reset}>
+              <Icon name="close" />
+            </Button>
+          </When>
+
+          <Icon name="calendar" state="raw" variables={{ fill: "black" }} />
+        </View>
       </Button>
 
       <Modal ref={modalRef} type="bottom" height={350}>

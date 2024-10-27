@@ -5,21 +5,24 @@ import { useState } from 'react'
 
 
 function index() {
-  const [selectedTab, setSelectedTab] = useState('anbar');
-
+  const [selectedTab, setSelectedTab] = useState(sessionStorage.getItem('warehouse')?sessionStorage.getItem('warehouse'):'anbar');
+  const selectTab = (ware) => {
+    setSelectedTab(ware)
+    sessionStorage.setItem('warehouse',ware)
+  }
 
   return (
     <div className='warehouse-page'>
       <div className='warehousePage-title'>
         <p
           className={selectedTab === 'anbar' ? 'selected' : ''}
-          onClick={() => setSelectedTab('anbar')}
+          onClick={() => selectTab('anbar')}
         >
           Anbar
         </p>
         <p
           className={selectedTab === 'anbarHistory' ? 'selected' : ''}
-          onClick={() => setSelectedTab('anbarHistory')}
+          onClick={() => selectTab('anbarHistory')}
         >
           Anbar tarixçəsi
         </p>

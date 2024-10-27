@@ -1,57 +1,34 @@
-import { Tabs } from "expo-router";
+import { Stack } from "expo-router";
 
-import { Icon } from "@oneiro/ui-kit";
+import { ChatRoomHeaderRight, ChatRoomHeaderTitle } from "../../components/header/chat";
+import { ProfileHeaderRight, ProfileHeaderTitle } from "../../components/header/profile";
 
-import { HeaderLeft } from "../../components/header/dashboard-layout/header-left";
-import { HeaderRight } from "../../components/header/dashboard-layout/header-right";
+import "../main.css";
 
-export default function DashboardLayout() {
+export default function RootLayout() {
   return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: "blue",
-        unmountOnBlur: true,
-        headerTitleStyle: { display: "none" },
-        headerLeft: () => <HeaderLeft title="Xoş gəlmisən!" />,
-        headerRight: () => <HeaderRight />
-      }}
-    >
-      <Tabs.Screen
-        name="index"
+    <Stack initialRouteName="(tabs)">
+      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+
+      <Stack.Screen name="(chat)/chat" options={{ title: "Chat", headerBackTitleVisible: false }} />
+      <Stack.Screen
+        name="(chat)/[chatRoomId]"
         options={{
-          title: "Ana səhifə",
-          tabBarIcon: ({ focused, color }) => (
-            <Icon name="home" state={focused && "active"} variables={{ fill: color }} />
-          )
+          headerBackVisible: true,
+          headerBackTitleVisible: false,
+          headerTitle: () => <ChatRoomHeaderTitle />,
+          headerRight: () => <ChatRoomHeaderRight />
         }}
       />
-      <Tabs.Screen
-        name="performance"
+
+      <Stack.Screen
+        name="(profile)/profile-data"
         options={{
-          title: "Performans",
-          tabBarIcon: ({ focused, color }) => (
-            <Icon name="monitor" state={focused && "active"} variables={{ fill: color }} />
-          )
+          headerBackTitleVisible: false,
+          headerTitle: () => <ProfileHeaderTitle />,
+          headerRight: () => <ProfileHeaderRight />
         }}
       />
-      <Tabs.Screen
-        name="task"
-        options={{
-          title: "Tapşırıq",
-          tabBarIcon: ({ focused, color }) => (
-            <Icon name="task" state={focused && "active"} variables={{ fill: color }} />
-          )
-        }}
-      />
-      <Tabs.Screen
-        name="profile"
-        options={{
-          title: "Profil",
-          tabBarIcon: ({ focused, color }) => (
-            <Icon name="profile" state={focused && "active"} variables={{ fill: color }} />
-          )
-        }}
-      />
-    </Tabs>
+    </Stack>
   );
 }

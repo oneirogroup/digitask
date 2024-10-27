@@ -6,15 +6,11 @@
     "strict": true,
     "strictNullChecks": true,
     "noUncheckedIndexedAccess": true,
-    "baseUrl": ".",
     "moduleResolution": "Bundler",
+    "jsx": "react-jsx",
+    "baseUrl": ".",
     "paths": {
-      "@oneiro/ui-kit": ["modules/ui-kit/src/main.ts"],
-      "@oneiro/ui-kit/server": ["modules/ui-kit/src/server.ts"],
-      "@internal/icons": ["modules/ui-kit/src/generated/utils/icon.ts"],
-      "@internal/icons/native": ["modules/ui-kit/src/generated/utils/icon.native.ts"],
-      "@internal/icons/types": ["modules/ui-kit/src/generated/types/icons.ts"]
-    },
-    "jsx": "react-jsx"
+      "@digitask/shared-lib": ["libs/shared-lib"]
+    }
   }
 }

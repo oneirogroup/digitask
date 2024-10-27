@@ -1,121 +1,121 @@
 
 .import-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 20000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 20000;
 }
 
 .import-modal-content {
-    background-color: white;
-    padding:14px 20px 20px 20px;
-    border-radius: 24px;
-    width: 80%;
-    max-width: 52%;
-    max-height: 90vh;
-    overflow-y: auto;
-    box-sizing: border-box;
+  background-color: white;
+  padding:14px 20px 20px 20px;
+  border-radius: 24px;
+  width: 80%;
+  max-width: 52%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-sizing: border-box;
 }
 
 .import-modal-title {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .import-modal-title h5 {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 26px;
-    font-weight: 500;
-    margin: 0 auto;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 26px;
+  font-weight: 500;
+  margin: 0 auto;
 }
 
 .import-modal-title span {
-    color: #5E5E62;
-    font-size: 36px;
-    cursor: pointer;
+  color: #5E5E62;
+  font-size: 36px;
+  cursor: pointer;
 }
 
 .import-modal-content > hr:first-of-type {
-    border: none;
-    width: 100%;
-    height: 0.1px;
-    background-color: #5E5E62;
-    margin: 5px 0;
+  border: none;
+  width: 100%;
+  height: 0.1px;
+  background-color: #5E5E62;
+  margin: 5px 0;
 }
 
 .importModal-warehouseName {
-    display: flex;
-    flex-wrap: wrap;
-    /* justify-content: space-between; */
-    width: 100%;
-    gap: 15px;
-    margin: 20px 0;
-    align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  /* justify-content: space-between; */
+  width: 100%;
+  gap: 15px;
+  margin: 20px 0;
+  align-items: center;
 }
 
 .importModal-warehouseName button {
-    padding: 10px;
-    width: calc(34.33% - 20px);
-    background-color: inherit;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 2px solid #2b75cc;
-    border-radius: 11px;
-    color: #005abf;
-    font-family: Montserrat;
-    font-size: 18px;
-    font-weight: 500;
-    cursor: pointer;
+  padding: 10px;
+  width: calc(34.33% - 20px);
+  background-color: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #2b75cc;
+  border-radius: 11px;
+  color: #005abf;
+  font-family: Montserrat;
+  font-size: 18px;
+  font-weight: 500;
+  cursor: pointer;
 }
 
 .importModal-warehouseName button.active {
-    background-color: #005ABF;
-    color: #FFFFFF;
+  background-color: #005ABF;
+  color: #FFFFFF;
 }
 
 .import-form {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
 }
 
 .import-form label {
-    display: flex;
-    flex-direction: column;
-    font-family: 'Montserrat', sans-serif;
-    margin-bottom: 5px;
-    color: #909094;
-    font-weight: 600;
-    font-size: 16px;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Montserrat', sans-serif;
+  margin-bottom: 5px;
+  color: #909094;
+  font-weight: 600;
+  font-size: 16px;
 }
 
 .import-form input {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    font-family: 'Montserrat', sans-serif;
-    margin-top: 7px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-family: 'Montserrat', sans-serif;
+  margin-top: 7px;
 }
 
 .submit-btn {
-    width: 100%;
-    padding: 12px;
-    background-color: #005ABF;
-    color: #FFFFFF;
-    border: none;
-    border-radius: 16px;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 18px;
-    font-weight: 500;
-    cursor: pointer;
-    margin-top: 20px;
+  width: 100%;
+  padding: 12px;
+  background-color: #005ABF;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 16px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  cursor: pointer;
+  margin-top: 20px;
 }
 

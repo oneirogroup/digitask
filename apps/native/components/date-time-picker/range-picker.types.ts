@@ -1,10 +1,5 @@
-import { DateService } from "../../services/date-service";
-
-export interface DateRange {
-  start: DateService;
-  end: DateService;
-}
+import { DateRange } from "@digitask/shared-lib/types/date-range";
 
 export interface RangePickerProps {
-  onChange?(range: DateRange): void;
+  onChange?(range: DateRange | null): void;
 }

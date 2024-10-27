@@ -1,9 +1,0 @@
-import { useWebsocket } from "./use-websocket";
-
-export const useEmit = <TData>(name: string, event: string) => {
-  const wsClient = useWebsocket(name);
-
-  return (data: TData) => {
-    wsClient.send(JSON.stringify({ event, data }));
-  };
-};
