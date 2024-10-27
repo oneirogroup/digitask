@@ -24,8 +24,8 @@ const Layout = () => {
     };
   }, []);
 
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
 
   const toggleSidebar = () => {
     setIsSidebarOpen(prevState => !prevState);
@@ -48,7 +48,7 @@ const Layout = () => {
           />
         </>
       )}
-      <div className={`main-content ${isSidebarExpanded ? 'expanded' : ''}`}>
+      <div className={`main-content ${isSidebarOpen?'':'not-marginned'} ${isSidebarOpen && isSidebarExpanded ? 'expanded' : ''}`}>
         <Outlet />
       </div>
     </div>

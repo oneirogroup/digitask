@@ -7,7 +7,8 @@ import taskIcon from "../../assets/images/Task.svg";
 import { FaWarehouse } from "react-icons/fa";
 import performance from "../../assets/images/icons.svg";
 import Engineering from "../../assets/images/Engineering.svg";
-import { MdLogout, MdMenu } from "react-icons/md";
+import { MdLogout, MdMenu,   } from "react-icons/md";
+import { TiArrowLeftThick,TiArrowRightThick } from "react-icons/ti";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../actions/auth";
 import { useNavigate } from 'react-router-dom';
@@ -17,7 +18,7 @@ import LogoutModal from '../LogoutModal';
 const Sidebar = ({ children, isSidebarOpen, onClose, onToggleExpand }) => {
   const { userType } = useUser();
   const [menuItems, setMenuItems] = useState([]);
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(true);
 
   useEffect(() => {
     const items = [
@@ -90,44 +91,35 @@ const Sidebar = ({ children, isSidebarOpen, onClose, onToggleExpand }) => {
     }
   }, [isAuth]);
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {
-        setIsExpanded(false); // Collapse the sidebar when clicking outside
-        onToggleExpand(false); // Notify parent about sidebar state
-      }
-    };
 
-    if (isSidebarOpen || isExpanded) {
-      document.addEventListener('mousedown', handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [isSidebarOpen, isExpanded, onToggleExpand]);
 
   const toggleExpand = () => {
     setIsExpanded(!isExpanded);
     onToggleExpand(!isExpanded);
   };
 
+
+
   return (
-    <div className={`sidebar${isLoginPage ? ' hidden' : ''}${isSidebarOpen ? ' show' : ''}${isExpanded ? ' expanded' : ''}`} ref={sidebarRef}>
+    <>
+    <div className={`sidebar show${isLoginPage ? ' hidden' : ''}${isSidebarOpen ? 'show' : ''}${isExpanded ? ' expanded' : ''}`} ref={sidebarRef}>
+            <button className={isExpanded?'sidebar-toggle-btn pentagon':'sidebar-toggle-btn hexagon'} onClick={toggleExpand}>
+      {isExpanded?<TiArrowLeftThick />:<TiArrowRightThick/>}
+        </button>
       <div className="top_section">
         <img
           src={logo}
           alt=""
           className='digitask-logo'
-          style={{ width: isExpanded ? '10vh' : '5vh', transition: 'height 0.3s ease', paddingTop: isExpanded ? '20px' : '0' }}
+          style={{ width: isExpanded ? '10vh' : '5vh', transition: 'height 0.3s ease' }}
         />
-        <button className="sidebar-toggle-btn" onClick={toggleExpand}>
-          <MdMenu />
-        </button>
+       
         <button className="sidebar-close-btn" onClick={onClose}>×</button>
       </div>
-      <p>Əsas</p>
+
+      
       <div>
+     
         {
           menuItems.map((item, index) => (
             <NavLink
@@ -144,17 +136,18 @@ const Sidebar = ({ children, isSidebarOpen, onClose, onToggleExpand }) => {
           ))
         }
       </div>
-      <p>Digər</p>
+     
       <div>
+ 
         <ul>
           {isAuth ? (
             <li onClick={handleLogout} style={{ width: isExpanded ? '100%' : '7vh'}}>
-              <MdLogout />
+              <MdLogout style={{fontSize:'24px'}} />
               <span>{isExpanded && "Çıxış"}</span>
             </li>
           ) : (
             <li onClick={handleLogin} style={{ width: isExpanded ? '100%' : '7vh'}}>
-              <MdLogout />
+              <MdLogout style={{fontSize:'24px'}}/>
               <span>{isExpanded && "Giriş"}</span>
             </li>
           )}
@@ -165,8 +158,11 @@ const Sidebar = ({ children, isSidebarOpen, onClose, onToggleExpand }) => {
         handleClose={handleModalClose}
         handleLogout={confirmLogout}
       />
-      <main>{children}</main>
+
+  
     </div>
+    <main>{children}</main>
+   </>
   );
 };
 

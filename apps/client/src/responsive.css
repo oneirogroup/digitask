@@ -1208,7 +1208,7 @@
   }
 
   .sidebar.show {
-    display: block;
+    display: flex;
     background-color: white;
   }
 

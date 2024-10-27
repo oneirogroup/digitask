@@ -80,7 +80,9 @@ const Login = (props) => {
     }
 
     return (
-        <div className='bg-color'>
+        <div style={{    position: 'absolute',
+            left: '0px',
+            top: '0px'}} className='bg-color'>
             <img src={ovaltop} alt="" />
             <div className='container'>
                 <div className="login-page">

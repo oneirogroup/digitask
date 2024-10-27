@@ -21,7 +21,8 @@ const Chat = () => {
     const wsChat = useRef(null);
     const divRef = useRef(null);
     const [shouldScroll, setShouldScroll] = useState(true);
-
+    const [isAddRoomModal, setIsAddRoomModal] = useState(false);
+    
     const colors = [
         "#ff5733", "#33ff57", "#3357ff", "#ff33a1", "#33fff7", "#f7ff33"
     ];
@@ -171,7 +172,7 @@ const Chat = () => {
 
     useEffect(() => {
         fetchData();
-    }, []);
+    }, [isAddRoomModal]);
 
     useEffect(() => {
         if (shouldScroll) {
@@ -354,7 +355,7 @@ const Chat = () => {
     };
 
 
-    const [isAddRoomModal, setIsAddRoomModal] = useState(false);
+
 
     const openAddGroupModal = () => {
         setIsAddRoomModal(true);
@@ -460,8 +461,7 @@ const Chat = () => {
                 onMembersUpdated={handleMembersUpdated}
                 admin={adminId}
             />
-            {isAddRoomModal && <AddRoomModal isOpen={isAddRoomModal} onClose={closeAddRoomModal}
-                onGroupAdded={handleRoomAdded}
+            {isAddRoomModal && <AddRoomModal  onClose={closeAddRoomModal}
             />}
         </div>
     );
