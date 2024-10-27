@@ -29,7 +29,7 @@ export default function Index() {
 
   useEffect(() => {
     if (isSuccess) {
-      router.replace("/(dashboard)/(chat)/3");
+      router.replace("/(dashboard)");
     }
   }, [isSuccess]);
 
