@@ -448,7 +448,7 @@ const AddSurveyModal = ({ onClose, selectedServices, taskId, onSurveyAdded }) =>
                                                 ))
                                             ) : null}
 
-                                            <button id='addBtn' type="button" onClick={()=>handleAddRow(serviceType)}>+</button>
+                                            <button id='addBtn' type="button" onClick={()=>handleAddRow(serviceType)}>Məhsul əlavə et</button>
                                             {/* <button type="button" onClick={handleSubmit}>Save</button> */}
                                         </div>
                                                 

@@ -257,7 +257,7 @@
 }
 .dynamicİnputs select{
     height: 32px;
-    width: 120px;
+    width: 100%;
     border: 1px solid rgb(212, 212, 212);
     padding:4px;
     background-color: white;
@@ -265,5 +265,8 @@
     text-align: center;
 }
 #addBtn{
-    width: 30%;
+    width: 100%;
+    padding: 0px !important;
+    margin: 0px !important;
+    height: 32px;
 }
