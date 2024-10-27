@@ -198,5 +198,7 @@ margin: 0 !important;
 }
 
 .profile-photo img {
-  width: 300px;
+  width: 40vh;
+  height: 40vh;
+  object-fit: cover;
 }

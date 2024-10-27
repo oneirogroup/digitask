@@ -65,7 +65,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 20px 0;
+  margin: 15px 0;
 }
 
 .warehouse-search-filter > div:first-of-type {
@@ -132,6 +132,17 @@
 .warehouseTable table, .historyTable table, .historyImportTable table {
   border-collapse: collapse;
   width: 100%;
+}
+
+.warehouseTable {
+    width: 100%;
+    max-height: 52vh;
+    overflow-x: auto;
+    scrollbar-width: thin;
+}
+
+.historyTable{
+  height: 59vh;
 }
 
 .warehouseTable th, .historyTable th, .historyImportTable th,

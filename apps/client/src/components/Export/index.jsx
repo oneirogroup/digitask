@@ -139,6 +139,7 @@ const DecrementItemForm = ({ onClose, itemId, productNumber,action,fetchData }) 
                 value={newCount}
                 onChange={handleNumberChange}
                 max={action.action=='decrement'?productNumber:10000}
+                onKeyDown={(evt) => (evt.key === 'e' || evt.key === '-') && evt.preventDefault()}
               />
               {numberError && <p className="error-message">{numberError}</p>}
             </label>

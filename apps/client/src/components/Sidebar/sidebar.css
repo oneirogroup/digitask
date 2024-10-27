@@ -1,14 +1,27 @@
 .sidebar {
-    width: 200px;
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 1000;
-    padding: 20px;
-    border-right: 1px solid #e3e2e6;
-    transition: transform 0.3s ease;
-  }
+  width: 100px;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
+  padding: 20px;
+  border-right: 1px solid #e3e2e6;
+  transition: width 0.3s ease;
+}
+
+.sidebar.expanded {
+  width: 190px;
+}
+
+.sidebar .sidebar-toggle-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #909094;
+  font-size: 24px;
+  margin-left: 10px;
+}
   
   .sidebar.hidden {
     transform: translateX(-100%);
@@ -24,6 +37,7 @@
   color: #fff;
   text-decoration: none;
   border-radius: 6px;
+  transition: background-color 0.5s;
 }
 
 .aside-link:hover,
@@ -132,6 +146,7 @@
 
   color: #5e5e62;
 }
+
 
 .aside-link.active {
   background-color: #2b75cc;

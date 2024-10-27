@@ -170,7 +170,7 @@ class CircleChart extends React.Component {
         <ReactApexChart options={updatedOptions} series={series} type="donut" height={250} />
         <div className='home-chart-services'>
           {legendLabels.map((label, index) => (
-            <div key={index} className={expandedSegment === index ? 'expanded' : ''}>
+            <div key={index} className={expandedSegment === index ? 'expandedCircleChart' : ''}>
               <FaCircle style={{ color: options.fill.colors[index] }} />
               <p>{label}</p>
             </div>
