@@ -1,4 +1,5 @@
-@import "../../../node_modules/@mdreal/ui-kit/style.css";
+@import "@mdreal/ui-kit/style.css";
+@import "@digitask/shared-lib/style.css";
 @cssinterop verify nativewind;
 
 @tailwind components;

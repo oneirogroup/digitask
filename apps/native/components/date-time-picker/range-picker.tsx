@@ -4,9 +4,9 @@ import DateTimePicker from "react-native-ui-datepicker";
 import { RangeChange } from "react-native-ui-datepicker/src/types";
 import { useRecoilState } from "recoil";
 
-import { rangeDateAtom } from "@digitask/shared-lib/atoms/backend/services/performance";
-import { DateService } from "@digitask/shared-lib/services/date-service";
-import { DateRange } from "@digitask/shared-lib/types/date-range";
+import { rangeDateAtom } from "@digitask/shared-lib";
+import { DateService } from "@digitask/shared-lib";
+import { DateRange } from "@digitask/shared-lib";
 import { Button, Icon, Modal, ModalRef, When } from "@mdreal/ui-kit";
 
 import { BlockContainer } from "../blocks";

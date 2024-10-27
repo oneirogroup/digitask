@@ -1,6 +1,6 @@
 import { Stack } from "expo-router";
 
-import { Providers } from "@digitask/shared-lib/components/providers";
+import { Providers } from "@digitask/shared-lib";
 
 import { useDev } from "../hooks/use-dev";
 

@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@digitask/shared-lib": "workspace:^",
-    "@mdreal/ui-kit": "^0.0.0-dev.4",
+    "@mdreal/ui-kit": "^0.0.0-dev.8",
     "@mdreal/ws-client": "^0.0.0-dev.1",
     "@react-native-async-storage/async-storage": "1.23.1",
     "@react-native-community/netinfo": "11.3.1",

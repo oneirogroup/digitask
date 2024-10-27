@@ -2,7 +2,7 @@ import { Image } from "expo-image";
 import { FC } from "react";
 import { Text, View } from "react-native";
 
-import { DateService } from "@digitask/shared-lib/services/date-service";
+import { DateService } from "@digitask/shared-lib";
 import { Block, Icon } from "@mdreal/ui-kit";
 
 import { BlockContainer } from "../blocks";

@@ -1,15 +1,19 @@
 import { useNavigation } from "expo-router";
 import { FC } from "react";
 import { Pressable, Text, View } from "react-native";
+import { useSetRecoilState } from "recoil";
 
+import { activeChatRoomIdAtom } from "@digitask/shared-lib";
 import { Block } from "@mdreal/ui-kit";
 
 import { ChatRoomProps } from "./chat-room.types";
 
 export const ChatRoom: FC<ChatRoomProps> = ({ room }) => {
+  const setChatRoomId = useSetRecoilState(activeChatRoomIdAtom);
   const navigation = useNavigation("/(dashboard)");
 
   const redirect = () => {
+    setChatRoomId(room.id);
     // @ts-ignore
     navigation.navigate("(chat)/[chatRoomId]", { chatRoomId: room.id });
   };
