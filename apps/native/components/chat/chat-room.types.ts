@@ -1,4 +1,4 @@
-import { ChatRoom } from "@digitask/shared-lib/types/backend/chat-room";
+import { ChatRoom } from "@digitask/shared-lib";
 
 export interface ChatRoomProps {
   room: ChatRoom;

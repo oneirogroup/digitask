@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { Text, View } from "react-native";
 
-import { DateService } from "@digitask/shared-lib/services/date-service";
+import { DateService } from "@digitask/shared-lib";
 import { Block } from "@mdreal/ui-kit";
 
 import { MessageProps } from "./message.types";

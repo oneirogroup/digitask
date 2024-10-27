@@ -1,7 +1,7 @@
 import { atom } from "recoil";
 
-import { ProfileData } from "../../../types/backend/profile-data";
-import { fields } from "../../../utils/fields";
+import { ProfileData } from "../../../types/backend";
+import { fields } from "../../../utils";
 
 export const profileAtom = atom<ProfileData | null>({
   key: fields.user.profile.toString(),

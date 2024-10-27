@@ -1,4 +1,4 @@
-import { Message } from "@digitask/shared-lib/types/backend/message";
+import { Message } from "@digitask/shared-lib";
 
 export interface MessageProps {
   message: Message;

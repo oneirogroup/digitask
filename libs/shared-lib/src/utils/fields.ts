@@ -1,22 +1,28 @@
 import { eck } from "./eck";
 
 export const fields = eck("digitask.native", c => ({
-  user: {
-    profile: eck.c(c, "user:profile", c => ({
+  user: c.e("user", c => ({
+    profile: c.e("profile", c => ({
       task: c`task`,
-      tokens: c`tokens`,
-      chat: {
-        rooms: c`chat:rooms`,
-        messages: c`chat:messages`
-      }
+      tokens: c`tokens`
     })),
-    tasks: eck.c(c, "tasks", c => ({
-      filter: eck.c(c, "filter", c => ({
-        partial: c`partial`
-      })),
-      filtered: c`filtered`
+    token: c`token`
+  })),
+  chat: c.e("chat", c => ({
+    rooms: c.e("rooms", c => ({
+      active: c`active`
+    })),
+    messages: c.e("messages", c => ({
+      all: c`all`,
+      active: c`active`
     }))
-  },
+  })),
+  tasks: c.e("tasks", c => ({
+    filter: c.e("filter", c => ({
+      partial: c`partial`
+    })),
+    filtered: c`filtered`
+  })),
   performance: c`performance`,
   rangeDate: c`rangeDate`
 }));

@@ -16,8 +16,7 @@
   "module": "./build/shared-lib.js",
   "types": "./build/index.d.ts",
   "scripts": {
-    "build": "vite build",
-    "preview": "vite preview"
+    "build": "vite build"
   },
   "dependencies": {
     "@mdreal/ui-kit": "^0.0.0-dev.8",

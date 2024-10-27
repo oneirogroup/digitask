@@ -1,9 +1,9 @@
 import { atom } from "recoil";
 
-import { ChatRoom } from "../../../types/backend/chat-room";
-import { fields } from "../../../utils/fields";
+import { Backend } from "../../../types";
+import { fields } from "../../../utils";
 
-export const RoomsApiViewAtom = atom<ChatRoom[]>({
-  key: fields.user.profile.chat.rooms,
+export const RoomsApiViewAtom = atom<Backend.ChatRoom[]>({
+  key: fields.chat.rooms.toString(),
   default: []
 });

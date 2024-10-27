@@ -1,14 +1,10 @@
 import { Image } from "expo-image";
 import { router } from "expo-router";
+import { api } from "libs/shared-lib/src/api";
 import { useEffect } from "react";
 import { Text, View } from "react-native";
 
-import { api } from "@digitask/shared-lib/api";
-import { profileAtom } from "@digitask/shared-lib/atoms/backend/accounts/profile";
-import { useRecoilQuery } from "@digitask/shared-lib/hooks/use-recoil-query";
-import { Tokens } from "@digitask/shared-lib/types/tokens";
-import { env } from "@digitask/shared-lib/utils/env";
-import { fields } from "@digitask/shared-lib/utils/fields";
+import { Tokens, env, fields, profileAtom, useRecoilQuery } from "@digitask/shared-lib";
 import { AuthHttp, Block, cn } from "@mdreal/ui-kit";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -26,14 +22,14 @@ authHttpSettings
 
 export default function Index() {
   const { isSuccess, isError } = useRecoilQuery(profileAtom, {
-    queryKey: [fields.user.profile.toString()],
+    queryKey: [fields.user.profile],
     queryFn: () => api.accounts.profile.$get,
     retry: false
   });
 
   useEffect(() => {
     if (isSuccess) {
-      router.replace("/(dashboard)");
+      router.replace("/(dashboard)/(chat)/3");
     }
   }, [isSuccess]);
 

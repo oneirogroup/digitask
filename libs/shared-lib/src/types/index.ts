@@ -1,5 +1,5 @@
 export * from "./api/message-options";
-export * as backend from "./backend";
+export * as Backend from "./backend";
 export * from "./tasks/filter";
 export * from "./tasks/statuses";
 export * from "./with/pagination";

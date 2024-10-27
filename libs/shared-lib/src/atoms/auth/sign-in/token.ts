@@ -1,11 +1,11 @@
 import { DefaultValue, selector } from "recoil";
 
-import { AuthToken } from "../../../types/backend/auth-token";
-import { fields } from "../../../utils/fields";
-import { signInAtom } from "../../backend/accounts/login";
+import { Backend } from "../../../types";
+import { fields } from "../../../utils";
+import { signInAtom } from "../../backend";
 
-export const tokenSelector = selector<Pick<AuthToken, "access_token" | "refresh_token"> | null>({
-  key: fields.user.profile.toString(),
+export const tokenSelector = selector<Pick<Backend.AuthToken, "access_token" | "refresh_token"> | null>({
+  key: fields.user.token.toString(),
   get({ get }) {
     const data = get(signInAtom);
     return data ? { access_token: data.access_token, refresh_token: data.refresh_token } : null;

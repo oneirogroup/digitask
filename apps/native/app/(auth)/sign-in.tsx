@@ -1,14 +1,11 @@
 import { Image } from "expo-image";
 import { Link, useNavigation } from "expo-router";
+import { api } from "libs/shared-lib/src/api";
 import { SubmitErrorHandler, SubmitHandler } from "react-hook-form";
 import { Text } from "react-native";
 
-import { api } from "@digitask/shared-lib/api";
-import { signInAtom } from "@digitask/shared-lib/atoms/backend/accounts/login";
-import { profileAtom } from "@digitask/shared-lib/atoms/backend/accounts/profile";
-import { useRecoilMutation } from "@digitask/shared-lib/hooks/use-recoil-mutation";
-import { SignInSchema, signInSchema } from "@digitask/shared-lib/schemas/auth/sign-in.schema";
-import { fields } from "@digitask/shared-lib/utils/fields";
+import { SignInSchema, profileAtom, signInAtom, signInSchema, useRecoilMutation } from "@digitask/shared-lib";
+import { fields } from "@digitask/shared-lib";
 import { AuthHttp, Block, Form, Input, logger } from "@mdreal/ui-kit";
 import { StackActions } from "@react-navigation/native";
 
@@ -21,12 +18,14 @@ export default function Welcome() {
 
   const signInMutation = useRecoilMutation(signInAtom, {
     mutationFn: (data: SignInSchema) => api.accounts.login.$post(data),
-    onError: logger.error.bind(logger, "digitask.native:auth:sign-in.auth-error")
+    onError: logger.error.bind(logger, "digitask.native:auth:sign-in.auth-error"),
+    isNullable: true
   });
   const profileMutation = useRecoilMutation(profileAtom, {
     mutationKey: [fields.user.profile],
     mutationFn: () => api.accounts.profile.$get,
-    onError: logger.error.bind(logger, "digitask.native:auth:sign-in.profile-error")
+    onError: logger.error.bind(logger, "digitask.native:auth:sign-in.profile-error"),
+    isNullable: true
   });
 
   const onSubmit: SubmitHandler<SignInSchema> = async data => {

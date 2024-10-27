@@ -4,8 +4,7 @@ import { Text, View } from "react-native";
 import { runOnJS } from "react-native-reanimated";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 
-import { tokenSelector } from "@digitask/shared-lib/atoms/auth/sign-in/token";
-import { profileAtom } from "@digitask/shared-lib/atoms/backend/accounts/profile";
+import { profileAtom, tokenSelector } from "@digitask/shared-lib";
 import { Block, Button, Icon, Modal, ModalRef } from "@mdreal/ui-kit";
 
 import { palette } from "../../../../../palette";

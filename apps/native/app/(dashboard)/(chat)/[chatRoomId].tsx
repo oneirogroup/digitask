@@ -2,17 +2,19 @@ import { useLocalSearchParams } from "expo-router";
 import { Text, View } from "react-native";
 import { useRecoilValue } from "recoil";
 
-import { api } from "@digitask/shared-lib/api";
-import { profileAtom } from "@digitask/shared-lib/atoms/backend/accounts/profile";
-import { fields } from "@digitask/shared-lib/utils/fields";
+import { activeChatRoomMessagesAtom, profileAtom, useSendMessage } from "@digitask/shared-lib";
 import { Block } from "@mdreal/ui-kit";
-import { useQuery } from "@tanstack/react-query";
 
 import { Message } from "../../../components/chat";
 
 export default function Chat() {
-  const { chatRoomId } = useLocalSearchParams();
-  if (!chatRoomId) {
+  const { chatRoomId } = useLocalSearchParams<{ chatRoomId: string }>();
+
+  const userProfile = useRecoilValue(profileAtom);
+  const messages = useRecoilValue(activeChatRoomMessagesAtom);
+  const sendMessage = useSendMessage();
+
+  if (!chatRoomId || !userProfile) {
     return (
       <View>
         <Text>Room not found</Text>
@@ -20,20 +22,11 @@ export default function Chat() {
     );
   }
 
-  const userProfile = useRecoilValue(profileAtom);
-  if (!userProfile) return null;
-
-  const { data: previousMessages } = useQuery({
-    queryKey: [fields.user.profile.chat.messages],
-    queryFn: () => api.accounts.messages.$get({ room: +chatRoomId })
-  });
-
-  console.log("currentUserId", userProfile.id);
-  console.log("previousMessages", previousMessages);
-
   return (
     <Block.Scroll>
-      {previousMessages?.results?.map(message => <Message key={message.id} message={message} />)}
+      {messages.map(message => (
+        <Message key={message.id} message={message} />
+      ))}
 
       {/*<View className="px-6 py-3">*/}
       {/*  <Input*/}

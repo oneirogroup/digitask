@@ -1,26 +1,62 @@
-import { useRecoilValue } from "recoil";
+import { Text, View } from "react-native";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 
-import { tasksAtom } from "@digitask/shared-lib/atoms/backend/services/tasks";
-import { TasksWithStatuses } from "@digitask/shared-lib/components/task";
-import { Status } from "@digitask/shared-lib/components/task/tasks-with-statuses.types";
-import { uppercase } from "@digitask/shared-lib/utils/uppercase";
-import { Block } from "@mdreal/ui-kit";
+import {
+  Task,
+  TaskStatuses,
+  filteredTasksSelector,
+  getTags,
+  taskFiltersAtom,
+  tasksFilterSelector,
+  uppercase
+} from "@digitask/shared-lib";
+import { Block, Button, cn } from "@mdreal/ui-kit";
+
+import { BlockContainer } from "../../../../../components/blocks";
+
+const statuses = [
+  TaskStatuses.All,
+  TaskStatuses.Started,
+  TaskStatuses.Waiting,
+  TaskStatuses.InProgress,
+  TaskStatuses.Completed
+];
 
 export default function Connections() {
-  const tasks = useRecoilValue(tasksAtom);
-  const statuses = Array.from(new Set(tasks.map(task => task.status))).map<Status>(status => ({
-    name: uppercase(status),
-    status
-  }));
+  const filter = useRecoilValue(taskFiltersAtom);
+  const setFilter = useSetRecoilState(tasksFilterSelector);
+  const filteredTasks = useRecoilValue(filteredTasksSelector);
 
   return (
     <Block.Scroll>
-      <TasksWithStatuses
-        className="my-6"
-        statuses={statuses}
-        tasks={tasks}
-        onActiveStatusChange={console.log.bind(console, "digitask.native:dashboard:connections:active-tag")}
-      />
+      <View className={cn(/*className*/ "my-6", "flex gap-6")}>
+        <Block.Scroll horizontal showsHorizontalScrollIndicator={false} contentClassName="flex flex-row gap-4">
+          <View />
+          {statuses.map(status => (
+            <Button
+              key={status}
+              variant={filter.status === status ? "primary" : "secondary"}
+              className="rounded-2.25xl"
+              onClick={() => setFilter({ status })}
+            >
+              <Text
+                className={cn({ "text-primary": filter.status !== status, "text-white": filter.status === status })}
+              >
+                {uppercase(status)}
+              </Text>
+            </Button>
+          ))}
+          <View />
+        </Block.Scroll>
+      </View>
+
+      <Block className="flex gap-6 p-6">
+        {filteredTasks.slice(0, 12).map(task => (
+          <BlockContainer key={task.id}>
+            <Task task={task} tags={getTags(task)} />
+          </BlockContainer>
+        ))}
+      </Block>
     </Block.Scroll>
   );
 }

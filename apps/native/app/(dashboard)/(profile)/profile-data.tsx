@@ -1,9 +1,7 @@
 import { Text, View } from "react-native";
 import { useRecoilValue } from "recoil";
 
-import { profileAtom } from "@digitask/shared-lib/atoms/backend/accounts/profile";
-import { ProfileViewData } from "@digitask/shared-lib/components/profile";
-import { formatPhoneNumber } from "@digitask/shared-lib/utils/format-phone-number";
+import { ProfileViewData, formatPhoneNumber, profileAtom } from "@digitask/shared-lib";
 import { Block } from "@mdreal/ui-kit";
 
 export default function UserProfileData() {

@@ -10,7 +10,7 @@
     "jsx": "react-jsx",
     "baseUrl": ".",
     "paths": {
-      "@digitask/shared-lib": ["libs/shared-lib"]
+      "@digitask/shared-lib": ["./libs/shared-lib/src/main.ts"]
     }
   }
 }

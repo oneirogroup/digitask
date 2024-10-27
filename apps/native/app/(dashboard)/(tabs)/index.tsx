@@ -1,12 +1,17 @@
+import { api } from "libs/shared-lib/src/api";
 import { Text } from "react-native";
+import { useSetRecoilState } from "recoil";
 
-import { api } from "@digitask/shared-lib/api";
-import { tasksAtom } from "@digitask/shared-lib/atoms/backend/services/tasks";
-import { Task } from "@digitask/shared-lib/components/task";
-import { useRecoilQuery } from "@digitask/shared-lib/hooks/use-recoil-query";
-import { DateService } from "@digitask/shared-lib/services/date-service";
-import { fields } from "@digitask/shared-lib/utils/fields";
-import { getTags } from "@digitask/shared-lib/utils/get-tags";
+import {
+  DateService,
+  Task,
+  TaskStatuses,
+  fields,
+  getTags,
+  tasksAtom,
+  tasksFilterSelector,
+  useRecoilQuery
+} from "@digitask/shared-lib";
 import { Block, Icon, If } from "@mdreal/ui-kit";
 
 import { palette } from "../../../../../palette";
@@ -14,12 +19,11 @@ import { BlockContainer, BlockSection } from "../../../components/blocks";
 import { Event } from "../../../components/event";
 
 export default function Index() {
+  const setFilter = useSetRecoilState(tasksFilterSelector);
   const { data: task } = useRecoilQuery(tasksAtom, {
-    queryKey: [fields.user.profile.tasks],
+    queryKey: [fields.tasks],
     queryFn: () => api.services.tasks.$get,
-    select(tasks) {
-      return tasks[0];
-    }
+    isNullable: true
   });
 
   const date = DateService.from();
@@ -58,10 +62,19 @@ export default function Index() {
           </Block>
         </BlockContainer>
 
-        <BlockSection title="Davam edən tasklar" href="/(dashboard)/task">
+        <BlockSection
+          title="Davam edən tasklar"
+          onClick={() => {
+            console.log("set.filter");
+            setFilter({ status: TaskStatuses.InProgress });
+          }}
+          href="/(dashboard)/task"
+        >
           <If condition={!!task}>
             <If.Then>
-              <Task task={task!} tags={getTags(task)} />
+              <BlockContainer>
+                <Task task={task!} tags={getTags(task)} />
+              </BlockContainer>
             </If.Then>
 
             <If.Else>

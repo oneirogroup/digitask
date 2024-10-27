@@ -1,19 +1,18 @@
-import { useLocalSearchParams } from "expo-router";
+import { useGlobalSearchParams } from "expo-router";
 import { FC } from "react";
 import { Text, View } from "react-native";
 
-import { ChatRoom } from "@digitask/shared-lib/types/backend/chat-room";
-import { fields } from "@digitask/shared-lib/utils/fields";
+import { Backend, fields } from "@digitask/shared-lib";
 import { Block } from "@mdreal/ui-kit";
 import { useQuery } from "@tanstack/react-query";
 
 export const ChatRoomHeaderTitle: FC = () => {
-  const { chatRoomId } = useLocalSearchParams();
+  const { chatRoomId } = useGlobalSearchParams();
   if (!chatRoomId) return null;
 
   const { data: room } = useQuery({
-    queryKey: [fields.user.profile.chat.rooms],
-    select: (rooms: ChatRoom[]) => rooms.find(room => room.id === +chatRoomId)
+    queryKey: [fields.chat.rooms],
+    select: (rooms: Backend.ChatRoom[]) => rooms.find(room => room.id === +chatRoomId)
   });
   if (!room) return null;
 
