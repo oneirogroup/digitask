@@ -6,6 +6,9 @@ export const fields = eck("digitask.native", c => ({
       task: c`task`,
       tokens: c`tokens`
     })),
+    signIn: c.e("signIn", c => ({
+      selector: c`selector`
+    })),
     token: c`token`
   })),
   chat: c.e("chat", c => ({
@@ -14,7 +17,11 @@ export const fields = eck("digitask.native", c => ({
     })),
     messages: c.e("messages", c => ({
       all: c`all`,
-      active: c`active`
+      active: c`active`,
+      paginated: c`paginated`,
+      pagination: c`pagination`,
+      page: c`page`,
+      size: c`size`
     }))
   })),
   tasks: c.e("tasks", c => ({

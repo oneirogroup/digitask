@@ -6,7 +6,7 @@
     "libs/*"
   ],
   "devDependencies": {
-    "@mdreal/ui-kit": "^0.0.0-dev.8",
+    "@mdreal/ui-kit": "^0.0.0-dev.11",
     "@prettier/plugin-xml": "^3.4.1",
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
     "expo": "^51.0.38",

@@ -8,7 +8,7 @@ import logo from "../assets/images/logo.png";
 
 export default function Welcome() {
   return (
-    <Block.Scroll className="h-screen px-4 py-28" contentClassName="grid items-center justify-between">
+    <Block className="flex h-full items-center justify-between px-4 py-28">
       <Block className="flex items-center gap-6">
         <Block className="bg-primary w-68 rounded-2xl p-6">
           <Image source={logo} style={{ width: 150, height: 140 }} />
@@ -30,6 +30,6 @@ export default function Welcome() {
       <Button variant="primary" className="w-full p-4" onClick={() => router.push("/(auth)/sign-in")}>
         <Text className="text-center text-white">Daxil ol</Text>
       </Button>
-    </Block.Scroll>
+    </Block>
   );
 }

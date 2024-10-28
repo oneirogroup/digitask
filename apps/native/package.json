@@ -14,8 +14,8 @@
   },
   "dependencies": {
     "@digitask/shared-lib": "workspace:^",
-    "@mdreal/ui-kit": "^0.0.0-dev.8",
-    "@mdreal/ws-client": "^0.0.0-dev.1",
+    "@mdreal/ui-kit": "^0.0.0-dev.11",
+    "@mdreal/ws-client": "^0.0.0-dev.5",
     "@react-native-async-storage/async-storage": "1.23.1",
     "@react-native-community/netinfo": "11.3.1",
     "@react-navigation/material-top-tabs": "^6.6.14",

@@ -1,5 +1,6 @@
 interface Pagination {
-  page_size: number;
+  page: number;
+  size: number;
 }
 
-export type WithPagination<T extends Record<string, any>> = Partial<T & Pagination>;
+export type WithPagination<T> = T & Partial<Pagination>;

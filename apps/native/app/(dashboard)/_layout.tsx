@@ -2,10 +2,13 @@ import { Stack } from "expo-router";
 
 import { ChatRoomHeaderRight, ChatRoomHeaderTitle } from "../../components/header/chat";
 import { ProfileHeaderRight, ProfileHeaderTitle } from "../../components/header/profile";
+import { useWebsocketInit } from "../../hooks/use-websocket-init";
 
 import "../main.css";
 
 export default function RootLayout() {
+  useWebsocketInit();
+
   return (
     <Stack initialRouteName="(tabs)">
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />

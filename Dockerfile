@@ -11,3 +11,6 @@ RUN yarn
 
 COPY tsconfig.base.json tailwind.config.ts palette.ts ./
 COPY .git .git
+
+COPY libs/shared-lib libs/shared-lib
+RUN yarn workspace @digitask/shared-lib build

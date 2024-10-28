@@ -24,7 +24,8 @@ export default function Index() {
   const { isSuccess, isError } = useRecoilQuery(profileAtom, {
     queryKey: [fields.user.profile],
     queryFn: () => api.accounts.profile.$get,
-    retry: false
+    retry: false,
+    isNullable: true
   });
 
   useEffect(() => {
