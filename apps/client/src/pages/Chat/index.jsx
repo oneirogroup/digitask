@@ -1,63 +1,60 @@
-import { useState, useEffect, useRef } from "react";
-import "./chat.css";
+import axios from "axios";
+import { useEffect, useRef, useState } from "react";
+import { BsFillSendFill, BsThreeDotsVertical } from "react-icons/bs";
 import { FaCirclePlus } from "react-icons/fa6";
-import { IoSearchOutline, IoFilterOutline } from "react-icons/io5";
-import { BsThreeDotsVertical, BsFillSendFill } from "react-icons/bs";
+import { IoFilterOutline, IoSearchOutline } from "react-icons/io5";
 import { MdGroups } from "react-icons/md";
-import { RiAttachmentLine } from "react-icons/ri";
-import AddRoomModal from "../../components/AddRoomModal"
-import ChatModal from "../../components/ChatModal";
 import { MdMenu } from "react-icons/md";
-import axios from "axios"
+import { RiAttachmentLine } from "react-icons/ri";
 
+import AddRoomModal from "../../components/AddRoomModal";
+import ChatModal from "../../components/ChatModal";
+
+import "./chat.css";
 
 const Chat = () => {
   const [activeGroup, setActiveGroup] = useState(null);
   const [page, setPage] = useState(2);
-  const [room, setRoom] = useState('');
+  const [room, setRoom] = useState("");
   const [groups, setGroups] = useState([]);
-  const [messagess, setMessages] = useState([])
+  const [messagess, setMessages] = useState([]);
   const [lastMessages, setLastMessages] = useState({});
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState("");
   const wsChat = useRef(null);
   const divRef = useRef(null);
   const [shouldScroll, setShouldScroll] = useState(true);
   const [isAddRoomModal, setIsAddRoomModal] = useState(false);
 
-  const colors = [
-    "#ff5733", "#33ff57", "#3357ff", "#ff33a1", "#33fff7", "#f7ff33"
-  ];
+  const colors = ["#ff5733", "#33ff57", "#3357ff", "#ff33a1", "#33fff7", "#f7ff33"];
 
   const connectWebSocketChat = async () => {
     try {
       const token = localStorage.getItem("access_token");
       if (!token) {
-        throw new Error('No access token available');
+        throw new Error("No access token available");
       }
 
       const email = localStorage.getItem("saved_email");
 
-      wsChat.current = new WebSocket(
-        `ws://135.181.42.192/chat/?email=${email}&token=${token}`
-      );
+      wsChat.current = new WebSocket(`ws://135.181.42.192/chat/?email=${email}&token=${token}`);
 
       wsChat.current.onopen = () => {
         console.log("WebSocketChat connection established.");
       };
 
-      wsChat.current.onmessage = (event) => {
+      wsChat.current.onmessage = event => {
         console.log("Chat Received raw WebSocket message:", event.data);
 
         const data = JSON.parse(event.data);
 
         const email = data?.email;
         if (email) {
-          localStorage.setItem('socketEmail', email)
+          localStorage.setItem("socketEmail", email);
         } else {
-          const socketEmail = localStorage.getItem('socketEmail')
-          const typeM = data.user.email === socketEmail ? 'sent' : 'received';
+          const socketEmail = localStorage.getItem("socketEmail");
+          const typeM = data.user.email === socketEmail ? "sent" : "received";
           data.typeM = typeM;
-          setShouldScroll(true)
+          setShouldScroll(true);
           setMessages(prevMessages => {
             const isDuplicate = prevMessages.some(message => message.id === data.id);
             if (!isDuplicate) {
@@ -66,20 +63,19 @@ const Chat = () => {
             return prevMessages;
           });
         }
-
       };
 
-      wsChat.current.onerror = async (error) => {
+      wsChat.current.onerror = async error => {
         console.error("WebSocketChat error:", error);
 
         try {
           connectWebSocketChat();
         } catch (refreshError) {
-          console.error('Chat Error refreshing token:', refreshError);
+          console.error("Chat Error refreshing token:", refreshError);
         }
       };
 
-      wsChat.current.onclose = async (event) => {
+      wsChat.current.onclose = async event => {
         if (event.wasClean) {
           console.log(`WebSocketChat connection closed cleanly, code=${event.code}, reason=${event.reason}`);
           setTimeout(connectWebSocketChat, 5000);
@@ -88,32 +84,31 @@ const Chat = () => {
           try {
             setTimeout(connectWebSocketChat, 5000);
           } catch (refreshError) {
-            console.error('Chat Error refreshing token:', refreshError);
+            console.error("Chat Error refreshing token:", refreshError);
           }
         }
       };
     } catch (error) {
-      console.error('WebSocketChat connection error:', error);
+      console.error("WebSocketChat connection error:", error);
     }
   };
 
   const sendMessage = () => {
-
-
     if (wsChat.current) {
-      wsChat.current.send(JSON.stringify({
-        room: activeGroup,
-        content: inputValue
-      }))
-
+      wsChat.current.send(
+        JSON.stringify({
+          room: activeGroup,
+          content: inputValue
+        })
+      );
     }
-  }
+  };
   const handleSendMessage = () => {
     if (!inputValue.trim()) {
       return;
     }
     sendMessage();
-    setInputValue('');
+    setInputValue("");
   };
 
   // const formatDate = (dateString) => {
@@ -132,7 +127,7 @@ const Chat = () => {
     };
   }, []);
 
-  const initializeEmployeeModals = (groups) => {
+  const initializeEmployeeModals = groups => {
     const initialModals = {};
     groups.forEach(group => {
       initialModals[group.id] = false;
@@ -140,34 +135,31 @@ const Chat = () => {
     setGroups(initialModals);
   };
 
-
   const fetchData = async () => {
     try {
-
-      const accessToken = localStorage.getItem('access_token');
+      const accessToken = localStorage.getItem("access_token");
 
       if (!accessToken) {
-        throw new Error('Access token is not available');
+        throw new Error("Access token is not available");
       }
 
-      const response = await fetch('http://135.181.42.192/accounts/RoomsApiView/', {
+      const response = await fetch("http://135.181.42.192/accounts/RoomsApiView/", {
         headers: {
-          'Authorization': `Bearer ${accessToken}`,
-          'Content-Type': 'application/json'
+          "Authorization": `Bearer ${accessToken}`,
+          "Content-Type": "application/json"
         }
       });
 
       if (!response.ok) {
-        throw new Error('Network response was not ok');
+        throw new Error("Network response was not ok");
       }
 
       const data = await response.json();
 
       setGroups(data);
-      initializeGroupModals(data)
-
+      initializeGroupModals(data);
     } catch (error) {
-      console.error('Fetch error:', error);
+      console.error("Fetch error:", error);
     }
   };
 
@@ -178,46 +170,43 @@ const Chat = () => {
   useEffect(() => {
     if (shouldScroll) {
       if (divRef.current) {
-
         divRef.current.scrollTop = divRef.current.scrollHeight;
       }
     }
   }, [messagess, activeGroup]);
 
   const handleMessagePage = () => {
-    if (room == activeGroup){
-      setPage((prevPage) => Number(prevPage) + 1)
-    }else{
+    if (room == activeGroup) {
+      setPage(prevPage => Number(prevPage) + 1);
+    } else {
       setRoom(activeGroup);
-      setPage(page)
+      setPage(page);
     }
-
-  }
+  };
 
   const fetchMessages = async (arg = false) => {
     try {
-
-      const accessToken = localStorage.getItem('access_token');
+      const accessToken = localStorage.getItem("access_token");
 
       if (!accessToken) {
-        throw new Error('Access token is not available');
+        throw new Error("Access token is not available");
       }
       const params = new URLSearchParams();
 
       if (room && page) {
-        params.append('room', room);
-        params.append('page', page);
+        params.append("room", room);
+        params.append("page", page);
       }
 
       const response = await fetch(`http://135.181.42.192/accounts/messages/?${params.toString()}`, {
         headers: {
-          'Authorization': `Bearer ${accessToken}`,
-          'Content-Type': 'application/json'
+          "Authorization": `Bearer ${accessToken}`,
+          "Content-Type": "application/json"
         }
       });
 
       if (!response.ok) {
-        throw new Error('Network response was not ok');
+        throw new Error("Network response was not ok");
       }
 
       const data = await response.json();
@@ -225,21 +214,19 @@ const Chat = () => {
       if (arg) {
         setShouldScroll(false);
       } else {
-        setShouldScroll(true)
+        setShouldScroll(true);
       }
 
       setMessages(data.reverse());
-
     } catch (error) {
-      console.error('Fetch error:', error);
+      console.error("Fetch error:", error);
     }
   };
 
   useEffect(() => {
-    const arg = room && page
+    const arg = room && page;
     fetchMessages(arg);
   }, [room, page]);
-
 
   useEffect(() => {
     const updateLastMessages = () => {
@@ -260,7 +247,7 @@ const Chat = () => {
 
   const renderMessages = () => {
     return messagess
-      .filter((message) => message.room === activeGroup)
+      .filter(message => message.room === activeGroup)
       .map((message, index, filteredMessages) => {
         const isSameAsPrevious =
           index > 0 &&
@@ -274,7 +261,7 @@ const Chat = () => {
             {!isSameAsPrevious && message.typeM !== "sent" && (
               <div className="avatar-column">
                 <div className="avatar" style={{ color }}>
-                  {message.user?.first_name ? message.user.first_name.charAt(0) : ''}
+                  {message.user?.first_name ? message.user.first_name.charAt(0) : ""}
                 </div>
               </div>
             )}
@@ -297,17 +284,17 @@ const Chat = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedGroup, setSelectedGroup] = useState(null);
   const [members, setMembers] = useState([]);
-  const [groupName, setGroupName] = useState('');
-  const [adminId, setAdminId] = useState('');
-  const [searchTerm, setSearchTerm] = useState('');
+  const [groupName, setGroupName] = useState("");
+  const [adminId, setAdminId] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
 
-  const handleSearchChange = (e) => {
+  const handleSearchChange = e => {
     setSearchTerm(e.target.value);
   };
 
-  const handleOpenModal = (group) => {
+  const handleOpenModal = group => {
     setSelectedGroup(group);
-    const mygroupName = groups.find(g => g.id === group)?.name || []
+    const mygroupName = groups.find(g => g.id === group)?.name || [];
     const groupMembers = groups.find(g => g.id === group)?.members || [];
     const groupAdminId = groups.find(g => g.id === group)?.admin?.id || [];
     setAdminId(groupAdminId);
@@ -327,7 +314,6 @@ const Chat = () => {
       const groupMembers = groups.find(g => g.id === selectedGroup)?.members || [];
       setGroupName(mygroupName);
       setMembers(groupMembers);
-
     }
   }, [groups, selectedGroup]);
 
@@ -335,28 +321,25 @@ const Chat = () => {
     fetchData();
   };
 
-  const handleRoomAdded = async (newGroup) => {
-    setGroups((prevEmployees) => [...prevEmployees, newGroup]);
+  const handleRoomAdded = async newGroup => {
+    setGroups(prevEmployees => [...prevEmployees, newGroup]);
 
     initializeEmployeeModals([...groups, newGroup]);
 
     await fetchEmployees();
   };
 
-  const handleKeyDown = (e) => {
-    if (e.key === 'Enter') {
+  const handleKeyDown = e => {
+    if (e.key === "Enter") {
       e.preventDefault();
       handleSendMessage();
     }
   };
 
-  const formatDate = (dateString) => {
+  const formatDate = dateString => {
     const options = { hour: "2-digit", minute: "2-digit", hour12: false };
     return new Intl.DateTimeFormat("az-AZ", options).format(new Date(dateString));
   };
-
-
-
 
   const openAddGroupModal = () => {
     setIsAddRoomModal(true);
@@ -373,7 +356,7 @@ const Chat = () => {
 
   const toggleSidebar = () => {
     if (window.innerWidth <= 850) {
-      setIsSidebarOpen((prev) => !prev);
+      setIsSidebarOpen(prev => !prev);
     }
   };
 
@@ -384,14 +367,14 @@ const Chat = () => {
       }
     };
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
+    const handleClickOutside = event => {
       // Check if the click is outside the sidebar and not on the button
       if (
         window.innerWidth <= 850 &&
@@ -405,123 +388,138 @@ const Chat = () => {
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isSidebarOpen]);
 
   return (
-        <div className="chat-container">
-            {/* Sidebar */}
-          <div className={`chat-sidebar ${isSidebarOpen ? "open" : "closed"}`} ref={sidebarRef}>
-            <div className="chat-header">
-              <h2 className="chat-title">
-                Chat <FaCirclePlus onClick={openAddGroupModal} className="add-icon"/>
-              </h2>
-              <div className="chat-search">
-                <IoSearchOutline className="search-icon"/>
-                <input value={searchTerm} onChange={handleSearchChange} type="text" placeholder="Axtar"/>
-                <IoFilterOutline className="sort-icon"/>
-              </div>
-            </div>
-            <div className="chat-list">
-              {groups.filter(group => group.name.toLowerCase().includes(searchTerm.toLowerCase())).map(group => {
-                const lastMessage = lastMessages[group.id];
-                const limitedContent = lastMessage?.content?.length > 80
+    <div className="chat-container">
+      {/* Sidebar */}
+      <div className={`chat-sidebar ${isSidebarOpen ? "open" : "closed"}`} ref={sidebarRef}>
+        <div className="chat-header">
+          <h2 className="chat-title">
+            Chat <FaCirclePlus onClick={openAddGroupModal} className="add-icon" />
+          </h2>
+          <div className="chat-search">
+            <IoSearchOutline className="search-icon" />
+            <input value={searchTerm} onChange={handleSearchChange} type="text" placeholder="Axtar" />
+            <IoFilterOutline className="sort-icon" />
+          </div>
+        </div>
+        <div className="chat-list">
+          {groups
+            .filter(group => group.name.toLowerCase().includes(searchTerm.toLowerCase()))
+            .map(group => {
+              const lastMessage = lastMessages[group.id];
+              const limitedContent =
+                lastMessage?.content?.length > 80
                   ? `${lastMessage?.content.substring(0, 80)}...`
                   : lastMessage?.content;
-                const userName = lastMessage?.typeM === "received"
+              const userName =
+                lastMessage?.typeM === "received"
                   ? `${lastMessage.user?.first_name} ${lastMessage.user?.last_name}`
-                  : 'Mən';
-                return (
-                  <div
-                    key={group.id}
-                    className={`chat-list-item ${activeGroup === group.id ? "active" : ""}`}
-                    onClick={() => {
-                      setActiveGroup(group.id);
-                      toggleSidebar();
-                    }}
-                  >
-                    <div className="avatar"><MdGroups/></div>
-                    <div className="chat-info">
-                      <h4>{group.name}</h4>
-                      <p>
-                        {userName}: <span>{limitedContent}</span>
-                      </p>
-                    </div>
-                    <div className="chat-meta">
-                      {/* <span className="time">{lastMessage?.timestamp[0:10]}</span> */}
-                    </div>
+                  : "Mən";
+              return (
+                <div
+                  key={group.id}
+                  className={`chat-list-item ${activeGroup === group.id ? "active" : ""}`}
+                  onClick={() => {
+                    setActiveGroup(group.id);
+                    toggleSidebar();
+                  }}
+                >
+                  <div className="avatar">
+                    <MdGroups />
                   </div>
-                );
-              })}
-            </div>
-          </div>
-
-          <div className={`chat-content${isSidebarOpen ? ' closeChatContent' : ' openChatContent'}`}>
-            {activeGroup ? (
-              <>
-                <div className="chat-content-header">
-                  {isSidebarOpen ? (
-                    <button onClick={toggleSidebar} ref={buttonRef} className="sidebar-toggle-button closeChatSidebar">
-                      <MdMenu />
-                    </button>
-                  ) : (
-                    <button onClick={toggleSidebar} ref={buttonRef} className="sidebar-toggle-button openChatSidebar">
-                      <MdMenu />
-                    </button>
-                  )}
-                            <div className="chat-header-avatar-user" onClick={() => handleOpenModal(activeGroup)}>
-                                <div className="avatar"><MdGroups /></div>
-                                <div className="chat-content-user-info">
-                                    <h3>{groups.find(group => group.id === activeGroup)?.name}</h3>
-                                    <span className="chat-users">
-                                        {groups
-                                            .find(group => group.id === activeGroup)
-                                            ?.members
-                                            .map(member => `${member.first_name} ${member.last_name}`)
-                                            .join(", ")}
-                                    </span>
-                                </div>
-
-                            </div>
-                            <div className="chat-content-actions">
-                                <BsThreeDotsVertical className="action-icon" />
-                            </div>
-                        </div>
-                        <div ref={divRef} className="chat-messages">
-                            <div class="loadMessages" ><button class="loadButton" onClick={() => fetchMessages(true)}>Daha çox məktub ↻</button></div>
-                            {renderMessages()}
-                        </div>
-                        <div className="chat-input">
-                            <div className="chat-input-icon">
-                                <input class="messageInput" onKeyDown={handleKeyDown} value={inputValue} onChange={(e) => setInputValue(e.target.value)} type="text" placeholder="Mesaj yaz" />
-                                <BsFillSendFill onClick={handleSendMessage} className="send-icon" />
-                            </div>
-                        </div>
-                    </>
-                ) : (''
-                    // <div className="chat-placeholder">
-                    //     <h3>Qrup mesajlarını görmək üçün bir qrupa klikləyin</h3>
-                    // </div>
-                )}
-            </div>
-            <ChatModal
-                isOpen={modalOpen}
-                onClose={handleCloseModal}
-                groupName={groupName}
-                members={members}
-                group={selectedGroup}
-                onMembersUpdated={handleMembersUpdated}
-                admin={adminId}
-            />
-            {isAddRoomModal && <AddRoomModal isOpen={isAddRoomModal} onClose={closeAddRoomModal}
-                onGroupAdded={handleRoomAdded}
-            />}
+                  <div className="chat-info">
+                    <h4>{group.name}</h4>
+                    <p>
+                      {userName}: <span>{limitedContent}</span>
+                    </p>
+                  </div>
+                  <div className="chat-meta">{/* <span className="time">{lastMessage?.timestamp[0:10]}</span> */}</div>
+                </div>
+              );
+            })}
         </div>
+      </div>
 
-    );
+      <div className={`chat-content ${isSidebarOpen ? "closeChatContent" : "openChatContent"}`}>
+        {activeGroup ? (
+          <>
+            <div className="chat-content-header">
+              {isSidebarOpen ? (
+                <button onClick={toggleSidebar} ref={buttonRef} className="sidebar-toggle-button closeChatSidebar">
+                  <MdMenu />
+                </button>
+              ) : (
+                <button onClick={toggleSidebar} ref={buttonRef} className="sidebar-toggle-button openChatSidebar">
+                  <MdMenu />
+                </button>
+              )}
+              <div className="chat-header-avatar-user" onClick={() => handleOpenModal(activeGroup)}>
+                <div className="avatar">
+                  <MdGroups />
+                </div>
+                <div className="chat-content-user-info">
+                  <h3>{groups.find(group => group.id === activeGroup)?.name}</h3>
+                  <span className="chat-users">
+                    {groups
+                      .find(group => group.id === activeGroup)
+                      ?.members.map(member => `${member.first_name} ${member.last_name}`)
+                      .join(", ")}
+                  </span>
+                </div>
+              </div>
+              <div className="chat-content-actions">
+                <BsThreeDotsVertical className="action-icon" />
+              </div>
+            </div>
+            <div ref={divRef} className="chat-messages">
+              <div class="loadMessages">
+                <button class="loadButton" onClick={() => fetchMessages(true)}>
+                  Daha çox məktub ↻
+                </button>
+              </div>
+              {renderMessages()}
+            </div>
+            <div className="chat-input">
+              <div className="chat-input-icon">
+                <input
+                  class="messageInput"
+                  onKeyDown={handleKeyDown}
+                  value={inputValue}
+                  onChange={e => setInputValue(e.target.value)}
+                  type="text"
+                  placeholder="Mesaj yaz"
+                />
+                <BsFillSendFill onClick={handleSendMessage} className="send-icon" />
+              </div>
+            </div>
+          </>
+        ) : (
+          ""
+          // <div className="chat-placeholder">
+          //     <h3>Qrup mesajlarını görmək üçün bir qrupa klikləyin</h3>
+          // </div>
+        )}
+      </div>
+      <ChatModal
+        isOpen={modalOpen}
+        onClose={handleCloseModal}
+        groupName={groupName}
+        members={members}
+        group={selectedGroup}
+        onMembersUpdated={handleMembersUpdated}
+        admin={adminId}
+      />
+      {isAddRoomModal && (
+        <AddRoomModal isOpen={isAddRoomModal} onClose={closeAddRoomModal} onGroupAdded={handleRoomAdded} />
+      )}
+    </div>
+  );
 };
 
 export default Chat;
