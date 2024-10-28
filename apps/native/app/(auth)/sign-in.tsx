@@ -4,9 +4,10 @@ import { api } from "libs/shared-lib/src/api";
 import { SubmitErrorHandler, SubmitHandler } from "react-hook-form";
 import { Text } from "react-native";
 
-import { SignInSchema, profileAtom, signInAtom, signInSchema, useRecoilMutation } from "@digitask/shared-lib";
+import { SignInSchema, Tokens, profileAtom, signInAtom, signInSchema, useRecoilMutation } from "@digitask/shared-lib";
 import { fields } from "@digitask/shared-lib";
 import { AuthHttp, Block, Form, Input, logger } from "@mdreal/ui-kit";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { StackActions } from "@react-navigation/native";
 
 import logo from "../../assets/images/logo.png";
@@ -19,6 +20,11 @@ export default function Welcome() {
   const signInMutation = useRecoilMutation(signInAtom, {
     mutationFn: (data: SignInSchema) => api.accounts.login.$post(data),
     onError: logger.error.bind(logger, "digitask.native:auth:sign-in.auth-error"),
+    async onSuccess(data) {
+      await AsyncStorage.setItem(Tokens.ACCESS_TOKEN, data.access_token);
+      await AsyncStorage.setItem(Tokens.REFRESH_TOKEN, data.refresh_token);
+      await authHttpSettings.retrieveTokens()();
+    },
     isNullable: true
   });
   const profileMutation = useRecoilMutation(profileAtom, {
@@ -32,7 +38,6 @@ export default function Welcome() {
     logger.debug("digitask.native:auth:sign-in.form-values", data);
     const response = await signInMutation.mutateAsync(data);
     logger.debug("digitask.native:auth:sign-in.auth-response", response);
-    await authHttpSettings.retrieveTokens()();
     await profileMutation.mutateAsync();
     navigation.dispatch(StackActions.popToTop());
     // @ts-ignore
@@ -45,7 +50,7 @@ export default function Welcome() {
 
   return (
     <Form<SignInSchema> schema={signInSchema} onSubmit={onSubmit} onFormError={onFormError}>
-      <Block.Scroll className="h-screen px-4 py-28" contentClassName="grid items-center justify-between">
+      <Block className="flex h-full items-center justify-between px-4 py-28">
         <Block className="flex items-center gap-6">
           <Block className="bg-primary w-68 rounded-2xl p-6">
             <Image source={logo} style={{ width: 150, height: 140 }} />
@@ -82,7 +87,7 @@ export default function Welcome() {
             </Link>
           </Block>
         </Block>
-      </Block.Scroll>
+      </Block>
     </Form>
   );
 }

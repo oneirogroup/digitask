@@ -15,12 +15,12 @@ services:
     ports:
       - "5000:4173"
 
-  native:
-    image: native
+  native.dev:
+    image: native.dev
     build:
       context: apps/native
-      dockerfile: Dockerfile
+      dockerfile: dev.Dockerfile
     depends_on:
       - base
     ports:
-      - "5000:4173"
+      - "5001:8081"

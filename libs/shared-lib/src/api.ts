@@ -2,6 +2,7 @@ import { AuthHttp } from "@mdreal/ui-kit";
 
 import { SignInSchema } from "./schemas";
 import { Backend, DateRange, MessageOptions, WithPagination } from "./types";
+import { PaginatedResponse } from "./types/backend/paginated-response";
 import { urlBuilder } from "./utils";
 
 export const authHttp = AuthHttp.instance();
@@ -20,7 +21,7 @@ export const api = {
     },
     messages: {
       $get(options?: WithPagination<MessageOptions>) {
-        return authHttp.get<Backend.Message[]>(urlBuilder("/accounts/messages/", options));
+        return authHttp.get<PaginatedResponse<Backend.Message>>(urlBuilder("/accounts/messages_mobile/", options));
       }
     },
     RoomsApiView: {
