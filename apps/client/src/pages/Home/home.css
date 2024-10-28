@@ -1,3 +1,7 @@
+.home-page {
+  margin-bottom: 10px;
+}
+
 .home-meet-section {
   display: flex;
   gap: 15px;
