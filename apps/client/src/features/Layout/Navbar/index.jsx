@@ -168,7 +168,7 @@ const Navbar = ({ onToggleSidebar }) => {
                 <a onClick={onToggleSidebar} className="menu-toggle">
                     <MdMenu />
                 </a>
-                <Link to="/chat/" style={getLinkStyle("/chat/")}>
+                <Link reloadDocument to="/chat/" style={getLinkStyle("/chat/")}>
                     <BsChatTextFill />
                 </Link>
                 <div
