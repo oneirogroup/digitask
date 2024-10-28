@@ -7,402 +7,471 @@ import { MdGroups } from "react-icons/md";
 import { RiAttachmentLine } from "react-icons/ri";
 import AddRoomModal from "../../components/AddRoomModal"
 import ChatModal from "../../components/ChatModal";
+import { MdMenu } from "react-icons/md";
 import axios from "axios"
 
 
 const Chat = () => {
-    const [activeGroup, setActiveGroup] = useState(null);
-    const [groups, setGroups] = useState([]);
-    const fileInputRef = useRef(null);
-    const [messagess, setMessages] = useState([])
-    const [lastMessages, setLastMessages] = useState({});
-    const [inputValue, setInputValue] = useState('');
-    const wsChat = useRef(null);
-    const divRef = useRef(null);
-    const [messageCount, setMessageCount] = useState(30);
-    const [shouldScroll, setShouldScroll] = useState(true);
-    const messageInputRef = useRef(null);
-    const colors = [
-        "#ff5733", "#33ff57", "#3357ff", "#ff33a1", "#33fff7", "#f7ff33"
-    ];
+  const [activeGroup, setActiveGroup] = useState(null);
+  const [page, setPage] = useState(2);
+  const [room, setRoom] = useState('');
+  const [groups, setGroups] = useState([]);
+  const [messagess, setMessages] = useState([])
+  const [lastMessages, setLastMessages] = useState({});
+  const [inputValue, setInputValue] = useState('');
+  const wsChat = useRef(null);
+  const divRef = useRef(null);
+  const [shouldScroll, setShouldScroll] = useState(true);
+  const [isAddRoomModal, setIsAddRoomModal] = useState(false);
 
-    const connectWebSocketChat = async () => {
-        try {
-            const token = localStorage.getItem("access_token");
-            if (!token) {
-                throw new Error('No access token available');
-            }
-            console.log(groups, 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb')
-            const email = localStorage.getItem("saved_email");
+  const colors = [
+    "#ff5733", "#33ff57", "#3357ff", "#ff33a1", "#33fff7", "#f7ff33"
+  ];
 
-            wsChat.current = new WebSocket(
-                `ws://135.181.42.192/chat/?email=${email}&token=${token}`
-            );
-
-            wsChat.current.onopen = () => {
-                console.log("WebSocketChat connection established.");
-            };
-
-            wsChat.current.onmessage = (event) => {
-                console.log("Chat Received raw WebSocket message:", event.data);
-
-                const data = JSON.parse(event.data);
-
-                const email = data?.email;
-                if (email) {
-                    localStorage.setItem('socketEmail', email)
-                } else {
-                    const socketEmail = localStorage.getItem('socketEmail')
-                    const typeM = data.user.email === socketEmail ? 'sent' : 'received';
-                    data.typeM = typeM;
-                    setShouldScroll(true)
-                    setMessages(prevMessages => {
-                        const isDuplicate = prevMessages.some(message => message.id === data.id);
-                        if (!isDuplicate) {
-                            return [...prevMessages, data];
-                        }
-                        return prevMessages;
-                    });
-                }
-                console.log(messagess, data, '---------------------------------------')
-            };
-
-            wsChat.current.onerror = async (error) => {
-                console.error("WebSocketChat error:", error);
-
-                try {
-                    connectWebSocketChat();
-                } catch (refreshError) {
-                    console.error('Chat Error refreshing token:', refreshError);
-                }
-            };
-
-            wsChat.current.onclose = async (event) => {
-                if (event.wasClean) {
-                    console.log(`WebSocketChat connection closed cleanly, code=${event.code}, reason=${event.reason}`);
-                    setTimeout(connectWebSocketChat, 5000);
-                } else {
-                    console.error("WebSocketChat connection died unexpectedly");
-                    try {
-                        setTimeout(connectWebSocketChat, 5000);
-                    } catch (refreshError) {
-                        console.error('Chat Error refreshing token:', refreshError);
-                    }
-                }
-            };
-        } catch (error) {
-            console.error('WebSocketChat connection error:', error);
-        }
-    };
-
-    const sendMessage = () => {
-
-        console.log('pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp', wsChat.current)
-        if (wsChat.current) {
-            wsChat.current.send(JSON.stringify({
-                room: activeGroup,
-                content: inputValue
-            }))
-            console.log(divRef, 'ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss')
-
-            console.log('oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo', wsChat.current)
-        }
-    }
-    const handleSendMessage = () => {
-      if (!inputValue.trim()) {
-        return;
+  const connectWebSocketChat = async () => {
+    try {
+      const token = localStorage.getItem("access_token");
+      if (!token) {
+        throw new Error('No access token available');
       }
-        sendMessage();
-        setInputValue('');
-    };
 
-    // const formatDate = (dateString) => {
-    //     const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false, locale: 'az-AZ' };
-    //     const date = new Date(dateString);
-    //     return new Intl.DateTimeFormat('az-AZ', options).format(date);
-    // };
+      const email = localStorage.getItem("saved_email");
 
-    useEffect(() => {
-        connectWebSocketChat();
+      wsChat.current = new WebSocket(
+        `ws://135.181.42.192/chat/?email=${email}&token=${token}`
+      );
 
-        return () => {
-            if (wsChat.current && wsChat.current.readyState === WebSocket.OPEN) {
-                wsChat.current.close();
+      wsChat.current.onopen = () => {
+        console.log("WebSocketChat connection established.");
+      };
+
+      wsChat.current.onmessage = (event) => {
+        console.log("Chat Received raw WebSocket message:", event.data);
+
+        const data = JSON.parse(event.data);
+
+        const email = data?.email;
+        if (email) {
+          localStorage.setItem('socketEmail', email)
+        } else {
+          const socketEmail = localStorage.getItem('socketEmail')
+          const typeM = data.user.email === socketEmail ? 'sent' : 'received';
+          data.typeM = typeM;
+          setShouldScroll(true)
+          setMessages(prevMessages => {
+            const isDuplicate = prevMessages.some(message => message.id === data.id);
+            if (!isDuplicate) {
+              return [...prevMessages, data];
             }
-        };
-    }, []);
+            return prevMessages;
+          });
+        }
 
-    const initializeEmployeeModals = (groups) => {
-        const initialModals = {};
-        groups.forEach(group => {
-            initialModals[group.id] = false;
-        });
-        setGroups(initialModals);
-    };
+      };
 
+      wsChat.current.onerror = async (error) => {
+        console.error("WebSocketChat error:", error);
 
-    const fetchData = async () => {
         try {
-
-            const accessToken = localStorage.getItem('access_token');
-
-            if (!accessToken) {
-                throw new Error('Access token is not available');
-            }
-
-            const response = await fetch('http://135.181.42.192/accounts/RoomsApiView/', {
-                headers: {
-                    'Authorization': `Bearer ${accessToken}`,
-                    'Content-Type': 'application/json'
-                }
-            });
-
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-
-            const data = await response.json();
-
-            setGroups(data);
-            initializeGroupModals(data)
-
-        } catch (error) {
-            console.error('Fetch error:', error);
+          connectWebSocketChat();
+        } catch (refreshError) {
+          console.error('Chat Error refreshing token:', refreshError);
         }
-    };
+      };
 
-    useEffect(() => {
-        fetchData();
-    }, []);
-
-    useEffect(() => {
-        if (shouldScroll) {
-            if (divRef.current) {
-                console.log(divRef, 'sssssssssssssssssssssddddssssssssssssssssssssssssssssssssssssssssss')
-                divRef.current.scrollTop = divRef.current.scrollHeight;
-            }
+      wsChat.current.onclose = async (event) => {
+        if (event.wasClean) {
+          console.log(`WebSocketChat connection closed cleanly, code=${event.code}, reason=${event.reason}`);
+          setTimeout(connectWebSocketChat, 5000);
+        } else {
+          console.error("WebSocketChat connection died unexpectedly");
+          try {
+            setTimeout(connectWebSocketChat, 5000);
+          } catch (refreshError) {
+            console.error('Chat Error refreshing token:', refreshError);
+          }
         }
-    }, [messagess, activeGroup]);
+      };
+    } catch (error) {
+      console.error('WebSocketChat connection error:', error);
+    }
+  };
 
-    const fetchMessages = async (arg = false) => {
-        try {
+  const sendMessage = () => {
 
-            const accessToken = localStorage.getItem('access_token');
 
-            if (!accessToken) {
-                throw new Error('Access token is not available');
-            }
+    if (wsChat.current) {
+      wsChat.current.send(JSON.stringify({
+        room: activeGroup,
+        content: inputValue
+      }))
 
-            const response = await fetch(`http://135.181.42.192/accounts/messages/?page_size=${messageCount}`, {
-                headers: {
-                    'Authorization': `Bearer ${accessToken}`,
-                    'Content-Type': 'application/json'
-                }
-            });
+    }
+  }
+  const handleSendMessage = () => {
+    if (!inputValue.trim()) {
+      return;
+    }
+    sendMessage();
+    setInputValue('');
+  };
 
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            console.log(messageCount)
-            setMessageCount(prevCount => prevCount + 30);
-            const data = await response.json();
-            console.log(data, ';;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;')
-            if (arg) {
-                setShouldScroll(false);
-            } else {
-                setShouldScroll(true)
-            }
+  // const formatDate = (dateString) => {
+  //     const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false, locale: 'az-AZ' };
+  //     const date = new Date(dateString);
+  //     return new Intl.DateTimeFormat('az-AZ', options).format(date);
+  // };
 
-            setMessages(data.results.reverse());
+  useEffect(() => {
+    connectWebSocketChat();
 
-        } catch (error) {
-            console.error('Fetch error:', error);
+    return () => {
+      if (wsChat.current && wsChat.current.readyState === WebSocket.OPEN) {
+        wsChat.current.close();
+      }
+    };
+  }, []);
+
+  const initializeEmployeeModals = (groups) => {
+    const initialModals = {};
+    groups.forEach(group => {
+      initialModals[group.id] = false;
+    });
+    setGroups(initialModals);
+  };
+
+
+  const fetchData = async () => {
+    try {
+
+      const accessToken = localStorage.getItem('access_token');
+
+      if (!accessToken) {
+        throw new Error('Access token is not available');
+      }
+
+      const response = await fetch('http://135.181.42.192/accounts/RoomsApiView/', {
+        headers: {
+          'Authorization': `Bearer ${accessToken}`,
+          'Content-Type': 'application/json'
         }
-    };
+      });
 
-    useEffect(() => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
 
-        fetchMessages();
-    }, []);
+      const data = await response.json();
 
-    useEffect(() => {
-        const updateLastMessages = () => {
-            const latestMessages = {};
+      setGroups(data);
+      initializeGroupModals(data)
 
-            messagess.forEach(message => {
-                const { room, timestamp } = message;
+    } catch (error) {
+      console.error('Fetch error:', error);
+    }
+  };
 
-                if (!latestMessages[room] || new Date(latestMessages[room].timestamp) < new Date(timestamp)) {
-                    latestMessages[room] = message;
-                }
-            });
-            console.log(latestMessages, 'zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz')
-            setLastMessages(latestMessages);
-        };
+  useEffect(() => {
+    fetchData();
+  }, [isAddRoomModal]);
 
-        updateLastMessages();
-    }, [messagess]);
+  useEffect(() => {
+    if (shouldScroll) {
+      if (divRef.current) {
 
-    const renderMessages = () => {
-        return messagess
-            .filter((message) => message.room === activeGroup)
-            .map((message, index, filteredMessages) => {
-                const isSameAsPrevious =
-                    index > 0 &&
-                    filteredMessages[index - 1].typeM === message.typeM &&
-                    filteredMessages[index - 1].user.first_name === message.user.first_name;
+        divRef.current.scrollTop = divRef.current.scrollHeight;
+      }
+    }
+  }, [messagess, activeGroup]);
 
-                const color = colors[index % colors.length];
+  const handleMessagePage = () => {
+    if (room == activeGroup){
+      setPage((prevPage) => Number(prevPage) + 1)
+    }else{
+      setRoom(activeGroup);
+      setPage(page)
+    }
 
-                return (
-                    <div key={message.id} className={`${message.typeM}`}>
-                        {!isSameAsPrevious && message.typeM !== "sent" && (
-                            <div className="avatar-column">
-                                <div className="avatar" style={{ color }}>
-                                    {message.user?.first_name ? message.user.first_name.charAt(0) : ''}
-                                </div>
-                            </div>
-                        )}
+  }
 
-                        <div className={`message ${isSameAsPrevious ? "indented" : ""}`}>
-                            {!isSameAsPrevious && message.typeM !== "sent" && (
-                                <div className="name" style={{ color }}>
-                                    {message.user.first_name}
-                                </div>
-                            )}
+  const fetchMessages = async (arg = false) => {
+    try {
 
-                            <div className="text">{message.content}</div>
+      const accessToken = localStorage.getItem('access_token');
 
-                            <div className="time">{formatDate(message.timestamp)}</div>
-                        </div>
-                    </div>
-                );
-            });
-    };
-    const [modalOpen, setModalOpen] = useState(false);
-    const [selectedGroup, setSelectedGroup] = useState(null);
-    const [members, setMembers] = useState([]);
-    const [groupName, setGroupName] = useState('');
-    const [adminId, setAdminId] = useState('');
-    const [searchTerm, setSearchTerm] = useState('');
+      if (!accessToken) {
+        throw new Error('Access token is not available');
+      }
+      const params = new URLSearchParams();
 
-    const handleSearchChange = (e) => {
-        setSearchTerm(e.target.value);
-    };
+      if (room && page) {
+        params.append('room', room);
+        params.append('page', page);
+      }
 
-    const handleOpenModal = (group) => {
-        setSelectedGroup(group);
-        const mygroupName = groups.find(g => g.id === group)?.name || []
-        const groupMembers = groups.find(g => g.id === group)?.members || [];
-        const groupAdminId = groups.find(g => g.id === group)?.admin?.id || [];
-        setAdminId(groupAdminId);
-        setGroupName(mygroupName);
-        setMembers(groupMembers);
-        setModalOpen(true);
-    };
-
-    const handleCloseModal = () => {
-        setModalOpen(false);
-        setSelectedGroup(null);
-    };
-
-    useEffect(() => {
-        if (selectedGroup) {
-            const mygroupName = groups.find(g => g.id === selectedGroup)?.name || [];
-            const groupMembers = groups.find(g => g.id === selectedGroup)?.members || [];
-            setGroupName(mygroupName);
-            setMembers(groupMembers);
-            console.log(groupMembers, '0000000000000000000000000000000000000000000000000');
+      const response = await fetch(`http://135.181.42.192/accounts/messages/?${params.toString()}`, {
+        headers: {
+          'Authorization': `Bearer ${accessToken}`,
+          'Content-Type': 'application/json'
         }
-    }, [groups, selectedGroup]);
+      });
 
-    const handleMembersUpdated = () => {
-        fetchData();
-    };
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
 
-    const handleRoomAdded = async (newGroup) => {
-        setGroups((prevEmployees) => [...prevEmployees, newGroup]);
+      const data = await response.json();
 
-        initializeEmployeeModals([...groups, newGroup]);
+      if (arg) {
+        setShouldScroll(false);
+      } else {
+        setShouldScroll(true)
+      }
 
-        await fetchEmployees();
-    };
+      setMessages(data.reverse());
 
-    const handleKeyDown = (e) => {
-        if (e.key === 'Enter') {
-            e.preventDefault();
-            handleSendMessage();
+    } catch (error) {
+      console.error('Fetch error:', error);
+    }
+  };
+
+  useEffect(() => {
+    const arg = room && page
+    fetchMessages(arg);
+  }, [room, page]);
+
+
+  useEffect(() => {
+    const updateLastMessages = () => {
+      const latestMessages = {};
+
+      messagess.forEach(message => {
+        const { room, timestamp } = message;
+        if (!latestMessages[room] || new Date(latestMessages[room].timestamp) < new Date(timestamp)) {
+          latestMessages[room] = message;
         }
+      });
+
+      setLastMessages(latestMessages);
     };
 
-    const formatDate = (dateString) => {
-        const options = { hour: "2-digit", minute: "2-digit", hour12: false };
-        return new Intl.DateTimeFormat("az-AZ", options).format(new Date(dateString));
+    updateLastMessages();
+  }, [messagess]);
+
+  const renderMessages = () => {
+    return messagess
+      .filter((message) => message.room === activeGroup)
+      .map((message, index, filteredMessages) => {
+        const isSameAsPrevious =
+          index > 0 &&
+          filteredMessages[index - 1].typeM === message.typeM &&
+          filteredMessages[index - 1].user.first_name === message.user.first_name;
+
+        const color = colors[index % colors.length];
+
+        return (
+          <div key={message.id} className={`${message.typeM}`}>
+            {!isSameAsPrevious && message.typeM !== "sent" && (
+              <div className="avatar-column">
+                <div className="avatar" style={{ color }}>
+                  {message.user?.first_name ? message.user.first_name.charAt(0) : ''}
+                </div>
+              </div>
+            )}
+
+            <div className={`message ${isSameAsPrevious ? "indented" : ""}`}>
+              {!isSameAsPrevious && message.typeM !== "sent" && (
+                <div className="name" style={{ color }}>
+                  {message.user.first_name}
+                </div>
+              )}
+
+              <div className="text">{message.content}</div>
+
+              <div className="time">{formatDate(message.timestamp)}</div>
+            </div>
+          </div>
+        );
+      });
+  };
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedGroup, setSelectedGroup] = useState(null);
+  const [members, setMembers] = useState([]);
+  const [groupName, setGroupName] = useState('');
+  const [adminId, setAdminId] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const handleOpenModal = (group) => {
+    setSelectedGroup(group);
+    const mygroupName = groups.find(g => g.id === group)?.name || []
+    const groupMembers = groups.find(g => g.id === group)?.members || [];
+    const groupAdminId = groups.find(g => g.id === group)?.admin?.id || [];
+    setAdminId(groupAdminId);
+    setGroupName(mygroupName);
+    setMembers(groupMembers);
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+    setSelectedGroup(null);
+  };
+
+  useEffect(() => {
+    if (selectedGroup) {
+      const mygroupName = groups.find(g => g.id === selectedGroup)?.name || [];
+      const groupMembers = groups.find(g => g.id === selectedGroup)?.members || [];
+      setGroupName(mygroupName);
+      setMembers(groupMembers);
+
+    }
+  }, [groups, selectedGroup]);
+
+  const handleMembersUpdated = () => {
+    fetchData();
+  };
+
+  const handleRoomAdded = async (newGroup) => {
+    setGroups((prevEmployees) => [...prevEmployees, newGroup]);
+
+    initializeEmployeeModals([...groups, newGroup]);
+
+    await fetchEmployees();
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleSendMessage();
+    }
+  };
+
+  const formatDate = (dateString) => {
+    const options = { hour: "2-digit", minute: "2-digit", hour12: false };
+    return new Intl.DateTimeFormat("az-AZ", options).format(new Date(dateString));
+  };
+
+
+
+
+  const openAddGroupModal = () => {
+    setIsAddRoomModal(true);
+  };
+
+  const closeAddRoomModal = () => {
+    setIsAddRoomModal(false);
+  };
+
+  const [isSidebarOpen, setIsSidebarOpen] = useState(window.innerWidth > 850 || window.innerWidth <= 850);
+
+  const sidebarRef = useRef(null);
+  const buttonRef = useRef(null); // Reference for the button
+
+  const toggleSidebar = () => {
+    if (window.innerWidth <= 850) {
+      setIsSidebarOpen((prev) => !prev);
+    }
+  };
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 850) {
+        setIsSidebarOpen(true);
+      }
     };
 
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
-    const [isAddRoomModal, setIsAddRoomModal] = useState(false);
-
-    const openAddGroupModal = () => {
-        setIsAddRoomModal(true);
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      // Check if the click is outside the sidebar and not on the button
+      if (
+        window.innerWidth <= 850 &&
+        isSidebarOpen &&
+        sidebarRef.current &&
+        !sidebarRef.current.contains(event.target) &&
+        buttonRef.current &&
+        !buttonRef.current.contains(event.target)
+      ) {
+        setIsSidebarOpen(false);
+      }
     };
 
-    const closeAddRoomModal = () => {
-        setIsAddRoomModal(false);
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
     };
+  }, [isSidebarOpen]);
 
-    return (
+  return (
         <div className="chat-container">
             {/* Sidebar */}
-            <div className="chat-sidebar">
-                <div className="chat-header">
-                    <h2 className="chat-title">
-                        Chat <FaCirclePlus onClick={openAddGroupModal} className="add-icon" />
-                    </h2>
-                    <div className="chat-search">
-                        <IoSearchOutline className="search-icon" />
-                        <input value={searchTerm} onChange={handleSearchChange} type="text" placeholder="Axtar" />
-                        <IoFilterOutline className="sort-icon" />
-                    </div>
-                </div>
-                <div className="chat-list">
-
-                    {groups.filter(group => group.name.toLowerCase().includes(searchTerm.toLowerCase())).map(group => {
-
-                        const lastMessage = lastMessages[group.id];
-                        const limitedContent = lastMessage?.content?.length > 80
-                            ? `${lastMessage?.content.substring(0, 80)}...`
-                            : lastMessage?.content;
-                        const userName = lastMessage?.typeM === "received"
-                            ? `${lastMessage.user?.first_name} ${lastMessage.user?.last_name}`
-                            : 'Mən';
-
-                        return (
-                            <div
-                                key={group.id}
-                                className={`chat-list-item ${activeGroup === group.id ? "active" : ""}`}
-                                onClick={() => setActiveGroup(group.id)}
-                            >
-                                <div className="avatar"><MdGroups /></div>
-                                <div className="chat-info">
-                                    <h4>{group.name}</h4>
-                                    <p>
-                                        {userName}: <span>{limitedContent}</span>
-                                    </p>
-                                </div>
-                                <div className="chat-meta">
-                                    {/* <span className="time">{lastMessage?.timestamp[0:10]}</span> */}
-                                </div>
-                            </div>
-                        );
-                    })}
-                </div>
+          <div className={`chat-sidebar ${isSidebarOpen ? "open" : "closed"}`} ref={sidebarRef}>
+            <div className="chat-header">
+              <h2 className="chat-title">
+                Chat <FaCirclePlus onClick={openAddGroupModal} className="add-icon"/>
+              </h2>
+              <div className="chat-search">
+                <IoSearchOutline className="search-icon"/>
+                <input value={searchTerm} onChange={handleSearchChange} type="text" placeholder="Axtar"/>
+                <IoFilterOutline className="sort-icon"/>
+              </div>
             </div>
+            <div className="chat-list">
+              {groups.filter(group => group.name.toLowerCase().includes(searchTerm.toLowerCase())).map(group => {
+                const lastMessage = lastMessages[group.id];
+                const limitedContent = lastMessage?.content?.length > 80
+                  ? `${lastMessage?.content.substring(0, 80)}...`
+                  : lastMessage?.content;
+                const userName = lastMessage?.typeM === "received"
+                  ? `${lastMessage.user?.first_name} ${lastMessage.user?.last_name}`
+                  : 'Mən';
+                return (
+                  <div
+                    key={group.id}
+                    className={`chat-list-item ${activeGroup === group.id ? "active" : ""}`}
+                    onClick={() => {
+                      setActiveGroup(group.id);
+                      toggleSidebar();
+                    }}
+                  >
+                    <div className="avatar"><MdGroups/></div>
+                    <div className="chat-info">
+                      <h4>{group.name}</h4>
+                      <p>
+                        {userName}: <span>{limitedContent}</span>
+                      </p>
+                    </div>
+                    <div className="chat-meta">
+                      {/* <span className="time">{lastMessage?.timestamp[0:10]}</span> */}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
 
-            <div className="chat-content">
-                {activeGroup ? (
-                    <>
-                        <div className="chat-content-header">
+          <div className={`chat-content${isSidebarOpen ? ' closeChatContent' : ' openChatContent'}`}>
+            {activeGroup ? (
+              <>
+                <div className="chat-content-header">
+                  {isSidebarOpen ? (
+                    <button onClick={toggleSidebar} ref={buttonRef} className="sidebar-toggle-button closeChatSidebar">
+                      <MdMenu />
+                    </button>
+                  ) : (
+                    <button onClick={toggleSidebar} ref={buttonRef} className="sidebar-toggle-button openChatSidebar">
+                      <MdMenu />
+                    </button>
+                  )}
                             <div className="chat-header-avatar-user" onClick={() => handleOpenModal(activeGroup)}>
                                 <div className="avatar"><MdGroups /></div>
                                 <div className="chat-content-user-info">
@@ -451,6 +520,7 @@ const Chat = () => {
                 onGroupAdded={handleRoomAdded}
             />}
         </div>
+
     );
 };
 
