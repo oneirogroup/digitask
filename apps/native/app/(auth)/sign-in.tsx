@@ -1,36 +1,47 @@
 import { Image } from "expo-image";
-import { Link, router } from "expo-router";
+import { Link, useNavigation } from "expo-router";
+import { api } from "libs/shared-lib/src/api";
 import { SubmitErrorHandler, SubmitHandler } from "react-hook-form";
 import { Text } from "react-native";
 
-import { AuthHttp, Block, Form, Input, logger } from "@oneiro/ui-kit";
-import AsyncStorageNative from "@react-native-async-storage/async-storage";
-import { useMutation } from "@tanstack/react-query";
-
-import { PageLayout } from "../../components/page-layout";
-import { SignInSchema, signInSchema } from "../../schemas/auth/sign-in.schema";
-import { AuthToken } from "../../types/backend/auth-token";
-import { Tokens } from "../../types/tokens";
+import { SignInSchema, Tokens, profileAtom, signInAtom, signInSchema, useRecoilMutation } from "@digitask/shared-lib";
+import { fields } from "@digitask/shared-lib";
+import { AuthHttp, Block, Form, Input, logger } from "@mdreal/ui-kit";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { StackActions } from "@react-navigation/native";
 
 import logo from "../../assets/images/logo.png";
 
 const authHttpSettings = AuthHttp.settings();
 
 export default function Welcome() {
-  const signInMutation = useMutation({
-    mutationFn: (data: SignInSchema) =>
-      AuthHttp.instance().post<AuthToken>("/accounts/login/", { ...data, remember_me: false }),
-    onError: logger.error.bind(logger, "digitask.native:auth:sign-in.auth-error")
+  const navigation = useNavigation();
+
+  const signInMutation = useRecoilMutation(signInAtom, {
+    mutationFn: (data: SignInSchema) => api.accounts.login.$post(data),
+    onError: logger.error.bind(logger, "digitask.native:auth:sign-in.auth-error"),
+    async onSuccess(data) {
+      await AsyncStorage.setItem(Tokens.ACCESS_TOKEN, data.access_token);
+      await AsyncStorage.setItem(Tokens.REFRESH_TOKEN, data.refresh_token);
+      await authHttpSettings.retrieveTokens()();
+    },
+    isNullable: true
+  });
+  const profileMutation = useRecoilMutation(profileAtom, {
+    mutationKey: [fields.user.profile],
+    mutationFn: () => api.accounts.profile.$get,
+    onError: logger.error.bind(logger, "digitask.native:auth:sign-in.profile-error"),
+    isNullable: true
   });
 
   const onSubmit: SubmitHandler<SignInSchema> = async data => {
     logger.debug("digitask.native:auth:sign-in.form-values", data);
     const response = await signInMutation.mutateAsync(data);
     logger.debug("digitask.native:auth:sign-in.auth-response", response);
-    await AsyncStorageNative.setItem(Tokens.ACCESS_TOKEN, response.access_token);
-    await AsyncStorageNative.setItem(Tokens.REFRESH_TOKEN, response.refresh_token);
-    await authHttpSettings.retrieveTokens()();
-    router.replace("/(dashboard)");
+    await profileMutation.mutateAsync();
+    navigation.dispatch(StackActions.popToTop());
+    // @ts-ignore
+    navigation.replace("(dashboard)");
   };
 
   const onFormError: SubmitErrorHandler<SignInSchema> = errors => {
@@ -39,7 +50,7 @@ export default function Welcome() {
 
   return (
     <Form<SignInSchema> schema={signInSchema} onSubmit={onSubmit} onFormError={onFormError}>
-      <PageLayout>
+      <Block className="flex h-full items-center justify-between px-4 py-28">
         <Block className="flex items-center gap-6">
           <Block className="bg-primary w-68 rounded-2xl p-6">
             <Image source={logo} style={{ width: 150, height: 140 }} />
@@ -71,12 +82,12 @@ export default function Welcome() {
           </Form.Button>
 
           <Block>
-            <Link href="/forgot-password">
+            <Link href="./forgot-password">
               <Text className="text-link text-center underline">Şifrəni unutmusunuz?</Text>
             </Link>
           </Block>
         </Block>
-      </PageLayout>
+      </Block>
     </Form>
   );
 }

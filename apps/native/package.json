@@ -4,9 +4,7 @@
   "private": true,
   "main": "main.js",
   "scripts": {
-    "android": "yarn start --android",
-    "build:android": "eas build --platform android --local --non-interactive --json --clear-cache --output build/android.zip",
-    "ios": "yarn start --ios",
+    "build:android": "eas build --platform android --non-interactive --clear-cache",
     "lint": "expo lint",
     "start": "expo start",
     "test": "jest --watchAll"
@@ -15,19 +13,14 @@
     "preset": "jest-expo"
   },
   "dependencies": {
-    "@dev-plugins/async-storage": "^0.0.3",
-    "@dev-plugins/react-query": "^0.0.7",
     "@digitask/shared-lib": "workspace:^",
-    "@expo/vector-icons": "^14.0.4",
-    "@hookform/resolvers": "^3.9.0",
-    "@oneiro/ui-kit": "workspace:^",
-    "@oneiro/ws-client": "workspace:^",
+    "@mdreal/ui-kit": "^0.0.0-dev.11",
+    "@mdreal/ws-client": "^0.0.0-dev.5",
     "@react-native-async-storage/async-storage": "1.23.1",
     "@react-native-community/netinfo": "11.3.1",
     "@react-navigation/material-top-tabs": "^6.6.14",
     "@react-navigation/native": "^6.1.18",
-    "@tanstack/react-query": "^5.59.0",
-    "dayjs": "^1.11.13",
+    "@tanstack/react-query": "^5.59.16",
     "expo": "~51.0.38",
     "expo-constants": "~16.0.2",
     "expo-font": "~12.0.10",
@@ -39,6 +32,7 @@
     "expo-status-bar": "~1.12.1",
     "expo-system-ui": "~3.0.7",
     "expo-updates": "~0.25.27",
+    "lodash": "^4.17.21",
     "react": "18.2.0",
     "react-hook-form": "^7.53.0",
     "react-native": "0.74.5",
@@ -46,29 +40,27 @@
     "react-native-pager-view": "6.3.0",
     "react-native-reanimated": "~3.10.1",
     "react-native-safe-area-context": "4.10.5",
-    "react-native-screens": "3.31.1",
+    "react-native-screens": "~3.29.0",
     "react-native-svg": "15.2.0",
     "react-native-tab-view": "^3.5.2",
     "react-native-ui-datepicker": "^2.0.4",
     "react-use": "^17.5.1",
     "react-use-native": "^0.2.0",
-    "zod": "^3.23.8"
+    "recoil": "^0.7.7"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
-    "@types/express": "^4",
-    "@types/jest": "^29.5.13",
+    "@dev-plugins/async-storage": "^0.0.3",
+    "@dev-plugins/react-query": "^0.0.7",
+    "@types/lodash": "^4",
     "@types/react": "~18.2.79",
-    "@types/react-test-renderer": "^18.3.0",
     "babel-plugin-module-resolver": "^5.0.2",
     "eas-cli": "^12.5.3",
-    "express": "^4.21.1",
     "jest": "^29.7.0",
     "jest-expo": "~51.0.4",
     "nativewind": "^4.1.16",
-    "react-test-renderer": "18.3.1",
     "tailwindcss": "^3.4.14",
     "ts-node": "^10.9.2",
-    "typescript": "~5.3.3"
+    "typescript": "^5.6.3"
   }
 }

@@ -1,0 +1,13 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="shared-lib &gt; build --watch" type="js.build_tools.npm" folderName="Shared Library" nameIsGenerated="true">
+    <package-json value="$PROJECT_DIR$/libs/shared-lib/package.json" />
+    <command value="run" />
+    <scripts>
+      <script value="build" />
+    </scripts>
+    <arguments value="--watch" />
+    <node-interpreter value="project" />
+    <envs />
+    <method v="2" />
+  </configuration>
+</component>
