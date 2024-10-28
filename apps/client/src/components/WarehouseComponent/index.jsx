@@ -165,7 +165,14 @@ function Warehouse() {
   };
 
   const handleItemDetailOpen = (data) => {
-    setProductData(data);
+    const updatedData = {
+      ...data,
+      warehouseName: warehouses.find(
+        (warehouse) => warehouse.id === data.warehouse
+      )?.name || "Depo Bulunamadı",
+    };
+  
+    setProductData(updatedData);
     setShowItemDetailModal(true);
   };
 
@@ -347,6 +354,7 @@ function Warehouse() {
           showModal={showItemDetailModal}
           onClose={handleItemDetailClose}
           productData={productData}
+      
           itemId={selectedItemId}
           count={productData.count}
           handleUpdateModalOpen={handleUpdateModalOpen}
