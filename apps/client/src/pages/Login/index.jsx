@@ -63,7 +63,7 @@ const Login = (props) => {
         if (checkBtn.current.context && checkBtn.current.context._errors.length === 0) {
             dispatch(login(email, password))
                 .then(() => {
-                    navigate("/profile");
+                    navigate("/tasks");
                     window.location.reload();
                 })
                 .catch(() => {
@@ -76,7 +76,7 @@ const Login = (props) => {
 
 
     if (isLoggedIn) {
-        return <Navigate to="/profile" />;
+        return <Navigate to="/tasks" />;
     }
 
     return (
