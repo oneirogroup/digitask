@@ -9,16 +9,11 @@ const AddSurveyModal = ({ onClose, selectedServices, taskId, onSurveyAdded }) =>
             photo_modem: null,
             photo_modem_preview: '',
             modem_SN: '',
-            rg6_cable: '',
-            f_connector: '',
-            splitter: '',
         },
         internet: {
             photo_modem: null,
             photo_modem_preview: '',
             modem_SN: '',
-            optical_cable: '',
-            fastconnector: '',
             siqnal: '',
             internet_packs: '',
         },
@@ -30,8 +25,31 @@ const AddSurveyModal = ({ onClose, selectedServices, taskId, onSurveyAdded }) =>
             password: '',
         },
     });
+    const [warehouseButtons, setWarehouseButtons] = useState({
+        voice: [{ anbar: '', mehsul: '', say: '' }],
+        tv: [{ anbar: '', mehsul: '', say: '' }],
+        internet: [{ anbar: '', mehsul: '', say: '' }],
+      });
+    
+    const handleDynamicInputChange = (index, field,serviceType, value) => {
+        setWarehouseButtons(prevState => ({
+          ...prevState,
+          [serviceType]: prevState[serviceType].map((item, idx) =>
+            idx === index ? { ...item, [field]: value } : item
+          ),
+        }));
+      };
+
+      const handleAddRow = (serviceType) => {
+        setWarehouseButtons(prevState => ({
+          ...prevState,
+          [serviceType]: [...prevState[serviceType], { anbar: '', mehsul: '', say: '' }]
+        }));
+      };
+    
 
     const [openServices, setOpenServices] = useState({});
+
     const [existingSurveys, setExistingSurveys] = useState({});
     const [submittedServices, setSubmittedServices] = useState({});
 
@@ -147,6 +165,8 @@ const AddSurveyModal = ({ onClose, selectedServices, taskId, onSurveyAdded }) =>
         voice: 'Səs',
     };
 
+    
+
     return (
         <div className="add-survey-modal">
             <div className="add-survey-modal-content">
@@ -220,45 +240,8 @@ const AddSurveyModal = ({ onClose, selectedServices, taskId, onSurveyAdded }) =>
                                                                 </div>
                                                                 <hr />
                                                             </div>
-                                                            <div>
-                                                                <div className="form-group">
-                                                                    <label>RG6 Kabel:</label>
-                                                                    <input
-                                                                        type="text"
-                                                                        name="rg6_cable"
-                                                                        value={surveyData.tv.rg6_cable}
-                                                                        data-service="tv"
-                                                                        onChange={handleInputChange}
-                                                                    />
-                                                                </div>
-                                                                <hr />
-                                                            </div>
-                                                            <div>
-                                                                <div className="form-group">
-                                                                    <label>F-connector:</label>
-                                                                    <input
-                                                                        type="text"
-                                                                        name="f_connector"
-                                                                        value={surveyData.tv.f_connector}
-                                                                        data-service="tv"
-                                                                        onChange={handleInputChange}
-                                                                    />
-                                                                </div>
-                                                                <hr />
-                                                            </div>
-                                                            <div>
-                                                                <div className="form-group">
-                                                                    <label>Splitter:</label>
-                                                                    <input
-                                                                        type="text"
-                                                                        name="splitter"
-                                                                        value={surveyData.tv.splitter}
-                                                                        data-service="tv"
-                                                                        onChange={handleInputChange}
-                                                                    />
-                                                                </div>
-                                                                <hr />
-                                                            </div>
+                                                         
+                                                           
                                                         </div>
                                                     </>
                                                 )}
@@ -314,35 +297,11 @@ const AddSurveyModal = ({ onClose, selectedServices, taskId, onSurveyAdded }) =>
                                                                 </div>
                                                                 <hr />
                                                             </div>
+                                                           
+                                                           
                                                             <div>
                                                                 <div className="form-group">
-                                                                    <label>Optik kabel:</label>
-                                                                    <input
-                                                                        type="text"
-                                                                        name="optical_cable"
-                                                                        value={surveyData.internet.optical_cable}
-                                                                        data-service="internet"
-                                                                        onChange={handleInputChange}
-                                                                    />
-                                                                </div>
-                                                                <hr />
-                                                            </div>
-                                                            <div>
-                                                                <div className="form-group">
-                                                                    <label>Fastconnector:</label>
-                                                                    <input
-                                                                        type="text"
-                                                                        name="fastconnector"
-                                                                        value={surveyData.internet.fastconnector}
-                                                                        data-service="internet"
-                                                                        onChange={handleInputChange}
-                                                                    />
-                                                                </div>
-                                                                <hr />
-                                                            </div>
-                                                            <div>
-                                                                <div className="form-group">
-                                                                    <label>Sürət:</label>
+                                                                    <label>Siqnal:</label>
                                                                     <input
                                                                         type="text"
                                                                         name="siqnal"
@@ -450,12 +409,61 @@ const AddSurveyModal = ({ onClose, selectedServices, taskId, onSurveyAdded }) =>
                                                         </div>
                                                     </>
                                                 )}
+                                      
+                                      <h2>Məhsul istifadəsi</h2>
+                                      <div id='dynamicParent'>
+                                            {warehouseButtons[serviceType] && warehouseButtons[serviceType].length > 0 ? (
+                                                warehouseButtons[serviceType].map((warehouseButton, index) => (
+                                                <div key={index} className="dynamicİnputs">
+                                                    <select
+                                                    className="input-field"
+                                                    value={warehouseButton.anbar}
+                                                    onChange={(e) => handleInputChange(index, 'anbar', serviceType, e.target.value)}
+                                                    >
+                                                    <option value="">Anbar</option>
+                                                    <option value="anbar1">Anbar 1</option>
+                                                    <option value="anbar2">Anbar 2</option>
+                                                    <option value="anbar3">Anbar 3</option>
+                                                    </select>
+
+                                                    <select
+                                                    className="input-field"
+                                                    value={warehouseButton.mehsul}
+                                                    onChange={(e) => handleInputChange(index, 'mehsul',serviceType, e.target.value)}
+                                                    >
+                                                    <option value="">Məhsul</option>
+                                                    <option value="mehsul1">Məhsul 1</option>
+                                                    <option value="mehsul2">Məhsul 2</option>
+                                                    <option value="mehsul3">Məhsul 3</option>
+                                                    </select>
+
+                                                    <input
+                                                    type="number"
+                                                    placeholder="Say"
+                                                    className="input-field"
+                                                    value={warehouseButton.say}
+                                                    onChange={(e) => handleInputChange(index, 'say',serviceType, e.target.value)}
+                                                    />
+                                                </div>
+                                                ))
+                                            ) : null}
+
+                                            <button id='addBtn' type="button" onClick={()=>handleAddRow(serviceType)}>Məhsul əlavə et</button>
+                                            {/* <button type="button" onClick={handleSubmit}>Save</button> */}
+                                        </div>
+                                                
+
+
+
+
+
                                             </div>
                                         )}
                                     </div>
                                 )
                             )}
                         </div>
+
                         <div className="modal-footer">
                             <button type="submit">Əlavə et</button>
                         </div>

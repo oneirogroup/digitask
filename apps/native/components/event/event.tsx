@@ -2,9 +2,9 @@ import { Image } from "expo-image";
 import { FC } from "react";
 import { Text, View } from "react-native";
 
-import { Block, Icon } from "@oneiro/ui-kit";
+import { DateService } from "@digitask/shared-lib";
+import { Block, Icon } from "@mdreal/ui-kit";
 
-import { DateService } from "../../services/date-service";
 import { BlockContainer } from "../blocks";
 import { EventProps } from "./event.types";
 

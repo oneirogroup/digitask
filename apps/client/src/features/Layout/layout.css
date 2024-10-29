@@ -32,7 +32,9 @@ html, body {
   height: 100vh;
   overflow-y: auto;
 }
-
+.not-marginned{
+  margin-left:0px !important
+}
 .layout-with-sidebar .main-content {
   flex: 1;
   margin-top: 60px;
@@ -79,11 +81,11 @@ html, body {
   text-align: center;
   padding: 20px;
 }
-
+@media (min-width: 769px) {
 .main-content.expanded {
   margin-left: 190px !important;
 }
-
+}
 .layout-with-sidebar .main-content {
-  margin-left: 100px;
+  margin-left: 70px;
 }

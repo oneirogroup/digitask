@@ -18,7 +18,7 @@ const ItemDetail = ({ showModal, onClose, productData, handleUpdateModalOpen, co
         <div className="item-detail-modal-body">
           <div className="modal-row">
             <div className="modal-label">Anbar</div>
-            <div className="modal-value">{productData.warehouse_name}</div>
+            <div className="modal-value">{productData.warehouseName}</div>
           </div>
           <hr />
           <div className="warehouse-item-detail-grid">

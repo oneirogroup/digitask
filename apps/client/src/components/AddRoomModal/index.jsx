@@ -20,7 +20,7 @@ const AddRoomModal = ({ onClose }) => {
             'Authorization': `Bearer ${token}`
           }
         });
-
+        console.log(response.data,'---------')
         setMemberOptions(response.data);
       } catch (error) {
         console.error('Error fetching members:', error);
@@ -95,7 +95,7 @@ const AddRoomModal = ({ onClose }) => {
   const selectedMemberNames = members
     .map(memberId => {
       const member = filteredMemberOptions.find(option => option.id === memberId);
-      return member ? member.username : '';
+      return member ? member?.first_name + ' ' + member?.last_name : '';
     })
     .filter(name => name)
     .join(', ') || 'Üzvləri seçin';
@@ -137,7 +137,7 @@ const AddRoomModal = ({ onClose }) => {
                     onClick={() => handleSelectMember(member.id)}
                     className={members.includes(member.id) ? 'selected' : ''}
                   >
-                    {member.username}
+                    {member.first_name}   {member.last_name}
                   </div>
                 ))}
               </div>

@@ -52,6 +52,7 @@
 }
 
 .service-section.active-status .service-fields {
+    width: 100%;
     display: block;
     visibility: visible;
     opacity: 1;
@@ -231,4 +232,41 @@
     font-weight: 600;
     font-family: 'Montserrat', sans-serif;
     text-align: left;
+}
+
+#dynamicParent{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.dynamicİnputs{
+    width: 100%;
+    display: flex;
+    gap:8px;
+    justify-content: center;
+}
+.dynamicİnputs input{
+    height: 32px;
+ 
+    border: 1px solid rgb(212, 212, 212);
+    padding:4px;
+    background-color: white;
+    border-radius: 6px;
+    text-align: center;
+}
+.dynamicİnputs select{
+    height: 32px;
+    width: 100%;
+    border: 1px solid rgb(212, 212, 212);
+    padding:4px;
+    background-color: white;
+    border-radius: 6px;
+    text-align: center;
+}
+#addBtn{
+    width: 100%;
+    padding: 0px !important;
+    margin: 0px !important;
+    height: 32px;
 }

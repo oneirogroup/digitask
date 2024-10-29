@@ -1,4 +1,4 @@
-import { defineConfig } from "@oneiro/ui-kit/server";
+import { defineConfig } from "@mdreal/ui-kit/server";
 
 import { palette } from "./palette";
 
