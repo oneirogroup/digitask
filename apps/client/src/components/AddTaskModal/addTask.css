@@ -1,4 +1,5 @@
-.task-modal, .add-user-modal {
+.task-modal,
+.add-user-modal {
   position: fixed;
   top: 0;
   left: 0;
@@ -11,66 +12,75 @@
   z-index: 20000;
 }
 
-.task-modal-content, .add-user-modal-content {
+.task-modal-content,
+.add-user-modal-content {
   background-color: white;
   padding: 20px;
   border-radius: 5px;
-  width: 80%; 
+  width: 80%;
   max-width: 52%;
   max-height: 87vh;
   overflow-y: auto;
+  scrollbar-width: thin;
   box-sizing: border-box;
 }
 
-.task-modal-title, .add-user-modal-title, .add-group-modal-title, .add-room-modal-title {
+.task-modal-title,
+.add-user-modal-title,
+.add-group-modal-title,
+.add-room-modal-title {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.task-modal-title h5, .add-user-modal-title h5, .add-group-modal-title h5, .add-room-modal-title h5 {
+.task-modal-title h5,
+.add-user-modal-title h5,
+.add-group-modal-title h5,
+.add-room-modal-title h5 {
   font-family: Montserrat;
   font-size: 26px;
   font-weight: 500;
   margin: 0 auto;
 }
 
-.task-modal-title span, .add-user-modal-title span, .add-group-modal-title span, .add-room-modal-title span  {
-  color: #5E5E62;
+.task-modal-title span,
+.add-user-modal-title span,
+.add-group-modal-title span,
+.add-room-modal-title span {
+  color: #5e5e62;
   font-size: 36px;
   cursor: pointer;
 }
 
-.task-modal-content > hr:first-of-type{
-  border: none;           
-  width: 100%;            
-  height: 0.3px;            
-  background-color: #5E5E62; 
+.task-modal-content > hr:first-of-type {
+  border: none;
+  width: 100%;
+  height: 0.3px;
+  background-color: #5e5e62;
   margin: 10px 0;
 }
 
-.taskModal-taskType{
+.taskModal-taskType {
   display: flex;
 }
 
-.taskModal-taskType button{
+.taskModal-taskType button {
   background-color: inherit;
-  border:0;
-  border-bottom: 3px solid #ABABAF;
+  border: 0;
+  border-bottom: 3px solid #ababaf;
   width: 100%;
   padding: 10px 0;
   font-family: Montserrat;
   font-size: 18px;
   font-weight: 600;
   margin-bottom: 20px;
-
 }
 
-.taskModal-taskType .activeButton{
-  border-color: #005ABF !important;
-  color: #005ABF !important;
+.taskModal-taskType .activeButton {
+  border-color: #005abf !important;
+  color: #005abf !important;
 }
-
 
 .task-modal-content .form-group {
   margin-bottom: 15px;
@@ -81,7 +91,7 @@
   display: block;
   font-family: Nunito Sans;
   font-size: 16px;
-  font-weight: 500;  
+  font-weight: 500;
   margin-bottom: 5px;
   color: #909094;
 }
@@ -95,12 +105,12 @@
   padding: 5px;
   height: 35px;
   font-size: 14px;
-  border: 1px solid #F7F5FF;
+  border: 1px solid #f7f5ff;
   border-radius: 5px;
-  background-color: #F7F5FF;
+  background-color: #f7f5ff;
 }
 
-.task-modal-content input[type="time"]{
+.task-modal-content input[type="time"] {
   width: 6.3vw;
 }
 
@@ -122,31 +132,31 @@
   box-shadow: 0 0 2px 1px #007bff;
 }
 
-.task-modal-content #adress{
+.task-modal-content #adress {
   width: 100%;
 }
 
-.tv-voice-internet{
+.tv-voice-internet {
   display: flex;
   gap: 10px;
   align-items: center;
   width: 100%;
 }
 
-.tv-voice-internet label{
+.tv-voice-internet label {
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
   width: 27%;
   height: 40px;
-  border: 2px solid #FFD600;
+  border: 2px solid #ffd600;
   border-radius: 12px;
   gap: 5px;
   cursor: pointer;
 }
 
-.tv-voice-internet label{
+.tv-voice-internet label {
   margin: 0 !important;
   display: flex;
   align-items: center;
@@ -154,22 +164,22 @@
   gap: 4px;
 }
 
-.tv-voice-internet div button{
+.tv-voice-internet div button {
   background-color: inherit;
   border: none;
-  color: #5E5E62;
+  color: #5e5e62;
   cursor: pointer;
 }
 
-.tv-voice-internet div button svg{
-  color: #5E5E62;
+.tv-voice-internet div button svg {
+  color: #5e5e62;
 }
 
-.tv-voice-internet .activeTask{
-  background-color: #FFD600;
+.tv-voice-internet .activeTask {
+  background-color: #ffd600;
 }
 
-.tv-voice-internet input[type="checkbox"]{
+.tv-voice-internet input[type="checkbox"] {
   display: none;
 }
 
@@ -182,7 +192,7 @@
   width: 100%;
   padding: 12px;
   font-size: 18px;
-  background-color: #005ABF;
+  background-color: #005abf;
   color: white;
   border: none;
   border-radius: 10px;
@@ -203,9 +213,9 @@
   text-transform: uppercase;
 }
 
-
 .task-name-date,
-.registerNumber-contactNumber, .taskService-taskGroup {
+.registerNumber-contactNumber,
+.taskService-taskGroup {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -223,7 +233,7 @@
   display: block;
 }
 
-.add-task-group-dropdown .dropdown-task-menu{
+.add-task-group-dropdown .dropdown-task-menu {
   top: 122% !important;
 }
 
@@ -239,7 +249,7 @@
 }
 
 .dropdown-task-toggle:hover {
-  background-color: #e9e9e9; 
+  background-color: #e9e9e9;
 }
 
 .dropdown-task-menu {
@@ -252,7 +262,7 @@
   background: white;
   z-index: 5000;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  max-height: 200px; 
+  max-height: 200px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -266,11 +276,11 @@
 }
 
 .dropdown-task-item:hover {
-  background-color: #E4EFFB; 
+  background-color: #e4effb;
 }
 
 .dropdown-task-item input {
-  margin-right: 10px; 
+  margin-right: 10px;
 }
 
 .dropdown-task-menu::-webkit-scrollbar {
@@ -278,22 +288,22 @@
 }
 
 .dropdown-task-menu::-webkit-scrollbar-track {
-  background: #f1f1f1; 
+  background: #f1f1f1;
 }
 
 .dropdown-task-menu::-webkit-scrollbar-thumb {
-  background: #888; 
+  background: #888;
 }
 
 .dropdown-task-menu::-webkit-scrollbar-thumb:hover {
-  background: #555; 
+  background: #555;
 }
 
-.task-date-form .form-group{
+.task-date-form .form-group {
   margin: 0 !important;
 }
 
-.task-name-date{
+.task-name-date {
   margin-bottom: 15px;
 }
 
@@ -313,7 +323,7 @@
   width: 100%;
 }
 
-.mapDiv > div{
+.mapDiv > div {
   z-index: 0;
 }
 
@@ -321,20 +331,21 @@
   width: 50vh;
 } */
 
-.passportImage{
-display: flex;
-align-items: center;
-justify-content: space-between;
-
+.passportImage {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .passportImage label {
   font-size: 18px;
   align-items: center;
 }
-.passportImage label>span {
+.passportImage label > span {
   color: #005abf;
-  font-family: Nunito Sans, sans-serif;
+  font-family:
+    Nunito Sans,
+    sans-serif;
   font-size: 18px;
   font-weight: 600;
 }
@@ -349,6 +360,6 @@ justify-content: space-between;
   align-items: center;
 }
 
-.details-modal-body > div{
+.details-modal-body > div {
   width: 100%;
 }
