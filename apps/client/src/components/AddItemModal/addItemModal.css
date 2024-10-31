@@ -16,7 +16,7 @@
   background-color: #fff;
   padding: 20px;
   width: 90%;
-  max-width: 54%;
+  max-width: 57%;
   scrollbar-width: thin;
   max-height: 88vh;
   overflow: auto;
@@ -84,12 +84,29 @@
 .add-item-modal-service-section {
   margin-top: 20px;
 }
-
 .add-item-modal-dynamic-inputs {
   display: flex;
+  flex-direction: column;
   gap: 10px;
-  align-items: center;
+  align-items: flex-start;
   margin-bottom: 10px;
+}
+
+.input-container {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+}
+
+.select-container {
+  display: flex;
+  gap: 10px;
+  flex-grow: 1;
+}
+
+.input-group {
+  display: flex;
+  align-items: center;
 }
 
 .add-item-modal-input-field {
@@ -99,6 +116,16 @@
   flex: 1;
 }
 
+.add-item-modal-input-field,
+.max-count-notice {
+  font-size: 16px;
+}
+
+.max-count-notice {
+  color: #666;
+  font-size: 14px;
+}
+
 .add-item-modal-delete-button {
   background-color: #ff4d4d;
   color: #fff;
@@ -106,6 +133,13 @@
   padding: 5px 10px;
   border-radius: 4px;
   cursor: pointer;
+  margin-left: 10px;
+}
+
+.error-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .add-item-modal-add-row-button {

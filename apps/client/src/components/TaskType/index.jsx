@@ -6,6 +6,7 @@ import { GoClock } from "react-icons/go";
 import { IoPersonOutline } from "react-icons/io5";
 import { LiaPhoneVolumeSolid } from "react-icons/lia";
 import { MdAdd, MdOutlineEdit, MdOutlineEngineering, MdOutlineMiscellaneousServices } from "react-icons/md";
+import { MdDelete } from "react-icons/md";
 import { PiTelevisionSimple } from "react-icons/pi";
 import { RiEdit2Line } from "react-icons/ri";
 import { RiMapPinLine, RiVoiceprintFill } from "react-icons/ri";
@@ -135,6 +136,9 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
     "dekabr"
   ];
 
+  const [taskItemDetails, setTaskItemDetails] = useState([]);
+  const [warehouseItems, setWarehouseItems] = useState([]);
+
   useEffect(() => {
     if (taskId) {
       fetch(`http://135.181.42.192/services/task/${taskId}/`)
@@ -161,9 +165,13 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
             is_internet: data.is_internet
           });
           setTaskDetails(data);
-        })
+          setTaskItemDetails(data.task_items);
+        });
 
-        .catch(error => console.error("Error fetching task details:", error));
+      fetch("http://135.181.42.192/warehouse/warehouse-items/")
+        .then(response => response.json())
+        .then(data => setWarehouseItems(data))
+        .catch(error => console.error("Error fetching warehouse items:", error));
     }
 
     fetch("http://135.181.42.192/services/groups/")
@@ -171,6 +179,15 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
       .then(data => setGroups(data))
       .catch(error => console.error("Error fetching groups:", error));
   }, [taskId, isEditing]);
+
+  const handleItemsAdded = addedItems => {
+    setTaskItemDetails(prev => [...prev, ...addedItems]);
+  };
+
+  const getEquipmentDetails = taskItem => {
+    const equipment = warehouseItems.find(item => item.id === taskItem.item);
+    return equipment ? equipment.equipment_name : "Məlumat yoxdur";
+  };
 
   const handleInputChange = e => {
     const { name, value } = e.target;
@@ -549,6 +566,20 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
 
   const handleModalClose = () => {
     setIsImageModalOpen(false);
+  };
+
+  const deleteTaskItem = taskItemId => {
+    fetch(`http://135.181.42.192/services/warehouse/warehouse_change/${taskItemId}/`, {
+      method: "DELETE"
+    })
+      .then(response => {
+        if (response.ok) {
+          setTaskItemDetails(prevItems => prevItems.filter(item => item.id !== taskItemId));
+        } else {
+          console.error("Failed to delete the task item");
+        }
+      })
+      .catch(error => console.error("Error deleting task item:", error));
   };
 
   if (!taskDetails) {
@@ -1133,6 +1164,46 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
               )}
             </div>
 
+            <div>
+              <h1>Əlavə olunan məhsullar</h1>
+              {taskItemDetails.map((taskItem, index) => (
+                <div key={index} className="service-detail service-item-detail">
+                  <h5>
+                    {getEquipmentDetails(taskItem)}
+                    <span>
+                      <MdDelete onClick={() => deleteTaskItem(taskItem.id)} />
+                    </span>
+                  </h5>
+                  <hr />
+                  <div>
+                    <div>
+                      <div className="detail-item">
+                        <label>Say:</label>
+                        <span>{taskItem.count || "-"}</span>
+                      </div>
+                      <hr />
+                    </div>
+                    <div>
+                      <div className="detail-item">
+                        <label>Çatdırılma Qeydi:</label>
+                        <span>{taskItem.delivery_note || "-"}</span>
+                      </div>
+                      <hr />
+                    </div>
+                    <div>
+                      <div className="detail-item">
+                        <label>Servis Türü:</label>
+                        <span>
+                          {taskItem.is_tv ? "TV" : taskItem.is_voice ? "Səs" : taskItem.is_internet ? "İnternet" : "-"}
+                        </span>
+                      </div>
+                      <hr />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
             {userType === "Texnik" && shouldShowAddSurveyButton && (
               <button className="add-survey-button" onClick={openAddSurveyModal}>
                 <p>Anket əlavə et</p>
@@ -1169,6 +1240,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
             voice: taskDetails.is_voice
           }}
           taskId={taskId}
+          onItemsAdded={handleItemsAdded}
         />
       )}
       {isUpdateTVModalOpen && (
