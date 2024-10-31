@@ -24,29 +24,25 @@
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-
-.taskType-modal-title div:first-of-type h5{
+.taskType-modal-title div:first-of-type h5 {
   margin: 0 auto;
-
 }
 
-.taskType-modal-title div{
+.taskType-modal-title div {
   display: flex;
 }
 
-.taskType-modal-title div div:first-of-type{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+.taskType-modal-title div div:first-of-type {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-
-.taskType-modal-title{
+.taskType-modal-title {
   display: flex;
   align-items: center;
   gap: 7px;
 }
-
 
 .taskType-modal-title h5 {
   font-family: Montserrat, sans-serif;
@@ -56,34 +52,33 @@
   padding-left: 62px;
 }
 
-.taskType-modal-title >  div div {
-    display: flex;
-    gap: 4px;
+.taskType-modal-title > div div {
+  display: flex;
+  gap: 4px;
 }
 .taskType-modal-title .close {
   font-size: 44px;
   cursor: pointer;
-
 }
 
 .taskType-modal-title svg {
-    font-size: 27px;
-    color: #005ABF;
-    cursor: pointer;
+  font-size: 27px;
+  color: #005abf;
+  cursor: pointer;
 }
 
 .taskType-modal-content > hr:first-of-type {
-    border: none;
-    width: 100%;
-    height: 0.2px;
-    background-color: #5E5E62;
-    margin: 5px 0 15px 0;
+  border: none;
+  width: 100%;
+  height: 0.2px;
+  background-color: #5e5e62;
+  margin: 5px 0 15px 0;
 }
 
 .taskType-modal-body {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .service-detail {
@@ -91,471 +86,472 @@
   flex-direction: column;
 }
 
-.taskType-info, .details-info, .service-detail > div{
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 25px;
-    align-items: end;
+.taskType-info,
+.details-info,
+.service-detail > div {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 25px;
+  align-items: end;
 }
 
 .taskType-info > div > div {
-    display: flex;
-    justify-content: space-between;
-    padding: 8px 0 10px 0;
-    gap: 25px;
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0 10px 0;
+  gap: 25px;
 }
 
 .taskType-info label,
-.taskType-note label, .service-detail label, #detailMap>label {
-    font-family: 'Nunito Sans', sans-serif;
-    font-size: 17px;
-    font-weight: 500;
-    color: #2F3033;
-    display: flex;
-    align-items: center;
-    gap: 7px;
+.taskType-note label,
+.service-detail label,
+#detailMap > label {
+  font-family: "Nunito Sans", sans-serif;
+  font-size: 17px;
+  font-weight: 500;
+  color: #2f3033;
+  display: flex;
+  align-items: center;
+  gap: 7px;
 }
 
 .taskType-info span,
-.taskType-note div span, .service-detail span {
-    font-family: 'Nunito Sans', sans-serif;
-    font-size: 17px;
-    font-weight: 700;
-    overflow: auto;
-    scrollbar-width: thin;
-    width: 15vw;
-    text-align: right;
+.taskType-note div span,
+.service-detail span {
+  font-family: "Nunito Sans", sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+  overflow: auto;
+  scrollbar-width: thin;
+  width: 15vw;
+  text-align: right;
 }
 
 .taskType-info svg,
-.taskType-note div:first-of-type svg, #detailMap>label svg {
-    font-size: 23px;
-    color: #5B96DB;
+.taskType-note div:first-of-type svg,
+#detailMap > label svg {
+  font-size: 23px;
+  color: #5b96db;
 }
 
 .taskType-note {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .taskType-note div:first-of-type {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .taskType-note div:last-of-type {
-    display: flex;
-    flex-direction: column;
-    margin: 15px 0 10px;
+  display: flex;
+  flex-direction: column;
+  margin: 15px 0 10px;
 }
 
 .taskType-note label {
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 500;
-    color: #333;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 500;
+  color: #333;
 }
 
 .taskType-note div:last-of-type span {
-    margin-top:10px;
-    width: 100% !important;
-    overflow: auto;
-    scrollbar-width: thin;
-    text-align: left !important;
+  margin-top: 10px;
+  width: 100% !important;
+  overflow: auto;
+  scrollbar-width: thin;
+  text-align: left !important;
 }
 
 .taskType-phone span {
-    color: #23B131;
+  color: #23b131;
 }
 
-.taskType-adress{
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+.taskType-adress {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-.taskType-photo img{
+.taskType-photo img {
   height: 16vh;
   width: 120px;
   object-fit: contain;
 }
 
 .taskType-adress span {
-    color: #005ABF;
+  color: #005abf;
 }
 
 .taskType-status span {
-    color: #E5C208;
+  color: #e5c208;
 }
 
-.details-info{
-    margin-top: 25px;
+.details-info {
+  margin-top: 25px;
 }
 
 .details-info label {
-    white-space: nowrap;
+  white-space: nowrap;
 }
 
-.details-info > div > div{
-padding: 0;
-margin-bottom: 10px;
-z-index: revert-layer;
-position: relative;
+.details-info > div > div {
+  padding: 0;
+  margin-bottom: 10px;
+  z-index: revert-layer;
+  position: relative;
 }
 
-  
-  .details-note textarea {
-    resize: none;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-family: 'Nunito Sans', sans-serif;
-    font-size: 16px;
-    font-weight: 700;
-    outline: none;
-  }
-
-  
- .taskType-modal hr {
-    margin: 10px 0;
-  }
-
-  .details-title{
-    display: flex !important;
-    gap: 30px !important;
-    position: relative;
-    margin: 0 auto;
-  }
-  
-  .details-modal-title label {
-    margin-right: 10px;
-    font-weight: bold;
-  }
-  
-  .details-modal-title input {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    width: 100%;
-    margin-right: 10px;
-  }
-
-  .details-modal-body {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-  }
-  
-  .details-modal-body input {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    width: 100%;
-    font-family: 'Nunito Sans', sans-serif;
-    font-size: 16px;
-    font-weight: 700;
-    outline: none;
-  }
-
-  .details-modal-body button {
-    padding: 13px 30px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 15px;
-    font-weight: bold;
-    margin-top: 12px;
-  }
-  
-  .details-modal-body button:hover {
-    background-color: #0056b3;
-  }
-
-  .updateTask-button{
-    margin: 0 auto;
-  }
-
-  .details-toggle {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-family: 'Nunito Sans', sans-serif;
-    font-size: 18px;
-    font-weight: 700;
-    outline: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .details-toggle svg{
-    font-size: 22px;
-  }
-
-
-  .details-title .taskType-options {
-    width: 28%;
-  }
-
-  .taskType-options{
-    display: flex;
-    flex-direction: column;
-    position: absolute;
-    background-color: white;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-
-  .taskType-option{
-    font-family: 'Nunito Sans', sans-serif;
-    font-size: 18px;
-    font-weight: 700;
-    outline: none;
-    cursor: pointer;
-    padding: 10px;
-  }
-
-  .taskType-option:hover{
-    background-color: #cccccc7e;
-  }
-
-  .status-dropdown-div{
-    position: relative;
-    z-index: 100;
-  }
-
-  .status-dropdown .details-toggle{
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 5px;  
-    font-size: 18px;
+.details-note textarea {
+  resize: none;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-family: "Nunito Sans", sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  outline: none;
 }
 
-  .status-dropdown .taskType-options{
-    position: absolute;
-    top: 45px;
-    right: 0px;
-    gap: 3px;
-    width: 54%;
-z-index: 10000;
-  }
+.taskType-modal hr {
+  margin: 10px 0;
+}
 
-  .status-dropdown .taskType-options .taskType-option{
-    padding: 8px;
-  }
+.details-title {
+  display: flex !important;
+  gap: 30px !important;
+  position: relative;
+  margin: 0 auto;
+}
 
-  #details-task svg{
-    font-size: 20px;
+.details-modal-title label {
+  margin-right: 10px;
+  font-weight: bold;
+}
 
-  }
+.details-modal-title input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+  margin-right: 10px;
+}
 
-  .dropdown-task {
-    position: relative;
-  }
+.details-modal-body {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
 
-  #details-task .dropdown-task-toggle {
-    padding: 9px;
-    gap: 15px;
-    width: 100%;
-  }
+.details-modal-body input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+  font-family: "Nunito Sans", sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  outline: none;
+}
 
-  #details-task>div{
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-    background-color: white;
-    font-family: 'Nunito Sans', sans-serif;
-    font-size: 16px;
-    font-weight: 700;
-    outline: none;
-    gap: 0;
-  }
+.details-modal-body button {
+  padding: 13px 30px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: bold;
+  margin-top: 12px;
+}
 
-  #details-task .dropdown-task-menu{
-    top: 60px !important;
-    width: 58%;
-    left: 127px !important;
+.details-modal-body button:hover {
+  background-color: #0056b3;
+}
 
-  }
+.updateTask-button {
+  margin: 0 auto;
+}
 
-  #details-task .dropdown-task-item{
-    gap: 5px;
-    justify-content: start;
-    align-items: center;
-    padding: 6px;
-    font-family: 'Nunito Sans', sans-serif;
-    font-size: 16px;
-    font-weight: 700;
-  }
+.details-toggle {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-family: "Nunito Sans", sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  outline: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 
-  #details-task .dropdown-task-item input{
-    width: max-content;
-    margin-bottom: 0;
-  }
+.details-toggle svg {
+  font-size: 22px;
+}
 
-  #details-task .dropdown-task-item:hover{
-    background-color: #cccccc7e;
-  }
+.details-title .taskType-options {
+  width: 28%;
+}
 
-  .details-note label, 
-  #detailMap>label {
-    margin-bottom: 10px !important;
-    font-family: 'Nunito Sans', sans-serif;
-    font-weight: 500;
-    font-size: 18px;
-    font-weight: 500;
-    color: #2F3033;
-  }
+.taskType-options {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  background-color: white;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
 
-  .detailMap >div{
-    margin-top: 10px;
-  }
+.taskType-option {
+  font-family: "Nunito Sans", sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  outline: none;
+  cursor: pointer;
+  padding: 10px;
+}
 
-  .details-note > div{
-    margin: 10px 0;
-  }
+.taskType-option:hover {
+  background-color: #cccccc7e;
+}
 
-  .add-survey-button{
-    display: flex;
-    background-color: inherit;
-    justify-content: space-between;
-    border: none;
-    padding: 10px;
-    cursor: pointer;
-  }
+.status-dropdown-div {
+  position: relative;
+  z-index: 100;
+}
 
-  .add-survey-button:hover{
-    background-color: #5c5c5e2d;
-  }
+.status-dropdown .details-toggle {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 18px;
+}
 
-  .add-survey-button p{
-    font-family: 'Montserrat', sans-serif;
-    font-size: 23px;
-    font-weight: 500;
-  }
+.status-dropdown .taskType-options {
+  position: absolute;
+  top: 45px;
+  right: 0px;
+  gap: 3px;
+  width: 54%;
+  z-index: 10000;
+}
 
-  .add-survey-button svg{
-    font-size: 26px;
-    color: #005ABF;
-  }
+.status-dropdown .taskType-options .taskType-option {
+  padding: 8px;
+}
 
-  .service-detail > h5{
-    font-family: 'Montserrat', sans-serif;
-    font-size: 24px;
-    font-weight: 600;
-    display: flex;
-    justify-content: space-between;
-  }
+#details-task svg {
+  font-size: 20px;
+}
 
-  .service-detail > hr{
-    margin-bottom: 15px;
+.dropdown-task {
+  position: relative;
+}
 
-  }
+#details-task .dropdown-task-toggle {
+  padding: 9px;
+  gap: 15px;
+  width: 100%;
+}
 
-  .service-detail > h5 span {
-    color: #005ABF;
-    font-size: 24px;
-    cursor: pointer;
-  }
+#details-task > div {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  background-color: white;
+  font-family: "Nunito Sans", sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  outline: none;
+  gap: 0;
+}
 
-  .service-details {
-    gap: 30px ;
-  }
+#details-task .dropdown-task-menu {
+  top: 60px !important;
+  width: 58%;
+  left: 127px !important;
+}
 
-  .service-details > div{
-    margin: 25px 0;
-  }
+#details-task .dropdown-task-item {
+  gap: 5px;
+  justify-content: start;
+  align-items: center;
+  padding: 6px;
+  font-family: "Nunito Sans", sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+}
 
-  .detail-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: end;
-  }
+#details-task .dropdown-task-item input {
+  width: max-content;
+  margin-bottom: 0;
+}
 
-  .detail-item img {
-    width: 55%;
-    object-fit: contain;
-    height: 100px;
-  }
+#details-task .dropdown-task-item:hover {
+  background-color: #cccccc7e;
+}
 
-  .task-type-select {
-    display: flex;
-    align-items: center;
-  }
+.details-note label,
+#detailMap > label {
+  margin-bottom: 10px !important;
+  font-family: "Nunito Sans", sans-serif;
+  font-weight: 500;
+  font-size: 18px;
+  font-weight: 500;
+  color: #2f3033;
+}
 
-  .task-type-select .taskType-options{
-    display: flex;
-    flex-direction: column;
-    position: absolute;
-    background-color: white;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    top: 45px;
-    right: 0px;
-    gap: 3px;
-    width: 54%;
-    z-index: 100;
-  }
+.detailMap > div {
+  margin-top: 10px;
+}
 
-  .task-type-select .taskType-options .taskType-option {
-    padding: 8px;
+.details-note > div {
+  margin: 10px 0;
+}
 
-  }
+.add-survey-button {
+  display: flex;
+  background-color: inherit;
+  justify-content: space-between;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+}
 
-  .taskType-modal .type-icon{
-    display: flex;
-    gap: 7px;
-  }
-  .passportUpdate{
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    }
+.add-survey-button:hover {
+  background-color: #5c5c5e2d;
+}
 
-    .passportUpdate > label{
-      margin: 10px 0 !important;
-    font-family: 'Nunito Sans', sans-serif;
-    font-weight: 500;
-    font-size: 18px;
-    font-weight: 500;
-    color: #2F3033;
-    }
-    
-    .passportUpdate label {
-      font-size: 18px;
-      align-items: center;
-      width: 50vh !important;
-    }
-    .passportUpdate label>span {
-      color: #005abf;
-      font-family: Nunito Sans, sans-serif;
-      font-size: 18px;
-      font-weight: 600;
-    }
-    .passportUpdate label span {
-      display: flex;
-      flex-direction: column;
-      cursor: pointer;
-    }
-    
-    .passportUpdate label {
-      display: flex;
-      align-items: center;
-    }
+.add-survey-button p {
+  font-family: "Montserrat", sans-serif;
+  font-size: 23px;
+  font-weight: 500;
+}
 
-.passportUpdate .upload-container{
+.add-survey-button svg {
+  font-size: 26px;
+  color: #005abf;
+}
+
+.service-detail > h5 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  display: flex;
+  justify-content: space-between;
+}
+
+.service-detail > hr {
+  margin-bottom: 15px;
+}
+
+.service-detail > h5 span {
+  color: #005abf;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.service-details {
+  gap: 30px;
+}
+
+.service-details > div {
+  margin: 25px 0;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+}
+
+.detail-item img {
+  width: 55%;
+  object-fit: contain;
+  height: 100px;
+}
+
+.task-type-select {
+  display: flex;
+  align-items: center;
+}
+
+.task-type-select .taskType-options {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  background-color: white;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  top: 45px;
+  right: 0px;
+  gap: 3px;
+  width: 54%;
+  z-index: 100;
+}
+
+.task-type-select .taskType-options .taskType-option {
+  padding: 8px;
+}
+
+.taskType-modal .type-icon {
+  display: flex;
+  gap: 7px;
+}
+.passportUpdate {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.passportUpdate > label {
+  margin: 10px 0 !important;
+  font-family: "Nunito Sans", sans-serif;
+  font-weight: 500;
+  font-size: 18px;
+  font-weight: 500;
+  color: #2f3033;
+}
+
+.passportUpdate label {
+  font-size: 18px;
+  align-items: center;
+  width: 50vh !important;
+}
+.passportUpdate label > span {
+  color: #005abf;
+  font-family:
+    Nunito Sans,
+    sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+}
+.passportUpdate label span {
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.passportUpdate label {
+  display: flex;
+  align-items: center;
+}
+
+.passportUpdate .upload-container {
   display: flex;
   justify-content: space-between;
   width: 100%;
   align-items: center;
 }
 
-.upload-passport-button{
+.upload-passport-button {
   width: 70vh !important;
   text-align: center;
   display: flex;
@@ -568,12 +564,18 @@ z-index: 10000;
   height: 80px;
   width: 100%;
   color: #005abf;
-  font-family: Nunito Sans, sans-serif;
+  font-family:
+    Nunito Sans,
+    sans-serif;
   font-size: 18px;
   font-weight: 600;
 }
 
-.taskDetailTime{
+.taskDetailTime {
   display: flex;
   gap: 5px;
+}
+
+.service-item-detail {
+  margin: 25px 0;
 }
