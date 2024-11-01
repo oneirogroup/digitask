@@ -1,177 +1,115 @@
-import { useState, useEffect, useRef } from 'react';
-import "./profile.css";
-import { FaPhoneAlt, FaChevronRight, FaRegEdit, FaChevronUp, FaChevronDown, FaSave } from "react-icons/fa";
+import axios from "axios";
+import { useEffect, useRef, useState } from "react";
 import { AiFillMail } from "react-icons/ai";
-import axios from 'axios';
+import { FaChevronDown, FaChevronRight, FaChevronUp, FaPhoneAlt, FaRegEdit, FaSave } from "react-icons/fa";
 
-const refreshAccessToken = async () => {
-  const refresh_token = localStorage.getItem('refresh_token');
-  if (!refresh_token) {
-    throw new Error('No refresh token available');
-  }
-
-  try {
-    const response = await axios.put('http://135.181.42.192/accounts/token/refresh/', { refresh: refresh_token });
-    const { access } = response.data;
-    localStorage.setItem('access_token', access);
-    axios.defaults.headers.common['Authorization'] = `Bearer ${access}`;
-  } catch (error) {
-    console.error('Error refreshing access token', error);
-    throw error;
-  }
-};
+import "./profile.css";
 
 const Profile = () => {
-  const [profileData, setProfileData] = useState({
-    id: '',
-    first_name: '',
-    last_name: '',
-    phone: '',
-    email: '',
-    user_type: '',
-    region: '',
-    group: '',
-    groupData: null,
-    profil_picture: '',
-  });
-  const [loading, setLoading] = useState(true);
+  const [profileData, setProfileData] = useState({});
   const [editMode, setEditMode] = useState(false);
-  const [error, setError] = useState(null);
-  const [selectedFile, setSelectedFile] = useState(null);
-
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    if (file && file.size <= 2 * 1024 * 1024) { // 2MB file size limit
-      setSelectedFile(file);
-    } else {
-      setError('File size exceeds the 2MB limit.');
-    }
-  };
-
-
-  const [groups, setGroups] = useState([]);
-  const [showGroupDropdown, setShowGroupDropdown] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [showUserTypeDropdown, setShowUserTypeDropdown] = useState(false);
-
-  const groupDropdownRef = useRef(null);
-  const userTypeDropdownRef = useRef(null);
-
-
-  const handlePhotoUpload = async () => {
-    if (!selectedFile) return;
-
-    const formData = new FormData();
-    formData.append('profil_picture', selectedFile); // Append the photo file to the form data
-
-    try {
-      const token = localStorage.getItem('access_token');
-      if (!token) {
-        throw new Error('No access token available');
-      }
-
-      const response = await fetch('http://135.181.42.192/accounts/profile_update/', {
-        method: 'PUT',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-        body: formData,
-      });
-
-      if (!response.ok) {
-        if (response.status === 401) {
-          await refreshAccessToken();
-          return handlePhotoUpload(); // Retry the upload after refreshing the token
-        }
-        const errorData = await response.json();
-        console.error('Error uploading photo:', errorData);
-        throw new Error('Failed to upload photo');
-      }
-
-      const data = await response.json();
-      setProfileData((prevState) => ({
-        ...prevState,
-        profil_picture: data.profil_picture, // Update the photo URL in profile data
-      }));
-      setSelectedFile(null);
-      console.log('Photo uploaded successfully');
-    } catch (error) {
-      console.error('Error uploading photo', error);
-      setError('Error uploading photo. Please try again later.');
-    }
-  };
-
-
-  const fetchWithAuth = async (url) => {
-    const token = localStorage.getItem('access_token');
-    if (!token) {
-      throw new Error('No access token available');
-    }
-
-    try {
-      const response = await fetch(url, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-        }
-      });
-
-      if (!response.ok) {
-        if (response.status === 401) {
-          await refreshAccessToken();
-          return fetchWithAuth(url);
-        }
-        throw new Error('Network response was not ok.');
-      }
-
-      return response.json();
-    } catch (error) {
-      console.error('Error fetching data', error);
-      setError('Error fetching data. Please try again later.');
-      throw error;
-    }
-  };
+  const [showGroupDropdown, setShowGroupDropdown] = useState(false);
+  const userTypeDropdownRef = useRef();
+  const groupDropdownRef = useRef();
 
   const [userTypeOptions] = useState([
-    { value: 'Texnik', label: 'Texnik' },
-    { value: 'Plumber', label: 'Plumber' },
-    { value: 'Ofis menecer', label: 'Ofis menecer' },
-    { value: 'Texnik menecer', label: 'Texnik menecer' }
+    { value: "Texnik", label: "Texnik" },
+    { value: "Plumber", label: "Plumber" },
+    { value: "Ofis menecer", label: "Ofis menecer" },
+    { value: "Texnik menecer", label: "Texnik menecer" }
   ]);
 
-  useEffect(() => {
-    const fetchProfileData = async () => {
-      setLoading(true);
-      try {
-        const data = await fetchWithAuth('http://135.181.42.192/accounts/profile/');
-        setProfileData({
-          ...data,
-          region: data.group?.region || '',
-          group: data.group?.id || '',
-          groupName: data.group?.group || '',
-          groupData: data.group || {},
-        });
-        setLoading(false);
-      } catch (error) {
-        setLoading(false);
-        console.error('Error fetching profile data', error);
-      }
-    };
+  const [groups, setGroups] = useState([]);
 
-    const fetchGroups = async () => {
-      try {
-        const groupData = await fetchWithAuth('http://135.181.42.192/services/groups/');
-        setGroups(groupData);
-      } catch (error) {
-        console.error('Error fetching groups', error);
-      }
-    };
+  const fetchProfileData = async () => {
+    try {
+      const response = await axios.get("http://135.181.42.192/accounts/profile/");
+      setProfileData(response.data);
+    } catch (error) {
+      console.error("Error fetching profile data", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchGroups = async () => {
+    try {
+      const response = await axios.get("http://135.181.42.192/services/groups/");
+      setGroups(response.data);
+    } catch (error) {
+      console.error("Error fetching groups", error);
+    }
+  };
+
+  const handleSelectGroup = groupId => {
+    const selectedGroup = groups.find(group => group.id === groupId);
+    if (selectedGroup) {
+      setProfileData(prevData => ({
+        ...prevData,
+        group: selectedGroup.id,
+        groupName: selectedGroup.group,
+        region: selectedGroup.region,
+        groupData: selectedGroup.id
+      }));
+    }
+    setShowGroupDropdown(false);
+  };
+
+  useEffect(() => {
     fetchProfileData();
     fetchGroups();
   }, []);
 
+  const handleEditToggle = () => {
+    setEditMode(!editMode);
+  };
+
+  const handleProfileUpdate = async () => {
+    try {
+      const { profil_picture, ...profileWithoutPhoto } = profileData;
+      await axios.put("http://135.181.42.192/accounts/profile_update/", {
+        ...profileWithoutPhoto,
+        group: profileData.group,
+        groupName: profileData.groupName,
+        groupData: profileData.groupData
+      });
+      setEditMode(false);
+      fetchProfileData();
+    } catch (error) {
+      console.error("Error updating profile", error);
+    }
+  };
+
+  const handleFileChange = async e => {
+    const file = e.target.files[0];
+    if (file) {
+      const formData = new FormData();
+      formData.append("profil_picture", file);
+      try {
+        await axios.put("http://135.181.42.192/accounts/profile_image_update/", formData, {
+          headers: { "Content-Type": "multipart/form-data" }
+        });
+        fetchProfileData();
+      } catch (error) {
+        console.error("Error updating profile picture", error);
+      }
+    }
+  };
+
+  const handleChange = e => {
+    const { id, value } = e.target;
+    setProfileData(prevData => ({ ...prevData, [id]: value }));
+  };
+
+  const handleSelectUserType = userType => {
+    setProfileData(prevData => ({ ...prevData, user_type: userType }));
+    setShowUserTypeDropdown(false);
+  };
+
   useEffect(() => {
-    const handleClickOutside = (event) => {
+    const handleClickOutside = event => {
       if (groupDropdownRef.current && !groupDropdownRef.current.contains(event.target)) {
         setShowGroupDropdown(false);
       }
@@ -179,97 +117,11 @@ const Profile = () => {
         setShowUserTypeDropdown(false);
       }
     };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
   }, []);
-
-  const handleChange = (e) => {
-    const { id, value } = e.target;
-    setProfileData(prevState => ({
-      ...prevState,
-      [id]: value
-    }));
-  };
-
-  const handleSelectGroup = (id) => {
-    const selectedGroup = groups.find(g => g.id === id) || {};
-    setProfileData(prevState => ({
-      ...prevState,
-      group: id || '',
-      groupName: selectedGroup.group || '',
-      region: selectedGroup.region || '',
-      groupData: selectedGroup
-    }));
-    setShowGroupDropdown(false);
-  };
-
-  const handleSelectUserType = (value) => {
-    setProfileData(prevState => ({
-      ...prevState,
-      user_type: value
-    }));
-    setShowUserTypeDropdown(false);
-  };
-
-  const updateProfileWithAuth = async (url, profileData) => {
-    const token = localStorage.getItem('access_token');
-    if (!token) {
-      setError('No access token available. Please log in again.');
-      return;
-    }
-
-    try {
-      const response = await fetch(url, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-        },
-        body: JSON.stringify(profileData),
-      });
-
-      if (!response.ok) {
-        if (response.status === 401) {
-          await refreshAccessToken();
-          return updateProfileWithAuth(url, profileData);
-        }
-        const errorData = await response.json();
-        setError(`Failed to update profile data: ${errorData.detail || 'Unknown error'}`);
-        throw new Error(`Failed to update profile: ${response.statusText}`);
-      }
-
-      const responseData = await response.json();
-      console.log('Profile updated successfully:', responseData);
-      return responseData;
-    } catch (error) {
-      setError('Error updating profile data. Please try again later.');
-      console.error('Error updating profile data', error);
-    }
-  };
-
-  const handleEditToggle = async () => {
-    if (editMode) {
-      const updatedProfileData = {
-        ...profileData,
-        group: profileData.group || null,
-        groupData: undefined,
-        groupName: undefined,
-      };
-
-      try {
-        await updateProfileWithAuth('http://135.181.42.192/accounts/profile_update/', updatedProfileData);
-        if (selectedFile) {
-          await handlePhotoUpload(); // Upload the photo if a new one is selected
-        }
-        setEditMode(false);
-      } catch (error) {
-        console.error('Error saving profile data', error);
-      }
-    } else {
-      setEditMode(true);
-    }
-  };
 
   return (
     <div className="profile-container">
@@ -278,9 +130,9 @@ const Profile = () => {
       ) : (
         <>
           <div className="personal-info">
-            <div className='profile-edit'>
+            <div className="profile-edit">
               <h2>Şəxsi məlumatlar</h2>
-              <button onClick={handleEditToggle}>
+              <button onClick={editMode ? handleProfileUpdate : handleEditToggle}>
                 {editMode ? (
                   <>
                     Yadda saxla <FaSave />
@@ -291,35 +143,49 @@ const Profile = () => {
                   </>
                 )}
               </button>
-
             </div>
-            <div className='profile-table'>
+            <div className="profile-table">
               <div>
                 <div className="profile-photo">
                   <img src={profileData.profil_picture} alt="Profile" />
                 </div>
 
-                <div className='left'>
-                  {editMode && (
-                    <input type="file" accept="image/*" onChange={handleFileChange} />
-                  )}
+                <div className="left">
+                  {editMode && <input type="file" accept="image/*" onChange={handleFileChange} />}
                 </div>
-
 
                 <div className="input-group">
                   <label htmlFor="first_name">Ad</label>
-                  <input type="text" id="first_name" value={profileData.first_name} onChange={handleChange} disabled={!editMode} />
+                  <input
+                    type="text"
+                    id="first_name"
+                    value={profileData.first_name}
+                    onChange={handleChange}
+                    disabled={!editMode}
+                  />
                 </div>
                 <div className="input-group">
                   <label htmlFor="last_name">Soyad</label>
-                  <input type="text" id="last_name" value={profileData.last_name} onChange={handleChange} disabled={!editMode} />
+                  <input
+                    type="text"
+                    id="last_name"
+                    value={profileData.last_name}
+                    onChange={handleChange}
+                    disabled={!editMode}
+                  />
                 </div>
                 <div className="input-group">
                   <label htmlFor="phone">Əlaqə nömrəsi</label>
                   <div>
                     <div>
                       <FaPhoneAlt />
-                      <input type="tel" id="phone" value={profileData.phone} onChange={handleChange} disabled={!editMode} />
+                      <input
+                        type="tel"
+                        id="phone"
+                        value={profileData.phone}
+                        onChange={handleChange}
+                        disabled={!editMode}
+                      />
                     </div>
                     <FaChevronRight />
                   </div>
@@ -329,31 +195,44 @@ const Profile = () => {
                   <div>
                     <div>
                       <AiFillMail />
-                      <input type="email" id="email" value={profileData.email} onChange={handleChange} disabled={!editMode} />
+                      <input
+                        type="email"
+                        id="email"
+                        value={profileData.email}
+                        onChange={handleChange}
+                        disabled={!editMode}
+                      />
                     </div>
                     <FaChevronRight />
                   </div>
                 </div>
-              </div><br />
+              </div>
+              <br />
               <div className="input-group profile-edit-userType-div">
-                <label htmlFor="bio">Vəzifə</label>
+                <label htmlFor="user_type">Vəzifə</label>
                 {editMode ? (
                   <>
                     <div id="profile-edit-userType" onClick={() => setShowUserTypeDropdown(!showUserTypeDropdown)}>
-                      {profileData.user_type || 'Istifadəçi növü seçin'}
+                      {profileData.user_type || "Istifadəçi növü seçin"}
                       {showUserTypeDropdown ? <FaChevronUp /> : <FaChevronDown />}
                     </div>
                     {showUserTypeDropdown && (
                       <div className="profile-multi-select-dropdown" ref={userTypeDropdownRef}>
                         <label htmlFor="closeUserTypeDropdown">
                           İstifadəçi növü
-                          <span className="close-dropdown" id="closeUserTypeDropdown" onClick={() => setShowUserTypeDropdown(false)}>&times;</span>
+                          <span
+                            className="close-dropdown"
+                            id="closeUserTypeDropdown"
+                            onClick={() => setShowUserTypeDropdown(false)}
+                          >
+                            &times;
+                          </span>
                         </label>
                         {userTypeOptions.map(option => (
                           <div
                             key={option.value}
                             onClick={() => handleSelectUserType(option.value)}
-                            className={profileData.user_type === option.value ? 'selected' : ''}
+                            className={profileData.user_type === option.value ? "selected" : ""}
                           >
                             {option.label}
                           </div>
@@ -362,7 +241,12 @@ const Profile = () => {
                     )}
                   </>
                 ) : (
-                  <input type="text" id="user_type" value={profileData.user_type || 'İstifadəçi növü daxil edilməyib'} disabled />
+                  <input
+                    type="text"
+                    id="user_type"
+                    value={profileData.user_type || "İstifadəçi növü daxil edilməyib"}
+                    disabled
+                  />
                 )}
               </div>
             </div>
@@ -374,21 +258,27 @@ const Profile = () => {
                 <label htmlFor="group">Qrup</label>
                 {editMode ? (
                   <>
-                    <div id='profile-edit-group' onClick={() => setShowGroupDropdown(!showGroupDropdown)}>
-                      {profileData.groupName || 'Qrup seçin'}
+                    <div id="profile-edit-group" onClick={() => setShowGroupDropdown(!showGroupDropdown)}>
+                      {profileData.groupName || "Qrup seçin"}
                       {showGroupDropdown ? <FaChevronUp /> : <FaChevronDown />}
                     </div>
                     {showGroupDropdown && (
                       <div className="profile-multi-select-dropdown" ref={groupDropdownRef}>
-                        <label htmlFor="closeGroupsDropdown">
-                          Qrup
-                          <span className="close-dropdown" id="closeGroupsDropdown" onClick={() => setShowGroupDropdown(false)}>&times;</span>
+                        <label htmlFor="closeGroupDropdown">
+                          Qruplar
+                          <span
+                            className="close-dropdown"
+                            id="closeGroupDropdown"
+                            onClick={() => setShowGroupDropdown(false)}
+                          >
+                            &times;
+                          </span>
                         </label>
                         {groups.map(group => (
                           <div
                             key={group.id}
                             onClick={() => handleSelectGroup(group.id)}
-                            className={profileData.group === group.id ? 'selected' : ''}
+                            className={profileData.group === group.id ? "selected" : ""}
                           >
                             {group.group}
                           </div>
@@ -397,12 +287,12 @@ const Profile = () => {
                     )}
                   </>
                 ) : (
-                  <input type="text" id="group" value={profileData.groupName || 'Qrup seçilməyib'} disabled />
+                  <input type="text" id="group" value={profileData.groupName || "Qrup daxil edilməyib"} disabled />
                 )}
               </div>
               <div className="input-group">
-                <label htmlFor="region">Region</label>
-                <input type="text" id="region" value={profileData.region || 'Region məlumatı daxil edilməyib'} disabled />
+                <label htmlFor="region">Ərazi</label>
+                <input type="text" id="region" value={profileData.region || ""} disabled />
               </div>
             </div>
           </div>

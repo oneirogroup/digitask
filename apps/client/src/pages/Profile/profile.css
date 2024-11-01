@@ -1,5 +1,5 @@
 .profile-container {
-  margin: 20px auto; 
+  margin: 20px auto;
   margin-bottom: 60px;
 }
 
@@ -28,6 +28,9 @@
 
 .profile-container .input-group {
   margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .profile-container label {
@@ -130,18 +133,16 @@
 
 .profile-edit button svg {
   color: #005abf;
-
 }
 
-.profile-container .address-info h2{
+.profile-container .address-info h2 {
   margin-bottom: 20px;
-  
 }
 
 #profile-edit-userType {
-    width: 98%;
-    padding: 10px;
-    font-size: 16px;
+  width: 98%;
+  padding: 10px;
+  font-size: 16px;
 }
 
 #profile-edit-group {
@@ -166,24 +167,25 @@
   flex-direction: column;
 }
 
-.profile-multi-select-dropdown > label:first-of-type{
+.profile-multi-select-dropdown > label:first-of-type {
   display: flex;
   justify-content: space-between;
   padding: 5px 5px 3px 8px;
-margin: 0 !important;
+  margin: 0 !important;
 }
 
-.profile-edit-userType-div, .profile-edit-group-div {
+.profile-edit-userType-div,
+.profile-edit-group-div {
   position: relative;
   cursor: pointer;
 }
 
-.profile-multi-select-dropdown > div{
+.profile-multi-select-dropdown > div {
   padding: 5px 5px 10px 8px;
   cursor: pointer;
 }
 
-.profile-multi-select-dropdown > div:hover{
+.profile-multi-select-dropdown > div:hover {
   background-color: #cccccc7e;
 }
 
@@ -198,7 +200,7 @@ margin: 0 !important;
 }
 
 .profile-photo img {
-  width: 40vh;
-  height: 40vh;
+  width: 300px;
+  height: 350px;
   object-fit: cover;
 }
