@@ -446,7 +446,12 @@
   .add-user-modal-content {
     max-width: 68%;
 }
-}
+
+  .notification-modal {
+    width: 390px;
+    max-height: 60%;
+  }
+  }
 
 @media screen and (max-width: 900px) {
   /* Pages */
@@ -819,7 +824,13 @@
   .historyImportTable td:nth-of-type(9) {
     display: none;
   }
-}
+  .notification-modal-header h3 {
+    font-size: 24px;
+  }
+  .notification-modal-close {
+    font-size: 22px;
+  }
+  }
 
 @media screen and (max-width: 768px) {
   /* Home page */
@@ -1168,6 +1179,14 @@
   }
   .login-mail-password div label input:not(.remember-me input) {
     width: 275px;
+  }
+
+  /* Notification */
+  .notification-modal {
+    width: 340px;
+    top: 65px;
+    right: 55px;
+    padding: 20px;
   }
 }
 
@@ -1642,7 +1661,22 @@
   .historyImportTable td:first-of-type {
     display: none;
   }
-}
+
+  /*Chat page */
+
+  .chat-sidebar {
+    width: 210px;
+  }
+
+  /*Notification*/
+
+  .notification-modal {
+    width: 260px;
+    top: 63px;
+    right: 51px;
+    padding: 18px;
+  }
+  }
 
 @media screen and (max-width: 525px) {
   #details-task .dropdown-task-menu {
@@ -1852,8 +1886,16 @@
     font-size: 17px;
     padding-left: 0;
   }
-  
-}
+
+  /*Chat page */
+
+  .chat-content-user-info h3 {
+    font-size: 18px;
+  }
+  .chat-content-header {
+    padding: 0 15px;
+  }
+  }
 
 @media screen and (max-width: 450px) {
   /* Home page */
@@ -2092,7 +2134,23 @@
   width: 318px;
   padding: 43px 28px;
 }
-}
+
+ /*Chat page */
+
+  .chat-users {
+    font-size: 15px;
+  }
+
+  .chat-header-avatar-user .avatar {
+    margin-right: 3px;
+  }
+  .chat-content-actions .action-icon {
+    margin-left: 0;
+  }
+  .chat-content-user-info {
+    max-width: 70%;
+  }
+  }
 
 @media screen and (max-width: 412px) {
   /* Home page */
