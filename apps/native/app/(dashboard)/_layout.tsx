@@ -6,7 +6,7 @@ import { useWebsocketInit } from "../../hooks/use-websocket-init";
 
 import "../main.css";
 
-export default function RootLayout() {
+export default function DashboardLayout() {
   useWebsocketInit();
 
   return (

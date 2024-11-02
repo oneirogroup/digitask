@@ -25,12 +25,7 @@ WORKDIR /app/apps/native
 COPY app app
 COPY assets assets
 COPY components components
-COPY schemas schemas
-COPY ../../libs/shared-lib/src/services services
-COPY types types
-COPY utils utils
-COPY utils utils
-COPY ../../libs/shared-lib/src/api.ts babel.config.js app.config.ts tsconfig.json const.ts eas.json env.d.ts metro.config.js main.js react-native.d.ts tailwind.config.* ./
+COPY hooks hooks
 
 RUN sdkmanager --sdk_root=$ANDROID_HOME --install "platform-tools" "platforms;android-33" "build-tools;33.0.0" "cmdline-tools;latest" "ndk;23.1.7779620" \
                             "extras;google;google_play_services" "extras;android;m2repository"

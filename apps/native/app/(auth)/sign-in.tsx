@@ -1,10 +1,18 @@
 import { Image } from "expo-image";
-import { Link, useNavigation } from "expo-router";
+import { Link, router, useNavigation } from "expo-router";
 import { api } from "libs/shared-lib/src/api";
+import { useEffect } from "react";
 import { SubmitErrorHandler, SubmitHandler } from "react-hook-form";
 import { Text } from "react-native";
 
-import { SignInSchema, Tokens, profileAtom, signInAtom, signInSchema, useRecoilMutation } from "@digitask/shared-lib";
+import {
+  SignInSchema,
+  StorageKeys,
+  profileAtom,
+  signInAtom,
+  signInSchema,
+  useRecoilMutation
+} from "@digitask/shared-lib";
 import { fields } from "@digitask/shared-lib";
 import { AuthHttp, Block, Form, Input, logger } from "@mdreal/ui-kit";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -19,25 +27,41 @@ export default function Welcome() {
 
   const signInMutation = useRecoilMutation(signInAtom, {
     mutationFn: (data: SignInSchema) => api.accounts.login.$post(data),
-    onError: logger.error.bind(logger, "digitask.native:auth:sign-in.auth-error"),
     async onSuccess(data) {
-      await AsyncStorage.setItem(Tokens.ACCESS_TOKEN, data.access_token);
-      await AsyncStorage.setItem(Tokens.REFRESH_TOKEN, data.refresh_token);
-      await authHttpSettings.retrieveTokens()();
+      await AsyncStorage.setItem(StorageKeys.ACCESS_TOKEN, data.access_token);
+      await AsyncStorage.setItem(StorageKeys.REFRESH_TOKEN, data.refresh_token);
+      await AsyncStorage.setItem(StorageKeys.USER_EMAIL, data.email);
+      await AsyncStorage.setItem(StorageKeys.PHONE_NUMBER, data.phone);
     },
+    onError: logger.error.bind(logger, "digitask.native:auth:sign-in.auth-error"),
     isNullable: true
   });
+
   const profileMutation = useRecoilMutation(profileAtom, {
-    mutationKey: [fields.user.profile],
+    mutationKey: [fields.user.profile.toString()],
     mutationFn: () => api.accounts.profile.$get,
     onError: logger.error.bind(logger, "digitask.native:auth:sign-in.profile-error"),
     isNullable: true
   });
 
+  useEffect(() => {
+    setTimeout(() => {
+      signInMutation
+        .mutateAsync({ email: "texnik@mailinator.com", password: "texnik100" })
+        .then(authHttpSettings.retrieveTokens())
+        // @ts-ignore
+        .then(() => profileMutation.mutateAsync())
+        .then(() => {
+          router.replace("/(dashboard)/(chat)/1");
+        });
+    }, 0);
+  }, []);
+
   const onSubmit: SubmitHandler<SignInSchema> = async data => {
     logger.debug("digitask.native:auth:sign-in.form-values", data);
     const response = await signInMutation.mutateAsync(data);
     logger.debug("digitask.native:auth:sign-in.auth-response", response);
+    // @ts-ignore
     await profileMutation.mutateAsync();
     navigation.dispatch(StackActions.popToTop());
     // @ts-ignore

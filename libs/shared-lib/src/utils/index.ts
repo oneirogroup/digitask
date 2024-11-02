@@ -1,4 +1,3 @@
-export * from "./env";
 export * from "./eck";
 export * from "./fields";
 export * from "./get-tags";

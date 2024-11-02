@@ -4,21 +4,10 @@ import { api } from "libs/shared-lib/src/api";
 import { useEffect } from "react";
 import { Text, View } from "react-native";
 
-import { Tokens, env, fields, profileAtom, useRecoilQuery } from "@digitask/shared-lib";
-import { AuthHttp, Block, cn } from "@mdreal/ui-kit";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { fields, profileAtom, useRecoilQuery } from "@digitask/shared-lib";
+import { Block, cn } from "@mdreal/ui-kit";
 
 import logo from "../assets/images/logo.png";
-
-const authHttpSettings = AuthHttp.settings();
-
-authHttpSettings
-  .setBaseUrl(env.EXPO_PUBLIC_API_URL)
-  .setStorage(AsyncStorage)
-  .setStorageTokenKeys({ access: Tokens.ACCESS_TOKEN, refresh: Tokens.REFRESH_TOKEN })
-  .setRefreshUrl("/accounts/token/refresh/")
-  .waitForToken({ timeout: 1e5 })
-  .then(authHttpSettings.retrieveTokens());
 
 export default function Index() {
   const { isSuccess, isError } = useRecoilQuery(profileAtom, {
@@ -30,13 +19,13 @@ export default function Index() {
 
   useEffect(() => {
     if (isSuccess) {
-      router.replace("/(dashboard)");
+      setTimeout(router.push, 200, "/(dashboard)/(chat)/1");
     }
   }, [isSuccess]);
 
   useEffect(() => {
     if (isError) {
-      router.replace("/welcome");
+      router.replace("/(auth)/sign-in");
     }
   }, [isError]);
 
