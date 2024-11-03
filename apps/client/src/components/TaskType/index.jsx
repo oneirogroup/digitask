@@ -1156,20 +1156,6 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
                     </div>
                     <div>
                       <div className="detail-item">
-                        <label>Optik Kabel:</label>
-                        <span>{taskDetails.internet.optical_cable || "-"}</span>
-                      </div>
-                      <hr />
-                    </div>
-                    <div>
-                      <div className="detail-item">
-                        <label>Fastconnector:</label>
-                        <span>{taskDetails.internet.fastconnector || "-"}</span>
-                      </div>
-                      <hr />
-                    </div>
-                    <div>
-                      <div className="detail-item">
                         <label>Siqnal:</label>
                         <span>{taskDetails.internet.siqnal || "-"}</span>
                       </div>

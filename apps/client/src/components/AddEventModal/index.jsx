@@ -233,8 +233,16 @@ const AddEventModal = ({ isOpen, onClose, refreshMeetings }) => {
               {error.eventDate && <p className="error-message">{error.eventDate}</p>}
             </section>
             <section className="meeting-label-input">
-              <label>Saat:</label>
-              <input type="time" value={eventTime} onChange={e => setEventTime(e.target.value)} />
+              <label
+                onClick={() => {
+                  const timeInput = document.getElementById("eventTimeInput");
+                  timeInput.focus();
+                  timeInput.click();
+                }}
+              >
+                Saat:
+              </label>
+              <input id="eventTimeInput" type="time" value={eventTime} onChange={e => setEventTime(e.target.value)} />
               {error.eventTime && <p className="error-message">{error.eventTime}</p>}
             </section>
           </div>

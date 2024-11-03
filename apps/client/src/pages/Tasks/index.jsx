@@ -127,6 +127,10 @@ function Index() {
       });
 
       if (!response.ok) {
+        if (response.status == 403) {
+          await refreshAccessToken();
+          fetchTasks();
+        }
         throw new Error("Network response was not ok");
       }
 
@@ -256,40 +260,30 @@ function Index() {
 
   const handleStatusUpdate = async (taskId, newStatus) => {
     try {
-      const token = localStorage.getItem("access_token");
       const response = await fetch(`http://135.181.42.192/services/task/${taskId}/update/`, {
         method: "PATCH",
         headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`
+          "Content-Type": "application/json"
         },
         body: JSON.stringify({ status: newStatus })
       });
 
-      if (response.ok) {
-        setFilteredData(prevData => prevData.map(task => (task.id === taskId ? { ...task, status: newStatus } : task)));
+      setFilteredData(prevData => prevData.map(task => (task.id === taskId ? { ...task, status: newStatus } : task)));
 
-        const updatedTaskResponse = await fetch(`http://135.181.42.192/services/task/${taskId}/`);
-        const updatedTaskData = await updatedTaskResponse.json();
+      const updatedTaskResponse = await fetch(`http://135.181.42.192/services/task/${taskId}/`);
+      const updatedTaskData = await updatedTaskResponse.json();
 
-        setFilteredData(prevData =>
-          prevData.map(task =>
-            task.id === taskId
-              ? { ...task, first_name: updatedTaskData.first_name, last_name: updatedTaskData.last_name }
-              : task
-          )
-        );
-      } else {
-        if (response.status === 403) {
-          await refreshAccessToken();
-          handleStatusUpdate();
-        }
-        console.error("Error updating task status:", response.status);
-      }
+      setFilteredData(prevData =>
+        prevData.map(task =>
+          task.id === taskId
+            ? { ...task, first_name: updatedTaskData.first_name, last_name: updatedTaskData.last_name }
+            : task
+        )
+      );
     } catch (error) {
       if (error.status == 403) {
         await refreshAccessToken();
-        handleStatusUpdate();
+        handleStatusUpdate(taskId, newStatus);
       }
       console.error("Error updating task status:", error);
     }
