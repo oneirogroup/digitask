@@ -3,6 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import { AiFillMail } from "react-icons/ai";
 import { FaChevronDown, FaChevronRight, FaChevronUp, FaPhoneAlt, FaRegEdit, FaSave } from "react-icons/fa";
 
+import useRefreshToken from "../../common/refreshToken";
+
 import "./profile.css";
 
 const Profile = () => {
@@ -13,6 +15,7 @@ const Profile = () => {
   const [showGroupDropdown, setShowGroupDropdown] = useState(false);
   const userTypeDropdownRef = useRef();
   const groupDropdownRef = useRef();
+  const refreshAccessToken = useRefreshToken();
 
   const [userTypeOptions] = useState([
     { value: "Texnik", label: "Texnik" },
@@ -26,19 +29,38 @@ const Profile = () => {
   const fetchProfileData = async () => {
     try {
       const response = await axios.get("http://135.181.42.192/accounts/profile/");
-      setProfileData(response.data);
+      setProfileData({
+        ...response.data,
+        groupName: response.data.group?.group || "",
+        region: response.data.group?.region || ""
+      });
+      console.log(response.data);
     } catch (error) {
+      if (error.status == 403) {
+        await refreshAccessToken();
+        fetchProfileData();
+      }
       console.error("Error fetching profile data", error);
     } finally {
       setLoading(false);
     }
   };
 
+  useEffect(() => {
+    fetchProfileData();
+    fetchGroups();
+  }, []);
+
   const fetchGroups = async () => {
     try {
       const response = await axios.get("http://135.181.42.192/services/groups/");
+      await refreshAccessToken();
       setGroups(response.data);
     } catch (error) {
+      if (error.status == 403) {
+        await refreshAccessToken();
+        fetchGroups();
+      }
       console.error("Error fetching groups", error);
     }
   };
@@ -57,11 +79,6 @@ const Profile = () => {
     setShowGroupDropdown(false);
   };
 
-  useEffect(() => {
-    fetchProfileData();
-    fetchGroups();
-  }, []);
-
   const handleEditToggle = () => {
     setEditMode(!editMode);
   };
@@ -78,6 +95,10 @@ const Profile = () => {
       setEditMode(false);
       fetchProfileData();
     } catch (error) {
+      if (error.status == 403) {
+        await refreshAccessToken();
+        handleProfileUpdate();
+      }
       console.error("Error updating profile", error);
     }
   };
@@ -91,8 +112,13 @@ const Profile = () => {
         await axios.put("http://135.181.42.192/accounts/profile_image_update/", formData, {
           headers: { "Content-Type": "multipart/form-data" }
         });
+        await refreshAccessToken();
         fetchProfileData();
       } catch (error) {
+        if (error.status == 403) {
+          await refreshAccessToken();
+          handleFileChange();
+        }
         console.error("Error updating profile picture", error);
       }
     }
@@ -145,15 +171,43 @@ const Profile = () => {
               </button>
             </div>
             <div className="profile-table">
+              <div className="profile-photo">
+                {profileData.profil_picture ? (
+                  <>
+                    <img
+                      src={profileData.profil_picture}
+                      alt="Profile"
+                      className="image-preview"
+                      onClick={() => handleImageClick(profileData.profil_picture)}
+                    />
+                    {editMode && (
+                      <label htmlFor="passport" className="upload-button upload-passport-button">
+                        Dəyişmək üçün klikləyin
+                      </label>
+                    )}
+                  </>
+                ) : (
+                  editMode && (
+                    <label htmlFor="passport" className="upload-label">
+                      <span>Yükləmək üçün klikləyin</span>
+                      <div className="upload-icon">
+                        <img src={upload} alt="Upload Icon" />
+                      </div>
+                    </label>
+                  )
+                )}
+                {editMode && (
+                  <input
+                    type="file"
+                    id="passport"
+                    name="passport"
+                    accept="image/*"
+                    onChange={handleFileChange}
+                    style={{ display: "none" }}
+                  />
+                )}
+              </div>
               <div>
-                <div className="profile-photo">
-                  <img src={profileData.profil_picture} alt="Profile" />
-                </div>
-
-                <div className="left">
-                  {editMode && <input type="file" accept="image/*" onChange={handleFileChange} />}
-                </div>
-
                 <div className="input-group">
                   <label htmlFor="first_name">Ad</label>
                   <input

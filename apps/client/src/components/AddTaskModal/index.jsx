@@ -10,6 +10,8 @@ import { TfiWorld } from "react-icons/tfi";
 /////////////////////////////////////////////////////////////////////////start
 import { MapContainer, Marker, TileLayer, useMapEvents } from "react-leaflet";
 
+import useRefreshToken from "../../common/refreshToken";
+
 import upload from "../../assets/images/document-upload.svg";
 import "./addTask.css";
 import "leaflet/dist/leaflet.css";
@@ -50,6 +52,7 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [errors, setErrors] = useState({});
   const dropdownRef = useRef(null);
+  const refreshAccessToken = useRefreshToken();
 
   useEffect(() => {
     const handleClickOutside = event => {
@@ -69,6 +72,10 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
       const response = await axios.get("http://135.181.42.192/services/groups/");
       setGroups(response.data);
     } catch (error) {
+      if (error.status == 403) {
+        await refreshAccessToken();
+        fetchGroups(true);
+      }
       console.error("Error fetching groups:", error);
     }
   };
@@ -210,6 +217,9 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
       if (response.status === 201) {
         onTaskCreated(response.data);
         onClose();
+      } else if (response.status == 403) {
+        refreshAccessToken();
+        handleSubmit();
       } else {
         const backendErrors = response.data.errors;
         console.log("Backend Errors Response: ", response.data); // Log the response to see structure
@@ -222,6 +232,10 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
         }
       }
     } catch (error) {
+      if (error.status == 403) {
+        await refreshAccessToken();
+        handleSubmit(e, true);
+      }
       console.error("Error creating task:", error);
     }
 

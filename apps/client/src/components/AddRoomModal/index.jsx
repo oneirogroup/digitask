@@ -1,51 +1,62 @@
-import { useState, useEffect, useRef } from 'react';
-import './addRoomModal.css';
-import axios from 'axios';
-import { FaChevronUp, FaChevronDown } from 'react-icons/fa';
+import axios from "axios";
+import { useEffect, useRef, useState } from "react";
+import { FaChevronDown, FaChevronUp } from "react-icons/fa";
+
+import useRefreshToken from "../../common/refreshToken";
+
+import "./addRoomModal.css";
 
 const AddRoomModal = ({ onClose }) => {
-  const [name, setName] = useState('');
+  const [name, setName] = useState("");
   const [members, setMembers] = useState([]);
   const [memberOptions, setMemberOptions] = useState([]);
   const [showMembersDropdown, setShowMembersDropdown] = useState(false);
   const modalRef = useRef(null);
   const dropdownRef = useRef(null);
+  const refreshAccessToken = useRefreshToken();
 
   useEffect(() => {
     const fetchMembers = async () => {
       try {
-        const token = localStorage.getItem('access_token');
-        const response = await axios.get('http://135.181.42.192/accounts/users/', {
+        const token = localStorage.getItem("access_token");
+        const response = await axios.get("http://135.181.42.192/accounts/users/", {
           headers: {
-            'Authorization': `Bearer ${token}`
+            Authorization: `Bearer ${token}`
           }
         });
-        console.log(response.data,'---------')
+        console.log(response.data, "---------");
         setMemberOptions(response.data);
       } catch (error) {
-        console.error('Error fetching members:', error);
+        if (error.status == 403) {
+          await refreshAccessToken();
+          fetchMembers();
+        }
+        console.error("Error fetching members:", error);
       }
     };
 
     fetchMembers();
-  }, []);
+  }, [refreshAccessToken]);
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
+    const handleClickOutside = event => {
       if (
-        modalRef.current && !modalRef.current.contains(event.target) &&
-        dropdownRef.current && !dropdownRef.current.contains(event.target)
+        modalRef.current &&
+        !modalRef.current.contains(event.target) &&
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target)
       ) {
         onClose();
-      } if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      }
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setShowMembersDropdown(false);
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
 
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [onClose]);
 
@@ -53,7 +64,7 @@ const AddRoomModal = ({ onClose }) => {
     setShowMembersDropdown(!showMembersDropdown);
   };
 
-  const handleSelectMember = (memberId) => {
+  const handleSelectMember = memberId => {
     if (members.includes(memberId)) {
       setMembers(members.filter(id => id !== memberId));
     } else {
@@ -61,44 +72,49 @@ const AddRoomModal = ({ onClose }) => {
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault();
 
     try {
-      const token = localStorage.getItem('access_token');
+      const token = localStorage.getItem("access_token");
       const response = await axios.post(
-        'http://135.181.42.192/accounts/add_group/',
+        "http://135.181.42.192/accounts/add_group/",
         {
           name: name,
-          members: members,
+          members: members
         },
         {
           headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json"
           }
         }
       );
 
-      console.log('Room added:', response.data);
+      console.log("Room added:", response.data);
       onClose();
     } catch (error) {
-      console.error('Error adding room:', error);
+      if (error.status == 403) {
+        await refreshAccessToken();
+        handleSubmit();
+      }
+      console.error("Error adding room:", error);
     }
   };
 
-  const token = localStorage.getItem('access_token');
-  const currentUserId = token ? JSON.parse(atob(token.split('.')[1])).user_id : null;
+  const token = localStorage.getItem("access_token");
+  const currentUserId = token ? JSON.parse(atob(token.split(".")[1])).user_id : null;
 
   const filteredMemberOptions = memberOptions.filter(member => member.id !== currentUserId);
 
-  const selectedMemberNames = members
-    .map(memberId => {
-      const member = filteredMemberOptions.find(option => option.id === memberId);
-      return member ? member?.first_name + ' ' + member?.last_name : '';
-    })
-    .filter(name => name)
-    .join(', ') || 'Üzvləri seçin';
+  const selectedMemberNames =
+    members
+      .map(memberId => {
+        const member = filteredMemberOptions.find(option => option.id === memberId);
+        return member ? member?.first_name + " " + member?.last_name : "";
+      })
+      .filter(name => name)
+      .join(", ") || "Üzvləri seçin";
 
   return (
     <div className="room-modal-overlay">
@@ -109,15 +125,9 @@ const AddRoomModal = ({ onClose }) => {
         </div>
         <hr />
         <form onSubmit={handleSubmit}>
-          <div className='form-group'>
+          <div className="form-group">
             <label htmlFor="roomName">Ad</label>
-            <input
-              type="text"
-              id="roomName"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-            />
+            <input type="text" id="roomName" value={name} onChange={e => setName(e.target.value)} required />
           </div>
           <div className="multi-select-container form-group">
             <label htmlFor="">Üzvlər</label>
@@ -129,15 +139,21 @@ const AddRoomModal = ({ onClose }) => {
               <div className="add-room-multi-select-dropdown" ref={dropdownRef}>
                 <label htmlFor="closeMembersDropdown">
                   Üzvlər
-                  <span className="close-dropdown" id="closeMembersDropdown" onClick={() => setShowMembersDropdown(false)}>&times;</span>
+                  <span
+                    className="close-dropdown"
+                    id="closeMembersDropdown"
+                    onClick={() => setShowMembersDropdown(false)}
+                  >
+                    &times;
+                  </span>
                 </label>
                 {filteredMemberOptions.map(member => (
                   <div
                     key={member.id}
                     onClick={() => handleSelectMember(member.id)}
-                    className={members.includes(member.id) ? 'selected' : ''}
+                    className={members.includes(member.id) ? "selected" : ""}
                   >
-                    {member.first_name}   {member.last_name}
+                    {member.first_name} {member.last_name}
                   </div>
                 ))}
               </div>
