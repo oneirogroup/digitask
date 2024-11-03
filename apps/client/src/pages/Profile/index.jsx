@@ -90,7 +90,7 @@ const Profile = () => {
         ...profileWithoutPhoto,
         group: profileData.group,
         groupName: profileData.groupName,
-        groupData: profileData.groupData
+        groupData: profileData?.groupData
       });
       setEditMode(false);
       fetchProfileData();
@@ -112,12 +112,15 @@ const Profile = () => {
         await axios.put("http://135.181.42.192/accounts/profile_image_update/", formData, {
           headers: { "Content-Type": "multipart/form-data" }
         });
-        await refreshAccessToken();
         fetchProfileData();
       } catch (error) {
         if (error.status == 403) {
+          console.log(formData)
           await refreshAccessToken();
-          handleFileChange();
+          await axios.put("http://135.181.42.192/accounts/profile_image_update/", formData, {
+            headers: { "Content-Type": "multipart/form-data" }
+          });
+          fetchProfileData();
         }
         console.error("Error updating profile picture", error);
       }
