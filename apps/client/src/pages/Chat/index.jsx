@@ -74,7 +74,10 @@ const Chat = () => {
         try {
           connectWebSocketChat();
         } catch (refreshError) {
-          console.error("Chat Error refreshing token:", refreshError);
+          if (refreshError.status == 403) {
+            await refreshAccessToken();
+            connectWebSocketChat();
+          }
         }
       };
 
@@ -92,7 +95,7 @@ const Chat = () => {
         }
       };
     } catch (error) {
-      if (response.status == 403) {
+      if (error.status == 403) {
         await refreshAccessToken();
         connectWebSocketChat();
       }
@@ -101,6 +104,7 @@ const Chat = () => {
   };
 
   const sendMessage = () => {
+    refreshAccessToken();
     if (wsChat.current) {
       wsChat.current.send(
         JSON.stringify({
@@ -166,7 +170,7 @@ const Chat = () => {
       setGroups(data);
       initializeGroupModals(data);
     } catch (error) {
-      if (response.status == 403) {
+      if (error.status == 403) {
         await refreshAccessToken();
         fetchData();
       }
@@ -230,7 +234,7 @@ const Chat = () => {
 
       setMessages(data.reverse());
     } catch (error) {
-      if (response.status == 403) {
+      if (error.status == 403) {
         await refreshAccessToken();
         fetchMessages();
       }
@@ -324,6 +328,7 @@ const Chat = () => {
   };
 
   useEffect(() => {
+    refreshAccessToken();
     if (selectedGroup) {
       const mygroupName = groups.find(g => g.id === selectedGroup)?.name || [];
       const groupMembers = groups.find(g => g.id === selectedGroup)?.members || [];

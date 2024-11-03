@@ -147,15 +147,13 @@ const AddUserModal = ({ onClose, onUserAdded }) => {
       } catch (error) {
         if (error.status == 403) {
           await refreshAccessToken();
-          handleSubmit();
+          handleSubmit(e, true);
+        } else {
+          setFormErrors({
+            ...formErrors,
+            submit: "Qeydiyyat zamanı bir xəta baş verdi. Xahiş olunur, yenidən cəhd edin."
+          });
         }
-        console.error("Registration error:", error);
-        setFormErrors({
-          ...formErrors,
-          submit: "Qeydiyyat zamanı bir xəta baş verdi. Xahiş olunur, yenidən cəhd edin."
-        });
-      } finally {
-        setLoading(false);
       }
     }
   };
@@ -316,9 +314,7 @@ const AddUserModal = ({ onClose, onUserAdded }) => {
               {formErrors.phone && <span className="error-message">{formErrors.phone}</span>}
             </div>
           </div>
-          <button type="submit" disabled={loading}>
-            {loading ? "Göndərilir..." : "İstifadəçi əlavə et"}
-          </button>
+          <button type="submit">İstifadəçi əlavə et</button>
           {formErrors.submit && <div className="error-message submit-error-message">{formErrors.submit}</div>}
         </form>
       </div>

@@ -142,7 +142,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
   const [warehouseItems, setWarehouseItems] = useState([]);
 
   useEffect(() => {
-    const fetchTaskData = async () => {
+    const fetchTaskData = async e => {
       if (taskId) {
         try {
           const response = await fetch(`http://135.181.42.192/services/task/${taskId}/`);
@@ -449,7 +449,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
           console.error("Error updating image:", error);
           if (error.status == 403) {
             await refreshAccessToken();
-            handleFormSubmit();
+            handleFormSubmit(e, true);
           }
         });
     }

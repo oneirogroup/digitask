@@ -9,6 +9,7 @@ const AddGroupModal = ({ onClose, onGroupAdded }) => {
   const [group, setGroup] = useState("");
   const [region, setRegion] = useState("");
   const refreshAccessToken = useRefreshToken();
+
   const handleSubmit = async e => {
     e.preventDefault();
     try {
@@ -28,7 +29,7 @@ const AddGroupModal = ({ onClose, onGroupAdded }) => {
     } catch (error) {
       if (error.status == 403) {
         await refreshAccessToken();
-        handleSubmit();
+        handleSubmit(e, true);
       }
       console.error("Error adding group:", error);
     }

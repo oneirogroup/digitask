@@ -39,6 +39,7 @@ function Index() {
   const modalRef = useRef(null);
 
   useEffect(() => {
+    refreshAccessToken();
     const storedUserType = localStorage.getItem("user_type") || sessionStorage.getItem("user_type");
     const storedUserPhone = localStorage.getItem("phone") || sessionStorage.getItem("phone");
     setUserType(storedUserType);
@@ -160,11 +161,13 @@ function Index() {
   };
 
   const filterData = filter => {
-    applyFilters(filter, selectedMonth, selectedYear, selectedStatusFilter, activeFilter);
+    refreshAccessToken();
     setActiveFilter(filter);
+    applyFilters(filter, selectedMonth, selectedYear, selectedStatusFilter, activeFilter);
   };
 
   const filterByStatus = statusFilter => {
+    refreshAccessToken();
     setIsStatusModalOpen(false);
     setSelectedStatusFilter(selectedStatusFilter);
     applyFilters(activeFilter, selectedMonth, selectedYear, statusFilter);
@@ -314,6 +317,7 @@ function Index() {
   };
 
   useEffect(() => {
+    refreshAccessToken();
     fetchTasks(activeFilter, selectedMonth, selectedYear, selectedStatusFilter);
   }, [activeFilter, selectedMonth, selectedYear, selectedStatusFilter]);
 

@@ -30,23 +30,14 @@ const AddWarehouseModal = ({ onClose, onWarehouseAdded }) => {
     }
 
     try {
-      const token = localStorage.getItem("access_token");
-      const response = await axios.post(
-        "http://135.181.42.192/warehouse/warehouses/",
-        { name, region },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        }
-      );
+      const response = await axios.post("http://135.181.42.192/warehouse/warehouses/", { name, region });
 
       onWarehouseAdded(response.data);
       onClose();
     } catch (error) {
       if (error.status == 403) {
         await refreshAccessToken();
-        handleSubmit();
+        handleSubmit(e, true);
       }
       console.error("Error adding group:", error);
     }

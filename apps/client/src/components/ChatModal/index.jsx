@@ -23,7 +23,6 @@ const ChatModal = ({ isOpen, onClose, groupName, members, group, onMembersUpdate
       setLocalMembers(members);
     }
   }, [isOpen, members]);
-
   const refreshAccessToken = useRefreshToken();
 
   useEffect(() => {

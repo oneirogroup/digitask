@@ -23,7 +23,7 @@
 .chat-sidebar.open {
   transform: translateX(0);
   overflow: auto;
-  height: 100%;
+  height: 90%;
 }
 
 .toggle-sidebar {
@@ -56,7 +56,7 @@
   align-items: center;
   margin-top: 10px;
   padding: 10px;
-  background-color: #F7F5FF;
+  background-color: #f7f5ff;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -67,14 +67,14 @@
   flex-grow: 1;
   margin-left: 10px;
   background-color: inherit;
-  color: #76777A;
+  color: #76777a;
   font-family: Nunito Sans;
   font-size: 16px;
   font-weight: 500;
 }
 
 .search-icon {
-  color: #005ABF;
+  color: #005abf;
   font-size: 26px;
 }
 
@@ -103,7 +103,7 @@
 }
 
 .chat-list-item.active {
-  background-color: #F7F5FF;
+  background-color: #f7f5ff;
   border-radius: 8px;
 }
 
@@ -111,8 +111,8 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background-color: #F1F0F4;
-  color: #2B75CC;
+  background-color: #f1f0f4;
+  color: #2b75cc;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -122,7 +122,7 @@
   font-weight: 600;
 }
 
-.avatar svg{
+.avatar svg {
   font-size: 25px;
   object-fit: cover;
 }
@@ -135,7 +135,7 @@
   margin: 0;
   font-family: Nunito Sans;
   font-size: 18px;
-  color: #2F3033;
+  color: #2f3033;
   font-weight: 600;
 }
 
@@ -144,12 +144,12 @@
   font-family: Nunito Sans;
 
   font-size: 14px;
-  color: #2F3033;
+  color: #2f3033;
   font-weight: 600;
-font-size: 12px;
+  font-size: 12px;
 }
 
-.chat-info span{
+.chat-info span {
   color: #909094;
 }
 
@@ -227,7 +227,6 @@ font-size: 12px;
   font-family: Nunito Sans;
   font-weight: 600;
   font-size: 16px;
-
 }
 
 .online-status {
@@ -267,13 +266,13 @@ font-size: 12px;
   gap: 2px;
 }
 
-.message > p{
+.message > p {
   font-family: Nunito Sans;
   font-size: 14px;
   font-weight: 600;
 }
 
-.message-content p{
+.message-content p {
   font-family: Nunito Sans;
   font-size: 16px;
 }
@@ -293,20 +292,19 @@ font-size: 12px;
   color: #ffffff;
 }
 
-.sent .message span{
-  color: #F1F0F4;
+.sent .message span {
+  color: #f1f0f4;
 }
-
 
 .sent {
   align-self: flex-end;
 }
 
-.message-time {  
+.message-time {
   font-family: Nunito Sans;
   font-size: 8px;
   font-weight: 500;
-  color: #ABABAF;
+  color: #ababaf;
   margin-top: 5px;
   display: block;
   text-align: right;
@@ -322,7 +320,7 @@ font-size: 12px;
   gap: 10px;
 }
 
-.chat-input div{
+.chat-input div {
   width: 100%;
   position: relative;
   background-color: white;
@@ -343,7 +341,7 @@ font-size: 12px;
 }
 
 .send-icon {
-  color: #005ABF;
+  color: #005abf;
   font-size: 20px;
   cursor: pointer;
   margin-left: 10px;
@@ -363,7 +361,7 @@ font-size: 12px;
   margin-left: 40px;
 }
 
-.chat-input >svg {
+.chat-input > svg {
   font-size: 20px;
   cursor: pointer;
 }
@@ -373,11 +371,11 @@ font-size: 12px;
   justify-content: center;
 }
 .loadMessages button {
-  padding:4px 8px;
+  padding: 4px 8px;
   border: 1px solid rgb(67, 90, 240);
-  border-radius:10px;
-  cursor:pointer;
-  color:rgb(255, 255, 255);
+  border-radius: 10px;
+  cursor: pointer;
+  color: rgb(255, 255, 255);
   background-color: rgb(67, 90, 240);
 }
 .loadMessages:active {
@@ -399,7 +397,7 @@ font-size: 12px;
     border: none;
   }
 
-  .sidebar-toggle-button svg{
+  .sidebar-toggle-button svg {
     font-size: 25px;
   }
 
@@ -424,5 +422,3 @@ font-size: 12px;
     width: calc(100% - 250px);
   }
 }
-
-

@@ -157,10 +157,9 @@ const UpdateUserModal = ({ isOpen, onClose, employee, onUpdateUser }) => {
       onUpdateUser(response.data);
       onClose();
     } catch (error) {
-      if (error.response && error.response.data) {
-        console.error("Update error:", error.response.data);
-      } else {
-        console.error("Update error:", error.message);
+      if (error.response.status == 403) {
+        await refreshAccessToken();
+        handleSubmit(e);
       }
     }
   };

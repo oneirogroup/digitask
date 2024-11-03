@@ -129,24 +129,26 @@
   font-weight: bold !important;
 }
 
-.warehouseTable table, .historyTable table, .historyImportTable table {
+.warehouseTable table,
+.historyTable table,
+.historyImportTable table {
   border-collapse: collapse;
   width: 100%;
 }
 
 .warehouseTable {
-    width: 100%;
-    max-height: 52vh;
-    overflow-x: auto;
-    scrollbar-width: thin;
+  width: 100%;
+  max-height: 52vh;
+  overflow-x: auto;
+  scrollbar-width: thin;
 }
 
-.historyTable{
-  height: 59vh;
-}
-
-.warehouseTable th, .historyTable th, .historyImportTable th,
-.warehouseTable td, .historyTable td, .historyImportTable td {
+.warehouseTable th,
+.historyTable th,
+.historyImportTable th,
+.warehouseTable td,
+.historyTable td,
+.historyImportTable td {
   text-align: center;
   padding: 12px 10px;
   text-align: center;
@@ -154,12 +156,16 @@
   font-family: Nunito Sans;
 }
 
-.warehouseTable th, .historyTable th, .historyImportTable th {
+.warehouseTable th,
+.historyTable th,
+.historyImportTable th {
   font-size: 16px;
   font-weight: bold;
 }
 
-.warehouseTable, .historyTable, .historyImportTable {
+.warehouseTable,
+.historyTable,
+.historyImportTable {
   margin: 20px 0 10px 0;
   border-radius: 12px;
   width: 100%;
@@ -174,12 +180,16 @@
   overflow-x: auto;
 }
 
-.warehouseTable thead, .historyTable thead, .historyImportTable thead {
+.warehouseTable thead,
+.historyTable thead,
+.historyImportTable thead {
   background-color: #d2e5fa;
   height: 60px;
 }
 
-.warehouseTable tbody, .historyTable tbody, .historyImportTable tbody {
+.warehouseTable tbody,
+.historyTable tbody,
+.historyImportTable tbody {
   background-color: white;
 }
 
@@ -194,12 +204,7 @@
 }
 
 .warehouseTable tbody td:nth-of-type(2),
-.warehouseTable
-tbody
-td:nth-of-type(2)
-.warehouseTable
-tbody
-td:nth-of-type(4) {
+.warehouseTable tbody td:nth-of-type(2) .warehouseTable tbody td:nth-of-type(4) {
   font-size: 16px;
   color: #2f3033;
 }
@@ -211,7 +216,7 @@ td:nth-of-type(4) {
 .region-filter {
   position: relative;
   display: flex;
-  gap:10px;
+  gap: 10px;
   height: 42px;
 }
 
@@ -242,7 +247,7 @@ td:nth-of-type(4) {
   width: 100%;
   overflow: auto;
 }
-option{
+option {
   text-align: center;
   width: 100%;
 }
@@ -272,20 +277,19 @@ option{
   gap: 5px;
   background-color: inherit;
 }
-.small-css{
+.small-css {
   position: absolute;
   left: -60px;
   width: 60px;
-  border:1px solid rgb(154, 154, 154);
+  border: 1px solid rgb(154, 154, 154);
 }
-
 
 .tableRow {
   position: relative;
   cursor: pointer;
 }
 
-.tableRow:hover{
+.tableRow:hover {
   background-color: #f1f1f1;
   transition-duration: 0.5s;
 }
@@ -300,7 +304,6 @@ option{
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   z-index: 1000;
 }
-
 
 .small-modal-warehouse-content button {
   display: block;
@@ -325,6 +328,6 @@ option{
   border-radius: 0 0 10px 10px;
 }
 
-.warehouse-threeDots{
+.warehouse-threeDots {
   padding: 10px;
 }

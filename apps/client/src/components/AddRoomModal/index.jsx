@@ -16,27 +16,21 @@ const AddRoomModal = ({ onClose }) => {
   const refreshAccessToken = useRefreshToken();
 
   useEffect(() => {
-    const fetchMembers = async () => {
+    const fetchMembers = async (isRetry = false) => {
       try {
-        const token = localStorage.getItem("access_token");
-        const response = await axios.get("http://135.181.42.192/accounts/users/", {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        });
+        const response = await axios.get("http://135.181.42.192/accounts/users/");
         console.log(response.data, "---------");
         setMemberOptions(response.data);
       } catch (error) {
-        if (error.status == 403) {
+        if (error.response && error.response.status === 403 && !isRetry) {
           await refreshAccessToken();
-          fetchMembers();
+          fetchMembers(true);
         }
-        console.error("Error fetching members:", error);
       }
     };
 
     fetchMembers();
-  }, [refreshAccessToken]);
+  }, []);
 
   useEffect(() => {
     const handleClickOutside = event => {
@@ -96,7 +90,7 @@ const AddRoomModal = ({ onClose }) => {
     } catch (error) {
       if (error.status == 403) {
         await refreshAccessToken();
-        handleSubmit();
+        handleSubmit(e, true);
       }
       console.error("Error adding room:", error);
     }

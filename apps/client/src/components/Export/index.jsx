@@ -111,7 +111,7 @@ const DecrementItemForm = ({ onClose, itemId, productNumber, action, fetchData }
     } catch (error) {
       if (error.status == 403) {
         await refreshAccessToken();
-        handleSubmit();
+        handleSubmit(e, true);
       } else {
         console.error("An error occurred:", error);
         setError("An error occurred");

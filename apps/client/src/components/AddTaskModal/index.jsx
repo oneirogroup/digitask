@@ -67,16 +67,15 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
     };
   }, []);
 
-  const fetchGroups = async () => {
+  const fetchGroups = async (isRetry = false) => {
     try {
       const response = await axios.get("http://135.181.42.192/services/groups/");
       setGroups(response.data);
     } catch (error) {
-      if (error.status == 403) {
+      if (error.status === 403 && !isRetry) {
         await refreshAccessToken();
         fetchGroups(true);
       }
-      console.error("Error fetching groups:", error);
     }
   };
 
@@ -177,13 +176,14 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
 
   const [backendErrors, setBackendErrors] = useState([]);
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e, retry = false) => {
     e.preventDefault();
     const { newErrors, errorText } = validateForm();
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       setErrorText(errorText);
+      return;
     }
 
     try {
@@ -210,6 +210,7 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
 
       const response = await axios.post("http://135.181.42.192/services/create_task/", payload, {
         headers: {
+          "Authorization": `Bearer ${localStorage.getItem("access_token")}`,
           "Content-Type": "multipart/form-data"
         }
       });
@@ -217,12 +218,9 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
       if (response.status === 201) {
         onTaskCreated(response.data);
         onClose();
-      } else if (response.status == 403) {
-        refreshAccessToken();
-        handleSubmit();
       } else {
         const backendErrors = response.data.errors;
-        console.log("Backend Errors Response: ", response.data); // Log the response to see structure
+        console.log("Backend Errors Response: ", response.data);
 
         if (backendErrors && typeof backendErrors === "object") {
           const errorMessages = Object.entries(backendErrors).map(([field, messages]) => {
@@ -236,15 +234,6 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
         await refreshAccessToken();
         handleSubmit(e, true);
       }
-      console.error("Error creating task:", error);
-    }
-
-    if (backendErrors.length > 0) {
-      combinedErrorText = backendErrors.join(", ");
-    }
-
-    if (combinedErrorText) {
-      setErrorText(combinedErrorText);
     }
   };
 

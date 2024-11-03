@@ -61,7 +61,7 @@ function Import({ onClose, warehouses, fetchData }) {
       return;
     }
 
-    const accessToken = localStorage.getItem("access_token");
+    let accessToken = localStorage.getItem("access_token");
     if (!accessToken) {
       console.error("Access token is missing");
       return;
@@ -83,6 +83,22 @@ function Import({ onClose, warehouses, fetchData }) {
       const response = await fetch("http://135.181.42.192/warehouse/warehouse-items/", requestOptions);
 
       if (!response.ok) {
+        if (response.status === 403) {
+          await refreshAccessToken();
+          accessToken = localStorage.getItem("access_token");
+          requestOptions.headers["Authorization"] = `Bearer ${accessToken}`;
+          const retryResponse = await fetch("http://135.181.42.192/warehouse/warehouse-items/", requestOptions);
+          if (!retryResponse.ok) {
+            throw new Error(`HTTP error! Status: ${retryResponse.status}`);
+          }
+
+          const retryData = await retryResponse.json();
+          console.log("Item imported successfully after token refresh:", retryData);
+          fetchData();
+          onClose();
+          return;
+        }
+
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
@@ -91,11 +107,8 @@ function Import({ onClose, warehouses, fetchData }) {
       fetchData();
       onClose();
     } catch (error) {
-      if (error.status == 403) {
-        await refreshAccessToken();
-        handleSubmit();
-      }
       console.error("Error importing item:", error);
+      alert("An error occurred while importing the item. Please try again later.");
     }
   };
 
