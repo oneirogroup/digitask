@@ -7,6 +7,7 @@ import { MdGroups } from "react-icons/md";
 import { MdMenu } from "react-icons/md";
 import { RiAttachmentLine } from "react-icons/ri";
 
+import useRefreshToken from "../../common/refreshToken";
 import AddRoomModal from "../../components/AddRoomModal";
 import ChatModal from "../../components/ChatModal";
 
@@ -24,6 +25,8 @@ const Chat = () => {
   const divRef = useRef(null);
   const [shouldScroll, setShouldScroll] = useState(true);
   const [isAddRoomModal, setIsAddRoomModal] = useState(false);
+
+  const refreshAccessToken = useRefreshToken();
 
   const colors = ["#ff5733", "#33ff57", "#3357ff", "#ff33a1", "#33fff7", "#f7ff33"];
 
@@ -71,7 +74,10 @@ const Chat = () => {
         try {
           connectWebSocketChat();
         } catch (refreshError) {
-          console.error("Chat Error refreshing token:", refreshError);
+          if (refreshError.status == 403) {
+            await refreshAccessToken();
+            connectWebSocketChat();
+          }
         }
       };
 
@@ -89,11 +95,16 @@ const Chat = () => {
         }
       };
     } catch (error) {
+      if (error.status == 403) {
+        await refreshAccessToken();
+        connectWebSocketChat();
+      }
       console.error("WebSocketChat connection error:", error);
     }
   };
 
   const sendMessage = () => {
+    refreshAccessToken();
     if (wsChat.current) {
       wsChat.current.send(
         JSON.stringify({
@@ -159,6 +170,10 @@ const Chat = () => {
       setGroups(data);
       initializeGroupModals(data);
     } catch (error) {
+      if (error.status == 403) {
+        await refreshAccessToken();
+        fetchData();
+      }
       console.error("Fetch error:", error);
     }
   };
@@ -219,6 +234,10 @@ const Chat = () => {
 
       setMessages(data.reverse());
     } catch (error) {
+      if (error.status == 403) {
+        await refreshAccessToken();
+        fetchMessages();
+      }
       console.error("Fetch error:", error);
     }
   };
@@ -309,6 +328,7 @@ const Chat = () => {
   };
 
   useEffect(() => {
+    refreshAccessToken();
     if (selectedGroup) {
       const mygroupName = groups.find(g => g.id === selectedGroup)?.name || [];
       const groupMembers = groups.find(g => g.id === selectedGroup)?.members || [];

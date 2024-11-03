@@ -1,66 +1,65 @@
-import axios from 'axios';
-import { useState, useEffect } from 'react';
-import "./export.css";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 
-const DecrementItemForm = ({ onClose, itemId, productNumber,action,fetchData }) => {
+import useRefreshToken from "../../common/refreshToken";
 
+import "./export.css";
+
+const DecrementItemForm = ({ onClose, itemId, productNumber, action, fetchData }) => {
   const [deliveryNote, setDeliveryNote] = useState("");
   const [newCount, setNewCount] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [numberError, setNumberError] = useState("");
-
-
+  const refreshAccessToken = useRefreshToken();
 
   useEffect(() => {
-    const inputElement = document.getElementById('number-input');
-    const handleWheel = (e) => {
+    const inputElement = document.getElementById("number-input");
+    const handleWheel = e => {
       e.preventDefault();
     };
 
     if (inputElement) {
-      inputElement.addEventListener('wheel', handleWheel);
+      inputElement.addEventListener("wheel", handleWheel);
     }
     return () => {
       if (inputElement) {
-        inputElement.removeEventListener('wheel', handleWheel);
+        inputElement.removeEventListener("wheel", handleWheel);
       }
     };
   }, []);
 
-  const handleNoteChange = (e) => {
-    setDeliveryNote(e.target.value)
-  }
+  const handleNoteChange = e => {
+    setDeliveryNote(e.target.value);
+  };
 
-  const handleNumberChange = (e) => {
+  const handleNumberChange = e => {
     let value = e.target.value;
 
-
     if (value < 0) {
-      setNumberError('0-dan kicik eded daxil edile bilmez')
+      setNumberError("0-dan kicik eded daxil edile bilmez");
       return;
     }
 
     if (action.action === "decrement" && value > productNumber) {
-      setNumberError(`${productNumber} məhsul sayını keçmək olmaz`)
+      setNumberError(`${productNumber} məhsul sayını keçmək olmaz`);
       value = productNumber;
     }
 
     if (action.action === "increment" && value > 1000) {
-      setNumberError(`Birdəfəyə əlavə oluna bilən məhsul sayı 1000-i keçə bilməz`)
+      setNumberError(`Birdəfəyə əlavə oluna bilən məhsul sayı 1000-i keçə bilməz`);
       value = 1000;
     }
 
     setNewCount(value);
-
   };
 
   useEffect(() => {
-    console.log('newCount changed:', newCount);
+    console.log("newCount changed:", newCount);
   }, [newCount]);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault();
     setError("");
     setSuccess("");
@@ -75,7 +74,7 @@ const DecrementItemForm = ({ onClose, itemId, productNumber,action,fetchData }) 
 
     if (!valid) return;
 
-    const token = localStorage.getItem('access_token');
+    const token = localStorage.getItem("access_token");
     if (!token) {
       console.error("No token found");
       return;
@@ -84,10 +83,16 @@ const DecrementItemForm = ({ onClose, itemId, productNumber,action,fetchData }) 
     const data = {
       delivery_note: deliveryNote,
       old_count: parseInt(action.count),
-      new_count: action.action == 'decrement'?parseInt(action.count) - parseInt(newCount) :parseInt(action.count) + parseInt(newCount),
-      count: action.action == 'decrement'?parseInt(action.count) - parseInt(newCount) :parseInt(action.count) + parseInt(newCount)
+      new_count:
+        action.action == "decrement"
+          ? parseInt(action.count) - parseInt(newCount)
+          : parseInt(action.count) + parseInt(newCount),
+      count:
+        action.action == "decrement"
+          ? parseInt(action.count) - parseInt(newCount)
+          : parseInt(action.count) + parseInt(newCount)
     };
-    console.log(data)
+    console.log(data);
     try {
       const response = await axios.patch(`http://135.181.42.192/warehouse/warehouse-items/${itemId}/`, data, {
         headers: {
@@ -96,7 +101,7 @@ const DecrementItemForm = ({ onClose, itemId, productNumber,action,fetchData }) 
         }
       });
       if (response.data.error) {
-        console.log(response.data.error)
+        console.log(response.data.error);
         setError(response.data.error);
       } else {
         setSuccess(response.data.message);
@@ -104,33 +109,28 @@ const DecrementItemForm = ({ onClose, itemId, productNumber,action,fetchData }) 
         onClose();
       }
     } catch (error) {
-      if (error.response && (error.response.status === 401 || error.response.status === 403)) {
-        try {
-          await handleSubmit(e);
-        } catch (refreshError) {
-          console.error('Token refresh failed:', refreshError);
-        }
+      if (error.status == 403) {
+        await refreshAccessToken();
+        handleSubmit(e, true);
       } else {
-        console.error('An error occurred:', error);
+        console.error("An error occurred:", error);
         setError("An error occurred");
       }
     }
   };
-
-
 
   return (
     <div className="export-modal">
       <div className="export-modal-content">
         <div className="export-modal-title">
           <h5>{action.actionName}</h5>
-          <span className="close" onClick={onClose}>&times;</span>
+          <span className="close" onClick={onClose}>
+            &times;
+          </span>
         </div>
         <hr />
         <form onSubmit={handleSubmit}>
           <div className="export-form">
-
-
             <label>
               Say
               <input
@@ -138,26 +138,20 @@ const DecrementItemForm = ({ onClose, itemId, productNumber,action,fetchData }) 
                 type="number"
                 value={newCount}
                 onChange={handleNumberChange}
-                max={action.action=='decrement'?productNumber:10000}
-                onKeyDown={(evt) => (evt.key === 'e' || evt.key === '-') && evt.preventDefault()}
+                max={action.action == "decrement" ? productNumber : 10000}
+                onKeyDown={evt => (evt.key === "e" || evt.key === "-") && evt.preventDefault()}
               />
               {numberError && <p className="error-message">{numberError}</p>}
             </label>
 
             <label>
               Qeyd
-              <input
-                id="note-input"
-                type="text"
-                value={deliveryNote}
-                onChange={handleNoteChange}
-              />
-
+              <input id="note-input" type="text" value={deliveryNote} onChange={handleNoteChange} />
             </label>
-
-
           </div>
-          <button type="submit" className="submit-btn">{action.actionName}</button>
+          <button type="submit" className="submit-btn">
+            {action.actionName}
+          </button>
           {error && <p className="error">{error}</p>}
           {success && <p className="success">{success}</p>}
         </form>

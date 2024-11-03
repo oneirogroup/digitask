@@ -14,6 +14,7 @@ import { SiTyper } from "react-icons/si";
 import { TfiWorld } from "react-icons/tfi";
 import { MapContainer, Marker, TileLayer, useMapEvents } from "react-leaflet";
 
+import useRefreshToken from "../../common/refreshToken";
 import { useUser } from "../../contexts/UserContext";
 import AddItemModal from "../AddItemModal";
 import AddSurveyModal from "../AddSurveyModal";
@@ -64,6 +65,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
   const groupDropdownRef = useRef(null);
   const [preview, setPreview] = useState(null);
   const modalRef = useRef(null);
+  const refreshAccessToken = useRefreshToken();
 
   const handleClickOutside = event => {
     if (modalRef.current && !modalRef.current.contains(event.target)) {
@@ -140,10 +142,18 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
   const [warehouseItems, setWarehouseItems] = useState([]);
 
   useEffect(() => {
-    if (taskId) {
-      fetch(`http://135.181.42.192/services/task/${taskId}/`)
-        .then(response => response.json())
-        .then(data => {
+    const fetchTaskData = async e => {
+      if (taskId) {
+        try {
+          const response = await fetch(`http://135.181.42.192/services/task/${taskId}/`);
+          if (!response.ok) {
+            if (response.status === 403) {
+              await refreshAccessToken();
+              fetchTaskData();
+            }
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+          const data = await response.json();
           setFormData({
             task_type: data.task_type,
             full_name: data.full_name,
@@ -166,18 +176,61 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
           });
           setTaskDetails(data);
           setTaskItemDetails(data.task_items);
-        });
+        } catch (error) {
+          if (error.status == 403) {
+            await refreshAccessToken();
+            fetchTaskData();
+          }
+          console.error("Error fetching task data:", error);
+        }
+      }
+    };
 
-      fetch("http://135.181.42.192/warehouse/warehouse-items/")
-        .then(response => response.json())
-        .then(data => setWarehouseItems(data))
-        .catch(error => console.error("Error fetching warehouse items:", error));
-    }
+    const fetchWarehouseItems = async () => {
+      try {
+        const response = await fetch("http://135.181.42.192/warehouse/warehouse-items/");
+        if (!response.ok) {
+          if (response.status == 403) {
+            await refreshAccessToken();
+            fetchWarehouseItems();
+          }
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const data = await response.json();
+        setWarehouseItems(data);
+      } catch (error) {
+        if (error.status == 403) {
+          await refreshAccessToken();
+          fetchWarehouseItems();
+        }
+        console.error("Error fetching warehouse items:", error);
+      }
+    };
 
-    fetch("http://135.181.42.192/services/groups/")
-      .then(response => response.json())
-      .then(data => setGroups(data))
-      .catch(error => console.error("Error fetching groups:", error));
+    const fetchGroups = async () => {
+      try {
+        const response = await fetch("http://135.181.42.192/services/groups/");
+        if (!response.ok) {
+          if (response.status == 403) {
+            await refreshAccessToken();
+            return fetchGroups();
+          }
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const data = await response.json();
+        setGroups(data);
+      } catch (error) {
+        if (error.status == 403) {
+          await refreshAccessToken();
+          fetchGroups();
+        }
+        console.error("Error fetching groups:", error);
+      }
+    };
+
+    fetchTaskData();
+    fetchWarehouseItems();
+    fetchGroups();
   }, [taskId, isEditing]);
 
   const handleItemsAdded = addedItems => {
@@ -392,7 +445,13 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
             passport: imageData.passport
           }));
         })
-        .catch(error => console.error("Error updating task image:", error));
+        .catch(async error => {
+          console.error("Error updating image:", error);
+          if (error.status == 403) {
+            await refreshAccessToken();
+            handleFormSubmit(e, true);
+          }
+        });
     }
 
     fetch(`http://135.181.42.192/services/update_task/${taskId}/`, {
@@ -439,7 +498,12 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
         onTaskUpdated(data);
         taskDetails(data);
       })
-      .catch(error => console.error("Error updating task:", error));
+      .catch(async error => {
+        if (error.status === 403) {
+          await refreshAccessToken();
+          await handleFormSubmit();
+        }
+      });
   };
 
   const shouldShowAddSurveyButton =
@@ -579,7 +643,13 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
           console.error("Failed to delete the task item");
         }
       })
-      .catch(error => console.error("Error deleting task item:", error));
+      .catch(async error => {
+        console.error("Error updating image:", error);
+        if (error.status === 403) {
+          await refreshAccessToken();
+          deleteTaskItem();
+        }
+      });
   };
 
   if (!taskDetails) {
