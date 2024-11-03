@@ -280,6 +280,10 @@ function Index() {
           )
         );
       } else {
+        if (response.status === 403) {
+          await refreshAccessToken();
+          handleStatusUpdate();
+        }
         console.error("Error updating task status:", response.status);
       }
     } catch (error) {
