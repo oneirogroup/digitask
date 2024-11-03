@@ -14,6 +14,7 @@ const AddRoomModal = ({ onClose }) => {
   const modalRef = useRef(null);
   const dropdownRef = useRef(null);
   const refreshAccessToken = useRefreshToken();
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
     const fetchMembers = async (isRetry = false) => {
@@ -69,6 +70,15 @@ const AddRoomModal = ({ onClose }) => {
   const handleSubmit = async e => {
     e.preventDefault();
 
+    const newErrors = {};
+    if (!name) newErrors.name = "Otaq adı boş ola bilməz.";
+    if (members.length === 0) newErrors.members = "Ən azı bir üzv seçilməlidir.";
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+
     try {
       const token = localStorage.getItem("access_token");
       const response = await axios.post(
@@ -88,11 +98,14 @@ const AddRoomModal = ({ onClose }) => {
       console.log("Room added:", response.data);
       onClose();
     } catch (error) {
-      if (error.status == 403) {
+      if (error.status === 403) {
         await refreshAccessToken();
-        handleSubmit(e, true);
+        setErrors({});
+        handleSubmit(e);
+      } else {
+        console.error("Error adding room:", error);
+        setErrors({ api: "Serverdə bir problem baş verdi." }); // Optional: Set a generic error
       }
-      console.error("Error adding room:", error);
     }
   };
 
@@ -121,8 +134,9 @@ const AddRoomModal = ({ onClose }) => {
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="roomName">Ad</label>
-            <input type="text" id="roomName" value={name} onChange={e => setName(e.target.value)} required />
+            <input type="text" id="roomName" value={name} onChange={e => setName(e.target.value)} />
           </div>
+          {errors.name && <p className="error-message">{errors.name}</p>}
           <div className="multi-select-container form-group">
             <label htmlFor="">Üzvlər</label>
             <button type="button" className="room-multi-select-button" onClick={handleMemberDropdownToggle}>
@@ -153,6 +167,7 @@ const AddRoomModal = ({ onClose }) => {
               </div>
             )}
           </div>
+          {errors.members && <p className="error-message">{errors.members}</p>}
           <button type="submit">Qrup əlavə et</button>
         </form>
       </div>
