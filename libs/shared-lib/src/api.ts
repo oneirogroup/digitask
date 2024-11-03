@@ -45,6 +45,13 @@ export const api = {
           })
         );
       }
+    },
+    file: {
+      upload: {
+        $post(media: FormData) {
+          return Promise.resolve();
+        }
+      }
     }
   }
 };

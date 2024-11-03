@@ -28,7 +28,11 @@ export default {
       backgroundColor: "#ffffff"
     }
   },
-  plugins: ["expo-router", "expo-font"],
+  plugins: [
+    "expo-router",
+    "expo-font",
+    ["expo-image-picker", { photosPermission: "Şəkili seçmək üçün icazə", cameraPermission: "Şəkil çəkmək üçün icazə" }]
+  ],
   experiments: {
     typedRoutes: true,
     reactCompiler: true

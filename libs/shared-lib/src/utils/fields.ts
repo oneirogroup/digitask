@@ -31,5 +31,8 @@ export const fields = eck("digitask.native", c => ({
     filtered: c`filtered`
   })),
   performance: c`performance`,
-  rangeDate: c`rangeDate`
+  rangeDate: c`rangeDate`,
+  file: c.e("file", c => ({
+    upload: c`upload`
+  }))
 }));

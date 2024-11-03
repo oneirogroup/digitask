@@ -27,7 +27,7 @@ export const Task: FC<TaskProps> = ({ tags, task }) => {
         </View>
       </Block>
       <Block className="flex flex-row gap-2">
-        <Icon name="location" variables={{ fill: palette.primary["50"] }} />
+        <Icon name="location" state="filled" variables={{ fill: palette.primary["50"] }} />
         <Text className="text-primary">{task.location}</Text>
       </Block>
       <Block className="flex flex-row gap-2">
@@ -37,7 +37,7 @@ export const Task: FC<TaskProps> = ({ tags, task }) => {
       <Block className="flex flex-row justify-between">
         <View className="flex flex-row gap-2">
           <When condition={!!task.phone}>
-            <Icon name="phone" variables={{ fill: palette.success["60"] }} />
+            <Icon name="phone" state="filled" variables={{ fill: palette.success["60"] }} />
             <Text className="text-success">{task.phone}</Text>
           </When>
         </View>
