@@ -6,6 +6,7 @@
   "scripts": {
     "build:android": "eas build --platform android --non-interactive --clear-cache",
     "build:android:docker": "docker compose --file ../../docker-compose.yml up native.build --build",
+    "build:inspect": "eas build:inspect -o inspect -p android -s pre-build -v --force",
     "dev:android:docker": "docker compose --file ../../docker-compose.yml up native.dev --build",
     "lint": "expo lint",
     "start": "expo start",
@@ -16,8 +17,8 @@
   },
   "dependencies": {
     "@digitask/shared-lib": "workspace:^",
-    "@mdreal/ui-kit": "^0.0.0-dev.16",
-    "@mdreal/ws-client": "^0.0.0-dev.7",
+    "@mdreal/ui-kit": "^0.0.0-dev.18",
+    "@mdreal/ws-client": "^0.0.0-dev.8",
     "@react-native-async-storage/async-storage": "1.23.1",
     "@react-native-community/netinfo": "11.3.1",
     "@react-navigation/material-top-tabs": "^6.6.14",

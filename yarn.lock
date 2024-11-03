@@ -2039,8 +2039,8 @@ __metadata:
     "@digitask/shared-lib": "workspace:^"
     "@emotion/react": "npm:^11.11.4"
     "@emotion/styled": "npm:^11.11.5"
-    "@mdreal/ui-kit": "npm:^0.0.0-dev.16"
-    "@mdreal/ws-client": "npm:^0.0.0-dev.7"
+    "@mdreal/ui-kit": "npm:^0.0.0-dev.18"
+    "@mdreal/ws-client": "npm:^0.0.0-dev.8"
     "@mui/material": "npm:^5.15.19"
     "@reduxjs/toolkit": "npm:^2.2.4"
     "@types/react": "npm:^18.2.66"
@@ -2088,8 +2088,8 @@ __metadata:
     "@dev-plugins/async-storage": "npm:^0.0.3"
     "@dev-plugins/react-query": "npm:^0.0.7"
     "@digitask/shared-lib": "workspace:^"
-    "@mdreal/ui-kit": "npm:^0.0.0-dev.16"
-    "@mdreal/ws-client": "npm:^0.0.0-dev.7"
+    "@mdreal/ui-kit": "npm:^0.0.0-dev.18"
+    "@mdreal/ws-client": "npm:^0.0.0-dev.8"
     "@react-native-async-storage/async-storage": "npm:1.23.1"
     "@react-native-community/netinfo": "npm:11.3.1"
     "@react-navigation/material-top-tabs": "npm:^6.6.14"
@@ -2138,8 +2138,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@digitask/shared-lib@workspace:libs/shared-lib"
   dependencies:
-    "@mdreal/ui-kit": "npm:^0.0.0-dev.16"
-    "@mdreal/ws-client": "npm:^0.0.0-dev.7"
+    "@mdreal/ui-kit": "npm:^0.0.0-dev.18"
+    "@mdreal/ws-client": "npm:^0.0.0-dev.8"
     "@react-native-async-storage/async-storage": "npm:^1.24.0"
     "@tanstack/react-query": "npm:^5.59.16"
     "@types/lodash.isnil": "npm:^4.0.9"
@@ -3793,9 +3793,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mdreal/ui-kit@file:C:/Projects/oneiro/ui-kit::locator=%40oneiro%2Fdigitask%40workspace%3A.":
-  version: 0.0.0-dev.16
-  resolution: "@mdreal/ui-kit@file:/C%3A/Projects/oneiro/ui-kit#/C%3A/Projects/oneiro/ui-kit::hash=02871b&locator=%40oneiro%2Fdigitask%40workspace%3A."
+"@mdreal/ui-kit@npm:^0.0.0-dev.16, @mdreal/ui-kit@npm:^0.0.0-dev.18":
+  version: 0.0.0-dev.18
+  resolution: "@mdreal/ui-kit@npm:0.0.0-dev.18"
   dependencies:
     "@hookform/resolvers": "npm:^3.9.0"
     clsx: "npm:^2.1.1"
@@ -3811,17 +3811,17 @@ __metadata:
     react-native: "*"
     react-native-reanimated: "*"
     react-native-svg: "*"
-  checksum: 10c0/81dd91073aba9081a1fa613570b8464de981175eb53545a6f9a96c694d601bd4fa1f43365d2ba3044a8dfbd8b8d7b5313c3ccadc944524af93a2acf91217e234
+  checksum: 10c0/b09b4e60f63e8bf04bd400fad93aefe8a268b3b134b11f2c8237d69d5b2a27c8c4df685649b32a76fa9b6726383f047a357937570c8076df4473b33a5d6405b5
   languageName: node
   linkType: hard
 
-"@mdreal/ws-client@file:C:/Projects/oneiro/ws-client::locator=%40oneiro%2Fdigitask%40workspace%3A.":
-  version: 0.0.0-dev.7
-  resolution: "@mdreal/ws-client@file:/C%3A/Projects/oneiro/ws-client#/C%3A/Projects/oneiro/ws-client::hash=a8f09f&locator=%40oneiro%2Fdigitask%40workspace%3A."
+"@mdreal/ws-client@npm:^0.0.0-dev.8":
+  version: 0.0.0-dev.8
+  resolution: "@mdreal/ws-client@npm:0.0.0-dev.8"
   dependencies:
     "@mdreal/ui-kit": "npm:^0.0.0-dev.16"
     react: "npm:^18.3.1"
-  checksum: 10c0/8a7a06676167e1a63915d717a6bfc9ef3f370351058831a63a75a36a3a6260b7c99b4f4922e25b7d9f3a039e912e5ecfba48d8cd79b8730d74af08743771d1be
+  checksum: 10c0/ef5c7612cf7c5855734277d3b9ec945e0766268cb6f2d910f979c4f337e215d0d4c284740e5a9fd2332dc4e01ee5c79314e151307a39e281da97fc91e2ceaa93
   languageName: node
   linkType: hard
 
@@ -4166,7 +4166,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@oneiro/digitask@workspace:."
   dependencies:
-    "@mdreal/ui-kit": "npm:^0.0.0-dev.16"
+    "@mdreal/ui-kit": "npm:^0.0.0-dev.18"
     "@prettier/plugin-xml": "npm:^3.4.1"
     "@trivago/prettier-plugin-sort-imports": "npm:^4.3.0"
     expo: "npm:^51.0.38"
