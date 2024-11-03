@@ -19,13 +19,13 @@ export default function Index() {
 
   useEffect(() => {
     if (isSuccess) {
-      router.replace("/(dashboard)");
+      setTimeout(router.replace, 0, "/(dashboard)");
     }
   }, [isSuccess]);
 
   useEffect(() => {
     if (isError) {
-      router.replace("/welcome");
+      setTimeout(router.replace, 0, "/welcome");
     }
   }, [isError]);
 

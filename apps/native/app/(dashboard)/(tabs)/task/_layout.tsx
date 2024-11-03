@@ -7,7 +7,6 @@ export default function DashboardLayout() {
     <Block.Fade>
       <Stack initialRouteName="(sections)">
         <Stack.Screen name="(sections)" options={{ headerShown: false }} />
-        <Stack.Screen name="[taskId]" options={{ title: "Tapşırıq" }} />
       </Stack>
     </Block.Fade>
   );

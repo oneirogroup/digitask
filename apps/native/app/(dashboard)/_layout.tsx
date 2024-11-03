@@ -11,8 +11,6 @@ export default function DashboardLayout() {
 
   return (
     <Stack initialRouteName="(tabs)">
-      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-
       <Stack.Screen name="(chat)/chat" options={{ title: "Chat", headerBackTitleVisible: false }} />
       <Stack.Screen
         name="(chat)/[chatRoomId]"
@@ -32,6 +30,10 @@ export default function DashboardLayout() {
           headerRight: () => <ProfileHeaderRight />
         }}
       />
+
+      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+
+      <Stack.Screen name="[taskId]/index" options={{ title: "Tapşırıq", headerBackTitleVisible: false }} />
     </Stack>
   );
 }

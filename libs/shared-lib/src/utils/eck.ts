@@ -7,7 +7,7 @@ type MergeKeys<TKeys extends readonly (TemplateStringsArray | string)[]> = TKeys
     : `${T}:${MergeKeys<R>}`
   : "";
 
-interface ToString {
+export interface ToString {
   toString(): string;
 }
 

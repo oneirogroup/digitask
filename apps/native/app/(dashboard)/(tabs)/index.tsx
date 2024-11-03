@@ -1,5 +1,6 @@
+import { router } from "expo-router";
 import { api } from "libs/shared-lib/src/api";
-import { Text } from "react-native";
+import { Pressable, Text } from "react-native";
 import { useSetRecoilState } from "recoil";
 
 import {
@@ -20,11 +21,13 @@ import { Event } from "../../../components/event";
 
 export default function Index() {
   const setFilter = useSetRecoilState(tasksFilterSelector);
-  const { data: task } = useRecoilQuery(tasksAtom, {
+  const { data: tasks } = useRecoilQuery(tasksAtom, {
     queryKey: [fields.tasks],
     queryFn: () => api.services.tasks.$get,
     isNullable: true
   });
+
+  const task = tasks?.find(task => task.status === TaskStatuses.InProgress);
 
   const date = DateService.from();
   const formattedDate = date.format("DD MMM");
@@ -64,16 +67,17 @@ export default function Index() {
 
         <BlockSection
           title="Davam edən tasklar"
-          onClick={() => {
-            console.log("set.filter");
-            setFilter({ status: TaskStatuses.InProgress });
-          }}
+          onClick={() => setFilter({ status: TaskStatuses.InProgress })}
           href="/(dashboard)/task"
         >
           <If condition={!!task}>
             <If.Then>
               <BlockContainer>
-                <Task task={task!} tags={getTags(task)} />
+                <Pressable
+                  onPress={() => router.push({ pathname: "/(dashboard)/[taskId]", params: { taskId: task!.id } })}
+                >
+                  <Task task={task!} tags={getTags(task)} />
+                </Pressable>
               </BlockContainer>
             </If.Then>
 

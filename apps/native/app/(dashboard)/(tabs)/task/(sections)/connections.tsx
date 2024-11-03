@@ -1,4 +1,5 @@
-import { Text, View } from "react-native";
+import { router } from "expo-router";
+import { Pressable, Text, View } from "react-native";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 
 import {
@@ -52,9 +53,14 @@ export default function Connections() {
 
       <Block className="flex gap-6 p-6">
         {filteredTasks.slice(0, 12).map(task => (
-          <BlockContainer key={task.id}>
-            <Task task={task} tags={getTags(task)} />
-          </BlockContainer>
+          <Pressable
+            key={task.id}
+            onPress={() => router.push({ pathname: "/(dashboard)/(task)/[taskId]", params: { taskId: task.id } })}
+          >
+            <BlockContainer>
+              <Task task={task} tags={getTags(task)} />
+            </BlockContainer>
+          </Pressable>
         ))}
       </Block>
     </Block.Scroll>

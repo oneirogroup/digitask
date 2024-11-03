@@ -4,7 +4,7 @@ import { Text, View } from "react-native";
 import { Icon } from "@mdreal/ui-kit";
 
 import { palette } from "../../../../../../palette";
-import { uppercase } from "../../../utils/uppercase";
+import { uppercase } from "../../../utils";
 import { TagProps } from "./tag.types";
 
 export const Tag: FC<TagProps> = ({ tag, icon }) => {
