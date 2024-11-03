@@ -1,26 +1,23 @@
 import { Image } from "expo-image";
-import { Link, router, useNavigation } from "expo-router";
+import { Link, useNavigation } from "expo-router";
 import { api } from "libs/shared-lib/src/api";
-import { useEffect } from "react";
 import { SubmitErrorHandler, SubmitHandler } from "react-hook-form";
 import { Text } from "react-native";
 
 import {
   SignInSchema,
   StorageKeys,
+  fields,
   profileAtom,
   signInAtom,
   signInSchema,
   useRecoilMutation
 } from "@digitask/shared-lib";
-import { fields } from "@digitask/shared-lib";
-import { AuthHttp, Block, Form, Input, logger } from "@mdreal/ui-kit";
+import { Block, Form, Input, logger } from "@mdreal/ui-kit";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { StackActions } from "@react-navigation/native";
 
 import logo from "../../assets/images/logo.png";
-
-const authHttpSettings = AuthHttp.settings();
 
 export default function Welcome() {
   const navigation = useNavigation();
@@ -43,19 +40,6 @@ export default function Welcome() {
     onError: logger.error.bind(logger, "digitask.native:auth:sign-in.profile-error"),
     isNullable: true
   });
-
-  useEffect(() => {
-    setTimeout(() => {
-      signInMutation
-        .mutateAsync({ email: "texnik@mailinator.com", password: "texnik100" })
-        .then(authHttpSettings.retrieveTokens())
-        // @ts-ignore
-        .then(() => profileMutation.mutateAsync())
-        .then(() => {
-          router.replace("/(dashboard)/(chat)/1");
-        });
-    }, 0);
-  }, []);
 
   const onSubmit: SubmitHandler<SignInSchema> = async data => {
     logger.debug("digitask.native:auth:sign-in.form-values", data);
