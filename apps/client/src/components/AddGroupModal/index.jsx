@@ -8,10 +8,22 @@ import "./addgroup.css";
 const AddGroupModal = ({ onClose, onGroupAdded }) => {
   const [group, setGroup] = useState("");
   const [region, setRegion] = useState("");
+  const [errors, setErrors] = useState({});
   const refreshAccessToken = useRefreshToken();
 
   const handleSubmit = async e => {
     e.preventDefault();
+
+    // Hata kontrolü
+    const newErrors = {};
+    if (!group) newErrors.group = "Qrup adı boş ola bilməz.";
+    if (!region) newErrors.region = "Region boş ola bilməz.";
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+
     try {
       const token = localStorage.getItem("refresh_token");
       const response = await axios.post(
@@ -51,10 +63,14 @@ const AddGroupModal = ({ onClose, onGroupAdded }) => {
                 type="text"
                 id="groupName"
                 value={group}
-                onChange={e => setGroup(e.target.value)}
+                onChange={e => {
+                  setGroup(e.target.value);
+                  if (errors.group) setErrors(prev => ({ ...prev, group: "" }));
+                }}
                 required
                 maxLength={30}
               />
+              {errors.group && <p className="error-message">{errors.group}</p>}
             </div>
             <div className="form-group">
               <label htmlFor="groupRegion">Region</label>
@@ -62,10 +78,14 @@ const AddGroupModal = ({ onClose, onGroupAdded }) => {
                 type="text"
                 id="groupRegion"
                 value={region}
-                onChange={e => setRegion(e.target.value)}
+                onChange={e => {
+                  setRegion(e.target.value);
+                  if (errors.region) setErrors(prev => ({ ...prev, region: "" }));
+                }}
                 required
                 maxLength={30}
               />
+              {errors.region && <p className="error-message">{errors.region}</p>}
             </div>
           </div>
           <button type="submit">Qrup əlavə et</button>
