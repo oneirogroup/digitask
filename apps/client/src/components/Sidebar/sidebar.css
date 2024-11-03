@@ -7,7 +7,7 @@
   z-index: 1000;
   padding: 20px 10px;
   border-right: 1px solid #e3e2e6;
-  backgroud-color: white;
+  background-color: white !important;
   transition: width 0.3s ease;
   overflow: visible !important;
   display: flex;
