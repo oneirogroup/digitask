@@ -1,7 +1,7 @@
 import { useLocalSearchParams } from "expo-router";
 import { Text } from "react-native";
 
-import { AddAdditionSchema, addAdditionSchema } from "@digitask/shared-lib";
+import { AddAdditionSchema, taskAddAdditionSchema } from "@digitask/shared-lib";
 import { Block, Form } from "@mdreal/ui-kit";
 
 import { FileUploader } from "../../../components/file-uploader";
@@ -12,7 +12,7 @@ export default function AddSpecificTaskAttachment() {
   return (
     <Block.Scroll className="border-t-neutral-90 border-t-[1px] bg-white p-4" contentClassName="flex gap-4">
       <Form<AddAdditionSchema>
-        schema={addAdditionSchema}
+        schema={taskAddAdditionSchema}
         onSubmit={data => {
           console.log(data);
         }}
