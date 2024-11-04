@@ -1,6 +1,5 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 
 import useRefreshToken from "../../common/refreshToken";
 
@@ -37,27 +36,30 @@ const DecrementItemForm = ({ onClose, itemId, productNumber, action, fetchData }
   const handleNumberChange = e => {
     let value = e.target.value;
 
+    if (isNaN(value)) {
+      return;
+    }
+
+    value = parseInt(value, 10);
+
     if (value < 0) {
       setNumberError("0-dan kicik eded daxil edile bilmez");
+      setNewCount("");
       return;
     }
 
     if (action.action === "decrement" && value > productNumber) {
       setNumberError(`${productNumber} məhsul sayını keçmək olmaz`);
       value = productNumber;
-    }
-
-    if (action.action === "increment" && value > 1000) {
+    } else if (action.action === "increment" && value > 1000) {
       setNumberError(`Birdəfəyə əlavə oluna bilən məhsul sayı 1000-i keçə bilməz`);
       value = 1000;
+    } else {
+      setNumberError("");
     }
 
     setNewCount(value);
   };
-
-  useEffect(() => {
-    console.log("newCount changed:", newCount);
-  }, [newCount]);
 
   const handleSubmit = async e => {
     e.preventDefault();
@@ -82,17 +84,17 @@ const DecrementItemForm = ({ onClose, itemId, productNumber, action, fetchData }
 
     const data = {
       delivery_note: deliveryNote,
-      old_count: parseInt(action.count),
+      old_count: parseInt(action.count, 10),
       new_count:
-        action.action == "decrement"
-          ? parseInt(action.count) - parseInt(newCount)
-          : parseInt(action.count) + parseInt(newCount),
+        action.action === "decrement"
+          ? parseInt(action.count, 10) - parseInt(newCount, 10)
+          : parseInt(action.count, 10) + parseInt(newCount, 10),
       count:
-        action.action == "decrement"
-          ? parseInt(action.count) - parseInt(newCount)
-          : parseInt(action.count) + parseInt(newCount)
+        action.action === "decrement"
+          ? parseInt(action.count, 10) - parseInt(newCount, 10)
+          : parseInt(action.count, 10) + parseInt(newCount, 10)
     };
-    console.log(data);
+
     try {
       const response = await axios.patch(`http://135.181.42.192/warehouse/warehouse-items/${itemId}/`, data, {
         headers: {
@@ -101,7 +103,6 @@ const DecrementItemForm = ({ onClose, itemId, productNumber, action, fetchData }
         }
       });
       if (response.data.error) {
-        console.log(response.data.error);
         setError(response.data.error);
       } else {
         setSuccess(response.data.message);
@@ -109,9 +110,9 @@ const DecrementItemForm = ({ onClose, itemId, productNumber, action, fetchData }
         onClose();
       }
     } catch (error) {
-      if (error.status == 403) {
+      if (error.status === 403) {
         await refreshAccessToken();
-        handleSubmit(e, true);
+        handleSubmit(e);
       } else {
         console.error("An error occurred:", error);
         setError("An error occurred");
@@ -132,13 +133,15 @@ const DecrementItemForm = ({ onClose, itemId, productNumber, action, fetchData }
         <form onSubmit={handleSubmit}>
           <div className="export-form">
             <label>
-              Say
+              <p className="export-count">
+                Say <span>(max. {action.count})</span>
+              </p>
               <input
                 id="number-input"
                 type="number"
                 value={newCount}
                 onChange={handleNumberChange}
-                max={action.action == "decrement" ? productNumber : 10000}
+                max={action.action === "decrement" ? productNumber : 1000}
                 onKeyDown={evt => (evt.key === "e" || evt.key === "-") && evt.preventDefault()}
               />
               {numberError && <p className="error-message">{numberError}</p>}
