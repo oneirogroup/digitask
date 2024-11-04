@@ -40,7 +40,7 @@ const AddItemModal = ({ onClose, selectedServices, taskId, onItemsAdded }) => {
     };
 
     fetchData();
-  }, [refreshAccessToken]);
+  }, []);
 
   const handleDynamicInputChange = (index, field, serviceType, value) => {
     setWarehouseButtons(prevState => {
@@ -152,7 +152,7 @@ const AddItemModal = ({ onClose, selectedServices, taskId, onItemsAdded }) => {
     } catch (error) {
       if (error.status == 403) {
         await refreshAccessToken();
-        handleSubmit();
+        handleSubmit(e, true);
       }
       console.error("Error adding items:", error);
     }
@@ -201,9 +201,7 @@ const AddItemModal = ({ onClose, selectedServices, taskId, onItemsAdded }) => {
                     const filteredItems = items.filter(
                       item => item.warehouse === parseInt(warehouseButton.warehouse, 10)
                     );
-
                     const maxCount = items.find(i => i.id === parseInt(warehouseButton.item, 10))?.count || 0;
-
                     return (
                       <div key={index} className="add-item-modal-dynamic-inputs">
                         <div className="input-container">
