@@ -14,10 +14,9 @@ const AddGroupModal = ({ onClose, onGroupAdded }) => {
   const handleSubmit = async e => {
     e.preventDefault();
 
-    // Hata kontrolü
     const newErrors = {};
-    if (!group) newErrors.group = "Qrup adı boş ola bilməz.";
-    if (!region) newErrors.region = "Region boş ola bilməz.";
+    if (!group.trim()) newErrors.group = "Qrup adı boş ola bilməz.";
+    if (!region.trim()) newErrors.region = "Region boş ola bilməz.";
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
@@ -25,16 +24,7 @@ const AddGroupModal = ({ onClose, onGroupAdded }) => {
     }
 
     try {
-      const token = localStorage.getItem("refresh_token");
-      const response = await axios.post(
-        "http://135.181.42.192/services/create_employee_group",
-        { group, region },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        }
-      );
+      const response = await axios.post("http://135.181.42.192/services/create_employee_group", { group, region });
 
       onGroupAdded(response.data);
       onClose();
@@ -67,7 +57,6 @@ const AddGroupModal = ({ onClose, onGroupAdded }) => {
                   setGroup(e.target.value);
                   if (errors.group) setErrors(prev => ({ ...prev, group: "" }));
                 }}
-                required
                 maxLength={30}
               />
               {errors.group && <p className="error-message">{errors.group}</p>}
@@ -82,7 +71,6 @@ const AddGroupModal = ({ onClose, onGroupAdded }) => {
                   setRegion(e.target.value);
                   if (errors.region) setErrors(prev => ({ ...prev, region: "" }));
                 }}
-                required
                 maxLength={30}
               />
               {errors.region && <p className="error-message">{errors.region}</p>}
