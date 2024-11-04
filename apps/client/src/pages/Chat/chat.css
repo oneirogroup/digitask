@@ -2,7 +2,7 @@
   display: flex;
   font-family: "Arial", sans-serif;
   background-color: white;
-  height: 100%;
+  height: 98%;
 }
 
 .chat-sidebar {
@@ -409,7 +409,6 @@
   .chat-content {
     max-width: 100% !important;
     display: flex;
-    height: 100%;
   }
 }
 

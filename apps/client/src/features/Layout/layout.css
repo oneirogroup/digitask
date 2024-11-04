@@ -30,7 +30,7 @@ body {
 
 .layout-with-sidebar .sidebar {
   flex: 0 0 200px;
-  height: 98%;
+  height: 100%;
   overflow-y: auto;
 }
 .not-marginned {
