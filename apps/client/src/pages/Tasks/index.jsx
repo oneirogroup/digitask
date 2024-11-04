@@ -401,8 +401,8 @@ function Index() {
                 <th>Növ</th>
                 <th>Ünvan</th>
                 <th>Nömrə</th>
-                <th>Status</th>
-                <th></th>
+                <th className="task-status-header">Status</th>
+                <th className="fixed-right"></th>
               </tr>
             </thead>
             <tbody>
@@ -491,8 +491,7 @@ function Index() {
                       </button>
                     )}
                   </td>
-
-                  <td>
+                  <td className="fixed-right">
                     {userType !== "Texnik" ? (
                       <>
                         <button data-task-index={index} onClick={e => openSmallModal(e, index)}>
