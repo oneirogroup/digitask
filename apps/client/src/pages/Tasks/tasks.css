@@ -1,146 +1,143 @@
-.task-page{
-    width: 100%;
+.task-page {
+  width: 100%;
 }
 .task-page .table-container {
-    margin-top: 20px;
-    border-radius: 12px;
-    max-height: 57vh;
-    width: 100%;
-    overflow: auto;
-    scrollbar-width: thin;
-  }
-  
-  .task-page table {
-    width: 100%;
-    border-spacing: 10px;
-    border-collapse: collapse;
-    font-family: Arial, sans-serif;
-    max-width: 100%;
-    overflow-x: auto;
-    border-spacing: 0;
-    border-collapse: separate;
-    border-radius: 12px;
-  }
-  
-  .task-page th,.task-page  td {
-    padding: 12px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-    text-align: center;
-  }
-
-  .task-page thead{
-    background-color: #D2E5FA;
-    height: 60px;
-  }
-
-  .task-page tbody{
-    background-color: white;
-
-  }
-  
-  
-  .task-page .problem {
-    color: #EA0A0A;
-  }
-  
-  .task-page .connection {
-    color: #005ABF;
-  }
-  
-  .task-page .type-icon {
-    font-size: 20px;
-    white-space: nowrap;
-
-  }
-
-  .taskType-modal-body .type-icon{
-    text-align: right;
-    display: flex;
-    justify-content: end;
-  }
-  
-  .task-page-title{
-    display: flex;
-    justify-content: space-between;
-    padding: 17px 0;
-    align-items: center;
-  }
-  
-  .task-page-title p{
-    font-family: Montserrat;
-    font-size: 32px;
-    font-weight: 600;
-  }
-
-  .task-page-title div{
-    display: flex;
-    gap: 10px;
-  }
-
-  .task-page-title div button{
-    padding: 8px;
-    border-radius: 12px;
-    border: 2px solid #005ABF;
-    display: flex;
-    align-items: center;
-    gap: 2px;
-    font-family: Nunito Sans;
-    font-size: 16px;
-    font-weight: 500;
-  }
-
-  .task-page-title div button svg{
-    font-size: 26px;
-  }
-
-  .task-page-title div button:first-of-type{
-    color: #005ABF;
-    background-color: inherit;
-    cursor: pointer;
-  }
-
-  .task-page-title div button:last-of-type{
-    background-color: #005ABF;
-    color: white;
-    cursor: pointer;
-
-  }
-
-  .task-page-title div button:last-of-type svg{
-    color: white;    
-  }
-
-  .taskPage-taskType{
-    display: flex;
-  }
-
-  .taskPage-taskType button {
-    background-color: inherit;
-    border:0;
-    border-bottom: 2px solid #ABABAF;
-    width: 100%;
-    padding: 10px 0;
-    font-family: Montserrat;
-    font-size: 18px;
-    font-weight: 600;
-    cursor: pointer;
+  margin-top: 20px;
+  border-radius: 12px;
+  max-height: 57vh;
+  width: 100%;
+  overflow: auto;
+  scrollbar-width: thin;
 }
 
-.activeButton{
-    border-color: #005ABF !important;
-    color: #005ABF !important;
+.task-page table {
+  width: 100%;
+  border-spacing: 10px;
+  border-collapse: collapse;
+  font-family: Arial, sans-serif;
+  max-width: 100%;
+  overflow-x: auto;
+  border-spacing: 0;
+  border-collapse: separate;
+  border-radius: 12px;
 }
 
-.task-history-status{
-    display: flex;
-    justify-content: space-between;
-    padding: 15px 20px 0 0;
-    align-items: center;
-    position: relative;
+.task-page th,
+.task-page td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  text-align: center;
 }
 
-.task-history-status button:first-of-type{
+.task-page thead {
+  background-color: #d2e5fa;
+  height: 60px;
+}
+
+.task-page tbody {
+  background-color: white;
+}
+
+.task-page .problem {
+  color: #ea0a0a;
+}
+
+.task-page .connection {
+  color: #005abf;
+}
+
+.task-page .type-icon {
+  font-size: 20px;
+  white-space: nowrap;
+}
+
+.taskType-modal-body .type-icon {
+  text-align: right;
+  display: flex;
+  justify-content: end;
+}
+
+.task-page-title {
+  display: flex;
+  justify-content: space-between;
+  padding: 17px 0;
+  align-items: center;
+}
+
+.task-page-title p {
+  font-family: Montserrat;
+  font-size: 32px;
+  font-weight: 600;
+}
+
+.task-page-title div {
+  display: flex;
+  gap: 10px;
+}
+
+.task-page-title div button {
+  padding: 8px;
+  border-radius: 12px;
+  border: 2px solid #005abf;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  font-family: Nunito Sans;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.task-page-title div button svg {
+  font-size: 26px;
+}
+
+.task-page-title div button:first-of-type {
+  color: #005abf;
+  background-color: inherit;
+  cursor: pointer;
+}
+
+.task-page-title div button:last-of-type {
+  background-color: #005abf;
+  color: white;
+  cursor: pointer;
+}
+
+.task-page-title div button:last-of-type svg {
+  color: white;
+}
+
+.taskPage-taskType {
+  display: flex;
+}
+
+.taskPage-taskType button {
+  background-color: inherit;
+  border: 0;
+  border-bottom: 2px solid #ababaf;
+  width: 100%;
+  padding: 10px 0;
+  font-family: Montserrat;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.activeButton {
+  border-color: #005abf !important;
+  color: #005abf !important;
+}
+
+.task-history-status {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 20px 0 0;
+  align-items: center;
+  position: relative;
+}
+
+.task-history-status button:first-of-type {
   display: flex;
   width: 300px;
   align-items: center;
@@ -152,145 +149,147 @@
   border-radius: 8px;
 }
 
-.task-history-status button:first-of-type div span{
-  background-color: #2B75CC;
+.task-history-status button:first-of-type div span {
+  background-color: #2b75cc;
   padding: 6px 10px;
   color: #fff;
   border-radius: 8px;
   cursor: pointer;
 }
 
-.task-history-status button p{
-  color: #2B75CC;
+.task-history-status button p {
+  color: #2b75cc;
   font-family: Montserrat;
   font-size: 18px;
   font-weight: 500;
 }
 
-.task-history-status button:last-of-type{
-    background-color: white;
-    border: 1px solid #909094;
-    padding: 9px;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    font-size: 15px;
-    font-family: Nunito Sans;
-    font-weight: 500;
-    cursor: pointer;
+.task-history-status button:last-of-type {
+  background-color: white;
+  border: 1px solid #909094;
+  padding: 9px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 15px;
+  font-family: Nunito Sans;
+  font-weight: 500;
+  cursor: pointer;
 }
 
-.task-history-status button span:first-of-type{
-color: #5E5E62;
+.task-history-status button span:first-of-type {
+  color: #5e5e62;
 }
-.task-history-status button span:last-of-type{
-font-weight: bold;
-}
-
-.task-history-status svg{
-    font-size: 14px;
+.task-history-status button span:last-of-type {
+  font-weight: bold;
 }
 
-.started{
+.task-history-status svg {
+  font-size: 14px;
+}
+
+.started {
   background-color: rgba(243, 169, 169, 0.288);
   color: rgba(207, 37, 37, 0.726);
   border: 1px solid rgba(207, 37, 37, 0.726);
 }
 
 .inprogress {
-    background-color: #C9FFBD;
-    color: #23B131;
-    border: 1px solid #23B131;
-  }
-  
-  .waiting {
-    background-color: #FFF7CC;
-    color: #856404;
-    border: 1px solid #C9AA08;
-  }
-  
-  .completed {
-    background-color: #D2E5FA;
-    color: #005ABF;
-    border: 1px solid #005ABF;
-  }
-
-  .task-status button{
-    border-radius: 16px;
-    padding: 5px 10px;
-    text-align: center;
-    font-family: Nunito Sans;
-    font-size: 16px;
-    font-weight: 500;
-    cursor: pointer;
-    white-space: nowrap;
+  background-color: #c9ffbd;
+  color: #23b131;
+  border: 1px solid #23b131;
 }
 
-  .table-container tbody tr td:not(:first-of-type){
-    font-family: Nunito Sans;
-    font-size: 15px;
-    font-weight: 500;
-  }
+.waiting {
+  background-color: #fff7cc;
+  color: #856404;
+  border: 1px solid #c9aa08;
+}
 
-  .table-container tbody tr td:nth-of-type(2), .table-container tbody tr td:nth-of-type(3){
-    font-weight: bold;
-  }
+.completed {
+  background-color: #d2e5fa;
+  color: #005abf;
+  border: 1px solid #005abf;
+}
 
+.task-status button {
+  border-radius: 16px;
+  padding: 5px 10px;
+  text-align: center;
+  font-family: Nunito Sans;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+}
 
-  .table-container tbody tr td:nth-of-type(5), .table-container tbody tr td:nth-of-type(6){
-    color: #5E5E62;
-    white-space: nowrap;
-  }
+.table-container tbody tr td:not(:first-of-type) {
+  font-family: Nunito Sans;
+  font-size: 15px;
+  font-weight: 500;
+}
 
-  .table-container tbody tr td:first-of-type{
-    font-size: 14px;
-    font-weight: 400;
-    color: #909094;
-  }
+.table-container tbody tr td:nth-of-type(2),
+.table-container tbody tr td:nth-of-type(3) {
+  font-weight: bold;
+}
 
+.table-container tbody tr td:nth-of-type(5),
+.table-container tbody tr td:nth-of-type(6) {
+  color: #5e5e62;
+  white-space: nowrap;
+}
 
-  .table-container tbody tr td:nth-of-type(7) svg{
-    color: #E5C208;
-    font-size: 22px;
-    margin-right: 5px;
+.table-container tbody tr td:first-of-type {
+  font-size: 14px;
+  font-weight: 400;
+  color: #909094;
+}
 
-  }
+.table-container tbody tr td:nth-of-type(7) svg {
+  color: #e5c208;
+  font-size: 22px;
+  margin-right: 5px;
+}
 
-  .table-container tbody tr td:nth-of-type(8){
-    color: #008B1B;
-  }
+.table-container tbody tr td:nth-of-type(8) {
+  color: #008b1b;
+}
 
-  .table-container tbody tr td:nth-of-type(9){
-    color: #2F3033;
-  }
+.table-container tbody tr td:nth-of-type(9) {
+  color: #2f3033;
+}
 
-  .table-container table tbody tr td:nth-of-type(8){
-    max-width: 150px; 
-    white-space: nowrap; 
-    overflow: hidden; 
-    text-overflow: ellipsis;
-  }
+.table-container table tbody tr td:nth-of-type(8) {
+  max-width: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
-  .date-modal {
-    position: absolute;
-    background-color: white;
-    border: 1px solid #ccc;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
+.date-modal {
+  position: absolute;
+  background-color: white;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
 }
 
 .date-modal div {
-    padding: 10px;
-    cursor: pointer;
+  padding: 10px;
+  cursor: pointer;
 }
 
-.date-modal div:hover, .table-container tbody tr:hover {
-    background-color: #f1f1f1;
-    transition-duration: 0.5s;
+.date-modal div:hover,
+.table-container tbody tr:hover {
+  background-color: #f1f1f1;
+  transition-duration: 0.5s;
 }
 
-.date-modal, .status-modal, .group-modal {
+.date-modal,
+.status-modal,
+.group-modal {
   position: absolute;
   background-color: white;
   border: 1px solid #ccc;
@@ -300,48 +299,52 @@ font-weight: bold;
   width: 150px;
 }
 
-.status-modal{
+.status-modal {
   position: absolute;
-    top: 69px;
-right: 0;
+  top: 69px;
+  right: 0;
 }
 
-.date-modal div, .status-modal div {
+.date-modal div,
+.status-modal div {
   padding: 12px 10px 10px 12px;
   cursor: pointer;
   font-family: Nunito Sans;
   font-size: 16px;
 }
 
-.date-modal div:hover, .status-modal div:hover {
+.date-modal div:hover,
+.status-modal div:hover {
   background-color: #f0f0f0;
 }
 
-.date-modal div.active, .status-modal div.active {
+.date-modal div.active,
+.status-modal div.active {
   background-color: #e0e0e0;
   font-weight: bold;
 }
 
-.date-modal div:first-of-type, .status-modal div:first-of-type{
+.date-modal div:first-of-type,
+.status-modal div:first-of-type {
   font-weight: 700;
 }
 
-.status-modal div:nth-of-type(3){
-  color: #23B131;
+.status-modal div:nth-of-type(3) {
+  color: #23b131;
 }
 
-.status-modal div:nth-of-type(2){
-  color: #C9AA08;
+.status-modal div:nth-of-type(2) {
+  color: #c9aa08;
 }
-.status-modal div:nth-of-type(4){
+.status-modal div:nth-of-type(4) {
   color: rgba(207, 37, 37, 0.726);
 }
 
-.status-modal div:nth-of-type(5){
-  color: #005ABF;
+.status-modal div:nth-of-type(5) {
+  color: #005abf;
 }
 
-.status-modal div:nth-of-type(6){
+.status-modal div:nth-of-type(6) {
   color: #909094;
 }
 
@@ -349,18 +352,17 @@ right: 0;
   position: absolute;
   right: 10px;
   top: 31px;
-  transform: translateY(-50%) translateX(10px); 
+  transform: translateY(-50%) translateX(10px);
   background-color: white;
   padding: 10px;
   border-radius: 10px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   z-index: 1000;
-  display: none; 
-
+  display: none;
 }
 
 .small-modal.active {
-  display: block; 
+  display: block;
 }
 
 .small-modal-content {
@@ -382,10 +384,10 @@ right: 0;
 }
 
 .small-modal button:hover {
-  color: #005ABF;
+  color: #005abf;
 }
 
-.table-container tbody tr td:last-of-type button{
+.table-container tbody tr td:last-of-type button {
   background-color: inherit;
   border: none;
   font-size: 18px;
@@ -396,21 +398,46 @@ right: 0;
   cursor: pointer;
 }
 
-.table-container tr{
+.table-container tr {
   position: relative;
 }
 
-.texnikWaiting{
+.texnikWaiting {
   background-color: white;
   outline: none;
-  border: 2px solid #005ABF;
+  border: 2px solid #005abf;
   padding: 8px 20px !important;
-  color: #005ABF;
+  color: #005abf;
 }
 
 .texnikStatus {
-  border: 2px solid #005ABF;
+  border: 2px solid #005abf;
   padding: 8px 20px !important;
-  background-color: #005ABF;
+  background-color: #005abf;
   color: white;
+}
+
+.task-page td.task-status,
+.task-page th.task-status-header,
+.task-page td.fixed-right,
+.task-page th.fixed-right {
+  position: sticky;
+  right: 30px;
+  z-index: 1;
+}
+
+.task-page td.fixed-right,
+.task-page th.fixed-right {
+  right: 0;
+  z-index: 2;
+}
+
+.task-page th.task-status-header,
+.task-page th.fixed-right {
+  background-color: #d2e5fa;
+}
+
+.task-page td.fixed-right,
+.task-page td.task-status {
+  background-color: white;
 }
