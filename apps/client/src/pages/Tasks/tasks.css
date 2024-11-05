@@ -4,7 +4,7 @@
 .task-page .table-container {
   margin-top: 20px;
   border-radius: 12px;
-  max-height: 57vh;
+  max-height: calc(100vh - 43vh);
   width: 100%;
   overflow: auto;
   scrollbar-width: thin;
