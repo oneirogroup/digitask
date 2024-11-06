@@ -41,7 +41,12 @@
 .taskType-modal-title {
   display: flex;
   align-items: center;
+  margin-bottom: 10px;
   gap: 7px;
+}
+
+.taskType-modal-title h2 {
+  margin: 0 auto;
 }
 
 .taskType-modal-title h5 {
