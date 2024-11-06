@@ -166,6 +166,12 @@
   .add-user-modal-content {
     max-width: 60%;
   }
+  .add-item-modal-container {
+    max-width: 65%;
+  }
+  .add-item-modal-title {
+    font-size: 25px;
+  }
 }
 
 @media screen and (max-width: 1050px) {
@@ -369,6 +375,17 @@
   }
   .details-info > div > div {
     gap: 12px;
+  }
+  .add-item-modal-container {
+    max-width: 70%;
+  }
+  .service-fields .form-group {
+    gap: 10px;
+    flex-direction: column;
+    align-items: self-start;
+  }
+  .service-fields .form-group label {
+    font-size: 17px;
   }
 
   /* Warehouse Page */
@@ -640,7 +657,7 @@
   }
 
   .passportUpdate label {
-    width: 48vh !important;
+    width: 100% !important;
   }
   .status-dropdown .taskType-options {
     width: 24vh;
@@ -1103,6 +1120,12 @@
     right: 55px;
     padding: 20px;
   }
+
+  .taskType-modal-title h2 {
+    font-size: 22px;
+    padding: 0 24px;
+    text-align: center;
+  }
 }
 
 @media screen and (max-width: 650px) {
@@ -1467,7 +1490,9 @@
     left: 245px !important;
     width: 38%;
   }
-
+  .service-fields > div:last-of-type {
+    grid-template-columns: repeat(1, 1fr);
+  }
   /* Employee page */
 
   .employee-title button {
@@ -1585,9 +1610,6 @@
   .task-type-select .taskType-options,
   #details-task .dropdown-task-toggle {
     width: 22vh;
-  }
-  .passportUpdate label {
-    width: 40vh !important;
   }
   .taskType-modal-title h5 {
     font-size: 22px;
@@ -1709,6 +1731,27 @@
   .submit-btn {
     padding: 9px;
     margin-top: 0;
+  }
+  .passportUpdate label > span {
+    font-size: 16px;
+  }
+  .taskType-modal-title h5 {
+    padding-left: 0;
+    margin: 0 !important;
+  }
+  .taskType-modal-title {
+    justify-content: space-between;
+  }
+
+  .details-title {
+    margin: 0 !important;
+  }
+  .taskType-modal-title h2 {
+    font-size: 20px;
+    padding: 0 18px;
+  }
+  .taskType-modal-title .close {
+    font-size: 35px;
   }
 
   /* Employee page group modal */
@@ -2071,6 +2114,20 @@
   .task-page th,
   .task-page td {
     padding: 8px !important;
+  }
+  .taskType-modal-title h2 {
+    font-size: 19px;
+    padding: 0 8px;
+  }
+  .details-modal-body button {
+    padding: 10px 30px;
+  }
+  .service-fields .form-group label {
+    font-size: 16px;
+  }
+  .service-fields .form-group input {
+    font-size: 15px;
+    padding: 7px;
   }
 
   /* Warehouse history page */
