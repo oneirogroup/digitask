@@ -1,9 +1,10 @@
 import { Image } from "expo-image";
 import { Link, useNavigation } from "expo-router";
-import { api } from "libs/shared-lib/src/api";
+import { useEffect } from "react";
 import { SubmitErrorHandler, SubmitHandler } from "react-hook-form";
 import { KeyboardAvoidingView, Platform, Text } from "react-native";
 
+import { api } from "@digitask/shared-lib";
 import {
   SignInSchema,
   StorageKeys,
@@ -21,8 +22,13 @@ import logo from "../../assets/images/logo.png";
 
 const authHttpSettings = AuthHttp.settings();
 
-export default function Welcome() {
+export default function SignIn() {
   const navigation = useNavigation();
+
+  useEffect(() => {
+    const settings = AuthHttp.settings();
+    settings.removeTokens().then(settings.retrieveTokens());
+  }, []);
 
   const signInMutation = useRecoilMutation(signInAtom, {
     mutationFn: (data: SignInSchema) => api.accounts.login.$post(data),
@@ -76,6 +82,7 @@ export default function Welcome() {
                 variant="secondary"
                 icon={{ left: "email" }}
                 disabled={signInMutation.isPending}
+                className="border-primary rounded-2xl"
               />
               <Input.Controlled
                 name="password"
@@ -84,6 +91,7 @@ export default function Welcome() {
                 variant="secondary"
                 icon={{ left: "key" }}
                 disabled={signInMutation.isPending}
+                className="border-primary rounded-2xl"
               />
             </Block>
           </Block>

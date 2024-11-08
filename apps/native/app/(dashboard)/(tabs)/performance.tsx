@@ -1,8 +1,7 @@
-import { api } from "libs/shared-lib/src/api";
 import { FC, useEffect } from "react";
 import { Text } from "react-native";
 
-import { DateRange, fields, performanceAtom, useRecoilMutation } from "@digitask/shared-lib";
+import { DateRange, api, fields, performanceAtom, useRecoilMutation } from "@digitask/shared-lib";
 import { Block, If, Table, cn } from "@mdreal/ui-kit";
 
 import { RangePicker } from "../../../components/date-time-picker";

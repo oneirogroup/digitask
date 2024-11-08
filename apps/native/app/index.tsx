@@ -1,10 +1,9 @@
 import { Image } from "expo-image";
 import { router } from "expo-router";
-import { api } from "libs/shared-lib/src/api";
 import { useEffect } from "react";
 import { Text, View } from "react-native";
 
-import { fields, profileAtom, useRecoilQuery } from "@digitask/shared-lib";
+import { api, fields, profileAtom, useRecoilQuery } from "@digitask/shared-lib";
 import { Block, cn } from "@mdreal/ui-kit";
 
 import logo from "../assets/images/logo.png";
