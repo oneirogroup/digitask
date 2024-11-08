@@ -40,13 +40,6 @@
     font-size: 15.2px;
   }
 
-  /* Warehouse history page */
-
-  .historyTable tbody td:nth-of-type(8),
-  .historyTable th:nth-of-type(8) {
-    display: none;
-  }
-
   /* Home page */
 
   .task-modal-content .form-group {
@@ -71,7 +64,7 @@
     display: none;
   }
   .home-tasks table tr td:nth-of-type(2),
-  .home-tasks table tr th:nth-of-type(2){
+  .home-tasks table tr th:nth-of-type(2) {
     display: none;
   }
   .meeting-detail-modal-overlay .item-detail-modal-body .modal-label,
@@ -116,13 +109,6 @@
   .warehouseTable th {
     font-size: 15px !important;
   }
-
-  /* Warehouse History Import Page */
-
-  .historyImportTable th:nth-of-type(8),
-  .historyImportTable td:nth-of-type(8) {
-    display: none;
-  }
 }
 
 @media screen and (max-width: 1140px) {
@@ -140,13 +126,9 @@
 @media screen and (max-width: 1120px) {
   /* History Import Page */
 
-  .historyImportTable th:nth-of-type(10),
-  .historyImportTable td:nth-of-type(10) {
-    display: none;
-  }
   .historyImportTable th:nth-of-type(11),
   .historyImportTable td:nth-of-type(11) {
-    padding: 14px 0px !important;
+    padding: 14px 0 !important;
   }
 
   /* Home page */
@@ -156,26 +138,15 @@
     flex-direction: column;
   }
 
-   /* Warehouse Page */
+  /* Warehouse Page */
 
   .item-detail-modal-content {
     width: 52%;
     max-width: 52%;
   }
-  .warehouseTable tbody td:nth-of-type(8),
-  .warehouseTable thead th:nth-of-type(8) {
-    display: none;
-  }
 }
 
 @media screen and (max-width: 1070px) {
-  /* Warehouse Import History Table  */
-
-  .historyImportTable th:nth-of-type(7),
-  .historyImportTable td:nth-of-type(7) {
-    display: none;
-  }
-
   /* Warehouse Page  */
   .small-modal-warehouse-content button {
     font-size: 14px;
@@ -192,8 +163,14 @@
     max-width: 60%;
   }
 
-  .add-user-modal-content{
+  .add-user-modal-content {
     max-width: 60%;
+  }
+  .add-item-modal-container {
+    max-width: 65%;
+  }
+  .add-item-modal-title {
+    font-size: 25px;
   }
 }
 
@@ -226,11 +203,6 @@
   }
 
   /* Warehouse history page */
-
-  .historyTable td:nth-of-type(7),
-  .historyTable th:nth-of-type(7) {
-    display: none;
-  }
 
   .filter-container {
     gap: 0;
@@ -314,11 +286,6 @@
 
   /* Warehouse Page */
 
-  .warehouseTable tbody td:nth-of-type(5),
-  .warehouseTable thead th:nth-of-type(5) {
-    display: none;
-  }
-
   .importModal-warehouseName button {
     font-size: 16px;
   }
@@ -395,7 +362,10 @@
   }
   .details-modal-body input,
   .status-dropdown .details-toggle,
-  .details-note textarea, .status-dropdown .taskType-options .taskType-option, #details-task .dropdown-task-toggle, .details-modal-body input {
+  .details-note textarea,
+  .status-dropdown .taskType-options .taskType-option,
+  #details-task .dropdown-task-toggle,
+  .details-modal-body input {
     font-size: 15px;
   }
   .taskType-info svg,
@@ -405,6 +375,17 @@
   }
   .details-info > div > div {
     gap: 12px;
+  }
+  .add-item-modal-container {
+    max-width: 70%;
+  }
+  .service-fields .form-group {
+    gap: 10px;
+    flex-direction: column;
+    align-items: self-start;
+  }
+  .service-fields .form-group label {
+    font-size: 17px;
   }
 
   /* Warehouse Page */
@@ -432,11 +413,6 @@
     font-size: 13px !important;
   }
 
-  .historyImportTable th:nth-of-type(6),
-  .historyImportTable td:nth-of-type(6) {
-    display: none;
-  }
-
   /* Employee page group modal */
 
   .add-group-modal-content {
@@ -445,13 +421,13 @@
 
   .add-user-modal-content {
     max-width: 68%;
-}
+  }
 
   .notification-modal {
     width: 390px;
     max-height: 60%;
   }
-  }
+}
 
 @media screen and (max-width: 900px) {
   /* Pages */
@@ -464,11 +440,6 @@
 
   .home-tasks table tr td:nth-of-type(3) svg {
     font-size: 20px;
-  }
-
-  .home-tasks table tr td:nth-of-type(5),
-  .home-tasks table tr th:nth-of-type(5) {
-    display: none;
   }
 
   .meeting-detail-modal-overlay .item-detail-modal-content {
@@ -539,25 +510,25 @@
   .map-modal-modal-content {
     width: 70%;
     max-width: 70%;
-}
+  }
 
-.logout-modal-content h2 {
-  font-size: 30px;
-  font-weight: 600;
-}
+  .logout-modal-content h2 {
+    font-size: 30px;
+    font-weight: 600;
+  }
 
-.logout-modal-content p {
-  font-size: 20px;
-}
+  .logout-modal-content p {
+    font-size: 20px;
+  }
 
-.logout-modal-content div button {
-  font-size: 19px;
-  padding: 12px 0;
-}
+  .logout-modal-content div button {
+    font-size: 19px;
+    padding: 12px 0;
+  }
 
-.logout-modal-content {
-  padding: 19px;
-}
+  .logout-modal-content {
+    padding: 19px;
+  }
   /* Warehouse Page */
 
   .warehouseTable-title div button {
@@ -574,27 +545,16 @@
   .item-detail-modal-content {
     width: 60%;
     max-width: 60%;
-}
-.item-detail-modal-body .modal-label, .item-detail-modal-body .modal-value {
-  font-size: 17px;
-}
+  }
+  .item-detail-modal-body .modal-label,
+  .item-detail-modal-body .modal-value {
+    font-size: 17px;
+  }
 
   /* Warehouse history page */
 
-  .historyTable td:nth-of-type(9),
-  .historyTable th:nth-of-type(9) {
-    display: none;
-  }
-
   .filter-item-modal button {
     padding: 8px;
-  }
-
-  /* Warehouse Import History Table  */
-
-  .historyImportTable th:first-of-type,
-  .historyImportTable td:first-of-type {
-    display: none;
   }
 }
 
@@ -608,32 +568,22 @@
 @media screen and (max-width: 850px) {
   /* Warehouse Page */
 
-  .warehouseTable tbody td:nth-of-type(7),
-  .warehouseTable thead th:nth-of-type(7) {
-    display: none;
-  }
-
   .warehouseName button {
     font-size: 17px;
   }
   .item-detail-modal-content {
     width: 62%;
     max-width: 62%;
-}
+  }
 
-/* Login page  */
+  /* Login page  */
 
-.submit-btn {
-  padding: 9px;
-  font-size: 17px;
-}
+  .submit-btn {
+    padding: 9px;
+    font-size: 17px;
+  }
 
   /* Warehouse history page */
-
-  .historyTable td:first-of-type,
-  .historyTable th:first-of-type {
-    display: none;
-  }
 
   .custom-datepicker {
     width: 92% !important;
@@ -699,15 +649,15 @@
   .taskType-modal-content {
     max-width: 78%;
   }
-  .details-info{
+  .details-info {
     grid-template-columns: repeat(1, 1fr);
   }
-   .service-detail span {
+  .service-detail span {
     font-size: 17px;
   }
 
   .passportUpdate label {
-    width: 48vh !important;
+    width: 100% !important;
   }
   .status-dropdown .taskType-options {
     width: 24vh;
@@ -716,10 +666,11 @@
     top: 60px !important;
     width: 31%;
     left: 393px !important;
-}
-#details-task .dropdown-task-toggle, .task-type-select .taskType-options {
-  width: 22%;
-}
+  }
+  #details-task .dropdown-task-toggle,
+  .task-type-select .taskType-options {
+    width: 22%;
+  }
   /* Employee Page */
 
   .employee-search-filter div div button {
@@ -767,11 +718,6 @@
 
   /* Warehouse Page */
 
-  .warehouseTable tbody td:first-of-type,
-  .warehouseTable th:first-of-type {
-    display: none;
-  }
-
   .warehousePage-title p {
     font-size: 18px;
   }
@@ -788,11 +734,6 @@
   }
 
   /* Warehouse history page */
-
-  .historyTable td:nth-of-type(2),
-  .historyTable th:nth-of-type(2) {
-    display: none;
-  }
 
   .historyTable th,
   .historyTable td {
@@ -820,17 +761,13 @@
 
   /* Warehouse Import History Table  */
 
-  .historyImportTable th:nth-of-type(9),
-  .historyImportTable td:nth-of-type(9) {
-    display: none;
-  }
   .notification-modal-header h3 {
     font-size: 24px;
   }
   .notification-modal-close {
     font-size: 22px;
   }
-  }
+}
 
 @media screen and (max-width: 768px) {
   /* Home page */
@@ -924,27 +861,34 @@
   }
   .taskType-modal-content {
     max-width: 80%;
-}
- 
+  }
+
   .details-info > div > div {
     gap: 9px;
-}
-#details-task .dropdown-task-toggle {
-  padding: 7px;
-  gap: 5px;
-}    .details-modal-body input, .status-dropdown .details-toggle, .details-note textarea {
-  font-size: 14px;
-}
-.details-modal-body input {
-  padding: 6px;
-}
-.taskType-info, .details-info, .service-detail > div {
-  gap: 20px;
-}
-.taskType-info label, .taskType-note label, .service-detail span {
-  font-size: 15px;
-  gap: 5px;
-}
+  }
+  #details-task .dropdown-task-toggle {
+    padding: 7px;
+    gap: 5px;
+  }
+  .details-modal-body input,
+  .status-dropdown .details-toggle,
+  .details-note textarea {
+    font-size: 14px;
+  }
+  .details-modal-body input {
+    padding: 6px;
+  }
+  .taskType-info,
+  .details-info,
+  .service-detail > div {
+    gap: 20px;
+  }
+  .taskType-info label,
+  .taskType-note label,
+  .service-detail span {
+    font-size: 15px;
+    gap: 5px;
+  }
 
   .taskType-info,
   .details-info,
@@ -953,7 +897,7 @@
   }
   #details-task .dropdown-task-menu {
     left: 379px !important;
-}
+  }
   .warehouseName button {
     font-size: 15px;
   }
@@ -986,11 +930,16 @@
 
   .add-user-modal-content {
     max-width: 72%;
-}
+  }
 
-.add-user-modal .form-group input[type="text"], .add-user-modal .form-group input[type="email"], .add-user-modal .form-group input[type="password"], .multi-select-container button, .add-group-modal-content .form-group input, .add-room-modal-content .form-group input{
-  font-size: 15px;
-}
+  .add-user-modal .form-group input[type="text"],
+  .add-user-modal .form-group input[type="email"],
+  .add-user-modal .form-group input[type="password"],
+  .multi-select-container button,
+  .add-group-modal-content .form-group input,
+  .add-room-modal-content .form-group input {
+    font-size: 15px;
+  }
 
   /* Profile Page */
 
@@ -1003,11 +952,6 @@
   }
 
   /* Warehouse Page */
-
-  .warehouseTable tbody td:nth-of-type(4),
-  .warehouseTable th:nth-of-type(4) {
-    display: none;
-  }
 
   .warehouseTable-title p {
     font-size: 26px;
@@ -1058,14 +1002,9 @@
   .map-modal-modal-content {
     width: 73%;
     max-width: 73%;
-}
+  }
 
   /* Warehouse page */
-
-  .historyTable td:nth-of-type(6),
-  .historyTable th:nth-of-type(6) {
-    display: none;
-  }
 
   .historyImportTable th,
   .historyImportTable td {
@@ -1074,11 +1013,11 @@
 
   #details-task .dropdown-task-menu {
     left: 361px !important;
-}
-.item-detail-modal-content {
-  width: 68%;
-  max-width: 68%;
-}
+  }
+  .item-detail-modal-content {
+    width: 68%;
+    max-width: 68%;
+  }
 }
 
 @media screen and (max-width: 700px) {
@@ -1155,24 +1094,17 @@
     gap: 22px;
     flex-direction: column;
     align-items: baseline;
-}
-.upload-container > img {
-  width: 270px;
-}
-
-#details-task .dropdown-task-menu {
-  left: 342px !important;
-}
-
-  /* Warehouse Import History Table  */
-
-  .historyImportTable th:nth-of-type(5),
-  .historyImportTable td:nth-of-type(5) {
-    display: none;
+  }
+  .upload-container > img {
+    width: 270px;
   }
 
-   /* Login page */
-   .login-page {
+  #details-task .dropdown-task-menu {
+    left: 342px !important;
+  }
+
+  /* Login page */
+  .login-page {
     height: 423px;
     width: 440px;
     padding: 43px 66px;
@@ -1187,6 +1119,12 @@
     top: 65px;
     right: 55px;
     padding: 20px;
+  }
+
+  .taskType-modal-title h2 {
+    font-size: 22px;
+    padding: 0 24px;
+    text-align: center;
   }
 }
 
@@ -1241,19 +1179,8 @@
     margin-left: 0;
   }
 
-  /* Performance page */
-
-  .performance-table-container tbody tr td:nth-of-type(3),
-  .performance-table-container tr th:nth-of-type(3) {
-    display: table-cell;
-  }
-
   /* Task page */
 
-  .table-container tr th:nth-of-type(3),
-  .table-container tbody tr td:nth-of-type(3) {
-    display: table-cell;
-  }
   .task-modal-content label {
     font-size: 15px;
   }
@@ -1286,18 +1213,14 @@
   }
   #details-task .dropdown-task-menu {
     left: 330px !important;
-}
+  }
 
-.taskType-modal-content, .add-user-modal-content {
-  max-height: 82vh;
-}
+  .taskType-modal-content,
+  .add-user-modal-content {
+    max-height: 82vh;
+  }
 
   /* Employee page */
-
-  .employee-table-container tbody td:first-of-type,
-  .employee-table-container th:first-of-type {
-    display: table-cell;
-  }
 
   .add-group-modal-content {
     max-width: 60%;
@@ -1314,19 +1237,19 @@
   .map-modal-modal-content {
     width: 75%;
     max-width: 75%;
-}
+  }
 
-.add-user-modal-content {
-  max-width: 74%;
-}
+  .add-user-modal-content {
+    max-width: 74%;
+  }
 
-.add-user-modal-title h5{
-  font-size: 24px;
-}
+  .add-user-modal-title h5 {
+    font-size: 24px;
+  }
 
-.add-user-modal-title span{
-  font-size: 34px;
-}
+  .add-user-modal-title span {
+    font-size: 34px;
+  }
 
   /* Navbar */
 
@@ -1342,12 +1265,6 @@
 
   /* Warehouse Page */
 
-  .warehouseTable tbody td:first-of-type,
-  .warehouseTable th:first-of-type,
-  .warehouseTable tbody td:nth-of-type(4),
-  .warehouseTable th:nth-of-type(4) {
-    display: table-cell;
-  }
   .import-modal-content {
     max-width: 70%;
   }
@@ -1368,30 +1285,9 @@
   .submit-btn {
     padding: 8px;
     font-size: 16px;
-}
-.item-detail-modal-footer svg {
-  font-size: 19px;
-}
-
-
-  /* Warehouse history page */
-
-  .historyTable td:nth-of-type(2),
-  .historyTable th:nth-of-type(2),
-  .historyTable td:first-of-type,
-  .historyTable th:first-of-type {
-    display: table-cell;
   }
-
-  /* Warehouse Import History Table  */
-
-  .historyImportTable th:first-of-type,
-  .historyImportTable td:first-of-type,
-  .historyImportTable th:nth-of-type(5),
-  .historyImportTable td:nth-of-type(5),
-  .historyImportTable th:nth-of-type(9),
-  .historyImportTable td:nth-of-type(9) {
-    display: table-cell;
+  .item-detail-modal-footer svg {
+    font-size: 19px;
   }
 }
 
@@ -1399,17 +1295,10 @@
   #details-task .dropdown-task-menu {
     left: 276px !important;
     width: 36%;
-}
+  }
 }
 
 @media screen and (max-width: 600px) {
-  /* Warehouse Import History Table  */
-
-  .historyImportTable th:nth-of-type(9),
-  .historyImportTable td:nth-of-type(9) {
-    display: none;
-  }
-
   /* Home page */
 
   .meeting-detail-modal-overlay .item-detail-modal-body .modal-label,
@@ -1429,40 +1318,36 @@
   #details-task .dropdown-task-menu {
     left: 260px !important;
     width: 38%;
-}
+  }
 
   /* Employee page  */
 
   .map-modal-modal-content {
     width: 80%;
     max-width: 80%;
-}
+  }
 
-/* Logout modal  */
+  /* Logout modal  */
 
-.logout-modal-content {
-  padding: 17px;
-}
+  .logout-modal-content {
+    padding: 17px;
+  }
 
-.logout-modal-content h2 {
-  font-size: 28px;
-}
-.logout-modal-content p {
-  font-size: 18px;
-}
-.logout-modal-content div button {
-  font-size: 18px;
-  padding: 10px 0;
-}
+  .logout-modal-content h2 {
+    font-size: 28px;
+  }
+  .logout-modal-content p {
+    font-size: 18px;
+  }
+  .logout-modal-content div button {
+    font-size: 18px;
+    padding: 10px 0;
+  }
 }
 
 @media screen and (max-width: 570px) {
   /* Warehouse Page */
 
-  .warehouseTable tbody td:first-of-type,
-  .warehouseTable th:first-of-type {
-    display: none;
-  }
   .submit-btn {
     padding: 10px;
   }
@@ -1489,15 +1374,15 @@
     max-width: 70%;
   }
 
-   /* Login page */
-   .login-page {
+  /* Login page */
+  .login-page {
     height: 414px;
     width: 375px;
     padding: 43px 56px;
-}
-.login-mail-password div label input:not(.remember-me input) {
-  width: 228px;
-}
+  }
+  .login-mail-password div label input:not(.remember-me input) {
+    width: 228px;
+  }
 }
 
 @media screen and (max-width: 550px) {
@@ -1604,8 +1489,10 @@
   #details-task .dropdown-task-menu {
     left: 245px !important;
     width: 38%;
-}
-
+  }
+  .service-fields > div:last-of-type {
+    grid-template-columns: repeat(1, 1fr);
+  }
   /* Employee page */
 
   .employee-title button {
@@ -1630,15 +1517,8 @@
     font-size: 13px;
   }
 
-  .add-user-modal form >div:first-of-type{
+  .add-user-modal form > div:first-of-type {
     grid-template-columns: repeat(1, 1fr);
-  }
-
-  /* Warehouse history page */
-
-  .historyTable td:first-of-type,
-  .historyTable th:first-of-type {
-    display: none;
   }
 
   /* Warehouse Page  */
@@ -1655,13 +1535,6 @@
     max-width: 70%;
   }
 
-  /* Warehouse Import History Table  */
-
-  .historyImportTable th:first-of-type,
-  .historyImportTable td:first-of-type {
-    display: none;
-  }
-
   /*Chat page */
 
   .chat-sidebar {
@@ -1676,7 +1549,7 @@
     right: 51px;
     padding: 18px;
   }
-  }
+}
 
 @media screen and (max-width: 525px) {
   #details-task .dropdown-task-menu {
@@ -1688,21 +1561,21 @@
 
   .logout-modal-content {
     padding: 14px;
-}
-.logout-modal-content h2 {
-  font-size: 26px;
-}
-.logout-modal-content p {
-  font-size: 17px;
-}
-.logout-modal-content div button {
-  font-size: 17px;
-  padding: 9px 0;
-}
+  }
+  .logout-modal-content h2 {
+    font-size: 26px;
+  }
+  .logout-modal-content p {
+    font-size: 17px;
+  }
+  .logout-modal-content div button {
+    font-size: 17px;
+    padding: 9px 0;
+  }
 
-.logout-modal-content div {
-  gap: 10px;
-}
+  .logout-modal-content div {
+    gap: 10px;
+  }
 }
 
 @media screen and (max-width: 510px) {
@@ -1719,30 +1592,29 @@
   .details-info > div > div {
     flex-direction: column;
     align-items: baseline;
-}
-.upload-container > img {
-  width: 260px;
-}
-#details-task .dropdown-task-menu {
-  top: 75px !important;
-  left: 0 !important;
-  width: 30vh;
-}
-.status-dropdown .taskType-options, .task-type-select .taskType-options{
-  top: 68px;
-  left: 0;
-}
+  }
+  .upload-container > img {
+    width: 260px;
+  }
+  #details-task .dropdown-task-menu {
+    top: 75px !important;
+    left: 0 !important;
+    width: 30vh;
+  }
+  .status-dropdown .taskType-options,
+  .task-type-select .taskType-options {
+    top: 68px;
+    left: 0;
+  }
 
-.task-type-select .taskType-options, #details-task .dropdown-task-toggle{
-  width: 22vh;
-}
-.passportUpdate label {
-  width: 40vh !important;
-}
-.taskType-modal-title h5 {
-  font-size: 22px;
-  margin: 0;
-}
+  .task-type-select .taskType-options,
+  #details-task .dropdown-task-toggle {
+    width: 22vh;
+  }
+  .taskType-modal-title h5 {
+    font-size: 22px;
+    margin: 0;
+  }
 }
 
 @media screen and (max-width: 500px) {
@@ -1793,11 +1665,6 @@
 
   /* Warehouse page */
 
-  .warehouseTable tbody td:nth-of-type(4),
-  .warehouseTable thead th:nth-of-type(4) {
-    display: none;
-  }
-
   .warehouseTable td,
   .warehouseTable th {
     font-size: 13px !important;
@@ -1818,20 +1685,16 @@
 
   .item-detail-modal-header h2 {
     font-size: 23px;
-}
-.item-detail-modal-body .modal-label, .item-detail-modal-body .modal-value {
-  font-size: 16px;
-}
-.item-detail-modal-body .modal-row {
-  margin: 10px 0 10px 0;
-}
+  }
+  .item-detail-modal-body .modal-label,
+  .item-detail-modal-body .modal-value {
+    font-size: 16px;
+  }
+  .item-detail-modal-body .modal-row {
+    margin: 10px 0 10px 0;
+  }
 
   /* Warehouse history page */
-
-  .historyTable td:nth-of-type(2),
-  .historyTable th:nth-of-type(2) {
-    display: none;
-  }
 
   .history-page section {
     flex-direction: column;
@@ -1869,12 +1732,26 @@
     padding: 9px;
     margin-top: 0;
   }
+  .passportUpdate label > span {
+    font-size: 16px;
+  }
+  .taskType-modal-title h5 {
+    padding-left: 0;
+    margin: 0 !important;
+  }
+  .taskType-modal-title {
+    justify-content: space-between;
+  }
 
-  /* Warehouse Import History Table  */
-
-  .historyImportTable th:nth-of-type(5),
-  .historyImportTable td:nth-of-type(5) {
-    display: none;
+  .details-title {
+    margin: 0 !important;
+  }
+  .taskType-modal-title h2 {
+    font-size: 20px;
+    padding: 0 18px;
+  }
+  .taskType-modal-title .close {
+    font-size: 35px;
   }
 
   /* Employee page group modal */
@@ -1895,7 +1772,7 @@
   .chat-content-header {
     padding: 0 15px;
   }
-  }
+}
 
 @media screen and (max-width: 450px) {
   /* Home page */
@@ -2074,10 +1951,10 @@
   }
   .item-detail-close-button {
     font-size: 33px;
-}
-.submit-btn {
-  padding: 8px;
-}
+  }
+  .submit-btn {
+    padding: 8px;
+  }
 
   /* Warehouse history page */
 
@@ -2116,26 +1993,26 @@
 
   .logout-modal-content p {
     font-size: 15px;
-}
-.logout-modal-content h2 {
-  font-size: 25px;
-}
-.logout-modal-content div button {
-  font-size: 16px;
-}
+  }
+  .logout-modal-content h2 {
+    font-size: 25px;
+  }
+  .logout-modal-content div button {
+    font-size: 16px;
+  }
 
-.logout-modal-content {
-  padding: 13px;
-}
+  .logout-modal-content {
+    padding: 13px;
+  }
 
- /* Login page */
-  
- .login-page {
-  width: 318px;
-  padding: 43px 28px;
-}
+  /* Login page */
 
- /*Chat page */
+  .login-page {
+    width: 318px;
+    padding: 43px 28px;
+  }
+
+  /*Chat page */
 
   .chat-users {
     font-size: 15px;
@@ -2150,7 +2027,7 @@
   .chat-content-user-info {
     max-width: 70%;
   }
-  }
+}
 
 @media screen and (max-width: 412px) {
   /* Home page */
@@ -2238,6 +2115,20 @@
   .task-page td {
     padding: 8px !important;
   }
+  .taskType-modal-title h2 {
+    font-size: 19px;
+    padding: 0 8px;
+  }
+  .details-modal-body button {
+    padding: 10px 30px;
+  }
+  .service-fields .form-group label {
+    font-size: 16px;
+  }
+  .service-fields .form-group input {
+    font-size: 15px;
+    padding: 7px;
+  }
 
   /* Warehouse history page */
 
@@ -2264,5 +2155,5 @@
 
   .logout-modal-content p {
     font-size: 14px;
-}
+  }
 }

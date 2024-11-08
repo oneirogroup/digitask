@@ -1,9 +1,12 @@
-import React from 'react';
-import ReactApexChart from 'react-apexcharts';
-import axios from 'axios';
-import "./circlechart.css";
-import { IoMdInformationCircle } from "react-icons/io";
+import axios from "axios";
+import React from "react";
+import ReactApexChart from "react-apexcharts";
 import { FaCircle } from "react-icons/fa";
+import { IoMdInformationCircle } from "react-icons/io";
+
+import useRefreshToken from "../../common/refreshToken";
+
+import "./circlechart.css";
 
 class CircleChart extends React.Component {
   constructor(props) {
@@ -13,7 +16,7 @@ class CircleChart extends React.Component {
       series: [0, 0, 0],
       options: {
         chart: {
-          type: 'donut',
+          type: "donut",
           height: 300,
           events: {
             dataPointSelection: (event, chartContext, { dataPointIndex }) => {
@@ -29,117 +32,128 @@ class CircleChart extends React.Component {
             dataLabels: {
               offset: 0,
               style: {
-                fontSize: '14px',
-                fontWeight: 'bold',
-                color: 'transparent',
+                fontSize: "14px",
+                fontWeight: "bold",
+                color: "transparent"
               }
             },
             expandOnClick: true
-          },
+          }
         },
         fill: {
-          colors: ['#005ABF', '#FFD600', '#FF5449'],
+          colors: ["#005ABF", "#FFD600", "#FF5449"]
         },
-        responsive: [{
-          breakpoint: 480,
-          options: {
-            chart: {
-              width: '100%',
-              height: 300,
-            },
-            legend: {
-              position: 'bottom',
-              offsetY: 0,
-            },
+        responsive: [
+          {
+            breakpoint: 480,
+            options: {
+              chart: {
+                width: "100%",
+                height: 300
+              },
+              legend: {
+                position: "bottom",
+                offsetY: 0
+              }
+            }
           }
-        }],
+        ],
         tooltip: {
-          enabled: false,
+          enabled: false
         }
       },
-      userType: '',
+      userType: "",
       isAdmin: false,
-      legendLabels: ['İnternet', 'TV', 'Səs'],
-      expandedSegment: null,
+      legendLabels: ["İnternet", "TV", "Səs"],
+      expandedSegment: null
     };
   }
 
   componentDidMount() {
     this.fetchData();
-    document.addEventListener('click', this.handleClickOutside);
+    document.addEventListener("click", this.handleClickOutside);
   }
 
   componentWillUnmount() {
-    document.removeEventListener('click', this.handleClickOutside);
+    document.removeEventListener("click", this.handleClickOutside);
   }
 
-  handleSegmentClick = (index) => {
-    this.setState((prevState) => ({
-      expandedSegment: prevState.expandedSegment === index ? null : index,
+  handleSegmentClick = index => {
+    this.setState(prevState => ({
+      expandedSegment: prevState.expandedSegment === index ? null : index
     }));
   };
 
-  handleClickOutside = (event) => {
-    const chartContainer = document.getElementById('circlechart');
+  handleClickOutside = event => {
+    const chartContainer = document.getElementById("circlechart");
     if (chartContainer && !chartContainer.contains(event.target)) {
-      // Reset the expanded segment when clicking outside the chart
       this.setState({ expandedSegment: null });
     }
   };
 
   fetchData = async (isRetry = false) => {
     try {
-      const token = localStorage.getItem('access_token');
-      const response = await axios.get('http://135.181.42.192/services/mainpage/', {
+      const token = localStorage.getItem("access_token");
+      const response = await axios.get("http://135.181.42.192/services/mainpage/", {
         headers: {
-          'Authorization': `Bearer ${token}`
+          Authorization: `Bearer ${token}`
         }
       });
 
       const { user_type, is_admin, task_details } = response.data;
       let series = [0, 0, 0];
-      let legendLabels = ['İnternet', 'TV', 'Səs'];
+      let legendLabels = ["İnternet", "TV", "Səs"];
 
-      if (user_type === 'Texnik' || user_type === 'Plumber') {
+      if (user_type === "Texnik" || user_type === "Plumber") {
         const { problem_count, connection_count } = task_details;
         const total = problem_count + connection_count;
-        series = total === 0 ? [0, 0] : [
-          Math.round((problem_count / total) * 100),
-          Math.round((connection_count / total) * 100),
-        ];
-        legendLabels = ['Problem', 'Qoşulma'];
+        series =
+          total === 0
+            ? [0, 0]
+            : [Math.round((problem_count / total) * 100), Math.round((connection_count / total) * 100)];
+        legendLabels = ["Problem", "Qoşulma"];
       } else if (is_admin) {
         const { tv_count, internet_count, voice_count } = task_details;
         const total = tv_count + internet_count + voice_count;
-        series = total === 0 ? [0, 0, 0] : [
-          Math.round((internet_count / total) * 100),
-          Math.round((tv_count / total) * 100),
-          Math.round((voice_count / total) * 100)
-        ];
+        series =
+          total === 0
+            ? [0, 0, 0]
+            : [
+                Math.round((internet_count / total) * 100),
+                Math.round((tv_count / total) * 100),
+                Math.round((voice_count / total) * 100)
+              ];
       } else {
         const { tv_count, internet_count, voice_count } = task_details;
         const total = tv_count + internet_count + voice_count;
-        series = total === 0 ? [0, 0, 0] : [
-          Math.round((internet_count / total) * 100),
-          Math.round((tv_count / total) * 100),
-          Math.round((voice_count / total) * 100)
-        ];
+        series =
+          total === 0
+            ? [0, 0, 0]
+            : [
+                Math.round((internet_count / total) * 100),
+                Math.round((tv_count / total) * 100),
+                Math.round((voice_count / total) * 100)
+              ];
       }
 
       this.setState({ series, userType: user_type, isAdmin: is_admin, legendLabels });
-
     } catch (error) {
+      const refreshAccessToken = useRefreshToken();
       if (error.response && (error.response.status === 401 || error.response.status === 403) && !isRetry) {
         try {
           await this.fetchData(true);
         } catch (refreshError) {
-          console.error('Error: Token refresh failed:', refreshError);
+          if (error.status == 403) {
+            await refreshAccessToken();
+            fetchData();
+          }
+          console.error("Error: Token refresh failed:", refreshError);
         }
       } else {
-        console.error('Error: Unable to fetch data:', error);
+        console.error("Error: Unable to fetch data:", error);
       }
     }
-  }
+  };
 
   render() {
     const { series, options, legendLabels, expandedSegment } = this.state;
@@ -151,26 +165,28 @@ class CircleChart extends React.Component {
           ...options.plotOptions.pie,
           dataLabels: {
             style: {
-              fontSize: '14px',
-              fontWeight: 'bold',
-              color: 'transparent',
+              fontSize: "14px",
+              fontWeight: "bold",
+              color: "transparent"
             }
           },
           donut: {
-            size: expandedSegment !== null ? '60%' : '57%'
-          },
-        },
-      },
+            size: expandedSegment !== null ? "60%" : "57%"
+          }
+        }
+      }
     };
 
     return (
       <div id="circlechart">
-        <p>Xidmətlər <IoMdInformationCircle /></p>
+        <p>
+          Xidmətlər <IoMdInformationCircle />
+        </p>
         <hr />
         <ReactApexChart options={updatedOptions} series={series} type="donut" height={250} />
-        <div className='home-chart-services'>
+        <div className="home-chart-services">
           {legendLabels.map((label, index) => (
-            <div key={index} className={expandedSegment === index ? 'expandedCircleChart' : ''}>
+            <div key={index} className={expandedSegment === index ? "expandedCircleChart" : ""}>
               <FaCircle style={{ color: options.fill.colors[index] }} />
               <p>{label}</p>
             </div>

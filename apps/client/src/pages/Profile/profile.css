@@ -69,7 +69,7 @@
   padding-top: 20px;
 }
 
-.profile-table > div:first-of-type,
+.profile-table > div:nth-of-type(2),
 .address-info > div:first-of-type {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -203,4 +203,20 @@
   width: 300px;
   height: 350px;
   object-fit: cover;
+}
+
+.profile-photo {
+  display: flex !important;
+  justify-content: space-between;
+  align-items: center;
+  margin: 30px 0;
+}
+
+.profile-container .upload-passport-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 70vh !important;
+  height: 20vh;
+  margin: 0 auto;
 }

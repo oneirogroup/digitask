@@ -1,6 +1,8 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
+import useRefreshToken from "../../common/refreshToken";
+
 import upload from "../../assets/images/document-upload.svg";
 import "./addsurveymodal.css";
 
@@ -31,6 +33,7 @@ const AddSurveyModal = ({ onClose, selectedServices, taskId, onSurveyAdded }) =>
 
   const [existingSurveys, setExistingSurveys] = useState({});
   const [submittedServices, setSubmittedServices] = useState({});
+  const refreshAccessToken = useRefreshToken();
 
   useEffect(() => {
     const fetchExistingSurveys = async () => {
@@ -42,13 +45,15 @@ const AddSurveyModal = ({ onClose, selectedServices, taskId, onSurveyAdded }) =>
           internet: data.internet || false,
           voice: data.voice || false
         });
+        fetchExistingSurveys();
       } catch (error) {
-        console.error("Error fetching existing surveys:", error);
+        if (error.status == 403) {
+          await refreshAccessToken();
+          fetchExistingSurveys();
+        }
       }
     };
-
-    fetchExistingSurveys();
-  }, [taskId]);
+  }, [taskId, refreshAccessToken()]);
 
   useEffect(() => {
     const hasActiveStatus = Object.keys(openServices).some(serviceType => openServices[serviceType]);
@@ -125,16 +130,22 @@ const AddSurveyModal = ({ onClose, selectedServices, taskId, onSurveyAdded }) =>
             [serviceType]: true
           }));
         } catch (error) {
-          console.error(`Error adding survey for ${serviceType}:`, error);
-          alert(`Failed to add survey for ${serviceType}. Please try again.`);
+          if (error.status == 403) {
+            await refreshAccessToken();
+            handleFormSubmit();
+          }
+          console.error(`Error adding survey forrr ${serviceType}:`, error);
         }
       });
 
       await Promise.all(surveyPromises);
       onClose();
     } catch (error) {
+      if (error.status == 403) {
+        await refreshAccessToken();
+        handleFormSubmit();
+      }
       console.error("Error adding surveys:", error);
-      alert("Failed to add surveys. Please try again.");
     }
   };
 

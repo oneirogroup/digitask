@@ -1,27 +1,29 @@
-import { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
+import axios from "axios";
+import { useEffect, useRef, useState } from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import { RiDeleteBin6Line } from "react-icons/ri";
-import { MdOutlineEdit } from "react-icons/md";
-import { IoFilterOutline, IoAdd } from "react-icons/io5";
 import { CiSearch } from "react-icons/ci";
-import { FaChevronDown, FaArrowLeft, FaArrowRight, FaCircle } from "react-icons/fa";
+import { FaArrowLeft, FaArrowRight, FaChevronDown, FaCircle } from "react-icons/fa";
+import { IoAdd, IoFilterOutline } from "react-icons/io5";
+import { MdOutlineEdit } from "react-icons/md";
 import { PiMapPinAreaFill } from "react-icons/pi";
-import "./employees.css";
-import { useUser } from '../../contexts/UserContext';
-import AddUserModal from '../../components/AddUserModal';
-import AddGroupModal from '../../components/AddGroupModal';
-import MapModal from '../../components/MapModal';
-import FullMapModal from '../../components/FullMapModal';
-import UpdateUserModal from '../../components/UpdateUserModal';
+import { RiDeleteBin6Line } from "react-icons/ri";
 
+import useRefreshToken from "../../common/refreshToken";
+import AddGroupModal from "../../components/AddGroupModal";
+import AddUserModal from "../../components/AddUserModal";
+import FullMapModal from "../../components/FullMapModal";
+import MapModal from "../../components/MapModal";
+import UpdateUserModal from "../../components/UpdateUserModal";
+import { useUser } from "../../contexts/UserContext";
+
+import "./employees.css";
 
 const EmployeeList = () => {
   const { isAdmin } = useUser();
   const [employees, setEmployees] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [userTypeFilter, setUserTypeFilter] = useState(null);
   const [groupFilter, setGroupFilter] = useState(null);
   const [showUserTypeOptions, setShowUserTypeOptions] = useState(false);
@@ -37,64 +39,57 @@ const EmployeeList = () => {
   const [mapEmployee, setMapEmployee] = useState(null);
   const [allGroups, setAllGroups] = useState([]);
 
-
   const userTypeRef = useRef(null);
   const groupRef = useRef(null);
   const modalRef = useRef(null);
   const wsRef = useRef(null);
+  const refreshAccessToken = useRefreshToken();
 
   const [loggedInUserId, setLoggedInUserId] = useState(null);
 
   let ws2;
   const connectWebSocket2 = () => {
-
     ws2 = new WebSocket(`ws://135.181.42.192/userlist/`);
 
     ws2.onopen = () => {
-
-      console.log('vvvvvvvvvvvvvvvvvvvvvvvvvvvvv1.');
+      console.log("vvvvvvvvvvvvvvvvvvvvvvvvvvvvv1.");
     };
 
-    ws2.onmessage = (event) => {
-
+    ws2.onmessage = event => {
       try {
         const data = JSON.parse(event.data);
-        console.log('-------------------', data.message);
+        console.log("-------------------", data.message);
         if (data.message) {
-          setStatus(data.message)
+          setStatus(data.message);
         }
-
-
       } catch (e) {
-        console.error('vvvvvvvvvvvvvvvvvvvv4:', e);
+        console.error("vvvvvvvvvvvvvvvvvvvv4:", e);
       }
     };
-    ws2.onclose = (event) => {
+    ws2.onclose = event => {
       if (event.wasClean) {
         console.log(`WebSocket1 connection closed cleanly, code=${event.code}, reason=${event.reason}`);
         setTimeout(connectWebSocket2, 5000);
       } else {
-        console.error('WebSocket1 connection died unexpectedly');
+        console.error("WebSocket1 connection died unexpectedly");
         setTimeout(connectWebSocket2, 5000);
       }
     };
-  }
+  };
   useEffect(() => {
     connectWebSocket2();
 
-    // deleted interval 
-    return () => {
-
-    };
+    // deleted interval
+    return () => {};
   }, [loggedInUserId]);
 
   const fetchEmployees = async () => {
     try {
-      const token = localStorage.getItem('access_token');
+      const token = localStorage.getItem("access_token");
 
-      const response = await axios.get('http://135.181.42.192/accounts/users/', {
+      const response = await axios.get("http://135.181.42.192/accounts/users/", {
         headers: {
-          'Authorization': `Bearer ${token}`
+          Authorization: `Bearer ${token}`
         }
       });
       const employeesData = response.data;
@@ -105,38 +100,39 @@ const EmployeeList = () => {
 
         return acc;
       }, {});
-      console.log(statusData, '+++++++++++++++++++++++++++++++++++++++')
+      console.log(statusData, "+++++++++++++++++++++++++++++++++++++++");
       setStatus(statusData);
 
-
-      console.log('Status state:', statusData);
+      console.log("Status state:", statusData);
       initializeEmployeeModals(employeesData);
 
-      const loggedInUserResponse = await axios.get('http://135.181.42.192/accounts/profile/', {
+      const loggedInUserResponse = await axios.get("http://135.181.42.192/accounts/profile/", {
         headers: {
-          'Authorization': `Bearer ${token}`
+          Authorization: `Bearer ${token}`
         }
       });
       setLoggedInUserId(loggedInUserResponse.data.id);
-
     } catch (error) {
-      console.error('Error fetching the employees data:', error);
+      if (response.status == 403) {
+        await refreshAccessToken();
+        fetchData();
+      }
+      console.error("Error fetching the employees data:", error);
     }
   };
 
-  const handleUserAdded = async (newUser) => {
-    setEmployees((prevEmployees) => [...prevEmployees, newUser]);
+  const handleUserAdded = async newUser => {
+    setEmployees(prevEmployees => [...prevEmployees, newUser]);
 
     initializeEmployeeModals([...employees, newUser]);
 
     await fetchEmployees();
   };
 
+  const handleGroupAdded = async newGroup => {
+    setEmployees(prevEmployees => [...prevEmployees, newGroup]);
 
-  const handleGroupAdded = async (newGroup) => {
-    setEmployees((prevEmployees) => [...prevEmployees, newGroup]);
-
-    setAllGroups((prevGroups) => [...prevGroups, newGroup]);
+    setAllGroups(prevGroups => [...prevGroups, newGroup]);
 
     initializeEmployeeModals([...employees, newGroup]);
 
@@ -149,28 +145,28 @@ const EmployeeList = () => {
 
   useEffect(() => {
     const requestInterceptor = axios.interceptors.request.use(
-      async (config) => {
-        const token = localStorage.getItem('access_token');
+      async config => {
+        const token = localStorage.getItem("access_token");
         if (token) {
-          config.headers['Authorization'] = `Bearer ${token}`;
+          config.headers["Authorization"] = `Bearer ${token}`;
         }
         return config;
       },
-      (error) => {
+      error => {
         return Promise.reject(error);
       }
     );
 
     const responseInterceptor = axios.interceptors.response.use(
-      (response) => {
+      response => {
         return response;
       },
-      async (error) => {
+      async error => {
         if (error.response && error.response.status === 401) {
           try {
             return axios(error.config);
           } catch (refreshError) {
-            console.error('Error: Token refresh failed:', refreshError);
+            console.error("Error: Token refresh failed:", refreshError);
           }
         }
         return Promise.reject(error);
@@ -185,24 +181,28 @@ const EmployeeList = () => {
 
   const fetchData = async () => {
     try {
-      const token = localStorage.getItem('access_token');
-      const groupsResponse = await axios.get('http://135.181.42.192/services/groups/', {
+      const token = localStorage.getItem("access_token");
+      const groupsResponse = await axios.get("http://135.181.42.192/services/groups/", {
         headers: {
-          'Authorization': `Bearer ${token}`
+          Authorization: `Bearer ${token}`
         }
       });
       const groupsData = groupsResponse.data;
-      console.log('Fetched groups:', groupsData);
+      console.log("Fetched groups:", groupsData);
       setAllGroups(groupsData);
     } catch (error) {
-      console.error('Error fetching groups:', error);
+      if (response.status == 403) {
+        await refreshAccessToken();
+        fetchData();
+      }
+      console.error("Error fetching groups:", error);
     }
   };
   useEffect(() => {
     fetchData();
   }, []);
 
-  const initializeEmployeeModals = (employeesData) => {
+  const initializeEmployeeModals = employeesData => {
     const initialModals = {};
     employeesData.forEach(employee => {
       initialModals[employee.id] = false;
@@ -210,33 +210,32 @@ const EmployeeList = () => {
     setEmployeeModals(initialModals);
   };
 
-  const openSmallModal = (employeeId) => {
+  const openSmallModal = employeeId => {
     setEmployeeModals(prevModals => ({
       ...prevModals,
       [employeeId]: true
     }));
   };
 
-  const closeSmallModal = (employeeId) => {
+  const closeSmallModal = employeeId => {
     setEmployeeModals(prevModals => ({
       ...prevModals,
       [employeeId]: false
     }));
   };
 
-
-  const handleSearchChange = (event) => {
+  const handleSearchChange = event => {
     setSearchTerm(event.target.value);
     setCurrentPage(1);
   };
 
-  const handleUserTypeFilter = (type) => {
+  const handleUserTypeFilter = type => {
     setUserTypeFilter(type);
     setShowUserTypeOptions(false);
     setCurrentPage(1);
   };
 
-  const handleGroupFilter = (group) => {
+  const handleGroupFilter = group => {
     setGroupFilter(group);
     setShowGroupOptions(false);
     setCurrentPage(1);
@@ -247,8 +246,8 @@ const EmployeeList = () => {
 
     if (searchTerm) {
       filteredEmployees = filteredEmployees.filter(employee => {
-        const firstName = employee.first_name || '';
-        const lastName = employee.last_name || '';
+        const firstName = employee.first_name || "";
+        const lastName = employee.last_name || "";
         return (
           firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
           lastName.toLowerCase().includes(searchTerm.toLowerCase())
@@ -257,19 +256,15 @@ const EmployeeList = () => {
     }
 
     if (userTypeFilter) {
-      filteredEmployees = filteredEmployees.filter(employee => (
-        employee.user_type === userTypeFilter
-      ));
+      filteredEmployees = filteredEmployees.filter(employee => employee.user_type === userTypeFilter);
     }
 
     if (groupFilter) {
-      filteredEmployees = filteredEmployees.filter(employee => (
-        employee.group && employee.group.group === groupFilter
-      ));
+      filteredEmployees = filteredEmployees.filter(employee => employee.group && employee.group.group === groupFilter);
     }
 
     if (!Array.isArray(filteredEmployees)) {
-      console.error('Expected filteredEmployees to be an array, but got:', filteredEmployees);
+      console.error("Expected filteredEmployees to be an array, but got:", filteredEmployees);
       filteredEmployees = [];
     }
 
@@ -279,7 +274,7 @@ const EmployeeList = () => {
   const filteredEmployees = getFilteredEmployees();
   const currentItems = filteredEmployees.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
-  const paginate = (pageNumber) => {
+  const paginate = pageNumber => {
     if (pageNumber > 0 && pageNumber <= Math.ceil(filteredEmployees.length / itemsPerPage)) {
       setCurrentPage(pageNumber);
     }
@@ -300,8 +295,8 @@ const EmployeeList = () => {
     setIsAddGroupModal(false);
   };
 
-  const openMapModal = (id) => {
-    setMapEmployee(id)
+  const openMapModal = id => {
+    setMapEmployee(id);
     setIsMapModal(true);
   };
 
@@ -317,14 +312,13 @@ const EmployeeList = () => {
     setIsFullMapModal(false);
   };
 
-  const handleButtonClick = (event) => {
+  const handleButtonClick = event => {
     event.stopPropagation();
     event.preventDefault();
   };
 
-
   useEffect(() => {
-    const handleClickOutside = (event) => {
+    const handleClickOutside = event => {
       if (userTypeRef.current && !userTypeRef.current.contains(event.target)) {
         setShowUserTypeOptions(false);
       }
@@ -336,13 +330,13 @@ const EmployeeList = () => {
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
-  const handleUpdateUserClick = (employee) => {
+  const handleUpdateUserClick = employee => {
     setSelectedEmployee(employee);
     setIsUpdateUserModal(true);
     closeSmallModal(employee.id);
@@ -354,92 +348,96 @@ const EmployeeList = () => {
 
   const handleUpdateEmployee = async (employeeId, updatedData) => {
     try {
-      const token = localStorage.getItem('access_token');
+      const token = localStorage.getItem("access_token");
 
       const response = await axios.get(`http://135.181.42.192/accounts/update_user/${employeeId}/`, {
         headers: {
-          'Authorization': `Bearer ${token}`
+          Authorization: `Bearer ${token}`
         }
       });
       const updatedEmployee = response.data;
 
-      setEmployees((prevEmployees) =>
-        prevEmployees.map((employee) =>
-          employee.id === employeeId ? updatedEmployee : employee
-        )
+      setEmployees(prevEmployees =>
+        prevEmployees.map(employee => (employee.id === employeeId ? updatedEmployee : employee))
       );
-      setStatus((prevStatus) => ({
+      setStatus(prevStatus => ({
         ...prevStatus,
-        [employeeId]: updatedEmployee.status,
+        [employeeId]: updatedEmployee.status
       }));
     } catch (error) {
-      console.error('Error fetching updated employee:', error);
+      if (response.status == 403) {
+        await refreshAccessToken();
+        handleUpdateEmployee();
+      }
+      console.error("Error fetching updated employee:", error);
     }
   };
 
-  const handleDeleteUser = async (employeeId) => {
+  const handleDeleteUser = async employeeId => {
     const confirmDelete = window.confirm("Are you sure you want to delete this user?");
     if (!confirmDelete) return;
 
     try {
-      const token = localStorage.getItem('access_token');
+      const token = localStorage.getItem("access_token");
 
       await axios.delete(`http://135.181.42.192/accounts/delete_user/${employeeId}/`, {
         headers: {
-          'Authorization': `Bearer ${token}`
+          Authorization: `Bearer ${token}`
         }
       });
 
       setEmployees(prevEmployees => prevEmployees.filter(employee => employee.id !== employeeId));
     } catch (error) {
-      console.error('Error deleting the user:', error);
+      if (response.status == 403) {
+        await refreshAccessToken();
+        handleDeleteUser();
+      }
+      console.error("Error deleting the user:", error);
     }
   };
-  console.log(status, '------------------------------------------------')
+  console.log(status, "------------------------------------------------");
   return (
-    <div className='employee-page'>
-      <div className='employee-title'>
+    <div className="employee-page">
+      <div className="employee-title">
         <h1>İşçilər</h1>
-        <div className='employee-add-buttons'>
+        <div className="employee-add-buttons">
           <button onClick={openFullMapModal}>Xəritə</button>
           <button onClick={openAddGroupModal}>Qrup əlavə et</button>
           {isAdmin && (
-            <button onClick={openAddUserModal}><IoAdd />Istifadəçi əlavə et</button>
+            <button onClick={openAddUserModal}>
+              <IoAdd />
+              Istifadəçi əlavə et
+            </button>
           )}
         </div>
       </div>
-      <div className='employee-search-filter'>
+      <div className="employee-search-filter">
         <div>
           <CiSearch />
-          <input
-            type="search"
-            placeholder='İşçiləri axtar'
-            value={searchTerm}
-            onChange={handleSearchChange}
-          />
+          <input type="search" placeholder="İşçiləri axtar" value={searchTerm} onChange={handleSearchChange} />
           <IoFilterOutline />
         </div>
         <div>
           <div>
             <button onClick={() => setShowUserTypeOptions(!showUserTypeOptions)}>
               <span>Vəzifə:</span>
-              <span>{userTypeFilter ? userTypeFilter : 'Hamısı'}</span>
+              <span>{userTypeFilter ? userTypeFilter : "Hamısı"}</span>
               <FaChevronDown />
             </button>
             {showUserTypeOptions && (
               <div className="group-modal" ref={userTypeRef}>
                 <div onClick={() => handleUserTypeFilter(null)}>Hamısı</div>
-                <div onClick={() => handleUserTypeFilter('Texnik')}>Texniklər</div>
-                <div onClick={() => handleUserTypeFilter('Plumber')}>Plumber</div>
-                <div onClick={() => handleUserTypeFilter('Ofis menecer')}>Ofis menecer</div>
-                <div onClick={() => handleUserTypeFilter('Texnik menecer')}>Texnik menecer</div>
+                <div onClick={() => handleUserTypeFilter("Texnik")}>Texniklər</div>
+                <div onClick={() => handleUserTypeFilter("Plumber")}>Plumber</div>
+                <div onClick={() => handleUserTypeFilter("Ofis menecer")}>Ofis menecer</div>
+                <div onClick={() => handleUserTypeFilter("Texnik menecer")}>Texnik menecer</div>
               </div>
             )}
           </div>
           <div>
             <button onClick={() => setShowGroupOptions(!showGroupOptions)}>
               <span>Qrup:</span>
-              <span>{groupFilter ? groupFilter : 'Hamısı'}</span>
+              <span>{groupFilter ? groupFilter : "Hamısı"}</span>
               <FaChevronDown />
             </button>
             {showGroupOptions && (
@@ -455,7 +453,6 @@ const EmployeeList = () => {
               </div>
             )}
           </div>
-
         </div>
       </div>
       <div className="employee-table-container">
@@ -475,31 +472,38 @@ const EmployeeList = () => {
           </thead>
           <tbody>
             {currentItems.map((employee, index) => (
-              <tr
-                key={employee.id}
-                className={employee.id === loggedInUserId ? 'current-user' : ''}
-              >
-                <td>{`#${(index + 1).toString().padStart(4, '0')}`}</td>
-                <td>{employee.first_name} {employee.last_name}</td>
-                <td>{employee.group ? employee.group.group : '-'}</td>
-                <td>{employee.group ? employee.group.region : '-'}</td>
-                <td>{employee.phone}  {!employee.phone && <span>-</span>}</td>
-                <td>{(employee.user_type)}</td>
-                <td className={`status ${status[employee.id]?.status === 'online' ? 'color-green' : 'color-red'}`}>
+              <tr key={employee.id} className={employee.id === loggedInUserId ? "current-user" : ""}>
+                <td>{`#${(index + 1).toString().padStart(4, "0")}`}</td>
+                <td>
+                  {employee.first_name} {employee.last_name}
+                </td>
+                <td>{employee.group ? employee.group.group : "-"}</td>
+                <td>{employee.group ? employee.group.region : "-"}</td>
+                <td>
+                  {employee.phone} {!employee.phone && <span>-</span>}
+                </td>
+                <td>{employee.user_type}</td>
+                <td className={`status ${status[employee.id]?.status === "online" ? "color-green" : "color-red"}`}>
                   {status[employee.id]?.status !== undefined ? status[employee.id]?.status : "offline"}
                 </td>
                 <td>
-                  <a className={`mapIcon ${status[employee.id]?.status !== "online" ? 'deactive' : ''}`} onClick={status[employee.id]?.status === "online" ? () => openMapModal(employee.id) : null}><PiMapPinAreaFill /></a>
+                  <a
+                    className={`mapIcon ${status[employee.id]?.status !== "online" ? "deactive" : ""}`}
+                    onClick={status[employee.id]?.status === "online" ? () => openMapModal(employee.id) : null}
+                  >
+                    <PiMapPinAreaFill />
+                  </a>
                 </td>
                 <td>
-                  <button onClick={() => openSmallModal(employee.id)}><BsThreeDotsVertical /></button>
+                  <button onClick={() => openSmallModal(employee.id)}>
+                    <BsThreeDotsVertical />
+                  </button>
                   {employeeModals[employee.id] && (
                     <div
-                      className={`small-modal-employee ${employeeModals[employee.id] ? 'active' : ''}`} ref={modalRef}
+                      className={`small-modal-employee ${employeeModals[employee.id] ? "active" : ""}`}
+                      ref={modalRef}
                     >
-                      <div
-                        className="small-modal-employee-content"
-                      >
+                      <div className="small-modal-employee-content">
                         <button onClick={() => handleUpdateUserClick(employee)}>
                           <MdOutlineEdit />
                         </button>
@@ -526,12 +530,19 @@ const EmployeeList = () => {
               {i + 1}
             </button>
           ))}
-        <button onClick={() => paginate(currentPage + 1)} disabled={currentPage === Math.ceil(employees.length / itemsPerPage)}>
+        <button
+          onClick={() => paginate(currentPage + 1)}
+          disabled={currentPage === Math.ceil(employees.length / itemsPerPage)}
+        >
           <FaArrowRight />
         </button>
       </div>
-      {isAddUserModal && <AddUserModal isOpen={isAddUserModal} onClose={closeAddUserModal} onUserAdded={handleUserAdded} />}
-      {isAddGroupModal && <AddGroupModal isOpen={isAddGroupModal} onClose={closeAddGroupModal} onGroupAdded={handleGroupAdded} />}
+      {isAddUserModal && (
+        <AddUserModal isOpen={isAddUserModal} onClose={closeAddUserModal} onUserAdded={handleUserAdded} />
+      )}
+      {isAddGroupModal && (
+        <AddGroupModal isOpen={isAddGroupModal} onClose={closeAddGroupModal} onGroupAdded={handleGroupAdded} />
+      )}
       {isMapModal && <MapModal status={status[mapEmployee]} isOpen={isMapModal} onClose={closeMapModal} />}
       {isFullMapModal && <FullMapModal status={status} isOpen={isFullMapModal} onClose={closeFullMapModal} />}
       {isUpdateUserModal && selectedEmployee && (
@@ -539,7 +550,7 @@ const EmployeeList = () => {
           isOpen={isUpdateUserModal}
           onClose={handleUpdateUserModalClose}
           employee={selectedEmployee}
-          onUpdateUser={(updatedEmployee) => handleUpdateEmployee(updatedEmployee.id, updatedEmployee)}
+          onUpdateUser={updatedEmployee => handleUpdateEmployee(updatedEmployee.id, updatedEmployee)}
         />
       )}
     </div>

@@ -1,5 +1,7 @@
-import axios from 'axios';
-import { useState } from 'react';
+import axios from "axios";
+import { useState } from "react";
+
+import useRefreshToken from "../../common/refreshToken";
 
 const IncrementItemForm = ({ onClose, itemId }) => {
   const [productProvider, setProductProvider] = useState("");
@@ -9,9 +11,9 @@ const IncrementItemForm = ({ onClose, itemId }) => {
   const [success, setSuccess] = useState("");
   const [productProviderError, setProductProviderError] = useState("");
   const [numberError, setNumberError] = useState("");
+  const refreshAccessToken = useRefreshToken();
 
-
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault();
     setError("");
     setSuccess("");
@@ -24,8 +26,6 @@ const IncrementItemForm = ({ onClose, itemId }) => {
       setProductProviderError("");
     }
 
-
-
     if (!number || number <= 0) {
       setNumberError("Bu sahəni doldurmalısınız və sayı müsbət olmalıdır");
       valid = false;
@@ -35,7 +35,7 @@ const IncrementItemForm = ({ onClose, itemId }) => {
 
     if (!valid) return;
 
-    const token = localStorage.getItem('access_token');
+    const token = localStorage.getItem("access_token");
     if (!token) {
       console.error("No token found");
       return;
@@ -44,8 +44,7 @@ const IncrementItemForm = ({ onClose, itemId }) => {
     const data = {
       item_id: itemId,
       product_provider: productProvider,
-      number: number,
-
+      number: number
     };
 
     try {
@@ -62,15 +61,9 @@ const IncrementItemForm = ({ onClose, itemId }) => {
         onClose();
       }
     } catch (error) {
-      if (error.response && (error.response.status === 401 || error.response.status === 403)) {
-        try {
-          await handleSubmit(e);
-        } catch (refreshError) {
-          console.error('Token refresh failed:', refreshError);
-        }
-      } else {
-        console.error('An error occurred:', error);
-        setError("An error occurred");
+      if (error.status == 403) {
+        await refreshAccessToken();
+        handleSubmit();
       }
     }
   };
@@ -80,25 +73,32 @@ const IncrementItemForm = ({ onClose, itemId }) => {
       <div className="export-modal-content">
         <div className="export-modal-title">
           <h5>İdxal</h5>
-          <span className="close" onClick={onClose}>&times;</span>
+          <span className="close" onClick={onClose}>
+            &times;
+          </span>
         </div>
         <hr />
         <form onSubmit={handleSubmit}>
           <div className="export-form">
             <label>
               Məhsul Təchizatçısı
-              <input type="text" value={productProvider} onChange={(e) => setProductProvider(e.target.value)} />
+              <input type="text" value={productProvider} onChange={e => setProductProvider(e.target.value)} />
               {productProviderError && <p className="error-message">{productProviderError}</p>}
             </label>
             <label>
               Sayı
-              <input type="number" value={number} onKeyDown={(evt) => (evt.key === 'e' || evt.key === '-') && evt.preventDefault()} onChange={(e) => setNumber(e.target.value)} />
-              {numberError && <p className="error-message">{numberError}</p>
-              }
+              <input
+                type="number"
+                value={number}
+                onKeyDown={evt => (evt.key === "e" || evt.key === "-") && evt.preventDefault()}
+                onChange={e => setNumber(e.target.value)}
+              />
+              {numberError && <p className="error-message">{numberError}</p>}
             </label>
-
           </div>
-          <button type="submit" className="submit-btn">İdxal et</button>
+          <button type="submit" className="submit-btn">
+            İdxal et
+          </button>
           {error && <p className="error">{error}</p>}
           {success && <p className="success">{success}</p>}
         </form>

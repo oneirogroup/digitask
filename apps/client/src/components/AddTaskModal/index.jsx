@@ -10,6 +10,8 @@ import { TfiWorld } from "react-icons/tfi";
 /////////////////////////////////////////////////////////////////////////start
 import { MapContainer, Marker, TileLayer, useMapEvents } from "react-leaflet";
 
+import useRefreshToken from "../../common/refreshToken";
+
 import upload from "../../assets/images/document-upload.svg";
 import "./addTask.css";
 import "leaflet/dist/leaflet.css";
@@ -50,6 +52,7 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [errors, setErrors] = useState({});
   const dropdownRef = useRef(null);
+  const refreshAccessToken = useRefreshToken();
 
   useEffect(() => {
     const handleClickOutside = event => {
@@ -64,12 +67,15 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
     };
   }, []);
 
-  const fetchGroups = async () => {
+  const fetchGroups = async (isRetry = false) => {
     try {
       const response = await axios.get("http://135.181.42.192/services/groups/");
       setGroups(response.data);
     } catch (error) {
-      console.error("Error fetching groups:", error);
+      if (error.status === 403 && !isRetry) {
+        await refreshAccessToken();
+        fetchGroups(true);
+      }
     }
   };
 
@@ -170,13 +176,14 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
 
   const [backendErrors, setBackendErrors] = useState([]);
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e, retry = false) => {
     e.preventDefault();
     const { newErrors, errorText } = validateForm();
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       setErrorText(errorText);
+      return;
     }
 
     try {
@@ -203,6 +210,7 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
 
       const response = await axios.post("http://135.181.42.192/services/create_task/", payload, {
         headers: {
+          "Authorization": `Bearer ${localStorage.getItem("access_token")}`,
           "Content-Type": "multipart/form-data"
         }
       });
@@ -212,7 +220,7 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
         onClose();
       } else {
         const backendErrors = response.data.errors;
-        console.log("Backend Errors Response: ", response.data); // Log the response to see structure
+        console.log("Backend Errors Response: ", response.data);
 
         if (backendErrors && typeof backendErrors === "object") {
           const errorMessages = Object.entries(backendErrors).map(([field, messages]) => {
@@ -222,15 +230,10 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
         }
       }
     } catch (error) {
-      console.error("Error creating task:", error);
-    }
-
-    if (backendErrors.length > 0) {
-      combinedErrorText = backendErrors.join(", ");
-    }
-
-    if (combinedErrorText) {
-      setErrorText(combinedErrorText);
+      if (error.status == 403) {
+        await refreshAccessToken();
+        handleSubmit(e, true);
+      }
     }
   };
 
