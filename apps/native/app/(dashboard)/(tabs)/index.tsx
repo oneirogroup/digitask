@@ -1,18 +1,8 @@
 import { router } from "expo-router";
-import { api } from "libs/shared-lib/src/api";
 import { Pressable, Text } from "react-native";
-import { useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 
-import {
-  DateService,
-  Task,
-  TaskStatuses,
-  fields,
-  getTags,
-  tasksAtom,
-  tasksFilterSelector,
-  useRecoilQuery
-} from "@digitask/shared-lib";
+import { DateService, Task, TaskStatuses, getTags, tasksAtom, tasksFilterSelector } from "@digitask/shared-lib";
 import { Block, Icon, If } from "@mdreal/ui-kit";
 
 import { palette } from "../../../../../palette";
@@ -21,12 +11,7 @@ import { Event } from "../../../components/event";
 
 export default function Index() {
   const setFilter = useSetRecoilState(tasksFilterSelector);
-  const { data: tasks } = useRecoilQuery(tasksAtom, {
-    queryKey: [fields.tasks],
-    queryFn: () => api.services.tasks.$get,
-    isNullable: true
-  });
-
+  const tasks = useRecoilValue(tasksAtom);
   const task = tasks?.find(task => task.status === TaskStatuses.InProgress);
 
   const date = DateService.from();
@@ -74,7 +59,9 @@ export default function Index() {
             <If.Then>
               <BlockContainer>
                 <Pressable
-                  onPress={() => router.push({ pathname: "/(dashboard)/[taskId]", params: { taskId: task!.id } })}
+                  onPress={() =>
+                    router.push({ pathname: "/(dashboard)/(task)/[taskId]", params: { taskId: task!.id } })
+                  }
                 >
                   <Task task={task!} tags={getTags(task)} />
                 </Pressable>

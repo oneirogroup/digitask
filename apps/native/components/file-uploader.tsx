@@ -1,5 +1,6 @@
 import { Image } from "expo-image";
 import {
+  ImagePickerResult,
   ImagePickerSuccessResult,
   MediaTypeOptions,
   launchCameraAsync,
@@ -19,7 +20,7 @@ import { FileUploaderExtended, FileUploaderProps } from "./file-uploader.types";
 
 export const FileUploader: FC<FileUploaderProps> & FileUploaderExtended = ({
   label,
-  value: prePickedImage,
+  value: _prePickedImage,
   onFileUpload
 }) => {
   const modalRef = useRef<ModalRef>(null);
@@ -28,24 +29,25 @@ export const FileUploader: FC<FileUploaderProps> & FileUploaderExtended = ({
   const uploadFileMutation = useMutation({
     mutationKey: [fields.file.upload],
     mutationFn: (formData: FormData) => api.services.file.upload.$post(formData),
-    onSuccess(data) {
-      console.log(data);
-    }
+    onSuccess(data) {}
   });
 
-  const handleImageUpload = async (result: ImagePickerSuccessResult) => {
+  const handleImageUpload = (result: ImagePickerResult) => {
     modalRef.current?.close();
+
+    if (result.canceled) return;
 
     const localUri = result.assets[0]?.uri;
     if (!localUri) return;
-    const filename = localUri.split("/").pop();
-    if (!filename) return;
-    const match = /\.(\w+)$/.exec(filename);
-    const type = match ? `image/${match[1]}` : `image`;
-    const blob = new Blob([localUri], { type });
-    const formData = new FormData();
-    formData.append("photo", blob);
-    await uploadFileMutation.mutateAsync(formData);
+    // ToDo: Will be implemented for new backend
+    // const filename = localUri.split("/").pop();
+    // if (!filename) return;
+    // const match = /\.(\w+)$/.exec(filename);
+    // const type = match ? `image/${match[1]}` : `image`;
+    // const blob = new Blob([localUri], { type });
+    // const formData = new FormData();
+    // formData.append("photo", blob);
+    onFileUpload?.(localUri);
     setPickedImage(result);
   };
 
@@ -60,9 +62,7 @@ export const FileUploader: FC<FileUploaderProps> & FileUploaderExtended = ({
         allowsMultipleSelection: false
       });
 
-      if (!result.canceled) {
-        await handleImageUpload(result);
-      }
+      handleImageUpload(result);
     }
   };
 
@@ -77,9 +77,7 @@ export const FileUploader: FC<FileUploaderProps> & FileUploaderExtended = ({
         allowsMultipleSelection: false
       });
 
-      if (!result.canceled) {
-        await handleImageUpload(result);
-      }
+      handleImageUpload(result);
     }
   };
 

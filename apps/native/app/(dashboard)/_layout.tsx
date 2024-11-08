@@ -2,13 +2,15 @@ import { Stack } from "expo-router";
 
 import { ChatRoomHeaderRight, ChatRoomHeaderTitle } from "../../components/header/chat";
 import { ProfileHeaderRight, ProfileHeaderTitle } from "../../components/header/profile";
-import { TaskAddAdditionHeaderRight } from "../../components/header/task/add-addition-header-right";
+import { TaskAddAttachmentHeaderRight } from "../../components/header/task/add-addition-header-right";
+import { useTasksInit } from "../../hooks/use-tasks-init";
 import { useWebsocketInit } from "../../hooks/use-websocket-init";
 
 import "../main.css";
 
 export default function DashboardLayout() {
   useWebsocketInit();
+  useTasksInit();
 
   return (
     <Stack initialRouteName="(tabs)">
@@ -34,14 +36,14 @@ export default function DashboardLayout() {
 
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
 
-      <Stack.Screen name="[taskId]/index" options={{ title: "Tapşırıq", headerBackTitleVisible: false }} />
+      <Stack.Screen name="(task)/[taskId]/index" options={{ title: "Tapşırıq", headerBackTitleVisible: false }} />
       <Stack.Screen
-        name="[taskId]/add-task-addition"
+        name="(task)/[taskId]/type/[type]"
         options={{
           title: "Tapşırıq",
           headerBackTitleVisible: false,
           presentation: "modal",
-          headerRight: () => <TaskAddAdditionHeaderRight />
+          headerRight: () => <TaskAddAttachmentHeaderRight />
         }}
       />
     </Stack>

@@ -1,34 +1,18 @@
 import { router, useLocalSearchParams } from "expo-router";
-import { ComponentProps, FC, ReactElement } from "react";
+import { useRef } from "react";
 import { Pressable, Text, View } from "react-native";
 import { useRecoilValue } from "recoil";
 
 import { DateService, tasksAtom } from "@digitask/shared-lib";
-import { Block, Icon } from "@mdreal/ui-kit";
+import { Block, Button, Icon, Modal, ModalRef, When } from "@mdreal/ui-kit";
 
-import { palette } from "../../../../../palette";
-import { BlockContainer } from "../../../components/blocks";
-
-interface FieldProps {
-  icon: ReactElement<ComponentProps<typeof Icon>, typeof Icon>;
-  label: string;
-  value: string;
-}
-
-const Field: FC<FieldProps> = ({ icon, label, value }) => {
-  return (
-    <Block>
-      <Block className="flex flex-row items-center gap-2 px-1">
-        <View>{icon}</View>
-        <Text className="flex-1">{label}</Text>
-        <Text className="text-right">{value}</Text>
-      </Block>
-      <View className="border-b-primary mt-2 w-full border-b-[1px] bg-transparent" />
-    </Block>
-  );
-};
+import { palette } from "../../../../../../palette";
+import { BlockContainer } from "../../../../components/blocks";
+import { Field } from "../../../../components/task/add-attachment/field";
 
 export default function SpecificTask() {
+  const attachmentSelectModalRef = useRef<ModalRef>(null);
+
   const { taskId } = useLocalSearchParams() as { taskId: string };
   const tasks = useRecoilValue(tasksAtom);
   const currentTask = tasks.find(task => task.id === +taskId);
@@ -40,7 +24,11 @@ export default function SpecificTask() {
   const startDate = DateService.from(`${currentTask.date} ${currentTask.start_time}`);
   const endDate = DateService.from(`${currentTask.date} ${currentTask.end_time}`);
 
-  console.log(currentTask);
+  const redirectTo = (type: "tv" | "voice" | "internet") => {
+    return () => {
+      router.push({ pathname: "/(dashboard)/(task)/[taskId]/type/[type]", params: { taskId, type } });
+    };
+  };
 
   return (
     <Block.Scroll className="p-4" contentClassName="flex gap-4">
@@ -107,7 +95,7 @@ export default function SpecificTask() {
 
       <BlockContainer>
         <Pressable
-          onPress={() => router.push({ pathname: "/(dashboard)/[taskId]/add-task-addition", params: { taskId } })}
+          onPress={() => attachmentSelectModalRef.current?.open()}
           className="flex flex-row items-center justify-between p-2"
         >
           <Text>Yeni Qosulma</Text>
@@ -116,6 +104,35 @@ export default function SpecificTask() {
           </View>
         </Pressable>
       </BlockContainer>
+
+      <Modal ref={attachmentSelectModalRef} type="popup" height={123} className="p-4">
+        <View className="flex gap-6">
+          <View>
+            <Text className="text-1.5xl text-center">Servis növü</Text>
+            <Text className="text-neutral text-center text-lg">Hansı anketi doldurursunuz?</Text>
+          </View>
+
+          <View className="flex flex-row gap-4">
+            <When condition={!currentTask.has_tv}>
+              <Button variant="secondary" className="border-secondary flex-1" onClick={redirectTo("tv")}>
+                <Text className="text-center">Tv</Text>
+              </Button>
+            </When>
+
+            <When condition={!currentTask.has_internet}>
+              <Button variant="secondary" className="border-secondary flex-1" onClick={redirectTo("internet")}>
+                <Text className="text-center">İnternet</Text>
+              </Button>
+            </When>
+
+            <When condition={!currentTask.has_voice}>
+              <Button variant="secondary" className="border-secondary flex-1" onClick={redirectTo("voice")}>
+                <Text className="text-center">Səs</Text>
+              </Button>
+            </When>
+          </View>
+        </View>
+      </Modal>
     </Block.Scroll>
   );
 }

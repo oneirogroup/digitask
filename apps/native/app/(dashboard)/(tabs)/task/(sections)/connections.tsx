@@ -55,7 +55,7 @@ export default function Connections() {
         {filteredTasks.slice(0, 12).map(task => (
           <Pressable
             key={task.id}
-            onPress={() => router.push({ pathname: "/(dashboard)/[taskId]", params: { taskId: task!.id } })}
+            onPress={() => router.push({ pathname: "/(dashboard)/(task)/[taskId]", params: { taskId: task!.id } })}
           >
             <BlockContainer>
               <Task task={task} tags={getTags(task)} />

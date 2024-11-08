@@ -7,5 +7,5 @@ export interface FileUploaderProps {
 }
 
 export interface FileUploaderExtended {
-  Controlled: FC<FileUploaderProps & { name: string; value: string }>;
+  Controlled: FC<FileUploaderProps & { name: string; value?: string }>;
 }

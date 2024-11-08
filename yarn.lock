@@ -1406,7 +1406,7 @@ __metadata:
     "@digitask/shared-lib": "workspace:^"
     "@emotion/react": "npm:^11.11.4"
     "@emotion/styled": "npm:^11.11.5"
-    "@mdreal/ui-kit": "npm:^0.0.0-dev.22"
+    "@mdreal/ui-kit": "npm:^0.0.0-dev.25"
     "@mdreal/ws-client": "npm:^0.0.0-dev.8"
     "@mui/material": "npm:^5.15.19"
     "@reduxjs/toolkit": "npm:^2.2.4"
@@ -1455,7 +1455,7 @@ __metadata:
     "@dev-plugins/async-storage": "npm:^0.0.3"
     "@dev-plugins/react-query": "npm:^0.0.7"
     "@digitask/shared-lib": "workspace:^"
-    "@mdreal/ui-kit": "npm:^0.0.0-dev.22"
+    "@mdreal/ui-kit": "npm:^0.0.0-dev.25"
     "@mdreal/ws-client": "npm:^0.0.0-dev.8"
     "@react-native-async-storage/async-storage": "npm:1.23.1"
     "@react-native-community/netinfo": "npm:11.3.1"
@@ -1507,7 +1507,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@digitask/shared-lib@workspace:libs/shared-lib"
   dependencies:
-    "@mdreal/ui-kit": "npm:^0.0.0-dev.22"
+    "@mdreal/ui-kit": "npm:^0.0.0-dev.25"
     "@mdreal/ws-client": "npm:^0.0.0-dev.8"
     "@react-native-async-storage/async-storage": "npm:^1.24.0"
     "@tanstack/react-query": "npm:^5.59.16"
@@ -3163,28 +3163,6 @@ __metadata:
   linkType: hard
 
 "@mdreal/ui-kit@npm:^0.0.0-dev.16":
-  version: 0.0.0-dev.18
-  resolution: "@mdreal/ui-kit@npm:0.0.0-dev.18"
-  dependencies:
-    "@hookform/resolvers": "npm:^3.9.0"
-    clsx: "npm:^2.1.1"
-    expo-linear-gradient: "npm:^13.0.2"
-    framer-motion: "npm:^11.11.9"
-    lodash.merge: "npm:^4.6.2"
-    react-hook-form: "npm:^7.53.0"
-    tailwind-merge: "npm:^2.5.4"
-    zod: "npm:^3.23.8"
-  peerDependencies:
-    react: "*"
-    react-dom: "*"
-    react-native: "*"
-    react-native-reanimated: "*"
-    react-native-svg: "*"
-  checksum: 10c0/b09b4e60f63e8bf04bd400fad93aefe8a268b3b134b11f2c8237d69d5b2a27c8c4df685649b32a76fa9b6726383f047a357937570c8076df4473b33a5d6405b5
-  languageName: node
-  linkType: hard
-
-"@mdreal/ui-kit@npm:^0.0.0-dev.22":
   version: 0.0.0-dev.22
   resolution: "@mdreal/ui-kit@npm:0.0.0-dev.22"
   dependencies:
@@ -3203,6 +3181,28 @@ __metadata:
     react-native-reanimated: "*"
     react-native-svg: "*"
   checksum: 10c0/6234d0fd28320a9e753f86055e358fc702c73dd1618bad1ef07633140527be27f2b53acbaee6f8553f5b5e3084d5ba002cfd5d1e5b849f3dd01758a4235fcde1
+  languageName: node
+  linkType: hard
+
+"@mdreal/ui-kit@npm:^0.0.0-dev.25":
+  version: 0.0.0-dev.25
+  resolution: "@mdreal/ui-kit@npm:0.0.0-dev.25"
+  dependencies:
+    "@hookform/resolvers": "npm:^3.9.0"
+    clsx: "npm:^2.1.1"
+    expo-linear-gradient: "npm:^13.0.2"
+    framer-motion: "npm:^11.11.9"
+    lodash.merge: "npm:^4.6.2"
+    react-hook-form: "npm:^7.53.0"
+    tailwind-merge: "npm:^2.5.4"
+    zod: "npm:^3.23.8"
+  peerDependencies:
+    react: "*"
+    react-dom: "*"
+    react-native: "*"
+    react-native-reanimated: "*"
+    react-native-svg: "*"
+  checksum: 10c0/0650e769cbcd5bcb21397efd0ffeaa5e57ba3caeb73330965bd2c6163227f5b4e2492296e2642709df5e6d2d663c61c12f38762a2dd04a8e782056579dcb5f41
   languageName: node
   linkType: hard
 
@@ -3557,7 +3557,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@oneiro/digitask@workspace:."
   dependencies:
-    "@mdreal/ui-kit": "npm:^0.0.0-dev.22"
+    "@mdreal/ui-kit": "npm:^0.0.0-dev.25"
     "@prettier/plugin-xml": "npm:^3.4.1"
     "@trivago/prettier-plugin-sort-imports": "npm:^4.3.0"
     expo: "npm:^51.0.38"

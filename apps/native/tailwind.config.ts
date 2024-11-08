@@ -1,5 +1,5 @@
-import { baseConfig } from "../../tailwind.config";
+import sharedLibConfig from "../../libs/shared-lib/tailwind.config";
 
-export default baseConfig.extend({
+export default sharedLibConfig.extend({
   content: ["./app/**/*.{js,jsx,ts,tsx}", "./components/**/*.{js,jsx,ts,tsx}"]
 });

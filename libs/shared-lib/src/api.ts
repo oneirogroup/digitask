@@ -1,6 +1,6 @@
 import { AuthHttp } from "@mdreal/ui-kit";
 
-import { SignInSchema } from "./schemas";
+import { InternetAttachmentSchema, SignInSchema, TVAttachmentSchema, VoiceAttachmentSchema } from "./schemas";
 import { Backend, DateRange, MessageOptions, WithPagination } from "./types";
 import { PaginatedResponse } from "./types/backend/paginated-response";
 import { urlBuilder } from "./utils";
@@ -34,6 +34,22 @@ export const api = {
     tasks: {
       get $get() {
         return authHttp.get<Backend.Task[]>("/services/tasks");
+      },
+      $post({
+        type,
+        ...data
+      }: Omit<TVAttachmentSchema | InternetAttachmentSchema | VoiceAttachmentSchema, "passport" | "photo_modem"> & {
+        task: number;
+      }) {
+        return authHttp.post<{ id: number }>(`/services/create_${type}/`, data, {
+          "Content-Type": "multipart/form-data;"
+        });
+      },
+      $patch(id: number, data: Partial<Backend.Task>) {
+        return authHttp.patch(`/services/update_tv/${id}/`, data);
+      },
+      $patchMedia(id: number, data: FormData) {
+        return authHttp.patch(`/services/update_tv/${id}/`, data);
       }
     },
     performance: {
@@ -49,7 +65,7 @@ export const api = {
     file: {
       upload: {
         $post(media: FormData) {
-          return Promise.resolve();
+          return Promise.resolve(media.get("photo"));
         }
       }
     }
