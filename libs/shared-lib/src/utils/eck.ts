@@ -7,12 +7,16 @@ type MergeKeys<TKeys extends readonly (TemplateStringsArray | string)[]> = TKeys
     : `${T}:${MergeKeys<R>}`
   : "";
 
+export interface ToString {
+  toString(): string;
+}
+
 interface ExtensionFn<TKey extends string> {
   <TKeys extends (TemplateStringsArray | string)[]>(...keys: TKeys): MergeKeys<[TKey, ...TKeys]>;
   e<TNewKey extends string, TExtension extends object>(
     key: TNewKey,
     extension: (cb: ExtensionFn<MergeKeys<[TKey, TNewKey]>>) => TExtension
-  ): TExtension;
+  ): TExtension & ToString;
 }
 
 export const eck = <TKey extends string, TExtension extends object>(

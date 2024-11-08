@@ -13,12 +13,13 @@
     "@digitask/shared-lib": "workspace:^",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
-    "@mdreal/ui-kit": "^0.0.0-dev.11",
-    "@mdreal/ws-client": "^0.0.0-dev.5",
+    "@mdreal/ui-kit": "^0.0.0-dev.25",
+    "@mdreal/ws-client": "^0.0.0-dev.8",
     "@mui/material": "^5.15.19",
     "@reduxjs/toolkit": "^2.2.4",
     "apexcharts": "^3.49.1",
     "axios": "^1.7.2",
+    "core-util-is": "^1.0.3",
     "date-fns": "^4.1.0",
     "dayjs": "^1.11.13",
     "leaflet": "^1.9.4",
@@ -52,6 +53,6 @@
     "eslint-plugin-react": "^7.34.1",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.6",
-    "vite": "^5.2.0"
+    "vite": "^5.4.10"
   }
 }

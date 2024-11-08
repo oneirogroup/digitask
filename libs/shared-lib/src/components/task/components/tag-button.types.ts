@@ -1,8 +1,8 @@
-import { Tag } from "./tag.types";
+import { TagProps } from "./tag.types";
 
 export interface TagButtonProps {
-  status: Tag[0];
+  status: TagProps;
   isActive: boolean;
 
-  onClick(tag: Tag[0]): void;
+  onClick(tag: TagProps): void;
 }

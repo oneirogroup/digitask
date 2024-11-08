@@ -1,2 +1,2 @@
-export * from "./auth/email.schema";
-export * from "./auth/sign-in.schema";
+export * from "./auth";
+export * from "./task";

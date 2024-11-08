@@ -15,11 +15,6 @@ export const activeChatRoomIdAtom = atom<number | null>({
   default: 1
 });
 
-export const activeChatRoomPageAtom = atom<number>({
-  key: fields.chat.messages.page.toString(),
-  default: 1
-});
-
 export const activeChatRoomPageSizeAtom = atom<number>({
   key: fields.chat.messages.size.toString(),
   default: 30
@@ -39,7 +34,7 @@ export const activeChatRoomMessagesSelector = selector<Backend.Message[]>({
     const paginatedMessages = get(messagesAtom(chatRoomId));
 
     if (Array.isArray(newValue)) {
-      set(messagesAtom(chatRoomId), { ...paginatedMessages, results: newValue });
+      set(messagesAtom(chatRoomId), { ...paginatedMessages, results: [...paginatedMessages.results, ...newValue] });
     }
   }
 });

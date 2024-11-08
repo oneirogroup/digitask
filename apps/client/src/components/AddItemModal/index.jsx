@@ -1,6 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 
+import useRefreshToken from "../../common/refreshToken.js";
+
 import "./addItemModal.css";
 
 const AddItemModal = ({ onClose, selectedServices, taskId, onItemsAdded }) => {
@@ -19,6 +21,7 @@ const AddItemModal = ({ onClose, selectedServices, taskId, onItemsAdded }) => {
   });
   const [isServiceSelected, setIsServiceSelected] = useState(false);
   const [inputErrors, setInputErrors] = useState({});
+  const refreshAccessToken = useRefreshToken();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -28,6 +31,10 @@ const AddItemModal = ({ onClose, selectedServices, taskId, onItemsAdded }) => {
         const itemResponse = await axios.get("http://135.181.42.192/warehouse/warehouse-items/");
         setItems(itemResponse.data);
       } catch (error) {
+        if (error.status == 403) {
+          await refreshAccessToken();
+          fetchData();
+        }
         console.error("Error fetching data:", error);
       }
     };
@@ -100,7 +107,6 @@ const AddItemModal = ({ onClose, selectedServices, taskId, onItemsAdded }) => {
               task: taskId,
               item: item.item,
               count: count,
-              delivery_note: `Item added for ${serviceType}`,
               is_tv: serviceType === "tv",
               is_internet: serviceType === "internet",
               is_voice: serviceType === "voice"
@@ -119,6 +125,8 @@ const AddItemModal = ({ onClose, selectedServices, taskId, onItemsAdded }) => {
       return;
     }
 
+    console.log("Data to be sent:", itemsToAdd);
+
     try {
       const response = await axios.post("http://135.181.42.192/services/warehouse_changes/bulk_create/", itemsToAdd, {
         headers: {
@@ -127,6 +135,8 @@ const AddItemModal = ({ onClose, selectedServices, taskId, onItemsAdded }) => {
       });
 
       console.log("Items added successfully:", response.data);
+
+      console.log(response.data);
 
       const addedItems = response.data.filter(
         item =>
@@ -140,8 +150,11 @@ const AddItemModal = ({ onClose, selectedServices, taskId, onItemsAdded }) => {
       onItemsAdded(addedItems);
       onClose();
     } catch (error) {
+      if (error.status == 403) {
+        await refreshAccessToken();
+        handleSubmit(e, true);
+      }
       console.error("Error adding items:", error);
-      alert("Failed to add items. Please try again.");
     }
   };
 
@@ -188,9 +201,7 @@ const AddItemModal = ({ onClose, selectedServices, taskId, onItemsAdded }) => {
                     const filteredItems = items.filter(
                       item => item.warehouse === parseInt(warehouseButton.warehouse, 10)
                     );
-
                     const maxCount = items.find(i => i.id === parseInt(warehouseButton.item, 10))?.count || 0;
-
                     return (
                       <div key={index} className="add-item-modal-dynamic-inputs">
                         <div className="input-container">

@@ -12,7 +12,7 @@ export const TagButton: FC<TagButtonProps> = ({ isActive, status, onClick }) => 
       className="rounded-2.25xl"
       onClick={() => !isActive && onClick(status)}
     >
-      <Text className={cn({ "text-primary": !isActive, "text-white": isActive })}>{status.name}</Text>
+      <Text className={cn({ "text-primary": !isActive, "text-white": isActive })}>{status.tag}</Text>
     </Button>
   );
 };

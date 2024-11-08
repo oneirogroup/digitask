@@ -2,12 +2,12 @@ import { Stack } from "expo-router";
 
 import { Providers } from "@digitask/shared-lib";
 
-import { useDev } from "../hooks/use-dev";
+import { useHelper } from "../hooks/use-helper";
 
 import "./main.css";
 
 export default function RootLayout() {
-  useDev();
+  useHelper();
 
   return (
     <Providers>

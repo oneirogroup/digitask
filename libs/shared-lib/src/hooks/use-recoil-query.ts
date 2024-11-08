@@ -10,7 +10,7 @@ export function useRecoilQuery<
   TQueryKey extends QueryKey = QueryKey,
   TIsNullable extends boolean = false
 >(
-  recoilState: RecoilState<NoInfer<TIsNullable extends true ? TData | null : TData>>,
+  recoilState: RecoilState<TIsNullable extends true ? NoInfer<TData> | null : NoInfer<TData>>,
   options: UseQueryOptions<TQueryFnData, TError, TData, TQueryKey> & { isNullable?: TIsNullable },
   queryClient?: QueryClient
 ): UseQueryResult<TData, TError> {

@@ -13,6 +13,12 @@ export default {
     resizeMode: "contain",
     backgroundColor: "#ffffff"
   },
+  updates: {
+    url: "https://u.expo.dev/19a90db8-9dbf-4462-82b1-20715313aebb"
+  },
+  runtimeVersion: {
+    policy: "appVersion"
+  },
   ios: {
     supportsTablet: true
   },
@@ -22,7 +28,11 @@ export default {
       backgroundColor: "#ffffff"
     }
   },
-  plugins: ["expo-router", "expo-font"],
+  plugins: [
+    "expo-router",
+    "expo-font",
+    ["expo-image-picker", { photosPermission: "Şəkili seçmək üçün icazə", cameraPermission: "Şəkil çəkmək üçün icazə" }]
+  ],
   experiments: {
     typedRoutes: true,
     reactCompiler: true

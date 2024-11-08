@@ -1,14 +1,16 @@
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { BiImport } from "react-icons/bi";
-import { IoFilterOutline } from "react-icons/io5";
+import { BsThreeDotsVertical } from "react-icons/bs";
 import { CiSearch } from "react-icons/ci";
 import { FaChevronDown } from "react-icons/fa6";
-import { BsThreeDotsVertical } from "react-icons/bs";
-import Import from "../Import";
-import Export from "../Export";
-import ItemDetail from "../ItemDetail/ItemDetail";
-import IncrementImportModal from "../IncrementImportModal";
+import { IoFilterOutline } from "react-icons/io5";
+
+import useRefreshToken from "../../common/refreshToken";
 import AddWarehouseModal from "../AddWarehouseModal";
+import Export from "../Export";
+import Import from "../Import";
+import IncrementImportModal from "../IncrementImportModal";
+import ItemDetail from "../ItemDetail/ItemDetail";
 
 import "./warehouse.css";
 
@@ -19,7 +21,7 @@ function Warehouse() {
   const [warehouses, setWarehouses] = useState([]);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [showNewItemModal, setShowNewItemModal] = useState(false);
-  const [updateAction, setUpdateAction] = useState({action:'',actionName:'',count:null});
+  const [updateAction, setUpdateAction] = useState({ action: "", actionName: "", count: null });
   const [showItemDetailModal, setShowItemDetailModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [regions, setRegions] = useState([]);
@@ -32,6 +34,7 @@ function Warehouse() {
   const [isAddWarehouseModal, setIsAddWarehouseModal] = useState(false);
   const regionModalRef = useRef(null);
   const actionModalRef = useRef(null);
+  const refreshAccessToken = useRefreshToken();
 
   useEffect(() => {
     fetchWarehouses();
@@ -40,12 +43,7 @@ function Warehouse() {
 
   useEffect(() => {
     function handleClickOutside(event) {
-
-      if (
-        actionModalRef.current &&
-        !actionModalRef.current.contains(event.target)
-      ) {
-
+      if (actionModalRef.current && !actionModalRef.current.contains(event.target)) {
         setIsActionModalOpen(false);
       }
     }
@@ -57,23 +55,33 @@ function Warehouse() {
     };
   }, []);
 
-  const fetchWarehouses = () => {
-    fetch("http://135.181.42.192/warehouse/warehouses/")
-      .then((response) => response.json())
-      .then((data) => {
+  const fetchWarehouses = async (isRetry = false) => {
+    try {
+      const response = await fetch("http://135.181.42.192/warehouse/warehouses/");
+      if (!response.ok) {
+        if (response.status === 403 && !isRetry) {
+          await refreshAccessToken();
+          fetchWarehouses(true);
+        } else {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+      } else {
+        const data = await response.json();
         if (Array.isArray(data)) {
           setWarehouses(data);
-          const uniqueRegions = Array.from(
-            new Set(data.map((warehouse) => warehouse.region))
-          );
+          const uniqueRegions = Array.from(new Set(data.map(warehouse => warehouse.region)));
           setRegions(uniqueRegions);
         } else {
           console.error("Error: Expected an array but received:", data);
         }
-      })
-      .catch((error) => console.error("Error fetching warehouses:", error));
+      }
+    } catch (error) {
+      if (error.status == 403) {
+        await refreshAccessToken();
+        fetchWarehouses(true);
+      }
+    }
   };
-
 
   const fetchData = () => {
     let url = "http://135.181.42.192/warehouse/warehouse-items/";
@@ -82,47 +90,43 @@ function Warehouse() {
     if (searchTerm) {
       params.push(`name=${encodeURIComponent(searchTerm)}`);
     }
-    if (selectedRegion && selectedRegion != 'Hamısı'){
+    if (selectedRegion && selectedRegion != "Hamısı") {
       params.push(`region=${encodeURIComponent(selectedRegion)}`);
     }
 
-
     fetch(url + (params.length > 0 ? `?${params.join("&")}` : ""))
-      .then((response) => response.json())
-      .then((data) => {
-
+      .then(response => response.json())
+      .then(data => {
         let filteredData = data;
         if (warehouseSelected) {
-
-          filteredData = data.filter(
-
-            (item) => item.warehouse == warehouseSelected
-          );
+          filteredData = data.filter(item => item.warehouse == warehouseSelected);
         }
 
-
-        const formattedData = filteredData.map((item) => ({
+        const formattedData = filteredData.map(item => ({
           id: item.id,
-          name: item.equipment_name || '-',
-          marka: item.brand || '-',
-          model: item.model || '-',
-          sn: item.serial_number || '-',
+          name: item.equipment_name || "-",
+          marka: item.brand || "-",
+          model: item.model || "-",
+          sn: item.serial_number || "-",
           count: item.count || 0,
-          port_number: item.port_number || '-',
-          mac: item.mac || '-',
-          date: item.date || '-',
-          warehouse:  item.warehouse,
-          measure: item.size_length || '-',
+          port_number: item.port_number || "-",
+          mac: item.mac || "-",
+          date: item.date || "-",
+          warehouse: item.warehouse,
+          measure: item.size_length || "-"
         }));
-        console.log(formattedData,'--------')
+        console.log(formattedData, "--------");
         setTableData(formattedData);
       })
-      .catch((error) => console.error("Error fetching data:", error));
+      .catch(async error => {
+        if (error.status == 403) {
+          await refreshAccessToken();
+          fetchData();
+        }
+      });
   };
 
-
-
-  const handleWarehouseClick = (id) => {
+  const handleWarehouseClick = id => {
     if (warehouseSelected === id) {
       setWarehouseSelected("");
     } else {
@@ -130,7 +134,7 @@ function Warehouse() {
     }
   };
 
-  const handleRegionClick = (region) => {
+  const handleRegionClick = region => {
     setSelectedRegion(region);
   };
 
@@ -139,24 +143,23 @@ function Warehouse() {
     setActionModalPosition({
       index: index,
       top: cellRect.bottom + window.scrollY,
-      left: cellRect.left + window.scrollX,
+      left: cellRect.left + window.scrollX
     });
     setSelectedItemId(itemId);
     setProductData(tableData[index]);
     setIsActionModalOpen(true);
   };
 
-
-  const handleUpdateModalOpen = (action) => {
+  const handleUpdateModalOpen = action => {
     setShowUpdateModal(true);
-    setUpdateAction(action)
+    setUpdateAction(action);
     setShowItemDetailModal(false);
     setIsActionModalOpen(false);
   };
 
   const handleExportSuccess = () => {
     setShowUpdateModal(false);
-    setUpdateAction({})
+    setUpdateAction({});
     fetchData();
   };
 
@@ -164,19 +167,17 @@ function Warehouse() {
     setShowItemDetailModal(false);
   };
 
-  const handleItemDetailOpen = (data) => {
+  const handleItemDetailOpen = data => {
     const updatedData = {
       ...data,
-      warehouseName: warehouses.find(
-        (warehouse) => warehouse.id === data.warehouse
-      )?.name || "Depo Bulunamadı",
+      warehouseName: warehouses.find(warehouse => warehouse.id === data.warehouse)?.name || "Depo Bulunamadı"
     };
-  
+
     setProductData(updatedData);
     setShowItemDetailModal(true);
   };
 
-  const handleIncrementImportModalOpen = (itemId) => {
+  const handleIncrementImportModalOpen = itemId => {
     setSelectedItemId(itemId);
     setShowIncrementImportModal(true);
     setIsActionModalOpen(false);
@@ -195,7 +196,7 @@ function Warehouse() {
     setIsAddWarehouseModal(false);
   };
 
-  const initializeWarehouseModals = (warehousesData) => {
+  const initializeWarehouseModals = warehousesData => {
     const initialModals = warehousesData.reduce((acc, warehouse) => {
       acc[warehouse.id] = false;
       return acc;
@@ -203,20 +204,18 @@ function Warehouse() {
     setWarehouses(initialModals);
   };
 
-
-  const handleWarehouseAdded =  (newWarehouse) => {
-    setWarehouses((prevWarehouses) => [...prevWarehouses, newWarehouse]);
+  const handleWarehouseAdded = newWarehouse => {
+    setWarehouses(prevWarehouses => [...prevWarehouses, newWarehouse]);
     fetchWarehouses();
   };
 
-  const handleOpenNewItemModal =  () => {
-    setShowNewItemModal(true)
+  const handleOpenNewItemModal = () => {
+    setShowNewItemModal(true);
   };
 
-  const handleCloseNewItemModal =  () => {
-    setShowNewItemModal(false)
+  const handleCloseNewItemModal = () => {
+    setShowNewItemModal(false);
   };
-
 
   return (
     <div>
@@ -225,17 +224,12 @@ function Warehouse() {
           <p>Anbar</p>
           <div>
             <button
-              className={`importButton ${importSelected ? "selectedButton" : ""
-              }`}
+              className={`importButton ${importSelected ? "selectedButton" : ""}`}
               onClick={() => handleOpenNewItemModal()}
             >
               <BiImport /> Yeni məhsul əlavə et
             </button>
-            <button
-              onClick={openAddWarehouseModal}
-            >
-              Anbar əlavə et
-            </button>
+            <button onClick={openAddWarehouseModal}>Anbar əlavə et</button>
           </div>
         </div>
 
@@ -246,21 +240,18 @@ function Warehouse() {
               type="search"
               placeholder="Anbarda axtar"
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={e => setSearchTerm(e.target.value)}
             />
             <IoFilterOutline />
           </div>
 
-
-
           <div className="region-filter">
-
             <select
               className="warehouse-small-modal"
               value={warehouseSelected}
-              onChange={(e) => handleWarehouseClick(e.target.value)}
+              onChange={e => handleWarehouseClick(e.target.value)}
             >
-              <option  value="">Anbar seç</option>
+              <option value="">Anbar seç</option>
               {warehouses.map((warehouse, index) => (
                 <option
                   key={index}
@@ -272,74 +263,87 @@ function Warehouse() {
               ))}
             </select>
 
-            <select
-              className="warehouse-small-modal"
-              onChange={(e) => handleRegionClick(e.target.value)}
-            >
-              <option  value="">Region seç</option>
+            <select className="warehouse-small-modal" onChange={e => handleRegionClick(e.target.value)}>
+              <option value="">Region seç</option>
               {regions.map((region, index) => (
-                <option
-                  key={index}
-                  value={region}
-                >
+                <option key={index} value={region}>
                   {region}
                 </option>
               ))}
             </select>
-
-
           </div>
         </div>
         <div className="warehouseTable">
           <table>
             <thead>
-            <tr>
-              <th>ID</th>
-              <th>Avadanlığın adı</th>
-              <th>Marka</th>
-              <th>Model</th>
-              <th>Seriya nömrəsi</th>
-              <th>Sayı</th>
-              <th>Anbar</th>
-              <th>Ölçüsü</th>
-              <th></th>
-            </tr>
+              <tr>
+                <th>ID</th>
+                <th>Avadanlığın adı</th>
+                <th>Marka</th>
+                <th>Model</th>
+                <th>Seriya nömrəsi</th>
+                <th>Sayı</th>
+                <th>Anbar</th>
+                <th>Ölçüsü</th>
+                <th></th>
+              </tr>
             </thead>
             <tbody>
-            {tableData.map((data, index) => (
-              <tr key={index} className="tableRow">
-                <td onClick={() => handleItemDetailOpen(data)}>{`#${(index + 1).toString().padStart(4, "0")}`}</td>
-                <td onClick={() => handleItemDetailOpen(data)}>{data.name}</td>
-                <td onClick={() => handleItemDetailOpen(data)}>{data.marka}</td>
-                <td onClick={() => handleItemDetailOpen(data)}>{data.model}</td>
-                <td onClick={() => handleItemDetailOpen(data)}>{data.sn}</td>
-                <td onClick={() => handleItemDetailOpen(data)}>{data.count}</td>
-                <td onClick={() => handleItemDetailOpen(data)}>{warehouses.find(warehouse => warehouse.id === data.warehouse)?.name}</td>
+              {tableData.map((data, index) => (
+                <tr key={index} className="tableRow">
+                  <td onClick={() => handleItemDetailOpen(data)}>{`#${(index + 1).toString().padStart(4, "0")}`}</td>
+                  <td onClick={() => handleItemDetailOpen(data)}>{data.name}</td>
+                  <td onClick={() => handleItemDetailOpen(data)}>{data.marka}</td>
+                  <td onClick={() => handleItemDetailOpen(data)}>{data.model}</td>
+                  <td onClick={() => handleItemDetailOpen(data)}>{data.sn}</td>
+                  <td onClick={() => handleItemDetailOpen(data)}>{data.count}</td>
+                  <td onClick={() => handleItemDetailOpen(data)}>
+                    {warehouses.find(warehouse => warehouse.id === data.warehouse)?.name}
+                  </td>
 
-                <td onClick={() => handleItemDetailOpen(data)}>{data.measure}</td>
-                <td style={{position:'relative'}} onClick={(event) => handleActionClick(event, index, data.id)}>
-                  <BsThreeDotsVertical
-                  />
-                  {isActionModalOpen && actionModalPosition.index === index && (
-                    <div
-                      className="small-modal-warehouse small-css"
-                    >
-                      <div className="small-modal-warehouse-content" ref={actionModalRef}>
-                        <button onClick={() => handleUpdateModalOpen({'action':'increment','actionName':'Idxal','count':data.count})}>İdxal</button>
-                        <hr />
-                        <button onClick={() => handleUpdateModalOpen({'action':'decrement','actionName':'Ixrac','count':data.count})}> İxrac</button>
+                  <td onClick={() => handleItemDetailOpen(data)}>{data.measure}</td>
+                  <td style={{ position: "relative" }} onClick={event => handleActionClick(event, index, data.id)}>
+                    <BsThreeDotsVertical />
+                    {isActionModalOpen && actionModalPosition.index === index && (
+                      <div className="small-modal-warehouse small-css">
+                        <div className="small-modal-warehouse-content" ref={actionModalRef}>
+                          <button
+                            onClick={() =>
+                              handleUpdateModalOpen({ action: "increment", actionName: "Idxal", count: data.count })
+                            }
+                          >
+                            İdxal
+                          </button>
+                          <hr />
+                          <button
+                            onClick={() =>
+                              handleUpdateModalOpen({ action: "decrement", actionName: "Ixrac", count: data.count })
+                            }
+                          >
+                            {" "}
+                            İxrac
+                          </button>
+                        </div>
                       </div>
-                    </div>
-                  )}
-                </td>
-              </tr>
-            ))}
+                    )}
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
       </section>
 
-      {showUpdateModal && <Export fetchData={fetchData} action={updateAction} showModal={showUpdateModal} onClose={handleExportSuccess} itemId={selectedItemId || productData.id} productNumber={productData.count} />}
+      {showUpdateModal && (
+        <Export
+          fetchData={fetchData}
+          action={updateAction}
+          showModal={showUpdateModal}
+          onClose={handleExportSuccess}
+          itemId={selectedItemId || productData.id}
+          productNumber={productData.count}
+        />
+      )}
 
       {showIncrementImportModal && (
         <IncrementImportModal
@@ -354,14 +358,19 @@ function Warehouse() {
           showModal={showItemDetailModal}
           onClose={handleItemDetailClose}
           productData={productData}
-      
           itemId={selectedItemId}
           count={productData.count}
           handleUpdateModalOpen={handleUpdateModalOpen}
         />
       )}
-      {showNewItemModal && <Import onClose={handleCloseNewItemModal} fetchData={fetchData} warehouses={warehouses} /> }
-      {isAddWarehouseModal && <AddWarehouseModal isOpen={isAddWarehouseModal} onClose={closeAddWarehouseModal} onWarehouseAdded={handleWarehouseAdded} />}
+      {showNewItemModal && <Import onClose={handleCloseNewItemModal} fetchData={fetchData} warehouses={warehouses} />}
+      {isAddWarehouseModal && (
+        <AddWarehouseModal
+          isOpen={isAddWarehouseModal}
+          onClose={closeAddWarehouseModal}
+          onWarehouseAdded={handleWarehouseAdded}
+        />
+      )}
     </div>
   );
 }

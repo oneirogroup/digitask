@@ -1,26 +1,39 @@
-import React, { useState } from 'react';
-import './addgroup.css';
-import axios from 'axios';
+import axios from "axios";
+import React, { useState } from "react";
+
+import useRefreshToken from "../../common/refreshToken";
+
+import "./addgroup.css";
 
 const AddGroupModal = ({ onClose, onGroupAdded }) => {
-  const [group, setGroup] = useState('');
-  const [region, setRegion] = useState('');
+  const [group, setGroup] = useState("");
+  const [region, setRegion] = useState("");
+  const [errors, setErrors] = useState({});
+  const refreshAccessToken = useRefreshToken();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault();
 
+    const newErrors = {};
+    if (!group.trim()) newErrors.group = "Qrup adı boş ola bilməz.";
+    if (!region.trim()) newErrors.region = "Region boş ola bilməz.";
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+
     try {
-      const token = localStorage.getItem('refresh_token');
-      const response = await axios.post('http://135.181.42.192/services/create_employee_group', { group, region }, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
+      const response = await axios.post("http://135.181.42.192/services/create_employee_group", { group, region });
 
       onGroupAdded(response.data);
       onClose();
     } catch (error) {
-      console.error('Error adding group:', error);
+      if (error.status == 403) {
+        await refreshAccessToken();
+        handleSubmit(e, true);
+      }
+      console.error("Error adding group:", error);
     }
   };
 
@@ -34,27 +47,33 @@ const AddGroupModal = ({ onClose, onGroupAdded }) => {
         <hr />
         <form onSubmit={handleSubmit}>
           <div>
-            <div className='form-group'>
+            <div className="form-group">
               <label htmlFor="groupName">Ad</label>
               <input
                 type="text"
                 id="groupName"
                 value={group}
-                onChange={(e) => setGroup(e.target.value)}
-                required
+                onChange={e => {
+                  setGroup(e.target.value);
+                  if (errors.group) setErrors(prev => ({ ...prev, group: "" }));
+                }}
                 maxLength={30}
               />
+              {errors.group && <p className="error-message">{errors.group}</p>}
             </div>
-            <div className='form-group'>
+            <div className="form-group">
               <label htmlFor="groupRegion">Region</label>
               <input
                 type="text"
                 id="groupRegion"
                 value={region}
-                onChange={(e) => setRegion(e.target.value)}
-                required
+                onChange={e => {
+                  setRegion(e.target.value);
+                  if (errors.region) setErrors(prev => ({ ...prev, region: "" }));
+                }}
                 maxLength={30}
               />
+              {errors.region && <p className="error-message">{errors.region}</p>}
             </div>
           </div>
           <button type="submit">Qrup əlavə et</button>

@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { RecoilState, useSetRecoilState } from "recoil";
 
 import { DefaultError, QueryClient, UseMutationOptions, useMutation } from "@tanstack/react-query";
@@ -15,13 +14,15 @@ export function useRecoilMutation<
   queryClient?: QueryClient
 ) {
   const setRecoilState = useSetRecoilState(atom);
-  const mutation = useMutation(options, queryClient);
 
-  useEffect(() => {
-    if (mutation.data) {
-      setRecoilState(mutation.data);
-    }
-  }, [mutation.data]);
-
-  return mutation;
+  return useMutation(
+    {
+      ...options,
+      onSuccess(data, ...otherOptions) {
+        options.onSuccess?.(data, ...otherOptions);
+        setRecoilState(data);
+      }
+    },
+    queryClient
+  );
 }

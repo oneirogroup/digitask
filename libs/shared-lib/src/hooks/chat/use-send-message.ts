@@ -1,15 +1,7 @@
-import { useRecoilCallback } from "recoil";
+import { Backend } from "../../types";
 
-import { messagesAtom } from "../../atoms";
-import { Message } from "../../types/backend";
-
-export const useSendMessage = () => {
-  return useRecoilCallback(({ set }) => {
-    return (chatId: number, message: Message) => {
-      set(messagesAtom(chatId), messages => {
-        messages.results.push(message);
-        return messages;
-      });
-    };
-  });
+export const useSendMessage = (cb: (message: Pick<Backend.Message, "content" | "room">) => void) => {
+  return (message: Pick<Backend.Message, "content" | "room">) => {
+    cb(message);
+  };
 };

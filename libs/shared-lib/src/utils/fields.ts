@@ -28,8 +28,12 @@ export const fields = eck("digitask.native", c => ({
     filter: c.e("filter", c => ({
       partial: c`partial`
     })),
-    filtered: c`filtered`
+    filtered: c`filtered`,
+    create: c`create`
   })),
   performance: c`performance`,
-  rangeDate: c`rangeDate`
+  rangeDate: c`rangeDate`,
+  file: c.e("file", c => ({
+    upload: c`upload`
+  }))
 }));

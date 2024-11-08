@@ -2,17 +2,25 @@ import { FC } from "react";
 import { Text, View } from "react-native";
 
 import { Block, Button, Icon, Switch, When, cn } from "@mdreal/ui-kit";
+import { useMutation } from "@tanstack/react-query";
 
 import { palette } from "../../../../../palette";
+import { api } from "../../api";
 import { DateService } from "../../services";
-import { TaskStatuses } from "../../types";
+import { Backend, TaskStatuses } from "../../types";
 import { Tag } from "./components/tag";
 import { TaskDate } from "./components/task-date";
 import { TaskProps } from "./task.types";
 
+const statuses = [TaskStatuses.Waiting, TaskStatuses.Started, TaskStatuses.InProgress, TaskStatuses.Completed];
+
 export const Task: FC<TaskProps> = ({ tags, task }) => {
-  const startDate = DateService.from(Date.parse(task.date) + Date.parse(`1970-01-01 ${task.start_time}`));
-  const endDate = DateService.from(Date.parse(task.date) + Date.parse(`1970-01-01 ${task.end_time}`));
+  const startDate = DateService.from(Date.parse(`${task.date} ${task.start_time}`));
+  const endDate = DateService.from(Date.parse(`${task.date} ${task.end_time}`));
+
+  const updateTaskMutation = useMutation({
+    mutationFn: ({ id, data }: { id: number; data: Partial<Backend.Task> }) => api.services.tasks.$patch(id, data)
+  });
 
   return (
     <Block className="flex gap-4">
@@ -27,7 +35,7 @@ export const Task: FC<TaskProps> = ({ tags, task }) => {
         </View>
       </Block>
       <Block className="flex flex-row gap-2">
-        <Icon name="location" variables={{ fill: palette.primary["50"] }} />
+        <Icon name="location" state="filled" variables={{ fill: palette.primary["50"] }} />
         <Text className="text-primary">{task.location}</Text>
       </Block>
       <Block className="flex flex-row gap-2">
@@ -37,7 +45,7 @@ export const Task: FC<TaskProps> = ({ tags, task }) => {
       <Block className="flex flex-row justify-between">
         <View className="flex flex-row gap-2">
           <When condition={!!task.phone}>
-            <Icon name="phone" variables={{ fill: palette.success["60"] }} />
+            <Icon name="phone" state="filled" variables={{ fill: palette.success["60"] }} />
             <Text className="text-success">{task.phone}</Text>
           </When>
         </View>
@@ -45,7 +53,11 @@ export const Task: FC<TaskProps> = ({ tags, task }) => {
         <Button
           variant={task.status === TaskStatuses.Waiting ? "secondary" : "primary"}
           disabled={task.status === TaskStatuses.Completed}
-          onClick={() => {}}
+          onClick={() => {
+            const idx = statuses.indexOf(task.status);
+            if (idx >= statuses.length - 1) return;
+            updateTaskMutation.mutate({ id: task.id, data: { status: statuses[idx + 1] } });
+          }}
         >
           <Text
             className={cn(
