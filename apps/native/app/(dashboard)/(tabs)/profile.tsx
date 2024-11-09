@@ -1,11 +1,11 @@
-import { Link, router } from "expo-router";
+import { router } from "expo-router";
 import { useRef } from "react";
-import { Text, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
 import { runOnJS } from "react-native-reanimated";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 
-import { profileAtom, tokenSelector } from "@digitask/shared-lib";
-import { Block, Button, Icon, Modal, ModalRef } from "@mdreal/ui-kit";
+import { StorageKeys, profileAtom, tokenSelector } from "@digitask/shared-lib";
+import { AuthHttp, Block, Button, Icon, Modal, ModalRef } from "@mdreal/ui-kit";
 
 import { palette } from "../../../../../palette";
 import { BlockContainer } from "../../../components/blocks";
@@ -17,14 +17,21 @@ export default function Profile() {
   if (!userProfile) return null;
 
   const logout = async () => {
+    await AuthHttp.settings().removeTokens();
     setToken(null);
-    router.replace("/welcome");
+
+    // @ts-ignore
+    router.replace("/(auth)/sign-in");
+  };
+
+  const redirectToProfileData = () => {
+    router.push("/(dashboard)/(profile)/profile-data");
   };
 
   return (
     <Block.Fade className="bg-neutral-95">
       <Block.Scroll className="px-6 py-4" contentClassName="flex gap-6">
-        <Link href="/(dashboard)/(profile)/profile-data">
+        <Pressable onPress={redirectToProfileData}>
           <BlockContainer className="flex flex-row justify-between">
             <View className="flex gap-1">
               <Text className="text-1.5xl font-bold">Texnik adi</Text>
@@ -34,7 +41,7 @@ export default function Profile() {
               <Icon name="arrow-right" />
             </View>
           </BlockContainer>
-        </Link>
+        </Pressable>
 
         <Block className="flex gap-3">
           <BlockContainer className="flex flex-row justify-between">
@@ -73,7 +80,7 @@ export default function Profile() {
           ref={modalRef}
           type="popup"
           animationSpeed="normal"
-          height={144}
+          height={200}
           closeBtn={{ fill: palette.neutral["60"] }}
           className="flex gap-6 px-6 py-4"
         >
@@ -86,7 +93,7 @@ export default function Profile() {
             <Button variant="secondary" className="flex-1 py-4" onClick={() => modalRef.current?.close()}>
               <Text className="text-center">Ləğv et</Text>
             </Button>
-            <Button variant="danger" className="flex-1 py-4" onClick={() => runOnJS(logout)()}>
+            <Button variant="danger" className="bg-danger flex-1 py-4" onClick={() => runOnJS(logout)()}>
               <Text className="text-center text-white">Çıxış et</Text>
             </Button>
           </Block>
