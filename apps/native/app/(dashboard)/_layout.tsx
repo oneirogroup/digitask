@@ -13,7 +13,7 @@ export default function DashboardLayout() {
   useTasksInit();
 
   return (
-    <Stack initialRouteName="(tabs)">
+    <Stack initialRouteName="(tabs)" screenOptions={{ freezeOnBlur: false }}>
       <Stack.Screen name="(chat)/chat" options={{ title: "Chat", headerBackTitleVisible: false }} />
       <Stack.Screen
         name="(chat)/[chatRoomId]"
