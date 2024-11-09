@@ -1,100 +1,87 @@
 import axios from "axios";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
-import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
-import { FaCircle } from "react-icons/fa";
+import { FaAngleLeft, FaAngleRight, FaCircle } from "react-icons/fa";
 
 import useRefreshToken from "../../common/refreshToken";
 
 import "./chart.css";
 
-class ApexChart extends React.Component {
-  constructor(props) {
-    super(props);
-
-    const currentYear = new Date().getFullYear();
-
-    this.state = {
-      year: currentYear,
-      series: [
-        {
-          name: "Qoşulmalar",
-          data: Array(12).fill(0)
-        },
-        {
-          name: "Problemlər",
-          data: Array(12).fill(0)
-        },
-        {
-          name: "Boş",
-          data: Array(12).fill(0)
-        }
-      ],
-      options: {
-        chart: {
-          type: "bar",
-          height: 350
-        },
-        plotOptions: {
-          bar: {
-            horizontal: false,
-            columnWidth: "50%",
-            endingShape: "rounded",
-            dataLabels: {
-              enable: false
-            },
-            onColumnHover: {
-              highlight: false
-            }
-          }
-        },
-        dataLabels: {
-          enabled: false
-        },
-        stroke: {
-          show: true,
-          width: 2,
-          colors: ["transparent"]
-        },
-        xaxis: {
-          categories: ["Yan", "Fev", "Mar", "Apr", "May", "İyun", "İyul", "Avq", "Sen", "Okt", "Noy", "Dek"]
-        },
-
-        fill: {
-          colors: ["#FF5449", "#005ABF", "transparent"]
-        },
-        tooltip: {
-          y: {
-            formatter: function (val) {
-              return val + " ədəd";
-            }
-          }
-        },
-        grid: {
-          row: {
-            colors: ["#ffffff", "#f3f3f3"],
-            opacity: 1
-          }
-        },
-        legend: {
-          show: false
-        }
-      },
-      legendLabels: ["Qoşulmalar", "Problemlər"]
-    };
-  }
-
-  componentDidMount() {
-    this.fetchData(this.state.year);
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (prevState.year !== this.state.year) {
-      this.fetchData(this.state.year);
+const ApexChart = () => {
+  const currentYear = new Date().getFullYear();
+  const [year, setYear] = useState(currentYear);
+  const [series, setSeries] = useState([
+    {
+      name: "Qoşulmalar",
+      data: Array(12).fill(0)
+    },
+    {
+      name: "Problemlər",
+      data: Array(12).fill(0)
+    },
+    {
+      name: "Boş",
+      data: Array(12).fill(0)
     }
-  }
+  ]);
 
-  fetchData = async (year, isRetry = false, useRefreshToken) => {
+  const [options, setOptions] = useState({
+    chart: {
+      type: "bar",
+      height: 350
+    },
+    plotOptions: {
+      bar: {
+        horizontal: false,
+        columnWidth: "50%",
+        endingShape: "rounded",
+        dataLabels: {
+          enable: false
+        },
+        onColumnHover: {
+          highlight: false
+        }
+      }
+    },
+    dataLabels: {
+      enabled: false
+    },
+    stroke: {
+      show: true,
+      width: 2,
+      colors: ["transparent"]
+    },
+    xaxis: {
+      categories: ["Yan", "Fev", "Mar", "Apr", "May", "İyun", "İyul", "Avq", "Sen", "Okt", "Noy", "Dek"]
+    },
+    fill: {
+      colors: ["#FF5449", "#005ABF", "transparent"]
+    },
+    tooltip: {
+      y: {
+        formatter: function (val) {
+          return val + " ədəd";
+        }
+      }
+    },
+    grid: {
+      row: {
+        colors: ["#ffffff", "#f3f3f3"],
+        opacity: 1
+      }
+    },
+    legend: {
+      show: false
+    }
+  });
+
+  const legendLabels = ["Qoşulmalar", "Problemlər"];
+
+  useEffect(() => {
+    fetchData(year);
+  }, [year]);
+
+  const fetchData = async (year, isRetry = false) => {
     try {
       const token = localStorage.getItem("access_token");
       const response = await axios.get("http://135.181.42.192/services/mainpage/", {
@@ -125,67 +112,59 @@ class ApexChart extends React.Component {
       const filteredConnectionCounts = connectionCounts.map(count => (count > 0 ? count : null));
       const filteredProblemCounts = problemCounts.map(count => (count > 0 ? count : null));
 
-      this.setState({
-        series: [
-          {
-            name: "Qoşulmalar",
-            data: filteredConnectionCounts
-          },
-          {
-            name: "Problemlər",
-            data: filteredProblemCounts
-          },
-          {
-            name: "Boş",
-            data: Array(12).fill(0)
-          }
-        ]
-      });
+      setSeries([
+        {
+          name: "Qoşulmalar",
+          data: filteredConnectionCounts
+        },
+        {
+          name: "Problemlər",
+          data: filteredProblemCounts
+        },
+        {
+          name: "Boş",
+          data: Array(12).fill(0)
+        }
+      ]);
     } catch (error) {
-      const refreshAccessToken = useRefreshToken();
-      if (error.status == 403) {
+      if (error.status === 403) {
+        const refreshAccessToken = useRefreshToken();
         await refreshAccessToken();
-        fetchData();
+        fetchData(year, true);
       }
     }
   };
 
-  handleIncrementYear = () => {
-    const { year } = this.state;
-    const currentYear = new Date().getFullYear();
+  const handleIncrementYear = () => {
     if (year < currentYear) {
-      this.setState({ year: year + 1 });
+      setYear(year + 1);
     }
   };
 
-  handleDecrementYear = () => {
-    const { year } = this.state;
+  const handleDecrementYear = () => {
     if (year > 1970) {
-      this.setState({ year: year - 1 });
+      setYear(year - 1);
     }
   };
 
-  render() {
-    const { year, options, legendLabels } = this.state;
-    return (
-      <div id="chart">
-        <div className="year-filter">
-          <FaAngleLeft onClick={this.handleDecrementYear} />
-          <span>{year}</span>
-          <FaAngleRight onClick={this.handleIncrementYear} />
-        </div>
-        <ReactApexChart options={this.state.options} series={this.state.series} type="bar" height={250} />
-        <div className="home-chart-services-chart">
-          {legendLabels.map((label, index) => (
-            <div key={index}>
-              <FaCircle style={{ color: options.fill.colors[index] }} />
-              <p>{label}</p>
-            </div>
-          ))}
-        </div>
+  return (
+    <div id="chart">
+      <div className="year-filter">
+        <FaAngleLeft onClick={handleDecrementYear} />
+        <span>{year}</span>
+        <FaAngleRight onClick={handleIncrementYear} />
       </div>
-    );
-  }
-}
+      <ReactApexChart options={options} series={series} type="bar" height={250} />
+      <div className="home-chart-services-chart">
+        {legendLabels.map((label, index) => (
+          <div key={index}>
+            <FaCircle style={{ color: options.fill.colors[index] }} />
+            <p>{label}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
 
 export default ApexChart;
