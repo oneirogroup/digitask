@@ -18,7 +18,11 @@ export default function SpecificTask() {
   const currentTask = tasks.find(task => task.id === +taskId);
 
   if (!currentTask) {
-    return <Block>Task not found</Block>;
+    return (
+      <Block>
+        <Text>Task not found</Text>
+      </Block>
+    );
   }
 
   const startDate = DateService.from(`${currentTask.date} ${currentTask.start_time}`);
