@@ -38,8 +38,6 @@ const Navbar = ({ onToggleSidebar }) => {
             };
 
             ws3.onmessage = (event) => {
-                console.log("Notification Received raw WebSocket message:", event.data);
-
                 const data = JSON.parse(event.data);
                 const decodedMessages = data.message.map((notification) => ({
                     ...notification,
@@ -63,7 +61,6 @@ const Navbar = ({ onToggleSidebar }) => {
 
             ws3.onclose = async (event) => {
                 if (event.wasClean) {
-                    console.log(`WebSocket connection closed cleanly, code=${event.code}, reason=${event.reason}`);
                     setTimeout(connectWebSocket3, 5000);
                 } else {
                     console.error("WebSocket connection died unexpectedly");
@@ -120,7 +117,6 @@ const Navbar = ({ onToggleSidebar }) => {
             }
 
             const data = await response.json();
-            console.log('Notification status updated:', data);
 
             return data;
         } catch (error) {

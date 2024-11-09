@@ -123,7 +123,6 @@ const AddSurveyModal = ({ onClose, selectedServices, taskId, onSurveyAdded }) =>
             }
           });
           onSurveyAdded(serviceType, response.data);
-          console.log(`Survey for ${serviceType} added successfully:`, response.data);
 
           setSubmittedServices(prev => ({
             ...prev,

@@ -34,6 +34,7 @@ const Home = () => {
       const responseMainPage = await axios.get("http://135.181.42.192/services/mainpage/", {
         headers: { Authorization: `Bearer ${token}` }
       });
+      console.log(responseMainPage.data.meetings || [],'===========================')
       setMeetings(responseMainPage.data.meetings || []);
       setUserType(responseMainPage.data.user_type);
 

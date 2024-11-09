@@ -52,13 +52,11 @@ const EmployeeList = () => {
     ws2 = new WebSocket(`ws://135.181.42.192/userlist/`);
 
     ws2.onopen = () => {
-      console.log("vvvvvvvvvvvvvvvvvvvvvvvvvvvvv1.");
     };
 
     ws2.onmessage = event => {
       try {
         const data = JSON.parse(event.data);
-        console.log("-------------------", data.message);
         if (data.message) {
           setStatus(data.message);
         }
@@ -100,10 +98,8 @@ const EmployeeList = () => {
 
         return acc;
       }, {});
-      console.log(statusData, "+++++++++++++++++++++++++++++++++++++++");
       setStatus(statusData);
 
-      console.log("Status state:", statusData);
       initializeEmployeeModals(employeesData);
 
       const loggedInUserResponse = await axios.get("http://135.181.42.192/accounts/profile/", {
@@ -395,7 +391,6 @@ const EmployeeList = () => {
       console.error("Error deleting the user:", error);
     }
   };
-  console.log(status, "------------------------------------------------");
   return (
     <div className="employee-page">
       <div className="employee-title">

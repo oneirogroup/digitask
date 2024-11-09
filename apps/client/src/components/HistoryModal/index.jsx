@@ -2,7 +2,6 @@ import { formatDate } from '../History/utils';
 import "./historyModal.css"
 
 const HistoryModal = ({ warehouses, itemData, onClose }) => {
-    console.log(itemData,'-')
     const warehouse = warehouses.find(w => w.id === itemData.item.warehouse);
 
     return (

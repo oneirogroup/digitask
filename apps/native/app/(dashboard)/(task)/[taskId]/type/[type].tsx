@@ -63,7 +63,6 @@ export default function AddSpecificTaskAttachment() {
           defaultValues={{ type: attachmentType }}
           onSubmit={async ({ passport, photo_modem, ...data }) => {
             const response = await taskAttachmentMutation.mutateAsync({ ...data, task: +taskId });
-            console.log(response);
             if (!response?.id) return;
 
             const [] = [passport, photo_modem].map((path, idx) => {

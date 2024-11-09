@@ -12,8 +12,6 @@ function index({ onClose, status }) {
   const position = [45.409264, 42.867092];
   const zoomLevel = 13;
 
-  console.log(status, "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss");
-
   const customIcon = email =>
     L.divIcon({
       className: "custom-icon",
@@ -45,9 +43,6 @@ function index({ onClose, status }) {
       }
     }
   }, [status]);
-  // Extract values into a list
-
-  console.log(locationList, "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
 
   return (
     <div className="map-modal-modal-overlay">

@@ -71,7 +71,6 @@ const ChatModal = ({ isOpen, onClose, groupName, members, group, onMembersUpdate
         }
       );
 
-      console.log("Added selected users:", usersToAdd);
       setSelectedUsers(new Set());
       setShowAddMemberModal(false);
 
@@ -101,7 +100,6 @@ const ChatModal = ({ isOpen, onClose, groupName, members, group, onMembersUpdate
         }
       );
 
-      console.log("Removed member with ID:", removeMemberId);
       setRemoveMemberId(null);
 
       if (onMembersUpdated) {

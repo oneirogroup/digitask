@@ -93,7 +93,6 @@ function Import({ onClose, warehouses, fetchData }) {
           }
 
           const retryData = await retryResponse.json();
-          console.log("Item imported successfully after token refresh:", retryData);
           fetchData();
           onClose();
           return;
@@ -103,7 +102,6 @@ function Import({ onClose, warehouses, fetchData }) {
       }
 
       const data = await response.json();
-      console.log("Item imported successfully:", data);
       fetchData();
       onClose();
     } catch (error) {

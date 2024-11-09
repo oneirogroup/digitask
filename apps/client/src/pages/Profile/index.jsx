@@ -37,7 +37,7 @@ const Profile = () => {
       console.log(response.data);
     } catch (error) {
       if (error.status == 403) {
-        await refreshAccessToken();
+        refreshAccessToken();
         fetchProfileData();
       }
       console.error("Error fetching profile data", error);

@@ -141,7 +141,6 @@ const AddUserModal = ({ onClose, onUserAdded }) => {
       setLoading(true);
       try {
         const response = await axios.post("http://135.181.42.192/accounts/register/", formData);
-        console.log("User registered successfully:", response.data);
         onUserAdded(response.data);
         onClose();
       } catch (error) {

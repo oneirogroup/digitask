@@ -23,14 +23,11 @@ const App = () => {
 
     // WebSocket event listeners
     ws.onopen = () => {
-      console.log('WebSocket connection established.');
     };
 
     ws.onmessage = (event) => {
-      console.log('Received raw WebSocket message:', event.data);
       try {
         const data = JSON.parse(event.data);
-        console.log('Parsed WebSocket message:', data);
       } catch (e) {
         console.error('Error parsing WebSocket message:', e);
       }
@@ -42,7 +39,6 @@ const App = () => {
 
     ws.onclose = (event) => {
       if (event.wasClean) {
-        console.log(`WebSocket connection closed cleanly, code=${event.code}, reason=${event.reason}`);
       } else {
         console.error('WebSocket connection died unexpectedly');
       }
@@ -61,7 +57,6 @@ const App = () => {
               latitude: position.coords.latitude,
               longitude: position.coords.longitude,
             };
-            console.log('User location:', location);
             ws.send(JSON.stringify({ location })); // Send location through WebSocket
           }
         },

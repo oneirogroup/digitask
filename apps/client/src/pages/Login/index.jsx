@@ -55,15 +55,12 @@ const Login = props => {
     e.preventDefault();
     setLoading(true);
 
-    console.log("Form reference:", form.current);
-    console.log("Check button reference:", checkBtn.current);
-
     form.current.validateAll();
 
     if (checkBtn.current.context && checkBtn.current.context._errors.length === 0) {
       dispatch(login(email, password))
         .then(() => {
-          navigate("/tasks/");
+          navigate("/");
           window.location.reload();
         })
         .catch(() => {

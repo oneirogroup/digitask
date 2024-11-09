@@ -142,7 +142,6 @@ const AddEventModal = ({ isOpen, onClose, refreshMeetings }) => {
         onClose();
         resetModalState();
       }
-      console.log("Event added:", response.data);
     } catch (error) {
       if (error.status == 403) {
         await refreshAccessToken();

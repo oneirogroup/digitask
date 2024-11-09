@@ -21,15 +21,12 @@ function FlyToLocation({ coords, zoomLevel }) {
 }
 
 function index({ onClose, status }) {
-  console.log(status, "))))))))))))))))))))");
   const [locationList, setLocationList] = useState([]);
 
   function useMapInstance() {
     return useMap();
   }
   const zoomLevel = 13;
-
-  console.log(status, "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss");
 
   const customIcon = email =>
     L.divIcon({
@@ -63,7 +60,6 @@ function index({ onClose, status }) {
     setSelectedLocation([lat, lng]); // Set selected location to trigger flyTo
   }, []);
 
-  console.log(locationList, "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
 
   return (
     <div className="map-modal-modal-overlay">

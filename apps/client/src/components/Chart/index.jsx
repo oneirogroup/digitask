@@ -2,7 +2,6 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
 import { FaAngleLeft, FaAngleRight, FaCircle } from "react-icons/fa";
-
 import useRefreshToken from "../../common/refreshToken";
 
 import "./chart.css";
@@ -10,6 +9,7 @@ import "./chart.css";
 const ApexChart = () => {
   const currentYear = new Date().getFullYear();
   const [year, setYear] = useState(currentYear);
+  const refreshAccessToken = useRefreshToken();
   const [series, setSeries] = useState([
     {
       name: "Qoşulmalar",
@@ -77,6 +77,8 @@ const ApexChart = () => {
 
   const legendLabels = ["Qoşulmalar", "Problemlər"];
 
+
+
   useEffect(() => {
     fetchData(year);
   }, [year]);
@@ -128,7 +130,6 @@ const ApexChart = () => {
       ]);
     } catch (error) {
       if (error.status === 403) {
-        const refreshAccessToken = useRefreshToken();
         await refreshAccessToken();
         fetchData(year, true);
       }

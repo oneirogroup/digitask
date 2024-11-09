@@ -115,8 +115,6 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
       ...prevState,
       task_type: type
     }));
-    console.log(type);
-    console.log(setFormData);
   };
 
   const handleSelectDate = date => {
@@ -220,7 +218,6 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
         onClose();
       } else {
         const backendErrors = response.data.errors;
-        console.log("Backend Errors Response: ", response.data);
 
         if (backendErrors && typeof backendErrors === "object") {
           const errorMessages = Object.entries(backendErrors).map(([field, messages]) => {

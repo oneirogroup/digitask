@@ -73,7 +73,6 @@ const Anbar = () => {
   };
 
   const handleWarehouseClick = id => {
-    console.log(id);
     if (warehouseSelected === id) {
       setWarehouseSelected("");
     } else {

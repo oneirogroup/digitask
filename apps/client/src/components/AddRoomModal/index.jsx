@@ -20,7 +20,6 @@ const AddRoomModal = ({ onClose }) => {
     const fetchMembers = async (isRetry = false) => {
       try {
         const response = await axios.get("http://135.181.42.192/accounts/users/");
-        console.log(response.data, "---------");
         setMemberOptions(response.data);
       } catch (error) {
         if (error.response && error.response.status === 403 && !isRetry) {
@@ -95,7 +94,6 @@ const AddRoomModal = ({ onClose }) => {
         }
       );
 
-      console.log("Room added:", response.data);
       onClose();
     } catch (error) {
       if (error.status === 403) {

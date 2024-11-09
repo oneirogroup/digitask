@@ -115,7 +115,6 @@ function Warehouse() {
           warehouse: item.warehouse,
           measure: item.size_length || "-"
         }));
-        console.log(formattedData, "--------");
         setTableData(formattedData);
       })
       .catch(async error => {

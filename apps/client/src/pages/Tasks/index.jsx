@@ -129,7 +129,8 @@ function Index() {
       if (!response.ok) {
         if (response.status == 403) {
           await refreshAccessToken();
-          fetchTasks();
+          const currentDate = new Date();
+          fetchTasks("all", currentDate, currentDate.getFullYear(), "Hamısı");
         }
         throw new Error("Network response was not ok");
       }
@@ -141,7 +142,8 @@ function Index() {
     } catch (error) {
       if (error.status == 403) {
         await refreshAccessToken();
-        fetchTasks();
+        const currentDate = new Date();
+        fetchTasks("all", currentDate, currentDate.getFullYear(), "Hamısı");
       }
       console.error("Error fetching tasks:", error);
     }
@@ -260,14 +262,19 @@ function Index() {
 
   const handleStatusUpdate = async (taskId, newStatus) => {
     try {
+      const token = localStorage.getItem("access_token");
       const response = await fetch(`http://135.181.42.192/services/task/${taskId}/update/`, {
         method: "PATCH",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+           Authorization: `Bearer ${token}`
         },
         body: JSON.stringify({ status: newStatus })
       });
-
+      if (response.status == 403) {
+        await refreshAccessToken();
+        handleStatusUpdate(taskId, newStatus);
+      }
       setFilteredData(prevData => prevData.map(task => (task.id === taskId ? { ...task, status: newStatus } : task)));
 
       const updatedTaskResponse = await fetch(`http://135.181.42.192/services/task/${taskId}/`);
@@ -280,6 +287,7 @@ function Index() {
             : task
         )
       );
+
     } catch (error) {
       if (error.status == 403) {
         await refreshAccessToken();

@@ -399,7 +399,6 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
       const updatedGroups = prevState.group.includes(groupId)
         ? prevState.group.filter(id => id !== groupId)
         : [...prevState.group, groupId];
-      console.log("updatedGroups", updatedGroups);
       return { ...prevState, group: updatedGroups.map(Number) };
     });
   };
@@ -421,7 +420,6 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
   const handleFormSubmit = e => {
     e.preventDefault();
 
-    console.log("updatedFormData", formData);
 
     if (imageFile) {
       const imageFormData = new FormData();
@@ -1221,7 +1219,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
             </div>
 
             <div>
-              <h1>Əlavə olunan məhsullar</h1>
+           
               {taskItemDetails.map((taskItem, index) => (
                 <div key={index} className="service-detail service-item-detail">
                   <h5>
@@ -1261,6 +1259,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
             </div>
 
             {userType === "Texnik" && shouldShowAddSurveyButton && (
+              
               <button className="add-survey-button" onClick={openAddSurveyModal}>
                 <p>Anket əlavə et</p>
                 <MdAdd />
