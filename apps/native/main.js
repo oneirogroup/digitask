@@ -1,5 +1,6 @@
 import { registerRootComponent } from "expo";
 import { ExpoRoot } from "expo-router";
+import "react-native-gesture-handler";
 
 export function App() {
   const ctx = require.context("./app");

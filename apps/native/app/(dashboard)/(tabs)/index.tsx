@@ -10,8 +10,9 @@ import { BlockContainer, BlockSection } from "../../../components/blocks";
 import { Event } from "../../../components/event";
 
 export default function Index() {
-  const setFilter = useSetRecoilState(tasksFilterSelector);
-  const tasks = useRecoilValue(tasksAtom);
+  const setTask = useSetRecoilState(tasksAtom("connection"));
+  const setFilter = useSetRecoilState(tasksFilterSelector("connection"));
+  const tasks = useRecoilValue(tasksAtom("connection"));
   const task = tasks?.find(task => task.status === TaskStatuses.InProgress);
 
   const date = DateService.from();
@@ -53,17 +54,26 @@ export default function Index() {
         <BlockSection
           title="Davam edən tasklar"
           onClick={() => setFilter({ status: TaskStatuses.InProgress })}
-          href="/(dashboard)/task"
+          href="/task"
         >
           <If condition={!!task}>
             <If.Then>
               <BlockContainer>
                 <Pressable
                   onPress={() =>
-                    router.push({ pathname: "/(dashboard)/(task)/[taskId]", params: { taskId: task!.id } })
+                    router.push({
+                      pathname: "/[taskId]/task-type/[taskType]",
+                      params: { taskId: task!.id, taskType: "connection" }
+                    })
                   }
                 >
-                  <Task task={task!} tags={getTags(task)} />
+                  <Task
+                    task={task!}
+                    tags={getTags(task)}
+                    updateTask={task => {
+                      setTask(tasks => tasks.map(t => (t.id === task.id ? { ...t, ...task } : t)));
+                    }}
+                  />
                 </Pressable>
               </BlockContainer>
             </If.Then>
@@ -81,9 +91,3 @@ export default function Index() {
     </Block.Fade>
   );
 }
-
-export const config = {
-  navigationOptions: {
-    title: "Dashboard"
-  }
-};

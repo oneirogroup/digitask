@@ -1,15 +1,18 @@
-import { selector } from "recoil";
+import { selectorFamily } from "recoil";
 
+import { Backend } from "../../types";
 import { fields } from "../../utils";
 import { tasksAtom } from "../backend";
 import { taskFiltersAtom } from "./filters";
 
-export const filteredTasksSelector = selector({
+export const filteredTasksSelector = selectorFamily<Backend.Task[], "connection" | "problem">({
   key: fields.tasks.filtered.toString(),
-  get: ({ get }) => {
-    const tasks = get(tasksAtom);
-    const filter = get(taskFiltersAtom);
+  get: type => {
+    return ({ get }) => {
+      const tasks = get(tasksAtom(type));
+      const filter = get(taskFiltersAtom(type));
 
-    return tasks.filter(task => !(filter.status !== "all" && task.status !== filter.status));
+      return tasks.filter(task => !(filter.status !== "all" && task.status !== filter.status));
+    };
   }
 });

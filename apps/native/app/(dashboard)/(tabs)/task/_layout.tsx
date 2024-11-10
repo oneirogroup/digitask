@@ -2,7 +2,7 @@ import { Stack } from "expo-router";
 
 import { Block } from "@mdreal/ui-kit";
 
-export default function DashboardLayout() {
+export default function TaskLayout() {
   return (
     <Block.Fade>
       <Stack initialRouteName="(sections)" screenOptions={{ freezeOnBlur: false }}>

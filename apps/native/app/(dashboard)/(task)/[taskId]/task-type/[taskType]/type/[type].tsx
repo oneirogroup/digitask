@@ -5,6 +5,7 @@ import { useRecoilValue } from "recoil";
 
 import {
   AddAdditionSchema,
+  Backend,
   InternetAttachmentSchema,
   TVAttachmentSchema,
   VoiceAttachmentSchema,
@@ -16,13 +17,22 @@ import {
 import { Block, Form, Input, When } from "@mdreal/ui-kit";
 import { useMutation } from "@tanstack/react-query";
 
-import { FileUploader } from "../../../../../components/file-uploader";
+import { FileUploader } from "../../../../../../../components/file-uploader";
+import { getBlobFromUri } from "../../../../../../../utils/convert-uri-to-blob";
 
 type AttachmentType = "tv" | "internet" | "voice";
 
 export default function AddSpecificTaskAttachment() {
-  const { taskId, type: attachmentType } = useLocalSearchParams() as { taskId: string; type: AttachmentType };
-  const tasks = useRecoilValue(tasksAtom);
+  const {
+    taskId,
+    taskType,
+    type: attachmentType
+  } = useLocalSearchParams() as {
+    taskId: string;
+    taskType: "connection" | "problem";
+    type: AttachmentType;
+  };
+  const tasks = useRecoilValue(tasksAtom(taskType));
   const task = tasks.find(task => task.id === +taskId);
 
   const taskAttachmentMutation = useMutation({
@@ -32,6 +42,13 @@ export default function AddSpecificTaskAttachment() {
         task: number;
       }
     ) => api.services.tasks.$post(data)
+  });
+
+  const taskUpdateMutation = useMutation({
+    mutationFn: (data: FormData) => api.services.tasks.$patchTaskMedia(+taskId, data),
+    onSuccess(data) {
+      console.log(data);
+    }
   });
 
   const updateTaskAttachmentMutation = useMutation({
@@ -50,7 +67,10 @@ export default function AddSpecificTaskAttachment() {
       if (router.canGoBack()) {
         router.back();
       } else {
-        router.replace({ pathname: "/(dashboard)/[taskId]/type/[type]", params: { taskId, type: attachmentType } });
+        router.replace({
+          pathname: "/[taskId]/task-type/[taskType]/type/[type]",
+          params: { taskId, type: attachmentType, taskType }
+        });
       }
     }
   }, [task]);
@@ -62,19 +82,23 @@ export default function AddSpecificTaskAttachment() {
           schema={taskAddAttachmentSchema}
           defaultValues={{ type: attachmentType }}
           onSubmit={async ({ passport, photo_modem, ...data }) => {
-            const response = await taskAttachmentMutation.mutateAsync({ ...data, task: +taskId });
-            if (!response?.id) return;
-
-            const [] = [passport, photo_modem].map((path, idx) => {
+            const promises = [passport, photo_modem].map(async (path, idx) => {
               const filename = path.split("/").pop();
               if (!filename) return;
-              const match = /\.(\w+)$/.exec(filename);
-              const type = match ? `image/${match[1]}` : `image`;
-              const blob = new Blob([path], { type });
+              const blob = await getBlobFromUri(path);
+              if (!blob) return;
               const formData = new FormData();
               formData.append(idx === 0 ? "passport" : "photo_modem", blob);
               return formData;
             });
+            const [passportFormData] = await Promise.all(promises);
+
+            if (passportFormData) {
+              await taskUpdateMutation.mutateAsync(passportFormData);
+            }
+
+            // const response = await taskAttachmentMutation.mutateAsync({ ...data, task: +taskId });
+            // if (!response?.id) return;
 
             // await updateTaskAttachmentMutation.mutateAsync({ id: response.id, data: formData });
           }}

@@ -1,4 +1,4 @@
-import { router, useLocalSearchParams } from "expo-router";
+import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
 import { useRef } from "react";
 import { Pressable, Text, View } from "react-native";
 import { useRecoilValue } from "recoil";
@@ -6,16 +6,22 @@ import { useRecoilValue } from "recoil";
 import { DateService, tasksAtom } from "@digitask/shared-lib";
 import { Block, Button, Icon, Modal, ModalRef, When } from "@mdreal/ui-kit";
 
-import { palette } from "../../../../../../palette";
-import { BlockContainer } from "../../../../components/blocks";
-import { Field } from "../../../../components/task/add-attachment/field";
+import { palette } from "../../../../../../../../palette";
+import { BlockContainer } from "../../../../../../components/blocks";
+import { Field } from "../../../../../../components/task/add-attachment/field";
 
 export default function SpecificTask() {
   const attachmentSelectModalRef = useRef<ModalRef>(null);
 
-  const { taskId } = useLocalSearchParams() as { taskId: string };
-  const tasks = useRecoilValue(tasksAtom);
+  const { taskId, taskType } = useLocalSearchParams() as { taskId: string; taskType: "connection" | "problem" };
+  const tasks = useRecoilValue(tasksAtom(taskType));
   const currentTask = tasks.find(task => task.id === +taskId);
+
+  useFocusEffect(() => {
+    return () => {
+      attachmentSelectModalRef.current?.close();
+    };
+  });
 
   if (!currentTask) {
     return (
@@ -30,7 +36,10 @@ export default function SpecificTask() {
 
   const redirectTo = (type: "tv" | "voice" | "internet") => {
     return () => {
-      router.push({ pathname: "/(dashboard)/(task)/[taskId]/type/[type]", params: { taskId, type } });
+      router.push({
+        pathname: "/[taskId]/task-type/[taskType]/type/[type]",
+        params: { taskId, taskType, type }
+      });
     };
   };
 

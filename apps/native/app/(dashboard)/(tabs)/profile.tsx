@@ -25,7 +25,7 @@ export default function Profile() {
   };
 
   const redirectToProfileData = () => {
-    router.push("/(dashboard)/(profile)/profile-data");
+    router.push("/profile-data");
   };
 
   return (

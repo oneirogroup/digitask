@@ -14,12 +14,15 @@ import { TaskProps } from "./task.types";
 
 const statuses = [TaskStatuses.Waiting, TaskStatuses.Started, TaskStatuses.InProgress, TaskStatuses.Completed];
 
-export const Task: FC<TaskProps> = ({ tags, task }) => {
+export const Task: FC<TaskProps> = ({ tags, task, updateTask }) => {
   const startDate = DateService.from(Date.parse(`${task.date} ${task.start_time}`));
   const endDate = DateService.from(Date.parse(`${task.date} ${task.end_time}`));
 
   const updateTaskMutation = useMutation({
-    mutationFn: ({ id, data }: { id: number; data: Partial<Backend.Task> }) => api.services.tasks.$patch(id, data)
+    mutationFn: ({ id, data }: { id: number; data: Partial<Backend.Task> }) => api.services.tasks.$patchTask(id, data),
+    onSuccess(data, { id }) {
+      updateTask?.({ ...data, id });
+    }
   });
 
   return (

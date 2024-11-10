@@ -8,6 +8,7 @@ import {
   filteredTasksSelector,
   getTags,
   taskFiltersAtom,
+  tasksAtom,
   tasksFilterSelector,
   uppercase
 } from "@digitask/shared-lib";
@@ -24,9 +25,10 @@ const statuses = [
 ];
 
 export default function Connections() {
-  const filter = useRecoilValue(taskFiltersAtom);
-  const setFilter = useSetRecoilState(tasksFilterSelector);
-  const filteredTasks = useRecoilValue(filteredTasksSelector);
+  const setTask = useSetRecoilState(tasksAtom("connection"));
+  const filter = useRecoilValue(taskFiltersAtom("connection"));
+  const setFilter = useSetRecoilState(tasksFilterSelector("connection"));
+  const filteredTasks = useRecoilValue(filteredTasksSelector("connection"));
 
   return (
     <Block.Scroll>
@@ -55,10 +57,21 @@ export default function Connections() {
         {filteredTasks.slice(0, 12).map(task => (
           <Pressable
             key={task.id}
-            onPress={() => router.push({ pathname: "/(dashboard)/(task)/[taskId]", params: { taskId: task!.id } })}
+            onPress={() =>
+              router.push({
+                pathname: "/[taskId]/task-type/[taskType]",
+                params: { taskId: task!.id, taskType: "connection" }
+              })
+            }
           >
             <BlockContainer>
-              <Task task={task} tags={getTags(task)} />
+              <Task
+                task={task}
+                tags={getTags(task)}
+                updateTask={task => {
+                  setTask(tasks => tasks.map(t => (t.id === task.id ? { ...t, ...task } : t)));
+                }}
+              />
             </BlockContainer>
           </Pressable>
         ))}

@@ -10,7 +10,7 @@ import "../main.css";
 
 export default function DashboardLayout() {
   useWebsocketInit();
-  useTasksInit();
+  useTasksInit("connection");
 
   return (
     <Stack initialRouteName="(tabs)" screenOptions={{ freezeOnBlur: false }}>
@@ -36,13 +36,17 @@ export default function DashboardLayout() {
 
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
 
-      <Stack.Screen name="(task)/[taskId]/index" options={{ title: "Tapşırıq", headerBackTitleVisible: false }} />
       <Stack.Screen
-        name="(task)/[taskId]/type/[type]"
+        name="(task)/[taskId]/task-type/[taskType]/index"
+        options={{ title: "Tapşırıq", headerBackTitleVisible: false }}
+      />
+      <Stack.Screen
+        name="(task)/[taskId]/task-type/[taskType]/type/[type]"
         options={{
           title: "Tapşırıq",
           headerBackTitleVisible: false,
-          presentation: "modal",
+          // presentation: "modal",
+          freezeOnBlur: false,
           headerRight: () => <TaskAddAttachmentHeaderRight />
         }}
       />

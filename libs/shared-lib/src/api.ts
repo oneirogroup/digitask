@@ -45,11 +45,17 @@ export const api = {
           "Content-Type": "multipart/form-data;"
         });
       },
+      $patchTask(id: number, data: Partial<Backend.Task>) {
+        return authHttp.patch<Backend.Task>(`/services/update_task/${id}/`, data);
+      },
+      $patchTaskMedia(id: number, data: FormData) {
+        return authHttp.patch(`/services/update_task_image/${id}/`, data, { "Content-Type": "multipart/form-data" });
+      },
       $patch(id: number, data: Partial<Backend.Task>) {
         return authHttp.patch(`/services/update_tv/${id}/`, data);
       },
       $patchMedia(id: number, data: FormData) {
-        return authHttp.patch(`/services/update_tv/${id}/`, data);
+        return authHttp.patch(`/services/update_tv/${id}/`, data, { "Content-Type": "multipart/form-data" });
       }
     },
     performance: {

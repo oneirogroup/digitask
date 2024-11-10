@@ -5,7 +5,7 @@ import { Icon } from "@mdreal/ui-kit";
 import { HeaderLeft } from "../../../components/header/dashboard-layout/header-left";
 import { HeaderRight } from "../../../components/header/dashboard-layout/header-right";
 
-export default function DashboardLayout() {
+export default function DashboardTabsLayout() {
   return (
     <Tabs
       screenOptions={{
