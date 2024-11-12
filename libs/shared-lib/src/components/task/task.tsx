@@ -19,7 +19,8 @@ export const Task: FC<TaskProps> = ({ tags, task, updateTask }) => {
   const endDate = DateService.from(Date.parse(`${task.date} ${task.end_time}`));
 
   const updateTaskMutation = useMutation({
-    mutationFn: ({ id, data }: { id: number; data: Partial<Backend.Task> }) => api.services.tasks.$patchTask(id, data),
+    mutationFn: ({ id, data }: { id: number; data: Partial<Backend.Task> }) =>
+      api.services.tasks.$patchTaskAttachment(id, data),
     onSuccess(data, { id }) {
       updateTask?.({ ...data, id });
     }

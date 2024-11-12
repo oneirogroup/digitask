@@ -31,6 +31,11 @@ export const api = {
     }
   },
   services: {
+    task: {
+      $get(id: number) {
+        return authHttp.get<Backend.Task>(`/services/task/${id}`);
+      }
+    },
     tasks: {
       get $get() {
         return authHttp.get<Backend.Task[]>("/services/tasks");
@@ -41,21 +46,7 @@ export const api = {
       }: Omit<TVAttachmentSchema | InternetAttachmentSchema | VoiceAttachmentSchema, "passport" | "photo_modem"> & {
         task: number;
       }) {
-        return authHttp.post<{ id: number }>(`/services/create_${type}/`, data, {
-          "Content-Type": "multipart/form-data;"
-        });
-      },
-      $patchTask(id: number, data: Partial<Backend.Task>) {
-        return authHttp.patch<Backend.Task>(`/services/update_task/${id}/`, data);
-      },
-      $patchTaskMedia(id: number, data: FormData) {
-        return authHttp.patch(`/services/update_task_image/${id}/`, data, { "Content-Type": "multipart/form-data" });
-      },
-      $patch(id: number, data: Partial<Backend.Task>) {
-        return authHttp.patch(`/services/update_tv/${id}/`, data);
-      },
-      $patchMedia(id: number, data: FormData) {
-        return authHttp.patch(`/services/update_tv/${id}/`, data, { "Content-Type": "multipart/form-data" });
+        return authHttp.post<{ id: number }>(`/services/create_${type}/`, data);
       }
     },
     performance: {

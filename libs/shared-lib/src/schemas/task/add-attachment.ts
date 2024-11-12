@@ -1,9 +1,11 @@
+import { ImagePickerAsset } from "expo-image-picker";
 import { z } from "zod";
 
 const baseAttachmentSchema = z.object({
   modem_SN: z.string(),
-  passport: z.string(),
-  photo_modem: z.string()
+  passport: z.custom<ImagePickerAsset>(),
+  photo_modem: z.custom<ImagePickerAsset>(),
+  note: z.string().optional()
 });
 
 const tvAttachmentSchema = baseAttachmentSchema.extend({

@@ -18,7 +18,7 @@ export default function Index() {
 
   useEffect(() => {
     if (isSuccess) {
-      setTimeout(router.replace, 0, "/12/task-type/connection/type/tv");
+      setTimeout(router.replace, 0, "/12/task-type/connection/type/internet");
     }
   }, [isSuccess]);
 

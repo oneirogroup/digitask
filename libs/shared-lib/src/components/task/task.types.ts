@@ -1,6 +1,5 @@
-import { Backend } from "../../../build";
-import { DateService } from "../../services/date-service";
-import { Task } from "../../types/backend/task";
+import { DateService } from "../../services";
+import { Backend } from "../../types";
 import { TagProps } from "./components/tag.types";
 
 export interface TaskDate {
@@ -9,7 +8,7 @@ export interface TaskDate {
 }
 
 export interface TaskProps {
-  task: Task;
+  task: Backend.Task;
   tags: TagProps[];
   updateTask?(task: Backend.Task): void;
 }

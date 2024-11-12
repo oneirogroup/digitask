@@ -1,7 +1,6 @@
 import { Image } from "expo-image";
 import {
   ImagePickerResult,
-  ImagePickerSuccessResult,
   MediaTypeOptions,
   launchCameraAsync,
   launchImageLibraryAsync,
@@ -20,16 +19,16 @@ import { FileUploaderExtended, FileUploaderProps } from "./file-uploader.types";
 
 export const FileUploader: FC<FileUploaderProps> & FileUploaderExtended = ({
   label,
-  value: _prePickedImage,
+  value: prePickedImage,
   onFileUpload
 }) => {
   const modalRef = useRef<ModalRef>(null);
-  const [pickedImage, setPickedImage] = useState<ImagePickerSuccessResult | null>(null);
+  const [pickedImage, setPickedImage] = useState<string | null>(prePickedImage || null);
 
   const uploadFileMutation = useMutation({
     mutationKey: [fields.file.upload],
     mutationFn: (formData: FormData) => api.services.file.upload.$post(formData),
-    onSuccess(data) {}
+    onSuccess(_data) {}
   });
 
   const handleImageUpload = (result: ImagePickerResult) => {
@@ -37,18 +36,10 @@ export const FileUploader: FC<FileUploaderProps> & FileUploaderExtended = ({
 
     if (result.canceled) return;
 
-    const localUri = result.assets[0]?.uri;
-    if (!localUri) return;
-    // ToDo: Will be implemented for new backend
-    // const filename = localUri.split("/").pop();
-    // if (!filename) return;
-    // const match = /\.(\w+)$/.exec(filename);
-    // const type = match ? `image/${match[1]}` : `image`;
-    // const blob = new Blob([localUri], { type });
-    // const formData = new FormData();
-    // formData.append("photo", blob);
-    onFileUpload?.(localUri);
-    setPickedImage(result);
+    const asset = result.assets[0];
+    if (!asset) return;
+    onFileUpload?.(asset);
+    setPickedImage(asset.uri);
   };
 
   const pickImageFromCamera = async () => {
@@ -96,7 +87,7 @@ export const FileUploader: FC<FileUploaderProps> & FileUploaderExtended = ({
                 <Text className="text-primary">Yenisini əlavə et</Text>
               </View>
               <View>
-                <Image source={{ uri: pickedImage?.assets[0]?.uri }} style={{ width: 40, height: 40 }} />
+                <Image source={pickedImage} style={{ width: 40, height: 40 }} />
               </View>
             </If.Then>
 
@@ -104,9 +95,18 @@ export const FileUploader: FC<FileUploaderProps> & FileUploaderExtended = ({
               <View className="flex flex-1 items-center justify-center">
                 <Text className="text-primary">Şəkil əlave et</Text>
               </View>
-              <View className="rounded-full bg-white p-2">
-                <Icon name="upload" />
-              </View>
+              <If condition={!!prePickedImage}>
+                <If.Then>
+                  <View>
+                    <Image source={prePickedImage} style={{ width: 40, height: 40 }} />
+                  </View>
+                </If.Then>
+                <If.Else>
+                  <View className="rounded-full bg-white p-2">
+                    <Icon name="upload" />
+                  </View>
+                </If.Else>
+              </If>
             </If.Else>
           </If>
         </View>

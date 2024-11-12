@@ -1,11 +1,12 @@
+import { FileSystemUploadType, uploadAsync } from "expo-file-system";
+import type { ImagePickerAsset } from "expo-image-picker";
 import { router, useLocalSearchParams } from "expo-router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { KeyboardAvoidingView, Text } from "react-native";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 
 import {
   AddAdditionSchema,
-  Backend,
   InternetAttachmentSchema,
   TVAttachmentSchema,
   VoiceAttachmentSchema,
@@ -14,11 +15,10 @@ import {
   taskAddAttachmentSchema,
   tasksAtom
 } from "@digitask/shared-lib";
-import { Block, Form, Input, When } from "@mdreal/ui-kit";
+import { AuthHttp, Block, Form, Input, When } from "@mdreal/ui-kit";
 import { useMutation } from "@tanstack/react-query";
 
 import { FileUploader } from "../../../../../../../components/file-uploader";
-import { getBlobFromUri } from "../../../../../../../utils/convert-uri-to-blob";
 
 type AttachmentType = "tv" | "internet" | "voice";
 
@@ -32,7 +32,10 @@ export default function AddSpecificTaskAttachment() {
     taskType: "connection" | "problem";
     type: AttachmentType;
   };
+  const [isLoading, setIsLoading] = useState(false);
+
   const tasks = useRecoilValue(tasksAtom(taskType));
+  const setTasks = useSetRecoilState(tasksAtom(taskType));
   const task = tasks.find(task => task.id === +taskId);
 
   const taskAttachmentMutation = useMutation({
@@ -44,15 +47,9 @@ export default function AddSpecificTaskAttachment() {
     ) => api.services.tasks.$post(data)
   });
 
-  const taskUpdateMutation = useMutation({
-    mutationFn: (data: FormData) => api.services.tasks.$patchTaskMedia(+taskId, data),
-    onSuccess(data) {
-      console.log(data);
-    }
-  });
-
-  const updateTaskAttachmentMutation = useMutation({
-    mutationFn: ({ id, data }: { id: number; data: FormData }) => api.services.tasks.$patchMedia(id, data)
+  const taskMutation = useMutation({
+    mutationKey: [fields.task],
+    mutationFn: (taskId: number) => api.services.task.$get(+taskId)
   });
 
   const translation = {
@@ -63,47 +60,62 @@ export default function AddSpecificTaskAttachment() {
 
   useEffect(() => {
     if (!tasks.length) return;
-    if (!task) {
+    if (!task || task[`has_${attachmentType}`]) {
       if (router.canGoBack()) {
         router.back();
       } else {
-        router.replace({
-          pathname: "/[taskId]/task-type/[taskType]/type/[type]",
-          params: { taskId, type: attachmentType, taskType }
-        });
+        router.replace({ pathname: "/[taskId]/task-type/[taskType]", params: { taskId, taskType } });
       }
     }
   }, [task]);
+
+  const uploadFile = async (url: string, asset: ImagePickerAsset, fileKey: string) => {
+    await AuthHttp.instance().refreshToken();
+    const token = AuthHttp.settings().getTokens();
+    const result = await uploadAsync(url, asset.uri, {
+      fieldName: fileKey,
+      httpMethod: "PATCH",
+      uploadType: FileSystemUploadType.MULTIPART,
+      mimeType: asset.mimeType,
+      headers: { Authorization: `Bearer ${token.access}` }
+    });
+    return result.body;
+  };
 
   return (
     <KeyboardAvoidingView className="h-full">
       <Block.Scroll className="border-t-neutral-90 border-t-[1px] bg-white p-4" contentClassName="flex gap-4">
         <Form<AddAdditionSchema>
           schema={taskAddAttachmentSchema}
-          defaultValues={{ type: attachmentType }}
+          defaultValues={{ type: attachmentType, passport: task?.passport }}
           onSubmit={async ({ passport, photo_modem, ...data }) => {
-            const promises = [passport, photo_modem].map(async (path, idx) => {
-              const filename = path.split("/").pop();
-              if (!filename) return;
-              const blob = await getBlobFromUri(path);
-              if (!blob) return;
-              const formData = new FormData();
-              formData.append(idx === 0 ? "passport" : "photo_modem", blob);
-              return formData;
+            setIsLoading(true);
+            await uploadFile(
+              `${AuthHttp.settings().baseUrl}/services/update_task_image/${taskId}/`,
+              passport,
+              "passport"
+            );
+            const attachment = await taskAttachmentMutation.mutateAsync({ ...data, task: +taskId });
+            await uploadFile(
+              `${AuthHttp.settings().baseUrl}/services/update_tv/${attachment.id}/`,
+              photo_modem,
+              "photo_modem"
+            );
+            const task = await taskMutation.mutateAsync(+taskId);
+            setTasks(prevTasks => {
+              const taskIndex = prevTasks.findIndex(task => task.id === +taskId);
+              const updatedTask = { ...prevTasks[taskIndex], ...task };
+              return prevTasks.map((task, index) => (index === taskIndex ? updatedTask : task));
             });
-            const [passportFormData] = await Promise.all(promises);
+            setIsLoading(false);
 
-            if (passportFormData) {
-              await taskUpdateMutation.mutateAsync(passportFormData);
-            }
-
-            // const response = await taskAttachmentMutation.mutateAsync({ ...data, task: +taskId });
-            // if (!response?.id) return;
-
-            // await updateTaskAttachmentMutation.mutateAsync({ id: response.id, data: formData });
+            router.replace({
+              pathname: "/[taskId]/task-type/[taskType]",
+              params: { taskId, taskType }
+            });
           }}
         >
-          <FileUploader.Controlled name="passport" label="Şəxsiyyət vəsiqəsinin fotosu" />
+          <FileUploader.Controlled name="passport" label="Şəxsiyyət vəsiqəsinin fotosu" value={task?.passport} />
 
           <Text className="text-xl">
             Servis məlumatları <Text className="text-primary">{translation[attachmentType]}</Text>
@@ -146,9 +158,13 @@ export default function AddSpecificTaskAttachment() {
             />
           </When>
 
-          {/*<Input.Controlled name="note" />*/}
+          <Input.Controlled
+            name="note"
+            label={<Text className="text-neutral-60">Qeyd</Text>}
+            className="bg-neutral-90 rounded-2xl border-transparent"
+          />
 
-          <Form.Button>
+          <Form.Button isLoading={isLoading}>
             <Text className="p-4 text-center text-white">Yadda saxla</Text>
           </Form.Button>
         </Form>
