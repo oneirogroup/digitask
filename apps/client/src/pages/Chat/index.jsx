@@ -456,7 +456,13 @@ const Chat = () => {
                   <div className="chat-info">
                     <h4>{group.name}</h4>
                     <p>
-                      {userName}: <span>{limitedContent}</span>
+                    <div>
+                        {limitedContent ? (
+                          <>{userName}: <span>{limitedContent}</span></>
+                        ) : (
+                          <span>Məktub yoxdur</span>
+                        )}
+                      </div>
                     </p>
                   </div>
                   <div className="chat-meta">{/* <span className="time">{lastMessage?.timestamp[0:10]}</span> */}</div>
