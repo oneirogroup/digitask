@@ -86,3 +86,7 @@
     font-size: 14px;
     font-weight: 500;
 }
+.no-notification{
+    font-weight: 600;
+    color:gray;
+}
