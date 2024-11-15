@@ -23,19 +23,19 @@
     "expo-image-picker": "^15.0.7",
     "lodash.isnil": "^4.0.0",
     "react": "^18.3.1",
-    "react-native": "^0.76.0",
+    "react-native": "^0.76.2",
     "recoil": "^0.7.7",
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@react-native-async-storage/async-storage": "^1.24.0",
+    "@react-native-async-storage/async-storage": "^2.0.0",
     "@types/lodash.isnil": "^4.0.9",
     "@vitejs/plugin-react-swc": "^3.7.1",
     "autoprefixer": "^10.4.20",
     "postcss-nesting": "^13.0.1",
     "typescript": "5.4.2",
-    "vite": "^5.4.8",
+    "vite": "^5.4.11",
     "vite-plugin-dts": "^4.2.3",
-    "vite-tsconfig-paths": "^5.0.1"
+    "vite-tsconfig-paths": "^5.1.2"
   }
 }

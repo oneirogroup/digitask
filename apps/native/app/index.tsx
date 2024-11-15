@@ -1,5 +1,5 @@
 import { Image } from "expo-image";
-import { router } from "expo-router";
+import { router, useRouter } from "expo-router";
 import { useEffect } from "react";
 import { Text, View } from "react-native";
 
@@ -9,6 +9,8 @@ import { Block, cn } from "@mdreal/ui-kit";
 import logo from "../assets/images/logo.png";
 
 export default function Index() {
+  const router = useRouter();
+
   const { isSuccess, isError } = useRecoilQuery(profileAtom, {
     queryKey: [fields.user.profile],
     queryFn: () => api.accounts.profile.$get,
@@ -18,7 +20,7 @@ export default function Index() {
 
   useEffect(() => {
     if (isSuccess) {
-      setTimeout(router.replace, 0, "/12/task-type/connection/type/internet");
+      setTimeout(router.replace, 0, "/");
     }
   }, [isSuccess]);
 

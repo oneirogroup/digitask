@@ -5,7 +5,7 @@ import { Block } from "@mdreal/ui-kit";
 export default function TaskLayout() {
   return (
     <Block.Fade>
-      <Stack initialRouteName="(sections)" screenOptions={{ freezeOnBlur: false }}>
+      <Stack initialRouteName="(sections)">
         <Stack.Screen name="(sections)" options={{ headerShown: false }} />
       </Stack>
     </Block.Fade>

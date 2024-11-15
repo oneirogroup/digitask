@@ -13,13 +13,13 @@ export default function DashboardLayout() {
   useTasksInit("connection");
 
   return (
-    <Stack initialRouteName="(tabs)" screenOptions={{ freezeOnBlur: false }}>
-      <Stack.Screen name="(chat)/chat" options={{ title: "Chat", headerBackTitleVisible: false }} />
+    <Stack initialRouteName="(tabs)">
+      <Stack.Screen name="(chat)/chat" options={{ title: "Chat" }} />
       <Stack.Screen
         name="(chat)/[chatRoomId]"
         options={{
           headerBackVisible: true,
-          headerBackTitleVisible: false,
+
           headerTitle: () => <ChatRoomHeaderTitle />,
           headerRight: () => <ChatRoomHeaderRight />
         }}
@@ -28,7 +28,6 @@ export default function DashboardLayout() {
       <Stack.Screen
         name="(profile)/profile-data"
         options={{
-          headerBackTitleVisible: false,
           headerTitle: () => <ProfileHeaderTitle />,
           headerRight: () => <ProfileHeaderRight />
         }}
@@ -36,17 +35,12 @@ export default function DashboardLayout() {
 
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
 
-      <Stack.Screen
-        name="(task)/[taskId]/task-type/[taskType]/index"
-        options={{ title: "Tapşırıq", headerBackTitleVisible: false }}
-      />
+      <Stack.Screen name="(task)/[taskId]/task-type/[taskType]/index" options={{ title: "Tapşırıq" }} />
       <Stack.Screen
         name="(task)/[taskId]/task-type/[taskType]/type/[type]"
         options={{
           title: "Tapşırıq",
-          headerBackTitleVisible: false,
-          // presentation: "modal",
-          freezeOnBlur: false,
+          presentation: "modal",
           headerRight: () => <TaskAddAttachmentHeaderRight />
         }}
       />

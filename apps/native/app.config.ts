@@ -9,6 +9,7 @@ export default {
   version: "1.0.0",
   orientation: "portrait",
   userInterfaceStyle: "automatic",
+  newArchEnabled: true,
   splash: {
     resizeMode: "contain",
     backgroundColor: "#ffffff"
@@ -16,9 +17,7 @@ export default {
   updates: {
     url: "https://u.expo.dev/19a90db8-9dbf-4462-82b1-20715313aebb"
   },
-  runtimeVersion: {
-    policy: "appVersion"
-  },
+  runtimeVersion: "1.0.0",
   ios: {
     supportsTablet: true
   },

@@ -1,5 +1,5 @@
 import { Image } from "expo-image";
-import { router } from "expo-router";
+import { router, useRouter } from "expo-router";
 import { Text } from "react-native";
 
 import { Block, Button } from "@mdreal/ui-kit";
@@ -7,6 +7,8 @@ import { Block, Button } from "@mdreal/ui-kit";
 import logo from "../assets/images/logo.png";
 
 export default function Welcome() {
+  const router = useRouter();
+
   return (
     <Block className="flex h-full items-center justify-between px-4 py-28">
       <Block className="flex items-center gap-6">
