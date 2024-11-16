@@ -34,7 +34,6 @@ const Home = () => {
       const responseMainPage = await axios.get("http://135.181.42.192/services/mainpage/", {
         headers: { Authorization: `Bearer ${token}` }
       });
-      console.log(responseMainPage.data.meetings || [],'===========================')
       setMeetings(responseMainPage.data.meetings || []);
       setUserType(responseMainPage.data.user_type);
 
@@ -119,10 +118,12 @@ const Home = () => {
           <div key={meeting.id} className="meet-time-date-img" onClick={() => openMeetingDetailModal(meeting.id)}>
             <div className="meet-time-date">
               <p>
-                <GoClock /> {new Date(meeting.date).toLocaleString()}
+              <GoClock /> {new Date(meeting.date).toLocaleString('en-US', { hour12: false })}
               </p>
               <div>
-                <h5>{meeting.title}</h5>
+                <h5>{meeting.title.length > 15
+                    ? `${meeting.title.slice(0, 15)}...`
+                    : meeting.title}</h5>
                 <p>
                   {meeting.meeting_description.length > 15
                     ? `${meeting.meeting_description.slice(0, 15)}...`

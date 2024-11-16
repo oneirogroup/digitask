@@ -155,7 +155,7 @@ const Login = props => {
           </Form>
         </div>
       </div>
-      <img src={ovalbottom} alt="" />
+      <img style={{width:'50%'}} src={ovalbottom} alt="" />
     </div>
   );
 };

@@ -127,7 +127,7 @@ const Sidebar = ({ children, isSidebarOpen, onClose, onToggleExpand }) => {
               to={item.path}
               key={index}
               className="aside-link"
-              style={{ width: isExpanded ? '100%' : '7vh'}}
+              style={{ width: isExpanded ? '100%' : '100%'}}
               activeclassname="active"
             >
               <div className="icon">{item.icon}</div>

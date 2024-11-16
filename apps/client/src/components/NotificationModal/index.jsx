@@ -42,7 +42,7 @@ const NotificationModal = ({ notifications, isOpen, onClose }) => {
                     </button>
                 </div>
                 <div className="notification-modal-content">
-                    {notifications.map((notification, index) => (
+                {notifications.length > 0 ? (notifications.map((notification, index) => (
                         <div key={index} className="notification-item">
                             <p>
                                 <span className="notification-email">
@@ -55,7 +55,7 @@ const NotificationModal = ({ notifications, isOpen, onClose }) => {
                                 {formatTimestamp(notification.created_at)}
                             </span>
                         </div>
-                    ))}
+                    ))):<span className="no-notification">Bildiriş yoxdur !</span>}
                 </div>
             </div>
         </div>
