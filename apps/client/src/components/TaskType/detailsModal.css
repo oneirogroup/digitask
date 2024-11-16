@@ -126,9 +126,6 @@
   font-family: "Nunito Sans", sans-serif;
   font-size: 17px;
   font-weight: 700;
-  overflow: auto;
-  scrollbar-width: thin;
-  width: 15vw;
   text-align: right;
 }
 

@@ -1,19 +1,21 @@
-import { useState, useEffect, useRef } from 'react';
-import { useUser } from '../../contexts/UserContext';
-import { NavLink, useLocation } from 'react-router-dom';
-import logo from "../../assets/images/logo.svg";
-import { GoHomeFill } from "react-icons/go";
-import taskIcon from "../../assets/images/Task.svg";
+import { useEffect, useRef, useState } from "react";
 import { FaWarehouse } from "react-icons/fa";
-import performance from "../../assets/images/icons.svg";
-import Engineering from "../../assets/images/Engineering.svg";
-import { MdLogout, MdMenu,   } from "react-icons/md";
-import { TiArrowLeftThick,TiArrowRightThick } from "react-icons/ti";
-import { useSelector, useDispatch } from "react-redux";
+import { GoHomeFill } from "react-icons/go";
+import { MdLogout, MdMenu } from "react-icons/md";
+import { TiArrowLeftThick, TiArrowRightThick } from "react-icons/ti";
+import { useDispatch, useSelector } from "react-redux";
+import { NavLink, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
 import { logout } from "../../actions/auth";
-import { useNavigate } from 'react-router-dom';
+import { useUser } from "../../contexts/UserContext";
+import LogoutModal from "../LogoutModal";
+
+import Engineering from "../../assets/images/Engineering.svg";
+import taskIcon from "../../assets/images/Task.svg";
+import performance from "../../assets/images/icons.svg";
+import logo from "../../assets/images/logo.svg";
 import "./sidebar.css";
-import LogoutModal from '../LogoutModal';
 
 const Sidebar = ({ children, isSidebarOpen, onClose, onToggleExpand }) => {
   const { userType } = useUser();
@@ -30,9 +32,9 @@ const Sidebar = ({ children, isSidebarOpen, onClose, onToggleExpand }) => {
       {
         path: "/tasks/",
         name: "Tapşırıqlar",
-        icon: <img src={taskIcon} alt="Task Icon" style={{ width: '24px', height: '24px' }} />
+        icon: <img src={taskIcon} alt="Task Icon" style={{ width: "24px", height: "24px" }} />
       },
-      userType !== 'Texnik' && {
+      userType !== "Texnik" && {
         path: "/warehouse/",
         name: "Anbar",
         icon: <FaWarehouse />
@@ -40,13 +42,13 @@ const Sidebar = ({ children, isSidebarOpen, onClose, onToggleExpand }) => {
       {
         path: "/performance/",
         name: "Performans",
-        icon: <img src={performance} alt="Performance Icon" style={{ width: '24px', height: '24px' }} />
+        icon: <img src={performance} alt="Performance Icon" style={{ width: "24px", height: "24px" }} />
       },
-      userType !== 'Texnik' && {
+      userType !== "Texnik" && {
         path: "/employees/",
         name: "İşçilər",
-        icon: <img src={Engineering} alt="Engineering Icon" style={{ width: '24px', height: '24px' }} />
-      },
+        icon: <img src={Engineering} alt="Engineering Icon" style={{ width: "24px", height: "24px" }} />
+      }
     ].filter(Boolean);
 
     setMenuItems(items);
@@ -62,18 +64,18 @@ const Sidebar = ({ children, isSidebarOpen, onClose, onToggleExpand }) => {
     setShowModal(true);
   };
   const handleLogin = () => {
-    navigate('/login/');
+    navigate("/login/");
   };
 
   const confirmLogout = () => {
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('refresh_token');
-    localStorage.removeItem('user_type');
-    localStorage.removeItem('is_admin');
-    localStorage.removeItem('phone');
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("refresh_token");
+    localStorage.removeItem("user_type");
+    localStorage.removeItem("is_admin");
+    localStorage.removeItem("phone");
     dispatch(logout());
     setShowModal(false);
-    navigate('/login/');
+    navigate("/login/");
   };
 
   const handleModalClose = () => {
@@ -86,83 +88,76 @@ const Sidebar = ({ children, isSidebarOpen, onClose, onToggleExpand }) => {
 
   const [isAuth, setIsAuth] = useState(false);
   useEffect(() => {
-    if (localStorage.getItem('access_token') !== null) {
+    if (localStorage.getItem("access_token") !== null) {
       setIsAuth(true);
     }
   }, [isAuth]);
-
-
 
   const toggleExpand = () => {
     setIsExpanded(!isExpanded);
     onToggleExpand(!isExpanded);
   };
 
-
-
   return (
     <>
-    <div className={`sidebar show${isLoginPage ? ' hidden' : ''}${isSidebarOpen ? 'show' : ''}${isExpanded ? ' expanded' : ''}`} ref={sidebarRef}>
-            <button className={isExpanded?'sidebar-toggle-btn pentagon':'sidebar-toggle-btn hexagon'} onClick={toggleExpand}>
-      {isExpanded?<TiArrowLeftThick />:<TiArrowRightThick/>}
+      <div
+        className={`sidebar ${isLoginPage ? "hidden" : ""}${isSidebarOpen ? "show" : ""} ${isExpanded ? "expanded" : ""}`}
+        ref={sidebarRef}
+      >
+        <button
+          className={isExpanded ? "sidebar-toggle-btn pentagon" : "sidebar-toggle-btn hexagon"}
+          onClick={toggleExpand}
+        >
+          {isExpanded ? <TiArrowLeftThick /> : <TiArrowRightThick />}
         </button>
-      <div className="top_section">
-        <img
-          src={logo}
-          alt=""
-          className='digitask-logo'
-          style={{ width: isExpanded ? '10vh' : '5vh', transition: 'height 0.3s ease' }}
-        />
-       
-        <button className="sidebar-close-btn" onClick={onClose}>×</button>
-      </div>
+        <div className="top_section">
+          <img
+            src={logo}
+            alt=""
+            className="digitask-logo"
+            style={{ width: isExpanded ? "10vh" : "5vh", transition: "height 0.3s ease" }}
+          />
 
-      
-      <div>
-     
-        {
-          menuItems.map((item, index) => (
+          <button className="sidebar-close-btn" onClick={onClose}>
+            ×
+          </button>
+        </div>
+
+        <div>
+          {menuItems.map((item, index) => (
             <NavLink
               reloadDocument
               to={item.path}
               key={index}
               className="aside-link"
-              style={{ width: isExpanded ? '100%' : '100%'}}
+              style={{ width: isExpanded ? "100%" : "100%" }}
               activeclassname="active"
             >
               <div className="icon">{item.icon}</div>
               {isExpanded && <div className="link_text">{item.name}</div>}
             </NavLink>
-          ))
-        }
-      </div>
-     
-      <div>
- 
-        <ul>
-          {isAuth ? (
-            <li onClick={handleLogout} style={{ width: isExpanded ? '100%' : '7vh'}}>
-              <MdLogout style={{fontSize:'24px'}} />
-              <span>{isExpanded && "Çıxış"}</span>
-            </li>
-          ) : (
-            <li onClick={handleLogin} style={{ width: isExpanded ? '100%' : '7vh'}}>
-              <MdLogout style={{fontSize:'24px'}}/>
-              <span>{isExpanded && "Giriş"}</span>
-            </li>
-          )}
-        </ul>
-      </div>
-      <LogoutModal
-        showModal={showModal}
-        handleClose={handleModalClose}
-        handleLogout={confirmLogout}
-      />
+          ))}
+        </div>
 
-  
-    </div>
-    <main>{children}</main>
-   </>
+        <div>
+          <ul>
+            {isAuth ? (
+              <li onClick={handleLogout} style={{ width: isExpanded ? "100%" : "7vh" }}>
+                <MdLogout style={{ fontSize: "24px" }} />
+                <span>{isExpanded && "Çıxış"}</span>
+              </li>
+            ) : (
+              <li onClick={handleLogin} style={{ width: isExpanded ? "100%" : "7vh" }}>
+                <MdLogout style={{ fontSize: "24px" }} />
+                <span>{isExpanded && "Giriş"}</span>
+              </li>
+            )}
+          </ul>
+        </div>
+        <LogoutModal showModal={showModal} handleClose={handleModalClose} handleLogout={confirmLogout} />
+      </div>
+      <main>{children}</main>
+    </>
   );
 };
 
