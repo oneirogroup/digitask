@@ -94,18 +94,22 @@
 
 .input-container {
   display: flex;
+  flex-wrap: wrap;
   gap: 10px;
   width: 100%;
 }
 
 .select-container {
   display: flex;
+  flex-wrap: wrap;
   gap: 10px;
   flex-grow: 1;
 }
 
 .input-group {
+  gap: 15px;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
 }
 
@@ -133,7 +137,6 @@
   padding: 5px 10px;
   border-radius: 4px;
   cursor: pointer;
-  margin-left: 10px;
 }
 
 .error-container {

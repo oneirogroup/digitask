@@ -95,14 +95,21 @@ const DecrementItemForm = ({ onClose, itemId, productNumber, action, fetchData }
           : parseInt(action.count, 10) + parseInt(newCount, 10)
     };
 
+    console.log("Data being sent:", data); // Log data payload for debugging
+
     try {
       const response = await axios.patch(`http://135.181.42.192/warehouse/warehouse-items/${itemId}/`, data, {
         headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`
+          Authorization: `Bearer ${token}`
         }
       });
+
       if (response.data.error) {
+        if (response.status === 403) {
+          await refreshAccessToken();
+          handleSubmit(e); // Retry after refreshing token
+          return;
+        }
         setError(response.data.error);
       } else {
         setSuccess(response.data.message);
@@ -110,12 +117,15 @@ const DecrementItemForm = ({ onClose, itemId, productNumber, action, fetchData }
         onClose();
       }
     } catch (error) {
-      if (error.status === 403) {
+      if (error.status && error.response.status === 403) {
         await refreshAccessToken();
         handleSubmit(e);
+      } else if (error.response) {
+        console.error("Server error:", error.response.data); // Log detailed server error
+        setError("Xəta baş verdi, zəhmət olmasa təkrar cəhd edin");
       } else {
-        console.error("An error occurred:", error);
-        setError("An error occurred");
+        console.error("An error occurred:", error.message);
+        setError("Xəta baş verdi, zəhmət olmasa təkrar cəhd edin");
       }
     }
   };
@@ -155,8 +165,7 @@ const DecrementItemForm = ({ onClose, itemId, productNumber, action, fetchData }
           <button type="submit" className="submit-btn">
             {action.actionName}
           </button>
-          {error && <p className="error">{error}</p>}
-          {success && <p className="success">{success}</p>}
+          {error && <p className="error-message">{error}</p>}
         </form>
       </div>
     </div>
