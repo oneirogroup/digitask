@@ -20,7 +20,7 @@ export const Task: FC<TaskProps> = ({ tags, task, updateTask }) => {
 
   const updateTaskMutation = useMutation({
     mutationFn: ({ id, data }: { id: number; data: Partial<Backend.Task> }) =>
-      api.services.tasks.$patchTaskAttachment(id, data),
+      api.services.tasks.attachments.$patch(id, data),
     onSuccess(data, { id }) {
       updateTask?.({ ...data, id });
     }

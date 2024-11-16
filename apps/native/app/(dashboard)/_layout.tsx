@@ -9,7 +9,7 @@ import { useWebsocketInit } from "../../hooks/use-websocket-init";
 import "../main.css";
 
 export default function DashboardLayout() {
-  useWebsocketInit();
+  // useWebsocketInit();
   useTasksInit("connection");
 
   return (
@@ -40,6 +40,14 @@ export default function DashboardLayout() {
         name="(task)/[taskId]/task-type/[taskType]/type/[type]"
         options={{
           title: "Tapşırıq",
+          presentation: "modal",
+          headerRight: () => <TaskAddAttachmentHeaderRight />
+        }}
+      />
+      <Stack.Screen
+        name="(task)/[taskId]/products"
+        options={{
+          title: "Məhsul əlavə et",
           presentation: "modal",
           headerRight: () => <TaskAddAttachmentHeaderRight />
         }}

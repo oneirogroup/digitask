@@ -37,5 +37,8 @@ export const fields = eck("digitask.native", c => ({
   rangeDate: c`rangeDate`,
   file: c.e("file", c => ({
     upload: c`upload`
+  })),
+  warehouse: c.e(`warehouse`, c => ({
+    item: c`item`
   }))
 }));

@@ -1,6 +1,6 @@
 import { Image } from "expo-image";
 import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { Pressable, Text, View } from "react-native";
 import { useRecoilValue } from "recoil";
 
@@ -18,7 +18,8 @@ const translation = {
 };
 
 export default function SpecificTask() {
-  const attachmentSelectModalRef = useRef<ModalRef>(null);
+  const typeModalRef = useRef<ModalRef>(null);
+  const [modalType, setModalType] = useState<"attachment" | "product" | null>(null);
 
   const { taskId, taskType } = useLocalSearchParams() as { taskId: string; taskType: "connection" | "problem" };
   const tasks = useRecoilValue(tasksAtom(taskType));
@@ -26,7 +27,7 @@ export default function SpecificTask() {
 
   useFocusEffect(() => {
     return () => {
-      attachmentSelectModalRef.current?.close();
+      typeModalRef.current?.close();
     };
   });
 
@@ -49,10 +50,9 @@ export default function SpecificTask() {
 
   const redirectTo = (type: "tv" | "voice" | "internet") => {
     return () => {
-      router.push({
-        pathname: "/[taskId]/task-type/[taskType]/type/[type]",
-        params: { taskId, taskType, type }
-      });
+      const pathname = modalType === "attachment" ? "/[taskId]/task-type/[taskType]/type/[type]" : "/[taskId]/products";
+
+      router.push({ pathname, params: { taskId, taskType, type } });
     };
   };
 
@@ -82,35 +82,33 @@ export default function SpecificTask() {
           />
           <Field
             icon={<Icon name="region" state={false} variables={{ stroke: palette.primary["50"] }} />}
-            label="Adres"
+            label="Region"
             value={currentTask.group[0]?.region || "Naməlum region"}
           />
         </Block>
 
-        {services.map(service => (
-          <Block key={service.id} className="flex gap-6">
-            <Field
-              icon={<Icon name="gear-wheel" state={false} variables={{ stroke: palette.primary["50"] }} />}
-              label="Adres"
-              value={currentTask.services}
-            />
-            <Field
-              icon={<Icon name="clock" state={false} variables={{ fill: palette.primary["50"] }} />}
-              label="Zaman"
-              value={`${startDate.format("DD MMMM, HH:mm")}-${endDate.format("HH:mm")}`}
-            />
-            <Field
-              icon={<Icon name="chat" state="square" variables={{ stroke: palette.primary["50"] }} />}
-              label="Status"
-              value={currentTask.status}
-            />
-            <Field
-              icon={<Icon name="user" state="technic" variables={{ stroke: palette.primary["50"] }} />}
-              label="Texniki qrup"
-              value={currentTask.group[0]?.group || "Naməlum qrup"}
-            />
-          </Block>
-        ))}
+        <Block className="flex gap-6">
+          <Field
+            icon={<Icon name="gear-wheel" state={false} variables={{ stroke: palette.primary["50"] }} />}
+            label="Servis"
+            value={currentTask.services}
+          />
+          <Field
+            icon={<Icon name="clock" state={false} variables={{ fill: palette.primary["50"] }} />}
+            label="Zaman"
+            value={`${startDate.format("DD MMMM, HH:mm")}-${endDate.format("HH:mm")}`}
+          />
+          <Field
+            icon={<Icon name="chat" state="square" variables={{ stroke: palette.primary["50"] }} />}
+            label="Status"
+            value={currentTask.status}
+          />
+          <Field
+            icon={<Icon name="user" state="technic" variables={{ stroke: palette.primary["50"] }} />}
+            label="Texniki qrup"
+            value={currentTask.group[0]?.group || "Naməlum qrup"}
+          />
+        </Block>
 
         <Block>
           <Text>Qeyd</Text>
@@ -120,9 +118,9 @@ export default function SpecificTask() {
       </BlockContainer>
 
       {services.map(service => (
-        <BlockContainer>
+        <BlockContainer key={service.id} className="flex gap-6">
           {/* @ts-ignore */}
-          <Text>{translation[service.type]} anketi</Text>
+          <Text className="text-neutral-20 text-xl">{translation[service.type]} anketi</Text>
 
           <When condition={!!service.modem_SN}>
             <Field label="Modem S/N" value={service.modem_SN || "Qeyd yoxdur"} />
@@ -156,19 +154,41 @@ export default function SpecificTask() {
         </BlockContainer>
       ))}
 
-      <BlockContainer>
-        <Pressable
-          onPress={() => attachmentSelectModalRef.current?.open()}
-          className="flex flex-row items-center justify-between p-2"
-        >
-          <Text>Yeni Qosulma</Text>
-          <View>
-            <Icon name="plus" />
-          </View>
-        </Pressable>
-      </BlockContainer>
+      <When condition={!currentTask.has_tv || !currentTask.has_internet || !currentTask.has_voice}>
+        <BlockContainer>
+          <Pressable
+            onPress={() => {
+              setModalType("attachment");
+              typeModalRef.current?.open();
+            }}
+            className="flex flex-row items-center justify-between p-2"
+          >
+            <Text>Yeni Qosulma</Text>
+            <View>
+              <Icon name="plus" />
+            </View>
+          </Pressable>
+        </BlockContainer>
+      </When>
 
-      <Modal ref={attachmentSelectModalRef} type="popup" height={123} className="p-4">
+      <When condition={currentTask.has_tv || currentTask.has_internet || currentTask.has_voice}>
+        <BlockContainer>
+          <Pressable
+            onPress={() => {
+              setModalType("product");
+              typeModalRef.current?.open();
+            }}
+            className="flex flex-row items-center justify-between p-2"
+          >
+            <Text>Məhsul əlavə et</Text>
+            <View>
+              <Icon name="plus" />
+            </View>
+          </Pressable>
+        </BlockContainer>
+      </When>
+
+      <Modal ref={typeModalRef} type="popup" height={123} className="p-4">
         <View className="flex gap-6">
           <View>
             <Text className="text-1.5xl text-center">Servis növü</Text>
@@ -176,19 +196,19 @@ export default function SpecificTask() {
           </View>
 
           <View className="flex flex-row gap-4">
-            <When condition={!currentTask.has_tv}>
+            <When condition={modalType !== "attachment" || !currentTask.has_tv}>
               <Button variant="secondary" className="border-secondary flex-1" onClick={redirectTo("tv")}>
                 <Text className="text-center">Tv</Text>
               </Button>
             </When>
 
-            <When condition={!currentTask.has_internet}>
+            <When condition={modalType !== "attachment" || !currentTask.has_internet}>
               <Button variant="secondary" className="border-secondary flex-1" onClick={redirectTo("internet")}>
                 <Text className="text-center">İnternet</Text>
               </Button>
             </When>
 
-            <When condition={!currentTask.has_voice}>
+            <When condition={modalType !== "attachment" || !currentTask.has_voice}>
               <Button variant="secondary" className="border-secondary flex-1" onClick={redirectTo("voice")}>
                 <Text className="text-center">Səs</Text>
               </Button>

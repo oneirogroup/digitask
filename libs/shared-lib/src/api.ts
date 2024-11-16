@@ -47,6 +47,11 @@ export const api = {
         task: number;
       }) {
         return authHttp.post<{ id: number }>(`/services/create_${type}/`, data);
+      },
+      attachments: {
+        $patch(id: number, data: Partial<Backend.Task>) {
+          return authHttp.patch<Backend.Task>(`/services/update_task/${id}/`, data);
+        }
       }
     },
     performance: {
@@ -63,6 +68,19 @@ export const api = {
       upload: {
         $post(media: FormData) {
           return Promise.resolve(media.get("photo"));
+        }
+      }
+    },
+    warehouse: {
+      get $getAll() {
+        return authHttp.get<Backend.Warehouse[]>("/warehouse/warehouses/");
+      },
+      $get(id: number) {
+        return authHttp.get<Backend.Warehouse>(`/warehouse/warehouses/${id}`);
+      },
+      items: {
+        $get(id: number) {
+          return authHttp.get<Backend.WarehouseItem[]>(`/warehouse/warehouse-items/?warehouse=${id}`);
         }
       }
     }

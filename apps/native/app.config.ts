@@ -11,6 +11,7 @@ export default {
   userInterfaceStyle: "automatic",
   newArchEnabled: true,
   splash: {
+    image: "./assets/images/logo.png",
     resizeMode: "contain",
     backgroundColor: "#ffffff"
   },
@@ -18,14 +19,15 @@ export default {
     url: "https://u.expo.dev/19a90db8-9dbf-4462-82b1-20715313aebb"
   },
   runtimeVersion: "1.0.0",
-  ios: {
-    supportsTablet: true
-  },
   android: {
     package: "com.oneirogroup.digitask",
     adaptiveIcon: {
       backgroundColor: "#ffffff"
     }
+  },
+  ios: {
+    supportsTablet: true,
+    bundleIdentifier: "com.oneirogroup.digitask"
   },
   plugins: [
     "expo-router",
