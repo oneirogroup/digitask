@@ -46,7 +46,6 @@
 
 .performance-page table {
   width: 100%;
-  min-width: 1100px;
   table-layout: auto;
   border-collapse: collapse;
 }
@@ -188,6 +187,7 @@
   z-index: 1000;
   max-height: 200px;
   overflow-y: auto;
+  scrollbar-width: thin;
 }
 
 .group-modal {
@@ -214,8 +214,7 @@
   gap: 10px;
 }
 
-
-.performance-date input{
+.performance-date input {
   width: 150px;
   border-radius: 8px;
   outline: none;
