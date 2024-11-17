@@ -263,6 +263,9 @@
   .task-date-form > div:not(:first-of-type) {
     width: 23%;
   }
+  .date-picker {
+    height: 35px;
+  }
 
   /* Performance page */
 
@@ -322,6 +325,10 @@
   .historyImportTable th,
   .historyImportTable td {
     font-size: 13px !important;
+  }
+
+  .chatModal-content {
+    max-width: 56%;
   }
 }
 
@@ -798,6 +805,10 @@
   .notification-modal-close {
     font-size: 22px;
   }
+
+  .chatModal-content {
+    max-width: 65%;
+  }
 }
 
 @media screen and (max-width: 768px) {
@@ -1150,6 +1161,9 @@
     padding: 0 24px;
     text-align: center;
   }
+  .addMemberModal-content {
+    width: 70%;
+  }
 }
 
 @media screen and (max-width: 650px) {
@@ -1316,6 +1330,40 @@
   .item-detail-modal-footer svg {
     font-size: 19px;
   }
+
+  .chatModal-content {
+    max-width: 70%;
+  }
+
+  .chatModal-header-text {
+    font-size: 26px;
+  }
+  .members-list h3 {
+    font-size: 22px;
+  }
+  .member-name {
+    font-size: 17px;
+  }
+  .members-list button {
+    font-size: 18px;
+  }
+
+  .performance-filter {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .performance-date input {
+    width: 14rem;
+  }
+
+  .performance-filter .react-datepicker-popper {
+    left: 53px !important;
+  }
+
+  .date-picker-container {
+    justify-content: flex-start;
+  }
 }
 
 @media screen and (max-width: 620px) {
@@ -1358,6 +1406,14 @@
   .map-modal-modal-content {
     width: 80%;
     max-width: 80%;
+  }
+
+  .performance-date input {
+    width: 11rem;
+  }
+
+  .performance-filter .react-datepicker-popper {
+    left: 80px !important;
   }
 
   /* Logout modal  */
@@ -1489,6 +1545,16 @@
     font-size: 14px;
   }
 
+  .performance-date input {
+    width: 9rem;
+  }
+  .react-datepicker__triangle {
+    display: none;
+  }
+  .performance-filter .react-datepicker-popper {
+    left: 90px !important;
+  }
+
   /* Settings page */
 
   .settings-fields div div p,
@@ -1569,6 +1635,10 @@
     font-size: 13px;
   }
 
+  .employee-modal-group {
+    top: 294px;
+  }
+
   .add-user-modal form > div:first-of-type {
     grid-template-columns: repeat(1, 1fr);
   }
@@ -1619,6 +1689,30 @@
     top: 63px;
     right: 51px;
     padding: 18px;
+  }
+  .addMemberModal-content h3 {
+    font-size: 22px;
+  }
+  .chatModal-selectChoose button {
+    width: 42%;
+    height: 36px;
+    font-size: 15px;
+  }
+  .chatModal-search svg {
+    font-size: 20px;
+  }
+  .employee-title {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+  .employee-search-filter {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+  .employee-search-filter > div:first-of-type {
+    width: 68%;
   }
 }
 
@@ -1845,6 +1939,27 @@
   .chat-content-header {
     padding: 0 15px;
   }
+  .chatModal-content {
+    max-width: 73%;
+  }
+  .chatModal-header-text {
+    font-size: 24px;
+  }
+  .members-list h3 {
+    font-size: 21px;
+  }
+  .avatar {
+    width: 35px;
+    height: 35px;
+    font-size: 18px;
+  }
+
+  .performance-date input {
+    width: 6rem;
+  }
+  .performance-filter .react-datepicker-popper {
+    left: 110px !important;
+  }
 }
 
 @media screen and (max-width: 450px) {
@@ -1982,6 +2097,15 @@
     gap: 15px;
   }
 
+  .group-modal {
+    margin-top: 5px;
+  }
+
+  .group-modal div {
+    cursor: pointer;
+    padding: 10px 2px 7px 10px;
+  }
+
   /* Navbar */
 
   .navbar-icons a,
@@ -2100,10 +2224,23 @@
   .chat-content-user-info {
     max-width: 70%;
   }
+  .addMemberModal-content {
+    width: 75%;
+  }
+  .date-picker-container {
+    flex-direction: column;
+  }
 }
 
 @media screen and (max-width: 412px) {
   /* Home page */
+
+  .employee-add-buttons {
+    flex-direction: column;
+  }
+  .employee-modal-group {
+    top: 370px;
+  }
 
   .apexcharts-text tspan {
     font-size: 10px;

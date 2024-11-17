@@ -136,3 +136,15 @@
   overflow-x: auto;
   scrollbar-width: thin;
 }
+
+.hasProblem span {
+  font-size: 18px;
+}
+
+.hasProblem .checkTrue {
+  color: #008b1b;
+}
+
+.hasProblem .checkFalse {
+  color: red;
+}

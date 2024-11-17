@@ -1,305 +1,307 @@
 .chatModal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
 }
 
 .chatModal-content {
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    width: 80%;
-    max-width: 40%;
-    max-height: 90vh;
-    overflow-y: auto;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    position: relative;
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 80%;
+  max-width: 40%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: relative;
 }
 
 .chatModal-header {
-    margin-bottom: 15px;
-    display: flex;
+  margin-bottom: 15px;
+  display: flex;
 }
 
 .chatModal-header-text {
-    font-family: Montserrat;
-    font-size: 28px;
-    font-weight: 600;
-    margin: 0 auto;
+  font-family: Montserrat;
+  font-size: 28px;
+  font-weight: 600;
+  margin: 0 auto;
 }
 
 .chatModal-header span {
-    text-align: end;
-    font-size: 32px;
+  text-align: end;
+  font-size: 32px;
 }
 
 .chatModal-body {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .chatModal-footer {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 .members-list {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
-.members-list h3{
-    color: #2F3033;
-    font-family: Montserrat;
-    font-size: 24px;
-    font-weight: 600;
+.members-list h3 {
+  color: #2f3033;
+  font-family: Montserrat;
+  font-size: 24px;
+  font-weight: 600;
 }
 
 .member-item {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-    justify-content: space-between;
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  justify-content: space-between;
 }
 
-.member-item>svg{
-    cursor: pointer;
+.member-item > svg {
+  cursor: pointer;
 }
 
 .member-info {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .avatar {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background-color: #007bff;
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 16px;
-    margin-right: 10px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #007bff;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  margin-right: 10px;
 }
 
 .member-name {
-    font-family: Nunito Sans;
-    font-size: 18px;
-    font-weight: 600;
+  font-family: Nunito Sans;
+  font-size: 18px;
+  font-weight: 600;
 }
 
 .members-list button {
-    background-color: inherit;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: Nunito Sans;
-    font-size: 20px;
-    font-weight: 600;
-    transition: background-color .3s ease;
-    color: #005abf;
+  background-color: inherit;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Nunito Sans;
+  font-size: 20px;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+  color: #005abf;
 }
 
-.chatModal-members-add{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
+.chatModal-members-add {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
 }
-
 
 .addMemberModal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1100;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1100;
 }
 
 .addMemberModal-content {
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    width: 400px;
-    max-width: 100%;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px;
+  max-width: 100%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
 }
 
 .user-list {
-    max-height: 200px;
-    overflow-y: auto;
-    margin-bottom: 20px;
+  max-height: 200px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  margin-bottom: 20px;
 }
 
 .user-item {
-    display: flex;
-    align-items: center;
-    padding: 8px;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: 5px;
 }
 
 .user-item:hover {
-    background-color: #f0f0f0;
+  background-color: #f0f0f0;
 }
 
 .user-item.selected {
-    background-color: #d1e7ff;
+  background-color: #d1e7ff;
 }
 
 .user-info {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .user-avatar {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background-color: #007bff;
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 16px;
-    margin-right: 10px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #007bff;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  margin-right: 10px;
 }
 
 .user-name {
-    font-size: 16px;
+  font-size: 16px;
 }
 
-.member-list-style{
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+.member-list-style {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .removeMemberModal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .removeMemberModal-content {
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    position: absolute;
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  position: absolute;
 }
 
-.removeMemberModal-content div, .chatModal-selectChoose{
-    display: flex;
-    margin-top: 15px;
-    align-items: center;
-    justify-content: space-around;
+.removeMemberModal-content div,
+.chatModal-selectChoose {
+  display: flex;
+  margin-top: 15px;
+  align-items: center;
+  justify-content: space-around;
 }
 
-.chatModal-selectChoose{
-    margin-top: 5px;
+.chatModal-selectChoose {
+  margin-top: 5px;
 }
 
-.removeMemberModal-content h3{
-    font-family: Montserrat;
-    font-size: 20px;
-    font-weight: 500;
-    margin: 0 auto;
+.removeMemberModal-content h3 {
+  font-family: Montserrat;
+  font-size: 20px;
+  font-weight: 500;
+  margin: 0 auto;
 }
 
-.removeMemberModal-content button, .chatModal-selectChoose button{
-    background-color: #005abf;
-    color: #fff;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    width: 40%;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: Nunito Sans;
-    font-size: 16px;
-    font-weight: 400;
-    transition: background-color .3s ease;
+.removeMemberModal-content button,
+.chatModal-selectChoose button {
+  background-color: #005abf;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  width: 40%;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Nunito Sans;
+  font-size: 16px;
+  font-weight: 400;
+  transition: background-color 0.3s ease;
 }
 
 .chatModal-selectChoose button {
-    width: 45%;
-    height: 40px;
+  width: 45%;
+  height: 40px;
 }
 
 .addMemberModal-content h3 {
-    font-family: Montserrat;
-    font-size: 24px;
-    font-weight: 500;
-    margin: 0 auto;
+  font-family: Montserrat;
+  font-size: 24px;
+  font-weight: 500;
+  margin: 0 auto;
 }
 
 .chatModal-search {
-    background-color: white;
-    display: flex;
-    position: relative;
-    margin: 10px 0;
+  background-color: white;
+  display: flex;
+  position: relative;
+  margin: 10px 0;
 }
 
-.chatModal-search input{
-    padding: 11px 80px 11px 40px;
-    border: 0.5px solid #ABABAF;
-    border-radius: 8px;
-    outline: none;
-    width: 100%;
+.chatModal-search input {
+  padding: 11px 80px 11px 40px;
+  border: 0.5px solid #ababaf;
+  border-radius: 8px;
+  outline: none;
+  width: 100%;
 }
 
-.chatModal-search svg{
-    position: absolute;
-    top: 7px;
-    font-size: 24px;
+.chatModal-search svg {
+  position: absolute;
+  top: 7px;
+  font-size: 24px;
 }
 
-.chatModal-search svg:first-of-type{
-    left: 7px;
-    color: #005ABF;
+.chatModal-search svg:first-of-type {
+  left: 7px;
+  color: #005abf;
 }
 
-.chatModal-search svg:last-of-type{
-    right: 18px;
-    color: #909094;
+.chatModal-search svg:last-of-type {
+  right: 18px;
+  color: #909094;
 }
 
-.chatModal-search input::placeholder{
-    font-family: Nunito Sans;
-    font-size: 16px;
-    font-weight: 500;
+.chatModal-search input::placeholder {
+  font-family: Nunito Sans;
+  font-size: 16px;
+  font-weight: 500;
 }
 
-.sent .time{
-    color:rgb(229, 229, 229);
+.sent .time {
+  color: rgb(229, 229, 229);
 }
 
-.adminText{
-    color:rgb(84, 84, 84)
+.adminText {
+  color: rgb(84, 84, 84);
 }

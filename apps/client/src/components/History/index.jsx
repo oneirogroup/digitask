@@ -2,6 +2,8 @@ import { az } from "date-fns/locale";
 import { useEffect, useRef, useState } from "react";
 import DatePicker from "react-datepicker";
 import { BsThreeDotsVertical } from "react-icons/bs";
+import { FaExclamationTriangle } from "react-icons/fa";
+import { FaCheckCircle } from "react-icons/fa";
 
 import useRefreshToken from "../../common/refreshToken";
 import HistoryModal from "../HistoryModal";
@@ -203,6 +205,7 @@ const Anbar = () => {
               <th>Əvvəlki say</th>
               <th>Sonrakı Say</th>
               <th>Aktual say</th>
+              <th>Uğurlu</th>
               <th></th>
             </tr>
           </thead>
@@ -227,6 +230,17 @@ const Anbar = () => {
                 <td onClick={() => handleActionClick(data, "history")}>{data.old_count}</td>
                 <td onClick={() => handleActionClick(data, "history")}>{data.new_count}</td>
                 <td onClick={() => handleActionClick(data, "history")}>{data.item.count}</td>
+                <td className="hasProblem" onClick={() => handleActionClick(data, "history")}>
+                  {data.has_problem ? (
+                    <span className="checkFalse">
+                      <FaExclamationTriangle />
+                    </span>
+                  ) : (
+                    <span className="checkTrue">
+                      <FaCheckCircle />
+                    </span>
+                  )}
+                </td>
                 <td>
                   <BsThreeDotsVertical />
                 </td>
