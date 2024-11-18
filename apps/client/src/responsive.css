@@ -330,6 +330,10 @@
   .chatModal-content {
     max-width: 56%;
   }
+
+  .add-room-modal-content {
+    max-width: 56%;
+  }
 }
 
 @media screen and (max-width: 960px) {
@@ -1065,6 +1069,10 @@
     width: 68%;
     max-width: 68%;
   }
+
+  .add-room-modal-content {
+    max-width: 65%;
+  }
 }
 
 @media screen and (max-width: 700px) {
@@ -1431,6 +1439,10 @@
   .logout-modal-content div button {
     font-size: 18px;
     padding: 10px 0;
+  }
+
+  .add-room-modal-content {
+    max-width: 70%;
   }
 }
 
