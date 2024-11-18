@@ -205,7 +205,7 @@ const Anbar = () => {
               <th>Əvvəlki say</th>
               <th>Sonrakı Say</th>
               <th>Aktual say</th>
-              <th>Uğurlu</th>
+              <th>Əməliyyat</th>
               <th></th>
             </tr>
           </thead>

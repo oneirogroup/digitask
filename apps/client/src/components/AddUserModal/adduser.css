@@ -1,208 +1,207 @@
-.add-user-modal-content > hr:first-of-type, .add-group-modal-content > hr,  .add-room-modal-content >hr {
-    border: none;           
-    width: 100%;            
-    height: 0.3px;            
-    background-color: #5E5E62; 
-    margin: 10px 0;
-  }
-
-.add-user-modal-content{
-    overflow-y: auto;
+.add-user-modal-content > hr:first-of-type,
+.add-group-modal-content > hr,
+.add-room-modal-content > hr {
+  border: none;
+  width: 100%;
+  height: 0.3px;
+  background-color: #5e5e62;
+  margin: 10px 0;
 }
 
-.add-user-modal-content form{
-    display: flex;
-    flex-direction: column;
+.add-user-modal-content {
+  overflow-y: auto;
 }
 
-.add-user-modal form >div:first-of-type {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-  }
-  
-  .add-user-modal .form-group label, .add-group-modal-content .form-group label,  .add-room-modal-content .form-group label {
-    font-weight: bold;
-    display: block;
-    font-size: 18px;
-    padding: 8px 5px 10px 8px;
-  }
+.add-user-modal-content form {
+  display: flex;
+  flex-direction: column;
+}
 
-  .multi-select-dropdown > div{
-    padding: 5px 5px 10px 8px;
-    cursor: pointer;
-  }
+.add-user-modal form > div:first-of-type {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
 
-  .multi-select-dropdown > div:hover{
-    background-color: #cccccc7e;
-  }
+.add-user-modal .form-group label,
+.add-group-modal-content .form-group label,
+.add-room-modal-content .form-group label {
+  font-weight: bold;
+  display: block;
+  font-size: 18px;
+  padding: 8px 5px 10px 8px;
+}
 
-  .add-user-modal .form-group label span svg{
-    font-size: 18px;
+.multi-select-dropdown > div {
+  padding: 5px 5px 10px 8px;
+  cursor: pointer;
+}
 
-  }
-  
-  .add-user-modal .form-group input[type="text"],
-  .add-user-modal .form-group input[type="email"],
-  .add-user-modal .form-group input[type="password"], 
-  .multi-select-container button,
-  .add-group-modal-content .form-group input,  
-  .add-room-modal-content .form-group input{
-    width: 100%;
-    padding: 8px;
-    font-size: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    text-align: left;
-    outline: none;
-    background-color: white;
-    font-family: Nunito Sans;
-    font-size: 16px;
-    font-weight: 400;
-  }
+.multi-select-dropdown > div:hover {
+  background-color: #cccccc7e;
+}
 
+.add-user-modal .form-group label span svg {
+  font-size: 18px;
+}
 
-  .add-group-modal-content .form-group input, .add-room-modal-content .form-group input {
-    height: 30px;
-  }
+.add-user-modal .form-group input[type="text"],
+.add-user-modal .form-group input[type="email"],
+.add-user-modal .form-group input[type="password"],
+.multi-select-container button,
+.add-group-modal-content .form-group input,
+.add-room-modal-content .form-group input {
+  width: 100%;
+  padding: 8px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  text-align: left;
+  outline: none;
+  background-color: white;
+  font-family: Nunito Sans;
+  font-size: 16px;
+  font-weight: 400;
+}
 
-  .add-user-modal .form-group .group-select {
-    position: relative;
-  }
-  
-  .add-user-modal .form-group .group-select-button {
-    cursor: pointer;
-    width: 100%;
-    padding: 8px;
-    font-size: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: #fff;
-    text-align: left;
-  }
-  
-  .add-user-modal .form-group .group-select-dropdown {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    z-index: 1000;
-    width: 100%;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-top: none;
-    border-radius: 0 0 4px 4px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    max-height: 200px;
-    overflow-y: auto;
-  }
-  
-  .add-user-modal .form-group .group-select-dropdown div {
-    padding: 8px;
-    cursor: pointer;
-  }
-  
-  .add-user-modal .form-group .user-type-radio {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .add-user-modal .form-group .user-type-radio label {
-    margin-bottom: 10px;
-    cursor: pointer;
-  }
-  
-  .add-user-modal .form-group .user-type-radio input[type="radio"] {
-    margin-right: 5px;
-  }
-  
-  .add-user-modal button[type="submit"], .add-group-modal-content button, .add-room-modal-content form> button {
-    background-color: #005ABF;
-    color: white;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    width: 100%;
-    height: 42px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: Nunito Sans;
-    font-size: 16px;
-    font-weight: 400;
-    transition: background-color 0.3s ease;
-    margin-top: 20px;
-  }
+.add-group-modal-content .form-group input,
+.add-room-modal-content .form-group input {
+  height: 30px;
+}
 
-  .add-group-modal-content button,  .add-room-modal-content button {
-    height: 35px;
-  }
-  
-  .add-user-modal button[type="submit"]:hover {
-    background-color: #0056b3;
-  }
+.add-user-modal .form-group .group-select {
+  position: relative;
+}
 
-  .user-type-select {
-    position: relative;
-  }
-  
-  .user-type-select-button {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    cursor: pointer;
-    background-color: #fff;
-    text-align: left;
-  }
-  
-  .user-type-select-dropdown {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    max-height: 150px;
-    overflow-y: auto;
-    border: 1px solid #ccc;
-    border-top: none;
-    border-radius: 0 0 4px 4px;
-    background-color: #fff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    z-index: 100;
-  }
-  
-  .user-type-select-dropdown div {
-    padding: 8px;
-    cursor: pointer;
-  }
+.add-user-modal .form-group .group-select-button {
+  cursor: pointer;
+  width: 100%;
+  padding: 8px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  text-align: left;
+}
 
-  .multi-select-container{
-    width: 100%;
-    position: relative;
-    cursor: pointer;
-  }
+.add-user-modal .form-group .group-select-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  width: 100%;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-top: none;
+  border-radius: 0 0 4px 4px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  max-height: 200px;
+  overflow-y: auto;
+}
 
+.add-user-modal .form-group .group-select-dropdown div {
+  padding: 8px;
+  cursor: pointer;
+}
 
-  .multi-select-dropdown {
-    position: absolute;
-    top: 46px;
-    width: 100%;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background: white;
-    z-index: 1000;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    max-height: 140px;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-  }
+.add-user-modal .form-group .user-type-radio {
+  display: flex;
+  flex-direction: column;
+}
 
-  .multi-select-dropdown > label:first-of-type{
-    display: flex;
-    justify-content: space-between;
-  }
+.add-user-modal .form-group .user-type-radio label {
+  margin-bottom: 10px;
+  cursor: pointer;
+}
 
-  .submit-error-message{
-    text-align: center;
-    width: 100%;
-  }
+.add-user-modal .form-group .user-type-radio input[type="radio"] {
+  margin-right: 5px;
+}
+
+.add-user-modal button[type="submit"],
+.add-group-modal-content button,
+.add-room-modal-content form > button {
+  background-color: #005abf;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  width: 100%;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Nunito Sans;
+  font-size: 16px;
+  font-weight: 400;
+  transition: background-color 0.3s ease;
+  margin-top: 20px;
+}
+.add-user-modal button[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+.user-type-select {
+  position: relative;
+}
+
+.user-type-select-button {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: #fff;
+  text-align: left;
+}
+
+.user-type-select-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  max-height: 150px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  border-top: none;
+  border-radius: 0 0 4px 4px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+}
+
+.user-type-select-dropdown div {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.multi-select-container {
+  width: 100%;
+  position: relative;
+  cursor: pointer;
+}
+
+.multi-select-dropdown {
+  position: absolute;
+  top: 46px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: white;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  max-height: 140px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.multi-select-dropdown > label:first-of-type {
+  display: flex;
+  justify-content: space-between;
+}
+
+.submit-error-message {
+  text-align: center;
+  width: 100%;
+}
