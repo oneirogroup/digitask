@@ -1,12 +1,23 @@
-import { Outlet, useLocation } from 'react-router-dom';
-import { useState, useEffect } from 'react';
-import Sidebar from '../../components/Sidebar';
-import Navbar from './Navbar';
+import { useEffect, useState } from "react";
+import { Outlet, useLocation } from "react-router-dom";
+
+import Sidebar from "../../components/Sidebar";
+import Navbar from "./Navbar";
+
 import "./layout.css";
 
 const Layout = () => {
   const location = useLocation();
-  const hideSidebarRoutes = ["/login", "/login/", "/re-password", "/re-password/", "/re-password-code", "/re-password-code/", "/set-new-password", "/set-new-password/"];
+  const hideSidebarRoutes = [
+    "/login",
+    "/login/",
+    "/re-password",
+    "/re-password/",
+    "/re-password-code",
+    "/re-password-code/",
+    "/set-new-password",
+    "/set-new-password/"
+  ];
   const shouldHideSidebar = hideSidebarRoutes.includes(location.pathname);
   const shouldHideNavbar = hideSidebarRoutes.includes(location.pathname);
 
@@ -17,21 +28,22 @@ const Layout = () => {
       setScreenWidth(window.innerWidth);
     };
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
 
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  // Sidebar'ı başlangıçta 650px'in altında kapalı yapıyoruz
+  const [isSidebarOpen, setIsSidebarOpen] = useState(screenWidth >= 650);
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
 
   const toggleSidebar = () => {
     setIsSidebarOpen(prevState => !prevState);
   };
 
-  const handleSidebarToggle = (isExpanded) => {
+  const handleSidebarToggle = isExpanded => {
     setIsSidebarExpanded(isExpanded);
   };
 
@@ -39,16 +51,16 @@ const Layout = () => {
     <div className={shouldHideSidebar ? "layout-no-sidebar" : "layout-with-sidebar"}>
       {!shouldHideNavbar && <Navbar className="navbar" onToggleSidebar={toggleSidebar} />}
       {!shouldHideSidebar && (
-        <>
-          <Sidebar
-            className="sidebar"
-            isSidebarOpen={isSidebarOpen}
-            onClose={() => setIsSidebarOpen(false)}
-            onToggleExpand={handleSidebarToggle}
-          />
-        </>
+        <Sidebar
+          className="sidebar"
+          isSidebarOpen={isSidebarOpen}
+          onClose={() => setIsSidebarOpen(false)}
+          onToggleExpand={handleSidebarToggle}
+        />
       )}
-      <div className={`main-content ${isSidebarOpen?'':'not-marginned'} ${isSidebarOpen && isSidebarExpanded ? 'expanded' : ''}`}>
+      <div
+        className={`main-content ${isSidebarOpen ? "" : "not-marginned"} ${isSidebarOpen && isSidebarExpanded ? "expanded" : ""}`}
+      >
         <Outlet />
       </div>
     </div>

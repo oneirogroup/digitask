@@ -1174,6 +1174,14 @@
   }
 }
 
+@media (min-width: 650px) {
+  .sidebar {
+    display: flex;
+    transform: translateX(0);
+    background-color: white;
+  }
+}
+
 @media screen and (max-width: 650px) {
   /* Home page */
 
@@ -1214,12 +1222,13 @@
 
   /* Sidebar */
 
-  .sidebar {
-    display: none;
+  .burger-icon {
+    display: block;
   }
 
   .sidebar.show {
-    display: flex;
+    display: flex !important;
+    transform: translateX(0);
     background-color: white;
   }
 

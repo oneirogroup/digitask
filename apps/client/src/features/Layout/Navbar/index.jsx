@@ -10,7 +10,7 @@ import NotificationModal from "../../../components/NotificationModal";
 import "./navbar.css";
 
 const Navbar = ({ onToggleSidebar }) => {
-  const [notificationNumber, setnotificationNumber] = useState(null);
+  const [notificationNumber, setNotificationNumber] = useState(null);
   const [notifications, setNotifications] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [profilePicture, setProfilePicture] = useState(null);
@@ -45,7 +45,7 @@ const Navbar = ({ onToggleSidebar }) => {
         }));
 
         setNotifications(decodedMessages);
-        setnotificationNumber(decodedMessages.filter(message => !message.read_by).length);
+        setNotificationNumber(decodedMessages.filter(message => !message.read_by).length);
       };
 
       ws3.onerror = async error => {
@@ -124,7 +124,7 @@ const Navbar = ({ onToggleSidebar }) => {
     setIsModalOpen(true);
 
     markNotificationsAsRead(notifications.filter(notification => notification.id).map(notification => notification.id));
-    setnotificationNumber("0");
+    setNotificationNumber("0");
   };
 
   const handleCloseModal = () => {
@@ -150,31 +150,34 @@ const Navbar = ({ onToggleSidebar }) => {
   }, []);
 
   return (
-    <>
-      <div className="navbar-icons">
-        <Link reloadDocument to="/chat/" style={getLinkStyle("/chat/")}>
-          <BsChatTextFill />
-        </Link>
-        <div
-          onClick={handleNotificationClick}
-          style={getLinkStyle("/notifications/")}
-          className="notification-icon-div"
-        >
-          <IoNotifications />
-          <span>{notificationNumber}</span>
-        </div>
-        <Link to="/profile/" style={getLinkStyle("/profile/")}>
-          {profilePicture ? (
-            <img src={profilePicture} alt="Profile" className="profile-picture" />
-          ) : (
-            <div className="profile-placeholder">
-              <MdPerson />
-            </div>
-          )}
-        </Link>
+    <div className="navbar-icons">
+      <MdMenu className="burger-icon" onClick={onToggleSidebar} />
+
+      {/* Chat icon */}
+      <Link reloadDocument to="/chat/" style={getLinkStyle("/chat/")}>
+        <BsChatTextFill />
+      </Link>
+
+      {/* Notifications icon */}
+      <div onClick={handleNotificationClick} style={getLinkStyle("/notifications/")} className="notification-icon-div">
+        <IoNotifications />
+        <span>{notificationNumber}</span>
       </div>
+
+      {/* Profile icon */}
+      <Link to="/profile/" style={getLinkStyle("/profile/")}>
+        {profilePicture ? (
+          <img src={profilePicture} alt="Profile" className="profile-picture" />
+        ) : (
+          <div className="profile-placeholder">
+            <MdPerson />
+          </div>
+        )}
+      </Link>
+
+      {/* Notification Modal */}
       <NotificationModal notifications={notifications} isOpen={isModalOpen} onClose={handleCloseModal} />
-    </>
+    </div>
   );
 };
 
