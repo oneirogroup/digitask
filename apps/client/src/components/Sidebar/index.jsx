@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { FaWarehouse } from "react-icons/fa";
 import { GoHomeFill } from "react-icons/go";
 import { MdLogout, MdMenu } from "react-icons/md";
+import { MdClose } from "react-icons/md";
 import { TiArrowLeftThick, TiArrowRightThick } from "react-icons/ti";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useLocation } from "react-router-dom";
@@ -101,7 +102,7 @@ const Sidebar = ({ children, isSidebarOpen, onClose, onToggleExpand }) => {
   return (
     <>
       <div
-        className={`sidebar ${isLoginPage ? "hidden" : ""}${isSidebarOpen ? "show" : ""} ${isExpanded ? "expanded" : ""}`}
+        className={`sidebar ${isLoginPage ? "hidden" : ""} ${isSidebarOpen ? "show" : ""} ${isExpanded ? "expanded" : ""}`}
         ref={sidebarRef}
       >
         <button
@@ -118,8 +119,8 @@ const Sidebar = ({ children, isSidebarOpen, onClose, onToggleExpand }) => {
             style={{ width: isExpanded ? "10vh" : "5vh", transition: "height 0.3s ease" }}
           />
 
-          <button className="sidebar-close-btn" onClick={onClose}>
-            ×
+          <button className={isExpanded ? "sidebar-close-btn" : "sidebar-close-btn-exit"} onClick={onClose}>
+            <MdClose />
           </button>
         </div>
 

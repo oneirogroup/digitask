@@ -83,7 +83,7 @@ body {
   text-align: center;
   padding: 20px;
 }
-@media (min-width: 769px) {
+@media (min-width: 650px) {
   .main-content.expanded {
     margin-left: 190px !important;
   }
