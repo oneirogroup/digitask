@@ -5,6 +5,9 @@
     "apps/*",
     "libs/*"
   ],
+  "resolutions": {
+    "@mdreal/ui-kit": "C:/Projects/oneiro/ui-kit"
+  },
   "devDependencies": {
     "@mdreal/ui-kit": "^0.0.0-dev.51",
     "@prettier/plugin-xml": "^3.4.1",

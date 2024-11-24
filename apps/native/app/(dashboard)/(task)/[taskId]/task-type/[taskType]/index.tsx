@@ -1,5 +1,5 @@
 import { Image } from "expo-image";
-import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
+import { useFocusEffect, useLocalSearchParams, useRouter } from "expo-router";
 import { useRef, useState } from "react";
 import { Pressable, Text, View } from "react-native";
 import { useRecoilValue } from "recoil";
@@ -18,8 +18,8 @@ const translation = {
 };
 
 export default function SpecificTask() {
+  const router = useRouter();
   const typeModalRef = useRef<ModalRef>(null);
-  const [modalType, setModalType] = useState<"attachment" | "product" | null>(null);
 
   const { taskId, taskType } = useLocalSearchParams() as { taskId: string; taskType: "connection" | "problem" };
   const tasks = useRecoilValue(tasksAtom(taskType));
@@ -34,7 +34,7 @@ export default function SpecificTask() {
   if (!currentTask) {
     return (
       <Block>
-        <Text>Task not found</Text>
+        <Text>Tapşırıq tapılmadı</Text>
       </Block>
     );
   }
@@ -43,16 +43,14 @@ export default function SpecificTask() {
   const endDate = DateService.from(`${currentTask.date} ${currentTask.end_time}`);
 
   const services = [
-    currentTask.has_tv ? { ...currentTask.tv, type: "tv" } : null,
-    currentTask.has_voice ? { ...currentTask.voice, type: "voice" } : null,
-    currentTask.has_internet ? { ...currentTask.internet, type: "internet" } : null
+    currentTask.tv ? { ...currentTask.tv, type: "tv" } : null,
+    currentTask.voice ? { ...currentTask.voice, type: "voice" } : null,
+    currentTask.internet ? { ...currentTask.internet, type: "internet" } : null
   ].filter(Boolean) as (Backend.Tv | Backend.Internet | Backend.Voice)[];
 
   const redirectTo = (type: "tv" | "voice" | "internet") => {
     return () => {
-      const pathname = modalType === "attachment" ? "/[taskId]/task-type/[taskType]/type/[type]" : "/[taskId]/products";
-
-      router.push({ pathname, params: { taskId, taskType, type } });
+      router.push({ pathname: "/[taskId]/task-type/[taskType]/type/[type]", params: { taskId, taskType, type } });
     };
   };
 
@@ -157,10 +155,7 @@ export default function SpecificTask() {
       <When condition={!currentTask.has_tv || !currentTask.has_internet || !currentTask.has_voice}>
         <BlockContainer>
           <Pressable
-            onPress={() => {
-              setModalType("attachment");
-              typeModalRef.current?.open();
-            }}
+            onPress={() => typeModalRef.current?.open()}
             className="flex flex-row items-center justify-between p-2"
           >
             <Text>Yeni Qosulma</Text>
@@ -174,10 +169,7 @@ export default function SpecificTask() {
       <When condition={currentTask.has_tv || currentTask.has_internet || currentTask.has_voice}>
         <BlockContainer>
           <Pressable
-            onPress={() => {
-              setModalType("product");
-              typeModalRef.current?.open();
-            }}
+            onPress={() => router.push({ pathname: "/[taskId]/products", params: { taskId } })}
             className="flex flex-row items-center justify-between p-2"
           >
             <Text>Məhsul əlavə et</Text>
@@ -196,19 +188,19 @@ export default function SpecificTask() {
           </View>
 
           <View className="flex flex-row gap-4">
-            <When condition={modalType !== "attachment" || !currentTask.has_tv}>
+            <When condition={!currentTask.has_tv}>
               <Button variant="secondary" className="border-secondary flex-1" onClick={redirectTo("tv")}>
                 <Text className="text-center">Tv</Text>
               </Button>
             </When>
 
-            <When condition={modalType !== "attachment" || !currentTask.has_internet}>
+            <When condition={!currentTask.has_internet}>
               <Button variant="secondary" className="border-secondary flex-1" onClick={redirectTo("internet")}>
                 <Text className="text-center">İnternet</Text>
               </Button>
             </When>
 
-            <When condition={modalType !== "attachment" || !currentTask.has_voice}>
+            <When condition={!currentTask.has_voice}>
               <Button variant="secondary" className="border-secondary flex-1" onClick={redirectTo("voice")}>
                 <Text className="text-center">Səs</Text>
               </Button>

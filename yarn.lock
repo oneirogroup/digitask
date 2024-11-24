@@ -2974,9 +2974,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mdreal/ui-kit@npm:^0.0.0-dev.16, @mdreal/ui-kit@npm:^0.0.0-dev.51":
+"@mdreal/ui-kit@file:C:/Projects/oneiro/ui-kit::locator=%40oneiro%2Fdigitask%40workspace%3A.":
   version: 0.0.0-dev.51
-  resolution: "@mdreal/ui-kit@npm:0.0.0-dev.51"
+  resolution: "@mdreal/ui-kit@file:/C%3A/Projects/oneiro/ui-kit#/C%3A/Projects/oneiro/ui-kit::hash=b013e3&locator=%40oneiro%2Fdigitask%40workspace%3A."
   dependencies:
     "@hookform/resolvers": "npm:^3.9.1"
     axios: "npm:^1.7.7"
@@ -2994,7 +2994,7 @@ __metadata:
     react-native: "*"
     react-native-reanimated: "*"
     react-native-svg: "*"
-  checksum: 10c0/dbe3893bf7dece5ed37430c7aac68857e6db71c58d4a0127f67d46e1df5e0cea19d8b52a6227c391a9ed7e1d72d6e0970c8a9ce4ecc2f5b95d64d872c19b8055
+  checksum: 10c0/d9b805b00deff1fc77183fb85351ad97adb93da913454f87bcc30002ac1e70c00461587eca9a1b8abfaad11d687dc27f7961f3858ab1458cd7c75be29244adfb
   languageName: node
   linkType: hard
 
