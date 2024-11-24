@@ -10,7 +10,6 @@
     }
   },
   "main": "./build/shared-lib.js",
-  "module": "./build/shared-lib.js",
   "types": "./build/index.d.ts",
   "scripts": {
     "build": "vite build"

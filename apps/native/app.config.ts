@@ -1,13 +1,16 @@
 import { ExpoConfig } from "expo/config";
 import "ts-node/register";
 
+import { version } from "./package.json";
+
 export default {
   name: "DigiTask",
   slug: "digitask",
   scheme: "digitask",
   owner: "oneirogroup",
-  version: "1.0.0",
+  version,
   orientation: "portrait",
+  icon: "./assets/images/logo.png",
   userInterfaceStyle: "automatic",
   newArchEnabled: true,
   splash: {
@@ -15,19 +18,11 @@ export default {
     resizeMode: "contain",
     backgroundColor: "#ffffff"
   },
-  updates: {
-    url: "https://u.expo.dev/19a90db8-9dbf-4462-82b1-20715313aebb"
-  },
-  runtimeVersion: "1.0.0",
   android: {
-    package: "com.oneirogroup.digitask",
-    adaptiveIcon: {
-      backgroundColor: "#ffffff"
-    }
+    package: "com.oneirogroup.digitask"
   },
   ios: {
-    supportsTablet: true,
-    bundleIdentifier: "com.oneirogroup.digitask"
+    supportsTablet: true
   },
   plugins: [
     "expo-router",

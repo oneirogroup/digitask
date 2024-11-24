@@ -1,7 +1,7 @@
-// Learn more https://docs.expo.io/guides/customizing-metro
 const { getDefaultConfig } = require("expo/metro-config");
 const { resolve } = require("node:path");
 const { withNativeWind } = require("nativewind/metro");
+
 const workspaceRoot = resolve(__dirname, "../..");
 const projectRoot = __dirname;
 
