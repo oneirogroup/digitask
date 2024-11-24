@@ -13,12 +13,6 @@ import { env } from "../env-schema";
 
 onlineManager.setEventListener(setOnline => NetInfo.addEventListener(state => setOnline(!!state.isConnected)));
 
-const onAppStateChange = (status: AppStateStatus) => {
-  if (Platform.OS !== "web") {
-    focusManager.setFocused(status === "active");
-  }
-};
-
 const authHttpSettings = AuthHttp.settings();
 
 authHttpSettings
@@ -30,10 +24,17 @@ authHttpSettings
   .then(authHttpSettings.retrieveTokens());
 
 export const useHelper = () => {
-  useReactQueryDevTools(queryClient);
-  useAsyncStorageDevTools();
+  if (__DEV__) {
+    useReactQueryDevTools(queryClient);
+    useAsyncStorageDevTools();
+  }
 
   useEffect(() => {
+    const onAppStateChange = (status: AppStateStatus) => {
+      try {
+        focusManager.setFocused(status === "active");
+      } catch {}
+    };
     const subscription = AppState.addEventListener("change", onAppStateChange);
     return () => subscription.remove();
   }, []);

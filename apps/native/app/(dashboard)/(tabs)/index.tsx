@@ -2,18 +2,32 @@ import { router } from "expo-router";
 import { Pressable, Text } from "react-native";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 
-import { DateService, Task, TaskStatuses, getTags, tasksAtom, tasksFilterSelector } from "@digitask/shared-lib";
+import {
+  DateService,
+  Task,
+  TaskStatuses,
+  getTags,
+  tasksAtom,
+  tasksFilterSelector,
+  useRecoilArrayControls
+} from "@digitask/shared-lib";
 import { Block, Icon, If } from "@mdreal/ui-kit";
 
 import { palette } from "../../../../../palette";
 import { BlockContainer, BlockSection } from "../../../components/blocks";
 import { Event } from "../../../components/event";
+import { TaskType } from "../../../types/task-type";
 
 export default function Index() {
-  const setTask = useSetRecoilState(tasksAtom("connection"));
-  const setFilter = useSetRecoilState(tasksFilterSelector("connection"));
-  const tasks = useRecoilValue(tasksAtom("connection"));
-  const task = tasks?.find(task => task.status === TaskStatuses.InProgress);
+  const connectionTasks = useRecoilValue(tasksAtom(TaskType.Connection));
+  const problemTasks = useRecoilValue(tasksAtom(TaskType.Problem));
+  const connectionTask = connectionTasks?.find(task => task.status === TaskStatuses.InProgress);
+
+  const finishedConnectionTasks = connectionTasks.filter(task => task.status === TaskStatuses.Completed);
+  const finishedProblemTasks = problemTasks.filter(task => task.status === TaskStatuses.Completed);
+
+  const controls = useRecoilArrayControls(tasksAtom(TaskType.Connection));
+  const setFilter = useSetRecoilState(tasksFilterSelector(TaskType.Connection));
 
   const date = DateService.from();
   const formattedDate = date.format("DD MMM");
@@ -28,10 +42,13 @@ export default function Index() {
             <Icon
               name="circle"
               variables={{
-                percentage: Math.round((12 / (12 + 20)) * 100),
+                percentage: Math.round(
+                  (finishedConnectionTasks.length / (finishedConnectionTasks.length + finishedProblemTasks.length)) *
+                    100
+                ),
                 fillFgColor: palette.secondary["80"],
                 fillBgColor: palette.primary["50"],
-                text: "32 task",
+                text: `${finishedConnectionTasks.length + finishedProblemTasks.length} task`,
                 subtext: "tamamlandı",
                 textColor: "black"
               }}
@@ -41,12 +58,14 @@ export default function Index() {
           <Block className="flex flex-row justify-center gap-4">
             <Text>
               <Text>Qoşulmalar</Text>
-              <Text>12</Text>
+              <Text> </Text>
+              <Text>{finishedConnectionTasks.length},</Text>
             </Text>
 
             <Text>
               <Text>Problemlər</Text>
-              <Text>20</Text>
+              <Text> </Text>
+              <Text>{finishedProblemTasks.length}</Text>
             </Text>
           </Block>
         </BlockContainer>
@@ -56,23 +75,21 @@ export default function Index() {
           onClick={() => setFilter({ status: TaskStatuses.InProgress })}
           href="/task"
         >
-          <If condition={!!task}>
+          <If condition={!!connectionTask}>
             <If.Then>
               <BlockContainer>
                 <Pressable
                   onPress={() =>
                     router.push({
                       pathname: "/[taskId]/task-type/[taskType]",
-                      params: { taskId: task!.id, taskType: "connection" }
+                      params: { taskId: connectionTask!.id, taskType: TaskType.Connection }
                     })
                   }
                 >
                   <Task
-                    task={task!}
-                    tags={getTags(task)}
-                    updateTask={task => {
-                      setTask(tasks => tasks.map(t => (t.id === task.id ? { ...t, ...task } : t)));
-                    }}
+                    task={connectionTask!}
+                    tags={getTags(connectionTask)}
+                    updateTask={task => controls.update(task.id, task)}
                   />
                 </Pressable>
               </BlockContainer>

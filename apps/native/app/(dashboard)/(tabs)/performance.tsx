@@ -28,13 +28,13 @@ export default function Performance() {
         <Table stickyHeader>
           <Table.Header className="bg-primary rounded-t-2xl px-4 py-3">
             <Table.Header.Cell name="name">
-              <Text className="text-center text-white">Name</Text>
+              <Text className="text-center text-white">Ad</Text>
             </Table.Header.Cell>
             <Table.Header.Cell name="group">
-              <Text className="text-center text-white">Group</Text>
+              <Text className="text-center text-white">Qrup</Text>
             </Table.Header.Cell>
             <Table.Header.Cell name="tasks">
-              <Text className="text-center text-white">Tasks</Text>
+              <Text className="text-center text-white">Tapşırıqlar</Text>
             </Table.Header.Cell>
           </Table.Header>
 

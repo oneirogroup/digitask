@@ -1,5 +1,5 @@
 import { Image } from "expo-image";
-import { router, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import { useEffect } from "react";
 import { Text, View } from "react-native";
 
@@ -20,7 +20,7 @@ export default function Index() {
 
   useEffect(() => {
     if (isSuccess) {
-      setTimeout(router.replace, 0, "/");
+      setTimeout(router.replace, 0, "/(dashboard)");
     }
   }, [isSuccess]);
 

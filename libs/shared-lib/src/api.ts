@@ -37,8 +37,8 @@ export const api = {
       }
     },
     tasks: {
-      get $get() {
-        return authHttp.get<Backend.Task[]>("/services/tasks");
+      $get(taskType: "connection" | "problem") {
+        return authHttp.get<Backend.Task[]>(`/services/status/?task_type=${taskType}`);
       },
       $post({
         type,
