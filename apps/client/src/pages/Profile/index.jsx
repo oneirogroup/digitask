@@ -88,7 +88,7 @@ const Profile = () => {
       const { profil_picture, ...profileWithoutPhoto } = profileData;
       await axios.put("http://37.61.77.5/accounts/profile_update/", {
         ...profileWithoutPhoto,
-        group: profileData.group,
+        group: profileData.group?.id,
         groupName: profileData.groupName,
         groupData: profileData.groupData
       });
