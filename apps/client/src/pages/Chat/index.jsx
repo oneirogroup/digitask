@@ -39,7 +39,7 @@ const Chat = () => {
 
       const email = localStorage.getItem("saved_email");
 
-      wsChat.current = new WebSocket(`ws://135.181.42.192/chat/?email=${email}&token=${token}`);
+      wsChat.current = new WebSocket(`ws://37.61.77.5/chat/?email=${email}&token=${token}`);
 
       wsChat.current.onopen = () => {
         console.log("WebSocketChat connection established.");
@@ -154,7 +154,7 @@ const Chat = () => {
         throw new Error("Access token is not available");
       }
 
-      const response = await fetch("http://135.181.42.192/accounts/RoomsApiView/", {
+      const response = await fetch("http://37.61.77.5/accounts/RoomsApiView/", {
         headers: {
           "Authorization": `Bearer ${accessToken}`,
           "Content-Type": "application/json"
@@ -213,7 +213,7 @@ const Chat = () => {
         params.append("page", page);
       }
 
-      const response = await fetch(`http://135.181.42.192/accounts/messages/?${params.toString()}`, {
+      const response = await fetch(`http://37.61.77.5/accounts/messages/?${params.toString()}`, {
         headers: {
           "Authorization": `Bearer ${accessToken}`,
           "Content-Type": "application/json"

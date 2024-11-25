@@ -30,7 +30,7 @@ const Navbar = ({ onToggleSidebar }) => {
       }
 
       const email = localStorage.getItem("saved_email");
-      ws3 = new WebSocket(`ws://135.181.42.192/notification/?email=${email}&token=${token}`);
+      ws3 = new WebSocket(`ws://37.61.77.5/notification/?email=${email}&token=${token}`);
 
       ws3.onopen = () => {
         console.log("WebSocket connection established.");
@@ -92,7 +92,7 @@ const Navbar = ({ onToggleSidebar }) => {
         throw new Error("Access token not found");
       }
 
-      const apiEndpoint = "http://135.181.42.192/accounts/notifications/mark-as-read/";
+      const apiEndpoint = "http://37.61.77.5/accounts/notifications/mark-as-read/";
 
       const payload = {
         notification_ids: notificationIds
@@ -135,7 +135,7 @@ const Navbar = ({ onToggleSidebar }) => {
     const fetchProfilePicture = async () => {
       try {
         const accessToken = localStorage.getItem("access_token");
-        const response = await axios.get("http://135.181.42.192/accounts/profile/", {
+        const response = await axios.get("http://37.61.77.5/accounts/profile/", {
           headers: {
             Authorization: `Bearer ${accessToken}`
           }

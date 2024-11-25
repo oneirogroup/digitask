@@ -145,7 +145,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
     const fetchTaskData = async e => {
       if (taskId) {
         try {
-          const response = await fetch(`http://135.181.42.192/services/task/${taskId}/`);
+          const response = await fetch(`http://37.61.77.5/services/task/${taskId}/`);
           if (!response.ok) {
             if (response.status === 403) {
               await refreshAccessToken();
@@ -188,7 +188,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
 
     const fetchWarehouseItems = async () => {
       try {
-        const response = await fetch("http://135.181.42.192/warehouse/warehouse-items/");
+        const response = await fetch("http://37.61.77.5/warehouse/warehouse-items/");
         if (!response.ok) {
           if (response.status == 403) {
             await refreshAccessToken();
@@ -209,7 +209,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
 
     const fetchGroups = async () => {
       try {
-        const response = await fetch("http://135.181.42.192/services/groups/");
+        const response = await fetch("http://37.61.77.5/services/groups/");
         if (!response.ok) {
           if (response.status == 403) {
             await refreshAccessToken();
@@ -425,7 +425,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
       const imageFormData = new FormData();
       imageFormData.append("passport", imageFile);
 
-      fetch(`http://135.181.42.192/services/update_task_image/${taskId}/`, {
+      fetch(`http://37.61.77.5/services/update_task_image/${taskId}/`, {
         method: "PATCH",
         body: imageFormData
       })
@@ -452,7 +452,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
         });
     }
 
-    fetch(`http://135.181.42.192/services/update_task/${taskId}/`, {
+    fetch(`http://37.61.77.5/services/update_task/${taskId}/`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -631,7 +631,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
   };
 
   const deleteTaskItem = taskItemId => {
-    fetch(`http://135.181.42.192/services/warehouse/warehouse_change/${taskItemId}/`, {
+    fetch(`http://37.61.77.5/services/warehouse/warehouse_change/${taskItemId}/`, {
       method: "DELETE"
     })
       .then(response => {

@@ -38,7 +38,7 @@ const AddSurveyModal = ({ onClose, selectedServices, taskId, onSurveyAdded }) =>
   useEffect(() => {
     const fetchExistingSurveys = async () => {
       try {
-        const response = await axios.get(`http://135.181.42.192/services/task/${taskId}/`);
+        const response = await axios.get(`http://37.61.77.5/services/task/${taskId}/`);
         const data = response.data;
         setExistingSurveys({
           tv: data.tv || false,
@@ -105,7 +105,7 @@ const AddSurveyModal = ({ onClose, selectedServices, taskId, onSurveyAdded }) =>
           return;
         }
 
-        const url = `http://135.181.42.192/services/create_${serviceType}/`;
+        const url = `http://37.61.77.5/services/create_${serviceType}/`;
 
         const formData = new FormData();
         formData.append("task", taskId);

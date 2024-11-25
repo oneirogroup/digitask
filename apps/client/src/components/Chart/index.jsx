@@ -86,7 +86,7 @@ const ApexChart = () => {
   const fetchData = async (year, isRetry = false) => {
     try {
       const token = localStorage.getItem("access_token");
-      const response = await axios.get("http://135.181.42.192/services/mainpage/", {
+      const response = await axios.get("http://37.61.77.5/services/mainpage/", {
         headers: {
           Authorization: `Bearer ${token}`
         }

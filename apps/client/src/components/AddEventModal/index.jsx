@@ -42,7 +42,7 @@ const AddEventModal = ({ isOpen, onClose, refreshMeetings }) => {
     if (isOpen) {
       const fetchParticipants = async () => {
         try {
-          const response = await axios.get("http://135.181.42.192/accounts/users/", {
+          const response = await axios.get("http://37.61.77.5/accounts/users/", {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("access_token")}`
             }
@@ -131,7 +131,7 @@ const AddEventModal = ({ isOpen, onClose, refreshMeetings }) => {
     };
 
     try {
-      const response = await axios.post("http://135.181.42.192/services/create_meeting/", eventData, {
+      const response = await axios.post("http://37.61.77.5/services/create_meeting/", eventData, {
         headers: {
           "Content-Type": "application/json",
           "Authorization": `Bearer ${localStorage.getItem("access_token")}`

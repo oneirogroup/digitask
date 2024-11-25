@@ -19,7 +19,7 @@ const AddRoomModal = ({ onClose }) => {
   useEffect(() => {
     const fetchMembers = async (isRetry = false) => {
       try {
-        const response = await axios.get("http://135.181.42.192/accounts/users/");
+        const response = await axios.get("http://37.61.77.5/accounts/users/");
         setMemberOptions(response.data);
       } catch (error) {
         if (error.response && error.response.status === 403 && !isRetry) {
@@ -81,7 +81,7 @@ const AddRoomModal = ({ onClose }) => {
     try {
       const token = localStorage.getItem("access_token");
       const response = await axios.post(
-        "http://135.181.42.192/accounts/add_group/",
+        "http://37.61.77.5/accounts/add_group/",
         {
           name: name,
           members: members

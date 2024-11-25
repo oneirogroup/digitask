@@ -19,7 +19,7 @@ const PasswordResetRequest = () => {
   const handleSubmit = async event => {
     event.preventDefault();
     try {
-      const response = await axios.post("http://135.181.42.192/accounts/password-reset/", { email });
+      const response = await axios.post("http://37.61.77.5/accounts/password-reset/", { email });
       const { email: responseEmail } = response.data;
       navigate("/re-password-code", { state: { email: responseEmail } });
     } catch (error) {

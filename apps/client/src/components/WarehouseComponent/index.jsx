@@ -57,7 +57,7 @@ function Warehouse() {
 
   const fetchWarehouses = async (isRetry = false) => {
     try {
-      const response = await fetch("http://135.181.42.192/warehouse/warehouses/");
+      const response = await fetch("http://37.61.77.5/warehouse/warehouses/");
       if (!response.ok) {
         if (response.status === 403 && !isRetry) {
           await refreshAccessToken();
@@ -84,7 +84,7 @@ function Warehouse() {
   };
 
   const fetchData = () => {
-    let url = "http://135.181.42.192/warehouse/warehouse-items/";
+    let url = "http://37.61.77.5/warehouse/warehouse-items/";
     const params = [];
 
     if (searchTerm) {

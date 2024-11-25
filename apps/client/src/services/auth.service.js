@@ -1,7 +1,8 @@
 import axios from "axios";
 
-const API_URL = "http://135.181.42.192/accounts/";
 import axiosInstance from "../actions/axiosInstance";
+
+const API_URL = "http://37.61.77.5/accounts/";
 
 // const register = (username, email, password) => {
 //   return axios.post(API_URL + "register", {
@@ -11,13 +12,11 @@ import axiosInstance from "../actions/axiosInstance";
 //   });
 // };
 
-const refreshAccessToken = (refresh_token) => {
-  return axios
-    .post(API_URL + "token/refresh/", { refresh: refresh_token })
-    .then((response) => response.data);
+const refreshAccessToken = refresh_token => {
+  return axios.post(API_URL + "token/refresh/", { refresh: refresh_token }).then(response => response.data);
 };
 
-const scheduleTokenRefresh = (refresh_token) => {
+const scheduleTokenRefresh = refresh_token => {
   const tokenPayload = JSON.parse(atob(refresh_token.split(".")[1]));
   const expiryTime = tokenPayload.exp * 1000 - Date.now();
 
@@ -25,11 +24,11 @@ const scheduleTokenRefresh = (refresh_token) => {
 
   setTimeout(() => {
     refreshAccessToken(refresh_token)
-      .then((newTokens) => {
+      .then(newTokens => {
         localStorage.setItem("access_token", newTokens.access_token);
         scheduleTokenRefresh(newTokens.refresh_token);
       })
-      .catch((error) => {
+      .catch(error => {
         console.error("Token refresh failed", error);
         logout();
       });
@@ -40,9 +39,9 @@ const login = (email, password) => {
   return axiosInstance
     .post(API_URL + "login/", {
       email,
-      password,
+      password
     })
-    .then((response) => {
+    .then(response => {
       if (response.data.access_token && response.data.refresh_token) {
         localStorage.setItem("access_token", response.data.access_token);
         localStorage.setItem("refresh_token", response.data.refresh_token);
@@ -60,5 +59,5 @@ const logout = () => {
 export default {
   // register,
   login,
-  logout,
+  logout
 };

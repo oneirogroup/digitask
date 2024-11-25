@@ -18,7 +18,7 @@ RUN apk update && apk add \
 ENV ANDROID_HOME=/opt/android-sdk
 ENV PATH=$ANDROID_HOME/cmdline-tools/bin:$ANDROID_HOME/platform-tools:$PATH
 ENV EXPO_TOKEN=9SqMi8pfY2CiWGx4KFn2OafqJrvIX6dgV4COOoMY
-ENV EXPO_PUBLIC_API_URL=http://135.181.42.192
+ENV EXPO_PUBLIC_API_URL=http://37.61.77.5
 
 RUN yes | sdkmanager --licenses --sdk_root=$ANDROID_HOME
 WORKDIR /app/apps/native

@@ -14,7 +14,7 @@ const MeetingDetailModal = ({ isOpen, onClose, meetingId }) => {
     if (isOpen && meetingId) {
       const fetchMeetingDetails = async () => {
         try {
-          const response = await axios.get(`http://135.181.42.192/services/meeting/${meetingId}/`);
+          const response = await axios.get(`http://37.61.77.5/services/meeting/${meetingId}/`);
           setMeeting(response.data);
         } catch (error) {
           if (error.status == 403) {

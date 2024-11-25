@@ -11,12 +11,12 @@ export const useWebsocketInit = () => {
 
   useWebsocket<Backend.Message>(
     fields.chat.toString(),
-    `ws://135.181.42.192/chat/?email=${profileData?.email}&token=${signInData?.access_token}`,
+    `ws://37.61.77.5/chat/?email=${profileData?.email}&token=${signInData?.access_token}`,
     {
       onConnect() {
         logger.debug(
           "digitask.native:hooks:use-websocket-init",
-          `ws://135.181.42.192/chat/?email=${profileData?.email}&token=${signInData?.access_token}`
+          `ws://37.61.77.5/chat/?email=${profileData?.email}&token=${signInData?.access_token}`
         );
       },
       onError(error) {

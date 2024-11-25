@@ -117,7 +117,7 @@ function Index() {
       const taskTypeParam = taskFilter !== "all" ? `&task_type=${taskFilter}` : "";
       const statusParam = statusFilter !== "Hamısı" ? `&status=${statusMap[statusFilter]}` : "";
 
-      const url = `http://135.181.42.192/services/status/?${taskTypeParam}${monthQueryParam}${statusParam}`;
+      const url = `http://37.61.77.5/services/status/?${taskTypeParam}${monthQueryParam}${statusParam}`;
 
       const response = await fetch(url, {
         method: "GET",
@@ -243,7 +243,7 @@ function Index() {
   const deleteTask = async taskId => {
     try {
       const token = localStorage.getItem("access_token");
-      await fetch(`http://135.181.42.192/services/task/${taskId}/delete/`, {
+      await fetch(`http://37.61.77.5/services/task/${taskId}/delete/`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`
@@ -263,7 +263,7 @@ function Index() {
   const handleStatusUpdate = async (taskId, newStatus) => {
     try {
       const token = localStorage.getItem("access_token");
-      const response = await fetch(`http://135.181.42.192/services/task/${taskId}/update/`, {
+      const response = await fetch(`http://37.61.77.5/services/task/${taskId}/update/`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -277,7 +277,7 @@ function Index() {
       }
       setFilteredData(prevData => prevData.map(task => (task.id === taskId ? { ...task, status: newStatus } : task)));
 
-      const updatedTaskResponse = await fetch(`http://135.181.42.192/services/task/${taskId}/`);
+      const updatedTaskResponse = await fetch(`http://37.61.77.5/services/task/${taskId}/`);
       const updatedTaskData = await updatedTaskResponse.json();
 
       setFilteredData(prevData =>

@@ -50,7 +50,7 @@ function UpdateInternetModal({ onClose, serviceId, serviceData, onServiceUpdate 
       data.append("photo_modem", formData.photo_modem);
     }
 
-    fetch(`http://135.181.42.192/services/update_internet/${serviceId}/`, {
+    fetch(`http://37.61.77.5/services/update_internet/${serviceId}/`, {
       method: "PATCH",
       body: data
     })

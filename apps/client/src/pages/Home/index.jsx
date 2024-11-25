@@ -31,7 +31,7 @@ const Home = () => {
     try {
       const token = localStorage.getItem("access_token");
 
-      const responseMainPage = await axios.get("http://135.181.42.192/services/mainpage/", {
+      const responseMainPage = await axios.get("http://37.61.77.5/services/mainpage/", {
         headers: { Authorization: `Bearer ${token}` }
       });
       setMeetings(responseMainPage.data.meetings || []);
@@ -53,7 +53,7 @@ const Home = () => {
       }));
       setTasks(mappedTasks);
 
-      const responsePerformance = await axios.get("http://135.181.42.192/services/performance/", {
+      const responsePerformance = await axios.get("http://37.61.77.5/services/performance/", {
         headers: { Authorization: `Bearer ${token}` }
       });
       setPerformanceData(responsePerformance.data);

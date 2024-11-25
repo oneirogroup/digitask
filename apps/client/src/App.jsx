@@ -19,7 +19,7 @@ const App = () => {
       return;
     }
     const email = localStorage.getItem('saved_email');
-    ws = new WebSocket(`ws://135.181.42.192/ws/?email=${email}&token=${token}`);
+    ws = new WebSocket(`ws://37.61.77.5/ws/?email=${email}&token=${token}`);
 
     // WebSocket event listeners
     ws.onopen = () => {
