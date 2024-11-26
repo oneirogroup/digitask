@@ -1,4 +1,7 @@
+#!/bin/bash
+
 mode=${1:-release}
+echo "Building app in ${mode} mode"
 gradle_mode="$(tr '[:lower:]' '[:upper:]' <<< ${mode:0:1})${mode:1}"
 
 if [[ "$mode" != "debug" && "$mode" != "release" ]]; then
@@ -6,7 +9,7 @@ if [[ "$mode" != "debug" && "$mode" != "release" ]]; then
   exit 1
 fi
 
-yarn expo prebuild -p android
+yarn expo prebuild -p android || (yarn && yarn expo prebuild -p android) || exit 1
 
 pushd ./android
 ./gradlew build assemble${gradle_mode} || exit 1
