@@ -213,3 +213,8 @@
 .sidebar-close-btn-exit {
   display: none;
 }
+@media (min-width: 1024px) {
+  .sidebar-close-btn {
+    display: none;
+  }
+}
