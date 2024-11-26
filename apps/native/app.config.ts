@@ -13,6 +13,7 @@ export default {
   icon: "./assets/images/logo.png",
   userInterfaceStyle: "automatic",
   newArchEnabled: true,
+  runtimeVersion: version,
   splash: {
     image: "./assets/images/logo.png",
     resizeMode: "contain",

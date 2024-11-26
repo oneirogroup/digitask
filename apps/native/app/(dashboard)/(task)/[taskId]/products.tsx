@@ -22,7 +22,14 @@ export default function ListAddedSpecificTaskProducts() {
 
   const handleUploadProducts = async () => {
     await bulkUploadProducts.mutateAsync(
-      products.map(product => ({ task: product.task, count: +product.count, item: product.item!.id }))
+      products.map(product => ({
+        task: product.task,
+        count: +product.count,
+        item: product.item!.id,
+        is_tv: product.type === "tv",
+        is_internet: product.type === "internet",
+        is_voice: product.type === "voice"
+      }))
     );
     router.back();
   };
