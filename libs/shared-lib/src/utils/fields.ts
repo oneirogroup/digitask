@@ -31,7 +31,8 @@ export const fields = eck("digitask.native", c => ({
     })),
     filtered: c`filtered`,
     create: c`create`,
-    type: c`type`
+    type: c`type`,
+    products: c`products`
   })),
   performance: c`performance`,
   rangeDate: c`rangeDate`,

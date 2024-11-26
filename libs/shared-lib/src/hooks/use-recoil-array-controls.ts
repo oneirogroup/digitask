@@ -1,21 +1,30 @@
-import { type RecoilState, useSetRecoilState } from "recoil";
+import { type RecoilState, useRecoilState } from "recoil";
 
-export const useRecoilArrayControls = <T extends { id: string | number }>(atom: RecoilState<T[]>) => {
-  const setState = useSetRecoilState(atom);
+export const useRecoilArrayControls = <TData extends { id: string | number }>(atom: RecoilState<TData[]>) => {
+  const [state, setState] = useRecoilState(atom);
 
   return {
-    add(item: T) {
+    add(item: TData) {
       setState(prevArray => [...prevArray, item]);
     },
-    update(id: T["id"], item: T) {
+    addMany(items: TData[]) {
+      setState(prevArray => [...prevArray, ...items]);
+    },
+    get(id: TData["id"]) {
+      return state.find(item => item.id === id);
+    },
+    getMany(...ids: TData["id"][]) {
+      return state.filter(item => ids.includes(item.id));
+    },
+    update(id: TData["id"], item: TData) {
       setState(prevArray =>
         prevArray.map(existingItem => (existingItem.id === id ? { ...existingItem, ...item } : existingItem))
       );
     },
-    removeById(id: T["id"]) {
+    removeById(id: TData["id"]) {
       setState(prevArray => prevArray.filter(existingItem => existingItem.id !== id));
     },
-    removeItem(item: T) {
+    removeItem(item: TData) {
       setState(prevArray => prevArray.filter(existingItem => existingItem !== item));
     },
     clear() {

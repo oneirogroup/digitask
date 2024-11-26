@@ -66,6 +66,15 @@ export default function DashboardLayout() {
           headerRight: () => <TaskAddAttachmentHeaderRight />
         }}
       />
+      <Stack.Screen
+        name="(task)/[taskId]/add-product"
+        options={{
+          title: "Məhsul əlavə et",
+          presentation: "modal",
+          headerBackButtonDisplayMode: "minimal",
+          headerRight: () => <TaskAddAttachmentHeaderRight />
+        }}
+      />
     </Stack>
   );
 }

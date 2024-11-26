@@ -81,6 +81,9 @@ export const api = {
       items: {
         $get(id: number) {
           return authHttp.get<Backend.WarehouseItem[]>(`/warehouse/warehouse-items/?warehouse=${id}`);
+        },
+        $bulkCreate(data: Backend.WarehouseBulkCreateItem[]) {
+          return authHttp.post<void>("/services/warehouse_changes/bulk_create/", data);
         }
       }
     }

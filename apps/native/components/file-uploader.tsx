@@ -69,6 +69,8 @@ export const FileUploader: FC<FileUploaderProps> & FileUploaderExtended = ({
       });
 
       handleImageUpload(result);
+    } else {
+      console.log("Permission denied");
     }
   };
 

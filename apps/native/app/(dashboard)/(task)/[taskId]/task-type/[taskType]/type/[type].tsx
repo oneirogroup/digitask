@@ -22,6 +22,12 @@ import { FileUploader } from "../../../../../../../components/file-uploader";
 
 type AttachmentType = "tv" | "internet" | "voice";
 
+const translation = {
+  tv: "TV",
+  internet: "İnternet",
+  voice: "Səs"
+};
+
 export default function AddSpecificTaskAttachment() {
   const {
     taskId,
@@ -51,12 +57,6 @@ export default function AddSpecificTaskAttachment() {
     mutationKey: [fields.task],
     mutationFn: (taskId: number) => api.services.task.$get(+taskId)
   });
-
-  const translation = {
-    tv: "TV",
-    internet: "İnternet",
-    voice: "Səs"
-  };
 
   useEffect(() => {
     if (!tasks.length) return;

@@ -5,11 +5,8 @@
     "apps/*",
     "libs/*"
   ],
-  "resolutions": {
-    "@mdreal/ui-kit": "C:/Projects/oneiro/ui-kit"
-  },
   "devDependencies": {
-    "@mdreal/ui-kit": "^0.0.0-dev.51",
+    "@mdreal/ui-kit": "^0.0.0-dev.53",
     "@prettier/plugin-xml": "^3.4.1",
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
     "expo": "^52.0.7",

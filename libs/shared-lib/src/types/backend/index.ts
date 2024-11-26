@@ -6,3 +6,4 @@ export * from "./profile-data";
 export * from "./task";
 export * from "./warehouse";
 export * from "./warehouse-item";
+export * from "./warehouse-bulk-create-item";
