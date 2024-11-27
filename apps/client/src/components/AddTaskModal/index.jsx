@@ -173,14 +173,20 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
   };
 
   const [backendErrors, setBackendErrors] = useState([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (e, retry = false) => {
     e.preventDefault();
+
+    if (isSubmitting) return;
+    setIsSubmitting(true);
+
     const { newErrors, errorText } = validateForm();
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       setErrorText(errorText);
+      setIsSubmitting(false);
       return;
     }
 
@@ -230,7 +236,10 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
       if (error.status == 403) {
         await refreshAccessToken();
         handleSubmit(e, true);
+        if (isSubmitting) return;
       }
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -554,8 +563,8 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
             {errors.note && <span className="error-message">{errors.note}</span>}
           </div>
           {backendErrors.length > 0 && <div className="error-message">{backendErrors.join(", ")}</div>}
-          <button type="submit" className="btn btn-primary">
-            Əlavə et
+          <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
+            {isSubmitting ? "Əlavə edilir..." : "Əlavə et"}
           </button>
         </form>
       </div>
