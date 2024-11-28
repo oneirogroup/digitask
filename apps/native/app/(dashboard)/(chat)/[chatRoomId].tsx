@@ -80,7 +80,6 @@ export default function Chat() {
 
   const sendMessage = useSendMessage(message => {
     if (!wsClient) return;
-    console.log("ui-kit:chat:message", message);
     wsClient.send(message);
   });
 

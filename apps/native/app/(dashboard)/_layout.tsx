@@ -14,7 +14,7 @@ import { TaskType } from "../../types/task-type";
 import "../main.css";
 
 export default function DashboardLayout() {
-  // useWebsocketInit();
+  useWebsocketInit();
   useTasksInit(TaskType.Connection);
   useTasksInit(TaskType.Problem);
 

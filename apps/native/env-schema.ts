@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 const envSchema = z.object({
-  EXPO_PUBLIC_API_URL: z.string().url().default("http://135.181.42.192")
+  EXPO_PUBLIC_API_URL: z.string().url().default("https://dev.oneiro.az")
 });
 
 export const env = envSchema.parse(process.env);

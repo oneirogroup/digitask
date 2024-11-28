@@ -4,6 +4,13 @@ import { Backend, fields, profileAtom, signInAtom, useReceiveMessage } from "@di
 import { AuthHttp, logger } from "@mdreal/ui-kit";
 import { useWebsocket } from "@mdreal/ws-client";
 
+import { env } from "../env-schema";
+
+const wsUrl = new URL(env.EXPO_PUBLIC_API_URL);
+wsUrl.protocol = "wss";
+const ws = wsUrl.toString().slice(0, -1);
+console.log(ws);
+
 export const useWebsocketInit = () => {
   const receiveMessage = useReceiveMessage();
   const profileData = useRecoilValue(profileAtom);
@@ -11,12 +18,12 @@ export const useWebsocketInit = () => {
 
   useWebsocket<Backend.Message>(
     fields.chat.toString(),
-    `ws://135.181.42.192/chat/?email=${profileData?.email}&token=${signInData?.access_token}`,
+    `${ws}/chat/?email=${profileData?.email}&token=${signInData?.access_token}`,
     {
       onConnect() {
         logger.debug(
           "digitask.native:hooks:use-websocket-init",
-          `ws://135.181.42.192/chat/?email=${profileData?.email}&token=${signInData?.access_token}`
+          `${ws}/chat/?email=${profileData?.email}&token=${signInData?.access_token}`
         );
       },
       onError(error) {
