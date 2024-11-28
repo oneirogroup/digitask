@@ -12,7 +12,7 @@ import event from "../../assets/images/event.png";
 
 export const Event: FC<EventProps> = ({ name, date }) => {
   return (
-    <BlockContainer className="rounded-2xl p-6">
+    <BlockContainer className="bg-primary rounded-2xl p-6">
       <Block className="flex flex-row">
         <View className="flex flex-1 gap-4">
           <View className="flex flex-row gap-4">
