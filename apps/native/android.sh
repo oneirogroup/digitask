@@ -9,6 +9,7 @@ if [[ "$mode" != "debug" && "$mode" != "release" ]]; then
   exit 1
 fi
 
+rm -rf android
 yarn expo prebuild -p android || (yarn && yarn expo prebuild -p android) || exit 1
 
 pushd ./android
