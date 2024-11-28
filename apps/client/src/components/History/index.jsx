@@ -74,6 +74,11 @@ const Anbar = () => {
     }
   };
 
+  const getWarehouseName = warehouseId => {
+    const warehouse = warehouses.find(w => w.id === warehouseId);
+    return warehouse ? warehouse.name : "N/A";
+  };
+
   const handleWarehouseClick = id => {
     if (warehouseSelected === id) {
       setWarehouseSelected("");
@@ -215,7 +220,9 @@ const Anbar = () => {
                 <td
                   onClick={() => handleActionClick(data, "history")}
                 >{`#${(index + 1).toString().padStart(4, "0")}`}</td>
-                <td onClick={() => handleActionClick(data, "history")}>{data.delivery_note}</td>
+                <td onClick={() => handleActionClick(data, "history")}>
+                  {data.delivery_note.length > 15 ? `${data.delivery_note.slice(0, 15)}...` : data.delivery_note}
+                </td>
 
                 <td onClick={() => handleActionClick(data, "history")}>
                   {data.timestamp ? formatDate(data.timestamp) : "N/A"}
@@ -224,8 +231,10 @@ const Anbar = () => {
                 <td onClick={() => handleActionClick(data, "history")}>{data.item.brand}</td>
                 <td onClick={() => handleActionClick(data, "history")}>{data.item.model}</td>
                 <td onClick={() => handleActionClick(data, "history")}>{data.item.serial_number}</td>
-                <td>{data.item.mac}</td>
-                <td>{data.item.warehouse || "N/A"}</td>
+                <td onClick={() => handleActionClick(data, "history")}>{data.item.mac}</td>
+                <td onClick={() => handleActionClick(data, "history")}>
+                  {getWarehouseName(data.item.warehouse) || "N/A"}
+                </td>
                 <td onClick={() => handleActionClick(data, "history")}>{data.item.port_number}</td>
                 <td onClick={() => handleActionClick(data, "history")}>{data.old_count}</td>
                 <td onClick={() => handleActionClick(data, "history")}>{data.new_count}</td>
