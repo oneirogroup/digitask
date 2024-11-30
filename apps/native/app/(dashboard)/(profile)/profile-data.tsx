@@ -22,8 +22,8 @@ export default function UserProfileData() {
 
       <View />
 
-      <ProfileViewData name="group" value={formatPhoneNumber(userProfile.phone)} title="Phone Number" />
-      <ProfileViewData name="group" value={userProfile.email} title="Mail Address" />
+      <ProfileViewData name="group" value={formatPhoneNumber(userProfile.phone)} title="Telefon nömrəsi" />
+      <ProfileViewData name="group" value={userProfile.email} title="Mail adresi" />
     </Block.Scroll>
   );
 }

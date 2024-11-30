@@ -63,13 +63,13 @@ export const RangePicker: FC<RangePickerProps> = ({ onChange }) => {
       <Button variant="none" onClick={toggleDatePicker} className="flex flex-row justify-between">
         <View className="flex flex-row gap-2">
           <View>
-            <Text className="text-lg">{debouncedRange?.start?.format("DD/MMM/YYYY") || "Select from date"}</Text>
+            <Text className="text-lg">{debouncedRange?.start?.format("DD/MMM/YYYY") || "Tarixdən"}</Text>
           </View>
           <View>
             <Text className="text-lg">-</Text>
           </View>
           <View>
-            <Text className="text-lg">{debouncedRange?.end?.format("DD/MMM/YYYY") || "Select to date"}</Text>
+            <Text className="text-lg">{debouncedRange?.end?.format("DD/MMM/YYYY") || "Tarixə"}</Text>
           </View>
         </View>
 

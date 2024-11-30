@@ -20,7 +20,7 @@ export default function DashboardLayout() {
 
   return (
     <Stack initialRouteName="(tabs)">
-      <Stack.Screen name="(chat)/chat" options={{ title: "Chat", headerBackButtonDisplayMode: "minimal" }} />
+      <Stack.Screen name="(chat)/chat" options={{ title: "Söhbətlər", headerBackButtonDisplayMode: "minimal" }} />
       <Stack.Screen
         name="(chat)/[chatRoomId]"
         options={{

@@ -78,7 +78,7 @@ export default function SignIn() {
               <Input.Controlled
                 name="email"
                 type="text"
-                label="Email"
+                label="Elektron poçt"
                 variant="secondary"
                 icon={{ left: "email" }}
                 disabled={signInMutation.isPending}
@@ -87,7 +87,7 @@ export default function SignIn() {
               <Input.Controlled
                 name="password"
                 type="password"
-                label="Password"
+                label="Şifrə"
                 variant="secondary"
                 icon={{ left: "key" }}
                 disabled={signInMutation.isPending}
@@ -102,9 +102,9 @@ export default function SignIn() {
             </Form.Button>
 
             <Block>
-              <Link href="./forgot-password">
-                <Text className="text-link text-center underline">Şifrəni unutmusunuz?</Text>
-              </Link>
+              {/*<Link href="./forgot-password">*/}
+              {/*  <Text className="text-link text-center underline">Şifrəni unutmusunuz?</Text>*/}
+              {/*</Link>*/}
             </Block>
           </Block>
         </Block>

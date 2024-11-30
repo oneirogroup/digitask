@@ -13,7 +13,7 @@ export const HeaderRight: FC = () => {
   };
 
   return (
-    <Block className="flex flex-row items-center justify-end gap-4 pr-4">
+    <Block className="flex w-8 flex-row items-center justify-end gap-4 pr-4">
       <Pressable onPress={redirect}>
         <Icon name="chat" variables={{ stroke: "#005ABF" }} />
       </Pressable>

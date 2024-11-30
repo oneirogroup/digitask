@@ -1,7 +1,7 @@
 import { Image } from "expo-image";
 import { useFocusEffect, useLocalSearchParams, useRouter } from "expo-router";
 import { useRef, useState } from "react";
-import { Pressable, Text, View } from "react-native";
+import { Platform, Pressable, Text, View } from "react-native";
 import { useRecoilValue } from "recoil";
 
 import { Backend, DateService, tasksAtom } from "@digitask/shared-lib";
@@ -55,7 +55,7 @@ export default function SpecificTask() {
   };
 
   return (
-    <Block.Scroll className="p-4" contentClassName="flex gap-4">
+    <Block.Scroll contentClassName="flex gap-4 p-4">
       <BlockContainer className="flex gap-10">
         <Block className="flex gap-6">
           <Field
@@ -180,7 +180,12 @@ export default function SpecificTask() {
         </BlockContainer>
       </When>
 
-      <Modal ref={typeModalRef} type="popup" height={123} className="p-4">
+      <Modal
+        ref={typeModalRef}
+        type="popup"
+        height={Platform.select({ android: 240, ios: 123, default: 123 })}
+        className="p-4"
+      >
         <View className="flex gap-6">
           <View>
             <Text className="text-1.5xl text-center">Servis növü</Text>
