@@ -1,7 +1,6 @@
 import { Image } from "expo-image";
 import {
   ImagePickerResult,
-  MediaTypeOptions,
   launchCameraAsync,
   launchImageLibraryAsync,
   requestCameraPermissionsAsync,
@@ -9,12 +8,13 @@ import {
 } from "expo-image-picker";
 import { FC, useRef, useState } from "react";
 import { Controller } from "react-hook-form";
-import { Pressable, Text, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 
 import { api, fields } from "@digitask/shared-lib";
-import { Icon, If, Modal, ModalRef } from "@mdreal/ui-kit";
+import { Icon, If, Modal, ModalRef, logger } from "@mdreal/ui-kit";
 import { useMutation } from "@tanstack/react-query";
 
+import { palette } from "../../../palette";
 import { FileUploaderExtended, FileUploaderProps } from "./file-uploader.types";
 
 export const FileUploader: FC<FileUploaderProps> & FileUploaderExtended = ({
@@ -44,9 +44,10 @@ export const FileUploader: FC<FileUploaderProps> & FileUploaderExtended = ({
 
   const pickImageFromCamera = async () => {
     const cameraPermission = await requestCameraPermissionsAsync();
+    logger.debug("digitask.native:components:file-uploader:pick-image-from-camera");
     if (cameraPermission.granted) {
       const result = await launchCameraAsync({
-        mediaTypes: MediaTypeOptions.Images,
+        mediaTypes: "images",
         allowsEditing: true,
         aspect: [16, 9],
         quality: 1,
@@ -59,9 +60,10 @@ export const FileUploader: FC<FileUploaderProps> & FileUploaderExtended = ({
 
   const pickImageFromLibrary = async () => {
     const imagePermission = await requestMediaLibraryPermissionsAsync();
+    logger.debug("digitask.native:components:file-uploader:pick-image-from-library");
     if (imagePermission.granted) {
       const result = await launchImageLibraryAsync({
-        mediaTypes: MediaTypeOptions.Images,
+        mediaTypes: "images",
         allowsEditing: true,
         aspect: [16, 9],
         quality: 1,
@@ -81,7 +83,7 @@ export const FileUploader: FC<FileUploaderProps> & FileUploaderExtended = ({
   return (
     <View className="flex gap-2">
       <Text className="text-neutral-60">{label}</Text>
-      <Pressable onPress={onPrepare}>
+      <TouchableOpacity onPress={onPrepare}>
         <View className="bg-neutral-95 border-neutral-90 flex flex-row rounded-2xl border-2 border-dashed p-4">
           <If condition={!!pickedImage}>
             <If.Then>
@@ -105,39 +107,39 @@ export const FileUploader: FC<FileUploaderProps> & FileUploaderExtended = ({
                 </If.Then>
                 <If.Else>
                   <View className="rounded-full bg-white p-2">
-                    <Icon name="upload" />
+                    <Icon name="upload" variables={{ fill: palette.primary["50"] }} />
                   </View>
                 </If.Else>
               </If>
             </If.Else>
           </If>
         </View>
-      </Pressable>
+      </TouchableOpacity>
 
       <Modal ref={modalRef} type="bottom" height={200}>
         <View className="flex gap-4 p-4">
-          <Pressable onPress={pickImageFromCamera}>
+          <TouchableOpacity onPress={pickImageFromCamera}>
             <View className="bg-neutral-95 border-neutral-90 flex flex-row rounded-2xl border-2 border-dashed p-4">
               <View className="flex flex-1 items-center justify-center">
                 <Text className="text-primary">Şəkil çək</Text>
               </View>
               <View className="rounded-full bg-white p-2">
-                <Icon name="camera" />
+                <Icon name="camera" variables={{ fill: palette.primary["50"] }} />
               </View>
             </View>
-          </Pressable>
+          </TouchableOpacity>
 
-          <Pressable onPress={pickImageFromLibrary}>
+          <TouchableOpacity onPress={pickImageFromLibrary}>
             <View className="bg-neutral-95 border-neutral-90 flex flex-row rounded-2xl border-2 border-dashed p-4">
               <View className="flex-1">
                 <Text className="text-primary">Qalereyadan seç</Text>
                 <Text className="text-neutral-20">(Maksimum fayl ölçüsü: 25 MB)</Text>
               </View>
               <View className="rounded-full bg-white p-2">
-                <Icon name="upload" />
+                <Icon name="upload" variables={{ fill: palette.primary["50"] }} />
               </View>
             </View>
-          </Pressable>
+          </TouchableOpacity>
         </View>
       </Modal>
     </View>

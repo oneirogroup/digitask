@@ -1,7 +1,8 @@
 import { FC } from "react";
 import { Text } from "react-native";
 
-import { DateService } from "../../../services/date-service";
+import { DateService } from "@digitask/shared-lib";
+
 import { TaskDate as TaskDateProps } from "../task.types";
 
 export const TaskDate: FC<TaskDateProps> = ({ start, end }) => {
@@ -11,7 +12,7 @@ export const TaskDate: FC<TaskDateProps> = ({ start, end }) => {
   const isDatesInSameDay = startDate.isSame(endDate, "day");
 
   if (isDatesInSameDay) {
-    dateParts.push("today,");
+    dateParts.push("Bu gün,");
     dateParts.push(startDate.format("hh:mm"));
     if (endDate) {
       dateParts.push("-");

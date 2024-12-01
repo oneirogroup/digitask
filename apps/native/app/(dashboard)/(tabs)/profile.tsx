@@ -4,7 +4,7 @@ import { Pressable, Text, View } from "react-native";
 import { runOnJS } from "react-native-reanimated";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 
-import { StorageKeys, profileAtom, tokenSelector } from "@digitask/shared-lib";
+import { profileAtom, tokenSelector } from "@digitask/shared-lib";
 import { AuthHttp, Block, Button, Icon, Modal, ModalRef } from "@mdreal/ui-kit";
 
 import { palette } from "../../../../../palette";
@@ -34,11 +34,11 @@ export default function Profile() {
         <Pressable onPress={redirectToProfileData}>
           <BlockContainer className="flex flex-row justify-between">
             <View className="flex gap-1">
-              <Text className="text-1.5xl font-bold">Texnik adi</Text>
+              <Text className="text-1.5xl font-bold">İstifadəçi adı</Text>
               <Text className="text-neutral text-lg">{userProfile.email}</Text>
             </View>
             <View className="flex items-center justify-center">
-              <Icon name="arrow-right" />
+              <Icon name="arrow-right" variables={{ fill: palette.primary["50"] }} />
             </View>
           </BlockContainer>
         </Pressable>
@@ -47,20 +47,20 @@ export default function Profile() {
           <BlockContainer className="flex flex-row justify-between">
             <View className="flex flex-row items-center gap-2">
               {/* <Icon name="exit" /> */}
-              <Text className="text-neutral text-xl">Destek</Text>
+              <Text className="text-neutral text-xl">Dəstək</Text>
             </View>
             <View>
-              <Icon name="arrow-right" />
+              <Icon name="arrow-right" variables={{ fill: palette.primary["50"] }} />
             </View>
           </BlockContainer>
 
           <BlockContainer className="flex flex-row justify-between">
             <View className="flex flex-row items-center gap-2">
               {/* <Icon name="exit" /> */}
-              <Text className="text-neutral text-xl">Haqqinda</Text>
+              <Text className="text-neutral text-xl">Haqqında</Text>
             </View>
             <View>
-              <Icon name="arrow-right" />
+              <Icon name="arrow-right" variables={{ fill: palette.primary["50"] }} />
             </View>
           </BlockContainer>
 
@@ -71,7 +71,7 @@ export default function Profile() {
               className="flex w-full flex-row items-center gap-2"
             >
               <Icon name="exit" variables={{ fill: palette.danger["50"] }} />
-              <Text className="text-error-50 text-xl">Cixis Et</Text>
+              <Text className="text-error-50 text-xl">Çıxış et</Text>
             </Button>
           </BlockContainer>
         </Block>

@@ -14,6 +14,12 @@ import { TaskProps } from "./task.types";
 
 const statuses = [TaskStatuses.Waiting, TaskStatuses.Started, TaskStatuses.InProgress, TaskStatuses.Completed];
 
+const tagTranslations = {
+  tv: "TV",
+  internet: "İnternet",
+  voice: "Səs"
+};
+
 export const Task: FC<TaskProps> = ({ tags, task, updateTask }) => {
   const startDate = DateService.from(Date.parse(`${task.date} ${task.start_time}`));
   const endDate = DateService.from(Date.parse(`${task.date} ${task.end_time}`));
@@ -32,11 +38,11 @@ export const Task: FC<TaskProps> = ({ tags, task, updateTask }) => {
         <View className="flex-1">
           <Text>{task.full_name}</Text>
         </View>
-        <View className="flex flex-row gap-3">
-          {tags.map(tag => (
-            <Tag key={tag.tag} tag={tag.tag} icon={tag.icon} />
-          ))}
-        </View>
+      </Block>
+      <Block className="flex flex-row gap-3">
+        {tags.map(tag => (
+          <Tag key={tag.tag} tag={tagTranslations[tag.tag]} icon={tag.icon} />
+        ))}
       </Block>
       <Block className="flex flex-row gap-2">
         <Icon name="location" state="filled" variables={{ fill: palette.primary["50"] }} />

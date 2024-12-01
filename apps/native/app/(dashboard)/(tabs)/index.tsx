@@ -46,9 +46,11 @@ export default function Index() {
                   (finishedConnectionTasks.length / (finishedConnectionTasks.length + finishedProblemTasks.length)) *
                     100
                 ),
+                textSize: 5,
+                subtextsize: 4,
                 fillFgColor: palette.secondary["80"],
                 fillBgColor: palette.primary["50"],
-                text: `${finishedConnectionTasks.length + finishedProblemTasks.length} task`,
+                text: `${finishedConnectionTasks.length + finishedProblemTasks.length} tapşırıq`,
                 subtext: "tamamlandı",
                 textColor: "black"
               }}

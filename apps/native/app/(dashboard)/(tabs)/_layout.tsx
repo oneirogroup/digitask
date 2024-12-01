@@ -38,7 +38,7 @@ export default function DashboardTabsLayout() {
       <Tabs.Screen
         name="task"
         options={{
-          title: "Tapşırıq",
+          title: "Tapşırıqlar",
           headerLeft: () => <HeaderLeft title="Tapşırıq" />,
           tabBarIcon: ({ focused, color }) => (
             <Icon name="task" state={focused && "active"} variables={{ fill: color }} />

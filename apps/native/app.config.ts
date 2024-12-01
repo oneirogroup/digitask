@@ -28,7 +28,21 @@ export default {
   plugins: [
     "expo-router",
     "expo-font",
-    ["expo-image-picker", { photosPermission: "Şəkili seçmək üçün icazə", cameraPermission: "Şəkil çəkmək üçün icazə" }]
+    [
+      "expo-image-picker",
+      {
+        photosPermission: "$(PRODUCT_NAME) şəkili seçməyə icazə verin",
+        cameraPermission: "$(PRODUCT_NAME) şəkil çəkməyə icazə verin"
+      }
+    ],
+    [
+      "expo-location",
+      {
+        locationAlwaysAndWhenInUsePermission: "$(PRODUCT_NAME) məkanınızdan istifadə etməyə icazə verin.",
+        isIosBackgroundLocationEnabled: true,
+        isAndroidBackgroundLocationEnabled: true
+      }
+    ]
   ],
   experiments: {
     typedRoutes: true,

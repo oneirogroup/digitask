@@ -28,10 +28,11 @@ import {
   useRecoilQuery,
   useSendMessage
 } from "@digitask/shared-lib";
-import { Button, Icon, Input, cn } from "@mdreal/ui-kit";
+import { Button, Icon, cn } from "@mdreal/ui-kit";
 import { useWebsocket } from "@mdreal/ws-client";
 import { useMutation } from "@tanstack/react-query";
 
+import { palette } from "../../../../../palette";
 import { BlockContainer } from "../../../components/blocks";
 
 const renderMessageItem: ListRenderItem<Backend.Message> = ({ item: message }) => {
@@ -129,7 +130,7 @@ export default function Chat() {
             />
           </View>
           <Button variant="none" onClick={handleSendMessage}>
-            <Icon name="send" state="digitask" />
+            <Icon name="send" state="digitask" variables={{ fill: palette.primary["50"] }} />
           </Button>
         </BlockContainer>
       </View>

@@ -1,3 +1,4 @@
+import { getCurrentPositionAsync } from "expo-location";
 import { useRecoilState, useRecoilValue } from "recoil";
 
 import { Backend, fields, profileAtom, signInAtom, useReceiveMessage } from "@digitask/shared-lib";
@@ -5,11 +6,11 @@ import { AuthHttp, logger } from "@mdreal/ui-kit";
 import { useWebsocket } from "@mdreal/ws-client";
 
 import { env } from "../env-schema";
+import { requestLocationPermission } from "../utils/request-location-permission";
 
 const wsUrl = new URL(env.EXPO_PUBLIC_API_URL);
 wsUrl.protocol = "wss";
-const ws = wsUrl.toString().slice(0, -1);
-console.log(ws);
+const wsHostUrl = wsUrl.toString().slice(0, -1);
 
 export const useWebsocketInit = () => {
   const receiveMessage = useReceiveMessage();
@@ -18,12 +19,12 @@ export const useWebsocketInit = () => {
 
   useWebsocket<Backend.Message>(
     fields.chat.toString(),
-    `${ws}/chat/?email=${profileData?.email}&token=${signInData?.access_token}`,
+    `${wsHostUrl}/chat/?email=${profileData?.email}&token=${signInData?.access_token}`,
     {
       onConnect() {
         logger.debug(
           "digitask.native:hooks:use-websocket-init",
-          `${ws}/chat/?email=${profileData?.email}&token=${signInData?.access_token}`
+          `${wsHostUrl}/chat/?email=${profileData?.email}&token=${signInData?.access_token}`
         );
       },
       onError(error) {
@@ -57,4 +58,24 @@ export const useWebsocketInit = () => {
       }
     }
   );
+
+  useWebsocket(fields.location, `${wsHostUrl}/ws/?email=${profileData?.email}&token=${signInData?.access_token}`, {
+    async onConnect() {
+      logger.debug(
+        "digitask.native:hooks:use-websocket-init",
+        `${wsHostUrl}/chat/?email=${profileData?.email}&token=${signInData?.access_token}`
+      );
+      logger.log("digitask.native:hooks:use-websocket-init:ws:connected");
+      await requestLocationPermission();
+      logger.log("digitask.native:hooks:use-websocket-init:ws:location-permission-granted");
+      const sendLocation = async () => {
+        const position = await getCurrentPositionAsync({});
+        const location = { latitude: position.coords.latitude, longitude: position.coords.longitude };
+        logger.debug("digitask.native:hooks:use-websocket-init:ws:location", location);
+        this.send(location);
+      };
+      setInterval(sendLocation, 5 * 1e3);
+      await sendLocation();
+    }
+  });
 };

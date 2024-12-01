@@ -1,13 +1,13 @@
 import { Image } from "expo-image";
-import { Link, useNavigation } from "expo-router";
+import { useNavigation } from "expo-router";
 import { useEffect } from "react";
-import { SubmitErrorHandler, SubmitHandler } from "react-hook-form";
+import { SubmitErrorHandler } from "react-hook-form";
 import { KeyboardAvoidingView, Platform, Text } from "react-native";
 
-import { api } from "@digitask/shared-lib";
 import {
   SignInSchema,
   StorageKeys,
+  api,
   fields,
   profileAtom,
   signInAtom,
@@ -49,7 +49,7 @@ export default function SignIn() {
     isNullable: true
   });
 
-  const onSubmit: SubmitHandler<SignInSchema> = async data => {
+  const onSubmit = async (data: SignInSchema) => {
     logger.debug("digitask.native:auth:sign-in.form-values", data);
     const response = await signInMutation.mutateAsync(data);
     logger.debug("digitask.native:auth:sign-in.auth-response", response);

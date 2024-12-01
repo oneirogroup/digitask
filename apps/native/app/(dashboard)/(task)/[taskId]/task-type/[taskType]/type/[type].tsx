@@ -1,4 +1,4 @@
-import { FileSystemUploadType, uploadAsync } from "expo-file-system";
+import { FileSystemUploadType, createUploadTask } from "expo-file-system";
 import type { ImagePickerAsset } from "expo-image-picker";
 import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
@@ -15,7 +15,7 @@ import {
   taskAddAttachmentSchema,
   tasksAtom
 } from "@digitask/shared-lib";
-import { AuthHttp, Block, Form, Input, When } from "@mdreal/ui-kit";
+import { AuthHttp, Block, Form, Input, When, logger } from "@mdreal/ui-kit";
 import { useMutation } from "@tanstack/react-query";
 
 import { FileUploader } from "../../../../../../../components/file-uploader";
@@ -72,13 +72,26 @@ export default function AddSpecificTaskAttachment() {
   const uploadFile = async (url: string, asset: ImagePickerAsset, fileKey: string) => {
     await AuthHttp.instance().refreshToken();
     const token = AuthHttp.settings().getTokens();
-    const result = await uploadAsync(url, asset.uri, {
-      fieldName: fileKey,
-      httpMethod: "PATCH",
-      uploadType: FileSystemUploadType.MULTIPART,
-      mimeType: asset.mimeType,
-      headers: { Authorization: `Bearer ${token.access}` }
-    });
+    const uploadTask = createUploadTask(
+      url,
+      asset.uri,
+      {
+        fieldName: fileKey,
+        httpMethod: "PATCH",
+        uploadType: FileSystemUploadType.MULTIPART,
+        mimeType: asset.mimeType,
+        headers: { Authorization: `Bearer ${token.access}` }
+      },
+      ({ totalBytesSent, totalBytesExpectedToSend }) => {
+        const progress = parseFloat((totalBytesSent / (totalBytesExpectedToSend || 1)).toFixed(2));
+        logger.debug("digitask.native:file-upload:progress", progress);
+      }
+    );
+
+    const result = await uploadTask.uploadAsync();
+    if (!result) {
+      throw new Error("File upload failed");
+    }
     return result.body;
   };
 
@@ -164,7 +177,7 @@ export default function AddSpecificTaskAttachment() {
             className="bg-neutral-90 rounded-2xl border-transparent"
           />
 
-          <Form.Button isLoading={isLoading}>
+          <Form.Button isLoading={isLoading} disabled={isLoading}>
             <Text className="p-4 text-center text-white">Yadda saxla</Text>
           </Form.Button>
         </Form>

@@ -10,8 +10,8 @@ export interface TagProps {
 export const getTags = (task?: Task) => {
   if (!task) return [];
   const tags: TagProps[] = [];
-  task.has_tv && tags.push({ tag: "tv", icon: "tv" });
-  task.has_internet && tags.push({ tag: "internet", icon: "web" });
-  task.has_voice && tags.push({ tag: "voice", icon: "phone" });
+  task.is_tv && tags.push({ tag: "tv", icon: "tv" });
+  task.is_internet && tags.push({ tag: "internet", icon: "web" });
+  task.is_voice && tags.push({ tag: "voice", icon: "phone" });
   return tags;
 };

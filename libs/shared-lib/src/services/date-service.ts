@@ -1,4 +1,5 @@
 import dayjs, { Dayjs, OpUnitType, isDayjs } from "dayjs";
+import az from "dayjs/locale/az";
 import advancedFormat from "dayjs/plugin/advancedFormat";
 import calendar from "dayjs/plugin/calendar";
 import customParseFormat from "dayjs/plugin/customParseFormat";
@@ -10,6 +11,8 @@ dayjs.extend(calendar);
 dayjs.extend(customParseFormat);
 dayjs.extend(devHelper);
 dayjs.extend(timezone);
+dayjs.locale(az);
+// @ts-expect-error
 dayjs.extend((option, dayjsClass, dayjsFactory) => {});
 
 export class DateService extends Date {
@@ -43,7 +46,7 @@ export class DateService extends Date {
   }
 
   tz(tz: string) {
-    // this.dayjs.tz(tz);
+    tz && this.dayjs.tz(tz);
     return this;
   }
 

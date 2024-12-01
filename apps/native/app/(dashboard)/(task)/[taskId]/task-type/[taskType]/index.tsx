@@ -1,10 +1,10 @@
 import { Image } from "expo-image";
 import { useFocusEffect, useLocalSearchParams, useRouter } from "expo-router";
-import { useRef, useState } from "react";
-import { Platform, Pressable, Text, View } from "react-native";
+import { useRef } from "react";
+import { Platform, Pressable, Text, TouchableOpacity, View } from "react-native";
 import { useRecoilValue } from "recoil";
 
-import { Backend, DateService, tasksAtom } from "@digitask/shared-lib";
+import { Backend, DateService, TaskStatuses, tasksAtom } from "@digitask/shared-lib";
 import { Block, Button, Icon, Modal, ModalRef, When } from "@mdreal/ui-kit";
 
 import { palette } from "../../../../../../../../palette";
@@ -15,6 +15,14 @@ const translation = {
   tv: "TV",
   internet: "İnternet",
   voice: "Səs"
+};
+
+const statuses: Record<TaskStatuses, string> = {
+  [TaskStatuses.Completed]: "Bitmiş",
+  [TaskStatuses.InProgress]: "Davam edir",
+  [TaskStatuses.Waiting]: "Gözləmədə",
+  [TaskStatuses.Started]: "Başlanmış",
+  [TaskStatuses.All]: "Hamısı"
 };
 
 export default function SpecificTask() {
@@ -75,7 +83,7 @@ export default function SpecificTask() {
           />
           <Field
             icon={<Icon name="location" state={false} variables={{ stroke: palette.primary["50"] }} />}
-            label="Adres"
+            label="Ünvan"
             value={currentTask.location}
           />
           <Field
@@ -93,13 +101,13 @@ export default function SpecificTask() {
           />
           <Field
             icon={<Icon name="clock" state={false} variables={{ fill: palette.primary["50"] }} />}
-            label="Zaman"
+            label="Tarix"
             value={`${startDate.format("DD MMMM, HH:mm")}-${endDate.format("HH:mm")}`}
           />
           <Field
             icon={<Icon name="chat" state="square" variables={{ stroke: palette.primary["50"] }} />}
             label="Status"
-            value={currentTask.status}
+            value={statuses[currentTask.status]}
           />
           <Field
             icon={<Icon name="user" state="technic" variables={{ stroke: palette.primary["50"] }} />}
@@ -154,15 +162,16 @@ export default function SpecificTask() {
 
       <When condition={!currentTask.has_tv || !currentTask.has_internet || !currentTask.has_voice}>
         <BlockContainer>
-          <Pressable
+          <TouchableOpacity
+            activeOpacity={1}
             onPress={() => typeModalRef.current?.open()}
             className="flex flex-row items-center justify-between p-2"
           >
             <Text>Yeni Qosulma</Text>
             <View>
-              <Icon name="plus" />
+              <Icon name="plus" variables={{ stroke: palette.primary["50"] }} />
             </View>
-          </Pressable>
+          </TouchableOpacity>
         </BlockContainer>
       </When>
 
