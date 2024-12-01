@@ -19,6 +19,7 @@ import { AuthHttp, Block, Form, Input, When, logger } from "@mdreal/ui-kit";
 import { useMutation } from "@tanstack/react-query";
 
 import { FileUploader } from "../../../../../../../components/file-uploader";
+import { uploadFile } from "../../../../../../../utils/upload-file";
 
 type AttachmentType = "tv" | "internet" | "voice";
 
@@ -69,32 +70,6 @@ export default function AddSpecificTaskAttachment() {
     }
   }, [task]);
 
-  const uploadFile = async (url: string, asset: ImagePickerAsset, fileKey: string) => {
-    await AuthHttp.instance().refreshToken();
-    const token = AuthHttp.settings().getTokens();
-    const uploadTask = createUploadTask(
-      url,
-      asset.uri,
-      {
-        fieldName: fileKey,
-        httpMethod: "PATCH",
-        uploadType: FileSystemUploadType.MULTIPART,
-        mimeType: asset.mimeType,
-        headers: { Authorization: `Bearer ${token.access}` }
-      },
-      ({ totalBytesSent, totalBytesExpectedToSend }) => {
-        const progress = parseFloat((totalBytesSent / (totalBytesExpectedToSend || 1)).toFixed(2));
-        logger.debug("digitask.native:file-upload:progress", progress);
-      }
-    );
-
-    const result = await uploadTask.uploadAsync();
-    if (!result) {
-      throw new Error("File upload failed");
-    }
-    return result.body;
-  };
-
   return (
     <KeyboardAvoidingView className="h-full">
       <Block.Scroll className="border-t-neutral-90 border-t-[1px] bg-white p-4" contentClassName="flex gap-4">
@@ -102,6 +77,9 @@ export default function AddSpecificTaskAttachment() {
           schema={taskAddAttachmentSchema}
           defaultValues={{ type: attachmentType, passport: task?.passport }}
           onSubmit={async ({ passport, photo_modem, ...data }) => {
+            console.log("passport", passport);
+            console.log("photo_modem", photo_modem);
+
             setIsLoading(true);
             await uploadFile(
               `${AuthHttp.settings().baseUrl}/services/update_task_image/${taskId}/`,

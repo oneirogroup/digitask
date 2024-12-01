@@ -183,7 +183,7 @@ export default function SpecificTask() {
           >
             <Text>Məhsul əlavə et</Text>
             <View>
-              <Icon name="plus" />
+              <Icon name="plus" variables={{ stroke: palette.primary["50"] }} />
             </View>
           </Pressable>
         </BlockContainer>

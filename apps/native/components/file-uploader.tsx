@@ -1,12 +1,13 @@
 import { Image } from "expo-image";
 import {
+  type ImagePickerAsset,
   ImagePickerResult,
   launchCameraAsync,
   launchImageLibraryAsync,
   requestCameraPermissionsAsync,
   requestMediaLibraryPermissionsAsync
 } from "expo-image-picker";
-import { FC, useRef, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import { Controller } from "react-hook-form";
 import { Text, TouchableOpacity, View } from "react-native";
 
@@ -15,6 +16,7 @@ import { Icon, If, Modal, ModalRef, logger } from "@mdreal/ui-kit";
 import { useMutation } from "@tanstack/react-query";
 
 import { palette } from "../../../palette";
+import { convertImageToAsset } from "../utils/convert-image-to-asset";
 import { FileUploaderExtended, FileUploaderProps } from "./file-uploader.types";
 
 export const FileUploader: FC<FileUploaderProps> & FileUploaderExtended = ({
@@ -23,7 +25,17 @@ export const FileUploader: FC<FileUploaderProps> & FileUploaderExtended = ({
   onFileUpload
 }) => {
   const modalRef = useRef<ModalRef>(null);
-  const [pickedImage, setPickedImage] = useState<string | null>(prePickedImage || null);
+  const [isImageUploadedByUser, setIsImageUploadedByUser] = useState(false);
+  const [pickedImage, setPickedImage] = useState<ImagePickerAsset | null>(null);
+
+  useEffect(() => {
+    !isImageUploadedByUser &&
+      !!prePickedImage &&
+      convertImageToAsset(prePickedImage).then(asset => {
+        setPickedImage(asset);
+        asset && onFileUpload?.(asset);
+      });
+  }, [isImageUploadedByUser, prePickedImage]);
 
   const uploadFileMutation = useMutation({
     mutationKey: [fields.file.upload],
@@ -39,7 +51,8 @@ export const FileUploader: FC<FileUploaderProps> & FileUploaderExtended = ({
     const asset = result.assets[0];
     if (!asset) return;
     onFileUpload?.(asset);
-    setPickedImage(asset.uri);
+    setPickedImage(asset);
+    setIsImageUploadedByUser(true);
   };
 
   const pickImageFromCamera = async () => {
@@ -99,18 +112,9 @@ export const FileUploader: FC<FileUploaderProps> & FileUploaderExtended = ({
               <View className="flex flex-1 items-center justify-center">
                 <Text className="text-primary">Şəkil əlave et</Text>
               </View>
-              <If condition={!!prePickedImage}>
-                <If.Then>
-                  <View>
-                    <Image source={prePickedImage} style={{ width: 40, height: 40 }} />
-                  </View>
-                </If.Then>
-                <If.Else>
-                  <View className="rounded-full bg-white p-2">
-                    <Icon name="upload" variables={{ fill: palette.primary["50"] }} />
-                  </View>
-                </If.Else>
-              </If>
+              <View className="rounded-full bg-white p-2">
+                <Icon name="upload" variables={{ fill: palette.primary["50"] }} />
+              </View>
             </If.Else>
           </If>
         </View>

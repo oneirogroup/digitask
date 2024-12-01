@@ -5,11 +5,13 @@ import calendar from "dayjs/plugin/calendar";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import devHelper from "dayjs/plugin/devHelper";
 import timezone from "dayjs/plugin/timezone";
+import utc from "dayjs/plugin/utc";
 
 dayjs.extend(advancedFormat);
 dayjs.extend(calendar);
 dayjs.extend(customParseFormat);
 dayjs.extend(devHelper);
+dayjs.extend(utc);
 dayjs.extend(timezone);
 dayjs.locale(az);
 // @ts-expect-error

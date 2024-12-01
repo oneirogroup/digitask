@@ -22,6 +22,8 @@ export const WarehouseItem: FC = () => {
     enabled: !!warehouseId
   });
 
+  console.log("warehouseId", warehouseId);
+
   return (
     <Select.Controlled<Backend.WarehouseItem, AddResourceSchema>
       name="item"

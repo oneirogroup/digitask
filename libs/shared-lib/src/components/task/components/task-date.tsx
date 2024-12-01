@@ -1,8 +1,7 @@
 import { FC } from "react";
 import { Text } from "react-native";
 
-import { DateService } from "@digitask/shared-lib";
-
+import { DateService } from "../../../services/date-service";
 import { TaskDate as TaskDateProps } from "../task.types";
 
 export const TaskDate: FC<TaskDateProps> = ({ start, end }) => {

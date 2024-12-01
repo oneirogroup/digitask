@@ -1328,7 +1328,7 @@ __metadata:
     "@digitask/shared-lib": "workspace:^"
     "@emotion/react": "npm:^11.11.4"
     "@emotion/styled": "npm:^11.11.5"
-    "@mdreal/ui-kit": "npm:^0.0.0-dev.53"
+    "@mdreal/ui-kit": "npm:^0.0.0-dev.54"
     "@mdreal/ws-client": "npm:^0.0.0-dev.9"
     "@mui/material": "npm:^5.15.19"
     "@reduxjs/toolkit": "npm:^2.2.4"
@@ -1374,7 +1374,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@digitask/shared-lib@workspace:libs/shared-lib"
   dependencies:
-    "@mdreal/ui-kit": "npm:^0.0.0-dev.53"
+    "@mdreal/ui-kit": "npm:^0.0.0-dev.54"
     "@mdreal/ws-client": "npm:^0.0.0-dev.9"
     "@react-native-async-storage/async-storage": "npm:^2.0.0"
     "@tanstack/react-query": "npm:^5.59.16"
@@ -2974,9 +2974,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mdreal/ui-kit@npm:^0.0.0-dev.16, @mdreal/ui-kit@npm:^0.0.0-dev.53":
-  version: 0.0.0-dev.53
-  resolution: "@mdreal/ui-kit@npm:0.0.0-dev.53"
+"@mdreal/ui-kit@file:C:/Projects/oneiro/ui-kit::locator=%40oneiro%2Fdigitask%40workspace%3A.":
+  version: 0.0.0-dev.54
+  resolution: "@mdreal/ui-kit@file:/C%3A/Projects/oneiro/ui-kit#/C%3A/Projects/oneiro/ui-kit::hash=5de68a&locator=%40oneiro%2Fdigitask%40workspace%3A."
   dependencies:
     "@hookform/resolvers": "npm:^3.9.1"
     axios: "npm:^1.7.7"
@@ -2994,7 +2994,7 @@ __metadata:
     react-native: "*"
     react-native-reanimated: "*"
     react-native-svg: "*"
-  checksum: 10c0/31e2069e70172ab561bcd4ee4d8c79275de9e7bf82c47ea5b32af32d7356c6f6ffca33f97182f3f191db324566fbbe450bd40c22009958f18dd04dad0d89b56b
+  checksum: 10c0/4e7a0f13186375a888ddc49796541c56bed012bb3e89b467845b8f328bde9f93c153271e3550d202aad377e8bb3e680b6c90891cb09a8635fbb259d16227b9cc
   languageName: node
   linkType: hard
 
@@ -3349,7 +3349,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@oneiro/digitask@workspace:."
   dependencies:
-    "@mdreal/ui-kit": "npm:^0.0.0-dev.53"
+    "@mdreal/ui-kit": "npm:^0.0.0-dev.54"
     "@prettier/plugin-xml": "npm:^3.4.1"
     "@trivago/prettier-plugin-sort-imports": "npm:^4.3.0"
     expo: "npm:^52.0.7"
@@ -12249,7 +12249,7 @@ __metadata:
     "@dev-plugins/async-storage": "npm:^0.0.3"
     "@dev-plugins/react-query": "npm:^0.0.7"
     "@digitask/shared-lib": "workspace:^"
-    "@mdreal/ui-kit": "npm:^0.0.0-dev.53"
+    "@mdreal/ui-kit": "npm:^0.0.0-dev.54"
     "@mdreal/ws-client": "npm:^0.0.0-dev.9"
     "@react-native-async-storage/async-storage": "npm:1.23.1"
     "@react-native-community/netinfo": "npm:11.4.1"
