@@ -56,9 +56,9 @@ export default function SignIn() {
     await authHttpSettings.retrieveTokens()();
     // @ts-ignore
     await profileMutation.mutateAsync();
-    navigation.dispatch(StackActions.popToTop());
+
     // @ts-ignore
-    navigation.replace("(dashboard)");
+    navigation.navigate("(dashboard)");
   };
 
   const onFormError: SubmitErrorHandler<SignInSchema> = errors => {
@@ -66,7 +66,7 @@ export default function SignIn() {
   };
 
   return (
-    <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined}>
+    <KeyboardAvoidingView behavior={Platform.select({ ios: "padding" })}>
       <Form<SignInSchema> schema={signInSchema} onSubmit={onSubmit} onFormError={onFormError}>
         <Block className="flex h-full items-center justify-between px-4 pb-12 pt-28">
           <Block className="flex items-center gap-6">

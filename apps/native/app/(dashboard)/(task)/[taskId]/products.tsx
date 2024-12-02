@@ -1,12 +1,13 @@
-import { useLocalSearchParams, useRouter } from "expo-router";
-import { useEffect } from "react";
-import { Pressable, Text, View } from "react-native";
+import { useFocusEffect, useLocalSearchParams, useNavigation, useRouter } from "expo-router";
+import { useEffect, useState } from "react";
+import { BackHandler, Platform, Text, View } from "react-native";
 
 import { api, productsAtom, useRecoilArray } from "@digitask/shared-lib";
-import { Block, Button, Table } from "@mdreal/ui-kit";
+import { Block, Button, Modal, Table, cn, useModalRef } from "@mdreal/ui-kit";
 import { useMutation } from "@tanstack/react-query";
 
 export default function ListAddedSpecificTaskProducts() {
+  const modalRef = useModalRef();
   const router = useRouter();
   const { taskId } = useLocalSearchParams() as { taskId: string };
   const [products, controls] = useRecoilArray(productsAtom);
@@ -15,9 +16,8 @@ export default function ListAddedSpecificTaskProducts() {
     mutationFn: api.services.warehouse.items.$bulkCreate
   });
 
-  const newProduct = (editId?: number) => {
-    const pathname = editId ? `/(task)/[taskId]/add-product?editId=[editId]` : `/(task)/[taskId]/add-product`;
-    router.push({ pathname, params: { taskId, editId } });
+  const newProduct = () => {
+    router.push({ pathname: `/(task)/[taskId]/add-product`, params: { taskId } });
   };
 
   const handleUploadProducts = async () => {
@@ -31,6 +31,7 @@ export default function ListAddedSpecificTaskProducts() {
         is_voice: product.type === "voice"
       }))
     );
+    controls.clear();
     router.back();
   };
 
@@ -40,8 +41,18 @@ export default function ListAddedSpecificTaskProducts() {
     }
   }, [products]);
 
+  const onConfirm = () => {
+    modalRef.current?.close();
+    controls.clear();
+    router.back();
+  };
+
+  const onCancel = () => {
+    modalRef.current?.close();
+  };
+
   return (
-    <Block className="flex h-5/6 justify-between">
+    <Block className={cn("flex justify-between gap-4 py-4", Platform.select({ ios: "h-5/6", android: "h-full" }))}>
       <Block.Scroll>
         <Table stickyHeader>
           <Table.Header className="bg-primary rounded-t-2xl px-4 py-3">
@@ -82,15 +93,33 @@ export default function ListAddedSpecificTaskProducts() {
             ))}
           </Table.Body>
         </Table>
-
-        <Button className="mt-4 p-3" onClick={() => newProduct()}>
-          <Text className="text-white">Yeni məhsul əlavə et</Text>
-        </Button>
       </Block.Scroll>
 
-      <Button className="p-3" onClick={handleUploadProducts}>
-        <Text className="text-white">Məhsulları yadda saxla</Text>
-      </Button>
+      <View className="px-4">
+        <Button onClick={newProduct}>
+          <Text className="text-white">Yeni məhsul əlavə et</Text>
+        </Button>
+      </View>
+
+      <View className="px-4">
+        <Button onClick={handleUploadProducts}>
+          <Text className="text-white">Məhsulları yadda saxla</Text>
+        </Button>
+      </View>
+
+      <Modal ref={modalRef} type="popup" defaultHeight={250}>
+        <View className="h-28 rounded-2xl bg-white p-4">
+          <Text>Çıxmaq istədiyinizdə məhsullar silinəcək. Əminsiniz?</Text>
+          <View className="flex flex-row gap-4">
+            <Button variant="danger" className="flex-1" onClick={onConfirm}>
+              <Text className="text-center text-white">Hə</Text>
+            </Button>
+            <Button variant="secondary" className="flex-1" onClick={onCancel}>
+              <Text className="text-primary text-center">Yox</Text>
+            </Button>
+          </View>
+        </View>
+      </Modal>
     </Block>
   );
 }

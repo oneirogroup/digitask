@@ -25,7 +25,10 @@ export const Warehouse: FC = () => {
       name="warehouse"
       label="Anbarı seçin..."
       valueExtractor={warehouse => warehouse.id}
-      onChange={warehouse => setWarehouseId(warehouse?.id || null)}
+      onChange={warehouse => {
+        console.log("warehouse", warehouse);
+        setWarehouseId(warehouse?.id || null);
+      }}
     >
       {warehouses.map(warehouse => (
         <Select.Option key={warehouse.id} label={warehouse.name} value={warehouse} />

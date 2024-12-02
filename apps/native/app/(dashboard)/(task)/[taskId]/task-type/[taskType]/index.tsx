@@ -167,7 +167,7 @@ export default function SpecificTask() {
             onPress={() => typeModalRef.current?.open()}
             className="flex flex-row items-center justify-between p-2"
           >
-            <Text>Yeni Qosulma</Text>
+            <Text>Yeni Anket</Text>
             <View>
               <Icon name="plus" variables={{ stroke: palette.primary["50"] }} />
             </View>
@@ -189,12 +189,7 @@ export default function SpecificTask() {
         </BlockContainer>
       </When>
 
-      <Modal
-        ref={typeModalRef}
-        type="popup"
-        height={Platform.select({ android: 240, ios: 123, default: 123 })}
-        className="p-4"
-      >
+      <Modal ref={typeModalRef} type="popup" className="p-4">
         <View className="flex gap-6">
           <View>
             <Text className="text-1.5xl text-center">Servis növü</Text>
