@@ -1,8 +1,7 @@
-import { api } from "libs/shared-lib/src/api";
 import { useState } from "react";
-import { KeyboardAvoidingView, Text, View } from "react-native";
+import { Text, View } from "react-native";
 
-import { RoomsApiViewAtom, fields, useRecoilQuery } from "@digitask/shared-lib";
+import { RoomsApiViewAtom, api, fields, useRecoilQuery } from "@digitask/shared-lib";
 import { Block, If, Input } from "@mdreal/ui-kit";
 
 import { ChatRoom } from "../../../components/chat";

@@ -72,7 +72,7 @@ export default function SpecificTask() {
             value={currentTask.full_name}
           />
           <Field
-            icon={<Icon name="phone" state={false} variables={{ stroke: palette.primary["50"] }} />}
+            icon={<Icon name="phone" variables={{ stroke: palette.primary["50"] }} />}
             label="Qeydiyyat nömrəsi"
             value={currentTask.phone}
           />
@@ -96,8 +96,20 @@ export default function SpecificTask() {
         <Block className="flex gap-6">
           <Field
             icon={<Icon name="gear-wheel" state={false} variables={{ stroke: palette.primary["50"] }} />}
-            label="Servis"
-            value={currentTask.services}
+            label="Xidmət"
+            value={
+              <View>
+                <When condition={currentTask.has_tv}>
+                  <Icon name="tv" variables={{ fill: palette.primary["50"] }} />
+                </When>
+                <When condition={currentTask.has_internet}>
+                  <Icon name="web" variables={{ fill: palette.primary["50"] }} />
+                </When>
+                <When condition={currentTask.has_voice}>
+                  <Icon name="phone" variables={{ stroke: palette.primary["50"] }} />
+                </When>
+              </View>
+            }
           />
           <Field
             icon={<Icon name="clock" state={false} variables={{ fill: palette.primary["50"] }} />}
