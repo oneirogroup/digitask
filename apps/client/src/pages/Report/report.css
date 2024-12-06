@@ -4,16 +4,27 @@
 .ant-list-items {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 11px;
   background-color: rgba(128, 128, 128, 0.103);
 }
 .report-page-item {
   background-color: white;
   box-shadow: 0px 10px 10px #cbcbcb;
-  padding: 15px !important;
+  padding: 12px !important;
   border-radius: 15px;
 }
 .bottomClass {
   display: flex;
   justify-content: space-between;
+}
+
+:where(.css-dev-only-do-not-override-1wwf28x).ant-list-vertical
+  .ant-list-item
+  .ant-list-item-meta
+  .ant-list-item-meta-title {
+  margin-bottom: 5px;
+}
+
+:where(.css-dev-only-do-not-override-1wwf28x).ant-list-vertical .ant-list-item .ant-list-item-meta {
+  margin-bottom: 5px;
 }
