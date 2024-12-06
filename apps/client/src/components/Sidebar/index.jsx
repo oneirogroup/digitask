@@ -53,7 +53,7 @@ const Sidebar = ({ children, isSidebarOpen, onClose, onToggleExpand }) => {
       },
       {
         path: "/report/",
-        name: "Report",
+        name: "Hesabat",
         icon: <TbMessageReport />
       }
     ].filter(Boolean);

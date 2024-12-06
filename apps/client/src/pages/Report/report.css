@@ -1,0 +1,19 @@
+.report-page-list {
+  background-color: white;
+}
+.ant-list-items {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  background-color: rgba(128, 128, 128, 0.103);
+}
+.report-page-item {
+  background-color: white;
+  box-shadow: 0px 10px 10px #cbcbcb;
+  padding: 15px !important;
+  border-radius: 15px;
+}
+.bottomClass {
+  display: flex;
+  justify-content: space-between;
+}
