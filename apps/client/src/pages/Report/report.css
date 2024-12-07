@@ -12,6 +12,7 @@
   box-shadow: 0px 10px 10px #cbcbcb;
   padding: 12px !important;
   border-radius: 15px;
+  cursor: pointer;
 }
 .bottomClass {
   display: flex;
@@ -27,4 +28,19 @@
 
 :where(.css-dev-only-do-not-override-1wwf28x).ant-list-vertical .ant-list-item .ant-list-item-meta {
   margin-bottom: 5px;
+}
+
+.report-date-filter{
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: row;
+}
+
+:where(.css-dev-only-do-not-override-1wwf28x).ant-picker {
+  padding: 7px 17px 7px;
+}
+
+:where(.css-dev-only-do-not-override-1wwf28x).ant-pagination {
+  align-items: center;
+  justify-content: center;
 }
