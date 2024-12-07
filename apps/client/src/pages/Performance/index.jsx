@@ -175,7 +175,7 @@ function Index() {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="8">No data available</td>
+                  <td colSpan="8">Məlumat mövcud deyil</td>
                 </tr>
               )}
             </tbody>
