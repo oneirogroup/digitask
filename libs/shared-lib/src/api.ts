@@ -36,6 +36,11 @@ export const api = {
         return authHttp.get<Backend.Task>(`/services/task/${id}`);
       }
     },
+    meetings: {
+      $get() {
+        return authHttp.get<Backend.Meeting[]>("/services/meetings/");
+      }
+    },
     tasks: {
       $get(taskType: "connection" | "problem") {
         return authHttp.get<Backend.Task[]>(`/services/status/?task_type=${taskType}`);

@@ -6,7 +6,8 @@ import { tasksAtom } from "@digitask/shared-lib";
 
 import { ChatRoomHeaderRight, ChatRoomHeaderTitle } from "../../components/header/chat";
 import { ProfileHeaderRight, ProfileHeaderTitle } from "../../components/header/profile";
-import { TaskAddAttachmentHeaderRight } from "../../components/header/task/add-addition-header-right";
+import { TaskAddAttachmentHeaderRight } from "../../components/header/task/products-header-right";
+import { useMeetingsInit } from "../../hooks/use-meetings-init";
 import { useTasksInit } from "../../hooks/use-tasks-init";
 import { useWebsocketInit } from "../../hooks/use-websocket-init";
 import { TaskType } from "../../types/task-type";
@@ -17,6 +18,7 @@ export default function DashboardLayout() {
   useWebsocketInit();
   useTasksInit(TaskType.Connection);
   useTasksInit(TaskType.Problem);
+  useMeetingsInit();
 
   return (
     <Stack initialRouteName="(tabs)">
@@ -53,12 +55,11 @@ export default function DashboardLayout() {
         options={{
           title: "Tapşırıq",
           presentation: "modal",
-          headerBackButtonDisplayMode: "minimal",
-          headerRight: () => <TaskAddAttachmentHeaderRight />
+          headerBackButtonDisplayMode: "minimal"
         }}
       />
       <Stack.Screen
-        name="(task)/[taskId]/products"
+        name="(task)/[taskId]/task-type/[taskType]/products"
         options={{
           title: "Məhsul əlavə et",
           presentation: "modal",
@@ -67,12 +68,11 @@ export default function DashboardLayout() {
         }}
       />
       <Stack.Screen
-        name="(task)/[taskId]/add-product"
+        name="(task)/[taskId]/task-type/[taskType]/add-product"
         options={{
           title: "Məhsul əlavə et",
           presentation: "modal",
-          headerBackButtonDisplayMode: "minimal",
-          headerRight: () => <TaskAddAttachmentHeaderRight />
+          headerBackButtonDisplayMode: "minimal"
         }}
       />
     </Stack>

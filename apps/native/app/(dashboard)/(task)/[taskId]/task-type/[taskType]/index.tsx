@@ -4,8 +4,9 @@ import { useRef } from "react";
 import { Platform, Pressable, Text, TouchableOpacity, View } from "react-native";
 import { useRecoilValue } from "recoil";
 
-import { Backend, DateService, TaskStatuses, tasksAtom } from "@digitask/shared-lib";
+import { Backend, DateService, TaskStatuses, api, fields, tasksAtom } from "@digitask/shared-lib";
 import { Block, Button, Icon, Modal, ModalRef, When } from "@mdreal/ui-kit";
+import { useQuery } from "@tanstack/react-query";
 
 import { palette } from "../../../../../../../../palette";
 import { BlockContainer } from "../../../../../../components/blocks";
@@ -31,7 +32,12 @@ export default function SpecificTask() {
 
   const { taskId, taskType } = useLocalSearchParams() as { taskId: string; taskType: "connection" | "problem" };
   const tasks = useRecoilValue(tasksAtom(taskType));
-  const currentTask = tasks.find(task => task.id === +taskId);
+
+  const { data: currentTask = tasks.find(task => task.id === +taskId) } = useQuery({
+    queryKey: [fields.tasks.get, taskId],
+    queryFn: () => api.services.task.$get(+taskId),
+    enabled: !!taskId
+  });
 
   useFocusEffect(() => {
     return () => {
@@ -98,15 +104,15 @@ export default function SpecificTask() {
             icon={<Icon name="gear-wheel" state={false} variables={{ stroke: palette.primary["50"] }} />}
             label="Xidmət"
             value={
-              <View>
-                <When condition={currentTask.has_tv}>
+              <View className="flex flex-row gap-2">
+                <When condition={currentTask.is_tv}>
                   <Icon name="tv" variables={{ fill: palette.primary["50"] }} />
                 </When>
-                <When condition={currentTask.has_internet}>
+                <When condition={currentTask.is_internet}>
                   <Icon name="web" variables={{ fill: palette.primary["50"] }} />
                 </When>
-                <When condition={currentTask.has_voice}>
-                  <Icon name="phone" variables={{ stroke: palette.primary["50"] }} />
+                <When condition={currentTask.is_voice}>
+                  <Icon name="voice" variables={{ stroke: palette.primary["50"] }} />
                 </When>
               </View>
             }
@@ -190,7 +196,9 @@ export default function SpecificTask() {
       <When condition={currentTask.has_tv || currentTask.has_internet || currentTask.has_voice}>
         <BlockContainer>
           <Pressable
-            onPress={() => router.push({ pathname: "/[taskId]/products", params: { taskId } })}
+            onPress={() =>
+              router.push({ pathname: "/[taskId]/task-type/[taskType]/products", params: { taskId, taskType } })
+            }
             className="flex flex-row items-center justify-between p-2"
           >
             <Text>Məhsul əlavə et</Text>
@@ -204,7 +212,7 @@ export default function SpecificTask() {
       <Modal ref={typeModalRef} type="popup" className="p-4">
         <View className="flex gap-6">
           <View>
-            <Text className="text-1.5xl text-center">Servis növü</Text>
+            <Text className="text-1.5xl text-center">Xidmətin növü</Text>
             <Text className="text-neutral text-center text-lg">Hansı anketi doldurursunuz?</Text>
           </View>
 

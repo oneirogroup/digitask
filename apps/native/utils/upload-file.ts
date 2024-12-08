@@ -3,8 +3,16 @@ import type { ImagePickerAsset } from "expo-image-picker";
 
 import { AuthHttp, logger } from "@mdreal/ui-kit";
 
+import { AuthService } from "../components/services/auth.service";
+
 export const uploadFile = async (url: string, asset: ImagePickerAsset, fileKey: string) => {
-  await AuthHttp.instance().refreshToken();
+  try {
+    await AuthHttp.instance().refreshToken();
+  } catch {
+    await AuthService.logout();
+    return;
+  }
+
   const token = AuthHttp.settings().getTokens();
   logger.debug("digitask.native:file-upload:asset.uri", asset.uri);
   logger.debug("digitask.native:file-upload:authorization-token", `Authorization: Bearer ${token.access}`);

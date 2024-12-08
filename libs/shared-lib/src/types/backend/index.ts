@@ -1,5 +1,6 @@
 export * from "./auth-token";
 export * from "./chat-room";
+export * from "./meeting";
 export * from "./message";
 export * from "./performance-profile";
 export * from "./profile-data";

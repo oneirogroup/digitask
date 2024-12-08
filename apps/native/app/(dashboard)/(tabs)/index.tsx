@@ -98,12 +98,12 @@ export default function Index() {
             </If.Then>
 
             <If.Else>
-              <Text>Task tapılmadı</Text>
+              <Text>Tapşırıq tapılmadı</Text>
             </If.Else>
           </If>
         </BlockSection>
 
-        <BlockSection title="Tədbirlər" href="/">
+        <BlockSection title="Tədbirlər" href="/meeting">
           <Event name="Tədbir adı" date={new Date()} />
         </BlockSection>
       </Block.Scroll>

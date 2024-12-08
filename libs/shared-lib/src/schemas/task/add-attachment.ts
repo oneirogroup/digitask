@@ -3,8 +3,8 @@ import { z } from "zod";
 
 const baseAttachmentSchema = z.object({
   modem_SN: z.string(),
-  passport: z.custom<ImagePickerAsset>(),
-  photo_modem: z.custom<ImagePickerAsset>(),
+  passport: z.custom<ImagePickerAsset>().refine(val => !!val.uri, { message: "Şəkilin yüklənməsi məcburidir." }),
+  photo_modem: z.custom<ImagePickerAsset>().refine(val => !!val.uri, { message: "Şəkilin yüklənməsi məcburidir." }),
   note: z.string().optional()
 });
 

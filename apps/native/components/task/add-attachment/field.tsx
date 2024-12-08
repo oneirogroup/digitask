@@ -13,7 +13,7 @@ export const Field: FC<FieldProps> = ({ icon, label, value }) => {
         <Text className="flex-1">{label}</Text>
         <If condition={typeof value === "string"}>
           <If.Then>
-            <Text className="text-right">{}</Text>
+            <Text className="text-right">{value}</Text>
           </If.Then>
 
           <If.Else>{value}</If.Else>

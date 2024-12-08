@@ -18,6 +18,9 @@ export const baseConfig = defineConfig({
     presets: [require("nativewind/preset")],
     theme: {
       extend: {
+        margin: {
+          26: "6.5rem"
+        },
         fontSize: {
           "1.5xl": "1.375rem"
         },

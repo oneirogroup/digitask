@@ -1,45 +1,13 @@
-import { useFocusEffect, useLocalSearchParams, useNavigation, useRouter } from "expo-router";
-import { useEffect, useState } from "react";
-import { BackHandler, Platform, Text, View } from "react-native";
+import { useRouter } from "expo-router";
+import { Text, View } from "react-native";
 
-import { api, productsAtom, useRecoilArray } from "@digitask/shared-lib";
-import { Block, Button, Modal, Table, cn, useModalRef } from "@mdreal/ui-kit";
-import { useMutation } from "@tanstack/react-query";
+import { productsAtom, useRecoilArray } from "@digitask/shared-lib";
+import { Block, Button, Modal, Table, useModalRef } from "@mdreal/ui-kit";
 
 export default function ListAddedSpecificTaskProducts() {
   const modalRef = useModalRef();
   const router = useRouter();
-  const { taskId } = useLocalSearchParams() as { taskId: string };
   const [products, controls] = useRecoilArray(productsAtom);
-
-  const bulkUploadProducts = useMutation({
-    mutationFn: api.services.warehouse.items.$bulkCreate
-  });
-
-  const newProduct = () => {
-    router.push({ pathname: `/(task)/[taskId]/add-product`, params: { taskId } });
-  };
-
-  const handleUploadProducts = async () => {
-    await bulkUploadProducts.mutateAsync(
-      products.map(product => ({
-        task: product.task,
-        count: +product.count,
-        item: product.item!.id,
-        is_tv: product.type === "tv",
-        is_internet: product.type === "internet",
-        is_voice: product.type === "voice"
-      }))
-    );
-    controls.clear();
-    router.back();
-  };
-
-  useEffect(() => {
-    if (products.length === 0) {
-      newProduct();
-    }
-  }, [products]);
 
   const onConfirm = () => {
     modalRef.current?.close();
@@ -52,7 +20,7 @@ export default function ListAddedSpecificTaskProducts() {
   };
 
   return (
-    <Block className={cn("flex justify-between gap-4 py-4", Platform.select({ ios: "h-5/6", android: "h-full" }))}>
+    <Block className="flex justify-between gap-4 py-4">
       <Block.Scroll>
         <Table stickyHeader>
           <Table.Header className="bg-primary rounded-t-2xl px-4 py-3">
@@ -94,18 +62,6 @@ export default function ListAddedSpecificTaskProducts() {
           </Table.Body>
         </Table>
       </Block.Scroll>
-
-      <View className="px-4">
-        <Button onClick={newProduct}>
-          <Text className="text-white">Yeni məhsul əlavə et</Text>
-        </Button>
-      </View>
-
-      <View className="px-4">
-        <Button onClick={handleUploadProducts}>
-          <Text className="text-white">Məhsulları yadda saxla</Text>
-        </Button>
-      </View>
 
       <Modal ref={modalRef} type="popup" defaultHeight={250}>
         <View className="h-28 rounded-2xl bg-white p-4">

@@ -26,6 +26,7 @@ export const fields = eck("digitask.native", c => ({
   })),
   task: c`task`,
   tasks: c.e("tasks", c => ({
+    get: c`get`,
     filter: c.e("filter", c => ({
       partial: c`partial`
     })),
@@ -42,5 +43,6 @@ export const fields = eck("digitask.native", c => ({
   warehouse: c.e(`warehouse`, c => ({
     item: c`item`
   })),
+  meeting: c`meeting`,
   location: c`location`
 }));

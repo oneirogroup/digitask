@@ -46,6 +46,16 @@ export default function DashboardTabsLayout() {
         }}
       />
       <Tabs.Screen
+        name="meeting"
+        options={{
+          title: "Tədbirlər",
+          headerLeft: () => <HeaderLeft title="Tədbirlər" />,
+          tabBarIcon: ({ focused, color }) => (
+            <Icon name="calendar" state={focused && "active"} variables={{ fill: color }} />
+          )
+        }}
+      />
+      <Tabs.Screen
         name="profile"
         options={{
           title: "Profil",

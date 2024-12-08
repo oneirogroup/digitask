@@ -14,7 +14,7 @@ dayjs.extend(devHelper);
 dayjs.extend(utc);
 dayjs.extend(timezone);
 dayjs.locale(az);
-// @ts-expect-error
+// @ts-ignore
 dayjs.extend((option, dayjsClass, dayjsFactory) => {});
 
 export class DateService extends Date {
