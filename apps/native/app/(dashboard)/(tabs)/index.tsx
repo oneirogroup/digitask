@@ -6,12 +6,13 @@ import {
   DateService,
   Task,
   TaskStatuses,
+  eventsAtom,
   getTags,
   tasksAtom,
   tasksFilterSelector,
   useRecoilArrayControls
 } from "@digitask/shared-lib";
-import { Block, Icon, If } from "@mdreal/ui-kit";
+import { Block, Icon, If, When } from "@mdreal/ui-kit";
 
 import { palette } from "../../../../../palette";
 import { BlockContainer, BlockSection } from "../../../components/blocks";
@@ -25,6 +26,9 @@ export default function Index() {
 
   const finishedConnectionTasks = connectionTasks.filter(task => task.status === TaskStatuses.Completed);
   const finishedProblemTasks = problemTasks.filter(task => task.status === TaskStatuses.Completed);
+
+  const events = useRecoilValue(eventsAtom);
+  const event = events[0];
 
   const controls = useRecoilArrayControls(tasksAtom(TaskType.Connection));
   const setFilter = useSetRecoilState(tasksFilterSelector(TaskType.Connection));
@@ -73,7 +77,7 @@ export default function Index() {
         </BlockContainer>
 
         <BlockSection
-          title="Davam edən tasklar"
+          title="Davam edən tapşırıqlar"
           onClick={() => setFilter({ status: TaskStatuses.InProgress })}
           href="/task"
         >
@@ -98,13 +102,20 @@ export default function Index() {
             </If.Then>
 
             <If.Else>
-              <Text>Tapşırıq tapılmadı</Text>
+              <Text className="text-center text-lg">Tapşırıq tapılmadı</Text>
             </If.Else>
           </If>
         </BlockSection>
 
-        <BlockSection title="Tədbirlər" href="/meeting">
-          <Event name="Tədbir adı" date={new Date()} />
+        <BlockSection title="Tədbirlər" href="/event">
+          <When condition={!!event}>
+            <Event
+              id={event!?.id}
+              name={event!?.title}
+              date={DateService.from(event!?.date)}
+              description={event!?.meeting_description}
+            />
+          </When>
         </BlockSection>
       </Block.Scroll>
     </Block.Fade>

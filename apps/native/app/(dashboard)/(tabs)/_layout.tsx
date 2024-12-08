@@ -46,7 +46,7 @@ export default function DashboardTabsLayout() {
         }}
       />
       <Tabs.Screen
-        name="meeting"
+        name="event"
         options={{
           title: "Tədbirlər",
           headerLeft: () => <HeaderLeft title="Tədbirlər" />,

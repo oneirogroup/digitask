@@ -36,9 +36,12 @@ export const api = {
         return authHttp.get<Backend.Task>(`/services/task/${id}`);
       }
     },
-    meetings: {
-      $get() {
-        return authHttp.get<Backend.Meeting[]>("/services/meetings/");
+    events: {
+      $getAll() {
+        return authHttp.get<Backend.Event[]>("/services/meetings/");
+      },
+      $get(id: number) {
+        return authHttp.get<Backend.SingleEvent>(`/services/meeting/${id}`);
       }
     },
     tasks: {

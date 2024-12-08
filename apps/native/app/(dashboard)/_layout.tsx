@@ -7,7 +7,7 @@ import { tasksAtom } from "@digitask/shared-lib";
 import { ChatRoomHeaderRight, ChatRoomHeaderTitle } from "../../components/header/chat";
 import { ProfileHeaderRight, ProfileHeaderTitle } from "../../components/header/profile";
 import { TaskAddAttachmentHeaderRight } from "../../components/header/task/products-header-right";
-import { useMeetingsInit } from "../../hooks/use-meetings-init";
+import { useEventsInit } from "../../hooks/use-events-init";
 import { useTasksInit } from "../../hooks/use-tasks-init";
 import { useWebsocketInit } from "../../hooks/use-websocket-init";
 import { TaskType } from "../../types/task-type";
@@ -18,7 +18,7 @@ export default function DashboardLayout() {
   useWebsocketInit();
   useTasksInit(TaskType.Connection);
   useTasksInit(TaskType.Problem);
-  useMeetingsInit();
+  useEventsInit();
 
   return (
     <Stack initialRouteName="(tabs)">
@@ -29,6 +29,14 @@ export default function DashboardLayout() {
           headerBackButtonDisplayMode: "minimal",
           headerTitle: () => <ChatRoomHeaderTitle />,
           headerRight: () => <ChatRoomHeaderRight />
+        }}
+      />
+
+      <Stack.Screen
+        name="(event)/[id]"
+        options={{
+          title: "Tədbir",
+          headerBackButtonDisplayMode: "minimal"
         }}
       />
 

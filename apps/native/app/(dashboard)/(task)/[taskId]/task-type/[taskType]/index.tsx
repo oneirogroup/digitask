@@ -10,7 +10,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import { palette } from "../../../../../../../../palette";
 import { BlockContainer } from "../../../../../../components/blocks";
-import { Field } from "../../../../../../components/task/add-attachment/field";
+import { Field } from "../../../../../../components/field";
 
 const translation = {
   tv: "TV",
@@ -48,7 +48,7 @@ export default function SpecificTask() {
   if (!currentTask) {
     return (
       <Block>
-        <Text>Tapşırıq tapılmadı</Text>
+        <Text className="text-center text-lg">Tapşırıq tapılmadı</Text>
       </Block>
     );
   }
