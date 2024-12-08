@@ -3,6 +3,7 @@ import { FaWarehouse } from "react-icons/fa";
 import { GoHomeFill } from "react-icons/go";
 import { MdLogout, MdMenu } from "react-icons/md";
 import { MdClose } from "react-icons/md";
+import { TbMessageReport } from "react-icons/tb";
 import { TiArrowLeftThick, TiArrowRightThick } from "react-icons/ti";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useLocation } from "react-router-dom";
@@ -49,6 +50,11 @@ const Sidebar = ({ children, isSidebarOpen, onClose, onToggleExpand }) => {
         path: "/employees/",
         name: "İşçilər",
         icon: <img src={Engineering} alt="Engineering Icon" style={{ width: "24px", height: "24px" }} />
+      },
+      {
+        path: "/report/",
+        name: "Hesabat",
+        icon: <TbMessageReport />
       }
     ].filter(Boolean);
 

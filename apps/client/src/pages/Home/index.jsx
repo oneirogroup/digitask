@@ -246,7 +246,7 @@ const Home = () => {
                     </tr>
                   ))
                 ) : (
-                  <div>No data available.</div>
+                  <div>Məlumat mövcud deyil.</div>
                 )}
               </tbody>
             </table>
