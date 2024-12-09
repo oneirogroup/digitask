@@ -18,7 +18,7 @@ export default function SingleEvent() {
     initialData: events.find(e => e.id === +id) as Backend.SingleEvent
   });
 
-  if (!id) {
+  if (!id || !event) {
     return (
       <View>
         <Text className="text-center text-lg">Tədbir tapılmadı</Text>
@@ -28,14 +28,16 @@ export default function SingleEvent() {
 
   return (
     <Block.Scroll contentClassName="gap-2 p-4">
-      <Field label="Görüşün adı" value={event!?.title} />
+      <Field label="Görüşün adı" value={event.title} />
 
-      <Field label="Görüş növü" value={event?.meeting_type} />
-      <Field label="Tarix" value={DateService.from(event?.date).format("DD MMM YYYY HH:mm")} />
-      <Field label="Tədbir haqqında" value={event?.meeting_description} />
+      <Field label="Görüş növü" value={event.meeting_type} />
+      <Field label="Tarix" value={DateService.from(event.date).format("DD MMM YYYY HH:mm")} />
+      <Field label="Tədbir haqqında" value={event.meeting_description} />
 
-      <Field label="İştirakçılar" value={event?.participants[0] ?? ""} />
-      {event?.participants.slice(1).map(participant => <Field key={participant} label="" value={participant} />)}
+      <Field label="İştirakçılar" value={event.participants[0] ?? ""} />
+      {event.participants.slice(1).map(participant => (
+        <Field key={participant} label="" value={participant} />
+      ))}
     </Block.Scroll>
   );
 }
