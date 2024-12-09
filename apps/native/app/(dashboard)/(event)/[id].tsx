@@ -12,13 +12,12 @@ export default function SingleEvent() {
   const { id } = useLocalSearchParams() as { id: string };
 
   const events = useRecoilValue(eventsAtom);
-  const { data: event } = useQuery({
+  const { data: event = events.find(e => e.id === +id) as Backend.SingleEvent } = useQuery({
     queryKey: [fields.event, id],
-    queryFn: () => api.services.events.$get(+id),
-    initialData: events.find(e => e.id === +id) as Backend.SingleEvent
+    queryFn: () => api.services.events.$get(+id)
   });
 
-  if (!id || !event) {
+  if (!id) {
     return (
       <View>
         <Text className="text-center text-lg">Tədbir tapılmadı</Text>
@@ -34,10 +33,8 @@ export default function SingleEvent() {
       <Field label="Tarix" value={DateService.from(event.date).format("DD MMM YYYY HH:mm")} />
       <Field label="Tədbir haqqında" value={event.meeting_description} />
 
-      <Field label="İştirakçılar" value={event.participants[0] ?? ""} />
-      {event.participants.slice(1).map(participant => (
-        <Field key={participant} label="" value={participant} />
-      ))}
+      <Field label="İştirakçılar" value={event.participants?.[0] ?? ""} />
+      {event.participants?.slice(1)?.map(participant => <Field key={participant} label="" value={participant} />)}
     </Block.Scroll>
   );
 }
