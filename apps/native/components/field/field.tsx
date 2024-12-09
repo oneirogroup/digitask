@@ -8,12 +8,12 @@ import { FieldProps } from "./field.types";
 export const Field: FC<FieldProps> = ({ icon, label, value }) => {
   return (
     <Block>
-      <Block className="flex flex-row items-center gap-2 px-1">
+      <Block className="flex flex-row flex-wrap gap-2 px-1">
         <View>{icon}</View>
         <Text className="flex-1">{label}</Text>
         <If condition={typeof value === "string"}>
           <If.Then>
-            <Text className="text-right">{value}</Text>
+            <Text>{value}</Text>
           </If.Then>
 
           <If.Else>{value}</If.Else>

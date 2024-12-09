@@ -1,7 +1,7 @@
 import { Image } from "expo-image";
 import { useFocusEffect, useLocalSearchParams, useRouter } from "expo-router";
-import { useRef } from "react";
-import { Platform, Pressable, Text, TouchableOpacity, View } from "react-native";
+import { useRef, useState } from "react";
+import { Platform, Pressable, RefreshControl, Text, TouchableOpacity, View } from "react-native";
 import { useRecoilValue } from "recoil";
 
 import { Backend, DateService, TaskStatuses, api, fields, tasksAtom } from "@digitask/shared-lib";
@@ -33,7 +33,11 @@ export default function SpecificTask() {
   const { taskId, taskType } = useLocalSearchParams() as { taskId: string; taskType: "connection" | "problem" };
   const tasks = useRecoilValue(tasksAtom(taskType));
 
-  const { data: currentTask = tasks.find(task => task.id === +taskId) } = useQuery({
+  const {
+    data: currentTask = tasks.find(task => task.id === +taskId),
+    refetch,
+    isRefetching
+  } = useQuery({
     queryKey: [fields.tasks.get, taskId],
     queryFn: () => api.services.task.$get(+taskId),
     enabled: !!taskId
@@ -68,8 +72,16 @@ export default function SpecificTask() {
     };
   };
 
+  const onRefresh = async () => {
+    console.log("refreshing");
+    await refetch();
+  };
+
   return (
-    <Block.Scroll contentClassName="flex gap-4 p-4">
+    <Block.Scroll
+      contentClassName="flex gap-4 p-4"
+      refreshControl={<RefreshControl refreshing={isRefetching} onRefresh={onRefresh} />}
+    >
       <BlockContainer className="flex gap-10">
         <Block className="flex gap-6">
           <Field
@@ -112,7 +124,7 @@ export default function SpecificTask() {
                   <Icon name="web" variables={{ fill: palette.primary["50"] }} />
                 </When>
                 <When condition={currentTask.is_voice}>
-                  <Icon name="voice" variables={{ stroke: palette.primary["50"] }} />
+                  <Icon name="voice" variables={{ fill: palette.primary["50"] }} />
                 </When>
               </View>
             }
@@ -178,7 +190,13 @@ export default function SpecificTask() {
         </BlockContainer>
       ))}
 
-      <When condition={!currentTask.has_tv || !currentTask.has_internet || !currentTask.has_voice}>
+      <When
+        condition={
+          (currentTask.is_tv && !currentTask.has_tv) ||
+          (currentTask.is_internet && !currentTask.has_internet) ||
+          (currentTask.is_voice && !currentTask.has_voice)
+        }
+      >
         <BlockContainer>
           <TouchableOpacity
             activeOpacity={1}
@@ -217,19 +235,19 @@ export default function SpecificTask() {
           </View>
 
           <View className="flex flex-row gap-4">
-            <When condition={!currentTask.has_tv}>
+            <When condition={currentTask.is_tv && !currentTask.has_tv}>
               <Button variant="secondary" className="border-secondary flex-1" onClick={redirectTo("tv")}>
                 <Text className="text-center">Tv</Text>
               </Button>
             </When>
 
-            <When condition={!currentTask.has_internet}>
+            <When condition={currentTask.is_internet && !currentTask.has_internet}>
               <Button variant="secondary" className="border-secondary flex-1" onClick={redirectTo("internet")}>
                 <Text className="text-center">İnternet</Text>
               </Button>
             </When>
 
-            <When condition={!currentTask.has_voice}>
+            <When condition={currentTask.is_voice && !currentTask.has_voice}>
               <Button variant="secondary" className="border-secondary flex-1" onClick={redirectTo("voice")}>
                 <Text className="text-center">Səs</Text>
               </Button>

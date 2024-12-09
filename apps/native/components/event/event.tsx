@@ -38,7 +38,7 @@ export const Event: FC<EventProps> = ({ id, name, date, description }) => {
         </Block>
 
         <Block className="flex flex-row items-center justify-between">
-          <Text className="text-xl text-white">{description}</Text>
+          <Text className="line-clamp-1 text-xl text-white">{description}</Text>
           <Icon name="arrow-right" variables={{ fill: "white" }} />
         </Block>
       </BlockContainer>

@@ -13,6 +13,7 @@ import {
   VoiceAttachmentSchema,
   api,
   fields,
+  queryClient,
   taskAddAttachmentSchema,
   tasksAtom
 } from "@digitask/shared-lib";
@@ -55,7 +56,6 @@ export default function AddSpecificTaskAttachment() {
   const [isLoading, setIsLoading] = useState(false);
 
   const tasks = useRecoilValue(tasksAtom(taskType));
-  const setTasks = useSetRecoilState(tasksAtom(taskType));
   const { data: currentTask } = useQuery<Backend.Task>({
     queryKey: [fields.tasks.get, taskId],
     enabled: !!taskId
@@ -70,19 +70,11 @@ export default function AddSpecificTaskAttachment() {
     ) => api.services.tasks.$post(data)
   });
 
-  const taskMutation = useMutation({
-    mutationKey: [fields.task],
-    mutationFn: (taskId: number) => api.services.task.$get(+taskId)
-  });
-
   useEffect(() => {
     if (!tasks.length) return;
     if (!currentTask || currentTask[`has_${attachmentType}`]) {
-      if (router.canGoBack()) {
-        router.back();
-      } else {
-        router.replace({ pathname: "/[taskId]/task-type/[taskType]", params: { taskId, taskType } });
-      }
+      if (router.canGoBack()) router.back();
+      else router.replace({ pathname: "/[taskId]/task-type/[taskType]", params: { taskId, taskType } });
     }
   }, [currentTask]);
 
@@ -105,18 +97,11 @@ export default function AddSpecificTaskAttachment() {
                 photo_modem,
                 "photo_modem"
               );
-              const task = await taskMutation.mutateAsync(+taskId);
-              setTasks(prevTasks => {
-                const taskIndex = prevTasks.findIndex(task => task.id === +taskId);
-                const updatedTask = { ...prevTasks[taskIndex], ...task };
-                return prevTasks.map((task, index) => (index === taskIndex ? updatedTask : task));
-              });
+
+              await queryClient.invalidateQueries({ queryKey: [fields.tasks.get, taskId] });
             });
 
-            router.replace({
-              pathname: "/[taskId]/task-type/[taskType]",
-              params: { taskId, taskType }
-            });
+            router.back();
           }}
         >
           <FileUploader.Controlled name="passport" label="Şəxsiyyət vəsiqəsinin fotosu" value={currentTask?.passport} />
