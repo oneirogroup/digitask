@@ -108,14 +108,20 @@ export default function Index() {
         </BlockSection>
 
         <BlockSection title="Tədbirlər" href="/event">
-          <When condition={!!event}>
-            <Event
-              id={event!?.id}
-              name={event!?.title}
-              date={DateService.from(event!?.date)}
-              description={event!?.meeting_description}
-            />
-          </When>
+          <If condition={!!event}>
+            <If.Then>
+              <Event
+                id={event!?.id}
+                name={event!?.title}
+                date={DateService.from(event!?.date)}
+                description={event!?.meeting_description}
+              />
+            </If.Then>
+
+            <If.Else>
+              <Text className="text-center text-lg">Tədbir tapılmadı</Text>
+            </If.Else>
+          </If>
         </BlockSection>
       </Block.Scroll>
     </Block.Fade>

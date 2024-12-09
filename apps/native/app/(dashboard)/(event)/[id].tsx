@@ -33,8 +33,10 @@ export default function SingleEvent() {
       <Field label="Tarix" value={DateService.from(event.date).format("DD MMM YYYY HH:mm")} />
       <Field label="Tədbir haqqında" value={event.meeting_description} />
 
-      <Field label="İştirakçılar" value={event.participants?.[0] ?? ""} />
-      {event.participants?.slice(1)?.map(participant => <Field key={participant} label="" value={participant} />)}
+      <Field label="İştirakçılar:" value={""} />
+      {event.participants?.map((participant, idx) => (
+        <Field key={participant} label={`${idx + 1}.`} value={participant} />
+      ))}
     </Block.Scroll>
   );
 }
