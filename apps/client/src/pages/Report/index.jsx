@@ -1,8 +1,9 @@
-import { DatePicker, List, Pagination, Skeleton, Space } from "antd";
+import { DatePicker, List, Pagination, Skeleton, Space, Tabs } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 
 import useRefreshToken from "../../common/refreshToken";
+import ReportChart from "../../components/ReportChart";
 import DetailsModal from "../../components/TaskType";
 
 import "./report.css";
@@ -28,6 +29,7 @@ const Report = () => {
     total: 0
   });
   const [filter, setFilter] = useState({ month: null });
+  const [activeTab, setActiveTab] = useState("table"); // state to track active tab
   const refreshAccessToken = useRefreshToken();
   const [isTaskDetailsModalOpen, setIsTaskDetailsModalOpen] = useState(false);
   const [selectedTaskId, setSelectedTaskId] = useState(null);
@@ -45,9 +47,7 @@ const Report = () => {
           ...(filterParams.date && { date: filterParams.date })
         }
       });
-      console.log(response);
       const fetchedData = response.data.results;
-
       setList(fetchedData);
       setPagination({
         current: page,
@@ -98,7 +98,7 @@ const Report = () => {
   const formatDate = dateString => {
     const date = new Date(dateString);
     const day = String(date.getDate()).padStart(2, "0");
-    const month = String(date.getMonth() + 1).padStart(2, "0"); // Aylar 0'dan başlar, bu yüzden +1 yapıyoruz
+    const month = String(date.getMonth() + 1).padStart(2, "0");
     const year = date.getFullYear();
     return `${day}.${month}.${year}`;
   };
@@ -110,49 +110,70 @@ const Report = () => {
     return "Xidmət mövcud deyil";
   };
 
+  const onTabChange = key => {
+    setActiveTab(key); // change active tab
+  };
+
+  const items = [
+    {
+      key: "table",
+      label: "Hesabat Cədvəli",
+      children: (
+        <div>
+          <Space direction="vertical" size={12} className="report-date-filter">
+            <DatePicker picker="month" onChange={handleDateFilterChange} placeholder="Tarix seçin" />
+          </Space>
+          <List
+            className="demo-loadmore-list report-page-list"
+            loading={initLoading}
+            itemLayout="vertical"
+            dataSource={list}
+            renderItem={item => (
+              <List.Item key={item.id} className="report-page-item" onClick={() => openTaskDetailsModal(item.id)}>
+                <Skeleton loading={loading} active>
+                  <List.Item.Meta
+                    title={`Tapşırığın qeydiyyat nömrəsi: ${item.task?.registration_number || "Ad Məlumat daxil edilməyib"}`}
+                    description={
+                      <div>
+                        <p>Hesabat: {item.report || "Hesabat mövcud deyil"}</p>
+                        <p>Tapşırığın növü: {getTranslatedLabel(TASK_TYPES, item.task?.task_type)}</p>
+                        <p>Xidmət növü: {getServiceName(item.task)}</p>
+                      </div>
+                    }
+                  />
+                  <div className={"bottomClass"}>
+                    <p>Status: {getTranslatedLabel(STATUS_OPTIONS, item.task?.status)}</p>
+                    <p>
+                      Tarix: {item.task?.date ? formatDate(item.task.date) : "Məlumat daxil edilməyib"}{" "}
+                      {item.task?.start_time && `Saat: ${item.task.start_time}`}
+                    </p>
+                  </div>
+                </Skeleton>
+              </List.Item>
+            )}
+          />
+          <Pagination
+            current={pagination.current}
+            total={pagination.total}
+            onChange={handlePageChange}
+            style={{ textAlign: "center", marginTop: "20px" }}
+          />
+        </div>
+      )
+    },
+    {
+      key: "chart",
+      label: "Diaqram",
+      children: <ReportChart />
+    }
+  ];
+
   return (
     <div>
       <div className="performance-page-title">
         <p>Hesabat</p>
       </div>
-      <Space direction="vertical" size={12} className="report-date-filter">
-        <DatePicker picker="month" onChange={handleDateFilterChange} placeholder="Tarix seçin" />
-      </Space>
-      <List
-        className="demo-loadmore-list report-page-list"
-        loading={initLoading}
-        itemLayout="vertical"
-        dataSource={list}
-        renderItem={item => (
-          <List.Item key={item.id} className="report-page-item" onClick={() => openTaskDetailsModal(item.id)}>
-            <Skeleton loading={loading} active>
-              <List.Item.Meta
-                title={`Tapşırığın qeydiyyat nömrəsi: ${item.task?.registration_number || "Ad Məlumat daxil edilməyib"}`}
-                description={
-                  <div>
-                    <p>Hesabat: {item.report || "Hesabat mövcud deyil"}</p>
-                    <p>Tapşırığın növü: {getTranslatedLabel(TASK_TYPES, item.task?.task_type)}</p>
-                    <p>Xidmət növü: {getServiceName(item.task)}</p>
-                  </div>
-                }
-              />
-              <div className={"bottomClass"}>
-                <p>Status: {getTranslatedLabel(STATUS_OPTIONS, item.task?.status)}</p>
-                <p>
-                  Tarix: {item.task?.date ? formatDate(item.task.date) : "Məlumat daxil edilməyib"}{" "}
-                  {item.task?.start_time && `Saat: ${item.task.start_time}`}
-                </p>
-              </div>
-            </Skeleton>
-          </List.Item>
-        )}
-      />
-      <Pagination
-        current={pagination.current}
-        total={pagination.total}
-        onChange={handlePageChange}
-        style={{ textAlign: "center", marginTop: "20px" }}
-      />
+      <Tabs defaultActiveKey="table" items={items} onChange={onTabChange} />
       {isTaskDetailsModalOpen && <DetailsModal onClose={closeTaskDetailsModal} taskId={selectedTaskId} />}
     </div>
   );
