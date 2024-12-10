@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 
 import { Venn } from "@ant-design/plots";
 
+import "./reportChart.css";
+
 const DemoVenn = () => {
   const [data, setData] = useState([]);
 
@@ -24,11 +26,11 @@ const DemoVenn = () => {
         const transformedData = [
           { sets: ["Tv"], size: tv - tvAndInternet - tvAndVoice + total, label: "Tv" },
           { sets: ["Internet"], size: internet - tvAndInternet - internetAndVoice + total, label: "Internet" },
-          { sets: ["Voice"], size: voice - tvAndVoice - internetAndVoice + total, label: "Voice" },
+          { sets: ["Voice"], size: voice - tvAndVoice - internetAndVoice + total, label: "Səs" },
           { sets: ["Tv", "Internet"], size: tvAndInternet - total, label: "Tv & Internet" },
-          { sets: ["Tv", "Voice"], size: tvAndVoice - total, label: "Tv & Voice" },
-          { sets: ["Internet", "Voice"], size: internetAndVoice - total, label: "Internet & Voice" },
-          { sets: ["Tv", "Internet", "Voice"], size: total, label: "Tv & Internet & Voice" }
+          { sets: ["Tv", "Voice"], size: tvAndVoice - total, label: "Tv & Səs" },
+          { sets: ["Internet", "Voice"], size: internetAndVoice - total, label: "Internet & Səs" },
+          { sets: ["Tv", "Internet", "Voice"], size: total, label: "Tv & Internet & Səs" }
         ];
 
         setData(transformedData);
@@ -46,7 +48,7 @@ const DemoVenn = () => {
         return "rgb(255, 0, 0)";
       case "Internet":
         return "rgb(0, 0, 255)";
-      case "Voice":
+      case "Səs":
         return "rgb(44, 160, 44)";
       case "Tv & Internet":
         return "rgb(204, 102, 51)";
@@ -68,10 +70,7 @@ const DemoVenn = () => {
     label: {
       position: "inside",
       text: d => {
-        if (d.sets.includes("Tv") && !d.label) return "Tv";
-        if (d.sets.includes("Internet") && !d.label) return "Internet";
-        if (d.sets.includes("Voice") && !d.label) return "Voice";
-        return d.label || "";
+        return d.label || (d.sets.length > 1 ? `${d.sets.join(" & ")}` : d.sets[0]);
       }
     },
     tooltip: {
@@ -88,7 +87,11 @@ const DemoVenn = () => {
     }
   };
 
-  return <Venn {...config} />;
+  return (
+    <div className="report-chart-color">
+      <Venn {...config} />
+    </div>
+  );
 };
 
 export default DemoVenn;
