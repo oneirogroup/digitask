@@ -44,7 +44,8 @@ const Report = () => {
       const response = await axios.get(`http://37.61.77.5/accounts/reportsListView/`, {
         params: {
           page,
-          ...(filterParams.date && { date: filterParams.date })
+          ...(filterParams.year && { year: filterParams.year }),
+          ...(filterParams.month && { month: filterParams.month })
         }
       });
       const fetchedData = response.data.results;
@@ -70,13 +71,15 @@ const Report = () => {
 
   const handleDateFilterChange = date => {
     if (date) {
-      const formattedDate = date.format("YYYY-MM");
+      const year = date.year();
+      const month = date.month() + 1;
       setFilter(prev => ({
         ...prev,
-        date: formattedDate
+        year,
+        month
       }));
     } else {
-      setFilter(prev => ({ ...prev, date: null }));
+      setFilter(prev => ({ ...prev, year: null, month: null }));
     }
   };
 

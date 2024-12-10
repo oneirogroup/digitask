@@ -26,11 +26,11 @@ const DemoVenn = () => {
         const transformedData = [
           { sets: ["Tv"], size: tv - tvAndInternet - tvAndVoice + total, label: "Tv" },
           { sets: ["Internet"], size: internet - tvAndInternet - internetAndVoice + total, label: "Internet" },
-          { sets: ["Voice"], size: voice - tvAndVoice - internetAndVoice + total, label: "Səs" },
+          { sets: ["Səs"], size: voice - tvAndVoice - internetAndVoice + total, label: "Səs" },
           { sets: ["Tv", "Internet"], size: tvAndInternet - total, label: "Tv & Internet" },
-          { sets: ["Tv", "Voice"], size: tvAndVoice - total, label: "Tv & Səs" },
-          { sets: ["Internet", "Voice"], size: internetAndVoice - total, label: "Internet & Səs" },
-          { sets: ["Tv", "Internet", "Voice"], size: total, label: "Tv & Internet & Səs" }
+          { sets: ["Tv", "Səs"], size: tvAndVoice - total, label: "Tv & Səs" },
+          { sets: ["Internet", "Səs"], size: internetAndVoice - total, label: "Internet & Səs" },
+          { sets: ["Tv", "Internet", "Səs"], size: total, label: "Tv & Internet & Səs" }
         ];
 
         setData(transformedData);
@@ -52,11 +52,11 @@ const DemoVenn = () => {
         return "rgb(44, 160, 44)";
       case "Tv & Internet":
         return "rgb(204, 102, 51)";
-      case "Tv & Voice":
+      case "Tv & Səs":
         return "rgb(115, 87, 153)";
-      case "Internet & Voice":
+      case "Internet & Səs":
         return "rgb(167, 98, 55)";
-      case "Tv & Internet & Voice":
+      case "Tv & Internet & Səs":
         return "rgb(221, 119, 177)";
       default:
         return "rgb(204, 204, 204)";
