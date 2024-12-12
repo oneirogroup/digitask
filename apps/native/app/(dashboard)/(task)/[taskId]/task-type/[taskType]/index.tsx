@@ -4,7 +4,7 @@ import { useRef, useState } from "react";
 import { Platform, Pressable, RefreshControl, Text, TouchableOpacity, View } from "react-native";
 import { useRecoilValue } from "recoil";
 
-import { Backend, DateService, TaskStatuses, api, fields, tasksAtom } from "@digitask/shared-lib";
+import { Backend, DateService, TaskStatuses, api, fields, isDev, tasksAtom } from "@digitask/shared-lib";
 import { Block, Button, Icon, Modal, ModalRef, When } from "@mdreal/ui-kit";
 import { useQuery } from "@tanstack/react-query";
 
@@ -84,6 +84,10 @@ export default function SpecificTask() {
     >
       <BlockContainer className="flex gap-10">
         <Block className="flex gap-6">
+          <When condition={isDev}>
+            <Text>Task id: {currentTask.id}</Text>
+          </When>
+
           <Field
             icon={<Icon name="user" state={false} variables={{ stroke: palette.primary["50"] }} />}
             label="Ad və soyad"

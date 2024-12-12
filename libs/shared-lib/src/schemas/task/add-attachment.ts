@@ -1,28 +1,46 @@
-import { ImagePickerAsset } from "expo-image-picker";
 import { z } from "zod";
 
+const imagePickerSchema = z.object(
+  {
+    uri: z.string(),
+    assetId: z.string().optional().nullable(),
+    width: z.number(),
+    height: z.number(),
+    type: z.union([z.literal("image"), z.literal("video")]).optional(),
+    fileName: z.string().optional().nullable(),
+    fileSize: z.number().optional(),
+    exif: z.record(z.any()).optional().nullable(),
+    base64: z.string().optional().nullable(),
+    duration: z.number().optional().nullable(),
+    mimeType: z.string().optional()
+  },
+  { message: "Şəkilin yüklənməsi məcburidir." }
+);
+
 const baseAttachmentSchema = z.object({
-  modem_SN: z.string(),
-  passport: z.custom<ImagePickerAsset>().refine(val => !!val.uri, { message: "Şəkilin yüklənməsi məcburidir." }),
-  photo_modem: z.custom<ImagePickerAsset>().refine(val => !!val.uri, { message: "Şəkilin yüklənməsi məcburidir." }),
+  modem_SN: z.string({ message: "Bu sahənin doldurulmasi məcburidir" }),
+  passport: imagePickerSchema,
+  photo_modem: imagePickerSchema,
   note: z.string().optional()
 });
 
-const tvAttachmentSchema = baseAttachmentSchema.extend({
-  type: z.literal("tv")
-});
+const tvAttachmentSchema = baseAttachmentSchema.extend({ type: z.literal("tv") }).strict();
 
-const internetAttachmentSchema = baseAttachmentSchema.extend({
-  type: z.literal("internet"),
-  siqnal: z.string(),
-  internet_packs: z.string()
-});
+const internetAttachmentSchema = baseAttachmentSchema
+  .extend({
+    type: z.literal("internet"),
+    siqnal: z.string({ message: "Bu sahənin doldurulmasi məcburidir" }),
+    internet_packs: z.string({ message: "Bu sahənin doldurulmasi məcburidir" })
+  })
+  .strict();
 
-const voiceAttachmentSchema = baseAttachmentSchema.extend({
-  type: z.literal("voice"),
-  home_number: z.string(),
-  password: z.string()
-});
+const voiceAttachmentSchema = baseAttachmentSchema
+  .extend({
+    type: z.literal("voice"),
+    home_number: z.string({ message: "Bu sahənin doldurulmasi məcburidir" }),
+    password: z.string({ message: "Bu sahənin doldurulmasi məcburidir" })
+  })
+  .strict();
 
 export const taskAddAttachmentSchema = z.discriminatedUnion("type", [
   tvAttachmentSchema,

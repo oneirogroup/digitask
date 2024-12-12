@@ -8,22 +8,17 @@ import {
   requestMediaLibraryPermissionsAsync
 } from "expo-image-picker";
 import { FC, useEffect, useRef, useState } from "react";
-import { Controller } from "react-hook-form";
 import { Text, TouchableOpacity, View } from "react-native";
 
 import { api, fields } from "@digitask/shared-lib";
-import { Icon, If, Modal, ModalRef, logger } from "@mdreal/ui-kit";
+import { ErrorMessageViewer, Icon, If, Modal, ModalRef, logger, withController } from "@mdreal/ui-kit";
 import { useMutation } from "@tanstack/react-query";
 
 import { palette } from "../../../palette";
 import { convertImageToAsset } from "../utils/convert-image-to-asset";
-import { FileUploaderExtended, FileUploaderProps } from "./file-uploader.types";
+import { FileUploaderProps } from "./file-uploader.types";
 
-export const FileUploader: FC<FileUploaderProps> & FileUploaderExtended = ({
-  label,
-  value: prePickedImage,
-  onFileUpload
-}) => {
+const FileUploaderBase: FC<FileUploaderProps> = ({ label, value: prePickedImage, onChange, error }) => {
   const modalRef = useRef<ModalRef>(null);
   const [isImageUploadedByUser, setIsImageUploadedByUser] = useState(false);
   const [pickedImage, setPickedImage] = useState<ImagePickerAsset | null>(null);
@@ -33,7 +28,7 @@ export const FileUploader: FC<FileUploaderProps> & FileUploaderExtended = ({
       !!prePickedImage &&
       convertImageToAsset(prePickedImage).then(asset => {
         setPickedImage(asset);
-        asset && onFileUpload?.(asset);
+        asset && onChange?.(asset);
       });
   }, [isImageUploadedByUser, prePickedImage]);
 
@@ -50,7 +45,7 @@ export const FileUploader: FC<FileUploaderProps> & FileUploaderExtended = ({
 
     const asset = result.assets[0];
     if (!asset) return;
-    onFileUpload?.(asset);
+    onChange?.(asset);
     setPickedImage(asset);
     setIsImageUploadedByUser(true);
   };
@@ -118,9 +113,11 @@ export const FileUploader: FC<FileUploaderProps> & FileUploaderExtended = ({
             </If.Else>
           </If>
         </View>
+
+        <ErrorMessageViewer error={error} />
       </TouchableOpacity>
 
-      <Modal ref={modalRef} type="bottom" height={200}>
+      <Modal ref={modalRef} type="bottom">
         <View className="flex gap-4 p-4">
           <TouchableOpacity onPress={pickImageFromCamera}>
             <View className="bg-neutral-95 border-neutral-90 flex flex-row rounded-2xl border-2 border-dashed p-4">
@@ -150,11 +147,4 @@ export const FileUploader: FC<FileUploaderProps> & FileUploaderExtended = ({
   );
 };
 
-FileUploader.Controlled = ({ name, value, ...props }) => {
-  return (
-    <Controller
-      name={name}
-      render={({ field }) => <FileUploader {...props} value={value} onFileUpload={field.onChange} />}
-    />
-  );
-};
+export const FileUploader = withController(FileUploaderBase);

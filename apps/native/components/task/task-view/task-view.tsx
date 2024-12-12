@@ -1,4 +1,4 @@
-import { router, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import { type FC, useRef } from "react";
 import { FlatList, Platform, Pressable, Text, View } from "react-native";
 import { useRecoilValue, useSetRecoilState } from "recoil";
