@@ -73,7 +73,6 @@ export default function SpecificTask() {
   };
 
   const onRefresh = async () => {
-    console.log("refreshing");
     await refetch();
   };
 
