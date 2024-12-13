@@ -10,8 +10,15 @@ export const statuses = [
 
 export const translations = {
   [TaskStatuses.All]: "Hamısı",
+  [TaskStatuses.Waiting]: "Gözləyir",
+  [TaskStatuses.InProgress]: "Qəbul edilib",
   [TaskStatuses.Started]: "Başlanıb",
-  [TaskStatuses.Waiting]: "Gözləmədə",
-  [TaskStatuses.InProgress]: "Davam edir",
-  [TaskStatuses.Completed]: "Bitmiş"
+  [TaskStatuses.Completed]: "Tamamlandı"
+};
+
+export const buttonTranslations = {
+  [TaskStatuses.Waiting]: "Başla",
+  [TaskStatuses.InProgress]: "Qəbul et",
+  [TaskStatuses.Started]: "Tamamla",
+  [TaskStatuses.Completed]: "Tamamlandı"
 };

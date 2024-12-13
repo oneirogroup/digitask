@@ -1,6 +1,7 @@
 import { FC } from "react";
 import { Text, View } from "react-native";
 
+import { buttonTranslations } from "@digitask/native/components/task/task-view/task-view.utils";
 import { Block, Button, Icon, Switch, When, cn } from "@mdreal/ui-kit";
 import { useMutation } from "@tanstack/react-query";
 
@@ -75,10 +76,10 @@ export const Task: FC<TaskProps> = ({ tags, task, updateTask }) => {
             )}
           >
             <Switch var={task.status}>
-              <Switch.Case value={TaskStatuses.Waiting}>Qəbul et</Switch.Case>
-              <Switch.Case value={TaskStatuses.Started}>Başla</Switch.Case>
-              <Switch.Case value={TaskStatuses.InProgress}>Tamamla</Switch.Case>
-              <Switch.Case value={TaskStatuses.Completed}>Tamamlandı</Switch.Case>
+              <Switch.Case value={TaskStatuses.Waiting}>{buttonTranslations[TaskStatuses.Waiting]}</Switch.Case>
+              <Switch.Case value={TaskStatuses.InProgress}>{buttonTranslations[TaskStatuses.InProgress]}</Switch.Case>
+              <Switch.Case value={TaskStatuses.Started}>{buttonTranslations[TaskStatuses.Started]}</Switch.Case>
+              <Switch.Case value={TaskStatuses.Completed}>{buttonTranslations[TaskStatuses.Completed]}</Switch.Case>
             </Switch>
           </Text>
         </Button>
