@@ -3,8 +3,8 @@ import { TaskStatuses } from "@digitask/shared-lib";
 export const statuses = [
   TaskStatuses.All,
   TaskStatuses.Waiting,
-  TaskStatuses.Started,
   TaskStatuses.InProgress,
+  TaskStatuses.Started,
   TaskStatuses.Completed
 ];
 
@@ -17,8 +17,8 @@ export const translations = {
 };
 
 export const buttonTranslations = {
-  [TaskStatuses.Waiting]: "Başla",
-  [TaskStatuses.InProgress]: "Qəbul et",
+  [TaskStatuses.Waiting]: "Qəbul et",
+  [TaskStatuses.InProgress]: "Başla",
   [TaskStatuses.Started]: "Tamamla",
   [TaskStatuses.Completed]: "Tamamlandı"
 };

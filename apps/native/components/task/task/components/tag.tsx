@@ -1,11 +1,11 @@
+import { TagProps } from "apps/native/components/task/task/components/tag.types";
+
+import { palette } from "palette";
 import { FC } from "react";
 import { Text, View } from "react-native";
 
+import { uppercase } from "@digitask/shared-lib/src/utils";
 import { Icon } from "@mdreal/ui-kit";
-
-import { palette } from "../../../../../../palette";
-import { uppercase } from "../../../utils";
-import { TagProps } from "./tag.types";
 
 export const Tag: FC<TagProps> = ({ tag, icon }) => {
   return (

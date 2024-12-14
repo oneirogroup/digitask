@@ -5,7 +5,6 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 
 import {
   Backend,
-  Task,
   filteredTasksSelector,
   getTags,
   taskFiltersAtom,
@@ -17,6 +16,7 @@ import {
 import { Block, Button, cn } from "@mdreal/ui-kit";
 
 import { BlockContainer } from "../../blocks";
+import { Task } from "../task";
 import type { TasksViewProps } from "./task-view.types";
 import { statuses, translations } from "./task-view.utils";
 

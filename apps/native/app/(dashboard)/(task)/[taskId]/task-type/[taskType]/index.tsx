@@ -4,7 +4,7 @@ import { useRef, useState } from "react";
 import { Platform, Pressable, RefreshControl, Text, TouchableOpacity, View } from "react-native";
 import { useRecoilValue } from "recoil";
 
-import { Backend, DateService, TaskStatuses, api, fields, isDev, tasksAtom } from "@digitask/shared-lib";
+import { Backend, DateService, TaskStatuses, api, fields, isDev, profileAtom, tasksAtom } from "@digitask/shared-lib";
 import { Block, Button, Icon, Modal, ModalRef, When } from "@mdreal/ui-kit";
 import { useQuery } from "@tanstack/react-query";
 
@@ -29,6 +29,7 @@ const statuses: Record<TaskStatuses, string> = {
 export default function SpecificTask() {
   const router = useRouter();
   const typeModalRef = useRef<ModalRef>(null);
+  const currentUserProfile = useRecoilValue(profileAtom);
 
   const { taskId, taskType } = useLocalSearchParams() as { taskId: string; taskType: "connection" | "problem" };
   const tasks = useRecoilValue(tasksAtom(taskType));
@@ -49,7 +50,7 @@ export default function SpecificTask() {
     };
   });
 
-  if (!currentTask) {
+  if (!currentTask || !currentUserProfile) {
     return (
       <Block>
         <Text className="text-center text-lg">Tapşırıq tapılmadı</Text>
@@ -195,9 +196,10 @@ export default function SpecificTask() {
 
       <When
         condition={
-          (currentTask.is_tv && !currentTask.has_tv) ||
-          (currentTask.is_internet && !currentTask.has_internet) ||
-          (currentTask.is_voice && !currentTask.has_voice)
+          ((currentTask.is_tv && !currentTask.has_tv) ||
+            (currentTask.is_internet && !currentTask.has_internet) ||
+            (currentTask.is_voice && !currentTask.has_voice)) &&
+          currentUserProfile.id === currentTask.user
         }
       >
         <BlockContainer>
@@ -214,7 +216,12 @@ export default function SpecificTask() {
         </BlockContainer>
       </When>
 
-      <When condition={currentTask.has_tv || currentTask.has_internet || currentTask.has_voice}>
+      <When
+        condition={
+          (currentTask.has_tv || currentTask.has_internet || currentTask.has_voice) &&
+          currentUserProfile.id === currentTask.user
+        }
+      >
         <BlockContainer>
           <Pressable
             onPress={() =>

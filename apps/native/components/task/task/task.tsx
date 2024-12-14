@@ -1,17 +1,15 @@
+import { buttonTranslations } from "apps/native/components/task/task-view/task-view.utils";
+import { TaskProps } from "apps/native/components/task/task/task.types";
+
+import { Tag } from "apps/native/components/task/task/components/tag";
+import { TaskDate } from "apps/native/components/task/task/components/task-date";
+import { palette } from "palette";
 import { FC } from "react";
 import { Text, View } from "react-native";
 
-import { buttonTranslations } from "@digitask/native/components/task/task-view/task-view.utils";
+import { Backend, DateService, TaskStatuses, api } from "@digitask/shared-lib";
 import { Block, Button, Icon, Switch, When, cn } from "@mdreal/ui-kit";
 import { useMutation } from "@tanstack/react-query";
-
-import { palette } from "../../../../../palette";
-import { api } from "../../api";
-import { DateService } from "../../services";
-import { Backend, TaskStatuses } from "../../types";
-import { Tag } from "./components/tag";
-import { TaskDate } from "./components/task-date";
-import { TaskProps } from "./task.types";
 
 const statuses = [TaskStatuses.Waiting, TaskStatuses.Started, TaskStatuses.InProgress, TaskStatuses.Completed];
 

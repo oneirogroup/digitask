@@ -4,7 +4,6 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 
 import {
   DateService,
-  Task,
   TaskStatuses,
   eventsAtom,
   getTags,
@@ -12,11 +11,12 @@ import {
   tasksFilterSelector,
   useRecoilArrayControls
 } from "@digitask/shared-lib";
-import { Block, Icon, If, When } from "@mdreal/ui-kit";
+import { Block, Icon, If } from "@mdreal/ui-kit";
 
 import { palette } from "../../../../../palette";
 import { BlockContainer, BlockSection } from "../../../components/blocks";
 import { Event } from "../../../components/event";
+import { Task } from "../../../components/task/task";
 import { TaskType } from "../../../types/task-type";
 
 export default function Index() {

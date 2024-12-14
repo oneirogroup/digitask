@@ -101,7 +101,7 @@ export default function AddSpecificTaskAttachment() {
               await queryClient.invalidateQueries({ queryKey: [fields.tasks.get, taskId] });
             });
 
-            router.back();
+            router.push({ pathname: "/[taskId]/task-type/[taskType]", params: { taskId, taskType } });
           }}
         >
           <FileUploader.Controlled name="passport" label="Şəxsiyyət vəsiqəsinin fotosu" value={currentTask?.passport} />

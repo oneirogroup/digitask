@@ -14,7 +14,7 @@ import {
   signInSchema,
   useRecoilMutation
 } from "@digitask/shared-lib";
-import { AuthHttp, Block, Form, Input, logger } from "@mdreal/ui-kit";
+import { AuthHttp, Block, ErrorMessageViewer, Form, Input, When, logger } from "@mdreal/ui-kit";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { StackActions } from "@react-navigation/native";
 
@@ -38,9 +38,11 @@ export default function SignIn() {
       await AsyncStorage.setItem(StorageKeys.USER_EMAIL, data.email);
       await AsyncStorage.setItem(StorageKeys.PHONE_NUMBER, data.phone);
     },
-    onError: logger.error.bind(logger, "digitask.native:auth:sign-in.auth-error"),
+    onError: e => e,
     isNullable: true
   });
+
+  console.log(signInMutation);
 
   const profileMutation = useRecoilMutation(profileAtom, {
     mutationKey: [fields.user.profile.toString()],
@@ -61,13 +63,9 @@ export default function SignIn() {
     navigation.navigate("(dashboard)");
   };
 
-  const onFormError: SubmitErrorHandler<SignInSchema> = errors => {
-    logger.log("errors", errors);
-  };
-
   return (
     <KeyboardAvoidingView behavior={Platform.select({ ios: "padding" })}>
-      <Form<SignInSchema> schema={signInSchema} onSubmit={onSubmit} onFormError={onFormError}>
+      <Form<SignInSchema> schema={signInSchema} onSubmit={onSubmit}>
         <Block className="flex h-full items-center justify-between px-4 pb-12 pt-28">
           <Block className="flex items-center gap-6">
             <Block className="bg-primary w-68 rounded-2xl p-6">
@@ -95,6 +93,10 @@ export default function SignIn() {
               />
             </Block>
           </Block>
+
+          <When condition={signInMutation.isError}>
+            <ErrorMessageViewer error="Elektron poçt və ya şifrə yanlış daxil edilib" />
+          </When>
 
           <Block className="flex gap-6">
             <Form.Button variant="primary" className="w-full p-4" isLoading={signInMutation.isPending}>
