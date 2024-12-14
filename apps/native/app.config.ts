@@ -1,7 +1,6 @@
 import { ExpoConfig } from "expo/config";
 import "ts-node/register";
 
-import { palette } from "../../palette";
 import { version } from "./package.json";
 
 export default {
@@ -18,7 +17,7 @@ export default {
   splash: {
     image: "./assets/images/logo.png",
     resizeMode: "contain",
-    backgroundColor: palette.primary["50"]
+    backgroundColor: "#005ABF"
   },
   android: {
     package: "com.oneirogroup.digitask"
