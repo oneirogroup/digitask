@@ -35,6 +35,7 @@ function Index() {
   const [userPhone, setUserPhone] = useState(null);
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const refreshAccessToken = useRefreshToken();
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   const modalRef = useRef(null);
 
@@ -231,13 +232,24 @@ function Index() {
     setIsAddSurveyModalOpen(false);
   };
 
-  const resetFilters = () => {
-    setActiveFilter("all");
-    const currentDate = new Date();
-    setSelectedMonth(currentDate);
-    setSelectedYear(currentDate.getFullYear());
-    setSelectedStatusFilter("Hamısı");
-    fetchTasks("all", currentDate, currentDate.getFullYear(), "Hamısı");
+  const handleRefreshButtonClick = async () => {
+    setIsRefreshing(true);
+    try {
+      setActiveFilter("all");
+      const currentDate = new Date();
+      setSelectedMonth(currentDate);
+      setSelectedYear(currentDate.getFullYear());
+      setSelectedStatusFilter("Hamısı");
+
+      await fetchTasks("all", currentDate, currentDate.getFullYear(), "Hamısı");
+    } catch (error) {
+      if (error.status == 403) {
+        await refreshAccessToken();
+        fetchTasks();
+      }
+    } finally {
+      setIsRefreshing(false);
+    }
   };
 
   const deleteTask = async taskId => {
@@ -267,7 +279,7 @@ function Index() {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
-           Authorization: `Bearer ${token}`
+          "Authorization": `Bearer ${token}`
         },
         body: JSON.stringify({ status: newStatus })
       });
@@ -287,7 +299,6 @@ function Index() {
             : task
         )
       );
-
     } catch (error) {
       if (error.status == 403) {
         await refreshAccessToken();
@@ -332,10 +343,15 @@ function Index() {
       <div className="task-page-title">
         <p>Tapşırıqlar</p>
         <div>
-          <button onClick={resetFilters}>
+          <button
+            onClick={handleRefreshButtonClick}
+            className={`refresh-button ${isRefreshing ? "loading" : ""}`}
+            disabled={isRefreshing}
+          >
             <IoMdRefresh />
-            Yenilə
+            {isRefreshing ? "Yüklənir..." : "Yenilə"}
           </button>
+
           {userType !== "Texnik" && (
             <button onClick={openAddTaskModal}>
               <IoAdd />
