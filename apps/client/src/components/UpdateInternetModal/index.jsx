@@ -41,8 +41,7 @@ function UpdateInternetModal({ onClose, serviceId, serviceData, onServiceUpdate 
 
     const data = new FormData();
     data.append("modem_SN", formData.modem_SN || "");
-    data.append("optical_cable", formData.optical_cable || "");
-    data.append("fastconnector", formData.fastconnector || "");
+    data.append("splitter_port", formData.splitter_port || "");
     data.append("siqnal", formData.siqnal || "");
     data.append("internet_packs", formData.internet_packs || "");
 
@@ -102,20 +101,11 @@ function UpdateInternetModal({ onClose, serviceId, serviceData, onServiceUpdate 
                   <input type="text" name="modem_SN" value={formData.modem_SN || ""} onChange={handleInputChange} />
                 </div>
                 <div className="form-group">
-                  <label>Optik Kabel:</label>
+                  <label>Splitter port:</label>
                   <input
                     type="text"
-                    name="optical_cable"
-                    value={formData.optical_cable || ""}
-                    onChange={handleInputChange}
-                  />
-                </div>
-                <div className="form-group">
-                  <label>Fastconnector:</label>
-                  <input
-                    type="text"
-                    name="fastconnector"
-                    value={formData.fastconnector || ""}
+                    name="splitter_port"
+                    value={formData.splitter_port || ""}
                     onChange={handleInputChange}
                   />
                 </div>

@@ -420,7 +420,6 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
   const handleFormSubmit = e => {
     e.preventDefault();
 
-
     if (imageFile) {
       const imageFormData = new FormData();
       imageFormData.append("passport", imageFile);
@@ -1098,27 +1097,6 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
                       </div>
                       <hr />
                     </div>
-                    <div>
-                      <div className="detail-item">
-                        <label>Rg6 Kabel:</label>
-                        <span>{taskDetails.tv.rg6_cable || "-"}</span>
-                      </div>
-                      <hr />
-                    </div>
-                    <div>
-                      <div className="detail-item">
-                        <label>F Connector:</label>
-                        <span>{taskDetails.tv.f_connector || "-"}</span>
-                      </div>
-                      <hr />
-                    </div>
-                    <div>
-                      <div className="detail-item">
-                        <label>Splitter:</label>
-                        <span>{taskDetails.tv.splitter || "-"}</span>
-                      </div>
-                      <hr />
-                    </div>
                   </div>
                 </div>
               )}
@@ -1149,6 +1127,13 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
                       <div className="detail-item">
                         <label>Modem Serial Nömrəsi:</label>
                         <span>{taskDetails.internet.modem_SN || "-"}</span>
+                      </div>
+                      <hr />
+                    </div>
+                    <div>
+                      <div className="detail-item">
+                        <label>Splitter port:</label>
+                        <span>{taskDetails.internet.splitter_port || "-"}</span>
                       </div>
                       <hr />
                     </div>
@@ -1219,7 +1204,6 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
             </div>
 
             <div>
-           
               {taskItemDetails.map((taskItem, index) => (
                 <div key={index} className="service-detail service-item-detail">
                   <h5>
@@ -1259,7 +1243,6 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
             </div>
 
             {userType === "Texnik" && shouldShowAddSurveyButton && (
-              
               <button className="add-survey-button" onClick={openAddSurveyModal}>
                 <p>Anket əlavə et</p>
                 <MdAdd />

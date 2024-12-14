@@ -51,8 +51,7 @@ const EmployeeList = () => {
   const connectWebSocket2 = () => {
     ws2 = new WebSocket(`ws://135.181.42.192/userlist/`);
 
-    ws2.onopen = () => {
-    };
+    ws2.onopen = () => {};
 
     ws2.onmessage = event => {
       try {
@@ -258,6 +257,12 @@ const EmployeeList = () => {
     if (groupFilter) {
       filteredEmployees = filteredEmployees.filter(employee => employee.group && employee.group.group === groupFilter);
     }
+
+    filteredEmployees = filteredEmployees.sort((a, b) => {
+      const statusA = status[a.id]?.status === "online" ? 1 : 0;
+      const statusB = status[b.id]?.status === "online" ? 1 : 0;
+      return statusB - statusA;
+    });
 
     if (!Array.isArray(filteredEmployees)) {
       console.error("Expected filteredEmployees to be an array, but got:", filteredEmployees);

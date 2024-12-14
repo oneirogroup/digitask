@@ -1,5 +1,6 @@
 import { DatePicker, List, Pagination, Skeleton, Space, Tabs } from "antd";
 import axios from "axios";
+import "moment/locale/az";
 import React, { useEffect, useState } from "react";
 
 import useRefreshToken from "../../common/refreshToken";
@@ -124,7 +125,7 @@ const Report = () => {
       children: (
         <div>
           <Space direction="vertical" size={12} className="report-date-filter">
-            <DatePicker picker="month" onChange={handleDateFilterChange} placeholder="Tarix seçin" />
+            <DatePicker picker="month" onChange={handleDateFilterChange} placeholder="Tarix seçin" locale="az_AZ" />
           </Space>
           <List
             className="demo-loadmore-list report-page-list"

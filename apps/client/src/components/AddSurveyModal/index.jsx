@@ -281,7 +281,7 @@ const AddSurveyModal = ({ onClose, selectedServices, taskId, onSurveyAdded }) =>
                               <div>
                                 <div>
                                   <div className="form-group">
-                                    <label>Modem S/N:</label>
+                                    <label>Modem seriya nömrəsi:</label>
                                     <input
                                       type="text"
                                       name="modem_SN"
@@ -292,7 +292,19 @@ const AddSurveyModal = ({ onClose, selectedServices, taskId, onSurveyAdded }) =>
                                   </div>
                                   <hr />
                                 </div>
-
+                                <div>
+                                  <div className="form-group">
+                                    <label>Splitter portu:</label>
+                                    <input
+                                      type="text"
+                                      name="splitter_port"
+                                      value={surveyData.internet.splitter_port}
+                                      data-service="internet"
+                                      onChange={handleInputChange}
+                                    />
+                                  </div>
+                                  <hr />
+                                </div>
                                 <div>
                                   <div className="form-group">
                                     <label>Siqnal:</label>
@@ -363,7 +375,7 @@ const AddSurveyModal = ({ onClose, selectedServices, taskId, onSurveyAdded }) =>
                               <div>
                                 <div>
                                   <div className="form-group">
-                                    <label>Modem S/N:</label>
+                                    <label>Modem seriya nömrəsi:</label>
                                     <input
                                       type="text"
                                       name="modem_SN"

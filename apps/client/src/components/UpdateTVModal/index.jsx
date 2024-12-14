@@ -43,9 +43,6 @@ function UpdateTVModal({ onClose, serviceId, serviceData, onServiceUpdate }) {
 
     const data = new FormData();
     data.append("modem_SN", formData.modem_SN || "");
-    data.append("rg6_cable", formData.rg6_cable || "");
-    data.append("f_connector", formData.f_connector || "");
-    data.append("splitter", formData.splitter || "");
 
     if (formData.photo_modem instanceof File) {
       data.append("photo_modem", formData.photo_modem);
@@ -101,23 +98,6 @@ function UpdateTVModal({ onClose, serviceId, serviceData, onServiceUpdate }) {
                 <div className="form-group">
                   <label>Modem Serial Nömrəsi:</label>
                   <input type="text" name="modem_SN" value={formData.modem_SN || ""} onChange={handleInputChange} />
-                </div>
-                <div className="form-group">
-                  <label>Rg6 Kabel:</label>
-                  <input type="text" name="rg6_cable" value={formData.rg6_cable || ""} onChange={handleInputChange} />
-                </div>
-                <div className="form-group">
-                  <label>F Connector:</label>
-                  <input
-                    type="text"
-                    name="f_connector"
-                    value={formData.f_connector || ""}
-                    onChange={handleInputChange}
-                  />
-                </div>
-                <div className="form-group">
-                  <label>Splitter:</label>
-                  <input type="text" name="splitter" value={formData.splitter || ""} onChange={handleInputChange} />
                 </div>
               </div>
               <hr />

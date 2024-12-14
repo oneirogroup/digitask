@@ -190,27 +190,27 @@
 }
 
 .started {
+  background-color: #d2e5fa;
+  color: #005abf;
+  border: 1px solid #005abf;
+}
+
+.inprogress {
+  background-color: #fff7cc;
+  color: #ced105;
+  border: 1px solid #c9aa08;
+}
+
+.waiting {
   background-color: rgba(243, 169, 169, 0.288);
   color: rgba(207, 37, 37, 0.726);
   border: 1px solid rgba(207, 37, 37, 0.726);
 }
 
-.inprogress {
+.completed {
   background-color: #c9ffbd;
   color: #23b131;
   border: 1px solid #23b131;
-}
-
-.waiting {
-  background-color: #fff7cc;
-  color: #856404;
-  border: 1px solid #c9aa08;
-}
-
-.completed {
-  background-color: #d2e5fa;
-  color: #005abf;
-  border: 1px solid #005abf;
 }
 
 .task-status button {
@@ -334,18 +334,18 @@
 }
 
 .status-modal div:nth-of-type(3) {
-  color: #23b131;
+  color: #dcdf08;
 }
 
 .status-modal div:nth-of-type(2) {
-  color: #c9aa08;
+  color: rgba(207, 37, 37, 0.726);
 }
 .status-modal div:nth-of-type(4) {
-  color: rgba(207, 37, 37, 0.726);
+  color: #005abf;
 }
 
 .status-modal div:nth-of-type(5) {
-  color: #005abf;
+  color: #23b131;
 }
 
 .status-modal div:nth-of-type(6) {
@@ -444,4 +444,22 @@
 .task-page td.fixed-right,
 .task-page td.task-status {
   background-color: white;
+}
+
+.refresh-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.refresh-button:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+.refresh-button.loading {
+  background-color: #17a2b8;
 }
