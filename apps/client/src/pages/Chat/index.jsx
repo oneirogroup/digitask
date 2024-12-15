@@ -128,6 +128,8 @@ const Chat = () => {
   //     return new Intl.DateTimeFormat('az-AZ', options).format(date);
   // };
 
+
+
   useEffect(() => {
     connectWebSocketChat();
 
@@ -232,7 +234,32 @@ const Chat = () => {
         setShouldScroll(true);
       }
 
-      setMessages(data.reverse());
+
+      ///////////////////////////
+      const result = [];
+      let lastDate = null;
+  
+      data.reverse().forEach((message) => {
+          // Tarihi sadece YYYY-MM-DD formatında al
+          const dateObj = new Date(message.timestamp);
+          const currentDate = `${String(dateObj.getDate()).padStart(2, "0")}.${String(dateObj.getMonth() + 1).padStart(2, "0")}.${dateObj.getFullYear()}`;
+    
+          // Eğer tarih değişmişse, yeni bir separator ekle
+          if (lastDate !== currentDate) {
+              result.push({
+                  typeM: "date",
+                  content: currentDate,
+                  timestamp: message.timestamp,
+                  room: message.room
+              });
+              lastDate = currentDate;
+          }
+
+          result.push(message);
+      });
+      setMessages(result)
+      ///////////////////////////
+     
     } catch (error) {
       if (error.status == 403) {
         await refreshAccessToken();
@@ -274,10 +301,12 @@ const Chat = () => {
           filteredMessages[index - 1].user.first_name === message.user.first_name;
 
         const color = colors[index % colors.length];
-
+        if(message.typeM == 'date'){
+          console.log(message,'mesage')
+        }
         return (
           <div key={message.id} className={`${message.typeM}`}>
-            {!isSameAsPrevious && message.typeM !== "sent" && (
+            {!isSameAsPrevious && message.typeM !== "sent" &&  message.typeM !== "date" && (
               <div className="avatar-column">
                 <div className="avatar" style={{ color }}>
                   {message.user?.first_name ? message.user.first_name.charAt(0) : ""}
@@ -286,7 +315,8 @@ const Chat = () => {
             )}
 
             <div className={`message ${isSameAsPrevious ? "indented" : ""}`}>
-              {!isSameAsPrevious && message.typeM !== "sent" && (
+
+              {!isSameAsPrevious && message.typeM !== "sent" && message.typeM !== "date" && (
                 <div className="name" style={{ color }}>
                   {message.user.first_name}
                 </div>
@@ -294,7 +324,7 @@ const Chat = () => {
 
               <div className="text">{message.content}</div>
 
-              <div className="time">{formatDate(message.timestamp)}</div>
+              <div className="time">{message.typeM!=='date'?formatDate(message.timestamp):''}</div>
             </div>
           </div>
         );
