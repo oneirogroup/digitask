@@ -381,7 +381,7 @@
   background-color: rgb(67, 90, 240);
 }
 .loadMessages:active {
-  transform: scale(1.1);
+  transform: scale(0.9);
 }
 
 @media (max-width: 850px) {

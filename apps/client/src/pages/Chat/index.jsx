@@ -16,6 +16,7 @@ import "./chat.css";
 const Chat = () => {
   const [activeGroup, setActiveGroup] = useState(null);
   const [page, setPage] = useState(2);
+  const [hasPage, setHasPage] = useState(false);
   const [room, setRoom] = useState("");
   const [groups, setGroups] = useState([]);
   const [messagess, setMessages] = useState([]);
@@ -185,6 +186,10 @@ const Chat = () => {
   }, [isAddRoomModal]);
 
   useEffect(() => {
+    fetchMessages()
+  }, [activeGroup]);
+
+  useEffect(() => {
     if (shouldScroll) {
       if (divRef.current) {
         divRef.current.scrollTop = divRef.current.scrollHeight;
@@ -227,6 +232,8 @@ const Chat = () => {
       }
 
       const data = await response.json();
+      const count = data.filter(item => item.room === activeGroup).length;
+      setHasPage(count%30==0 && count != 0)
 
       if (arg) {
         setShouldScroll(false);
@@ -534,11 +541,12 @@ const Chat = () => {
               </div>
             </div>
             <div ref={divRef} className="chat-messages">
-              <div class="loadMessages">
-                <button class="loadButton" onClick={() => fetchMessages(true)}>
+              {hasPage? <div class="loadMessages">
+                <button class="loadButton" onClick={() => handleMessagePage()}>
                   Daha çox məktub ↻
                 </button>
-              </div>
+              </div>:<></>}
+             
               {renderMessages()}
             </div>
             <div className="chat-input">
