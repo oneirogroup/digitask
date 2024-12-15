@@ -129,15 +129,6 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
     }
   };
 
-  const handleGroupSelect = groupId => {
-    setFormData(prevState => {
-      const updatedGroups = prevState.group.includes(groupId)
-        ? prevState.group.filter(id => id !== groupId)
-        : [...prevState.group, groupId];
-      return { ...prevState, group: updatedGroups.map(Number) };
-    });
-  };
-
   const [errorText, setErrorText] = useState("");
 
   const validateForm = () => {
@@ -175,8 +166,32 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
   const [backendErrors, setBackendErrors] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const handleGroupSelect = groupId => {
+    setFormData(prevState => {
+      const updatedGroups = prevState.group.includes(groupId)
+        ? prevState.group.filter(id => id !== groupId)
+        : [...prevState.group, groupId];
+      return { ...prevState, group: updatedGroups.map(Number) };
+    });
+  };
+
+  const renderGroups = () => {
+    return groups.map(group => (
+      <div key={group.id} className="dropdown-task-item" onClick={() => handleGroupSelect(group.id)}>
+        <input
+          type="checkbox"
+          id={`group-${group.id}`}
+          checked={formData.group.map(Number).includes(group.id)}
+          onChange={() => handleGroupSelect(group.id)}
+        />
+        {group.group}
+      </div>
+    ));
+  };
+
   const handleSubmit = async (e, retry = false) => {
     e.preventDefault();
+    console.log("Form Data: ", formData.group);
 
     if (isSubmitting) return;
     setIsSubmitting(true);
@@ -241,20 +256,6 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
     } finally {
       setIsSubmitting(false);
     }
-  };
-
-  const renderGroups = () => {
-    return groups.map(group => (
-      <div key={group.id} className="dropdown-task-item" onClick={() => handleGroupSelect(Number(group.id))}>
-        <input
-          type="checkbox"
-          checked={formData.group.includes(group.id)}
-          onChange={() => handleGroupSelect(group.id)}
-          onClick={() => handleGroupSelect(Number(group.id))}
-        />
-        {group.group}
-      </div>
-    ));
   };
 
   const [position, setPosition] = useState({ lat: "", lng: "" });
