@@ -132,14 +132,13 @@
 .task-history-status {
   display: flex;
   justify-content: space-between;
-  padding: 15px 20px 0 0;
+  padding: 15px 0 0 0;
   align-items: center;
   position: relative;
 }
 
 .task-history-status button:first-of-type {
   display: flex;
-  width: 300px;
   align-items: center;
   justify-content: space-between;
   height: 37px;
@@ -147,6 +146,7 @@
   padding: 8px;
   border: none;
   border-radius: 8px;
+  width: max-content;
 }
 
 .task-history-status button:first-of-type div span {

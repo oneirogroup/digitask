@@ -1,6 +1,9 @@
-import { DatePicker, List, Pagination, Skeleton, Space, Tabs } from "antd";
+import { ConfigProvider, DatePicker, List, Pagination, Skeleton, Space, Tabs } from "antd";
+import az from "antd/locale/az_AZ";
 import axios from "axios";
-import "moment/locale/az";
+import dayjs from "dayjs";
+import "dayjs/locale/az";
+import moment from "moment";
 import React, { useEffect, useState } from "react";
 
 import useRefreshToken from "../../common/refreshToken";
@@ -8,6 +11,8 @@ import ReportChart from "../../components/ReportChart";
 import DetailsModal from "../../components/TaskType";
 
 import "./report.css";
+
+dayjs.locale("az");
 
 const TASK_TYPES = [
   { value: "connection", label: "Qoşulma" },
@@ -125,7 +130,9 @@ const Report = () => {
       children: (
         <div>
           <Space direction="vertical" size={12} className="report-date-filter">
-            <DatePicker picker="month" onChange={handleDateFilterChange} placeholder="Tarix seçin" locale="az_AZ" />
+            <ConfigProvider locale={az}>
+              <DatePicker picker="month" onChange={handleDateFilterChange} placeholder="Tarix seçin" />
+            </ConfigProvider>
           </Space>
           <List
             className="demo-loadmore-list report-page-list"

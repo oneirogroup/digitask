@@ -43,7 +43,7 @@ const Navbar = ({ onToggleSidebar }) => {
           message: decodeURI(notification.message),
           user_email: decodeURI(notification.user_email)
         }));
-
+        console.log(decodedMessages);
         setNotifications(decodedMessages);
         setNotificationNumber(decodedMessages.filter(message => !message.read_by).length);
       };

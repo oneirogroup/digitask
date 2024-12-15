@@ -132,7 +132,7 @@ const Login = props => {
                                         onChange={toggleRememberMe} />
                                     Məni xatırla
                                 </label> */}
-                <Link to="/re-password">Şifrəni unutmusunuz?</Link>
+                {/*<Link to="/re-password">Şifrəni unutmusunuz?</Link>*/}
               </div>
               {loading && <span className="spinner-border spinner-border-sm"></span>}
               <button type="submit">Daxil ol</button>
@@ -155,7 +155,7 @@ const Login = props => {
           </Form>
         </div>
       </div>
-      <img style={{width:'50%'}} src={ovalbottom} alt="" />
+      <img style={{ width: "50%" }} src={ovalbottom} alt="" />
     </div>
   );
 };

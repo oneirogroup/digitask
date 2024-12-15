@@ -1,5 +1,9 @@
+import { ConfigProvider, DatePicker, Space } from "antd";
+import az from "antd/locale/az_AZ";
 import axios from "axios";
-import { useEffect, useRef, useState } from "react";
+import dayjs from "dayjs";
+import "dayjs/locale/az";
+import React, { useEffect, useRef, useState } from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { FaChevronDown } from "react-icons/fa6";
 import { IoMdRefresh } from "react-icons/io";
@@ -16,6 +20,8 @@ import AddTaskModal from "../../components/AddTaskModal";
 import DetailsModal from "../../components/TaskType";
 
 import "./tasks.css";
+
+dayjs.locale("az");
 
 function Index() {
   const [data, setData] = useState([]);
@@ -150,14 +156,17 @@ function Index() {
     }
   };
 
-  const handleMonthChange = change => {
-    const newDate = new Date(selectedMonth.getFullYear(), selectedMonth.getMonth() + change);
-    setSelectedMonth(newDate);
-    setSelectedYear(newDate.getFullYear());
-    // setActiveFilter(taskFilter);
-    setSelectedStatusFilter(selectedStatusFilter);
-    fetchTasks(activeFilter, newDate, newDate.getFullYear(), selectedStatusFilter);
+  const handleMonthChange = date => {
+    if (date) {
+      const newDate = new Date(date.year(), date.month(), 1); // Yeni tarixi qururuq
+      setSelectedMonth(newDate);
+      setSelectedYear(newDate.getFullYear());
+    }
   };
+
+  useEffect(() => {
+    fetchTasks(activeFilter, selectedMonth, selectedYear, selectedStatusFilter);
+  }, [selectedMonth, selectedYear, selectedStatusFilter]);
 
   const applyFilters = (taskFilter, selectedMonth, selectedYear, selectedStatusFilter) => {
     setActiveFilter(taskFilter);
@@ -376,25 +385,11 @@ function Index() {
         </button>
       </div>
       <div className="task-history-status">
-        <button onClick={() => setIsDateModalOpen(!isDateModalOpen)}>
-          <div
-            onClick={e => {
-              e.stopPropagation();
-              handleMonthChange(-1);
-            }}
-          >
-            <span>&lt;</span>
-          </div>
-          <p>{`${monthsAz[selectedMonth.getMonth()]}, ${selectedYear}`}</p>
-          <div
-            onClick={e => {
-              e.stopPropagation();
-              handleMonthChange(1);
-            }}
-          >
-            <span>&gt;</span>
-          </div>
-        </button>
+        <Space direction="vertical" size={12} className="report-date-filter">
+          <ConfigProvider locale={az}>
+            <DatePicker picker="month" onChange={handleMonthChange} placeholder="Tarix seçin" />
+          </ConfigProvider>
+        </Space>
         <button onClick={() => setIsStatusModalOpen(!isStatusModalOpen)}>
           <span>Status:</span>
           <span>{selectedStatusFilter}</span>
