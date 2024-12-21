@@ -1,8 +1,3 @@
-import { buttonTranslations } from "apps/native/components/task/task-view/task-view.utils";
-import { TaskProps } from "apps/native/components/task/task/task.types";
-
-import { Tag } from "apps/native/components/task/task/components/tag";
-import { TaskDate } from "apps/native/components/task/task/components/task-date";
 import { palette } from "palette";
 import { FC } from "react";
 import { Text, View } from "react-native";
@@ -11,13 +6,14 @@ import { Backend, DateService, TaskStatuses, api } from "@digitask/shared-lib";
 import { Block, Button, Icon, Switch, When, cn } from "@mdreal/ui-kit";
 import { useMutation } from "@tanstack/react-query";
 
-const statuses = [TaskStatuses.Waiting, TaskStatuses.Started, TaskStatuses.InProgress, TaskStatuses.Completed];
+import { buttonTranslations, statuses } from "../task-view/task-view.utils";
+import { Tag } from "./components/tag";
+import { TaskDate } from "./components/task-date";
+import type { TaskProps } from "./task.types";
 
-const tagTranslations = {
-  tv: "TV",
-  internet: "İnternet",
-  voice: "Səs"
-};
+const taskActionStatuses = statuses.slice(1);
+
+const tagTranslations = { tv: "TV", internet: "İnternet", voice: "Səs" };
 
 export const Task: FC<TaskProps> = ({ tags, task, updateTask }) => {
   const startDate = DateService.from(Date.parse(`${task.date} ${task.start_time}`));
@@ -63,9 +59,9 @@ export const Task: FC<TaskProps> = ({ tags, task, updateTask }) => {
           variant={task.status === TaskStatuses.Waiting ? "secondary" : "primary"}
           disabled={task.status === TaskStatuses.Completed}
           onClick={() => {
-            const idx = statuses.indexOf(task.status);
-            if (idx >= statuses.length - 1) return;
-            updateTaskMutation.mutate({ id: task.id, data: { status: statuses[idx + 1] } });
+            const idx = taskActionStatuses.indexOf(task.status);
+            if (idx >= taskActionStatuses.length - 1) return;
+            updateTaskMutation.mutate({ id: task.id, data: { status: taskActionStatuses[idx + 1] } });
           }}
         >
           <Text

@@ -1,7 +1,16 @@
-import { getCurrentPositionAsync } from "expo-location";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { getCurrentPositionAsync, startLocationUpdatesAsync } from "expo-location";
+import { useEffect } from "react";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 
-import { Backend, fields, profileAtom, signInAtom, useReceiveMessage } from "@digitask/shared-lib";
+import {
+  Backend,
+  fields,
+  notificationAtom,
+  profileAtom,
+  signInAtom,
+  useReceiveMessage,
+  useRecoilArrayControls
+} from "@digitask/shared-lib";
 import { AuthHttp, logger } from "@mdreal/ui-kit";
 import { useWebsocket } from "@mdreal/ws-client";
 
@@ -13,6 +22,7 @@ wsUrl.protocol = "wss";
 const wsHostUrl = wsUrl.toString().slice(0, -1);
 
 export const useWebsocketInit = () => {
+  const notificationControls = useRecoilArrayControls(notificationAtom);
   const receiveMessage = useReceiveMessage();
   const profileData = useRecoilValue(profileAtom);
   const [signInData, setSignInData] = useRecoilState(signInAtom);
@@ -78,4 +88,24 @@ export const useWebsocketInit = () => {
       await sendLocation();
     }
   });
+
+  useWebsocket<{ message: Backend.NotificationMessage[] }>(
+    fields.notification,
+    `${wsHostUrl}/notification/?email=${profileData?.email}&token=${signInData?.access_token}`,
+    {
+      onConnect() {
+        logger.debug(
+          "digitask.native:hooks:use-websocket-init",
+          `${wsHostUrl}/notification/?email=${profileData?.email}&token=${signInData?.access_token}`
+        );
+      },
+      onMessage(data) {
+        console.log("digitask.native:hooks:use-websocket-init:notification", data);
+        data.message.forEach(notification => notificationControls.add(notification));
+      },
+      onDisconnect() {
+        notificationControls.clear();
+      }
+    }
+  );
 };

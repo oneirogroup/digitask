@@ -1,7 +1,6 @@
 import { Image } from "expo-image";
 import { useNavigation } from "expo-router";
 import { useEffect } from "react";
-import { SubmitErrorHandler } from "react-hook-form";
 import { KeyboardAvoidingView, Platform, Text } from "react-native";
 
 import {
@@ -16,7 +15,6 @@ import {
 } from "@digitask/shared-lib";
 import { AuthHttp, Block, ErrorMessageViewer, Form, Input, When, logger } from "@mdreal/ui-kit";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { StackActions } from "@react-navigation/native";
 
 import logo from "../../assets/images/logo.png";
 

@@ -1,9 +1,7 @@
-import { FileSystemUploadType, createUploadTask } from "expo-file-system";
-import type { ImagePickerAsset } from "expo-image-picker";
-import { router, useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { KeyboardAvoidingView, Platform, Text } from "react-native";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 
 import {
   AddAdditionSchema,
@@ -13,7 +11,6 @@ import {
   VoiceAttachmentSchema,
   api,
   fields,
-  queryClient,
   taskAddAttachmentSchema,
   tasksAtom
 } from "@digitask/shared-lib";
@@ -55,8 +52,9 @@ export default function AddSpecificTaskAttachment() {
   };
   const [isLoading, setIsLoading] = useState(false);
 
+  const router = useRouter();
   const tasks = useRecoilValue(tasksAtom(taskType));
-  const { data: currentTask } = useQuery<Backend.Task>({
+  const { data: currentTask, refetch } = useQuery<Backend.Task>({
     queryKey: [fields.tasks.get, taskId],
     enabled: !!taskId
   });
@@ -86,22 +84,28 @@ export default function AddSpecificTaskAttachment() {
           defaultValues={{ type: attachmentType, passport: currentTask?.passport }}
           onSubmit={async ({ passport, photo_modem, ...data }) => {
             await loading(setIsLoading, async () => {
+              logger.debug("digitask.native:add-specific-task-attachment:submit", data);
               await uploadFile(
                 `${AuthHttp.settings().baseUrl}/services/update_task_image/${taskId}/`,
                 passport,
                 "passport"
               );
+              logger.debug("digitask.native:add-specific-task-attachment:passport-uploaded");
               const attachment = await taskAttachmentMutation.mutateAsync({ ...data, task: +taskId });
+              logger.debug("digitask.native:add-specific-task-attachment:attachment-created", attachment);
               await uploadFile(
-                `${AuthHttp.settings().baseUrl}/services/update_tv/${attachment.id}/`,
+                `${AuthHttp.settings().baseUrl}/services/update_tv_image/${attachment.id}/`,
                 photo_modem,
                 "photo_modem"
               );
-
-              await queryClient.invalidateQueries({ queryKey: [fields.tasks.get, taskId] });
+              logger.debug("digitask.native:add-specific-task-attachment:photo-modem-uploaded");
             });
 
-            router.push({ pathname: "/[taskId]/task-type/[taskType]", params: { taskId, taskType } });
+            await refetch({ throwOnError: false });
+
+            logger.debug("digitask.native:add-specific-task-attachment:redirect");
+            if (router.canGoBack()) router.back();
+            else router.replace({ pathname: "/[taskId]/task-type/[taskType]", params: { taskId, taskType } });
           }}
         >
           <FileUploader.Controlled name="passport" label="Şəxsiyyət vəsiqəsinin fotosu" value={currentTask?.passport} />

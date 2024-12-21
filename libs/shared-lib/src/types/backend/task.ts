@@ -14,9 +14,9 @@ export interface Task {
   start_time: string;
   end_time: string;
   status: TaskStatuses;
-  tv: Tv;
-  voice: Voice;
-  internet: Internet;
+  tv?: Tv;
+  voice?: Voice;
+  internet?: Internet;
   services: string;
   first_name: string;
   last_name: string;
@@ -26,6 +26,7 @@ export interface Task {
   longitude: number;
   is_tv: boolean;
   is_voice: boolean;
+  task_items: TaskItem[];
   is_internet: boolean;
   passport?: any;
   has_tv: boolean;
@@ -61,4 +62,16 @@ export interface Tv {
   f_connector: string;
   splitter: string;
   task: number;
+}
+
+export interface TaskItem {
+  count: number;
+  delivery_note: string;
+  id: number;
+  is_internet: boolean;
+  is_tv: boolean;
+  is_voice: boolean;
+  item: number;
+  task: number;
+  warehouse_name: string;
 }

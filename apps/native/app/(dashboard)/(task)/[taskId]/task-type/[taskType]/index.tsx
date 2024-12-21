@@ -1,7 +1,7 @@
 import { Image } from "expo-image";
-import { useFocusEffect, useLocalSearchParams, useRouter } from "expo-router";
-import { useRef, useState } from "react";
-import { Platform, Pressable, RefreshControl, Text, TouchableOpacity, View } from "react-native";
+import { useFocusEffect, useGlobalSearchParams, useLocalSearchParams, useRouter } from "expo-router";
+import { useEffect, useRef } from "react";
+import { Pressable, RefreshControl, Text, TouchableOpacity, View } from "react-native";
 import { useRecoilValue } from "recoil";
 
 import { Backend, DateService, TaskStatuses, api, fields, isDev, profileAtom, tasksAtom } from "@digitask/shared-lib";
@@ -35,7 +35,7 @@ export default function SpecificTask() {
   const tasks = useRecoilValue(tasksAtom(taskType));
 
   const {
-    data: currentTask = tasks.find(task => task.id === +taskId),
+    data: fetchedTask,
     refetch,
     isRefetching
   } = useQuery({
@@ -43,6 +43,8 @@ export default function SpecificTask() {
     queryFn: () => api.services.task.$get(+taskId),
     enabled: !!taskId
   });
+
+  const currentTask = fetchedTask ?? tasks.find(task => task.id === +taskId);
 
   useFocusEffect(() => {
     return () => {
@@ -193,6 +195,16 @@ export default function SpecificTask() {
           </When>
         </BlockContainer>
       ))}
+
+      <When condition={!!currentTask.task_items?.length}>
+        <BlockContainer className="flex gap-6">
+          <Text className="text-neutral-20 text-xl">Məhsullar</Text>
+
+          {currentTask.task_items?.map(item => (
+            <Field key={item.id} label={item.item.toString()} value={item.count.toString()} />
+          ))}
+        </BlockContainer>
+      </When>
 
       <When
         condition={

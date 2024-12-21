@@ -1,4 +1,4 @@
-import { TagProps } from "apps/native/components/task/task/components/tag.types";
+import type { TagProps } from "./tag.types";
 
 export interface TagButtonProps {
   status: TagProps;

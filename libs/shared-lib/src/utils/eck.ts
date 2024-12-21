@@ -13,6 +13,7 @@ export interface ToString {
 
 interface ExtensionFn<TKey extends string> {
   <TKeys extends (TemplateStringsArray | string)[]>(...keys: TKeys): MergeKeys<[TKey, ...TKeys]>;
+
   e<TNewKey extends string, TExtension extends object>(
     key: TNewKey,
     extension: (cb: ExtensionFn<MergeKeys<[TKey, TNewKey]>>) => TExtension

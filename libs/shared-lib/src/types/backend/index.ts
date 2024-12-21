@@ -2,6 +2,7 @@ export * from "./auth-token";
 export * from "./chat-room";
 export * from "./event";
 export * from "./message";
+export * from "./notification-message";
 export * from "./performance-profile";
 export * from "./profile-data";
 export * from "./task";

@@ -2,11 +2,11 @@ import { withLayoutContext } from "expo-router";
 import { merge } from "lodash";
 import { ComponentProps, FC } from "react";
 
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import type {
   MaterialTopTabNavigationEventMap,
   MaterialTopTabNavigationOptions
 } from "@react-navigation/material-top-tabs";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import type { ParamListBase, TabNavigationState } from "@react-navigation/native";
 
 const { Navigator } = createMaterialTopTabNavigator();

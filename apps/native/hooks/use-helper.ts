@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { AppState, AppStateStatus, Platform } from "react-native";
+import { AppState, AppStateStatus } from "react-native";
 
 import { useAsyncStorageDevTools } from "@dev-plugins/async-storage";
 import { useReactQueryDevTools } from "@dev-plugins/react-query";

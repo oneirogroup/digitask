@@ -25,37 +25,6 @@ export class DateService extends Date {
     this.dayjs = dayjs(date);
   }
 
-  static from(date?: number | string | Date | Dayjs, tz = "Asia/Baku") {
-    if (isDayjs(date)) {
-      return new DateService(date.toDate()).tz(tz);
-    }
-    return new DateService(date).tz(tz);
-  }
-
-  format(format: string) {
-    return this.dayjs.format(format);
-  }
-
-  diff(date: Date) {
-    return {
-      seconds: this.dayjs.diff(date, "second"),
-      minutes: this.dayjs.diff(date, "minute"),
-      hours: this.dayjs.diff(date, "hour"),
-      days: this.dayjs.diff(date, "day"),
-      months: this.dayjs.diff(date, "month"),
-      years: this.dayjs.diff(date, "year")
-    };
-  }
-
-  tz(tz: string) {
-    tz && this.dayjs.tz(tz);
-    return this;
-  }
-
-  isSame(date: Date, unit: OpUnitType) {
-    return this.dayjs.isSame(date, unit);
-  }
-
   get add() {
     return {
       seconds: (seconds: number) => {
@@ -89,5 +58,36 @@ export class DateService extends Date {
         return newDateService;
       }
     };
+  }
+
+  static from(date?: number | string | Date | Dayjs, tz = "Asia/Baku") {
+    if (isDayjs(date)) {
+      return new DateService(date.toDate()).tz(tz);
+    }
+    return new DateService(date).tz(tz);
+  }
+
+  format(format: string) {
+    return this.dayjs.format(format);
+  }
+
+  diff(date: Date) {
+    return {
+      seconds: this.dayjs.diff(date, "second"),
+      minutes: this.dayjs.diff(date, "minute"),
+      hours: this.dayjs.diff(date, "hour"),
+      days: this.dayjs.diff(date, "day"),
+      months: this.dayjs.diff(date, "month"),
+      years: this.dayjs.diff(date, "year")
+    };
+  }
+
+  tz(tz: string) {
+    tz && this.dayjs.tz(tz);
+    return this;
+  }
+
+  isSame(date: Date, unit: OpUnitType) {
+    return this.dayjs.isSame(date, unit);
   }
 }

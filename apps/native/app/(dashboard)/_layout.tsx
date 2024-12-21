@@ -1,8 +1,4 @@
 import { Stack } from "expo-router";
-import { useEffect } from "react";
-import { useRecoilValue } from "recoil";
-
-import { tasksAtom } from "@digitask/shared-lib";
 
 import { ChatRoomHeaderRight, ChatRoomHeaderTitle } from "../../components/header/chat";
 import { ProfileHeaderRight, ProfileHeaderTitle } from "../../components/header/profile";
@@ -37,6 +33,15 @@ export default function DashboardLayout() {
         options={{
           title: "Tədbir",
           headerBackButtonDisplayMode: "minimal"
+        }}
+      />
+
+      <Stack.Screen
+        name="(notification)/notification"
+        options={{
+          headerBackButtonDisplayMode: "minimal",
+          headerTitle: () => <ChatRoomHeaderTitle />,
+          headerRight: () => <ChatRoomHeaderRight />
         }}
       />
 

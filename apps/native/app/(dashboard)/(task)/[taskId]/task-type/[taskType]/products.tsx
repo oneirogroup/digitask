@@ -65,7 +65,7 @@ export default function ListAddedSpecificTaskProducts() {
 
       <Modal ref={modalRef} type="popup" defaultHeight={250}>
         <View className="h-28 rounded-2xl bg-white p-4">
-          <Text>Çıxmaq istədiyinizdə məhsullar silinəcək. Əminsiniz?</Text>
+          <Text></Text>
           <View className="flex flex-row gap-4">
             <Button variant="danger" className="flex-1" onClick={onConfirm}>
               <Text className="text-center text-white">Hə</Text>

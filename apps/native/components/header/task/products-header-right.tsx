@@ -1,17 +1,38 @@
-import { useGlobalSearchParams, useLocalSearchParams, useRouter } from "expo-router";
+import { useGlobalSearchParams, useRouter } from "expo-router";
 import { FC, useEffect } from "react";
-import { Pressable, View } from "react-native";
+import { Alert, Pressable, View } from "react-native";
 
 import { api, productsAtom, useRecoilArray } from "@digitask/shared-lib";
 import { Icon, When } from "@mdreal/ui-kit";
 import { useMutation } from "@tanstack/react-query";
 
 import { palette } from "../../../../../palette";
+import { useMatchPathOnRoute } from "../../../hooks/use-match-path-on-route";
 
 export const TaskAddAttachmentHeaderRight: FC = () => {
   const [products, controls] = useRecoilArray(productsAtom);
   const { taskId, taskType } = useGlobalSearchParams() as { taskId: string; taskType: "problem" | "connection" };
   const router = useRouter();
+
+  useMatchPathOnRoute(
+    /\/products$/,
+    () => {
+      if (products.length) {
+        Alert.alert("Çıxmaq istədiyinizə əminsiniz?", "Çıxmaq istədiyinizdə məhsullar silinəcək. ", [
+          { text: "Xeyr", style: "cancel" },
+          {
+            text: "Bəli",
+            onPress: () => {
+              controls.clear();
+              router.back();
+            }
+          }
+        ]);
+        return true;
+      }
+    },
+    [products]
+  );
 
   const bulkUploadProducts = useMutation({
     mutationFn: api.services.warehouse.items.$bulkCreate

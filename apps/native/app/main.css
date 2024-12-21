@@ -1,4 +1,5 @@
 @import "@mdreal/ui-kit/style.css";
+
 @cssinterop verify nativewind;
 
 @tailwind components;
