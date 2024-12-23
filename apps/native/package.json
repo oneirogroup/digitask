@@ -4,8 +4,11 @@
   "private": true,
   "main": "expo-router/entry",
   "scripts": {
-    "build:android": "eas build --platform android --profile preview --non-interactive --clear-cache",
-    "build:android:local": "./android.sh",
+    "build:android": "yarn build:eas --platform android",
+    "build:android:local": "yarn build:android --local",
+    "build:eas": "eas build --profile preview --non-interactive --clear-cache",
+    "build:ios": "yarn build:eas --platform ios",
+    "build:ios:local": "yarn build:ios --local",
     "lint": "expo lint",
     "start": "expo start"
   },

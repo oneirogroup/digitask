@@ -23,6 +23,7 @@ export default {
     package: "com.oneirogroup.digitask"
   },
   ios: {
+    bundleIdentifier: "com.oneirogroup.digitask",
     supportsTablet: true
   },
   plugins: [
