@@ -34,7 +34,9 @@ export default function Profile() {
         <Pressable onPress={redirectToProfileData}>
           <BlockContainer className="flex flex-row justify-between">
             <View className="flex gap-1">
-              <Text className="text-1.5xl font-bold">İstifadəçi adı</Text>
+              <Text className="text-1.5xl font-bold">
+                {userProfile.first_name} {userProfile.last_name}
+              </Text>
               <Text className="text-neutral text-lg">{userProfile.email}</Text>
             </View>
             <View className="flex items-center justify-center">
@@ -44,7 +46,7 @@ export default function Profile() {
         </Pressable>
 
         <Block className="flex gap-3">
-          <BlockContainer className="flex flex-row justify-between">
+          <BlockContainer className="flex hidden flex-row justify-between">
             <View className="flex flex-row items-center gap-2">
               {/* <Icon name="exit" /> */}
               <Text className="text-neutral text-xl">Dəstək</Text>
@@ -54,7 +56,7 @@ export default function Profile() {
             </View>
           </BlockContainer>
 
-          <BlockContainer className="flex flex-row justify-between">
+          <BlockContainer className="flex hidden flex-row justify-between">
             <View className="flex flex-row items-center gap-2">
               {/* <Icon name="exit" /> */}
               <Text className="text-neutral text-xl">Haqqında</Text>
@@ -80,7 +82,6 @@ export default function Profile() {
           ref={modalRef}
           type="popup"
           animationSpeed="normal"
-          height={200}
           closeBtn={{ fill: palette.neutral["60"] }}
           className="flex gap-6 px-6 py-4"
         >
