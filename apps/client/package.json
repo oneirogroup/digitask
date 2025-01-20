@@ -14,8 +14,6 @@
     "@digitask/shared-lib": "workspace:^",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
-    "@mdreal/ui-kit": "^0.0.0-dev.71",
-    "@mdreal/ws-client": "^0.0.0-dev.9",
     "@mui/material": "^5.15.19",
     "@reduxjs/toolkit": "^2.2.4",
     "antd": "^5.22.3",

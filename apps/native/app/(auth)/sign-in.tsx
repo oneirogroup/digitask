@@ -40,8 +40,6 @@ export default function SignIn() {
     isNullable: true
   });
 
-  console.log(signInMutation);
-
   const profileMutation = useRecoilMutation(profileAtom, {
     mutationKey: [fields.user.profile.toString()],
     mutationFn: () => api.accounts.profile.$get,
