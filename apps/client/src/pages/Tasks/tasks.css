@@ -479,13 +479,13 @@
   align-items: center;
 }
 
-:where(.css-dev-only-do-not-override-1wwf28x).ant-input-number {
+.task-registration-number > div {
   width: 165px !important;
   height: 37px !important;
   border: 1px solid #909094 !important;
 }
 
-:where(.css-dev-only-do-not-override-1wwf28x).ant-input-number .ant-input-number-input {
+.task-registration-number input {
   padding: 6px 11px !important ;
   font-family: Nunito Sans !important;
   font-weight: 500 !important;
