@@ -1,6 +1,6 @@
 import { ConfigProvider, DatePicker, Space } from "antd";
+import { InputNumber } from "antd";
 import az from "antd/locale/az_AZ";
-import axios from "axios";
 import dayjs from "dayjs";
 import "dayjs/locale/az";
 import React, { useEffect, useRef, useState } from "react";
@@ -42,7 +42,11 @@ function Index() {
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const refreshAccessToken = useRefreshToken();
   const [isRefreshing, setIsRefreshing] = useState(false);
-
+  const [regions, setRegions] = useState([]);
+  const [isRegionModalOpen, setIsRegionModalOpen] = useState(false);
+  const [selectedRegionFilter, setSelectedRegionFilter] = useState("Hamısı");
+  const [registrationNumberFilter, setRegistrationNumberFilter] = useState("");
+  const regionRef = useRef(null);
   const modalRef = useRef(null);
 
   useEffect(() => {
@@ -53,7 +57,7 @@ function Index() {
     setUserPhone(storedUserPhone);
 
     fetchTasks(selectedMonth, selectedYear, "Hamısı", activeFilter);
-  }, [selectedMonth, selectedYear, activeFilter, selectedStatusFilter]);
+  }, [selectedMonth, selectedYear, activeFilter, selectedStatusFilter, selectedRegionFilter, registrationNumberFilter]);
 
   const statusRef = useRef(null);
 
@@ -64,6 +68,9 @@ function Index() {
       }
       if (statusRef.current && !statusRef.current.contains(event.target)) {
         setIsStatusModalOpen(false);
+      }
+      if (regionRef.current && !regionRef.current.contains(event.target)) {
+        setIsRegionModalOpen(false);
       }
     }
 
@@ -104,6 +111,24 @@ function Index() {
     "Dekabr"
   ];
 
+  useEffect(() => {
+    const fetchRegions = async () => {
+      try {
+        const response = await fetch("http://135.181.42.192/services/groups/");
+        const data = await response.json();
+        setRegions(data.map(group => group.region));
+      } catch (error) {
+        if (error.status == 403) {
+          await refreshAccessToken();
+          fetchRegions();
+        }
+        console.error("Error fetching tasks:", error);
+      }
+    };
+
+    fetchRegions();
+  }, []);
+
   const fetchTasks = async (taskFilter, selectedMonth, selectedYear, statusFilter, activeFilter) => {
     if (!selectedMonth) return;
 
@@ -121,11 +146,14 @@ function Index() {
         "Tamamlanmadı": "not_completed"
       };
 
+      const regionParam = selectedRegionFilter !== "Hamısı" ? `&group=${selectedRegionFilter}` : "";
+      const registrationParam = registrationNumberFilter ? `&registration_number=${registrationNumberFilter}` : "";
+
       const taskTypeParam = taskFilter !== "all" ? `&task_type=${taskFilter}` : "";
       const statusParam = statusFilter !== "Hamısı" ? `&status=${statusMap[statusFilter]}` : "";
 
-      const url = `http://135.181.42.192/services/status/?${taskTypeParam}${monthQueryParam}${statusParam}`;
-
+      const url = `http://135.181.42.192/services/status/?${taskTypeParam}${monthQueryParam}${statusParam}${regionParam}${registrationParam}`;
+      console.log(url);
       const response = await fetch(url, {
         method: "GET",
         headers: {
@@ -156,6 +184,25 @@ function Index() {
     }
   };
 
+  const toggleRegionModal = () => {
+    setIsRegionModalOpen(prev => !prev);
+  };
+
+  const filterByRegion = region => {
+    refreshAccessToken();
+    setSelectedRegionFilter(region);
+    setIsRegionModalOpen(false);
+    fetchTasks(
+      taskFilter,
+      selectedMonth,
+      selectedYear,
+      selectedStatusFilter,
+      activeFilter,
+      selectedRegionFilter,
+      registrationNumberFilter
+    );
+  };
+
   const handleMonthChange = date => {
     if (date) {
       const newDate = new Date(date.year(), date.month(), 1); // Yeni tarixi qururuq
@@ -165,10 +212,24 @@ function Index() {
   };
 
   useEffect(() => {
-    fetchTasks(activeFilter, selectedMonth, selectedYear, selectedStatusFilter);
-  }, [selectedMonth, selectedYear, selectedStatusFilter]);
+    fetchTasks(
+      activeFilter,
+      selectedMonth,
+      selectedYear,
+      selectedStatusFilter,
+      selectedRegionFilter,
+      registrationNumberFilter
+    );
+  }, [selectedMonth, selectedYear, selectedStatusFilter, selectedRegionFilter, registrationNumberFilter]);
 
-  const applyFilters = (taskFilter, selectedMonth, selectedYear, selectedStatusFilter) => {
+  const applyFilters = (
+    taskFilter,
+    selectedMonth,
+    selectedYear,
+    selectedStatusFilter,
+    selectedRegionFilter,
+    registrationNumberFilter
+  ) => {
     setActiveFilter(taskFilter);
     setSelectedMonth(selectedMonth);
     setSelectedYear(selectedYear);
@@ -179,14 +240,29 @@ function Index() {
   const filterData = filter => {
     refreshAccessToken();
     setActiveFilter(filter);
-    applyFilters(filter, selectedMonth, selectedYear, selectedStatusFilter, activeFilter);
+    applyFilters(
+      filter,
+      selectedMonth,
+      selectedYear,
+      selectedStatusFilter,
+      activeFilter,
+      selectedRegionFilter,
+      registrationNumberFilter
+    );
   };
 
   const filterByStatus = statusFilter => {
     refreshAccessToken();
     setIsStatusModalOpen(false);
     setSelectedStatusFilter(selectedStatusFilter);
-    applyFilters(activeFilter, selectedMonth, selectedYear, statusFilter);
+    applyFilters(
+      activeFilter,
+      selectedMonth,
+      selectedYear,
+      statusFilter,
+      selectedRegionFilter,
+      registrationNumberFilter
+    );
   };
 
   const openAddTaskModal = () => {
@@ -225,7 +301,14 @@ function Index() {
 
   const closeTaskDetailsModal = () => {
     if (selectedTaskId) {
-      fetchTasks(activeFilter, selectedMonth, selectedYear, selectedStatusFilter);
+      fetchTasks(
+        activeFilter,
+        selectedMonth,
+        selectedYear,
+        selectedStatusFilter,
+        selectedRegionFilter,
+        registrationNumberFilter
+      );
     }
     setIsTaskDetailsModalOpen(false);
   };
@@ -271,7 +354,14 @@ function Index() {
         }
       });
       setFilteredData(prevData => prevData.filter(task => task.id !== taskId));
-      fetchTasks(activeFilter, selectedMonth, selectedYear, selectedStatusFilter);
+      fetchTasks(
+        activeFilter,
+        selectedMonth,
+        selectedYear,
+        selectedStatusFilter,
+        selectedRegionFilter,
+        registrationNumberFilter
+      );
     } catch (error) {
       if (error.status == 403) {
         await refreshAccessToken();
@@ -344,8 +434,15 @@ function Index() {
 
   useEffect(() => {
     refreshAccessToken();
-    fetchTasks(activeFilter, selectedMonth, selectedYear, selectedStatusFilter);
-  }, [activeFilter, selectedMonth, selectedYear, selectedStatusFilter]);
+    fetchTasks(
+      activeFilter,
+      selectedMonth,
+      selectedYear,
+      selectedStatusFilter,
+      selectedRegionFilter,
+      registrationNumberFilter
+    );
+  }, [activeFilter, selectedMonth, selectedYear, selectedStatusFilter, selectedRegionFilter, registrationNumberFilter]);
 
   return (
     <div className="task-page">
@@ -385,26 +482,56 @@ function Index() {
         </button>
       </div>
       <div className="task-history-status">
-        <Space direction="vertical" size={12} className="report-date-filter">
+        <Space direction="vertical" size={12} className="task-report-date-filter">
           <ConfigProvider locale={az}>
             <DatePicker picker="month" onChange={handleMonthChange} placeholder="Tarix seçin" />
           </ConfigProvider>
         </Space>
-        <button onClick={() => setIsStatusModalOpen(!isStatusModalOpen)}>
-          <span>Status:</span>
-          <span>{selectedStatusFilter}</span>
-          <FaChevronDown />
-        </button>
-        {isStatusModalOpen && (
-          <div className="status-modal" ref={statusRef}>
-            <div onClick={() => filterByStatus("Hamısı")}>Hamısı</div>
-            <div onClick={() => filterByStatus("Gözləyir")}>Gözləyir</div>
-            <div onClick={() => filterByStatus("Qəbul edilib")}>Qəbul edilib</div>
-            <div onClick={() => filterByStatus("Başlanıb")}>Başlanıb</div>
-            <div onClick={() => filterByStatus("Tamamlanıb")}>Tamamlanıb</div>
-            <div onClick={() => filterByStatus("Tamamlanmadı")}>Tamamlanmadı</div>
+        <div className="task-filter-status-region">
+          <div className="task-registration-number">
+            <InputNumber
+              placeholder="Qeydiyyat nömrəsi"
+              value={registrationNumberFilter}
+              onChange={value => setRegistrationNumberFilter(value)}
+            />
           </div>
-        )}
+
+          <div>
+            <button onClick={toggleRegionModal}>
+              <span>Region:</span>
+              <span>{selectedRegionFilter}</span>
+              <FaChevronDown />
+            </button>
+            {isRegionModalOpen && (
+              <div className="task-region-modal" ref={regionRef}>
+                <div onClick={() => filterByRegion("Hamısı")}>Hamısı</div>
+                {regions.map((region, index) => (
+                  <div key={index} onClick={() => filterByRegion(region)}>
+                    {region}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <div>
+            <button onClick={() => setIsStatusModalOpen(!isStatusModalOpen)}>
+              <span>Status:</span>
+              <span>{selectedStatusFilter}</span>
+              <FaChevronDown />
+            </button>
+            {isStatusModalOpen && (
+              <div className="status-modal" ref={statusRef}>
+                <div onClick={() => filterByStatus("Hamısı")}>Hamısı</div>
+                <div onClick={() => filterByStatus("Gözləyir")}>Gözləyir</div>
+                <div onClick={() => filterByStatus("Qəbul edilib")}>Qəbul edilib</div>
+                <div onClick={() => filterByStatus("Başlanıb")}>Başlanıb</div>
+                <div onClick={() => filterByStatus("Tamamlanıb")}>Tamamlanıb</div>
+                <div onClick={() => filterByStatus("Tamamlanmadı")}>Tamamlanmadı</div>
+              </div>
+            )}
+          </div>
+        </div>
       </div>
       <div>
         <div className="table-container">
