@@ -494,10 +494,6 @@
   .task-history-status button:first-of-type div span {
     padding: 7px 9px;
   }
-  .task-history-status button:first-of-type {
-    width: 290px;
-    height: 36px;
-  }
   .task-history-status button p {
     font-size: 17px;
   }
@@ -507,6 +503,12 @@
 
   .task-modal-content {
     max-width: 62%;
+  }
+
+  .task-history-status {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
   }
 
   /* Employee Page */
@@ -661,9 +663,9 @@
   .taskPage-taskType button {
     font-size: 17px;
   }
-  .task-history-status button:first-of-type {
-    width: 240px;
-  }
+  /*.task-history-status button:first-of-type {*/
+  /*  width: 240px;*/
+  /*}*/
   .task-history-status button:last-of-type {
     padding: 9px 8px;
     font-size: 14px;
@@ -948,6 +950,12 @@
     font-size: 15px;
   }
 
+  .date-modal div,
+  .status-modal div,
+  .task-region-modal div {
+    font-size: 15px;
+  }
+
   /* Employee Page */
 
   .employee-search-filter > div:first-of-type input {
@@ -1144,6 +1152,10 @@
 
   #details-task .dropdown-task-menu {
     left: 342px !important;
+  }
+
+  .task-filter-status-region {
+    flex-wrap: wrap;
   }
 
   /* Login page */
@@ -1632,6 +1644,18 @@
   .service-fields > div:last-of-type {
     grid-template-columns: repeat(1, 1fr);
   }
+
+  .date-modal div,
+  .status-modal div,
+  .task-region-modal div {
+    font-size: 14px;
+    padding: 10px 10px 10px 12px;
+  }
+
+  .status-modal {
+    width: 130px;
+  }
+
   /* Employee page */
 
   .employee-title button {
@@ -2048,9 +2072,6 @@
   .task-history-status button:first-of-type div span {
     padding: 5px 7px;
   }
-  .task-history-status button:first-of-type {
-    width: 210px;
-  }
   .task-history-status button:last-of-type {
     padding: 7px 8px;
     font-size: 13px;
@@ -2324,9 +2345,7 @@
   .task-history-status button:first-of-type div span {
     padding: 4px 6px;
   }
-  .task-history-status button:first-of-type {
-    width: 180px;
-  }
+
   .task-history-status button:last-of-type {
     padding: 7px;
     font-size: 12px;

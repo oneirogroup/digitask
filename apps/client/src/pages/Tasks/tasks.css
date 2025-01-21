@@ -305,9 +305,7 @@
 }
 
 .status-modal {
-  position: absolute;
-  top: 69px;
-  right: 0;
+  width: 140px;
 }
 
 .date-modal div,
@@ -319,7 +317,8 @@
   font-size: 16px;
 }
 
-.task-region-modal {
+.task-region-modal,
+.status-modal {
   margin-top: 6px;
   overflow-y: auto;
   height: 300px;
