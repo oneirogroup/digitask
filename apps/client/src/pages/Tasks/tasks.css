@@ -293,7 +293,8 @@
 
 .date-modal,
 .status-modal,
-.group-modal {
+.group-modal,
+.task-region-modal {
   position: absolute;
   background-color: white;
   border: 1px solid #ccc;
@@ -310,11 +311,19 @@
 }
 
 .date-modal div,
-.status-modal div {
+.status-modal div,
+.task-region-modal div {
   padding: 12px 10px 10px 12px;
   cursor: pointer;
   font-family: Nunito Sans;
   font-size: 16px;
+}
+
+.task-region-modal {
+  margin-top: 6px;
+  overflow-y: auto;
+  height: 300px;
+  scrollbar-width: thin;
 }
 
 .date-modal div:hover,
@@ -462,4 +471,26 @@
 
 .refresh-button.loading {
   background-color: #17a2b8;
+}
+
+.task-filter-status-region {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+:where(.css-dev-only-do-not-override-1wwf28x).ant-input-number {
+  width: 165px;
+  height: 37px;
+  border: 1px solid #909094;
+}
+
+:where(.css-dev-only-do-not-override-1wwf28x).ant-input-number .ant-input-number-input {
+  padding: 6px 11px;
+  font-family: Nunito Sans;
+  font-weight: 500;
+}
+
+:where(.css-dev-only-do-not-override-1wwf28x).ant-picker {
+  padding: 7px 18px 7px;
 }
