@@ -113,6 +113,7 @@ const Report = () => {
   };
 
   const getServiceName = task => {
+    if (!task) return "Xidmət mövcud deyil";
     if (task.is_tv) return "Tv";
     if (task.is_internet) return "İnternet";
     if (task.is_voice) return "Səs";
