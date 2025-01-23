@@ -47,7 +47,7 @@ const Report = () => {
   const fetchReports = async (page, filterParams) => {
     setLoading(true);
     try {
-      const response = await axios.get(`http://37.61.77.5/accounts/reportsListView/`, {
+      const response = await axios.get(`http://135.181.42.192/accounts/reportsListView/`, {
         params: {
           page,
           ...(filterParams.year && { year: filterParams.year }),
@@ -113,6 +113,7 @@ const Report = () => {
   };
 
   const getServiceName = task => {
+    if (!task) return "Xidmət mövcud deyil";
     if (task.is_tv) return "Tv";
     if (task.is_internet) return "İnternet";
     if (task.is_voice) return "Səs";
