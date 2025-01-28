@@ -38,7 +38,6 @@ const ModalBase: ForwardRefRenderFunction<ModalRef, PropsWithChildren<ModalProps
   const { isModalVisible, closeModal } = useModal({
     ref,
     onOpen(open) {
-      logger.debug("ui-kit.native:modal:open");
       open();
       if (animationSpeed === "none" || animationSpeed === 0) {
         opacity.value = 1;
@@ -50,7 +49,6 @@ const ModalBase: ForwardRefRenderFunction<ModalRef, PropsWithChildren<ModalProps
       translateY.value = withSpring(0, { damping: 15 });
     },
     onClose(close) {
-      logger.debug("ui-kit.native:modal:close");
       if (animationSpeed === "none" || animationSpeed === 0) {
         close();
         return;
@@ -63,12 +61,6 @@ const ModalBase: ForwardRefRenderFunction<ModalRef, PropsWithChildren<ModalProps
 
   const top = type === "popup" ? (fullPageHeight - (contentHeight ?? defaultHeight)) / 2 : undefined;
   const modalDimensionStyles = { height: contentHeight ?? defaultHeight, top };
-
-  logger.debug("ui-kit.native:modal:type", type);
-  logger.debug("ui-kit.native:modal:contentHeight", contentHeight);
-  logger.debug("ui-kit.native:modal:animationSpeed", animationSpeed);
-  logger.debug("ui-kit.native:modal:isModalVisible", isModalVisible);
-  logger.debug("ui-kit.native:modal:closeBtn", closeBtn);
 
   const handleLayout = (event: any) => {
     const { height: measuredHeight } = event.nativeEvent.layout;

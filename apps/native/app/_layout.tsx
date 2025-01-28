@@ -1,4 +1,5 @@
 import { Stack } from "expo-router";
+import Toast from "react-native-toast-message";
 
 import { Providers } from "@digitask/shared-lib";
 
@@ -18,6 +19,8 @@ export default function RootLayout() {
         <Stack.Screen name="(auth)" />
         <Stack.Screen name="(dashboard)" />
       </Stack>
+
+      <Toast />
     </Providers>
   );
 }

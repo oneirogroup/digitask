@@ -10,12 +10,12 @@
     ".": {
       "import": "./build/ws.js",
       "require": "./build/ws.js",
-      "types": "./build/index.d.ts"
+      "types": "./build/ws.d.ts"
     }
   },
   "main": "build/ws.js",
   "module": "build/ws.js",
-  "types": "build/index.d.ts",
+  "types": "build/ws.d.ts",
   "files": [
     "build"
   ],

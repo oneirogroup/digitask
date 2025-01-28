@@ -1,5 +1,3 @@
-import { logger } from "@mdreal/ui-kit/utils";
-
 const subscriptions = Symbol("ws.subscriptions");
 
 const reservedEvents = ["connect", "disconnect", "message", "error"];
@@ -23,15 +21,12 @@ export class WebsocketClient {
 
   static instance(name: string, url?: string) {
     const clients = (globalThis.__WEBSOCKET_CLIENTS__ ||= new Map());
-    logger.debug("ws-client:websocket-client:instance:get", { name, url });
     if (!url) {
-      logger.debug("ws-client:websocket-client:instance:get", name);
       return clients.get(name);
     }
 
     if (!clients.has(name)) {
-      logger.debug("ws-client:websocket-client:instance:create", url, "with-name", name);
-      clients.set(name, new WebsocketClient(name, url));
+      clients.set(name, new WebsocketClient(url));
     }
 
     return clients.get(name)!;
@@ -47,10 +42,7 @@ export class WebsocketClient {
   private messageAbortController = new AbortController();
   private closeAbortController = new AbortController();
 
-  private constructor(
-    private readonly name: string,
-    private readonly url: string
-  ) {
+  private constructor(private readonly url: string) {
     this.ws = new WebSocket(url);
     this.prepare();
   }
@@ -69,10 +61,8 @@ export class WebsocketClient {
 
   send(data: object) {
     if (this.ws.readyState === this.ws.OPEN) {
-      logger.debug("ws-client:websocket-client:send", data);
       this.ws.send(JSON.stringify(data));
     } else {
-      logger.debug("ws-client:websocket-client:save:queue", data);
       this.emitData.push(data);
     }
   }
@@ -88,7 +78,6 @@ export class WebsocketClient {
     }
 
     if (cb) {
-      logger.debug("ws-client:websocket-client:event:subscribe(%s)", event);
       this.subscriptions[event].push(cb);
     }
   }
@@ -106,7 +95,6 @@ export class WebsocketClient {
   }
 
   close() {
-    logger.debug("ws-client:websocket-client:close", this.name);
     this.ws.close();
     this.subscriptions = {};
     this.emitData = [];
@@ -134,11 +122,9 @@ export class WebsocketClient {
   }
 
   private prepare() {
-    logger.debug("ws-client:websocket-client:preparing", this.name);
     this.ws.addEventListener(
       "open",
       () => {
-        logger.debug("ws-client:websocket-client:connection:open", this.name);
         this.emitData.forEach(data => this.send(data));
         this.emitData = [];
 
@@ -162,7 +148,6 @@ export class WebsocketClient {
           "message",
           event => {
             const data = event.data;
-            logger.debug("ws-client:websocket-client:message", data);
 
             try {
               const { event, data: datum } = JSON.parse(data);
@@ -191,7 +176,6 @@ export class WebsocketClient {
     this.ws.addEventListener(
       "close",
       () => {
-        logger.debug("ws-client:websocket-client:connection:close", this.name);
         this.callWithErrorHandling(() => {
           this.subscriptions["disconnect"]?.forEach(cb => cb(undefined));
         });
@@ -200,7 +184,6 @@ export class WebsocketClient {
     );
 
     this.ws.addEventListener("error", err => {
-      logger.debug("ws-client:websocket-client:error", this.name, err);
       this.callWithErrorHandling(() => {
         this.subscriptions["error"]?.forEach(cb => cb(err));
       });

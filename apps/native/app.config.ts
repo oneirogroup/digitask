@@ -24,6 +24,7 @@ export default {
   },
   ios: {
     bundleIdentifier: "com.oneirogroup.digitask",
+    associatedDomains: ["applinks:digitask.com"],
     supportsTablet: true
   },
   plugins: [

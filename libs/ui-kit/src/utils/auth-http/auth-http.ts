@@ -60,7 +60,6 @@ export class AuthHttp {
 
   async refreshToken() {
     const settings = AuthHttp.settings();
-    logger.debug("ui-kit:auth-http.request.refresh-token", settings.refreshUrl);
     if (!settings.refreshUrl) return;
 
     const oldTokens = settings.getTokens();
@@ -71,7 +70,6 @@ export class AuthHttp {
     const newTokens = await this.request<Record<string, string>>(settings.refreshUrl, "post", {
       refresh: oldTokens.refresh
     });
-    logger.debug("ui-kit:auth-http.request.new-tokens", newTokens);
 
     const token = [
       settings.tokenKeys.access,
@@ -86,7 +84,6 @@ export class AuthHttp {
       await settings.storage.setItem(settings.tokenKeys.access, newTokens[token]);
       await settings.retrieveTokens()();
       const tokens = settings.getTokens();
-      logger.debug("ui-kit:auth-http.request.new-tokens-stored", tokens);
       return tokens;
     } else {
       await settings.removeTokens();
@@ -136,29 +133,17 @@ export class AuthHttp {
 
     tokens.access && this.addHeader(objectHeaders, "Authorization", `Bearer ${tokens.access}`);
 
-    logger.debug("ui-kit:auth-http:request.url", urlString);
-    logger.debug("ui-kit:auth-http:request.method", method);
-    logger.debug("ui-kit:auth-http:request.body", method !== "get" ? body : undefined);
-    logger.debug("ui-kit:auth-http:request.headers", objectHeaders);
-    logger.debug("ui-kit:auth-http:request.tokens", tokens);
-
     const request: RequestInit = {
       method,
       body: method !== "get" && !(body instanceof FormData) ? JSON.stringify(body) : undefined,
       headers: objectHeaders
     };
-    logger.debug("ui-kit:auth-http:request:fetch-request", request);
 
     let response = await fetch(urlString, request);
-    logger.debug("ui-kit:auth-http:response.ok", response.ok);
-    logger.debug("ui-kit:auth-http:response.code", response.status);
 
     if (!response.ok) {
       response = await this.handleHttpError(urlString, request, response);
-      logger.debug("ui-kit:auth-http:response.ok", response.ok);
-      logger.debug("ui-kit:auth-http:response.code", response.status);
     }
-    logger.debug("ui-kit:auth-http:response", response);
 
     const data = await response.text();
 
@@ -200,7 +185,6 @@ export class AuthHttp {
       }
       const token = tokens.access;
       this.addHeader(request.headers, "Authorization", `Bearer ${token}`);
-      logger.debug("ui-kit:auth-http.request.retry-request", request);
       this.isRequestRetry = true;
       const resp = await fetch(url, request);
       this.isRequestRetry = false;

@@ -14,8 +14,6 @@ export const uploadFile = async (url: string, asset: ImagePickerAsset, fileKey: 
   }
 
   const token = AuthHttp.settings().getTokens();
-  logger.debug("digitask.native:file-upload:asset.uri", asset.uri);
-  logger.debug("digitask.native:file-upload:authorization-token", `Authorization: Bearer ${token.access}`);
   const uploadTask = createUploadTask(
     url,
     asset.uri,
@@ -27,8 +25,7 @@ export const uploadFile = async (url: string, asset: ImagePickerAsset, fileKey: 
       headers: { Authorization: `Bearer ${token.access}` }
     },
     ({ totalBytesSent, totalBytesExpectedToSend }) => {
-      const progress = parseFloat((totalBytesSent / (totalBytesExpectedToSend || 1)).toFixed(2));
-      logger.debug("digitask.native:file-upload:progress", progress);
+      parseFloat((totalBytesSent / (totalBytesExpectedToSend || 1)).toFixed(2));
     }
   );
 

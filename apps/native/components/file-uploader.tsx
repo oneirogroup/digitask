@@ -52,7 +52,6 @@ const FileUploaderBase: FC<FileUploaderProps> = ({ label, value: prePickedImage,
 
   const pickImageFromCamera = async () => {
     const cameraPermission = await requestCameraPermissionsAsync();
-    logger.debug("digitask.native:components:file-uploader:pick-image-from-camera");
     if (cameraPermission.granted) {
       const result = await launchCameraAsync({
         mediaTypes: "images",
@@ -68,7 +67,6 @@ const FileUploaderBase: FC<FileUploaderProps> = ({ label, value: prePickedImage,
 
   const pickImageFromLibrary = async () => {
     const imagePermission = await requestMediaLibraryPermissionsAsync();
-    logger.debug("digitask.native:components:file-uploader:pick-image-from-library");
     if (imagePermission.granted) {
       const result = await launchImageLibraryAsync({
         mediaTypes: "images",

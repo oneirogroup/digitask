@@ -30,8 +30,6 @@ const ScrollViewBase: ForwardRefRenderFunction<ScrollViewRef, BlockProps & Scrol
   });
 
   const nativeProps = useConvertWebPropsToNative<"div", typeof RNInternalScrollView>(props, scrollVIewConvertedProps);
-  logger.debug(`scroll-view.native:props`, props);
-  logger.debug(`scroll-view.native:native-props`, nativeProps);
   return (
     <RNInternalScrollView {...{ ref: containerRef }} {...nativeProps}>
       {children}

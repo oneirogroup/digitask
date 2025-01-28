@@ -84,26 +84,21 @@ export default function AddSpecificTaskAttachment() {
           defaultValues={{ type: attachmentType, passport: currentTask?.passport }}
           onSubmit={async ({ passport, photo_modem, ...data }) => {
             await loading(setIsLoading, async () => {
-              logger.debug("digitask.native:add-specific-task-attachment:submit", data);
               await uploadFile(
                 `${AuthHttp.settings().baseUrl}/services/update_task_image/${taskId}/`,
                 passport,
                 "passport"
               );
-              logger.debug("digitask.native:add-specific-task-attachment:passport-uploaded");
               const attachment = await taskAttachmentMutation.mutateAsync({ ...data, task: +taskId });
-              logger.debug("digitask.native:add-specific-task-attachment:attachment-created", attachment);
               await uploadFile(
                 `${AuthHttp.settings().baseUrl}/services/update_tv_image/${attachment.id}/`,
                 photo_modem,
                 "photo_modem"
               );
-              logger.debug("digitask.native:add-specific-task-attachment:photo-modem-uploaded");
             });
 
             await refetch({ throwOnError: false });
 
-            logger.debug("digitask.native:add-specific-task-attachment:redirect");
             if (router.canGoBack()) router.back();
             else router.replace({ pathname: "/[taskId]/task-type/[taskType]", params: { taskId, taskType } });
           }}

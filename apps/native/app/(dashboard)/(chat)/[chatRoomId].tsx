@@ -50,7 +50,7 @@ const renderMessageItem: ListRenderItem<Backend.Message> = ({ item: message }) =
 export default function Chat() {
   const { chatRoomId } = useLocalSearchParams<{ chatRoomId: string }>();
   const [isMessagesLoading, setIsMessagesLoading] = useState(false);
-  const [value, setValue] = useState<string | null>(null);
+  const [writtenMessage, setWrittenMessage] = useState<string | null>(null);
   const size = useRecoilValue(activeChatRoomPageSizeAtom);
   const [pagination, setPagination] = useRecoilState(activeChatRoomPaginationSelector);
   const [messages, setMessages] = useRecoilState(activeChatRoomMessagesSelector);
@@ -85,9 +85,9 @@ export default function Chat() {
   });
 
   const handleSendMessage = () => {
-    if (!value) return;
-    sendMessage({ room: +chatRoomId, content: value });
-    setValue(null);
+    if (!writtenMessage) return;
+    sendMessage({ room: +chatRoomId, content: writtenMessage });
+    setWrittenMessage(null);
   };
 
   const handleScroll = async (event: NativeSyntheticEvent<NativeScrollEvent>) => {
@@ -124,8 +124,8 @@ export default function Chat() {
             <TextInput
               className="border-transparent"
               placeholder="Mesaj yaz..."
-              value={value || ""}
-              onChange={event => setValue(event.nativeEvent.text)}
+              value={writtenMessage || ""}
+              onChange={event => setWrittenMessage(event.nativeEvent.text)}
               autoCorrect={false}
             />
           </View>

@@ -16,8 +16,6 @@ export const Table: ExtendedFC<PropsWithChildren<TableBaseProps>, TableExtends> 
 }) => {
   const { header, body } = useTable(children, Table);
 
-  logger.debug("ui-kit.native:table:stickyHeader", stickyHeader);
-
   return (
     <TableProvider stickyHeader={stickyHeader}>
       <Block.Scroll stickyHeaderIndices={stickyHeader ? [1] : undefined}>

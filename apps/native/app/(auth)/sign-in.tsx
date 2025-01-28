@@ -48,9 +48,7 @@ export default function SignIn() {
   });
 
   const onSubmit = async (data: SignInSchema) => {
-    logger.debug("digitask.native:auth:sign-in.form-values", data);
-    const response = await signInMutation.mutateAsync(data);
-    logger.debug("digitask.native:auth:sign-in.auth-response", response);
+    await signInMutation.mutateAsync(data);
     await authHttpSettings.retrieveTokens()();
     // @ts-ignore
     await profileMutation.mutateAsync();

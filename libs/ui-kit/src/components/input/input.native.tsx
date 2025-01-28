@@ -31,11 +31,6 @@ export const InputBase: FC<InputProps> = ({
   const eventHandler = useEventHandlers(handlers, props);
   const className = getClassNames(variant, cn(!!onCloseClick && "pr-8", baseProps.className));
 
-  logger.debug("input.native:props", baseProps);
-  logger.debug("input.native:native-props", nativeProps);
-  logger.debug("input.native:variant", variant);
-  logger.debug("input.native:label", className);
-
   return (
     <View
       className={cn(

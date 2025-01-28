@@ -1,4 +1,6 @@
 import { Stack } from "expo-router";
+import { View } from "react-native";
+import Toast from "react-native-toast-message";
 
 import { ChatRoomHeaderRight, ChatRoomHeaderTitle } from "../../components/header/chat";
 import { ProfileHeaderRight, ProfileHeaderTitle } from "../../components/header/profile";

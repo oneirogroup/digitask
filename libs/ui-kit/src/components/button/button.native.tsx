@@ -26,9 +26,6 @@ const ButtonBase: ForwardRefRenderFunction<ButtonRef, ButtonProps> = (
   const { props: baseProps, handlers } = useProps(props);
   const eventHandler = useEventHandlers(handlers, {});
   const nativeProps = useConvertWebPropsToNative<"button", typeof TouchableOpacity>(baseProps);
-  logger.debug("button.native:props", props);
-  logger.debug("button.native:native-props", nativeProps);
-  logger.debug("button.native:variant", variant);
 
   return (
     <TouchableOpacity

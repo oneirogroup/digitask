@@ -1,5 +1,3 @@
-import { logger } from "../logger";
-
 declare global {
   export var __AUTH_HTTP_SETTINGS__: AuthHttpSettings;
 }
@@ -78,13 +76,10 @@ export class AuthHttpSettings {
     if (!this.waitPromise) {
       const { promise, resolve, reject } = Promise.withResolvers<void>();
       this.waitPromise = promise;
-      logger.debug("ui-kit:auth-http:settings:wait-for-token:timeout", timeout);
       const timeoutId = setTimeout(() => {
-        logger.debug("ui-kit:auth-http:settings:wait-for-token:timeout:reject");
         this.waitPromise = null;
         reject();
       }, timeout);
-      logger.debug("ui-kit:auth-http:settings:wait-for-token:timeout-id", timeoutId);
       this.resolveWaitPromise = () => {
         clearTimeout(timeoutId);
         resolve();
@@ -96,33 +91,22 @@ export class AuthHttpSettings {
 
   retrieveTokens() {
     return async () => {
-      logger.debug("ui-kit:auth-http:settings:retrieve-tokens");
       if (!(this._storage && this.tokenKeys && this.tokenKeys.access && this.tokenKeys.refresh)) {
-        logger.debug(
-          "ui-kit:auth-http:settings:retrieve-tokens:error",
-          "No storage or token keys found for retrieving"
-        );
         return;
       }
 
-      logger.debug("ui-kit:auth-http:settings:retrieve-tokens:storage", this._storage);
-      logger.debug("ui-kit:auth-http:settings:retrieve-tokens:token-keys:access", this._tokenKeys.access);
-      logger.debug("ui-kit:auth-http:settings:retrieve-tokens:token-keys:refresh", this._tokenKeys.refresh);
       const [access, refresh] = await Promise.allSettled([
         this._storage.getItem(this.tokenKeys.access),
         this._storage.getItem(this.tokenKeys.refresh)
       ]);
 
       if (access.status === "rejected") throw new Error("Access token not found", { cause: access.reason });
-      logger.debug("ui-kit:auth-http:settings:access-token:success", access.value);
       if (refresh.status === "rejected") throw new Error("Refresh token not found", { cause: refresh.reason });
-      logger.debug("ui-kit:auth-http:settings:refresh-token:success", refresh.value);
 
       this._tokens.access = access.value;
       this._tokens.refresh = refresh.value;
 
       if (this.resolveWaitPromise) {
-        logger.debug("ui-kit:auth-http:settings:resolve-wait-promise");
         this.resolveWaitPromise();
         this.resolveWaitPromise = null;
         this.waitPromise = null;
@@ -131,7 +115,6 @@ export class AuthHttpSettings {
   }
 
   async removeTokens() {
-    logger.debug("ui-kit:auth-http:settings:remove-tokens");
     if (!this._storage || !this._tokenKeys.access || !this._tokenKeys.refresh) {
       return;
     }
@@ -145,14 +128,11 @@ export class AuthHttpSettings {
   }
 
   async awaitRetrievingToken() {
-    logger.debug("ui-kit:auth-http:settings:await-retrieving-token");
     if (this.waitPromise === null) {
       return Promise.resolve();
     }
 
-    return await this.waitPromise
-      .then(() => logger.debug("ui-kit:auth-http:settings:tokens-retrieved"))
-      .catch(() => Promise.resolve());
+    return await this.waitPromise.catch(() => Promise.resolve());
   }
 
   getTokens() {
