@@ -1,5 +1,4 @@
-import { ConfigProvider, DatePicker, Space } from "antd";
-import { InputNumber } from "antd";
+import { ConfigProvider, DatePicker, InputNumber, Space } from "antd";
 import az from "antd/locale/az_AZ";
 import dayjs from "dayjs";
 import "dayjs/locale/az";
@@ -10,8 +9,7 @@ import { IoMdRefresh } from "react-icons/io";
 import { IoAdd } from "react-icons/io5";
 import { MdOutlineEdit } from "react-icons/md";
 import { PiTelevisionSimple } from "react-icons/pi";
-import { RiVoiceprintFill } from "react-icons/ri";
-import { RiDeleteBin6Line } from "react-icons/ri";
+import { RiDeleteBin6Line, RiVoiceprintFill } from "react-icons/ri";
 import { TfiWorld } from "react-icons/tfi";
 
 import useRefreshToken from "../../common/refreshToken";

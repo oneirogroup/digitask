@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { type DependencyList, useEffect } from "react";
 
 import { WebsocketClient } from "../utils/websocket-client";
 import { UseWebsocketProps } from "./use-websocket.types";
@@ -6,7 +6,8 @@ import { UseWebsocketProps } from "./use-websocket.types";
 export const useWebsocket = <TData>(
   name: string,
   url?: string,
-  options?: UseWebsocketProps<TData>
+  options?: UseWebsocketProps<TData>,
+  deps: DependencyList = []
 ): WebsocketClient | undefined => {
   useEffect(() => {
     if (url && !WebsocketClient.has(name)) {
@@ -25,7 +26,7 @@ export const useWebsocket = <TData>(
         WebsocketClient.remove(name);
       }
     };
-  }, []);
+  }, deps);
 
   return WebsocketClient.instance(name);
 };

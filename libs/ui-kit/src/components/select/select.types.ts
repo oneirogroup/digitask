@@ -1,10 +1,7 @@
 import { type FC, type ReactElement } from "react";
 import type { FieldValues } from "react-hook-form";
 
-import type {
-  ControlledBaseProps,
-  ControlledComponentBaseProps
-} from "../../hoc/with-controller/with-controller.types";
+import type { ControlledBaseProps, ControlledComponentBaseProps } from "../../hoc";
 import type { BaseProps } from "../../types/base-props";
 import type { CrossPlatformEventHandlers, EventsList } from "../../types/event-handler/cross-platform-event-handlers";
 import type { OptionProps } from "./components/option.types";
@@ -27,7 +24,7 @@ export interface SelectProps<TValue>
    * Placeholder text to show when no value is selected.
    */
   placeholder?: string;
-  children: ReactElement<OptionProps<TValue>> | ReactElement<OptionProps<TValue>>[];
+  children: ReactElement<OptionProps<TValue>> | false | (ReactElement<OptionProps<TValue>> | false)[];
 
   /**
    * Value extractor function.

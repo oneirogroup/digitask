@@ -1,6 +1,4 @@
 import { Stack } from "expo-router";
-import { View } from "react-native";
-import Toast from "react-native-toast-message";
 
 import { ChatRoomHeaderRight, ChatRoomHeaderTitle } from "../../components/header/chat";
 import { ProfileHeaderRight, ProfileHeaderTitle } from "../../components/header/profile";
@@ -22,7 +20,7 @@ export default function DashboardLayout() {
     <Stack initialRouteName="(tabs)">
       <Stack.Screen name="(chat)/chat" options={{ title: "Söhbətlər", headerBackButtonDisplayMode: "minimal" }} />
       <Stack.Screen
-        name="(chat)/[chatRoomId]"
+        name="(chat)/room/[chatRoomId]"
         options={{
           headerBackButtonDisplayMode: "minimal",
           headerTitle: () => <ChatRoomHeaderTitle />,

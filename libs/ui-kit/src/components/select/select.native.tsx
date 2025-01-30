@@ -1,8 +1,7 @@
 import type { FieldValues } from "react-hook-form";
 import { Platform } from "react-native";
 
-import { useWithController } from "../../hoc/with-controller/use-with-controller";
-import type { ControlledBaseProps } from "../../hoc/with-controller/with-controller.types";
+import { type ControlledBaseProps, useWithController } from "../../hoc";
 import { Option } from "./components/option.native";
 import { SelectAndroid } from "./select.android";
 import { SelectIOS } from "./select.ios";

@@ -1,4 +1,5 @@
 import { getCurrentPositionAsync } from "expo-location";
+import { usePathname } from "expo-router";
 import { useRecoilState, useRecoilValue } from "recoil";
 
 import {
@@ -18,10 +19,12 @@ import { requestLocationPermission } from "../utils/request-location-permission"
 import { useShowMessageNotification } from "./use-show-message-notification";
 
 const wsUrl = new URL(env.EXPO_PUBLIC_API_URL);
-wsUrl.protocol = "ws";
+const protocol = wsUrl.protocol.startsWith("https") ? "wss" : "ws";
+wsUrl.protocol = protocol;
 const wsHostUrl = wsUrl.toString().slice(0, -1);
 
 export const useWebsocketInit = () => {
+  const pathname = usePathname();
   const notificationControls = useRecoilArrayControls(notificationAtom);
   const receiveMessage = useReceiveMessage();
   const profileData = useRecoilValue(profileAtom);
@@ -50,7 +53,10 @@ export const useWebsocketInit = () => {
 
           if ("room" in message) {
             receiveMessage(message);
-            showMessageNotification(message);
+
+            if (!(message.typeM === "sent" || pathname.startsWith("/room/"))) {
+              showMessageNotification(message);
+            }
           }
         }
       },
@@ -64,7 +70,8 @@ export const useWebsocketInit = () => {
             setSignInData(prev => (prev === null ? prev : { ...prev, access_token, refresh_token }));
           });
       }
-    }
+    },
+    [pathname]
   );
 
   useWebsocket(fields.location, `${wsHostUrl}/ws/?email=${profileData?.email}&token=${signInData?.access_token}`, {

@@ -32,8 +32,8 @@ import { Button, Icon, cn } from "@mdreal/ui-kit";
 import { useWebsocket } from "@mdreal/ws-client";
 import { useMutation } from "@tanstack/react-query";
 
-import { palette } from "../../../../../palette";
-import { BlockContainer } from "../../../components/blocks";
+import { palette } from "../../../../../../palette";
+import { BlockContainer } from "../../../../components/blocks";
 
 const renderMessageItem: ListRenderItem<Backend.Message> = ({ item: message }) => {
   const isMe = message.typeM === "sent";

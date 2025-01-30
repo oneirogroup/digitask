@@ -118,12 +118,10 @@ const Home = () => {
           <div key={meeting.id} className="meet-time-date-img" onClick={() => openMeetingDetailModal(meeting.id)}>
             <div className="meet-time-date">
               <p>
-              <GoClock /> {new Date(meeting.date).toLocaleString('en-US', { hour12: false })}
+                <GoClock /> {new Date(meeting.date).toLocaleString("en-US", { hour12: false })}
               </p>
               <div>
-                <h5>{meeting.title.length > 15
-                    ? `${meeting.title.slice(0, 15)}...`
-                    : meeting.title}</h5>
+                <h5>{meeting.title.length > 15 ? `${meeting.title.slice(0, 15)}...` : meeting.title}</h5>
                 <p>
                   {meeting.meeting_description.length > 15
                     ? `${meeting.meeting_description.slice(0, 15)}...`

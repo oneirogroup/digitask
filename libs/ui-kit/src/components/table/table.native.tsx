@@ -2,7 +2,7 @@ import { PropsWithChildren } from "react";
 
 import { ExtendedFC } from "@/types/extended-fc";
 
-import { cn, logger } from "../../utils";
+import { cn } from "../../utils";
 import { Block } from "../block/block.native";
 import { Body, Cell, Header, Row } from "./components/index.native";
 import { TableProvider } from "./context";

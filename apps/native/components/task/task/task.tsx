@@ -1,4 +1,3 @@
-import { palette } from "palette";
 import { FC } from "react";
 import { Text, View } from "react-native";
 
@@ -6,6 +5,7 @@ import { Backend, DateService, TaskStatuses, api } from "@digitask/shared-lib";
 import { Block, Button, Icon, Switch, When, cn } from "@mdreal/ui-kit";
 import { useMutation } from "@tanstack/react-query";
 
+import { palette } from "../../../../../palette";
 import { buttonTranslations, statuses } from "../task-view/task-view.utils";
 import { Tag } from "./components/tag";
 import { TaskDate } from "./components/task-date";

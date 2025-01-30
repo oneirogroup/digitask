@@ -11,7 +11,7 @@ import { FC, useEffect, useRef, useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 
 import { api, fields } from "@digitask/shared-lib";
-import { ErrorMessageViewer, Icon, If, Modal, ModalRef, logger, withController } from "@mdreal/ui-kit";
+import { ErrorMessageViewer, Icon, If, Modal, ModalRef, withController } from "@mdreal/ui-kit";
 import { useMutation } from "@tanstack/react-query";
 
 import { palette } from "../../../palette";

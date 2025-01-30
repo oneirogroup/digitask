@@ -1,6 +1,6 @@
 import { Image } from "expo-image";
-import { useFocusEffect, useGlobalSearchParams, useLocalSearchParams, useRouter } from "expo-router";
-import { useEffect, useRef } from "react";
+import { useFocusEffect, useLocalSearchParams, useRouter } from "expo-router";
+import { useRef } from "react";
 import { Pressable, RefreshControl, Text, TouchableOpacity, View } from "react-native";
 import { useRecoilValue } from "recoil";
 
@@ -78,6 +78,8 @@ export default function SpecificTask() {
   const onRefresh = async () => {
     await refetch();
   };
+
+  console.log(currentTask.task_items);
 
   return (
     <Block.Scroll
@@ -201,7 +203,7 @@ export default function SpecificTask() {
           <Text className="text-neutral-20 text-xl">Məhsullar</Text>
 
           {currentTask.task_items?.map(item => (
-            <Field key={item.id} label={item.item.toString()} value={item.count.toString()} />
+            <Field key={item.id} label={item.item.equipment_name.toString()} value={item.count.toString()} />
           ))}
         </BlockContainer>
       </When>

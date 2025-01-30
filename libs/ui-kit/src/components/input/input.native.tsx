@@ -8,7 +8,7 @@ import { useProps } from "@/hooks/event-handler/use-props";
 import { useConvertWebPropsToNative } from "@/hooks/use-convert-web-props-to-native";
 import { Variants } from "@/types/variant";
 
-import { cn, logger } from "@/utils";
+import { cn } from "@/utils";
 
 import { ErrorMessageViewer } from "../error-message-viewer/error-message-viewer.native";
 import { Button, Icon, When } from "../index.native";

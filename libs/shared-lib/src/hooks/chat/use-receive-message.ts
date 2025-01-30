@@ -1,7 +1,5 @@
 import { useRecoilCallback, useRecoilValue } from "recoil";
 
-import { logger } from "@mdreal/ui-kit";
-
 import { messagesAtom, profileAtom } from "../../atoms";
 import { Backend } from "../../types";
 

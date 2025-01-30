@@ -85,7 +85,7 @@ const Profile = () => {
 
   const handleProfileUpdate = async () => {
     try {
-      console.log(profileData,'-')
+      console.log(profileData, "-");
       const { profil_picture, ...profileWithoutPhoto } = profileData;
       await axios.put("http://135.181.42.192/accounts/profile_update/", {
         ...profileWithoutPhoto,

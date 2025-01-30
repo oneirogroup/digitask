@@ -15,7 +15,7 @@ export const ChatRoom: FC<ChatRoomProps> = ({ room }) => {
   const redirect = () => {
     setChatRoomId(room.id);
     // @ts-ignore
-    navigation.navigate("(chat)/[chatRoomId]", { chatRoomId: room.id });
+    navigation.navigate("(chat)/room/[chatRoomId]", { chatRoomId: room.id });
   };
 
   return (

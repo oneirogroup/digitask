@@ -1,6 +1,4 @@
 import { Tabs } from "expo-router";
-import { Text, View } from "react-native";
-import Toast from "react-native-toast-message";
 
 import { Icon } from "@mdreal/ui-kit";
 

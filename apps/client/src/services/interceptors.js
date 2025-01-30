@@ -1,9 +1,10 @@
 import axios from "axios";
+
 import { refreshAccessToken } from "../actions/authActions";
 
-const setupInterceptors = (store) => {
+const setupInterceptors = store => {
   axios.interceptors.request.use(
-    async (config) => {
+    async config => {
       const token = localStorage.getItem("access_token");
 
       if (token) {
@@ -12,23 +13,19 @@ const setupInterceptors = (store) => {
 
       return config;
     },
-    (error) => {
+    error => {
       return Promise.reject(error);
     }
   );
 
   axios.interceptors.response.use(
-    (response) => {
+    response => {
       return response;
     },
-    async (error) => {
+    async error => {
       const originalRequest = error.config;
 
-      if (
-        error.response &&
-        error.response.status === 401 &&
-        !originalRequest._retry
-      ) {
+      if (error.response && error.response.status === 401 && !originalRequest._retry) {
         originalRequest._retry = true;
 
         try {

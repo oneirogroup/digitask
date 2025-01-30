@@ -1,5 +1,5 @@
-import { ChatRoom } from "@digitask/shared-lib";
+import { Backend } from "@digitask/shared-lib";
 
 export interface ChatRoomProps {
-  room: ChatRoom;
+  room: Backend.ChatRoom;
 }

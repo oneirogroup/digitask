@@ -5,8 +5,6 @@ import { ActivityIndicator, TouchableOpacity as RNTouchableOpacity, View } from 
 import { useConvertWebPropsToNative } from "@/hooks/use-convert-web-props-to-native";
 import { Variants } from "@/types/variant";
 
-import { logger } from "@/utils";
-
 import { useEventHandlers } from "../../hooks/event-handler/use-event-handlers";
 import { useProps } from "../../hooks/event-handler/use-props";
 import { If } from "../if";

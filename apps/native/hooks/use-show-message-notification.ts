@@ -1,5 +1,4 @@
-import { useNavigation, useRouter } from "expo-router";
-import { Linking } from "react-native";
+import { useRouter } from "expo-router";
 import Toast from "react-native-toast-message";
 import { useSetRecoilState } from "recoil";
 

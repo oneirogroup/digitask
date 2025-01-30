@@ -4,8 +4,6 @@ import { ScrollView as RNScrollView } from "react-native";
 
 import { useConvertWebPropsToNative } from "@/hooks/use-convert-web-props-to-native";
 
-import { logger } from "@/utils";
-
 import { BlockProps } from "../block.types";
 import { useScrollView } from "../hooks/use-scroll-view";
 import { ScrollViewBaseProps, ScrollViewRef } from "./scroll-view.types";

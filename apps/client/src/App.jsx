@@ -1,46 +1,45 @@
-import { RouterProvider } from 'react-router-dom';
-import { routers } from '../Routers.jsx';
-import { useState, useEffect } from 'react';
+import React, { useEffect, useState } from "react";
+import { RouterProvider } from "react-router-dom";
+
+import { routers } from "../Routers.jsx";
+
 import "./App.css";
-import React from 'react';
-import './responsive.css';
-import ReactDOM from 'react-dom';
+import "./responsive.css";
 
 const App = () => {
   const [location, setLocation] = useState(null);
   let ws;
   const connectWebSocket = () => {
-    const token = localStorage.getItem('access_token');
+    const token = localStorage.getItem("access_token");
     if (!token) {
-      console.error('No access token found. Closing WebSocket and retrying connection in 5 seconds...');
+      console.error("No access token found. Closing WebSocket and retrying connection in 5 seconds...");
       if (ws) {
         ws.close();
       }
       return;
     }
-    const email = localStorage.getItem('saved_email');
+    const email = localStorage.getItem("saved_email");
     ws = new WebSocket(`ws://135.181.42.192/ws/?email=${email}&token=${token}`);
 
     // WebSocket event listeners
-    ws.onopen = () => {
-    };
+    ws.onopen = () => {};
 
-    ws.onmessage = (event) => {
+    ws.onmessage = event => {
       try {
         const data = JSON.parse(event.data);
       } catch (e) {
-        console.error('Error parsing WebSocket message:', e);
+        console.error("Error parsing WebSocket message:", e);
       }
     };
 
-    ws.onerror = (error) => {
-      console.error('WebSocket error:', error);
+    ws.onerror = error => {
+      console.error("WebSocket error:", error);
     };
 
-    ws.onclose = (event) => {
+    ws.onclose = event => {
       if (event.wasClean) {
       } else {
-        console.error('WebSocket connection died unexpectedly');
+        console.error("WebSocket connection died unexpectedly");
       }
       // Attempt to reconnect after 5 seconds
       setTimeout(connectWebSocket, 5000);
@@ -51,22 +50,22 @@ const App = () => {
   const fetchLocation = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
-        (position) => {
+        position => {
           if (ws && ws.readyState === WebSocket.OPEN) {
             const location = {
               latitude: position.coords.latitude,
-              longitude: position.coords.longitude,
+              longitude: position.coords.longitude
             };
             ws.send(JSON.stringify({ location })); // Send location through WebSocket
           }
         },
-        (error) => {
+        error => {
           console.error("Error getting location: ", error);
         },
         {
           enableHighAccuracy: true,
           timeout: 10000,
-          maximumAge: 10000,
+          maximumAge: 10000
         }
       );
     } else {
@@ -95,9 +94,7 @@ const App = () => {
     };
   }, []);
 
-  return (
-    <RouterProvider router={routers} />
-  );
+  return <RouterProvider router={routers} />;
 };
 
 export default App;

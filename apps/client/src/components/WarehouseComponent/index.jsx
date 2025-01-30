@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import { BiImport } from "react-icons/bi";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { CiSearch } from "react-icons/ci";
-import { FaChevronDown } from "react-icons/fa6";
 import { IoFilterOutline } from "react-icons/io5";
 
 import useRefreshToken from "../../common/refreshToken";

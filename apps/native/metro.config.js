@@ -5,7 +5,6 @@ const { withNativeWind } = require("nativewind/metro");
 const workspaceRoot = resolve(__dirname, "../..");
 const projectRoot = __dirname;
 
-/** @type {import("expo/metro-config").MetroConfig} */
 const config = getDefaultConfig(projectRoot);
 
 config.watchFolders = [workspaceRoot];

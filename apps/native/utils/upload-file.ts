@@ -1,7 +1,7 @@
 import { FileSystemUploadType, createUploadTask } from "expo-file-system";
 import type { ImagePickerAsset } from "expo-image-picker";
 
-import { AuthHttp, logger } from "@mdreal/ui-kit";
+import { AuthHttp } from "@mdreal/ui-kit";
 
 import { AuthService } from "../components/services/auth.service";
 

@@ -2,7 +2,7 @@ import { ForwardRefRenderFunction, PropsWithChildren, forwardRef, useState } fro
 import { Dimensions, Pressable, Modal as RNModal, View } from "react-native";
 import Animated, { runOnJS, useAnimatedStyle, useSharedValue, withSpring, withTiming } from "react-native-reanimated";
 
-import { cn, logger } from "../../utils";
+import { cn } from "../../utils";
 import { Icon } from "../icon/icon.native";
 import { When } from "../when";
 import { useModal } from "./hooks/use-modal";

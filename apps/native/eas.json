@@ -14,11 +14,16 @@
         "buildType": "apk"
       },
       "env": {
-        "EXPO_PUBLIC_API_URL": "http://135.181.42.192"
+        "NODE_ENV": "production",
+        "EXPO_PUBLIC_API_URL": "https://dev.oneiro.az"
       }
     },
     "production": {
-      "autoIncrement": true
+      "autoIncrement": true,
+      "env": {
+        "NODE_ENV": "production",
+        "EXPO_PUBLIC_API_URL": "https://dev.oneiro.az"
+      }
     }
   },
   "submit": {

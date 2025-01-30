@@ -1,5 +1,6 @@
 import { TaskStatuses } from "../tasks/statuses";
 import { Group } from "./group";
+import type { WarehouseItem } from "./warehouse-item";
 
 export interface Task {
   id: number;
@@ -71,7 +72,7 @@ export interface TaskItem {
   is_internet: boolean;
   is_tv: boolean;
   is_voice: boolean;
-  item: number;
+  item: WarehouseItem;
   task: number;
   warehouse_name: string;
 }

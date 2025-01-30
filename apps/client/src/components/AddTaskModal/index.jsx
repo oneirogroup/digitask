@@ -1,9 +1,8 @@
 import axios from "axios";
 import az from "date-fns/locale/az";
 import { useEffect, useRef, useState } from "react";
-import DatePicker from "react-datepicker";
-import { registerLocale, setDefaultLocale } from "react-datepicker";
-import { FaChevronDown, FaPassport } from "react-icons/fa";
+import DatePicker, { registerLocale } from "react-datepicker";
+import { FaChevronDown } from "react-icons/fa";
 import { PiTelevisionSimpleLight } from "react-icons/pi";
 import { RiVoiceprintFill } from "react-icons/ri";
 import { TfiWorld } from "react-icons/tfi";

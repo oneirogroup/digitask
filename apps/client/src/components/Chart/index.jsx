@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
 import { FaAngleLeft, FaAngleRight, FaCircle } from "react-icons/fa";
+
 import useRefreshToken from "../../common/refreshToken";
 
 import "./chart.css";
@@ -76,8 +77,6 @@ const ApexChart = () => {
   });
 
   const legendLabels = ["Qoşulmalar", "Problemlər"];
-
-
 
   useEffect(() => {
     fetchData(year);

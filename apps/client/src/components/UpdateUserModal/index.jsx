@@ -149,7 +149,6 @@ const UpdateUserModal = ({ isOpen, onClose, employee, onUpdateUser }) => {
       updatedFormData.groupRegion = employee.group?.region;
     }
 
-
     try {
       const response = await axios.put(`http://135.181.42.192/accounts/update_user/${employee.id}/`, updatedFormData);
       onUpdateUser(response.data);

@@ -1,13 +1,6 @@
 import { setAuthToken } from "../common/setAuthToken";
 import AuthService from "../services/auth.service";
-import {
-  LOGIN_FAIL, // REGISTER_SUCCESS,
-  // REGISTER_FAIL,
-  LOGIN_SUCCESS,
-  LOGOUT,
-  REFRESH_TOKEN_SUCCESS,
-  SET_MESSAGE
-} from "./types";
+import { LOGIN_FAIL, LOGIN_SUCCESS, LOGOUT, REFRESH_TOKEN_SUCCESS, SET_MESSAGE } from "./types";
 
 // export const register = (username, email, password) => (dispatch) => {
 //   return AuthService.register(username, email, password).then(

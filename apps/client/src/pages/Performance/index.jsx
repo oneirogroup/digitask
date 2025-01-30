@@ -1,8 +1,7 @@
 import axios from "axios";
 import az from "date-fns/locale/az";
 import { useEffect, useRef, useState } from "react";
-import { registerLocale } from "react-datepicker";
-import DatePicker from "react-datepicker";
+import DatePicker, { registerLocale } from "react-datepicker";
 import { FaChevronDown } from "react-icons/fa";
 
 import useRefreshToken from "../../common/refreshToken";

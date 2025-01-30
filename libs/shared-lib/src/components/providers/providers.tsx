@@ -1,5 +1,4 @@
 import { FC, PropsWithChildren } from "react";
-import Toast from "react-native-toast-message";
 import { RecoilRoot } from "recoil";
 
 import { logger } from "@mdreal/ui-kit";

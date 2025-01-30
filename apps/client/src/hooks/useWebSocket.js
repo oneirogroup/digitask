@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const useWebSocket = () => {
   const [ws, setWs] = useState(null);
@@ -14,7 +14,7 @@ const useWebSocket = () => {
   }, []);
 
   const updateStatus = (userId, newStatus) => {
-    setStatus((prevStatus) => ({ ...prevStatus, [userId]: newStatus }));
+    setStatus(prevStatus => ({ ...prevStatus, [userId]: newStatus }));
   };
 
   return { ws, setStatus: updateStatus };
