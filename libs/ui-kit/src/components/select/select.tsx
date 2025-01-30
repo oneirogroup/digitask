@@ -2,14 +2,11 @@
 // ToDo: Will be implemented...
 import { Children, type FC, type ReactElement, useState } from "react";
 
-
-
-import { useWithController } from "../../hoc/with-controller/use-with-controller";
-import type { ControlledBaseProps } from "../../hoc/with-controller/with-controller.types";
+import { useWithController } from "../../hoc";
+import type { ControlledBaseProps } from "../../hoc";
 import { Option } from "./components/option";
 import type { OptionProps } from "./components/option.types";
 import type { SelectComponent, SelectProps } from "./select.types";
-
 
 export const Select: SelectComponent = <TValue,>({
   children,
