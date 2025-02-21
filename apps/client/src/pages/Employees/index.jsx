@@ -49,7 +49,7 @@ const EmployeeList = () => {
 
   let ws2;
   const connectWebSocket2 = () => {
-    ws2 = new WebSocket(`ws://135.181.42.192/userlist/`);
+    ws2 = new WebSocket(`ws://37.61.77.5/userlist/`);
 
     ws2.onopen = () => {};
 
@@ -84,7 +84,7 @@ const EmployeeList = () => {
     try {
       const token = localStorage.getItem("access_token");
 
-      const response = await axios.get("http://135.181.42.192/accounts/users/", {
+      const response = await axios.get("http://37.61.77.5/accounts/users/", {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -101,7 +101,7 @@ const EmployeeList = () => {
 
       initializeEmployeeModals(employeesData);
 
-      const loggedInUserResponse = await axios.get("http://135.181.42.192/accounts/profile/", {
+      const loggedInUserResponse = await axios.get("http://37.61.77.5/accounts/profile/", {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -177,7 +177,7 @@ const EmployeeList = () => {
   const fetchData = async () => {
     try {
       const token = localStorage.getItem("access_token");
-      const groupsResponse = await axios.get("http://135.181.42.192/services/groups/", {
+      const groupsResponse = await axios.get("http://37.61.77.5/services/groups/", {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -351,7 +351,7 @@ const EmployeeList = () => {
     try {
       const token = localStorage.getItem("access_token");
 
-      const response = await axios.get(`http://135.181.42.192/accounts/update_user/${employeeId}/`, {
+      const response = await axios.get(`http://37.61.77.5/accounts/update_user/${employeeId}/`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -381,7 +381,7 @@ const EmployeeList = () => {
     try {
       const token = localStorage.getItem("access_token");
 
-      await axios.delete(`http://135.181.42.192/accounts/delete_user/${employeeId}/`, {
+      await axios.delete(`http://37.61.77.5/accounts/delete_user/${employeeId}/`, {
         headers: {
           Authorization: `Bearer ${token}`
         }

@@ -30,7 +30,7 @@ const AddWarehouseModal = ({ onClose, onWarehouseAdded }) => {
     }
 
     try {
-      const response = await axios.post("http://135.181.42.192/warehouse/warehouses/", { name, region });
+      const response = await axios.post("http://37.61.77.5/warehouse/warehouses/", { name, region });
 
       onWarehouseAdded(response.data);
       onClose();

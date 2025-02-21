@@ -28,7 +28,7 @@ const Profile = () => {
 
   const fetchProfileData = async () => {
     try {
-      const response = await axios.get("http://135.181.42.192/accounts/profile/");
+      const response = await axios.get("http://37.61.77.5/accounts/profile/");
       setProfileData({
         ...response.data,
         groupName: response.data.group?.group || "",
@@ -53,7 +53,7 @@ const Profile = () => {
 
   const fetchGroups = async () => {
     try {
-      const response = await axios.get("http://135.181.42.192/services/groups/");
+      const response = await axios.get("http://37.61.77.5/services/groups/");
       await refreshAccessToken();
       setGroups(response.data);
     } catch (error) {
@@ -87,7 +87,7 @@ const Profile = () => {
     try {
       console.log(profileData, "-");
       const { profil_picture, ...profileWithoutPhoto } = profileData;
-      await axios.put("http://135.181.42.192/accounts/profile_update/", {
+      await axios.put("http://37.61.77.5/accounts/profile_update/", {
         ...profileWithoutPhoto,
         group: profileData.group?.id,
         groupName: profileData.groupName,
@@ -110,14 +110,14 @@ const Profile = () => {
       const formData = new FormData();
       formData.append("profil_picture", file);
       try {
-        await axios.put("http://135.181.42.192/accounts/profile_image_update/", formData, {
+        await axios.put("http://37.61.77.5/accounts/profile_image_update/", formData, {
           headers: { "Content-Type": "multipart/form-data" }
         });
         fetchProfileData();
       } catch (error) {
         if (error.status == 403) {
           await refreshAccessToken();
-          await axios.put("http://135.181.42.192/accounts/profile_image_update/", formData, {
+          await axios.put("http://37.61.77.5/accounts/profile_image_update/", formData, {
             headers: { "Content-Type": "multipart/form-data" }
           });
           fetchProfileData();

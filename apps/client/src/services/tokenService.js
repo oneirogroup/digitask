@@ -36,7 +36,7 @@ const setupAxiosInterceptors = () => {
         if (refreshToken) {
           try {
             // Attempt to refresh the access token
-            const response = await axios.post("http://135.181.42.192/accounts/token/refresh/", {
+            const response = await axios.post("http://37.61.77.5/accounts/token/refresh/", {
               refresh: refreshToken
             });
 

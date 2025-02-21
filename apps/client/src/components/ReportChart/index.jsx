@@ -10,7 +10,7 @@ const DemoVenn = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://135.181.42.192/services/api/task-report/");
+        const response = await fetch("http://37.61.77.5/services/api/task-report/");
         const apiData = await response.json();
 
         const tv = apiData.tv_tasks.total;

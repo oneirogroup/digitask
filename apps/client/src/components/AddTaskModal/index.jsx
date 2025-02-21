@@ -68,7 +68,7 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
 
   const fetchGroups = async (isRetry = false) => {
     try {
-      const response = await axios.get("http://135.181.42.192/services/groups/");
+      const response = await axios.get("http://37.61.77.5/services/groups/");
       setGroups(response.data);
     } catch (error) {
       if (error.status === 403 && !isRetry) {
@@ -226,7 +226,7 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
         passport: imageFile ? imageFile : ""
       };
 
-      const response = await axios.post("http://135.181.42.192/services/create_task/", payload, {
+      const response = await axios.post("http://37.61.77.5/services/create_task/", payload, {
         headers: {
           "Authorization": `Bearer ${localStorage.getItem("access_token")}`,
           "Content-Type": "multipart/form-data"
