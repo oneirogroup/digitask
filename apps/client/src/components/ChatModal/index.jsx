@@ -30,7 +30,7 @@ const ChatModal = ({ isOpen, onClose, groupName, members, group, onMembersUpdate
       const fetchUsers = async () => {
         try {
           const token = localStorage.getItem("access_token");
-          const response = await axios.get("http://135.181.42.192/accounts/users/", {
+          const response = await axios.get("http://37.61.77.5/accounts/users/", {
             headers: { Authorization: `Bearer ${token}` }
           });
           const nonMembers = response.data.filter(user => !members.some(member => member.id === user.id));
@@ -61,7 +61,7 @@ const ChatModal = ({ isOpen, onClose, groupName, members, group, onMembersUpdate
       const usersToAdd = Array.from(selectedUsers);
       const token = localStorage.getItem("access_token");
       await axios.patch(
-        `http://135.181.42.192/accounts/rooms/${group}/add-members/`,
+        `http://37.61.77.5/accounts/rooms/${group}/add-members/`,
         { members: usersToAdd },
         {
           headers: {
@@ -90,7 +90,7 @@ const ChatModal = ({ isOpen, onClose, groupName, members, group, onMembersUpdate
     try {
       const token = localStorage.getItem("access_token");
       await axios.patch(
-        `http://135.181.42.192/accounts/rooms/${group}/remove-members/`,
+        `http://37.61.77.5/accounts/rooms/${group}/remove-members/`,
         { members: [removeMemberId] },
         {
           headers: {

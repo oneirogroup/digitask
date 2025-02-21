@@ -45,7 +45,7 @@ const UpdateUserModal = ({ isOpen, onClose, employee, onUpdateUser }) => {
   useEffect(() => {
     const fetchGroups = async () => {
       try {
-        const response = await axios.get("http://135.181.42.192/services/groups/");
+        const response = await axios.get("http://37.61.77.5/services/groups/");
         setGroupOptions(response.data);
       } catch (error) {
         if (error.status == 403) {
@@ -149,9 +149,8 @@ const UpdateUserModal = ({ isOpen, onClose, employee, onUpdateUser }) => {
       updatedFormData.groupRegion = employee.group?.region;
     }
 
-
     try {
-      const response = await axios.put(`http://135.181.42.192/accounts/update_user/${employee.id}/`, updatedFormData);
+      const response = await axios.put(`http://37.61.77.5/accounts/update_user/${employee.id}/`, updatedFormData);
       onUpdateUser(response.data);
       onClose();
     } catch (error) {

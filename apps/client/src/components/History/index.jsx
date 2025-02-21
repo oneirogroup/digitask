@@ -28,7 +28,7 @@ const Anbar = () => {
 
   const fetchData = async () => {
     try {
-      const historyUrl = new URL(`http://135.181.42.192/warehouse/warehouse-history`);
+      const historyUrl = new URL(`http://37.61.77.5/warehouse/warehouse-history`);
       const params = new URLSearchParams();
       const actions = action == 1 ? ["add", "increment"] : ["remove", "decrement"];
       params.append("timestamp__date__gte", startDate);
@@ -54,7 +54,7 @@ const Anbar = () => {
 
   const fetchWarehouses = async () => {
     try {
-      const response = await fetch("http://135.181.42.192/warehouse/warehouses/");
+      const response = await fetch("http://37.61.77.5/warehouse/warehouses/");
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }

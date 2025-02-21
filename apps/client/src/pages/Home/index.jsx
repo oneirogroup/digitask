@@ -31,7 +31,7 @@ const Home = () => {
     try {
       const token = localStorage.getItem("access_token");
 
-      const responseMainPage = await axios.get("http://135.181.42.192/services/mainpage/", {
+      const responseMainPage = await axios.get("http://37.61.77.5/services/mainpage/", {
         headers: { Authorization: `Bearer ${token}` }
       });
       setMeetings(responseMainPage.data.meetings || []);
@@ -53,7 +53,7 @@ const Home = () => {
       }));
       setTasks(mappedTasks);
 
-      const responsePerformance = await axios.get("http://135.181.42.192/services/performance/", {
+      const responsePerformance = await axios.get("http://37.61.77.5/services/performance/", {
         headers: { Authorization: `Bearer ${token}` }
       });
       setPerformanceData(responsePerformance.data);
@@ -118,12 +118,10 @@ const Home = () => {
           <div key={meeting.id} className="meet-time-date-img" onClick={() => openMeetingDetailModal(meeting.id)}>
             <div className="meet-time-date">
               <p>
-              <GoClock /> {new Date(meeting.date).toLocaleString('en-US', { hour12: false })}
+                <GoClock /> {new Date(meeting.date).toLocaleString("en-US", { hour12: false })}
               </p>
               <div>
-                <h5>{meeting.title.length > 15
-                    ? `${meeting.title.slice(0, 15)}...`
-                    : meeting.title}</h5>
+                <h5>{meeting.title.length > 15 ? `${meeting.title.slice(0, 15)}...` : meeting.title}</h5>
                 <p>
                   {meeting.meeting_description.length > 15
                     ? `${meeting.meeting_description.slice(0, 15)}...`
