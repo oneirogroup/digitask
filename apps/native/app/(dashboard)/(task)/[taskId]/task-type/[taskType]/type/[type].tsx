@@ -1,12 +1,11 @@
-import { FileSystemUploadType, createUploadTask } from "expo-file-system";
-import type { ImagePickerAsset } from "expo-image-picker";
-import { router, useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
-import { KeyboardAvoidingView, Text } from "react-native";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { KeyboardAvoidingView, Platform, Text } from "react-native";
+import { useRecoilValue } from "recoil";
 
 import {
   AddAdditionSchema,
+  Backend,
   InternetAttachmentSchema,
   TVAttachmentSchema,
   VoiceAttachmentSchema,
@@ -16,7 +15,7 @@ import {
   tasksAtom
 } from "@digitask/shared-lib";
 import { AuthHttp, Block, Form, Input, When, logger } from "@mdreal/ui-kit";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 import { FileUploader } from "../../../../../../../components/file-uploader";
 import { uploadFile } from "../../../../../../../utils/upload-file";
@@ -27,6 +26,18 @@ const translation = {
   tv: "TV",
   internet: "İnternet",
   voice: "Səs"
+};
+
+const loading = async (setLoading: (loading: boolean) => void, fn: () => void | Promise<void>) => {
+  setLoading(true);
+  try {
+    await fn();
+  } catch (error) {
+    logger.error(error);
+    setLoading(false);
+  }
+
+  setLoading(false);
 };
 
 export default function AddSpecificTaskAttachment() {
@@ -41,9 +52,12 @@ export default function AddSpecificTaskAttachment() {
   };
   const [isLoading, setIsLoading] = useState(false);
 
+  const router = useRouter();
   const tasks = useRecoilValue(tasksAtom(taskType));
-  const setTasks = useSetRecoilState(tasksAtom(taskType));
-  const task = tasks.find(task => task.id === +taskId);
+  const { data: currentTask, refetch } = useQuery<Backend.Task>({
+    queryKey: [fields.tasks.get, taskId],
+    enabled: !!taskId
+  });
 
   const taskAttachmentMutation = useMutation({
     mutationKey: [fields.tasks.create],
@@ -54,59 +68,42 @@ export default function AddSpecificTaskAttachment() {
     ) => api.services.tasks.$post(data)
   });
 
-  const taskMutation = useMutation({
-    mutationKey: [fields.task],
-    mutationFn: (taskId: number) => api.services.task.$get(+taskId)
-  });
-
   useEffect(() => {
     if (!tasks.length) return;
-    if (!task || task[`has_${attachmentType}`]) {
-      if (router.canGoBack()) {
-        router.back();
-      } else {
-        router.replace({ pathname: "/[taskId]/task-type/[taskType]", params: { taskId, taskType } });
-      }
+    if (!currentTask || currentTask[`has_${attachmentType}`]) {
+      if (router.canGoBack()) router.back();
+      else router.replace({ pathname: "/[taskId]/task-type/[taskType]", params: { taskId, taskType } });
     }
-  }, [task]);
+  }, [currentTask]);
 
   return (
-    <KeyboardAvoidingView className="h-full">
+    <KeyboardAvoidingView behavior={Platform.select({ ios: "padding" })} className="h-full">
       <Block.Scroll className="border-t-neutral-90 border-t-[1px] bg-white p-4" contentClassName="flex gap-4">
         <Form<AddAdditionSchema>
           schema={taskAddAttachmentSchema}
-          defaultValues={{ type: attachmentType, passport: task?.passport }}
+          defaultValues={{ type: attachmentType, passport: currentTask?.passport }}
           onSubmit={async ({ passport, photo_modem, ...data }) => {
-            console.log("passport", passport);
-            console.log("photo_modem", photo_modem);
-
-            setIsLoading(true);
-            await uploadFile(
-              `${AuthHttp.settings().baseUrl}/services/update_task_image/${taskId}/`,
-              passport,
-              "passport"
-            );
-            const attachment = await taskAttachmentMutation.mutateAsync({ ...data, task: +taskId });
-            await uploadFile(
-              `${AuthHttp.settings().baseUrl}/services/update_tv/${attachment.id}/`,
-              photo_modem,
-              "photo_modem"
-            );
-            const task = await taskMutation.mutateAsync(+taskId);
-            setTasks(prevTasks => {
-              const taskIndex = prevTasks.findIndex(task => task.id === +taskId);
-              const updatedTask = { ...prevTasks[taskIndex], ...task };
-              return prevTasks.map((task, index) => (index === taskIndex ? updatedTask : task));
+            await loading(setIsLoading, async () => {
+              await uploadFile(
+                `${AuthHttp.settings().baseUrl}/services/update_task_image/${taskId}/`,
+                passport,
+                "passport"
+              );
+              const attachment = await taskAttachmentMutation.mutateAsync({ ...data, task: +taskId });
+              await uploadFile(
+                `${AuthHttp.settings().baseUrl}/services/update_tv_image/${attachment.id}/`,
+                photo_modem,
+                "photo_modem"
+              );
             });
-            setIsLoading(false);
 
-            router.replace({
-              pathname: "/[taskId]/task-type/[taskType]",
-              params: { taskId, taskType }
-            });
+            await refetch({ throwOnError: false });
+
+            if (router.canGoBack()) router.back();
+            else router.replace({ pathname: "/[taskId]/task-type/[taskType]", params: { taskId, taskType } });
           }}
         >
-          <FileUploader.Controlled name="passport" label="Şəxsiyyət vəsiqəsinin fotosu" value={task?.passport} />
+          <FileUploader.Controlled name="passport" label="Şəxsiyyət vəsiqəsinin fotosu" value={currentTask?.passport} />
 
           <Text className="text-xl">
             Servis məlumatları <Text className="text-primary">{translation[attachmentType]}</Text>

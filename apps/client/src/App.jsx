@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
-import React from "react";
 import ReactDOM from "react-dom";
+import React, { useEffect, useState } from "react";
 import { RouterProvider } from "react-router-dom";
 
 import { routers } from "../Routers.jsx";

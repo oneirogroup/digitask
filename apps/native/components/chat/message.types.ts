@@ -1,5 +1,5 @@
-import { Message } from "@digitask/shared-lib";
+import { Backend } from "@digitask/shared-lib";
 
 export interface MessageProps {
-  message: Message;
+  message: Backend.Message;
 }

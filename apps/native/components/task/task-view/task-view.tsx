@@ -1,10 +1,10 @@
-import { router } from "expo-router";
-import type { FC } from "react";
-import { Pressable, Text, View } from "react-native";
+import { useRouter } from "expo-router";
+import { type FC, useRef } from "react";
+import { FlatList, Platform, Pressable, Text, View } from "react-native";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 
 import {
-  Task,
+  Backend,
   filteredTasksSelector,
   getTags,
   taskFiltersAtom,
@@ -16,17 +16,51 @@ import {
 import { Block, Button, cn } from "@mdreal/ui-kit";
 
 import { BlockContainer } from "../../blocks";
+import { Task } from "../task";
 import type { TasksViewProps } from "./task-view.types";
 import { statuses, translations } from "./task-view.utils";
 
-export const TaskView: FC<TasksViewProps> = ({ taskType, className }) => {
+interface TaskItemProps {
+  task: Backend.Task;
+  taskType: TasksViewProps["taskType"];
+}
+
+const TaskItem: FC<TaskItemProps> = ({ task, taskType }) => {
   const controls = useRecoilArrayControls(tasksAtom(taskType));
+  const router = useRouter();
+
+  return (
+    <Pressable
+      key={task.id}
+      onPress={() =>
+        router.push({
+          pathname: "/[taskId]/task-type/[taskType]",
+          params: { taskId: task.id, taskType }
+        })
+      }
+    >
+      <BlockContainer>
+        <Task task={task} tags={getTags(task)} updateTask={updatedTask => controls.update(task.id, updatedTask)} />
+      </BlockContainer>
+    </Pressable>
+  );
+};
+
+export const TaskView: FC<TasksViewProps> = ({ taskType, className }) => {
+  const tasksContainerRef = useRef<FlatList>(null);
   const filter = useRecoilValue(taskFiltersAtom(taskType));
   const setFilter = useSetRecoilState(tasksFilterSelector(taskType));
   const filteredTasks = useRecoilValue(filteredTasksSelector(taskType));
 
+  const onStatusChange = (status: Backend.Task["status"]) => {
+    setFilter({ status });
+    if (filter.status !== status) {
+      tasksContainerRef.current?.scrollToOffset({ offset: 0, animated: true });
+    }
+  };
+
   return (
-    <Block.Scroll>
+    <Block>
       <View className={cn(className, "my-6", "flex gap-6")}>
         <Block.Scroll horizontal showsHorizontalScrollIndicator={false} contentClassName="flex flex-row gap-4">
           <View />
@@ -35,7 +69,7 @@ export const TaskView: FC<TasksViewProps> = ({ taskType, className }) => {
               key={status}
               variant={filter.status === status ? "primary" : "secondary"}
               className="rounded-2.25xl"
-              onClick={() => setFilter({ status })}
+              onClick={() => onStatusChange(status)}
             >
               <Text
                 className={cn({ "text-primary": filter.status !== status, "text-white": filter.status === status })}
@@ -48,20 +82,17 @@ export const TaskView: FC<TasksViewProps> = ({ taskType, className }) => {
         </Block.Scroll>
       </View>
 
-      <Block className="flex gap-6 p-6">
-        {filteredTasks.map(task => (
-          <Pressable
-            key={task.id}
-            onPress={() =>
-              router.push({ pathname: "/[taskId]/task-type/[taskType]", params: { taskId: task!.id, taskType } })
-            }
-          >
-            <BlockContainer>
-              <Task task={task} tags={getTags(task)} updateTask={task => controls.update(task.id, task)} />
-            </BlockContainer>
-          </Pressable>
-        ))}
+      <Block className="p-4 pb-20">
+        <FlatList
+          ref={tasksContainerRef}
+          data={filteredTasks}
+          keyExtractor={task => task.id.toString()}
+          renderItem={({ item: task }) => <TaskItem task={task} taskType={taskType} />}
+          className={cn(Platform.select({ android: "mb-26", ios: "mb-24" }))}
+          showsVerticalScrollIndicator={false}
+          contentContainerClassName="gap-4"
+        />
       </Block>
-    </Block.Scroll>
+    </Block>
   );
 };

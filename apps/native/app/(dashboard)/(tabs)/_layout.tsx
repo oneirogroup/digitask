@@ -10,7 +10,6 @@ export default function DashboardTabsLayout() {
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: "blue",
-        unmountOnBlur: true,
         headerTitleStyle: { display: "none" },
         headerRight: () => <HeaderRight />
       }}
@@ -42,6 +41,16 @@ export default function DashboardTabsLayout() {
           headerLeft: () => <HeaderLeft title="Tapşırıq" />,
           tabBarIcon: ({ focused, color }) => (
             <Icon name="task" state={focused && "active"} variables={{ fill: color }} />
+          )
+        }}
+      />
+      <Tabs.Screen
+        name="event"
+        options={{
+          title: "Tədbirlər",
+          headerLeft: () => <HeaderLeft title="Tədbirlər" />,
+          tabBarIcon: ({ focused, color }) => (
+            <Icon name="calendar" state={focused && "active"} variables={{ fill: color }} />
           )
         }}
       />

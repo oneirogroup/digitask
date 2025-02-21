@@ -3,7 +3,6 @@ import az from "antd/locale/az_AZ";
 import axios from "axios";
 import dayjs from "dayjs";
 import "dayjs/locale/az";
-import moment from "moment";
 import React, { useEffect, useState } from "react";
 
 import useRefreshToken from "../../common/refreshToken";

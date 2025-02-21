@@ -1,10 +1,11 @@
 import type { ImagePickerAsset } from "expo-image-picker";
 import { FC } from "react";
 
-export interface FileUploaderProps {
+import type { ControlledBaseProps, ControlledComponentBaseProps } from "@mdreal/ui-kit";
+
+export interface FileUploaderProps extends ControlledComponentBaseProps, ControlledBaseProps<ImagePickerAsset> {
   label: string;
   value?: string;
-  onFileUpload?(fileId: ImagePickerAsset): void;
 }
 
 export interface FileUploaderExtended {

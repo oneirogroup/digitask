@@ -1,10 +1,8 @@
-import axios from "axios";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { CiMail } from "react-icons/ci";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { IoKeyOutline } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import CheckButton from "react-validation/build/button";
 // import { logout } from "../../actions/auth";
 import Form from "react-validation/build/form";

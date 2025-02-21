@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { CiSearch } from "react-icons/ci";
-import { FaArrowLeft, FaArrowRight, FaChevronDown, FaCircle } from "react-icons/fa";
+import { FaArrowLeft, FaArrowRight, FaChevronDown } from "react-icons/fa";
 import { IoAdd, IoFilterOutline } from "react-icons/io5";
 import { MdOutlineEdit } from "react-icons/md";
 import { PiMapPinAreaFill } from "react-icons/pi";

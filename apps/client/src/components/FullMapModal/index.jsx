@@ -1,6 +1,6 @@
 import L from "leaflet";
 import { useCallback, useEffect, useState } from "react";
-import { MapContainer, Marker, Polyline, Popup, TileLayer, useMap } from "react-leaflet";
+import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
 
 import useRefreshToken from "../../common/refreshToken";
 
@@ -59,7 +59,6 @@ function index({ onClose, status }) {
   const handleButtonClick = useCallback((lat, lng) => {
     setSelectedLocation([lat, lng]); // Set selected location to trigger flyTo
   }, []);
-
 
   return (
     <div className="map-modal-modal-overlay">

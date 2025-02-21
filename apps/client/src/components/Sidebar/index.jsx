@@ -1,13 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { FaWarehouse } from "react-icons/fa";
 import { GoHomeFill } from "react-icons/go";
-import { MdLogout, MdMenu } from "react-icons/md";
-import { MdClose } from "react-icons/md";
+import { MdClose, MdLogout } from "react-icons/md";
 import { TbMessageReport } from "react-icons/tb";
 import { TiArrowLeftThick, TiArrowRightThick } from "react-icons/ti";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink, useLocation } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 
 import { logout } from "../../actions/auth";
 import { useUser } from "../../contexts/UserContext";

@@ -1,9 +1,8 @@
 import { az } from "date-fns/locale";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import { FaExclamationTriangle } from "react-icons/fa";
-import { FaCheckCircle } from "react-icons/fa";
+import { FaCheckCircle, FaExclamationTriangle } from "react-icons/fa";
 
 import useRefreshToken from "../../common/refreshToken";
 import HistoryModal from "../HistoryModal";

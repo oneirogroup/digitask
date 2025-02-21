@@ -33,7 +33,15 @@ export const api = {
   services: {
     task: {
       $get(id: number) {
-        return authHttp.get<Backend.Task>(`/services/task/${id}`);
+        return authHttp.get<Backend.Task>(`/services/task/${id}/`);
+      }
+    },
+    events: {
+      $getAll() {
+        return authHttp.get<Backend.Event[]>("/services/meetings/");
+      },
+      $get(id: number) {
+        return authHttp.get<Backend.SingleEvent>(`/services/meeting/${id}/`);
       }
     },
     tasks: {

@@ -381,7 +381,7 @@
   background-color: rgb(67, 90, 240);
 }
 .loadMessages:active {
-  transform: scale(1.1);
+  transform: scale(0.9);
 }
 
 @media (max-width: 850px) {
@@ -422,4 +422,14 @@
   .chat-content {
     width: calc(100% - 250px);
   }
+}
+.date{
+  background-color:white;
+  width: max-content;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 10px;
 }

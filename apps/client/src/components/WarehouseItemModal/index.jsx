@@ -1,13 +1,14 @@
-import { formatDate } from '../History/utils';
+import { formatDate } from "../History/utils";
 
 const WarehouseItemModal = ({ itemData, onClose }) => {
-
   return (
     <div className="item-detail-modal-overlay">
       <div className="item-detail-modal-content">
         <div className="item-detail-modal-header">
           <h2>Məhsul məlumatı</h2>
-          <span className="item-detail-close-button" onClick={onClose}>&times;</span>
+          <span className="item-detail-close-button" onClick={onClose}>
+            &times;
+          </span>
         </div>
         <hr />
         <div className="item-detail-modal-body">
@@ -16,7 +17,7 @@ const WarehouseItemModal = ({ itemData, onClose }) => {
             <div className="modal-value">{itemData.item_warehouse.name}</div>
           </div>
           <hr />
-          <div className='warehouse-item-detail-grid'>
+          <div className="warehouse-item-detail-grid">
             <div>
               <div className="modal-row">
                 <div className="modal-label">Məhsul təminatçısı</div>
@@ -49,7 +50,7 @@ const WarehouseItemModal = ({ itemData, onClose }) => {
             <div>
               <div className="modal-row">
                 <div className="modal-label">Tarix</div>
-                <div className="modal-value">{itemData.date ? formatDate(itemData.date) : '-'}</div>
+                <div className="modal-value">{itemData.date ? formatDate(itemData.date) : "-"}</div>
               </div>
               <hr />
             </div>
@@ -80,12 +81,9 @@ const WarehouseItemModal = ({ itemData, onClose }) => {
                 <div className="modal-value">{itemData.number}</div>
               </div>
               <hr />
-
             </div>
           </div>
-
         </div>
-
       </div>
     </div>
   );

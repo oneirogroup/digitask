@@ -1,6 +1,6 @@
 import L from "leaflet";
-import { useEffect, useRef, useState } from "react";
-import { MapContainer, Marker, Polyline, Popup, TileLayer, useMap } from "react-leaflet";
+import { useEffect, useState } from "react";
+import { MapContainer, Marker, Polyline, Popup, TileLayer } from "react-leaflet";
 
 import "./mapModal.css";
 import "leaflet/dist/leaflet.css";

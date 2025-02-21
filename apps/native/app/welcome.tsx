@@ -1,5 +1,5 @@
 import { Image } from "expo-image";
-import { router, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import { Text } from "react-native";
 
 import { Block, Button } from "@mdreal/ui-kit";

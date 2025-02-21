@@ -1,15 +1,16 @@
 import { Image } from "expo-image";
 import { useFocusEffect, useLocalSearchParams, useRouter } from "expo-router";
 import { useRef } from "react";
-import { Platform, Pressable, Text, TouchableOpacity, View } from "react-native";
+import { Pressable, RefreshControl, Text, TouchableOpacity, View } from "react-native";
 import { useRecoilValue } from "recoil";
 
-import { Backend, DateService, TaskStatuses, tasksAtom } from "@digitask/shared-lib";
+import { Backend, DateService, TaskStatuses, api, fields, isDev, profileAtom, tasksAtom } from "@digitask/shared-lib";
 import { Block, Button, Icon, Modal, ModalRef, When } from "@mdreal/ui-kit";
+import { useQuery } from "@tanstack/react-query";
 
 import { palette } from "../../../../../../../../palette";
 import { BlockContainer } from "../../../../../../components/blocks";
-import { Field } from "../../../../../../components/task/add-attachment/field";
+import { Field } from "../../../../../../components/field";
 
 const translation = {
   tv: "TV",
@@ -28,10 +29,22 @@ const statuses: Record<TaskStatuses, string> = {
 export default function SpecificTask() {
   const router = useRouter();
   const typeModalRef = useRef<ModalRef>(null);
+  const currentUserProfile = useRecoilValue(profileAtom);
 
   const { taskId, taskType } = useLocalSearchParams() as { taskId: string; taskType: "connection" | "problem" };
   const tasks = useRecoilValue(tasksAtom(taskType));
-  const currentTask = tasks.find(task => task.id === +taskId);
+
+  const {
+    data: fetchedTask,
+    refetch,
+    isRefetching
+  } = useQuery({
+    queryKey: [fields.tasks.get, taskId],
+    queryFn: () => api.services.task.$get(+taskId),
+    enabled: !!taskId
+  });
+
+  const currentTask = fetchedTask ?? tasks.find(task => task.id === +taskId);
 
   useFocusEffect(() => {
     return () => {
@@ -39,10 +52,10 @@ export default function SpecificTask() {
     };
   });
 
-  if (!currentTask) {
+  if (!currentTask || !currentUserProfile) {
     return (
       <Block>
-        <Text>Tapşırıq tapılmadı</Text>
+        <Text className="text-center text-lg">Tapşırıq tapılmadı</Text>
       </Block>
     );
   }
@@ -62,10 +75,23 @@ export default function SpecificTask() {
     };
   };
 
+  const onRefresh = async () => {
+    await refetch();
+  };
+
+  console.log(currentTask.task_items);
+
   return (
-    <Block.Scroll contentClassName="flex gap-4 p-4">
+    <Block.Scroll
+      contentClassName="flex gap-4 p-4"
+      refreshControl={<RefreshControl refreshing={isRefetching} onRefresh={onRefresh} />}
+    >
       <BlockContainer className="flex gap-10">
         <Block className="flex gap-6">
+          <When condition={isDev}>
+            <Text>Task id: {currentTask.id}</Text>
+          </When>
+
           <Field
             icon={<Icon name="user" state={false} variables={{ stroke: palette.primary["50"] }} />}
             label="Ad və soyad"
@@ -98,15 +124,15 @@ export default function SpecificTask() {
             icon={<Icon name="gear-wheel" state={false} variables={{ stroke: palette.primary["50"] }} />}
             label="Xidmət"
             value={
-              <View>
-                <When condition={currentTask.has_tv}>
+              <View className="flex flex-row gap-2">
+                <When condition={currentTask.is_tv}>
                   <Icon name="tv" variables={{ fill: palette.primary["50"] }} />
                 </When>
-                <When condition={currentTask.has_internet}>
+                <When condition={currentTask.is_internet}>
                   <Icon name="web" variables={{ fill: palette.primary["50"] }} />
                 </When>
-                <When condition={currentTask.has_voice}>
-                  <Icon name="phone" variables={{ stroke: palette.primary["50"] }} />
+                <When condition={currentTask.is_voice}>
+                  <Icon name="voice" variables={{ fill: palette.primary["50"] }} />
                 </When>
               </View>
             }
@@ -172,7 +198,24 @@ export default function SpecificTask() {
         </BlockContainer>
       ))}
 
-      <When condition={!currentTask.has_tv || !currentTask.has_internet || !currentTask.has_voice}>
+      <When condition={!!currentTask.task_items?.length}>
+        <BlockContainer className="flex gap-6">
+          <Text className="text-neutral-20 text-xl">Məhsullar</Text>
+
+          {currentTask.task_items?.map(item => (
+            <Field key={item.id} label={item.item.equipment_name.toString()} value={item.count.toString()} />
+          ))}
+        </BlockContainer>
+      </When>
+
+      <When
+        condition={
+          ((currentTask.is_tv && !currentTask.has_tv) ||
+            (currentTask.is_internet && !currentTask.has_internet) ||
+            (currentTask.is_voice && !currentTask.has_voice)) &&
+          currentUserProfile.id === currentTask.user
+        }
+      >
         <BlockContainer>
           <TouchableOpacity
             activeOpacity={1}
@@ -187,10 +230,17 @@ export default function SpecificTask() {
         </BlockContainer>
       </When>
 
-      <When condition={currentTask.has_tv || currentTask.has_internet || currentTask.has_voice}>
+      <When
+        condition={
+          (currentTask.has_tv || currentTask.has_internet || currentTask.has_voice) &&
+          currentUserProfile.id === currentTask.user
+        }
+      >
         <BlockContainer>
           <Pressable
-            onPress={() => router.push({ pathname: "/[taskId]/products", params: { taskId } })}
+            onPress={() =>
+              router.push({ pathname: "/[taskId]/task-type/[taskType]/products", params: { taskId, taskType } })
+            }
             className="flex flex-row items-center justify-between p-2"
           >
             <Text>Məhsul əlavə et</Text>
@@ -204,24 +254,24 @@ export default function SpecificTask() {
       <Modal ref={typeModalRef} type="popup" className="p-4">
         <View className="flex gap-6">
           <View>
-            <Text className="text-1.5xl text-center">Servis növü</Text>
+            <Text className="text-1.5xl text-center">Xidmətin növü</Text>
             <Text className="text-neutral text-center text-lg">Hansı anketi doldurursunuz?</Text>
           </View>
 
           <View className="flex flex-row gap-4">
-            <When condition={!currentTask.has_tv}>
+            <When condition={currentTask.is_tv && !currentTask.has_tv}>
               <Button variant="secondary" className="border-secondary flex-1" onClick={redirectTo("tv")}>
                 <Text className="text-center">Tv</Text>
               </Button>
             </When>
 
-            <When condition={!currentTask.has_internet}>
+            <When condition={currentTask.is_internet && !currentTask.has_internet}>
               <Button variant="secondary" className="border-secondary flex-1" onClick={redirectTo("internet")}>
                 <Text className="text-center">İnternet</Text>
               </Button>
             </When>
 
-            <When condition={!currentTask.has_voice}>
+            <When condition={currentTask.is_voice && !currentTask.has_voice}>
               <Button variant="secondary" className="border-secondary flex-1" onClick={redirectTo("voice")}>
                 <Text className="text-center">Səs</Text>
               </Button>

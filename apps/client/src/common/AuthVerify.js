@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
-const parseJwt = (token) => {
+const parseJwt = token => {
   try {
     return JSON.parse(atob(token.split(".")[1]));
   } catch (e) {
@@ -9,7 +9,7 @@ const parseJwt = (token) => {
   }
 };
 
-const AuthVerify = (props) => {
+const AuthVerify = props => {
   let location = useLocation();
 
   useEffect(() => {

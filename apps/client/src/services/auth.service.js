@@ -56,7 +56,6 @@ const login = async (email, password) => {
         const newAccessToken = await refreshAccessToken();
         localStorage.setItem("access_token", newAccessToken);
 
-        // Yeni token ile login işlemini tekrar dene
         return await login(email, password);
       } catch (refreshError) {
         console.error("Token yenileme başarısız:", refreshError);

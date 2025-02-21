@@ -1,4 +1,4 @@
-import { DateService } from "../services/date-service";
+import { DateService } from "../services";
 
 export interface DateRange {
   start: DateService;

@@ -4,8 +4,8 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 
 import {
   DateService,
-  Task,
   TaskStatuses,
+  eventsAtom,
   getTags,
   tasksAtom,
   tasksFilterSelector,
@@ -16,6 +16,7 @@ import { Block, Icon, If } from "@mdreal/ui-kit";
 import { palette } from "../../../../../palette";
 import { BlockContainer, BlockSection } from "../../../components/blocks";
 import { Event } from "../../../components/event";
+import { Task } from "../../../components/task/task";
 import { TaskType } from "../../../types/task-type";
 
 export default function Index() {
@@ -25,6 +26,9 @@ export default function Index() {
 
   const finishedConnectionTasks = connectionTasks.filter(task => task.status === TaskStatuses.Completed);
   const finishedProblemTasks = problemTasks.filter(task => task.status === TaskStatuses.Completed);
+
+  const events = useRecoilValue(eventsAtom);
+  const event = events[0];
 
   const controls = useRecoilArrayControls(tasksAtom(TaskType.Connection));
   const setFilter = useSetRecoilState(tasksFilterSelector(TaskType.Connection));
@@ -73,7 +77,7 @@ export default function Index() {
         </BlockContainer>
 
         <BlockSection
-          title="Davam edən tasklar"
+          title="Davam edən tapşırıqlar"
           onClick={() => setFilter({ status: TaskStatuses.InProgress })}
           href="/task"
         >
@@ -98,13 +102,26 @@ export default function Index() {
             </If.Then>
 
             <If.Else>
-              <Text>Task tapılmadı</Text>
+              <Text className="text-center text-lg">Tapşırıq tapılmadı</Text>
             </If.Else>
           </If>
         </BlockSection>
 
-        <BlockSection title="Tədbirlər" href="/">
-          <Event name="Tədbir adı" date={new Date()} />
+        <BlockSection title="Tədbirlər" href="/event">
+          <If condition={!!event}>
+            <If.Then>
+              <Event
+                id={event!?.id}
+                name={event!?.title}
+                date={DateService.from(event!?.date)}
+                description={event!?.meeting_description}
+              />
+            </If.Then>
+
+            <If.Else>
+              <Text className="text-center text-lg">Tədbir tapılmadı</Text>
+            </If.Else>
+          </If>
         </BlockSection>
       </Block.Scroll>
     </Block.Fade>

@@ -4,3 +4,4 @@ export * from "./chat/messages";
 export * from "./tasks/filtered-tasks";
 export * from "./tasks/filters";
 export * from "./tasks/products";
+export * from "./notification";

@@ -10,19 +10,21 @@ export default {
   owner: "oneirogroup",
   version,
   orientation: "portrait",
-  icon: "./assets/images/logo.png",
+  icon: "./assets/images/logo-colored.png",
   userInterfaceStyle: "automatic",
   newArchEnabled: true,
   runtimeVersion: version,
   splash: {
     image: "./assets/images/logo.png",
     resizeMode: "contain",
-    backgroundColor: "#ffffff"
+    backgroundColor: "#005ABF"
   },
   android: {
     package: "com.oneirogroup.digitask"
   },
   ios: {
+    bundleIdentifier: "com.oneirogroup.digitask",
+    associatedDomains: ["applinks:digitask.com"],
     supportsTablet: true
   },
   plugins: [

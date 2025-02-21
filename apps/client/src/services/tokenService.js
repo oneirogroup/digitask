@@ -1,5 +1,4 @@
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 
 // Import your Redux store
 import { logout, refreshTokenSuccess } from "../actions/auth";

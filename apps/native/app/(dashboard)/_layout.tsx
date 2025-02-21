@@ -1,12 +1,9 @@
 import { Stack } from "expo-router";
-import { useEffect } from "react";
-import { useRecoilValue } from "recoil";
-
-import { tasksAtom } from "@digitask/shared-lib";
 
 import { ChatRoomHeaderRight, ChatRoomHeaderTitle } from "../../components/header/chat";
 import { ProfileHeaderRight, ProfileHeaderTitle } from "../../components/header/profile";
-import { TaskAddAttachmentHeaderRight } from "../../components/header/task/add-addition-header-right";
+import { TaskAddAttachmentHeaderRight } from "../../components/header/task/products-header-right";
+import { useEventsInit } from "../../hooks/use-events-init";
 import { useTasksInit } from "../../hooks/use-tasks-init";
 import { useWebsocketInit } from "../../hooks/use-websocket-init";
 import { TaskType } from "../../types/task-type";
@@ -17,12 +14,30 @@ export default function DashboardLayout() {
   useWebsocketInit();
   useTasksInit(TaskType.Connection);
   useTasksInit(TaskType.Problem);
+  useEventsInit();
 
   return (
     <Stack initialRouteName="(tabs)">
       <Stack.Screen name="(chat)/chat" options={{ title: "Söhbətlər", headerBackButtonDisplayMode: "minimal" }} />
       <Stack.Screen
-        name="(chat)/[chatRoomId]"
+        name="(chat)/room/[chatRoomId]"
+        options={{
+          headerBackButtonDisplayMode: "minimal",
+          headerTitle: () => <ChatRoomHeaderTitle />,
+          headerRight: () => <ChatRoomHeaderRight />
+        }}
+      />
+
+      <Stack.Screen
+        name="(event)/[id]"
+        options={{
+          title: "Tədbir",
+          headerBackButtonDisplayMode: "minimal"
+        }}
+      />
+
+      <Stack.Screen
+        name="(notification)/notification"
         options={{
           headerBackButtonDisplayMode: "minimal",
           headerTitle: () => <ChatRoomHeaderTitle />,
@@ -53,12 +68,11 @@ export default function DashboardLayout() {
         options={{
           title: "Tapşırıq",
           presentation: "modal",
-          headerBackButtonDisplayMode: "minimal",
-          headerRight: () => <TaskAddAttachmentHeaderRight />
+          headerBackButtonDisplayMode: "minimal"
         }}
       />
       <Stack.Screen
-        name="(task)/[taskId]/products"
+        name="(task)/[taskId]/task-type/[taskType]/products"
         options={{
           title: "Məhsul əlavə et",
           presentation: "modal",
@@ -67,12 +81,11 @@ export default function DashboardLayout() {
         }}
       />
       <Stack.Screen
-        name="(task)/[taskId]/add-product"
+        name="(task)/[taskId]/task-type/[taskType]/add-product"
         options={{
           title: "Məhsul əlavə et",
           presentation: "modal",
-          headerBackButtonDisplayMode: "minimal",
-          headerRight: () => <TaskAddAttachmentHeaderRight />
+          headerBackButtonDisplayMode: "minimal"
         }}
       />
     </Stack>

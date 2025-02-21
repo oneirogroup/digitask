@@ -1,7 +1,6 @@
 import { Image } from "expo-image";
 import { useNavigation } from "expo-router";
 import { useEffect } from "react";
-import { SubmitErrorHandler } from "react-hook-form";
 import { KeyboardAvoidingView, Platform, Text } from "react-native";
 
 import {
@@ -14,9 +13,8 @@ import {
   signInSchema,
   useRecoilMutation
 } from "@digitask/shared-lib";
-import { AuthHttp, Block, Form, Input, logger } from "@mdreal/ui-kit";
+import { AuthHttp, Block, ErrorMessageViewer, Form, Input, When, logger } from "@mdreal/ui-kit";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { StackActions } from "@react-navigation/native";
 
 import logo from "../../assets/images/logo.png";
 
@@ -38,7 +36,7 @@ export default function SignIn() {
       await AsyncStorage.setItem(StorageKeys.USER_EMAIL, data.email);
       await AsyncStorage.setItem(StorageKeys.PHONE_NUMBER, data.phone);
     },
-    onError: logger.error.bind(logger, "digitask.native:auth:sign-in.auth-error"),
+    onError: e => e,
     isNullable: true
   });
 
@@ -50,9 +48,7 @@ export default function SignIn() {
   });
 
   const onSubmit = async (data: SignInSchema) => {
-    logger.debug("digitask.native:auth:sign-in.form-values", data);
-    const response = await signInMutation.mutateAsync(data);
-    logger.debug("digitask.native:auth:sign-in.auth-response", response);
+    await signInMutation.mutateAsync(data);
     await authHttpSettings.retrieveTokens()();
     // @ts-ignore
     await profileMutation.mutateAsync();
@@ -61,13 +57,9 @@ export default function SignIn() {
     navigation.navigate("(dashboard)");
   };
 
-  const onFormError: SubmitErrorHandler<SignInSchema> = errors => {
-    logger.log("errors", errors);
-  };
-
   return (
     <KeyboardAvoidingView behavior={Platform.select({ ios: "padding" })}>
-      <Form<SignInSchema> schema={signInSchema} onSubmit={onSubmit} onFormError={onFormError}>
+      <Form<SignInSchema> schema={signInSchema} onSubmit={onSubmit}>
         <Block className="flex h-full items-center justify-between px-4 pb-12 pt-28">
           <Block className="flex items-center gap-6">
             <Block className="bg-primary w-68 rounded-2xl p-6">
@@ -95,6 +87,10 @@ export default function SignIn() {
               />
             </Block>
           </Block>
+
+          <When condition={signInMutation.isError}>
+            <ErrorMessageViewer error="Elektron poçt və ya şifrə yanlış daxil edilib" />
+          </When>
 
           <Block className="flex gap-6">
             <Form.Button variant="primary" className="w-full p-4" isLoading={signInMutation.isPending}>

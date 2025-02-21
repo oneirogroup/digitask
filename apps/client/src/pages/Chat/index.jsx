@@ -1,11 +1,8 @@
-import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { BsFillSendFill, BsThreeDotsVertical } from "react-icons/bs";
 import { FaCirclePlus } from "react-icons/fa6";
 import { IoFilterOutline, IoSearchOutline } from "react-icons/io5";
-import { MdGroups } from "react-icons/md";
-import { MdMenu } from "react-icons/md";
-import { RiAttachmentLine } from "react-icons/ri";
+import { MdGroups, MdMenu } from "react-icons/md";
 
 import useRefreshToken from "../../common/refreshToken";
 import AddRoomModal from "../../components/AddRoomModal";
@@ -16,6 +13,7 @@ import "./chat.css";
 const Chat = () => {
   const [activeGroup, setActiveGroup] = useState(null);
   const [page, setPage] = useState(2);
+  const [hasPage, setHasPage] = useState(false);
   const [room, setRoom] = useState("");
   const [groups, setGroups] = useState([]);
   const [messagess, setMessages] = useState([]);
@@ -183,6 +181,10 @@ const Chat = () => {
   }, [isAddRoomModal]);
 
   useEffect(() => {
+    fetchMessages();
+  }, [activeGroup]);
+
+  useEffect(() => {
     if (shouldScroll) {
       if (divRef.current) {
         divRef.current.scrollTop = divRef.current.scrollHeight;
@@ -225,6 +227,8 @@ const Chat = () => {
       }
 
       const data = await response.json();
+      const count = data.filter(item => item.room === activeGroup).length;
+      setHasPage(count % 30 == 0 && count != 0);
 
       if (arg) {
         setShouldScroll(false);
@@ -232,7 +236,30 @@ const Chat = () => {
         setShouldScroll(true);
       }
 
-      setMessages(data.reverse());
+      ///////////////////////////
+      const result = [];
+      let lastDate = null;
+
+      data.reverse().forEach(message => {
+        // Tarihi sadece YYYY-MM-DD formatında al
+        const dateObj = new Date(message.timestamp);
+        const currentDate = `${String(dateObj.getDate()).padStart(2, "0")}.${String(dateObj.getMonth() + 1).padStart(2, "0")}.${dateObj.getFullYear()}`;
+
+        // Eğer tarih değişmişse, yeni bir separator ekle
+        if (lastDate !== currentDate) {
+          result.push({
+            typeM: "date",
+            content: currentDate,
+            timestamp: message.timestamp,
+            room: message.room
+          });
+          lastDate = currentDate;
+        }
+
+        result.push(message);
+      });
+      setMessages(result);
+      ///////////////////////////
     } catch (error) {
       if (error.status == 403) {
         await refreshAccessToken();
@@ -274,10 +301,12 @@ const Chat = () => {
           filteredMessages[index - 1].user.first_name === message.user.first_name;
 
         const color = colors[index % colors.length];
-
+        if (message.typeM == "date") {
+          console.log(message, "mesage");
+        }
         return (
           <div key={message.id} className={`${message.typeM}`}>
-            {!isSameAsPrevious && message.typeM !== "sent" && (
+            {!isSameAsPrevious && message.typeM !== "sent" && message.typeM !== "date" && (
               <div className="avatar-column">
                 <div className="avatar" style={{ color }}>
                   {message.user?.first_name ? message.user.first_name.charAt(0) : ""}
@@ -286,7 +315,7 @@ const Chat = () => {
             )}
 
             <div className={`message ${isSameAsPrevious ? "indented" : ""}`}>
-              {!isSameAsPrevious && message.typeM !== "sent" && (
+              {!isSameAsPrevious && message.typeM !== "sent" && message.typeM !== "date" && (
                 <div className="name" style={{ color }}>
                   {message.user.first_name}
                 </div>
@@ -294,7 +323,7 @@ const Chat = () => {
 
               <div className="text">{message.content}</div>
 
-              <div className="time">{formatDate(message.timestamp)}</div>
+              <div className="time">{message.typeM !== "date" ? formatDate(message.timestamp) : ""}</div>
             </div>
           </div>
         );
@@ -506,11 +535,16 @@ const Chat = () => {
               </div>
             </div>
             <div ref={divRef} className="chat-messages">
-              <div class="loadMessages">
-                <button class="loadButton" onClick={() => fetchMessages(true)}>
-                  Daha çox məktub ↻
-                </button>
-              </div>
+              {hasPage ? (
+                <div class="loadMessages">
+                  <button class="loadButton" onClick={() => handleMessagePage()}>
+                    Daha çox məktub ↻
+                  </button>
+                </div>
+              ) : (
+                <></>
+              )}
+
               {renderMessages()}
             </div>
             <div className="chat-input">

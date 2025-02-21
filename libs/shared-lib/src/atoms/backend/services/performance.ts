@@ -1,8 +1,8 @@
 import { atom } from "recoil";
 
-import { PerformanceProfile } from "../../../types/backend/performance-profile";
-import { DateRange } from "../../../types/date-range";
-import { fields } from "../../../utils/fields";
+import { DateRange } from "../../../types";
+import { PerformanceProfile } from "../../../types/backend";
+import { fields } from "../../../utils";
 
 export const performanceAtom = atom<PerformanceProfile[]>({
   key: fields.performance,

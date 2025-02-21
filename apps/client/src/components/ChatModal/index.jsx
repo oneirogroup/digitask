@@ -1,8 +1,7 @@
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { CiSearch } from "react-icons/ci";
-import { IoPersonRemove } from "react-icons/io5";
-import { IoFilterOutline } from "react-icons/io5";
+import { IoFilterOutline, IoPersonRemove } from "react-icons/io5";
 
 import useRefreshToken from "../../common/refreshToken";
 
