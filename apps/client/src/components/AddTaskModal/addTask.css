@@ -1,5 +1,6 @@
 .task-modal,
-.add-user-modal {
+.add-user-modal,
+.position-modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -13,7 +14,8 @@
 }
 
 .task-modal-content,
-.add-user-modal-content {
+.add-user-modal-content,
+.position-modal-content {
   background-color: white;
   padding: 20px;
   border-radius: 5px;
@@ -25,8 +27,13 @@
   box-sizing: border-box;
 }
 
+.position-modal-content {
+  max-width: 40%;
+}
+
 .task-modal-title,
 .add-user-modal-title,
+.position-modal-title,
 .add-group-modal-title,
 .add-room-modal-title {
   display: flex;
@@ -36,6 +43,7 @@
 
 .task-modal-title h5,
 .add-user-modal-title h5,
+.position-modal-content h5,
 .add-group-modal-title h5,
 .add-room-modal-title h5 {
   font-family: Montserrat;
@@ -46,6 +54,7 @@
 
 .task-modal-title span,
 .add-user-modal-title span,
+.position-modal-title span,
 .add-group-modal-title span,
 .add-room-modal-title span {
   color: #5e5e62;

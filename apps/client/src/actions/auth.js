@@ -14,7 +14,6 @@ export const login = (email, password) => async dispatch => {
       throw new Error("Invalid login response. Token data is missing.");
     }
 
-
     const { access_token, refresh_token, user_type, is_admin, position } = data;
 
     localStorage.setItem("access_token", access_token);
