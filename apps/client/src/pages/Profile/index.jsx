@@ -17,12 +17,7 @@ const Profile = () => {
   const groupDropdownRef = useRef();
   const refreshAccessToken = useRefreshToken();
 
-  const [userTypeOptions] = useState([
-    { value: "Texnik", label: "Texnik" },
-    { value: "Plumber", label: "Plumber" },
-    { value: "Ofis menecer", label: "Ofis menecer" },
-    { value: "Texnik menecer", label: "Texnik menecer" }
-  ]);
+  const [userTypeOptions, setUserTypeOptions] = useState([]);
 
   const [groups, setGroups] = useState([]);
 
@@ -45,9 +40,25 @@ const Profile = () => {
     }
   };
 
+  const fetchUserTypes = async () => {
+    try {
+      const response = await axios.get("http://37.61.77.5/accounts/positions/positions/");
+      console.log(response,'33333333333333333333333333333333333333333333')
+      setUserTypeOptions(response?.data?.map((item)=>({id:item?.id,name:item?.name})));
+    } catch (error) {
+      if (error.status == 403) {
+        refreshAccessToken();
+        fetchUserTypes();
+      }
+      console.error("Error fetching profile data", error);
+    } finally {
+    }
+  };
+
   useEffect(() => {
     fetchProfileData();
     fetchGroups();
+    fetchUserTypes()
   }, []);
 
   const fetchGroups = async () => {
@@ -89,7 +100,8 @@ const Profile = () => {
         ...profileWithoutPhoto,
         group: profileData.group?.id,
         groupName: profileData.groupName,
-        groupData: profileData.groupData
+        groupData: profileData.groupData,
+        position: profileData?.position?.id
       });
       setEditMode(false);
       fetchProfileData();
@@ -131,9 +143,16 @@ const Profile = () => {
   };
 
   const handleSelectUserType = userType => {
-    setProfileData(prevData => ({ ...prevData, user_type: userType }));
+    const position = userTypeOptions?.find(item=>item?.id==userType)
+    setProfileData(prevData => ({ ...prevData, position: position}));
     setShowUserTypeDropdown(false);
   };
+
+  useEffect(() => {
+    console.log(profileData,'2222222222222222222222222222222222222222222222222222222222222222222222');
+    
+  }, [profileData]);
+
 
   useEffect(() => {
     const handleClickOutside = event => {
@@ -272,7 +291,7 @@ const Profile = () => {
                 {editMode ? (
                   <>
                     <div id="profile-edit-userType" onClick={() => setShowUserTypeDropdown(!showUserTypeDropdown)}>
-                      {profileData.user_type || "Istifadəçi növü seçin"}
+                      {userTypeOptions?.find(item=>item?.id==profileData?.position?.id)?.name || "Istifadəçi növü seçin"}
                       {showUserTypeDropdown ? <FaChevronUp /> : <FaChevronDown />}
                     </div>
                     {showUserTypeDropdown && (
@@ -289,11 +308,11 @@ const Profile = () => {
                         </label>
                         {userTypeOptions.map(option => (
                           <div
-                            key={option.value}
-                            onClick={() => handleSelectUserType(option.value)}
-                            className={profileData.user_type === option.value ? "selected" : ""}
+                            key={option.id}
+                            onClick={() => handleSelectUserType(option.id)}
+                            className={profileData?.position === option.id ? "selected" : ""}
                           >
-                            {option.label}
+                            {option.name}
                           </div>
                         ))}
                       </div>
@@ -303,7 +322,7 @@ const Profile = () => {
                   <input
                     type="text"
                     id="user_type"
-                    value={profileData.user_type || "İstifadəçi növü daxil edilməyib"}
+                    value={userTypeOptions?.find(item=>item?.id==profileData?.position?.id)?.name || "İstifadəçi növü daxil edilməyib"}
                     disabled
                   />
                 )}
