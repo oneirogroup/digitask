@@ -1,0 +1,6 @@
+{
+  "no_access": "Icazə yoxdur",
+  "read_write": "Yazma və oxuma",
+  "read_only": "Yazma",
+  "is_admin": "Admin"
+}

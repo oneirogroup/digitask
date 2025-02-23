@@ -1,7 +1,8 @@
 .employee-page {
   margin-top: 20px;
 }
-.employee-table-container {
+.employee-table-container,
+.position-table-container {
   margin-top: 20px;
   width: 100%;
   max-height: 67vh;
@@ -9,7 +10,8 @@
   scrollbar-width: thin;
 }
 
-.employee-table-container table {
+.employee-table-container table,
+.position-table-container table {
   width: 100%;
   border-spacing: 10px;
   border-collapse: collapse;
@@ -19,6 +21,8 @@
 
 .employee-table-container th,
 .employee-table-container td,
+.position-table-container th,
+.position-table-container td,
 .warehouseTable th,
 .warehouseTable td {
   padding: 16px 10px;
@@ -26,7 +30,8 @@
   text-align: center;
 }
 
-.employee-table-container th {
+.employee-table-container th,
+.position-table-container th {
   background-color: #d2e5fa;
   font-weight: bold;
 }
@@ -70,7 +75,8 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.employee-table-container tbody td {
+.employee-table-container tbody td,
+.position-table-container tbody td {
   font-family: Nunito Sans;
   font-size: 16px;
   font-weight: 500;
@@ -106,7 +112,8 @@
   color: #2f3033;
 }
 
-.employee-table-container tbody tr td:last-of-type button {
+.employee-table-container tbody tr td:last-of-type button,
+.position-table-container tbody tr td:last-of-type button {
   background-color: inherit;
   border: none;
   font-size: 18px;
@@ -200,15 +207,18 @@
   width: 130px;
 }
 
-.employee-table-container tbody tr {
+.employee-table-container tbody tr,
+.position-table-container tbody tr {
   position: relative;
 }
 
-.employee-table-container .status {
+.employee-table-container .status,
+.position-table-container .status {
   margin: 0 auto;
 }
 
-.employee-table-container .status p {
+.employee-table-container .status p,
+.position-table-container .status p {
   font-family: Nunito Sans;
   font-size: 16px;
   font-weight: 500;
@@ -220,7 +230,8 @@
   text-align: center;
 }
 
-.employee-table-container .status svg {
+.employee-table-container .status svg,
+.position-table-container .status svg {
   font-size: 12px;
 }
 
@@ -229,7 +240,8 @@
   font-size: 26px;
 }
 
-.employee-table-container .small-modal-employee {
+.employee-table-container .small-modal-employee,
+.position-table-container .small-modal-position {
   position: absolute;
   right: 10px;
   top: 30px;
@@ -242,17 +254,20 @@
   display: none;
 }
 
-.small-modal-employee.active {
+.small-modal-employee.active,
+.small-modal-position.active {
   display: block;
 }
 
-.small-modal-employee-content {
+.small-modal-employee-content,
+.small-modal-position-content {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-.small-modal-employee button {
+.small-modal-employee button,
+.small-modal-position button {
   background: none;
   border: none;
   color: #333;
@@ -264,7 +279,8 @@
   background-color: inherit;
 }
 
-.small-modal-employee button:hover {
+.small-modal-employee button:hover,
+.small-modal-position button:hover {
   color: #005abf;
 }
 
@@ -274,7 +290,8 @@
   align-items: center;
 }
 
-.employee-title button {
+.employee-title button,
+.position-add-button button {
   background-color: #005abf;
   padding: 10px;
   border-radius: 12px;
@@ -317,4 +334,14 @@
 .employee-add-buttons {
   display: flex;
   gap: 5px;
+}
+
+.ant-select-dropdown {
+  z-index: 400000000 !important;
+}
+
+.position-modal-buttons button {
+  width: 100px;
+  height: 40px;
+  background-color: #005abf;
 }
