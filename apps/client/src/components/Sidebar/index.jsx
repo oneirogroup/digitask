@@ -21,6 +21,7 @@ const Sidebar = ({ children, isSidebarOpen, onClose, onToggleExpand }) => {
   const { userType } = useUser();
   const [menuItems, setMenuItems] = useState([]);
   const [isExpanded, setIsExpanded] = useState(true);
+  const position = JSON.parse(localStorage.getItem("position"));
 
   useEffect(() => {
     const items = [
@@ -29,12 +30,12 @@ const Sidebar = ({ children, isSidebarOpen, onClose, onToggleExpand }) => {
         name: "Ana Səhifə",
         icon: <GoHomeFill />
       },
-      {
+      position && position.tasks_permission !== "no_access" &&{
         path: "/tasks/",
         name: "Tapşırıqlar",
         icon: <img src={taskIcon} alt="Task Icon" style={{ width: "24px", height: "24px" }} />
       },
-      userType !== "Texnik" && {
+      position && position.warehouse_permission !== "no_access" && {
         path: "/warehouse/",
         name: "Anbar",
         icon: <FaWarehouse />
@@ -44,7 +45,7 @@ const Sidebar = ({ children, isSidebarOpen, onClose, onToggleExpand }) => {
         name: "Performans",
         icon: <img src={performance} alt="Performance Icon" style={{ width: "24px", height: "24px" }} />
       },
-      userType !== "Texnik" && {
+      position && position.users_permission !== "no_access" && {
         path: "/employees/",
         name: "İşçilər",
         icon: <img src={Engineering} alt="Engineering Icon" style={{ width: "24px", height: "24px" }} />

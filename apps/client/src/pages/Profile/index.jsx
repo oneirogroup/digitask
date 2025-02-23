@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { AiFillMail } from "react-icons/ai";
 import { FaChevronDown, FaChevronRight, FaChevronUp, FaPhoneAlt, FaRegEdit, FaSave } from "react-icons/fa";
-
+import { EditFilled } from '@ant-design/icons';
 import useRefreshToken from "../../common/refreshToken";
 
 import "./profile.css";
@@ -34,7 +34,6 @@ const Profile = () => {
         groupName: response.data.group?.group || "",
         region: response.data.group?.region || ""
       });
-      console.log(response.data);
     } catch (error) {
       if (error.status == 403) {
         refreshAccessToken();
@@ -85,7 +84,6 @@ const Profile = () => {
 
   const handleProfileUpdate = async () => {
     try {
-      console.log(profileData, "-");
       const { profil_picture, ...profileWithoutPhoto } = profileData;
       await axios.put("http://37.61.77.5/accounts/profile_update/", {
         ...profileWithoutPhoto,
@@ -176,19 +174,23 @@ const Profile = () => {
             <div className="profile-table">
               <div className="profile-photo">
                 {profileData.profil_picture ? (
-                  <>
+                  <div className="pp-div">
                     <img
                       src={profileData.profil_picture}
                       alt="Profile"
-                      className="image-preview"
+                      className={`image-preview ${editMode && 'blurPic'}`}
                       onClick={() => handleImageClick(profileData.profil_picture)}
                     />
                     {editMode && (
-                      <label htmlFor="passport" className="upload-button upload-passport-button">
-                        Dəyişmək üçün klikləyin
+                      <label htmlFor="passport" className="upload-label">
+                        <div className="labelDiv">
+                        <EditFilled style={{fontSize:'35px',color: '#247bd7'}} />
+                        <span>Rəsmi dəyiş</span>
+                        </div>
+           
                       </label>
                     )}
-                  </>
+                  </div>
                 ) : (
                   editMode && (
                     <label htmlFor="passport" className="upload-label">

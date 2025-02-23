@@ -46,6 +46,7 @@ function Index() {
   const [registrationNumberFilter, setRegistrationNumberFilter] = useState("");
   const regionRef = useRef(null);
   const modalRef = useRef(null);
+  const position = JSON.parse(localStorage.getItem('position'))
 
   useEffect(() => {
     refreshAccessToken();
@@ -151,7 +152,6 @@ function Index() {
       const statusParam = statusFilter !== "Hamısı" ? `&status=${statusMap[statusFilter]}` : "";
 
       const url = `http://37.61.77.5/services/status/?${taskTypeParam}${monthQueryParam}${statusParam}${regionParam}${registrationParam}`;
-      console.log(url);
       const response = await fetch(url, {
         method: "GET",
         headers: {
@@ -456,7 +456,7 @@ function Index() {
             {isRefreshing ? "Yüklənir..." : "Yenilə"}
           </button>
 
-          {userType !== "Texnik" && (
+          {position?.tasks_permission && position?.tasks_permission == "read_write" && (
             <button onClick={openAddTaskModal}>
               <IoAdd />
               Əlavə et
@@ -586,7 +586,7 @@ function Index() {
                     {item.contact_number ? item.contact_number : "-"}
                   </td>
                   <td className="task-status">
-                    {userType === "Texnik" || (item.phone === userPhone && !item.phone) ? (
+                    {position?.tasks_permission === "read_only" || (item.phone === userPhone && !item.phone) ? (
                       <>
                         {item.status === "waiting" && (
                           <button
@@ -618,7 +618,7 @@ function Index() {
                           </button>
                         )}
                       </>
-                    ) : (
+                    ) : position?.tasks_permission == 'read_write' ? (
                       <button
                         onClick={() => openTaskDetailsModal(item.id)}
                         className={`status ${item.status.toLowerCase().replace(" ", "-")}`}
@@ -633,10 +633,10 @@ function Index() {
                                 ? "Tamamlanıb"
                                 : item.status}
                       </button>
-                    )}
+                    ) : '?'}
                   </td>
                   <td className="fixed-right">
-                    {userType !== "Texnik" ? (
+                    {position?.tasks_permission == "read_write" ? (
                       <>
                         <button data-task-index={index} onClick={e => openSmallModal(e, index)}>
                           <BsThreeDotsVertical />
