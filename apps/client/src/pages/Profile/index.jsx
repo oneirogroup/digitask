@@ -43,7 +43,6 @@ const Profile = () => {
   const fetchUserTypes = async () => {
     try {
       const response = await axios.get("http://37.61.77.5/accounts/positions/positions/");
-      console.log(response,'33333333333333333333333333333333333333333333')
       setUserTypeOptions(response?.data?.map((item)=>({id:item?.id,name:item?.name})));
     } catch (error) {
       if (error.status == 403) {
@@ -148,10 +147,6 @@ const Profile = () => {
     setShowUserTypeDropdown(false);
   };
 
-  useEffect(() => {
-    console.log(profileData,'2222222222222222222222222222222222222222222222222222222222222222222222');
-    
-  }, [profileData]);
 
 
   useEffect(() => {
