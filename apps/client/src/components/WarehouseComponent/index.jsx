@@ -30,9 +30,9 @@ function Warehouse() {
   const [actionModalPosition, setActionModalPosition] = useState({ index: null });
   const [productData, setProductData] = useState(null);
   const [showIncrementImportModal, setShowIncrementImportModal] = useState(false);
-  const [isAddWarehouseModal, setIsAddWarehouseModal] = useState(false);
-  const regionModalRef = useRef(null);
+
   const actionModalRef = useRef(null);
+  const position = JSON.parse(localStorage.getItem("position"));
   const refreshAccessToken = useRefreshToken();
 
   useEffect(() => {
@@ -186,13 +186,6 @@ function Warehouse() {
     fetchData();
   };
 
-  const openAddWarehouseModal = () => {
-    setIsAddWarehouseModal(true);
-  };
-
-  const closeAddWarehouseModal = () => {
-    setIsAddWarehouseModal(false);
-  };
 
   const initializeWarehouseModals = warehousesData => {
     const initialModals = warehousesData.reduce((acc, warehouse) => {
@@ -202,10 +195,7 @@ function Warehouse() {
     setWarehouses(initialModals);
   };
 
-  const handleWarehouseAdded = newWarehouse => {
-    setWarehouses(prevWarehouses => [...prevWarehouses, newWarehouse]);
-    fetchWarehouses();
-  };
+
 
   const handleOpenNewItemModal = () => {
     setShowNewItemModal(true);
@@ -220,15 +210,17 @@ function Warehouse() {
       <section>
         <div className="warehouseTable-title">
           <p>Anbar</p>
-          <div>
-            <button
-              className={`importButton ${importSelected ? "selectedButton" : ""}`}
-              onClick={() => handleOpenNewItemModal()}
-            >
-              <BiImport /> Yeni məhsul əlavə et
-            </button>
-            <button onClick={openAddWarehouseModal}>Anbar əlavə et</button>
-          </div>
+          { position && position.warehouse_permission == 'read_write' &&
+            <div>
+              <button
+                className={`importButton ${importSelected ? "selectedButton" : ""}`}
+                onClick={() => handleOpenNewItemModal()}
+              >
+                <BiImport /> Yeni məhsul əlavə et
+              </button>
+
+            </div>
+          }
         </div>
 
         <div className="warehouse-search-filter">
@@ -300,31 +292,33 @@ function Warehouse() {
                   </td>
 
                   <td onClick={() => handleItemDetailOpen(data)}>{data.measure}</td>
-                  <td style={{ position: "relative" }} onClick={event => handleActionClick(event, index, data.id)}>
-                    <BsThreeDotsVertical />
-                    {isActionModalOpen && actionModalPosition.index === index && (
-                      <div className="small-modal-warehouse small-css">
-                        <div className="small-modal-warehouse-content" ref={actionModalRef}>
-                          <button
-                            onClick={() =>
-                              handleUpdateModalOpen({ action: "increment", actionName: "Idxal", count: data.count })
-                            }
-                          >
-                            İdxal
-                          </button>
-                          <hr />
-                          <button
-                            onClick={() =>
-                              handleUpdateModalOpen({ action: "decrement", actionName: "Ixrac", count: data.count })
-                            }
-                          >
-                            {" "}
-                            İxrac
-                          </button>
+                  {position && position.warehouse_permission == "read_write" && (
+                    <td style={{ position: "relative" }} onClick={event => handleActionClick(event, index, data.id)}>
+                      <BsThreeDotsVertical />
+                      {isActionModalOpen && actionModalPosition.index === index && (
+                        <div className="small-modal-warehouse small-css">
+                          <div className="small-modal-warehouse-content" ref={actionModalRef}>
+                            <button
+                              onClick={() =>
+                                handleUpdateModalOpen({ action: "increment", actionName: "Idxal", count: data.count })
+                              }
+                            >
+                              İdxal
+                            </button>
+                            <hr />
+                            <button
+                              onClick={() =>
+                                handleUpdateModalOpen({ action: "decrement", actionName: "Ixrac", count: data.count })
+                              }
+                            >
+                              {" "}
+                              İxrac
+                            </button>
+                          </div>
                         </div>
-                      </div>
-                    )}
-                  </td>
+                      )}
+                    </td>
+                  )}
                 </tr>
               ))}
             </tbody>
@@ -362,13 +356,7 @@ function Warehouse() {
         />
       )}
       {showNewItemModal && <Import onClose={handleCloseNewItemModal} fetchData={fetchData} warehouses={warehouses} />}
-      {isAddWarehouseModal && (
-        <AddWarehouseModal
-          isOpen={isAddWarehouseModal}
-          onClose={closeAddWarehouseModal}
-          onWarehouseAdded={handleWarehouseAdded}
-        />
-      )}
+
     </div>
   );
 }

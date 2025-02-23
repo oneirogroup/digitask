@@ -42,6 +42,11 @@
   height: 4px;
   background-color: #005abf;
 }
-
-
-
+.newWarehouse{
+  display: flex;
+  justify-content: right;
+  height: 50px;
+}
+.ant-table-cell{
+  font-size: 17px;
+}

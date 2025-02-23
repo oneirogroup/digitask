@@ -2,30 +2,32 @@ import { useState } from "react";
 
 import History from "../../components/History";
 import Warehouse from "../../components/WarehouseComponent";
-
+import Warehouses from "./Warehouses"
 import "./warehouse.css";
 
 function index() {
-  const [selectedTab, setSelectedTab] = useState(
-    sessionStorage.getItem("warehouse") ? sessionStorage.getItem("warehouse") : "anbar"
-  );
+  const [selectedTab, setSelectedTab] = useState("item");
   const selectTab = ware => {
     setSelectedTab(ware);
-    sessionStorage.setItem("warehouse", ware);
   };
+
 
   return (
     <div className="warehouse-page">
       <div className="warehousePage-title">
-        <p className={selectedTab === "anbar" ? "selected" : ""} onClick={() => selectTab("anbar")}>
-          Anbar
+        <p className={selectedTab === "item" ? "selected" : ""} onClick={() => selectTab("item")}>
+          Məhsullar
         </p>
-        <p className={selectedTab === "anbarHistory" ? "selected" : ""} onClick={() => selectTab("anbarHistory")}>
+        <p className={selectedTab === "storage" ? "selected" : ""} onClick={() => selectTab("storage")}>
+          Anbarlar
+        </p>
+        <p className={selectedTab === "history" ? "selected" : ""} onClick={() => selectTab("history")}>
           Anbar tarixçəsi
         </p>
       </div>
-      {selectedTab === "anbar" ? <Warehouse /> : null}
-      {selectedTab === "anbarHistory" ? <History /> : null}
+      {selectedTab === "item" ? <Warehouse /> : null}
+      {selectedTab === "history" ? <History /> : null}
+      {selectedTab === "storage" ? <Warehouses /> : null}
     </div>
   );
 }

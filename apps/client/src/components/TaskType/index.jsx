@@ -52,7 +52,8 @@ function MapClickHandler({ onClick }) {
   return null;
 }
 
-function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdated }) {
+function DetailsModal({ onClose, taskId, userType, onTaskUpdated }) {
+  const position = JSON.parse(localStorage.getItem('position'))
   const { isAdmin } = useUser();
   const [taskDetails, setTaskDetails] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
@@ -666,9 +667,9 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
                   ? (taskDetails.task_type === "connection" ? "Qoşulma" : "Problem") + " məlumatları"
                   : ""}
               </h5>
-              {/* {userType !== 'Texnik' && ( */}
+              {position && position.tasks_permission == 'read_write' && (
               <RiEdit2Line onClick={handleEditClick} />
-              {/* )} */}
+               )} 
             </>
           )}
           <div>
@@ -1240,17 +1241,18 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
               ))}
             </div>
 
-            {userType === "Texnik" && shouldShowAddSurveyButton && (
+            {shouldShowAddSurveyButton && (
               <button className="add-survey-button" onClick={openAddSurveyModal}>
                 <p>Anket əlavə et</p>
                 <MdAdd />
               </button>
             )}
-
+            {shouldShowAddSurveyButton && (
             <button className="add-survey-button" onClick={openAddItemModal}>
               <p>Məhsul əlavə et</p>
               <MdAdd />
             </button>
+              )}
           </div>
         )}
       </div>

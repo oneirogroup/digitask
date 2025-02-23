@@ -51,6 +51,7 @@ export const UserProvider = ({ children }) => {
     refreshAccessToken();
   }, []);
 
+
   if (loading) {
     return (
       <div className="loading-container">
