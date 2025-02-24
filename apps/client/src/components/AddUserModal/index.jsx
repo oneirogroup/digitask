@@ -1,3 +1,4 @@
+import { message } from "antd";
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
@@ -13,7 +14,7 @@ const AddUserModal = ({ onClose, onUserAdded }) => {
     last_name: "",
     phone: "",
     group: "",
-    user_type: "",
+    position: "",
     username: "",
     password: "",
     password2: ""
@@ -21,18 +22,31 @@ const AddUserModal = ({ onClose, onUserAdded }) => {
 
   const [formErrors, setFormErrors] = useState({});
   const [groupOptions, setGroupOptions] = useState([]);
-  const [userTypeOptions] = useState([
-    { value: "Texnik", label: "Texnik" },
-    { value: "Plumber", label: "Plumber" },
-    { value: "Ofis menecer", label: "Ofis menecer" },
-    { value: "Texnik menecer", label: "Texnik menecer" }
-  ]);
+  const [positions, setPositions] = useState([]);
   const [showGroupDropdown, setShowGroupDropdown] = useState(false);
   const [showUserTypeDropdown, setShowUserTypeDropdown] = useState(false);
   const [selectedGroupName, setSelectedGroupName] = useState("");
   const [selectedUserTypeLabel, setSelectedUserTypeLabel] = useState("");
   const [loading, setLoading] = useState(false);
   const refreshAccessToken = useRefreshToken();
+
+  const fetchPositions = async () => {
+    try {
+      const response = await axios.get("http://37.61.77.5/accounts/positions/positions/");
+      setPositions(response.data);
+      initializePositionModals(response.data);
+      setLoading(false);
+    } catch (error) {
+      if (error.response.status == 403) {
+        await fetchPositions();
+        message.error("Vəzifə göstərilərkən xəta baş verdi");
+      }
+    }
+  };
+
+  useEffect(() => {
+    fetchPositions();
+  }, []);
 
   const groupDropdownRef = useRef(null);
   const userTypeDropdownRef = useRef(null);
@@ -74,7 +88,7 @@ const AddUserModal = ({ onClose, onUserAdded }) => {
     if (!formData.email) errors.email = "Email boş buraxıla bilməz";
     if (!formData.username) errors.username = "İstifadəçi adı boş buraxıla bilməz";
     if (!formData.group) errors.group = "Qrup seçilməlidir";
-    if (!formData.user_type) errors.user_type = "Vəzifə seçilməlidir";
+    if (!formData.position) errors.position = "Vəzifə seçilməlidir";
     if (!formData.password) errors.password = "Şifrə boş buraxıla bilməz";
     if (formData.password !== formData.password2) errors.password2 = "Şifrələr uyğun deyil";
     if (!formData.phone) errors.phone = "Nömrə boş buraxıla bilməz";
@@ -122,15 +136,16 @@ const AddUserModal = ({ onClose, onUserAdded }) => {
   };
 
   const handleSelectUserType = userType => {
+    const selectedPosition = positions.find(option => option.id === userType);
     setFormData({
       ...formData,
-      user_type: userType
+      position: userType
     });
-    setSelectedUserTypeLabel(userTypeOptions.find(option => option.value === userType)?.label || "");
+    setSelectedUserTypeLabel(selectedPosition ? selectedPosition.name : "");
     setShowUserTypeDropdown(false);
     setFormErrors({
       ...formErrors,
-      user_type: ""
+      position: ""
     });
   };
 
@@ -264,19 +279,19 @@ const AddUserModal = ({ onClose, onUserAdded }) => {
                         &times;
                       </span>
                     </label>
-                    {userTypeOptions.map(option => (
+                    {positions.map(option => (
                       <div
-                        key={option.value}
-                        onClick={() => handleSelectUserType(option.value)}
-                        className={formData.user_type === option.value ? "selected" : ""}
+                        key={option.id}
+                        onClick={() => handleSelectUserType(option.id)}
+                        className={formData.position.name === option.name ? "selected" : ""}
                       >
-                        {option.label}
+                        {option.name}
                       </div>
                     ))}
                   </div>
                 )}
               </div>
-              {formErrors.user_type && <span className="error-message">{formErrors.user_type}</span>}
+              {formErrors.position && <span className="error-message">{formErrors.position}</span>}
             </div>
             <div className="form-group">
               <label>Şifrə</label>

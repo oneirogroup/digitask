@@ -33,7 +33,7 @@ const Positions = () => {
   const fetchPositions = async () => {
     try {
       const response = await axios.get(API_URL);
-      setPositions(response.data);
+      setPositions(response.data.sort((a, b) => a.name.localeCompare(b.name)));
       initializePositionModals(response.data);
       setLoading(false);
     } catch (error) {
