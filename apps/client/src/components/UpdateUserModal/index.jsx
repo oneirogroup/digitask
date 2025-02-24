@@ -1,3 +1,4 @@
+import { message } from "antd";
 import axios from "axios";
 import PropTypes from "prop-types";
 import { useEffect, useRef, useState } from "react";
@@ -18,7 +19,7 @@ const UpdateUserModal = ({ isOpen, onClose, employee, onUpdateUser }) => {
   const [formData, setFormData] = useState({
     email: "",
     phone: "",
-    user_type: "",
+    position: "",
     username: "",
     group: "",
     group_id: "",
@@ -28,12 +29,6 @@ const UpdateUserModal = ({ isOpen, onClose, employee, onUpdateUser }) => {
   });
 
   const [groupOptions, setGroupOptions] = useState([]);
-  const [userTypeOptions] = useState([
-    { value: "Texnik", label: "Texnik" },
-    { value: "Plumber", label: "Plumber" },
-    { value: "Ofis menecer", label: "Ofis menecer" },
-    { value: "Texnik menecer", label: "Texnik menecer" }
-  ]);
   const [showGroupDropdown, setShowGroupDropdown] = useState(false);
   const [showUserTypeDropdown, setShowUserTypeDropdown] = useState(false);
   const [selectedGroupName, setSelectedGroupName] = useState("");
@@ -41,21 +36,37 @@ const UpdateUserModal = ({ isOpen, onClose, employee, onUpdateUser }) => {
   const [groupChanged, setGroupChanged] = useState(false);
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const refreshAccessToken = useRefreshToken();
+  const [positions, setPositions] = useState([]);
+
+  const fetchPositions = async () => {
+    try {
+      const response = await axios.get("http://37.61.77.5/accounts/positions/positions/");
+      setPositions(response.data);
+      initializePositionModals(response.data);
+      setLoading(false);
+    } catch (error) {
+      if (error.response.status == 403) {
+        await fetchPositions();
+        message.error("Vəzifə göstərilərkən xəta baş verdi");
+      }
+    }
+  };
+
+  const fetchGroups = async () => {
+    try {
+      const response = await axios.get("http://37.61.77.5/services/groups/");
+      setGroupOptions(response.data);
+    } catch (error) {
+      if (error.status == 403) {
+        await refreshAccessToken();
+        fetchGroups(true);
+      }
+      console.error("Error fetching groups:", error);
+    }
+  };
 
   useEffect(() => {
-    const fetchGroups = async () => {
-      try {
-        const response = await axios.get("http://37.61.77.5/services/groups/");
-        setGroupOptions(response.data);
-      } catch (error) {
-        if (error.status == 403) {
-          await refreshAccessToken();
-          fetchGroups(true);
-        }
-        console.error("Error fetching groups:", error);
-      }
-    };
-
+    fetchPositions();
     fetchGroups();
   }, []);
 
@@ -64,7 +75,7 @@ const UpdateUserModal = ({ isOpen, onClose, employee, onUpdateUser }) => {
       setFormData({
         email: employee.email || "",
         phone: employee.phone || "",
-        user_type: employee.user_type || "",
+        position: positions?.find(item => item?.id == employee?.position?.id) || "",
         username: employee.username || "",
         group: employee.group?.group || "",
         group_id: employee.group?.id || "",
@@ -73,9 +84,10 @@ const UpdateUserModal = ({ isOpen, onClose, employee, onUpdateUser }) => {
         last_name: employee.last_name || ""
       });
       setSelectedGroupName(employee.group?.group || "");
-      setSelectedUserTypeLabel(userTypeOptions.find(option => option.value === employee.user_type)?.label || "");
+      const selectedPosition = positions.find(option => option.id === employee?.position);
+      setSelectedUserTypeLabel(selectedPosition ? selectedPosition.name : "");
     }
-  }, [employee, userTypeOptions]);
+  }, [employee, positions]);
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -125,12 +137,13 @@ const UpdateUserModal = ({ isOpen, onClose, employee, onUpdateUser }) => {
     setShowUserTypeDropdown(!showUserTypeDropdown);
   };
 
-  const handleSelectUserType = userType => {
-    setFormData({
-      ...formData,
-      user_type: userType
-    });
-    setSelectedUserTypeLabel(userTypeOptions.find(option => option.value === userType)?.label || "");
+  const handleSelectUserType = userTypeId => {
+    const position = positions?.find(item => item?.id == userTypeId);
+    setFormData(prevData => ({
+      ...prevData,
+      position: position || ""
+    }));
+    setSelectedUserTypeLabel(position ? position?.name : "");
     setShowUserTypeDropdown(false);
   };
 
@@ -141,7 +154,7 @@ const UpdateUserModal = ({ isOpen, onClose, employee, onUpdateUser }) => {
       return;
     }
 
-    const updatedFormData = { ...formData };
+    const updatedFormData = { position: formData?.position?.id || "", ...formData };
 
     if (!groupChanged) {
       updatedFormData.group = employee.group?.group;
@@ -229,7 +242,7 @@ const UpdateUserModal = ({ isOpen, onClose, employee, onUpdateUser }) => {
               <label>Vəzifə</label>
               <div className="multi-select-container update-user-modal" ref={userTypeDropdownRef}>
                 <button type="button" className="multi-select-button" onClick={handleUserTypeDropdownToggle}>
-                  {selectedUserTypeLabel ? selectedUserTypeLabel : "Vəzifəni seçin"}
+                  {formData ? formData?.position?.name : "Vəzifəni seçin"}
                   <span>{showUserTypeDropdown ? <FaChevronUp /> : <FaChevronDown />}</span>
                 </button>
                 {showUserTypeDropdown && (
@@ -244,13 +257,13 @@ const UpdateUserModal = ({ isOpen, onClose, employee, onUpdateUser }) => {
                         &times;
                       </span>
                     </label>
-                    {userTypeOptions.map(option => (
+                    {positions.map(option => (
                       <div
-                        key={option.value}
+                        key={option.id}
                         className="multi-select-item"
-                        onClick={() => handleSelectUserType(option.value)}
+                        onClick={() => handleSelectUserType(option.id)}
                       >
-                        {option.label}
+                        {option.name}
                       </div>
                     ))}
                   </div>

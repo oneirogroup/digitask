@@ -482,7 +482,7 @@ const EmployeeList = () => {
                 <td>
                   {employee.phone} {!employee.phone && <span>-</span>}
                 </td>
-                <td>{employee.user_type}</td>
+                <td>{employee.position?.name}</td>
                 <td className={`status ${status[employee.id]?.status === "online" ? "color-green" : "color-red"}`}>
                   {status[employee.id]?.status !== undefined ? status[employee.id]?.status : "offline"}
                 </td>
