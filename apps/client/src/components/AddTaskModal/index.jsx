@@ -486,9 +486,9 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
                 <div className="dropdown-task-toggle" onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
                   {formData.group.length > 0
                     ? ` ${groups
-                        .filter(group => formData.group.includes(group.id))
-                        .map(group => group.group)
-                        .join(",  ")}`
+                      .filter(group => formData.group.includes(group.id))
+                      .map(group => group.group)
+                      .join(",  ")}`
                     : "Qrup seçin"}
                   <FaChevronDown />
                 </div>
