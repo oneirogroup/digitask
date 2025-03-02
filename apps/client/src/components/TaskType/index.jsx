@@ -140,97 +140,97 @@ function DetailsModal({ onClose, taskId, userType, onTaskUpdated }) {
   const [taskItemDetails, setTaskItemDetails] = useState([]);
   const [warehouseItems, setWarehouseItems] = useState([]);
 
-  useEffect(() => {
-    const fetchTaskData = async e => {
-      if (taskId) {
-        try {
-          const response = await fetch(`http://37.61.77.5/services/task/${taskId}/`);
-          if (!response.ok) {
-            if (response.status === 403) {
-              await refreshAccessToken();
-              fetchTaskData();
-            }
-            throw new Error(`HTTP error! Status: ${response.status}`);
-          }
-          const data = await response.json();
-          setFormData({
-            task_type: data.task_type,
-            full_name: data.full_name,
-            start_time: data.start_time,
-            end_time: data.end_time,
-            date: data.date,
-            registration_number: data.registration_number,
-            contact_number: data.contact_number,
-            location: data.location,
-            passport: data.passport ? data.passport : null,
-            services: data.services,
-            status: data.status,
-            group: data.group,
-            note: data.note,
-            latitude: data.latitude,
-            longitude: data.longitude,
-            is_tv: data.is_tv,
-            is_voice: data.is_voice,
-            is_internet: data.is_internet
-          });
-          setTaskDetails(data);
-          setTaskItemDetails(data.task_items);
-        } catch (error) {
-          if (error.status == 403) {
+  const fetchTaskData = async e => {
+    if (taskId) {
+      try {
+        const response = await fetch(`http://37.61.77.5/services/task/${taskId}/`);
+        if (!response.ok) {
+          if (response.status === 403) {
             await refreshAccessToken();
             fetchTaskData();
           }
-          console.error("Error fetching task data:", error);
-        }
-      }
-    };
-
-    const fetchWarehouseItems = async () => {
-      try {
-        const response = await fetch("http://37.61.77.5/warehouse/warehouse-items/");
-        if (!response.ok) {
-          if (response.status == 403) {
-            await refreshAccessToken();
-            fetchWarehouseItems();
-          }
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
         const data = await response.json();
-        setWarehouseItems(data);
+        setFormData({
+          task_type: data.task_type,
+          full_name: data.full_name,
+          start_time: data.start_time,
+          end_time: data.end_time,
+          date: data.date,
+          registration_number: data.registration_number,
+          contact_number: data.contact_number,
+          location: data.location,
+          passport: data.passport ? data.passport : null,
+          services: data.services,
+          status: data.status,
+          group: data.group,
+          note: data.note,
+          latitude: data.latitude,
+          longitude: data.longitude,
+          is_tv: data.is_tv,
+          is_voice: data.is_voice,
+          is_internet: data.is_internet
+        });
+        setTaskDetails(data);
+        setTaskItemDetails(data.task_items);
       } catch (error) {
         if (error.status == 403) {
+          await refreshAccessToken();
+          fetchTaskData();
+        }
+        console.error("Error fetching task data:", error);
+      }
+    }
+  };
+
+  const fetchWarehouseItems = async () => {
+    try {
+      const response = await fetch("http://37.61.77.5/warehouse/warehouse-items/");
+      if (!response.ok) {
+        if (response.status == 403) {
           await refreshAccessToken();
           fetchWarehouseItems();
         }
-        console.error("Error fetching warehouse items:", error);
+        throw new Error(`HTTP error! Status: ${response.status}`);
       }
-    };
+      const data = await response.json();
+      setWarehouseItems(data);
+    } catch (error) {
+      if (error.status == 403) {
+        await refreshAccessToken();
+        fetchWarehouseItems();
+      }
+      console.error("Error fetching warehouse items:", error);
+    }
+  };
 
-    const fetchGroups = async () => {
-      try {
-        const response = await fetch("http://37.61.77.5/services/groups/");
-        if (!response.ok) {
-          if (response.status == 403) {
-            await refreshAccessToken();
-            return fetchGroups();
-          }
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        const data = await response.json();
-        setGroups(data);
-      } catch (error) {
-        if (error.status == 403) {
+  const fetchGroups = async () => {
+    try {
+      const response = await fetch("http://37.61.77.5/services/groups/");
+      if (!response.ok) {
+        if (response.status == 403) {
           await refreshAccessToken();
-          fetchGroups();
+          return fetchGroups();
         }
-        console.error("Error fetching groups:", error);
+        throw new Error(`HTTP error! Status: ${response.status}`);
       }
-    };
-
+      const data = await response.json();
+      setGroups(data);
+    } catch (error) {
+      if (error.status == 403) {
+        await refreshAccessToken();
+        fetchGroups();
+      }
+      console.error("Error fetching groups:", error);
+    }
+  };
+  useEffect(() => {
     fetchTaskData();
     fetchWarehouseItems();
     fetchGroups();
   }, [taskId, isEditing]);
+
 
   const handleItemsAdded = addedItems => {
     setTaskItemDetails(prev => [...prev, ...addedItems]);
@@ -497,7 +497,7 @@ function DetailsModal({ onClose, taskId, userType, onTaskUpdated }) {
       .catch(async error => {
         if (error.status === 403) {
           await refreshAccessToken();
-          await handleFormSubmit();
+          handleFormSubmit(e, true);
         }
       });
   };
@@ -520,10 +520,23 @@ function DetailsModal({ onClose, taskId, userType, onTaskUpdated }) {
   const [isUpdateVoiceModalOpen, setIsUpdateVoiceModalOpen] = useState(false);
 
   const handleServiceUpdate = (serviceType, updatedData) => {
-    setTaskDetails(prevDetails => ({
-      ...prevDetails,
-      [serviceType]: updatedData
-    }));
+    setTaskDetails(prevDetails => {
+      let updatedInternet = updatedData;
+
+      if (serviceType === "internet" && prevDetails.internetPackages) {
+        const foundPackage = prevDetails.internetPackages.find(pack => pack.id === updatedData.internet_packs);
+
+        updatedInternet = {
+          ...updatedData,
+          internet_packs: foundPackage ? { id: foundPackage.id, name: foundPackage.name } : null
+        };
+      }
+
+      return {
+        ...prevDetails,
+        [serviceType]: updatedInternet
+      };
+    });
   };
 
   const handleMapClick = latlng => {
@@ -1290,6 +1303,7 @@ function DetailsModal({ onClose, taskId, userType, onTaskUpdated }) {
           serviceId={taskDetails.internet.id}
           serviceData={taskDetails.internet}
           onServiceUpdate={handleServiceUpdate}
+          fetchTaskData={fetchTaskData}
         />
       )}
       {isUpdateVoiceModalOpen && (

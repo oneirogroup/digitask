@@ -474,7 +474,6 @@ const EmployeeList = () => {
                   <th></th>
                 </>
               )}
-
             </tr>
           </thead>
           <tbody>
@@ -524,8 +523,8 @@ const EmployeeList = () => {
                           </div>
                         )}
                       </td>
-                    </>)
-                }
+                    </>
+                  )}
               </tr>
             ))}
           </tbody>
