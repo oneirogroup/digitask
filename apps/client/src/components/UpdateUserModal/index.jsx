@@ -9,7 +9,7 @@ import PasswordChangeModal from "../PasswordChangeModal";
 
 import "./updateuser.css";
 
-const UpdateUserModal = ({ isOpen, onClose, employee, onUpdateUser }) => {
+const UpdateUserModal = ({ isOpen, onClose, employee, onUpdateUser, fetchEmployees }) => {
   if (!isOpen) return null;
 
   const formRef = useRef(null);
@@ -161,11 +161,13 @@ const UpdateUserModal = ({ isOpen, onClose, employee, onUpdateUser }) => {
       updatedFormData.groupId = employee.group?.id;
       updatedFormData.groupRegion = employee.group?.region;
     }
+    updatedFormData.position = updatedFormData?.position?.id
 
     try {
       const response = await axios.put(`http://37.61.77.5/accounts/update_user/${employee.id}/`, updatedFormData);
       onUpdateUser(response.data);
       onClose();
+      fetchEmployees();
     } catch (error) {
       if (error.response.status == 403) {
         await refreshAccessToken();

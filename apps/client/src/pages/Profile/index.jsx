@@ -196,7 +196,7 @@ const Profile = () => {
                       onClick={() => handleImageClick(profileData.profil_picture)}
                     />
                     {editMode && (
-                      <label htmlFor="passport" className="upload-label">
+                      <label htmlFor="passport" className="upload-label-profile">
                         <div className="labelDiv">
                         <EditFilled style={{fontSize:'35px',color: '#247bd7'}} />
                         <span>Rəsmi dəyiş</span>
