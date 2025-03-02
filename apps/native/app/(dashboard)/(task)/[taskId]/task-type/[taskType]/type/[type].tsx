@@ -1,5 +1,5 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { type ReactElement, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { KeyboardAvoidingView, Platform, Text } from "react-native";
 import { useRecoilValue } from "recoil";
 
@@ -15,7 +15,6 @@ import {
   tasksAtom
 } from "@digitask/shared-lib";
 import { AuthHttp, Block, Form, Input, Select, When, logger } from "@mdreal/ui-kit";
-import type { OptionProps } from "@mdreal/ui-kit/src/components/select/components/option.types";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 import { FileUploader } from "../../../../../../../components/file-uploader";

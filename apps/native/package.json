@@ -11,7 +11,9 @@
     "build:ios:local": "scripts/build-ios.sh",
     "build:metro": "metro build $(node -e \"console.log(require.resolve('expo-router/entry'))\") --out ./metro-build --config ./metro.config.js",
     "lint": "expo lint",
-    "start": "expo start"
+    "start": "expo start",
+    "android": "expo run:android",
+    "ios": "expo run:ios"
   },
   "jest": {
     "preset": "jest-expo"
