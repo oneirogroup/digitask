@@ -468,12 +468,13 @@ const EmployeeList = () => {
               <th>Nōmrǝ</th>
               <th>Vəzifə</th>
               <th>Status</th>
-              {position && position.users_permission !== "read_only" && (
-                <>
-                  <th>Məkan</th>
-                  <th></th>
-                </>
-              )}
+              {/* {position && position.users_permission !== "read_only" && ( */}
+              <>
+                <th>Məkan</th>
+                <th></th>
+              </>
+              {/* )} */}
+
             </tr>
           </thead>
           <tbody>
@@ -492,39 +493,39 @@ const EmployeeList = () => {
                 <td className={`status ${status[employee.id]?.status === "online" ? "color-green" : "color-red"}`}>
                   {status[employee.id]?.status !== undefined ? status[employee.id]?.status : "offline"}
                 </td>
-                {position && position.users_permission !== "read_only" &&
-                  (
-                    <>
-                      <td>
-                        <a
-                          className={`mapIcon ${status[employee.id]?.status !== "online" ? "deactive" : ""}`}
-                          onClick={status[employee.id]?.status === "online" ? () => openMapModal(employee.id) : null}
-                        >
-                          <PiMapPinAreaFill />
-                        </a>
-                      </td>
-                      <td>
-                        <button onClick={() => openSmallModal(employee.id)}>
-                          <BsThreeDotsVertical />
-                        </button>
-                        {employeeModals[employee.id] && (
-                          <div
-                            className={`small-modal-employee ${employeeModals[employee.id] ? "active" : ""}`}
-                            ref={modalRef}
-                          >
-                            <div className="small-modal-employee-content">
-                              <button onClick={() => handleUpdateUserClick(employee)}>
-                                <MdOutlineEdit />
-                              </button>
-                              <button onClick={() => handleDeleteUser(employee.id)}>
-                                <RiDeleteBin6Line />
-                              </button>
-                            </div>
-                          </div>
-                        )}
-                      </td>
-                    </>
-                  )}
+                {/* {position && position.users_permission !== "read_only" &&
+                  ( */}
+                <>
+                  <td>
+                    <a
+                      className={`mapIcon ${status[employee.id]?.status !== "online" ? "deactive" : ""}`}
+                      onClick={status[employee.id]?.status === "online" ? () => openMapModal(employee.id) : null}
+                    >
+                      <PiMapPinAreaFill />
+                    </a>
+                  </td>
+                  <td>
+                    <button onClick={() => openSmallModal(employee.id)}>
+                      <BsThreeDotsVertical />
+                    </button>
+                    {employeeModals[employee.id] && (
+                      <div
+                        className={`small-modal-employee ${employeeModals[employee.id] ? "active" : ""}`}
+                        ref={modalRef}
+                      >
+                        <div className="small-modal-employee-content">
+                          <button onClick={() => handleUpdateUserClick(employee)}>
+                            <MdOutlineEdit />
+                          </button>
+                          <button onClick={() => handleDeleteUser(employee.id)}>
+                            <RiDeleteBin6Line />
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </td>
+                </>
+                {/* )} */}
               </tr>
             ))}
           </tbody>
