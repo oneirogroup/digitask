@@ -4,11 +4,14 @@ import { FaCirclePlus } from "react-icons/fa6";
 import { IoFilterOutline, IoSearchOutline } from "react-icons/io5";
 import { MdGroups, MdMenu } from "react-icons/md";
 
+import { DeleteOutlined } from "@ant-design/icons";
+
 import useRefreshToken from "../../common/refreshToken";
 import AddRoomModal from "../../components/AddRoomModal";
 import ChatModal from "../../components/ChatModal";
 
 import "./chat.css";
+import { Popconfirm } from "antd";
 
 const Chat = () => {
   const [activeGroup, setActiveGroup] = useState(null);
@@ -112,6 +115,22 @@ const Chat = () => {
       );
     }
   };
+
+  const handleDeleteGroup = (id) => {
+    if(!id)return;
+    fetch(`http://37.61.77.5/accounts/remove_group/${id}/`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+    .then((response) => {
+      if (response.ok) {
+        fetchData()
+      }
+    })
+  }
+
   const handleSendMessage = () => {
     if (!inputValue.trim()) {
       return;
@@ -531,7 +550,16 @@ const Chat = () => {
                 </div>
               </div>
               <div className="chat-content-actions">
-                <BsThreeDotsVertical className="action-icon" />
+                <Popconfirm
+                  title="Qrupu silmək istədiyinizdən əminsiniz ?"
+                  description="Qrupu sildikdən sonra məlumatları geri qaytarmaq mümkün olmayacaq"
+                  onConfirm={()=>handleDeleteGroup(groups.find(group => group.id === activeGroup)?.id)}
+                  okText="Sil"
+                  cancelText="Ləğv et"
+                >
+                      <DeleteOutlined className="deleteIconChat" />
+                </Popconfirm>
+         
               </div>
             </div>
             <div ref={divRef} className="chat-messages">

@@ -1,4 +1,4 @@
-import { ConfigProvider, DatePicker, InputNumber, Space } from "antd";
+import { ConfigProvider, DatePicker, InputNumber, Modal, Space } from "antd";
 import az from "antd/locale/az_AZ";
 import dayjs from "dayjs";
 import "dayjs/locale/az";
@@ -16,6 +16,7 @@ import useRefreshToken from "../../common/refreshToken";
 import AddSurveyModal from "../../components/AddSurveyModal";
 import AddTaskModal from "../../components/AddTaskModal";
 import DetailsModal from "../../components/TaskType";
+import InternetPacksModal from "./InternetPacksModal";
 
 import "./tasks.css";
 
@@ -25,7 +26,7 @@ function Index() {
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [activeFilter, setActiveFilter] = useState("all");
-  const [isDateModalOpen, setIsDateModalOpen] = useState(false);
+  const [internetPacksModalOpan, setInternetPacksModalOpan] = useState(false);
   const [isStatusModalOpen, setIsStatusModalOpen] = useState(false);
   const [selectedStatusFilter, setSelectedStatusFilter] = useState("Hamısı");
   const [isAddTaskModalOpen, setIsAddTaskModalOpen] = useState(false);
@@ -267,6 +268,14 @@ function Index() {
     setIsAddTaskModalOpen(true);
   };
 
+  const openInternetPacksModal = () => {
+    setInternetPacksModalOpan(true);
+  };
+
+  const closeInternetPacksModal = () => {
+    setInternetPacksModalOpan(false);
+  };
+
   const closeAddTaskModal = () => {
     setIsAddTaskModalOpen(false);
   };
@@ -444,9 +453,16 @@ function Index() {
 
   return (
     <div className="task-page">
+        <InternetPacksModal internetPacksModalOpan={internetPacksModalOpan} closeInternetPacksModal={closeInternetPacksModal} />
       <div className="task-page-title">
         <p>Tapşırıqlar</p>
         <div>
+          {position?.tasks_permission && position?.tasks_permission == "read_write" && (
+            <button onClick={openInternetPacksModal}>
+              İnternet paketləri
+            </button>
+          )}
+
           <button
             onClick={handleRefreshButtonClick}
             className={`refresh-button ${isRefreshing ? "loading" : ""}`}

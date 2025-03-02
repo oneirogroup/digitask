@@ -1,15 +1,32 @@
 import L from "leaflet";
 import { useEffect, useState } from "react";
 import { MapContainer, Marker, Polyline, Popup, TileLayer } from "react-leaflet";
+import axios from "axios";
 
 import "./mapModal.css";
 import "leaflet/dist/leaflet.css";
 
+// İki koordinat arasındaki mesafeyi (km cinsinden) hesaplayan fonksiyon
+const haversineDistance = (lat1, lon1, lat2, lon2) => {
+  const toRad = angle => (angle * Math.PI) / 180;
+  const R = 6371; // Dünya'nın yarıçapı (km)
+
+  const dLat = toRad(lat2 - lat1);
+  const dLon = toRad(lon2 - lon1);
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+    Math.sin(dLon / 2) * Math.sin(dLon / 2);
+
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
+};
+
 function index({ onClose, status }) {
   const [locationList, setLocationList] = useState(null);
   const [positions, setPositions] = useState([[status.location.latitude, status.location.longitude]]);
+  const [taskLocations, setTaskLocations] = useState([]);
 
-  const position = [45.409264, 42.867092];
   const zoomLevel = 13;
 
   const customIcon = email =>
@@ -21,24 +38,38 @@ function index({ onClose, status }) {
           <div class="icon-text">${email}</div>
         </div>
       `,
-      iconSize: [16, 16], // İkonun boyutunu ayarla
-      iconAnchor: [16, 32] // İkonun merkeze oturmasını sağla
+      iconSize: [16, 16],
+      iconAnchor: [16, 32]
     });
 
-  const customerIcon = new L.Icon({
-    iconUrl: "https://img.icons8.com/?size=100&id=u4VHO3ZaZQa9&format=png&color=000000",
+  const taskIcon = L.divIcon({
+    className: "custom-task-icon",
+    html: `<i class="fa-solid fa-house-signal" style="font-size: 24px; color: red;"></i>`,
     iconSize: [32, 32],
     iconAnchor: [16, 32],
     popupAnchor: [0, -32]
   });
 
-  const startedTasks = status.started_task;
+  useEffect(() => {
+    const fetchTaskLocations = async () => {
+      if (!status?.user?.email) return;
+      try {
+        const response = await axios.get(`http://37.61.77.5/services/map-tasks/?email=${status.user.email}`);
+        console.log("Task locations response:", response.data);
+        setTaskLocations(response.data);
+      } catch (error) {
+        console.error("Error fetching task locations:", error);
+      }
+    };
+
+    fetchTaskLocations();
+  }, [status?.user?.email, status]);
 
   useEffect(() => {
     if (status.location) {
       setLocationList([status.location.latitude, status.location.longitude]);
 
-      if (status.location && status.location.latitude !== undefined && status.location.longitude !== undefined) {
+      if (status.location.latitude !== undefined && status.location.longitude !== undefined) {
         setPositions(prevPositions => [...prevPositions, [status.location.latitude, status.location.longitude]]);
       }
     }
@@ -74,19 +105,39 @@ function index({ onClose, status }) {
                 <Popup>{status.user.email}</Popup>
               </Marker>
             )}
-            {startedTasks?.map((task, index) => {
-              if (task?.location?.latitude && task?.location?.longitude) {
-                return (
-                  <Marker
-                    key={task.full_name}
-                    icon={customerIcon}
-                    position={[task.location.latitude, task.location.longitude]}
-                  >
-                    <Popup>{task.full_name}</Popup>
-                  </Marker>
+
+            {taskLocations?.length > 0 &&
+              taskLocations.map((task, index) => {
+                if (!task.latitude || !task.longitude) return null;
+
+                const distance = haversineDistance(
+                  status.location.latitude,
+                  status.location.longitude,
+                  task.latitude,
+                  task.longitude
                 );
-              }
-            })}
+
+                return (
+                  <Marker key={index} icon={taskIcon} position={[task.latitude, task.longitude]}>
+                    <Popup>
+                      <b>{task.full_name}</b>
+                      <br />
+                      Məsafə (hava yolu ilə): {distance.toFixed(2)} km
+                      <br />
+                      <a
+                        href={`https://www.google.com/maps?q=${task.latitude},${task.longitude}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{ color: "blue", textDecoration: "underline" }}
+                      >
+                        Google Maps-də aç
+                      </a>
+                    </Popup>
+                  </Marker>
+
+                );
+              })}
+
             {positions && <Polyline positions={positions} color="blue" />}
           </MapContainer>
         </div>
