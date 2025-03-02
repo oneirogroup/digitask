@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-
+import axios from "axios";
 import useRefreshToken from "../../common/refreshToken";
+import { Select, Space } from 'antd';
 
-function UpdateInternetModal({ onClose, serviceId, serviceData, onServiceUpdate }) {
+function UpdateInternetModal({ onClose, serviceId, serviceData, onServiceUpdate, fetchTaskData }) {
   const [formData, setFormData] = useState(serviceData || {});
   const [preview, setPreview] = useState(serviceData?.photo_modem || "");
   const [error, setError] = useState("");
@@ -36,6 +37,25 @@ function UpdateInternetModal({ onClose, serviceId, serviceData, onServiceUpdate 
     }
   };
 
+  const [internetPackages, setInternetPackages] = useState([]);
+
+  useEffect(() => {
+    axios.get("http://37.61.77.5/services/services/internet_packs/")
+      .then(response => {
+        setInternetPackages(response.data);
+      })
+      .catch(error => {
+        console.error("Error fetching internet packages:", error);
+      });
+  }, []);
+
+  const handleSelectChange = (value) => {
+    setFormData(prevData => ({
+      ...prevData,
+      internet_packs: value
+    }));
+  };
+
   const handleSubmit = e => {
     e.preventDefault();
 
@@ -55,24 +75,41 @@ function UpdateInternetModal({ onClose, serviceId, serviceData, onServiceUpdate 
     })
       .then(response => {
         if (!response.ok) {
+
           return response.json().then(error => {
             setError(JSON.stringify(error));
             throw new Error(JSON.stringify(error));
           });
         }
+        fetchTaskData();
         return response.json();
       })
-      .then(data => {
-        onServiceUpdate("internet", data);
+      .then(updatedData => {
+        onServiceUpdate("internet", updatedData);
+        setFormData(prevData => ({
+          ...prevData,
+          ...updatedData
+        }));
         onClose();
       })
       .catch(async error => {
         if (error.status == 403) {
           await refreshAccessToken();
-          fetchWarehouseItems();
+          fetchTaskData();
+
+          handleSubmit();
         }
       });
   };
+
+  useEffect(() => {
+    if (serviceData?.internet_packs) {
+      setFormData(prevData => ({
+        ...prevData,
+        internet_packs: serviceData.internet_packs
+      }));
+    }
+  }, [serviceData]);
 
   return (
     <div className="taskType-modal">
@@ -115,12 +152,20 @@ function UpdateInternetModal({ onClose, serviceId, serviceData, onServiceUpdate 
                 </div>
                 <div className="form-group">
                   <label>İnternet tarifi:</label>
-                  <input
-                    type="text"
-                    name="internet_packs"
-                    value={formData.internet_packs || ""}
-                    onChange={handleInputChange}
-                  />
+                  <Space wrap>
+                    <Space wrap>
+                      <Select
+                        name="internet_packs"
+                        style={{ width: 120 }}
+                        onChange={handleSelectChange}
+                        value={formData.internet_packs || undefined}
+                        options={internetPackages.map(pack => ({
+                          value: pack.id,
+                          label: pack.name
+                        }))}
+                      />
+                    </Space>
+                  </Space>
                 </div>
               </div>
               <hr />

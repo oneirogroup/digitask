@@ -5,6 +5,7 @@ import useRefreshToken from "../../common/refreshToken";
 
 import upload from "../../assets/images/document-upload.svg";
 import "./addsurveymodal.css";
+import { Select, Space } from 'antd';
 
 const AddSurveyModal = ({ onClose, selectedServices, taskId, onSurveyAdded }) => {
   const [surveyData, setSurveyData] = useState({
@@ -28,6 +29,19 @@ const AddSurveyModal = ({ onClose, selectedServices, taskId, onSurveyAdded }) =>
       password: ""
     }
   });
+
+  const [internetPackages, setInternetPackages] = useState([]);
+
+  useEffect(() => {
+    axios.get("http://37.61.77.5/services/services/internet_packs/")
+      .then(response => {
+        setInternetPackages(response.data);
+      })
+      .catch(error => {
+        console.error("Error fetching internet packages:", error);
+      });
+  }, []);
+
 
   const [openServices, setOpenServices] = useState({});
 
@@ -92,6 +106,17 @@ const AddSurveyModal = ({ onClose, selectedServices, taskId, onSurveyAdded }) =>
       [type]: !prev[type]
     }));
   };
+
+  const handleSelectChange = (value) => {
+    setSurveyData(prevData => ({
+      ...prevData,
+      internet: {
+        ...prevData.internet,
+        internet_packs: value
+      }
+    }));
+  };
+
 
   const handleFormSubmit = async e => {
     e.preventDefault();
@@ -321,13 +346,18 @@ const AddSurveyModal = ({ onClose, selectedServices, taskId, onSurveyAdded }) =>
                                 <div>
                                   <div className="form-group">
                                     <label>İnternet tarifi:</label>
-                                    <input
-                                      type="text"
-                                      name="internet_packs"
-                                      value={surveyData.internet.internet_packs}
-                                      data-service="internet"
-                                      onChange={handleInputChange}
-                                    />
+                                    <Space wrap>
+                                      <Select
+                                        name="internet_packs"
+                                        style={{ width: 120 }}
+                                        onChange={handleSelectChange}
+                                        options={internetPackages.map(pack => ({
+                                          value: pack.id,
+                                          label: pack.name
+                                        }))}
+                                      />
+
+                                    </Space>
                                   </div>
                                   <hr />
                                 </div>
