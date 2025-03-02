@@ -94,6 +94,11 @@ export const api = {
           return authHttp.post<void>("/services/warehouse_changes/bulk_create/", data);
         }
       }
+    },
+    internetPacks: {
+      get $get() {
+        return authHttp.get<Backend.InternetPack[]>("/services/warehouse/internet_packs/");
+      }
     }
   }
 };

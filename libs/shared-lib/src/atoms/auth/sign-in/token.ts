@@ -11,7 +11,6 @@ export const tokenSelector = selector<Pick<Backend.AuthToken, "access_token" | "
     return data ? { access_token: data.access_token, refresh_token: data.refresh_token } : null;
   },
   set({ get, set }, tokens) {
-    console.log("tokens", tokens);
     if (tokens === null || tokens instanceof DefaultValue) {
       set(signInAtom, null);
       return;

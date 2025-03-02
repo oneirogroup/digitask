@@ -26,7 +26,6 @@ export const Warehouse: FC = () => {
       label="Anbarı seçin..."
       valueExtractor={warehouse => warehouse.id}
       onChange={warehouse => {
-        console.log("warehouse", warehouse);
         setWarehouseId(warehouse?.id || null);
       }}
     >

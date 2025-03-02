@@ -9,7 +9,7 @@ export default function UserProfileData() {
   if (!userProfile) {
     return (
       <View>
-        <Text>User not found</Text>
+        <Text>İstifadəçi tapılmadı</Text>
       </View>
     );
   }

@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { Text, View } from "react-native";
 
-import { Backend, DateService, TaskStatuses, api } from "@digitask/shared-lib";
+import { Backend, DateService, TaskStatuses, api, profileAtom } from "@digitask/shared-lib";
 import { Block, Button, Icon, Switch, When, cn } from "@mdreal/ui-kit";
 import { useMutation } from "@tanstack/react-query";
 
@@ -13,7 +13,7 @@ import type { TaskProps } from "./task.types";
 
 const taskActionStatuses = statuses.slice(1);
 
-const tagTranslations = { tv: "TV", internet: "İnternet", voice: "Səs" };
+const tagTranslations = { tv: "TV", internet: "İnternet", voice: "Səs" } as Record<string, string>;
 
 export const Task: FC<TaskProps> = ({ tags, task, updateTask }) => {
   const startDate = DateService.from(Date.parse(`${task.date} ${task.start_time}`));
@@ -36,7 +36,7 @@ export const Task: FC<TaskProps> = ({ tags, task, updateTask }) => {
       </Block>
       <Block className="flex flex-row gap-3">
         {tags.map(tag => (
-          <Tag key={tag.tag} tag={tagTranslations[tag.tag]} icon={tag.icon} />
+          <Tag key={tag.tag} tag={tagTranslations[tag.tag]!} icon={tag.icon} />
         ))}
       </Block>
       <Block className="flex flex-row gap-2">

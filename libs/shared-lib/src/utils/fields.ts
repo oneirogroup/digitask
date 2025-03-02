@@ -45,5 +45,6 @@ export const fields = eck("digitask.native", c => ({
   })),
   event: c`event`,
   location: c`location`,
-  notification: c`notification`
+  notification: c`notification`,
+  internetPacks: c`internetPacks`
 }));

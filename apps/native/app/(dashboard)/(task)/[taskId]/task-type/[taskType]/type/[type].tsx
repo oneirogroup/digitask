@@ -1,5 +1,5 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { useEffect, useState } from "react";
+import { type ReactElement, useEffect, useState } from "react";
 import { KeyboardAvoidingView, Platform, Text } from "react-native";
 import { useRecoilValue } from "recoil";
 
@@ -14,7 +14,8 @@ import {
   taskAddAttachmentSchema,
   tasksAtom
 } from "@digitask/shared-lib";
-import { AuthHttp, Block, Form, Input, When, logger } from "@mdreal/ui-kit";
+import { AuthHttp, Block, Form, Input, Select, When, logger } from "@mdreal/ui-kit";
+import type { OptionProps } from "@mdreal/ui-kit/src/components/select/components/option.types";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 import { FileUploader } from "../../../../../../../components/file-uploader";
@@ -66,6 +67,12 @@ export default function AddSpecificTaskAttachment() {
         task: number;
       }
     ) => api.services.tasks.$post(data)
+  });
+
+  const { data: internetPacks } = useQuery({
+    queryKey: [fields.internetPacks],
+    queryFn: () => api.services.internetPacks.$get,
+    enabled: attachmentType === "internet"
   });
 
   useEffect(() => {
@@ -124,11 +131,15 @@ export default function AddSpecificTaskAttachment() {
               className="bg-neutral-90 rounded-2xl border-transparent"
             />
 
-            <Input.Controlled
+            <Select.Controlled
               name="internet_packs"
-              label={<Text className="text-neutral-60">İnternet paketi</Text>}
+              label="Birini seç"
               className="bg-neutral-90 rounded-2xl border-transparent"
-            />
+            >
+              {Array.from(internetPacks || []).map(pack => (
+                <Select.Option key={pack.id} value={pack.id} label={`${pack.name} (${pack.speed})`} />
+              ))}
+            </Select.Controlled>
           </When>
 
           <When condition={attachmentType === "voice"}>

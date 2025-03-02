@@ -8,7 +8,8 @@ export const addResourceSchema = z.object({
   task: z.number(),
   count: z.string().regex(/^\d+$/, { message: "Sayı daxil edin..." }),
   item: z.custom<Backend.WarehouseItem>(value => !!value, { message: "Məhsulu seçin..." }).nullable(),
-  warehouse: z.custom<Backend.Warehouse>(value => !!value, { message: "Anbarı seçin..." }).nullable()
+  warehouse: z.custom<Backend.Warehouse>(value => !!value, { message: "Anbarı seçin..." }).nullable(),
+  internet_packs: z.number().nullable()
 });
 
 export type AddResourceSchema = z.infer<typeof addResourceSchema>;

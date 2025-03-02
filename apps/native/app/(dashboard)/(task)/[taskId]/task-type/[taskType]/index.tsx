@@ -1,6 +1,6 @@
 import { Image } from "expo-image";
 import { useFocusEffect, useLocalSearchParams, useRouter } from "expo-router";
-import { useRef } from "react";
+import { Fragment, useRef } from "react";
 import { Pressable, RefreshControl, Text, TouchableOpacity, View } from "react-native";
 import { useRecoilValue } from "recoil";
 
@@ -79,177 +79,189 @@ export default function SpecificTask() {
     await refetch();
   };
 
-  console.log(currentTask.task_items);
-
   return (
-    <Block.Scroll
-      contentClassName="flex gap-4 p-4"
-      refreshControl={<RefreshControl refreshing={isRefetching} onRefresh={onRefresh} />}
-    >
-      <BlockContainer className="flex gap-10">
-        <Block className="flex gap-6">
-          <When condition={isDev}>
-            <Text>Task id: {currentTask.id}</Text>
-          </When>
+    <Fragment>
+      <Block.Scroll
+        contentClassName="flex gap-4 p-4 pb-20"
+        refreshControl={<RefreshControl refreshing={isRefetching} onRefresh={onRefresh} />}
+      >
+        <BlockContainer className="flex gap-10">
+          <Block className="flex gap-6">
+            <When condition={isDev}>
+              <Field icon={<Fragment />} label="Task ID" value={currentTask.id.toString()} />
+            </When>
 
-          <Field
-            icon={<Icon name="user" state={false} variables={{ stroke: palette.primary["50"] }} />}
-            label="Ad və soyad"
-            value={currentTask.full_name}
-          />
-          <Field
-            icon={<Icon name="phone" variables={{ stroke: palette.primary["50"] }} />}
-            label="Qeydiyyat nömrəsi"
-            value={currentTask.phone}
-          />
-          <Field
-            icon={<Icon name="phone" state="call" variables={{ fill: palette.primary["50"] }} />}
-            label="Əlaqə nömrəsi"
-            value={currentTask.phone}
-          />
-          <Field
-            icon={<Icon name="location" state={false} variables={{ stroke: palette.primary["50"] }} />}
-            label="Ünvan"
-            value={currentTask.location}
-          />
-          <Field
-            icon={<Icon name="region" state={false} variables={{ stroke: palette.primary["50"] }} />}
-            label="Region"
-            value={currentTask.group[0]?.region || "Naməlum region"}
-          />
-        </Block>
+            <Field
+              icon={<Icon name="user" state={false} variables={{ stroke: palette.primary["50"] }} />}
+              label="Ad və soyad"
+              value={currentTask.full_name}
+            />
+            <Field
+              icon={<Icon name="phone" variables={{ stroke: palette.primary["50"] }} />}
+              label="Qeydiyyat nömrəsi"
+              value={currentTask.phone}
+            />
+            <Field
+              icon={<Icon name="phone" state="call" variables={{ fill: palette.primary["50"] }} />}
+              label="Əlaqə nömrəsi"
+              value={currentTask.phone}
+            />
+            <Field
+              icon={<Icon name="location" state={false} variables={{ stroke: palette.primary["50"] }} />}
+              label="Ünvan"
+              value={currentTask.location}
+            />
+            <Field
+              icon={<Icon name="region" state={false} variables={{ stroke: palette.primary["50"] }} />}
+              label="Region"
+              value={currentTask.group[0]?.region || "Naməlum region"}
+            />
+          </Block>
 
-        <Block className="flex gap-6">
-          <Field
-            icon={<Icon name="gear-wheel" state={false} variables={{ stroke: palette.primary["50"] }} />}
-            label="Xidmət"
-            value={
-              <View className="flex flex-row gap-2">
-                <When condition={currentTask.is_tv}>
-                  <Icon name="tv" variables={{ fill: palette.primary["50"] }} />
-                </When>
-                <When condition={currentTask.is_internet}>
-                  <Icon name="web" variables={{ fill: palette.primary["50"] }} />
-                </When>
-                <When condition={currentTask.is_voice}>
-                  <Icon name="voice" variables={{ fill: palette.primary["50"] }} />
-                </When>
+          <Block className="flex gap-6">
+            <Field
+              icon={<Icon name="gear-wheel" state={false} variables={{ stroke: palette.primary["50"] }} />}
+              label="Xidmət"
+              value={
+                <View className="flex flex-row gap-2">
+                  <When condition={currentTask.is_tv}>
+                    <Icon name="tv" variables={{ fill: palette.primary["50"] }} />
+                  </When>
+                  <When condition={currentTask.is_internet}>
+                    <Icon name="web" variables={{ fill: palette.primary["50"] }} />
+                  </When>
+                  <When condition={currentTask.is_voice}>
+                    <Icon name="voice" variables={{ fill: palette.primary["50"] }} />
+                  </When>
+                </View>
+              }
+            />
+            <Field
+              icon={<Icon name="clock" state={false} variables={{ fill: palette.primary["50"] }} />}
+              label="Tarix"
+              value={`${startDate.format("DD MMMM, HH:mm")}-${endDate.format("HH:mm")}`}
+            />
+            <Field
+              icon={<Icon name="chat" state="square" variables={{ stroke: palette.primary["50"] }} />}
+              label="Status"
+              value={statuses[currentTask.status]}
+            />
+            <Field
+              icon={<Icon name="user" state="technic" variables={{ stroke: palette.primary["50"] }} />}
+              label="Texniki qrup"
+              value={currentTask.group[0]?.group || "Naməlum qrup"}
+            />
+          </Block>
+
+          <Block>
+            <Text>Qeyd</Text>
+            <Text className="font-semibold">{currentTask.note}</Text>
+            <View className="border-b-primary mt-2 w-full border-b-[1px] bg-transparent" />
+          </Block>
+        </BlockContainer>
+
+        {services.map(service => {
+          console.log(service);
+
+          return (
+            <BlockContainer key={service.id} className="flex gap-6">
+              {/* @ts-ignore */}
+              <Text className="text-neutral-20 text-xl">{translation[service.type]} anketi</Text>
+
+              <When condition={!!service.modem_SN}>
+                <Field label="Modem S/N" value={service.modem_SN || "Qeyd yoxdur"} />
+              </When>
+
+              <When condition={"siqnal" in service}>
+                {/* @ts-ignore */}
+                <Field label="Siqnal" value={service.siqnal || "Qeyd yoxdur"} />
+              </When>
+
+              <When condition={"internet_packs" in service}>
+                <Field
+                  label="Internet paketi"
+                  value={
+                    // @ts-expect-error
+                    service.internet_packs
+                      ? // @ts-expect-error
+                        `${service.internet_packs.name} (${service.internet_packs.speed})`
+                      : "Qeyd yoxdur"
+                  }
+                />
+              </When>
+
+              <When condition={"home_number" in service}>
+                {/* @ts-ignore */}
+                <Field label="Ev nomresi" value={service.home_number || "Qeyd yoxdur"} />
+              </When>
+
+              <When condition={"password" in service}>
+                {/* @ts-ignore */}
+                <Field label="Parol" value={service.password || "Qeyd yoxdur"} />
+              </When>
+
+              <When condition={!!service.photo_modem}>
+                <View className="m-auto p-4">
+                  <Image source={service.photo_modem} style={{ width: 200, height: 200 }} />
+                </View>
+              </When>
+            </BlockContainer>
+          );
+        })}
+
+        <When condition={!!currentTask.task_items?.length}>
+          <BlockContainer className="flex gap-6">
+            <Text className="text-neutral-20 text-xl">Məhsullar</Text>
+
+            {currentTask.task_items?.map(item => (
+              <Field key={item.id} label={item.item.equipment_name.toString()} value={item.count.toString()} />
+            ))}
+          </BlockContainer>
+        </When>
+
+        <When
+          condition={
+            ((currentTask.is_tv && !currentTask.has_tv) ||
+              (currentTask.is_internet && !currentTask.has_internet) ||
+              (currentTask.is_voice && !currentTask.has_voice)) &&
+            currentUserProfile.id === currentTask.user
+          }
+        >
+          <BlockContainer>
+            <TouchableOpacity
+              activeOpacity={1}
+              onPress={() => typeModalRef.current?.open()}
+              className="flex flex-row items-center justify-between p-2"
+            >
+              <Text>Yeni Anket</Text>
+              <View>
+                <Icon name="plus" variables={{ stroke: palette.primary["50"] }} />
               </View>
-            }
-          />
-          <Field
-            icon={<Icon name="clock" state={false} variables={{ fill: palette.primary["50"] }} />}
-            label="Tarix"
-            value={`${startDate.format("DD MMMM, HH:mm")}-${endDate.format("HH:mm")}`}
-          />
-          <Field
-            icon={<Icon name="chat" state="square" variables={{ stroke: palette.primary["50"] }} />}
-            label="Status"
-            value={statuses[currentTask.status]}
-          />
-          <Field
-            icon={<Icon name="user" state="technic" variables={{ stroke: palette.primary["50"] }} />}
-            label="Texniki qrup"
-            value={currentTask.group[0]?.group || "Naməlum qrup"}
-          />
-        </Block>
+            </TouchableOpacity>
+          </BlockContainer>
+        </When>
 
-        <Block>
-          <Text>Qeyd</Text>
-          <Text className="font-semibold">{currentTask.note}</Text>
-          <View className="border-b-primary mt-2 w-full border-b-[1px] bg-transparent" />
-        </Block>
-      </BlockContainer>
-
-      {services.map(service => (
-        <BlockContainer key={service.id} className="flex gap-6">
-          {/* @ts-ignore */}
-          <Text className="text-neutral-20 text-xl">{translation[service.type]} anketi</Text>
-
-          <When condition={!!service.modem_SN}>
-            <Field label="Modem S/N" value={service.modem_SN || "Qeyd yoxdur"} />
-          </When>
-
-          <When condition={"siqnal" in service}>
-            {/* @ts-ignore */}
-            <Field label="Siqnal" value={service.siqnal || "Qeyd yoxdur"} />
-          </When>
-
-          <When condition={"internet_packs" in service}>
-            {/* @ts-ignore */}
-            <Field label="Internet paketi" value={service.internet_packs || "Qeyd yoxdur"} />
-          </When>
-
-          <When condition={"home_number" in service}>
-            {/* @ts-ignore */}
-            <Field label="Ev nomresi" value={service.home_number || "Qeyd yoxdur"} />
-          </When>
-
-          <When condition={"password" in service}>
-            {/* @ts-ignore */}
-            <Field label="Parol" value={service.password || "Qeyd yoxdur"} />
-          </When>
-
-          <When condition={!!service.photo_modem}>
-            <View className="m-auto p-4">
-              <Image source={service.photo_modem} style={{ width: 200, height: 200 }} />
-            </View>
-          </When>
-        </BlockContainer>
-      ))}
-
-      <When condition={!!currentTask.task_items?.length}>
-        <BlockContainer className="flex gap-6">
-          <Text className="text-neutral-20 text-xl">Məhsullar</Text>
-
-          {currentTask.task_items?.map(item => (
-            <Field key={item.id} label={item.item.equipment_name.toString()} value={item.count.toString()} />
-          ))}
-        </BlockContainer>
-      </When>
-
-      <When
-        condition={
-          ((currentTask.is_tv && !currentTask.has_tv) ||
-            (currentTask.is_internet && !currentTask.has_internet) ||
-            (currentTask.is_voice && !currentTask.has_voice)) &&
-          currentUserProfile.id === currentTask.user
-        }
-      >
-        <BlockContainer>
-          <TouchableOpacity
-            activeOpacity={1}
-            onPress={() => typeModalRef.current?.open()}
-            className="flex flex-row items-center justify-between p-2"
-          >
-            <Text>Yeni Anket</Text>
-            <View>
-              <Icon name="plus" variables={{ stroke: palette.primary["50"] }} />
-            </View>
-          </TouchableOpacity>
-        </BlockContainer>
-      </When>
-
-      <When
-        condition={
-          (currentTask.has_tv || currentTask.has_internet || currentTask.has_voice) &&
-          currentUserProfile.id === currentTask.user
-        }
-      >
-        <BlockContainer>
-          <Pressable
-            onPress={() =>
-              router.push({ pathname: "/[taskId]/task-type/[taskType]/products", params: { taskId, taskType } })
-            }
-            className="flex flex-row items-center justify-between p-2"
-          >
-            <Text>Məhsul əlavə et</Text>
-            <View>
-              <Icon name="plus" variables={{ stroke: palette.primary["50"] }} />
-            </View>
-          </Pressable>
-        </BlockContainer>
-      </When>
+        <When
+          condition={
+            (currentTask.is_tv || currentTask.is_internet || currentTask.is_voice) &&
+            currentUserProfile.id === currentTask.user
+          }
+        >
+          <BlockContainer>
+            <Pressable
+              onPress={() =>
+                router.push({ pathname: "/[taskId]/task-type/[taskType]/products", params: { taskId, taskType } })
+              }
+              className="flex flex-row items-center justify-between p-2"
+            >
+              <Text>Məhsul əlavə et</Text>
+              <View>
+                <Icon name="plus" variables={{ stroke: palette.primary["50"] }} />
+              </View>
+            </Pressable>
+          </BlockContainer>
+        </When>
+      </Block.Scroll>
 
       <Modal ref={typeModalRef} type="popup" className="p-4">
         <View className="flex gap-6">
@@ -279,6 +291,6 @@ export default function SpecificTask() {
           </View>
         </View>
       </Modal>
-    </Block.Scroll>
+    </Fragment>
   );
 }
