@@ -90,14 +90,18 @@ const Positions = () => {
     setIsEditModalOpen(true);
   };
 
+  const positionPermission = JSON.parse(localStorage.getItem("position"));
+
   return (
     <div>
-      <div className="position-add-button">
-        <button onClick={openAddPositionModal}>
-          <IoAdd />
-          Vəzifə əlavə et
-        </button>
-      </div>
+      {positionPermission && positionPermission.users_permission !== "read_only" &&
+        <div className="position-add-button">
+          <button onClick={openAddPositionModal}>
+            <IoAdd />
+            Vəzifə əlavə et
+          </button>
+        </div>
+      }
       <div className="position-table-container">
         <table>
           <thead>
@@ -107,7 +111,9 @@ const Positions = () => {
               <th>Anbar icazəsi</th>
               <th>İşçi icazəsi</th>
               <th>Tapşırıq icazəsi</th>
-              <th></th>
+              {positionPermission && positionPermission.users_permission !== "read_only" &&
+                <th></th>
+              }
             </tr>
           </thead>
           <tbody>
@@ -118,24 +124,26 @@ const Positions = () => {
                 <td>{getPermissionLabel(position.warehouse_permission)}</td>
                 <td>{getPermissionLabel(position.users_permission)}</td>
                 <td>{getPermissionLabel(position.tasks_permission)}</td>
-                <td>
-                  <button onClick={() => openSmallModal(position.id)}>
-                    <BsThreeDotsVertical />
-                  </button>
+                {positionPermission && positionPermission.users_permission !== "read_only" &&
+                  <td>
+                    <button onClick={() => openSmallModal(position.id)}>
+                      <BsThreeDotsVertical />
+                    </button>
 
-                  {positionModals[position.id] && (
-                    <div className="small-modal-position active" ref={modalRef}>
-                      <div className="small-modal-position-content">
-                        <button onClick={() => handleEditClick(position)}>
-                          <MdOutlineEdit />
-                        </button>
-                        <button onClick={() => deletePosition(position.id)}>
-                          <RiDeleteBin6Line />
-                        </button>
+                    {positionModals[position.id] && (
+                      <div className="small-modal-position active" ref={modalRef}>
+                        <div className="small-modal-position-content">
+                          <button onClick={() => handleEditClick(position)}>
+                            <MdOutlineEdit />
+                          </button>
+                          <button onClick={() => deletePosition(position.id)}>
+                            <RiDeleteBin6Line />
+                          </button>
+                        </div>
                       </div>
-                    </div>
-                  )}
-                </td>
+                    )}
+                  </td>
+                }
               </tr>
             ))}
           </tbody>
