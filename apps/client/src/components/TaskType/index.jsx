@@ -52,7 +52,8 @@ function MapClickHandler({ onClick }) {
   return null;
 }
 
-function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdated }) {
+function DetailsModal({ onClose, taskId, userType, onTaskUpdated }) {
+  const position = JSON.parse(localStorage.getItem('position'))
   const { isAdmin } = useUser();
   const [taskDetails, setTaskDetails] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
@@ -143,7 +144,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
     const fetchTaskData = async e => {
       if (taskId) {
         try {
-          const response = await fetch(`http://135.181.42.192/services/task/${taskId}/`);
+          const response = await fetch(`http://37.61.77.5/services/task/${taskId}/`);
           if (!response.ok) {
             if (response.status === 403) {
               await refreshAccessToken();
@@ -186,7 +187,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
 
     const fetchWarehouseItems = async () => {
       try {
-        const response = await fetch("http://135.181.42.192/warehouse/warehouse-items/");
+        const response = await fetch("http://37.61.77.5/warehouse/warehouse-items/");
         if (!response.ok) {
           if (response.status == 403) {
             await refreshAccessToken();
@@ -207,7 +208,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
 
     const fetchGroups = async () => {
       try {
-        const response = await fetch("http://135.181.42.192/services/groups/");
+        const response = await fetch("http://37.61.77.5/services/groups/");
         if (!response.ok) {
           if (response.status == 403) {
             await refreshAccessToken();
@@ -422,7 +423,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
       const imageFormData = new FormData();
       imageFormData.append("passport", imageFile);
 
-      fetch(`http://135.181.42.192/services/update_task_image/${taskId}/`, {
+      fetch(`http://37.61.77.5/services/update_task_image/${taskId}/`, {
         method: "PATCH",
         body: imageFormData
       })
@@ -449,7 +450,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
         });
     }
 
-    fetch(`http://135.181.42.192/services/update_task/${taskId}/`, {
+    fetch(`http://37.61.77.5/services/update_task/${taskId}/`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -628,7 +629,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
   };
 
   const deleteTaskItem = taskItemId => {
-    fetch(`http://135.181.42.192/services/warehouse/warehouse_change/${taskItemId}/`, {
+    fetch(`http://37.61.77.5/services/warehouse/warehouse_change/${taskItemId}/`, {
       method: "DELETE"
     })
       .then(response => {
@@ -666,9 +667,9 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
                   ? (taskDetails.task_type === "connection" ? "Qoşulma" : "Problem") + " məlumatları"
                   : ""}
               </h5>
-              {/* {userType !== 'Texnik' && ( */}
-              <RiEdit2Line onClick={handleEditClick} />
-              {/* )} */}
+              {position && position.tasks_permission == 'read_write' && (
+                <RiEdit2Line onClick={handleEditClick} />
+              )}
             </>
           )}
           <div>
@@ -798,13 +799,13 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
                       <div className="taskType-toggle details-toggle" onClick={toggleDropdownService}>
                         {formData.is_tv || formData.is_internet || formData.is_voice
                           ? SERVICE_OPTIONS.filter(
-                              option =>
-                                (option.value === "tv" && formData.is_tv) ||
-                                (option.value === "internet" && formData.is_internet) ||
-                                (option.value === "voice" && formData.is_voice)
-                            )
-                              .map(service => service.label)
-                              .join(", ")
+                            option =>
+                              (option.value === "tv" && formData.is_tv) ||
+                              (option.value === "internet" && formData.is_internet) ||
+                              (option.value === "voice" && formData.is_voice)
+                          )
+                            .map(service => service.label)
+                            .join(", ")
                           : "Xidmət seçin"}
                         <FaChevronDown />
                       </div>
@@ -941,17 +942,14 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
                     <GoClock /> Zaman
                   </label>
                   {taskDetails.date && (
-                    <span>{`${taskDetails.date.split("-")[2]} ${
-                      monthNames[parseInt(taskDetails.date.split("-")[1], 10) - 1]
-                    }${
-                      taskDetails.start_time && taskDetails.end_time
+                    <span>{`${taskDetails.date.split("-")[2]} ${monthNames[parseInt(taskDetails.date.split("-")[1], 10) - 1]
+                      }${taskDetails.start_time && taskDetails.end_time
                         ? `, ${formatTime(taskDetails.start_time)} - ${formatTime(taskDetails.end_time)}`
                         : !taskDetails.start_time && !taskDetails.end_time
                           ? ""
-                          : `${taskDetails.start_time ? formatTime(taskDetails.start_time) : "-"} - ${
-                              taskDetails.end_time ? formatTime(taskDetails.end_time) : "-"
-                            }`
-                    }`}</span>
+                          : `${taskDetails.start_time ? formatTime(taskDetails.start_time) : "-"} - ${taskDetails.end_time ? formatTime(taskDetails.end_time) : "-"
+                          }`
+                      }`}</span>
                   )}
                 </div>
                 <hr />
@@ -1032,7 +1030,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
                     <label htmlFor="location_link">Ünvan linki</label>
 
                     <span>
-                      Link:{" "}
+                      Link:
                       <a href={mapLink} target="_blank" rel="noopener noreferrer">
                         {mapLink}
                       </a>
@@ -1070,9 +1068,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
                   <h5>
                     Tv xidməti
                     <span>
-                      {/* {isAdmin && ( */}
                       <MdOutlineEdit onClick={() => setIsUpdateTVModalOpen(true)} />
-                      {/* )} */}
                     </span>
                   </h5>
                   <hr />
@@ -1228,7 +1224,7 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
                     </div>
                     <div>
                       <div className="detail-item">
-                        <label>Servis Türü:</label>
+                        <label>Servis Növü:</label>
                         <span>
                           {taskItem.is_tv ? "TV" : taskItem.is_voice ? "Səs" : taskItem.is_internet ? "İnternet" : "-"}
                         </span>
@@ -1240,17 +1236,18 @@ function DetailsModal({ onClose, taskId, userType, onAddSurveyClick, onTaskUpdat
               ))}
             </div>
 
-            {userType === "Texnik" && shouldShowAddSurveyButton && (
+            {shouldShowAddSurveyButton && (
               <button className="add-survey-button" onClick={openAddSurveyModal}>
                 <p>Anket əlavə et</p>
                 <MdAdd />
               </button>
             )}
-
-            <button className="add-survey-button" onClick={openAddItemModal}>
-              <p>Məhsul əlavə et</p>
-              <MdAdd />
-            </button>
+            {shouldShowAddSurveyButton && (
+              <button className="add-survey-button" onClick={openAddItemModal}>
+                <p>Məhsul əlavə et</p>
+                <MdAdd />
+              </button>
+            )}
           </div>
         )}
       </div>

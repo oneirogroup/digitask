@@ -321,7 +321,7 @@
 .status-modal {
   margin-top: 6px;
   overflow-y: auto;
-  height: 300px;
+  max-height: 300px;
   scrollbar-width: thin;
 }
 

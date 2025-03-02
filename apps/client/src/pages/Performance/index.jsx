@@ -33,14 +33,14 @@ function Index() {
   const fetchData = async () => {
     try {
       const token = localStorage.getItem("access_token");
-      const loggedInUserResponse = await axios.get("http://135.181.42.192/accounts/profile/", {
+      const loggedInUserResponse = await axios.get("http://37.61.77.5/accounts/profile/", {
         headers: {
           Authorization: `Bearer ${token}`
         }
       });
       setLoggedInUserId(loggedInUserResponse.data.id);
 
-      const url = new URL("http://135.181.42.192/services/performance/");
+      const url = new URL("http://37.61.77.5/services/performance/");
       if (start_date) {
         url.searchParams.append("start_date", start_date.toISOString().split("T")[0]); // Format date as YYYY-MM-DD
       }
@@ -166,7 +166,7 @@ function Index() {
                       {item.first_name && item.last_name ? `${item.first_name} ${item.last_name.charAt(0)}.` : "-"}
                     </td>
                     <td>{item.group.group ? item.group.group : "-"}</td>
-                    <td>{item.user_type}</td>
+                    <td>{item?.position_name?.name?item?.position_name?.name:'Vəzifə qeyd olunmayıb'}</td>
                     <td>{item.task_count.total !== undefined ? item.task_count.total : 0}</td>
                     <td>{item.task_count.connection !== undefined ? item.task_count.connection : 0}</td>
                     <td>{item.task_count.problem !== undefined ? item.task_count.problem : 0}</td>

@@ -2,7 +2,7 @@ import axios from "axios";
 
 import axiosInstance from "../actions/axiosInstance";
 
-const API_URL = "http://135.181.42.192/accounts/";
+const API_URL = "http://37.61.77.5/accounts/";
 
 // const register = (username, email, password) => {
 //   return axios.post(API_URL + "register", {
@@ -35,23 +35,37 @@ const scheduleTokenRefresh = refresh_token => {
   }, refreshTime);
 };
 
-const login = (email, password) => {
-  return axiosInstance
-    .post(API_URL + "login/", {
+const login = async (email, password) => {
+  try {
+    const response = await axiosInstance.post(API_URL + "login/", {
       email,
       password
-    })
-    .then(response => {
-      if (response.data.access_token && response.data.refresh_token) {
-        localStorage.setItem("access_token", response.data.access_token);
-        localStorage.setItem("refresh_token", response.data.refresh_token);
-
-        scheduleTokenRefresh(response.data.refresh_token);
-      }
-      return response.data;
     });
-};
 
+    if (response.data.access_token && response.data.refresh_token) {
+      localStorage.setItem("access_token", response.data.access_token);
+      localStorage.setItem("refresh_token", response.data.refresh_token);
+
+      scheduleTokenRefresh(response.data.refresh_token);
+    }
+
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.status === 403) {
+      try {
+        const newAccessToken = await refreshAccessToken();
+        localStorage.setItem("access_token", newAccessToken);
+
+        return await login(email, password);
+      } catch (refreshError) {
+        console.error("Token yenileme başarısız:", refreshError);
+        throw refreshError;
+      }
+    }
+
+    throw error;
+  }
+};
 const logout = () => {
   localStorage.removeItem("user");
 };

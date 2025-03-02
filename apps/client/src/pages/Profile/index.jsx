@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { AiFillMail } from "react-icons/ai";
 import { FaChevronDown, FaChevronRight, FaChevronUp, FaPhoneAlt, FaRegEdit, FaSave } from "react-icons/fa";
-
+import { EditFilled } from '@ant-design/icons';
 import useRefreshToken from "../../common/refreshToken";
 
 import "./profile.css";
@@ -17,24 +17,18 @@ const Profile = () => {
   const groupDropdownRef = useRef();
   const refreshAccessToken = useRefreshToken();
 
-  const [userTypeOptions] = useState([
-    { value: "Texnik", label: "Texnik" },
-    { value: "Plumber", label: "Plumber" },
-    { value: "Ofis menecer", label: "Ofis menecer" },
-    { value: "Texnik menecer", label: "Texnik menecer" }
-  ]);
+  const [userTypeOptions, setUserTypeOptions] = useState([]);
 
   const [groups, setGroups] = useState([]);
 
   const fetchProfileData = async () => {
     try {
-      const response = await axios.get("http://135.181.42.192/accounts/profile/");
+      const response = await axios.get("http://37.61.77.5/accounts/profile/");
       setProfileData({
         ...response.data,
         groupName: response.data.group?.group || "",
         region: response.data.group?.region || ""
       });
-      console.log(response.data);
     } catch (error) {
       if (error.status == 403) {
         refreshAccessToken();
@@ -46,14 +40,29 @@ const Profile = () => {
     }
   };
 
+  const fetchUserTypes = async () => {
+    try {
+      const response = await axios.get("http://37.61.77.5/accounts/positions/positions/");
+      setUserTypeOptions(response?.data?.map((item)=>({id:item?.id,name:item?.name})));
+    } catch (error) {
+      if (error.status == 403) {
+        refreshAccessToken();
+        fetchUserTypes();
+      }
+      console.error("Error fetching profile data", error);
+    } finally {
+    }
+  };
+
   useEffect(() => {
     fetchProfileData();
     fetchGroups();
+    fetchUserTypes()
   }, []);
 
   const fetchGroups = async () => {
     try {
-      const response = await axios.get("http://135.181.42.192/services/groups/");
+      const response = await axios.get("http://37.61.77.5/services/groups/");
       await refreshAccessToken();
       setGroups(response.data);
     } catch (error) {
@@ -85,13 +94,13 @@ const Profile = () => {
 
   const handleProfileUpdate = async () => {
     try {
-      console.log(profileData, "-");
       const { profil_picture, ...profileWithoutPhoto } = profileData;
-      await axios.put("http://135.181.42.192/accounts/profile_update/", {
+      await axios.put("http://37.61.77.5/accounts/profile_update/", {
         ...profileWithoutPhoto,
         group: profileData.group?.id,
         groupName: profileData.groupName,
-        groupData: profileData.groupData
+        groupData: profileData.groupData,
+        position: profileData?.position?.id
       });
       setEditMode(false);
       fetchProfileData();
@@ -110,14 +119,14 @@ const Profile = () => {
       const formData = new FormData();
       formData.append("profil_picture", file);
       try {
-        await axios.put("http://135.181.42.192/accounts/profile_image_update/", formData, {
+        await axios.put("http://37.61.77.5/accounts/profile_image_update/", formData, {
           headers: { "Content-Type": "multipart/form-data" }
         });
         fetchProfileData();
       } catch (error) {
         if (error.status == 403) {
           await refreshAccessToken();
-          await axios.put("http://135.181.42.192/accounts/profile_image_update/", formData, {
+          await axios.put("http://37.61.77.5/accounts/profile_image_update/", formData, {
             headers: { "Content-Type": "multipart/form-data" }
           });
           fetchProfileData();
@@ -133,9 +142,12 @@ const Profile = () => {
   };
 
   const handleSelectUserType = userType => {
-    setProfileData(prevData => ({ ...prevData, user_type: userType }));
+    const position = userTypeOptions?.find(item=>item?.id==userType)
+    setProfileData(prevData => ({ ...prevData, position: position}));
     setShowUserTypeDropdown(false);
   };
+
+
 
   useEffect(() => {
     const handleClickOutside = event => {
@@ -176,19 +188,23 @@ const Profile = () => {
             <div className="profile-table">
               <div className="profile-photo">
                 {profileData.profil_picture ? (
-                  <>
+                  <div className="pp-div">
                     <img
                       src={profileData.profil_picture}
                       alt="Profile"
-                      className="image-preview"
+                      className={`image-preview ${editMode && 'blurPic'}`}
                       onClick={() => handleImageClick(profileData.profil_picture)}
                     />
                     {editMode && (
-                      <label htmlFor="passport" className="upload-button upload-passport-button">
-                        Dəyişmək üçün klikləyin
+                      <label htmlFor="passport" className="upload-label-profile">
+                        <div className="labelDiv">
+                        <EditFilled style={{fontSize:'35px',color: '#247bd7'}} />
+                        <span>Rəsmi dəyiş</span>
+                        </div>
+           
                       </label>
                     )}
-                  </>
+                  </div>
                 ) : (
                   editMode && (
                     <label htmlFor="passport" className="upload-label">
@@ -270,7 +286,7 @@ const Profile = () => {
                 {editMode ? (
                   <>
                     <div id="profile-edit-userType" onClick={() => setShowUserTypeDropdown(!showUserTypeDropdown)}>
-                      {profileData.user_type || "Istifadəçi növü seçin"}
+                      {userTypeOptions?.find(item=>item?.id==profileData?.position?.id)?.name || "Istifadəçi növü seçin"}
                       {showUserTypeDropdown ? <FaChevronUp /> : <FaChevronDown />}
                     </div>
                     {showUserTypeDropdown && (
@@ -287,11 +303,11 @@ const Profile = () => {
                         </label>
                         {userTypeOptions.map(option => (
                           <div
-                            key={option.value}
-                            onClick={() => handleSelectUserType(option.value)}
-                            className={profileData.user_type === option.value ? "selected" : ""}
+                            key={option.id}
+                            onClick={() => handleSelectUserType(option.id)}
+                            className={profileData?.position === option.id ? "selected" : ""}
                           >
-                            {option.label}
+                            {option.name}
                           </div>
                         ))}
                       </div>
@@ -301,7 +317,7 @@ const Profile = () => {
                   <input
                     type="text"
                     id="user_type"
-                    value={profileData.user_type || "İstifadəçi növü daxil edilməyib"}
+                    value={userTypeOptions?.find(item=>item?.id==profileData?.position?.id)?.name || "İstifadəçi növü daxil edilməyib"}
                     disabled
                   />
                 )}
