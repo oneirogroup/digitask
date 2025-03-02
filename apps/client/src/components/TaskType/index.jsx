@@ -1141,7 +1141,7 @@ function DetailsModal({ onClose, taskId, userType, onTaskUpdated }) {
                     <div>
                       <div className="detail-item">
                         <label>İnternet tarifi:</label>
-                        <span>{taskDetails.internet.internet_packs || "-"}</span>
+                        <span>{taskDetails.internet?.internet_packs?.name || "-"}</span>
                       </div>
                       <hr />
                     </div>
