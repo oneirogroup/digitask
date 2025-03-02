@@ -123,8 +123,18 @@ function index({ onClose, status }) {
                       <b>{task.full_name}</b>
                       <br />
                       Məsafə (hava yolu ilə): {distance.toFixed(2)} km
+                      <br />
+                      <a
+                        href={`https://www.google.com/maps?q=${task.latitude},${task.longitude}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{ color: "blue", textDecoration: "underline" }}
+                      >
+                        Google Maps-də aç
+                      </a>
                     </Popup>
                   </Marker>
+
                 );
               })}
 
