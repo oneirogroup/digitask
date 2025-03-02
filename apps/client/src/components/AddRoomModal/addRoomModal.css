@@ -15,10 +15,8 @@
     padding: 20px;
     border-radius: 5px;
     width: 80%;
-    height: 65vh;
     max-width: 42%;
     max-height: 90vh;
-    overflow-y: auto;
     box-sizing: border-box;
   }
   
@@ -61,6 +59,9 @@
   }
 
   .add-room-modal-content .form-group label{
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
     padding-left: 0;
   }
 
@@ -100,6 +101,8 @@
   #closeMembersDropdown{
     cursor: pointer;
     font-size: 28px;
+    display: flex;
+    align-items: center;
   }
 
   

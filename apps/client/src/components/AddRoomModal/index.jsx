@@ -143,16 +143,7 @@ const AddRoomModal = ({ onClose }) => {
             </button>
             {showMembersDropdown && (
               <div className="add-room-multi-select-dropdown" ref={dropdownRef}>
-                <label htmlFor="closeMembersDropdown">
-                  Üzvlər
-                  <span
-                    className="close-dropdown"
-                    id="closeMembersDropdown"
-                    onClick={() => setShowMembersDropdown(false)}
-                  >
-                    &times;
-                  </span>
-                </label>
+           
                 {filteredMemberOptions.map(member => (
                   <div
                     key={member.id}
