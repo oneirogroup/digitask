@@ -202,9 +202,8 @@ const Home = () => {
                           ? `${formatTime(item.start_time)} - ${formatTime(item.end_time)}`
                           : !item.start_time && !item.end_time
                             ? "-"
-                            : `${item.start_time ? formatTime(item.start_time) : "-"} - ${
-                                item.end_time ? formatTime(item.end_time) : "-"
-                              }`}
+                            : `${item.start_time ? formatTime(item.start_time) : "-"} - ${item.end_time ? formatTime(item.end_time) : "-"
+                            }`}
                       </td>
                       <td>
                         <div>

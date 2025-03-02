@@ -51,7 +51,7 @@ const EmployeeList = () => {
   const connectWebSocket2 = () => {
     ws2 = new WebSocket(`ws://37.61.77.5/userlist/`);
 
-    ws2.onopen = () => {};
+    ws2.onopen = () => { };
 
     ws2.onmessage = event => {
       try {
@@ -77,7 +77,7 @@ const EmployeeList = () => {
     connectWebSocket2();
 
     // deleted interval
-    return () => {};
+    return () => { };
   }, [loggedInUserId]);
 
   const fetchEmployees = async () => {
@@ -550,6 +550,7 @@ const EmployeeList = () => {
           isOpen={isUpdateUserModal}
           onClose={handleUpdateUserModalClose}
           employee={selectedEmployee}
+          fetchEmployees={fetchEmployees}
           onUpdateUser={updatedEmployee => handleUpdateEmployee(updatedEmployee.id, updatedEmployee)}
         />
       )}

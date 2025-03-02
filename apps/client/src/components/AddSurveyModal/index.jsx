@@ -195,7 +195,7 @@ const AddSurveyModal = ({ onClose, selectedServices, taskId, onSurveyAdded }) =>
                                   <label>Modemin arxa şəkli:</label>
                                   <div className="upload-container">
                                     {!surveyData.tv.photo_modem_preview ? (
-                                      <label htmlFor="photo_modem_tv" className="upload-label">
+                                      <label htmlFor="photo_modem_tv" className="upload-label-service">
                                         <span>
                                           Yükləmək üçün klikləyin
                                           <span className="file-size">(Maksimum fayl ölçüsü: 25 MB)</span>

@@ -668,8 +668,8 @@ function DetailsModal({ onClose, taskId, userType, onTaskUpdated }) {
                   : ""}
               </h5>
               {position && position.tasks_permission == 'read_write' && (
-              <RiEdit2Line onClick={handleEditClick} />
-               )} 
+                <RiEdit2Line onClick={handleEditClick} />
+              )}
             </>
           )}
           <div>
@@ -799,13 +799,13 @@ function DetailsModal({ onClose, taskId, userType, onTaskUpdated }) {
                       <div className="taskType-toggle details-toggle" onClick={toggleDropdownService}>
                         {formData.is_tv || formData.is_internet || formData.is_voice
                           ? SERVICE_OPTIONS.filter(
-                              option =>
-                                (option.value === "tv" && formData.is_tv) ||
-                                (option.value === "internet" && formData.is_internet) ||
-                                (option.value === "voice" && formData.is_voice)
-                            )
-                              .map(service => service.label)
-                              .join(", ")
+                            option =>
+                              (option.value === "tv" && formData.is_tv) ||
+                              (option.value === "internet" && formData.is_internet) ||
+                              (option.value === "voice" && formData.is_voice)
+                          )
+                            .map(service => service.label)
+                            .join(", ")
                           : "Xidmət seçin"}
                         <FaChevronDown />
                       </div>
@@ -942,17 +942,14 @@ function DetailsModal({ onClose, taskId, userType, onTaskUpdated }) {
                     <GoClock /> Zaman
                   </label>
                   {taskDetails.date && (
-                    <span>{`${taskDetails.date.split("-")[2]} ${
-                      monthNames[parseInt(taskDetails.date.split("-")[1], 10) - 1]
-                    }${
-                      taskDetails.start_time && taskDetails.end_time
+                    <span>{`${taskDetails.date.split("-")[2]} ${monthNames[parseInt(taskDetails.date.split("-")[1], 10) - 1]
+                      }${taskDetails.start_time && taskDetails.end_time
                         ? `, ${formatTime(taskDetails.start_time)} - ${formatTime(taskDetails.end_time)}`
                         : !taskDetails.start_time && !taskDetails.end_time
                           ? ""
-                          : `${taskDetails.start_time ? formatTime(taskDetails.start_time) : "-"} - ${
-                              taskDetails.end_time ? formatTime(taskDetails.end_time) : "-"
-                            }`
-                    }`}</span>
+                          : `${taskDetails.start_time ? formatTime(taskDetails.start_time) : "-"} - ${taskDetails.end_time ? formatTime(taskDetails.end_time) : "-"
+                          }`
+                      }`}</span>
                   )}
                 </div>
                 <hr />
@@ -1033,7 +1030,7 @@ function DetailsModal({ onClose, taskId, userType, onTaskUpdated }) {
                     <label htmlFor="location_link">Ünvan linki</label>
 
                     <span>
-                      Link:{" "}
+                      Link:
                       <a href={mapLink} target="_blank" rel="noopener noreferrer">
                         {mapLink}
                       </a>
@@ -1071,9 +1068,7 @@ function DetailsModal({ onClose, taskId, userType, onTaskUpdated }) {
                   <h5>
                     Tv xidməti
                     <span>
-                      {/* {isAdmin && ( */}
                       <MdOutlineEdit onClick={() => setIsUpdateTVModalOpen(true)} />
-                      {/* )} */}
                     </span>
                   </h5>
                   <hr />
@@ -1229,7 +1224,7 @@ function DetailsModal({ onClose, taskId, userType, onTaskUpdated }) {
                     </div>
                     <div>
                       <div className="detail-item">
-                        <label>Servis Türü:</label>
+                        <label>Servis Növü:</label>
                         <span>
                           {taskItem.is_tv ? "TV" : taskItem.is_voice ? "Səs" : taskItem.is_internet ? "İnternet" : "-"}
                         </span>
@@ -1248,11 +1243,11 @@ function DetailsModal({ onClose, taskId, userType, onTaskUpdated }) {
               </button>
             )}
             {shouldShowAddSurveyButton && (
-            <button className="add-survey-button" onClick={openAddItemModal}>
-              <p>Məhsul əlavə et</p>
-              <MdAdd />
-            </button>
-              )}
+              <button className="add-survey-button" onClick={openAddItemModal}>
+                <p>Məhsul əlavə et</p>
+                <MdAdd />
+              </button>
+            )}
           </div>
         )}
       </div>
