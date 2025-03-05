@@ -1,7 +1,5 @@
 #!/bin/bash
 
-. ./scripts/env.sh
-
 mode=${1:-release}
 echo "Building iOS app in ${mode} mode"
 

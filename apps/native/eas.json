@@ -15,14 +15,14 @@
       },
       "env": {
         "NODE_ENV": "production",
-        "EXPO_PUBLIC_API_URL": "https://dev.oneiro.az"
+        "EXPO_PUBLIC_API_URL": "https://37.61.77.5"
       }
     },
     "production": {
       "autoIncrement": true,
       "env": {
         "NODE_ENV": "production",
-        "EXPO_PUBLIC_API_URL": "https://dev.oneiro.az"
+        "EXPO_PUBLIC_API_URL": "https://37.61.77.5"
       }
     }
   },

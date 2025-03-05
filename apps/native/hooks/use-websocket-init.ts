@@ -1,5 +1,6 @@
 import { getCurrentPositionAsync } from "expo-location";
 import { usePathname } from "expo-router";
+import { useMemo } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 
 import {
@@ -14,14 +15,8 @@ import {
 import { AuthHttp, logger } from "@mdreal/ui-kit";
 import { useWebsocket } from "@mdreal/ws-client";
 
-import { env } from "../env-schema";
 import { requestLocationPermission } from "../utils/request-location-permission";
 import { useShowMessageNotification } from "./use-show-message-notification";
-
-const wsUrl = new URL(env.EXPO_PUBLIC_API_URL);
-const protocol = wsUrl.protocol.startsWith("https") ? "wss" : "ws";
-wsUrl.protocol = protocol;
-const wsHostUrl = wsUrl.toString().slice(0, -1);
 
 export const useWebsocketInit = () => {
   const pathname = usePathname();
@@ -31,6 +26,12 @@ export const useWebsocketInit = () => {
   const [signInData, setSignInData] = useRecoilState(signInAtom);
 
   const showMessageNotification = useShowMessageNotification();
+
+  const wsHostUrl = useMemo(() => {
+    const wsUrl = new URL(AuthHttp.settings().baseUrl);
+    wsUrl.protocol = wsUrl.protocol.startsWith("https") ? "wss" : "ws";
+    return wsUrl.toString().slice(0, -1);
+  }, []);
 
   useWebsocket<Backend.Message>(
     fields.chat.toString(),

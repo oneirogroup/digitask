@@ -19,10 +19,10 @@ const translation = {
 };
 
 const statuses: Record<TaskStatuses, string> = {
-  [TaskStatuses.Completed]: "Bitmiş",
-  [TaskStatuses.InProgress]: "Davam edir",
   [TaskStatuses.Waiting]: "Gözləmədə",
-  [TaskStatuses.Started]: "Başlanmış",
+  [TaskStatuses.InProgress]: "Qəbul edilib",
+  [TaskStatuses.Started]: "İcradadır",
+  [TaskStatuses.Completed]: "Tamamlanıb",
   [TaskStatuses.All]: "Hamısı"
 };
 
@@ -160,54 +160,50 @@ export default function SpecificTask() {
           </Block>
         </BlockContainer>
 
-        {services.map(service => {
-          console.log(service);
+        {services.map(service => (
+          <BlockContainer key={service.id} className="flex gap-6">
+            {/* @ts-ignore */}
+            <Text className="text-neutral-20 text-xl">{translation[service.type]} anketi</Text>
 
-          return (
-            <BlockContainer key={service.id} className="flex gap-6">
+            <When condition={!!service.modem_SN}>
+              <Field label="Modem S/N" value={service.modem_SN || "Qeyd yoxdur"} />
+            </When>
+
+            <When condition={"siqnal" in service}>
               {/* @ts-ignore */}
-              <Text className="text-neutral-20 text-xl">{translation[service.type]} anketi</Text>
+              <Field label="Siqnal" value={service.siqnal || "Qeyd yoxdur"} />
+            </When>
 
-              <When condition={!!service.modem_SN}>
-                <Field label="Modem S/N" value={service.modem_SN || "Qeyd yoxdur"} />
-              </When>
+            <When condition={"internet_packs" in service}>
+              <Field
+                label="İnternet paketi"
+                value={
+                  // @ts-expect-error
+                  service.internet_packs
+                    ? // @ts-expect-error
+                      `${service.internet_packs.name} (${service.internet_packs.speed})`
+                    : "Qeyd yoxdur"
+                }
+              />
+            </When>
 
-              <When condition={"siqnal" in service}>
-                {/* @ts-ignore */}
-                <Field label="Siqnal" value={service.siqnal || "Qeyd yoxdur"} />
-              </When>
+            <When condition={"home_number" in service}>
+              {/* @ts-ignore */}
+              <Field label="Ev nömrəsi" value={service.home_number || "Qeyd yoxdur"} />
+            </When>
 
-              <When condition={"internet_packs" in service}>
-                <Field
-                  label="Internet paketi"
-                  value={
-                    // @ts-expect-error
-                    service.internet_packs
-                      ? // @ts-expect-error
-                        `${service.internet_packs.name} (${service.internet_packs.speed})`
-                      : "Qeyd yoxdur"
-                  }
-                />
-              </When>
+            <When condition={"password" in service}>
+              {/* @ts-ignore */}
+              <Field label="Parol" value={service.password || "Qeyd yoxdur"} />
+            </When>
 
-              <When condition={"home_number" in service}>
-                {/* @ts-ignore */}
-                <Field label="Ev nomresi" value={service.home_number || "Qeyd yoxdur"} />
-              </When>
-
-              <When condition={"password" in service}>
-                {/* @ts-ignore */}
-                <Field label="Parol" value={service.password || "Qeyd yoxdur"} />
-              </When>
-
-              <When condition={!!service.photo_modem}>
-                <View className="m-auto p-4">
-                  <Image source={service.photo_modem} style={{ width: 200, height: 200 }} />
-                </View>
-              </When>
-            </BlockContainer>
-          );
-        })}
+            <When condition={!!service.photo_modem}>
+              <View className="m-auto p-4">
+                <Image source={service.photo_modem} style={{ width: 200, height: 200 }} />
+              </View>
+            </When>
+          </BlockContainer>
+        ))}
 
         <When condition={!!currentTask.task_items?.length}>
           <BlockContainer className="flex gap-6">

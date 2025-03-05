@@ -31,7 +31,7 @@ export default function AddSpecificTaskProduct() {
     <KeyboardAvoidingView className="h-full">
       <Block.Scroll className="border-t-neutral-90 border-t-[1px] bg-white p-4" contentClassName="flex gap-4">
         <Form<AddResourceSchema>
-          schema={addResourceSchema}
+          schema={addResourceSchema.omit({ internet_packs: true })}
           defaultValues={{
             id: editId ? +editId : products.length,
             task: +taskId,

@@ -3,7 +3,7 @@ import { FC, useEffect } from "react";
 import { Alert, Pressable, View } from "react-native";
 
 import { api, productsAtom, useRecoilArray } from "@digitask/shared-lib";
-import { Icon, When } from "@mdreal/ui-kit";
+import { Button, Icon, When } from "@mdreal/ui-kit";
 import { useMutation } from "@tanstack/react-query";
 
 import { palette } from "../../../../../palette";
@@ -39,6 +39,8 @@ export const TaskAddAttachmentHeaderRight: FC = () => {
   });
 
   const newProduct = () => {
+    console.log("new product");
+
     router.push({
       pathname: `/(dashboard)/(task)/[taskId]/task-type/[taskType]/add-product`,
       params: { taskId, taskType }
@@ -66,12 +68,12 @@ export const TaskAddAttachmentHeaderRight: FC = () => {
 
   return (
     <View className="flex flex-row gap-2">
-      <Pressable onPress={newProduct}>
+      <Pressable onPressIn={newProduct}>
         <Icon name="plus" variables={{ stroke: palette.primary["50"] }} />
       </Pressable>
 
       <When condition={!!products.length}>
-        <Pressable onPress={handleUploadProducts}>
+        <Pressable className="z-10" onPressIn={handleUploadProducts}>
           <Icon name="save" variables={{ fill: palette.primary["50"] }} />
         </Pressable>
       </When>

@@ -54,8 +54,9 @@ export default function AddSpecificTaskAttachment() {
 
   const router = useRouter();
   const tasks = useRecoilValue(tasksAtom(taskType));
-  const { data: currentTask, refetch } = useQuery<Backend.Task>({
+  const { data: currentTask, refetch } = useQuery({
     queryKey: [fields.tasks.get, taskId],
+    queryFn: () => api.services.task.$get(+taskId),
     enabled: !!taskId
   });
 
@@ -68,7 +69,7 @@ export default function AddSpecificTaskAttachment() {
     ) => api.services.tasks.$post(data)
   });
 
-  const { data: internetPacks } = useQuery({
+  const { data: internetPacks = [] } = useQuery({
     queryKey: [fields.internetPacks],
     queryFn: () => api.services.internetPacks.$get,
     enabled: attachmentType === "internet"
@@ -84,7 +85,7 @@ export default function AddSpecificTaskAttachment() {
 
   return (
     <KeyboardAvoidingView behavior={Platform.select({ ios: "padding" })} className="h-full">
-      <Block.Scroll className="border-t-neutral-90 border-t-[1px] bg-white p-4" contentClassName="flex gap-4">
+      <Block.Scroll className="border-t-neutral-90 border-t-[1px] bg-white p-4" contentClassName="flex gap-4 pb-24">
         <Form<AddAdditionSchema>
           schema={taskAddAttachmentSchema}
           defaultValues={{ type: attachmentType, passport: currentTask?.passport }}
@@ -130,6 +131,7 @@ export default function AddSpecificTaskAttachment() {
               className="bg-neutral-90 rounded-2xl border-transparent"
             />
 
+            <Text className="text-neutral-60">İnternet paketləri</Text>
             <Select.Controlled
               name="internet_packs"
               label="Birini seç"

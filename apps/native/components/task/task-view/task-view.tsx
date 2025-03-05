@@ -1,17 +1,20 @@
 import { useRouter } from "expo-router";
 import { type FC, useRef } from "react";
-import { FlatList, Platform, Pressable, Text, View } from "react-native";
+import { FlatList, Platform, Pressable, RefreshControl, Text, View } from "react-native";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 
 import {
   Backend,
+  api,
+  fields,
   filteredTasksSelector,
   getTags,
   taskFiltersAtom,
   tasksAtom,
   tasksFilterSelector,
   uppercase,
-  useRecoilArrayControls
+  useRecoilArrayControls,
+  useRecoilQuery
 } from "@digitask/shared-lib";
 import { Block, Button, cn } from "@mdreal/ui-kit";
 
@@ -52,6 +55,11 @@ export const TaskView: FC<TasksViewProps> = ({ taskType, className }) => {
   const setFilter = useSetRecoilState(tasksFilterSelector(taskType));
   const filteredTasks = useRecoilValue(filteredTasksSelector(taskType));
 
+  const { isFetching, refetch } = useRecoilQuery(tasksAtom(taskType), {
+    queryKey: [fields.tasks, taskType],
+    queryFn: () => api.services.tasks.$get(taskType)
+  });
+
   const onStatusChange = (status: Backend.Task["status"]) => {
     setFilter({ status });
     if (filter.status !== status) {
@@ -85,6 +93,7 @@ export const TaskView: FC<TasksViewProps> = ({ taskType, className }) => {
       <Block className="p-4 pb-20">
         <FlatList
           ref={tasksContainerRef}
+          refreshControl={<RefreshControl refreshing={isFetching} onRefresh={refetch} />}
           data={filteredTasks}
           keyExtractor={task => task.id.toString()}
           renderItem={({ item: task }) => <TaskItem task={task} taskType={taskType} />}

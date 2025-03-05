@@ -58,7 +58,7 @@ export const api = {
       },
       attachments: {
         $patch(id: number, data: Partial<Backend.Task>) {
-          return authHttp.patch<Backend.Task>(`/services/update_task/${id}/`, data);
+          return authHttp.patch<Backend.Task>(`/services/task/${id}/update/`, data);
         }
       }
     },
@@ -97,7 +97,7 @@ export const api = {
     },
     internetPacks: {
       get $get() {
-        return authHttp.get<Backend.InternetPack[]>("/services/warehouse/internet_packs/");
+        return authHttp.get<Backend.InternetPack[]>("/services/services/internet_packs/");
       }
     }
   }
