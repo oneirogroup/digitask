@@ -218,3 +218,10 @@
     display: none;
   }
 }
+
+.digitask-logo{
+  cursor:pointer
+}
+.digitask-logo:hover{
+  scale:1.05
+}

@@ -104,6 +104,10 @@ const Sidebar = ({ children, isSidebarOpen, onClose, onToggleExpand }) => {
     onToggleExpand(!isExpanded);
   };
 
+  const returnHome = () => {
+    navigate('/')
+  }
+
   return (
     <>
       <div
@@ -119,6 +123,7 @@ const Sidebar = ({ children, isSidebarOpen, onClose, onToggleExpand }) => {
         <div className="top_section">
           <img
             src={logo}
+            onClick={()=>returnHome()}
             alt=""
             className="digitask-logo"
             style={{ width: isExpanded ? "10vh" : "5vh", transition: "height 0.3s ease" }}
