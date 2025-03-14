@@ -1,9 +1,0 @@
-<component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Native Development" type="CompoundRunConfigurationType">
-    <toRun name="native &gt; start --clear" type="js.build_tools.npm" />
-    <toRun name="shared-lib &gt; build --watch" type="js.build_tools.npm" />
-    <toRun name="ui-kit &gt; watch" type="js.build_tools.npm" />
-    <toRun name="ws-client &gt; watch" type="js.build_tools.npm" />
-    <method v="2" />
-  </configuration>
-</component>

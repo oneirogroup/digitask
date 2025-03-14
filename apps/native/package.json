@@ -4,16 +4,12 @@
   "private": true,
   "main": "main.js",
   "scripts": {
-    "android": "expo run:android",
     "build:android": "yarn build:eas --platform android",
     "build:android:local": "scripts/build-android.sh",
     "build:eas": "eas build --profile preview --non-interactive --clear-cache",
     "build:ios": "yarn build:eas --platform ios",
     "build:ios:local": "scripts/build-ios.sh",
-    "build:metro": "metro build $(node -e \"console.log(require.resolve('expo-router/entry'))\") --out ./metro-build --config ./metro.config.js",
-    "ios": "expo run:ios",
-    "lint": "expo lint",
-    "start": "expo start"
+    "build:metro": "metro build $(node -e \"console.log(require.resolve('expo-router/entry'))\") --out ./metro-build --config ./metro.config.js"
   },
   "jest": {
     "preset": "jest-expo"

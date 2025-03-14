@@ -39,8 +39,6 @@ export const TaskAddAttachmentHeaderRight: FC = () => {
   });
 
   const newProduct = () => {
-    console.log("new product");
-
     router.push({
       pathname: `/(dashboard)/(task)/[taskId]/task-type/[taskType]/add-product`,
       params: { taskId, taskType }
