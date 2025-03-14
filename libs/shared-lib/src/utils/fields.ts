@@ -15,6 +15,7 @@ export const fields = eck("digitask.native", c => ({
     rooms: c.e("rooms", c => ({
       active: c`active`
     })),
+    room: c`room`,
     messages: c.e("messages", c => ({
       all: c`all`,
       active: c`active`,

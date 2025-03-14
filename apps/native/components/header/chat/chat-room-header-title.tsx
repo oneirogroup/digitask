@@ -2,7 +2,7 @@ import { useGlobalSearchParams } from "expo-router";
 import { FC } from "react";
 import { Text, View } from "react-native";
 
-import { Backend, fields } from "@digitask/shared-lib";
+import { Backend, api, fields } from "@digitask/shared-lib";
 import { Block } from "@mdreal/ui-kit";
 import { useQuery } from "@tanstack/react-query";
 
@@ -11,7 +11,8 @@ export const ChatRoomHeaderTitle: FC = () => {
   if (!chatRoomId) return null;
 
   const { data: room } = useQuery({
-    queryKey: [fields.chat.rooms],
+    queryKey: [fields.chat.room],
+    queryFn: () => api.accounts.RoomsApiView.$get,
     select: (rooms: Backend.ChatRoom[]) => rooms.find(room => room.id === +chatRoomId)
   });
   if (!room) return null;

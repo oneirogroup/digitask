@@ -20,12 +20,18 @@ export default {
     backgroundColor: "#005ABF"
   },
   android: {
-    package: "com.oneirogroup.digitask"
+    package: "com.oneirogroup.digitask",
+    permissions: ["ACCESS_FINE_LOCATION", "ACCESS_COARSE_LOCATION", "ACCESS_BACKGROUND_LOCATION"]
   },
   ios: {
     bundleIdentifier: "com.oneirogroup.digitask",
     associatedDomains: ["applinks:digitask.com"],
-    supportsTablet: true
+    supportsTablet: true,
+    infoPlist: {
+      NSLocationWhenInUseUsageDescription: "This app uses your location to provide real-time updates.",
+      NSLocationAlwaysUsageDescription: "This app requires background location tracking.",
+      UIBackgroundModes: ["location"]
+    }
   },
   plugins: [
     "expo-router",
