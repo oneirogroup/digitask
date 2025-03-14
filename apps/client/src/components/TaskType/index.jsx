@@ -237,8 +237,8 @@ function DetailsModal({ onClose, taskId, userType, onTaskUpdated }) {
   };
 
   const getEquipmentDetails = taskItem => {
-    const equipment = warehouseItems.find(item => item.id === taskItem.item);
-    return equipment ? equipment.equipment_name : "Məlumat yoxdur";
+    const equipment = warehouseItems?.find(item => item.id === taskItem.item);
+    return equipment ? equipment?.equipment_name : taskItem?.item?.equipment_name ?? 'Məlumat yoxdur' ;
   };
 
   const handleInputChange = e => {
