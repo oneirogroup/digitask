@@ -2509,9 +2509,9 @@ __metadata:
     expo-image-picker: "npm:~16.0.6"
     expo-keep-awake: "npm:~14.0.3"
     expo-linking: "npm:~7.0.5"
-    expo-location: "npm:~18.0.7"
+    expo-location: "npm:~18.0.8"
     expo-notifications: "npm:~0.29.14"
-    expo-router: "npm:~4.0.18"
+    expo-router: "npm:~4.0.19"
     expo-splash-screen: "npm:~0.29.22"
     expo-status-bar: "npm:~2.0.1"
     expo-system-ui: "npm:~4.0.8"
@@ -4085,15 +4085,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@expo/server@npm:^0.5.2":
-  version: 0.5.2
-  resolution: "@expo/server@npm:0.5.2"
+"@expo/server@npm:^0.5.3":
+  version: 0.5.3
+  resolution: "@expo/server@npm:0.5.3"
   dependencies:
     abort-controller: "npm:^3.0.0"
     debug: "npm:^4.3.4"
     source-map-support: "npm:~0.5.21"
-    undici: "npm:^6.18.2 || ^7.0.0"
-  checksum: 10c0/395d94e392b2bf49ce90db9e0b36b9df9a10e53be79b85e8934c423d689bfdf4bd69c49651966dfdc2d2ea4e31ce5bcb8823ec2aee4fc78d1e342274b99c4d8c
+    undici: "npm:^6.18.2"
+  checksum: 10c0/e7353b655de777c9502a083cfbe96158f510feab71c1ce188aa46341305c633f5e81af368c7d1054288d4c140a82f117c0e7df400f4a1c9978fb0fe7d0c0442c
   languageName: node
   linkType: hard
 
@@ -13850,12 +13850,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"expo-location@npm:~18.0.7":
-  version: 18.0.7
-  resolution: "expo-location@npm:18.0.7"
+"expo-location@npm:~18.0.8":
+  version: 18.0.8
+  resolution: "expo-location@npm:18.0.8"
   peerDependencies:
     expo: "*"
-  checksum: 10c0/7c1bdb40542a0aab75320bc4af7b3520970bd1d5b991a4027fda70d9376a25c4ceb17d2b6c6350d6590844d0b5f793ba744d3d9121cee5b2a6089570446f98b5
+  checksum: 10c0/053e907ac5aea42565a38b8a118065907edb3c69f8bbb7a265d211718ad837f725f4487961a026b8ec16d536f14333a35a98d9c835f658c566ef3d455517cfe9
   languageName: node
   linkType: hard
 
@@ -13914,12 +13914,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"expo-router@npm:~4.0.18":
-  version: 4.0.18
-  resolution: "expo-router@npm:4.0.18"
+"expo-router@npm:~4.0.19":
+  version: 4.0.19
+  resolution: "expo-router@npm:4.0.19"
   dependencies:
     "@expo/metro-runtime": "npm:4.0.1"
-    "@expo/server": "npm:^0.5.2"
+    "@expo/server": "npm:^0.5.3"
     "@radix-ui/react-slot": "npm:1.0.1"
     "@react-navigation/bottom-tabs": "npm:^7.2.0"
     "@react-navigation/native": "npm:^7.0.14"
@@ -13946,7 +13946,7 @@ __metadata:
       optional: true
     react-native-reanimated:
       optional: true
-  checksum: 10c0/7c98f4c9461c72146f9d15988441f8a5741c26ab142106f93015252cfb5701eca60810988a20214d1a4774e42da24cbd261cd13d9f8ab0b41cefd9b798eef493
+  checksum: 10c0/34e4832ea725d3bd85ee046fed0fc44ea3328051ef337a7abc5189c783890058e5a96983e720a7036e5a9933385794d6c95848e7d9bd0dffe903214023e658bd
   languageName: node
   linkType: hard
 
@@ -26411,13 +26411,6 @@ __metadata:
   version: 6.21.1
   resolution: "undici@npm:6.21.1"
   checksum: 10c0/d604080e4f8db89b35a63b483b5f96a5f8b19ec9f716e934639345449405809d2997e1dd7212d67048f210e54534143384d712bd9075e4394f0788895ef9ca8e
-  languageName: node
-  linkType: hard
-
-"undici@npm:^6.18.2 || ^7.0.0":
-  version: 7.4.0
-  resolution: "undici@npm:7.4.0"
-  checksum: 10c0/0d8d8d627c87e72cf58148d257a79d019ce058b6761363ee5752103aa0ab57d132448fce4ef15171671ee138ef156a695ec1daeb72cd09ae408afa74dee070b5
   languageName: node
   linkType: hard
 
