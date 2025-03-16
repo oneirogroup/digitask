@@ -17,7 +17,7 @@ export default function SingleEvent() {
     queryFn: () => api.services.events.$get(+id)
   });
 
-  if (!id) {
+  if (!id || !event) {
     return (
       <View>
         <Text className="text-center text-lg">Tədbir tapılmadı</Text>
