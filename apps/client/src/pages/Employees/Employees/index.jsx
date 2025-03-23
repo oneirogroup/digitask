@@ -51,7 +51,7 @@ const EmployeeList = () => {
   const connectWebSocket2 = () => {
     ws2 = new WebSocket(`ws://37.61.77.5/userlist/`);
 
-    ws2.onopen = () => { };
+    ws2.onopen = () => {};
 
     ws2.onmessage = event => {
       try {
@@ -77,14 +77,14 @@ const EmployeeList = () => {
     connectWebSocket2();
 
     // deleted interval
-    return () => { };
+    return () => {};
   }, [loggedInUserId]);
 
   const fetchEmployees = async () => {
     try {
       const token = localStorage.getItem("access_token");
 
-      const response = await axios.get("http://37.61.77.5/accounts/users/", {
+      const response = await axios.get("https://app.desgah.az/accounts/users/", {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -101,7 +101,7 @@ const EmployeeList = () => {
 
       initializeEmployeeModals(employeesData);
 
-      const loggedInUserResponse = await axios.get("http://37.61.77.5/accounts/profile/", {
+      const loggedInUserResponse = await axios.get("https://app.desgah.az/accounts/profile/", {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -177,7 +177,7 @@ const EmployeeList = () => {
   const fetchData = async () => {
     try {
       const token = localStorage.getItem("access_token");
-      const groupsResponse = await axios.get("http://37.61.77.5/services/groups/", {
+      const groupsResponse = await axios.get("https://app.desgah.az/services/groups/", {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -351,7 +351,7 @@ const EmployeeList = () => {
     try {
       const token = localStorage.getItem("access_token");
 
-      const response = await axios.get(`http://37.61.77.5/accounts/update_user/${employeeId}/`, {
+      const response = await axios.get(`https://app.desgah.az/accounts/update_user/${employeeId}/`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -381,7 +381,7 @@ const EmployeeList = () => {
     try {
       const token = localStorage.getItem("access_token");
 
-      await axios.delete(`http://37.61.77.5/accounts/delete_user/${employeeId}/`, {
+      await axios.delete(`https://app.desgah.az/accounts/delete_user/${employeeId}/`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -402,7 +402,7 @@ const EmployeeList = () => {
     <div className="employee-page">
       <div className="employee-title">
         <h1></h1>
-        {position && position.users_permission !== "read_only" &&
+        {position && position.users_permission !== "read_only" && (
           <div className="employee-add-buttons">
             <button onClick={openFullMapModal}>Xəritə</button>
             <button onClick={openAddGroupModal}>Qrup əlavə et</button>
@@ -411,7 +411,7 @@ const EmployeeList = () => {
               Istifadəçi əlavə et
             </button>
           </div>
-        }
+        )}
       </div>
       <div className="employee-search-filter">
         <div>
@@ -474,7 +474,6 @@ const EmployeeList = () => {
                 <th></th>
               </>
               {/* )} */}
-
             </tr>
           </thead>
           <tbody>

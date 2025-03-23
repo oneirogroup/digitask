@@ -33,7 +33,7 @@ const SetNewPassword = () => {
     }
 
     try {
-      const response = await axios.post("http://37.61.77.5/accounts/set-new-password/", {
+      const response = await axios.post("https://app.desgah.az/accounts/set-new-password/", {
         password,
         confirm_password: repassword,
         token

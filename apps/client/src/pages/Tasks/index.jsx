@@ -47,7 +47,7 @@ function Index() {
   const [registrationNumberFilter, setRegistrationNumberFilter] = useState("");
   const regionRef = useRef(null);
   const modalRef = useRef(null);
-  const position = JSON.parse(localStorage.getItem('position'))
+  const position = JSON.parse(localStorage.getItem("position"));
 
   useEffect(() => {
     refreshAccessToken();
@@ -114,7 +114,7 @@ function Index() {
   useEffect(() => {
     const fetchRegions = async () => {
       try {
-        const response = await fetch("http://37.61.77.5/services/groups/");
+        const response = await fetch("https://app.desgah.az/services/groups/");
         const data = await response.json();
         setRegions(data.map(group => group.region));
       } catch (error) {
@@ -152,7 +152,7 @@ function Index() {
       const taskTypeParam = taskFilter !== "all" ? `&task_type=${taskFilter}` : "";
       const statusParam = statusFilter !== "Hamısı" ? `&status=${statusMap[statusFilter]}` : "";
 
-      const url = `http://37.61.77.5/services/status/?${taskTypeParam}${monthQueryParam}${statusParam}${regionParam}${registrationParam}`;
+      const url = `https://app.desgah.az/services/status/?${taskTypeParam}${monthQueryParam}${statusParam}${regionParam}${registrationParam}`;
       const response = await fetch(url, {
         method: "GET",
         headers: {
@@ -354,7 +354,7 @@ function Index() {
   const deleteTask = async taskId => {
     try {
       const token = localStorage.getItem("access_token");
-      await fetch(`http://37.61.77.5/services/task/${taskId}/delete/`, {
+      await fetch(`https://app.desgah.az/services/task/${taskId}/delete/`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`
@@ -381,7 +381,7 @@ function Index() {
   const handleStatusUpdate = async (taskId, newStatus) => {
     try {
       const token = localStorage.getItem("access_token");
-      const response = await fetch(`http://37.61.77.5/services/task/${taskId}/update/`, {
+      const response = await fetch(`https://app.desgah.az/services/task/${taskId}/update/`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -395,7 +395,7 @@ function Index() {
       }
       setFilteredData(prevData => prevData.map(task => (task.id === taskId ? { ...task, status: newStatus } : task)));
 
-      const updatedTaskResponse = await fetch(`http://37.61.77.5/services/task/${taskId}/`);
+      const updatedTaskResponse = await fetch(`https://app.desgah.az/services/task/${taskId}/`);
       const updatedTaskData = await updatedTaskResponse.json();
 
       setFilteredData(prevData =>
@@ -453,14 +453,15 @@ function Index() {
 
   return (
     <div className="task-page">
-        <InternetPacksModal internetPacksModalOpan={internetPacksModalOpan} closeInternetPacksModal={closeInternetPacksModal} />
+      <InternetPacksModal
+        internetPacksModalOpan={internetPacksModalOpan}
+        closeInternetPacksModal={closeInternetPacksModal}
+      />
       <div className="task-page-title">
         <p>Tapşırıqlar</p>
         <div>
           {position?.tasks_permission && position?.tasks_permission == "read_write" && (
-            <button onClick={openInternetPacksModal}>
-              İnternet paketləri
-            </button>
+            <button onClick={openInternetPacksModal}>İnternet paketləri</button>
           )}
 
           <button
@@ -634,7 +635,7 @@ function Index() {
                           </button>
                         )}
                       </>
-                    ) : position?.tasks_permission == 'read_write' ? (
+                    ) : position?.tasks_permission == "read_write" ? (
                       <button
                         onClick={() => openTaskDetailsModal(item.id)}
                         className={`status ${item.status.toLowerCase().replace(" ", "-")}`}
@@ -649,7 +650,9 @@ function Index() {
                                 ? "Tamamlanıb"
                                 : item.status}
                       </button>
-                    ) : '?'}
+                    ) : (
+                      "?"
+                    )}
                   </td>
                   <td className="fixed-right">
                     {position?.tasks_permission == "read_write" ? (

@@ -98,7 +98,7 @@ const DecrementItemForm = ({ onClose, itemId, productNumber, action, fetchData }
     console.log("Data being sent:", data); // Log data payload for debugging
 
     try {
-      const response = await axios.patch(`http://37.61.77.5/warehouse/warehouse-items/${itemId}/`, data, {
+      const response = await axios.patch(`https://app.desgah.az/warehouse/warehouse-items/${itemId}/`, data, {
         headers: {
           Authorization: `Bearer ${token}`
         }

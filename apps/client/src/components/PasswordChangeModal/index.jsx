@@ -27,7 +27,7 @@ const PasswordChangeModal = ({ isOpen, onClose, employee, onPasswordChange }) =>
       return;
     }
     try {
-      await axios.put(`http://37.61.77.5/accounts/update_user/${employee.id}/`, { password, password2 });
+      await axios.put(`https://app.desgah.az/accounts/update_user/${employee.id}/`, { password, password2 });
       onPasswordChange();
       onClose();
     } catch (error) {

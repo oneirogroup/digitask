@@ -1,7 +1,7 @@
+import axios from "axios";
 import L from "leaflet";
 import { useEffect, useState } from "react";
 import { MapContainer, Marker, Polyline, Popup, TileLayer } from "react-leaflet";
-import axios from "axios";
 
 import "./mapModal.css";
 import "leaflet/dist/leaflet.css";
@@ -15,8 +15,7 @@ const haversineDistance = (lat1, lon1, lat2, lon2) => {
   const dLon = toRad(lon2 - lon1);
   const a =
     Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
-    Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
 
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   return R * c;
@@ -54,7 +53,7 @@ function index({ onClose, status }) {
     const fetchTaskLocations = async () => {
       if (!status?.user?.email) return;
       try {
-        const response = await axios.get(`http://37.61.77.5/services/map-tasks/?email=${status.user.email}`);
+        const response = await axios.get(`https://app.desgah.az/services/map-tasks/?email=${status.user.email}`);
         console.log("Task locations response:", response.data);
         setTaskLocations(response.data);
       } catch (error) {
@@ -134,7 +133,6 @@ function index({ onClose, status }) {
                       </a>
                     </Popup>
                   </Marker>
-
                 );
               })}
 

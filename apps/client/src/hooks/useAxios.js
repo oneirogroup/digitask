@@ -8,7 +8,7 @@
 //     try {
 //       const refreshToken = localStorage.getItem("refresh_token");
 //       const response = await axios.post(
-//         "http://37.61.77.5/accounts/token/refresh/",
+//         "https://app.desgah.az/accounts/token/refresh/",
 //         {
 //           refresh: refreshToken,
 //         }
@@ -24,7 +24,7 @@
 //       await refreshAccessToken();
 //       const token = localStorage.getItem("access_token");
 //       const response = await axios.get(
-//         "http://37.61.77.5/accounts/users/",
+//         "https://app.desgah.az/accounts/users/",
 //         {
 //           headers: { Authorization: `Bearer ${token}` },
 //         }

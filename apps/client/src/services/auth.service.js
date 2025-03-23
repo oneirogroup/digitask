@@ -2,7 +2,7 @@ import axios from "axios";
 
 import axiosInstance from "../actions/axiosInstance";
 
-const API_URL = "http://37.61.77.5/accounts/";
+const API_URL = "https://app.desgah.az/accounts/";
 
 // const register = (username, email, password) => {
 //   return axios.post(API_URL + "register", {

@@ -26,9 +26,9 @@ const AddItemModal = ({ onClose, selectedServices, taskId, onItemsAdded }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const warehouseResponse = await axios.get("http://37.61.77.5/warehouse/warehouses/");
+        const warehouseResponse = await axios.get("https://app.desgah.az/warehouse/warehouses/");
         setWarehouses(warehouseResponse.data);
-        const itemResponse = await axios.get("http://37.61.77.5/warehouse/warehouse-items/");
+        const itemResponse = await axios.get("https://app.desgah.az/warehouse/warehouse-items/");
         setItems(itemResponse.data);
       } catch (error) {
         if (error.status == 403) {
@@ -128,7 +128,7 @@ const AddItemModal = ({ onClose, selectedServices, taskId, onItemsAdded }) => {
     console.log("Data to be sent:", itemsToAdd);
 
     try {
-      const response = await axios.post("http://37.61.77.5/services/warehouse_changes/bulk_create/", itemsToAdd, {
+      const response = await axios.post("https://app.desgah.az/services/warehouse_changes/bulk_create/", itemsToAdd, {
         headers: {
           "Content-Type": "application/json"
         }

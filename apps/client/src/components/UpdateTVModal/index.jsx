@@ -48,7 +48,7 @@ function UpdateTVModal({ onClose, serviceId, serviceData, onServiceUpdate }) {
       data.append("photo_modem", formData.photo_modem);
     }
 
-    fetch(`http://37.61.77.5/services/update_tv/${serviceId}/`, {
+    fetch(`https://app.desgah.az/services/update_tv/${serviceId}/`, {
       method: "PATCH",
       body: data
     })

@@ -19,7 +19,7 @@ const AddRoomModal = ({ onClose }) => {
   useEffect(() => {
     const fetchMembers = async (isRetry = false) => {
       try {
-        const response = await axios.get("http://37.61.77.5/accounts/users/");
+        const response = await axios.get("https://app.desgah.az/accounts/users/");
         setMemberOptions(response.data);
       } catch (error) {
         if (error.response && error.response.status === 403 && !isRetry) {
@@ -81,7 +81,7 @@ const AddRoomModal = ({ onClose }) => {
     try {
       const token = localStorage.getItem("access_token");
       const response = await axios.post(
-        "http://37.61.77.5/accounts/add_group/",
+        "https://app.desgah.az/accounts/add_group/",
         {
           name: name,
           members: members
@@ -143,7 +143,6 @@ const AddRoomModal = ({ onClose }) => {
             </button>
             {showMembersDropdown && (
               <div className="add-room-multi-select-dropdown" ref={dropdownRef}>
-           
                 {filteredMemberOptions.map(member => (
                   <div
                     key={member.id}

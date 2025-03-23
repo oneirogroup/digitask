@@ -68,7 +68,7 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
 
   const fetchGroups = async (isRetry = false) => {
     try {
-      const response = await axios.get("http://37.61.77.5/services/groups/");
+      const response = await axios.get("https://app.desgah.az/services/groups/");
       setGroups(response.data);
     } catch (error) {
       if (error.status === 403 && !isRetry) {
@@ -226,7 +226,7 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
         passport: imageFile ? imageFile : ""
       };
 
-      const response = await axios.post("http://37.61.77.5/services/create_task/", payload, {
+      const response = await axios.post("https://app.desgah.az/services/create_task/", payload, {
         headers: {
           "Authorization": `Bearer ${localStorage.getItem("access_token")}`,
           "Content-Type": "multipart/form-data"
@@ -486,9 +486,9 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
                 <div className="dropdown-task-toggle" onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
                   {formData.group.length > 0
                     ? ` ${groups
-                      .filter(group => formData.group.includes(group.id))
-                      .map(group => group.group)
-                      .join(",  ")}`
+                        .filter(group => formData.group.includes(group.id))
+                        .map(group => group.group)
+                        .join(",  ")}`
                     : "Qrup seçin"}
                   <FaChevronDown />
                 </div>

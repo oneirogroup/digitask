@@ -24,7 +24,7 @@ const AddGroupModal = ({ onClose, onGroupAdded }) => {
     }
 
     try {
-      const response = await axios.post("http://37.61.77.5/services/create_employee_group", { group, region });
+      const response = await axios.post("https://app.desgah.az/services/create_employee_group", { group, region });
 
       onGroupAdded(response.data);
       onClose();
