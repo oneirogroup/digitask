@@ -5,7 +5,7 @@ const useWebSocket = () => {
   const [status, setStatus] = useState({});
 
   useEffect(() => {
-    const socket = new WebSocket("ws://37.61.77.5/ws/");
+    const socket = new WebSocket("wss://app.desgah.az/ws/");
     setWs(socket);
 
     return () => {
