@@ -10,6 +10,7 @@ fi
 gradle_mode="$(tr '[:lower:]' '[:upper:]' <<< "${mode:0:1}")${mode:1}"
 
 pushd ./android || exit 1
+rm -rf app/build/generated/assets/createBundleReleaseJsAndAssets/index.android.bundle
 ./gradlew build "assemble${gradle_mode}" || exit 1
 popd || exit 1
 
