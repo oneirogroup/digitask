@@ -9,9 +9,6 @@ if [[ "$mode" != "debug" && "$mode" != "release" ]]; then
 fi
 gradle_mode="$(tr '[:lower:]' '[:upper:]' <<< "${mode:0:1}")${mode:1}"
 
-rm -rf android
-yarn expo prebuild -p android || (yarn && yarn expo prebuild -p android) || exit 1
-
 pushd ./android || exit 1
 ./gradlew build "assemble${gradle_mode}" || exit 1
 popd || exit 1

@@ -8,19 +8,12 @@ if [[ "$mode" != "debug" && "$mode" != "release" ]]; then
   exit 1
 fi
 
-# Remove old iOS build
-rm -rf ios
+if [ ! -d "android" ]; then
+  yarn expo prebuild -p ios || (yarn && yarn expo prebuild -p ios) || exit 1
+fi
 
-# Prebuild iOS project
-yarn expo prebuild -p ios || (yarn && yarn expo prebuild -p ios) || exit 1
-
-# Navigate to iOS directory
 pushd ./ios || exit 1
-
-# Install CocoaPods dependencies
 pod install || exit 1
-
-# Build the app
 xcodebuild -workspace DigiTask.xcworkspace \
   -scheme DigiTask \
   -configuration "$(tr '[:lower:]' '[:upper:]' <<< "${mode:0:1}")${mode:1}" \
@@ -29,11 +22,9 @@ xcodebuild -workspace DigiTask.xcworkspace \
 
 popd || exit 1
 
-# Create build directory
 mkdir -p build
 rm -rf build/ios.ipa
 
-# Export the built app
 APP_PATH=$(find ios/build/Build/Products -name '*.app' | head -n 1)
 
 if [[ -z "$APP_PATH" ]]; then
@@ -41,7 +32,6 @@ if [[ -z "$APP_PATH" ]]; then
   exit 1
 fi
 
-# Package the .app into an .ipa
 xcrun -sdk iphoneos PackageApplication -v "$APP_PATH" -o "$(pwd)/build/ios.ipa" || exit 1
 
 echo "iOS build completed: build/ios.ipa"
