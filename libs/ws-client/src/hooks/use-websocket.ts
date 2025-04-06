@@ -1,6 +1,6 @@
 import { type DependencyList, useEffect, useState } from "react";
 
-import { getOrCreateWSClient } from "../utils/get-or-create-ws-client";
+import { getOrCreateWsProvider } from "../utils/get-or-create-ws-provider";
 import { WebsocketClient } from "../utils/websocket-client";
 import { UseWebsocketProps } from "./use-websocket.types";
 
@@ -13,9 +13,13 @@ export const useWebsocket = <TData>(
   const [currentWsClient, setCurrentWsClient] = useState<WebsocketClient | undefined>(undefined);
 
   useEffect(() => {
-    const ws = getOrCreateWSClient(name, url, options);
+    const ws = getOrCreateWsProvider(name, url, options);
+    const unsubscribe = WebsocketClient.subscribe(name, setCurrentWsClient);
     setCurrentWsClient(ws?.client);
-    return ws?.unsubscribe;
+    return () => {
+      unsubscribe();
+      ws?.unsubscribe();
+    };
   }, deps);
 
   return currentWsClient;

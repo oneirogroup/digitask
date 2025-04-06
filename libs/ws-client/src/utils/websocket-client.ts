@@ -7,6 +7,20 @@ declare global {
 }
 
 export class WebsocketClient {
+  private static subscribers: Map<string, Set<(client: WebsocketClient) => void>> = new Map();
+
+  static subscribe(name: string, cb?: (client: WebsocketClient) => void) {
+    if (!this.subscribers.has(name)) {
+      this.subscribers.set(name, new Set());
+    }
+
+    cb && this.subscribers.get(name)?.add(cb);
+
+    return () => {
+      cb && this.subscribers.get(name)?.delete(cb);
+    };
+  }
+
   static has(name: string) {
     return globalThis.__WEBSOCKET_CLIENTS__?.has(name);
   }
@@ -26,7 +40,12 @@ export class WebsocketClient {
     }
 
     if (!clients.has(name)) {
-      clients.set(name, new WebsocketClient(url));
+      const client = new WebsocketClient(url);
+      clients.set(name, client);
+      const subscribers = this.subscribers.get(name);
+      if (subscribers) {
+        subscribers.forEach(subscriber => subscriber(client));
+      }
     }
 
     return clients.get(name)!;

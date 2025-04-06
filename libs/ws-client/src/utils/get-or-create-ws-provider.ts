@@ -1,11 +1,7 @@
 import { UseWebsocketProps } from "../hooks/use-websocket.types";
 import { WebsocketClient } from "./websocket-client";
 
-export const getOrCreateWSClient = (
-  name: string,
-  url?: string,
-  options?: UseWebsocketProps<any>
-): { client?: WebsocketClient; unsubscribe(): void } | undefined => {
+export const getOrCreateWsProvider = (name: string, url?: string, options?: UseWebsocketProps<any>) => {
   if (url && !WebsocketClient.has(name)) {
     const client = WebsocketClient.instance(name, url);
     if (!client) return;
@@ -17,7 +13,9 @@ export const getOrCreateWSClient = (
   }
 
   return {
-    client: WebsocketClient.get(name) as WebsocketClient | undefined,
+    get client(): WebsocketClient | undefined {
+      return WebsocketClient.get(name);
+    },
     unsubscribe() {
       if (WebsocketClient.has(name)) {
         WebsocketClient.get(name)?.close();

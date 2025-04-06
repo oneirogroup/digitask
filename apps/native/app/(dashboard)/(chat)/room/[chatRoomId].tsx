@@ -79,10 +79,14 @@ export default function Chat() {
     setIsMessagesLoading(false);
   };
 
-  const sendMessage = useSendMessage(message => {
-    if (!wsClient) return;
-    wsClient.send(message);
-  });
+  const sendMessage = useSendMessage(
+    message => {
+      if (!wsClient) return;
+      console.log("ws-client:sendMessage", message);
+      wsClient.send(message);
+    },
+    [+chatRoomId, wsClient]
+  );
 
   const handleSendMessage = () => {
     if (!writtenMessage) return;

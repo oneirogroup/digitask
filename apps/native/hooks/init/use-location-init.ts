@@ -5,7 +5,7 @@ import { useRecoilValue } from "recoil";
 
 import { fields, profileAtom, signInAtom } from "@digitask/shared-lib";
 import { logger } from "@mdreal/ui-kit";
-import { getOrCreateWSClient, useWebsocket } from "@mdreal/ws-client";
+import { getOrCreateWsProvider, useWebsocket } from "@mdreal/ws-client";
 
 import { useWsHostUrl } from "./use-ws-host-url";
 
@@ -14,7 +14,7 @@ export interface BackgroundLocationEvent {
 }
 
 const sendLocationToWebSocket = (latitude: number, longitude: number) => {
-  const { client: wsInstance } = getOrCreateWSClient(fields.location) || {};
+  const { client: wsInstance } = getOrCreateWsProvider(fields.location) || {};
   if (wsInstance) {
     wsInstance.send({ latitude, longitude });
   } else {
@@ -27,13 +27,13 @@ TaskManager.defineTask<BackgroundLocationEvent>(fields.location, async ({ data, 
     logger.error("Location tracking error:", error);
     return;
   }
+
   if (data) {
     const { locations } = data;
     if (locations.length > 0 && locations[0]) {
       const { latitude, longitude } = locations[0].coords;
       logger.debug("location:bacground:update:", { latitude, longitude });
 
-      // Send location to WebSocket
       sendLocationToWebSocket(latitude, longitude);
     }
   }
@@ -54,9 +54,13 @@ const startLocationTracking = async (): Promise<void> => {
 
   await Location.startLocationUpdatesAsync(fields.location, {
     accuracy: Location.Accuracy.High,
-    timeInterval: 5000,
-    distanceInterval: 10,
-    showsBackgroundLocationIndicator: true
+    timeInterval: 5e3,
+    distanceInterval: 0,
+    showsBackgroundLocationIndicator: true,
+    foregroundService: {
+      notificationTitle: "Digitask",
+      notificationBody: "Tracking your location in the background"
+    }
   });
 
   logger.debug("Background location tracking started");
@@ -83,12 +87,8 @@ export const useLocationInit = () => {
   }, [wsHostUrl, profileData, signInData]);
 
   useWebsocket(fields.location, wsUrl, {
-    async onConnect() {
-      await startLocationTracking();
-    },
-    async onDisconnect() {
-      await stopLocationTracking();
-    }
+    onConnect: startLocationTracking,
+    onDisconnect: stopLocationTracking
   });
 
   useEffect(() => {
