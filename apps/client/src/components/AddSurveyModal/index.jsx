@@ -1,3 +1,4 @@
+import { Select, Space } from "antd";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
@@ -5,7 +6,6 @@ import useRefreshToken from "../../common/refreshToken";
 
 import upload from "../../assets/images/document-upload.svg";
 import "./addsurveymodal.css";
-import { Select, Space } from 'antd';
 
 const AddSurveyModal = ({ onClose, selectedServices, taskId, onSurveyAdded }) => {
   const [surveyData, setSurveyData] = useState({
@@ -33,7 +33,8 @@ const AddSurveyModal = ({ onClose, selectedServices, taskId, onSurveyAdded }) =>
   const [internetPackages, setInternetPackages] = useState([]);
 
   useEffect(() => {
-    axios.get("http://37.61.77.5/services/services/internet_packs/")
+    axios
+      .get("https://app.desgah.az/services/services/internet_packs/")
       .then(response => {
         setInternetPackages(response.data);
       })
@@ -41,7 +42,6 @@ const AddSurveyModal = ({ onClose, selectedServices, taskId, onSurveyAdded }) =>
         console.error("Error fetching internet packages:", error);
       });
   }, []);
-
 
   const [openServices, setOpenServices] = useState({});
 
@@ -52,7 +52,7 @@ const AddSurveyModal = ({ onClose, selectedServices, taskId, onSurveyAdded }) =>
   useEffect(() => {
     const fetchExistingSurveys = async () => {
       try {
-        const response = await axios.get(`http://37.61.77.5/services/task/${taskId}/`);
+        const response = await axios.get(`https://app.desgah.az/services/task/${taskId}/`);
         const data = response.data;
         setExistingSurveys({
           tv: data.tv || false,
@@ -107,7 +107,7 @@ const AddSurveyModal = ({ onClose, selectedServices, taskId, onSurveyAdded }) =>
     }));
   };
 
-  const handleSelectChange = (value) => {
+  const handleSelectChange = value => {
     setSurveyData(prevData => ({
       ...prevData,
       internet: {
@@ -116,7 +116,6 @@ const AddSurveyModal = ({ onClose, selectedServices, taskId, onSurveyAdded }) =>
       }
     }));
   };
-
 
   const handleFormSubmit = async e => {
     e.preventDefault();
@@ -130,7 +129,7 @@ const AddSurveyModal = ({ onClose, selectedServices, taskId, onSurveyAdded }) =>
           return;
         }
 
-        const url = `http://37.61.77.5/services/create_${serviceType}/`;
+        const url = `https://app.desgah.az/services/create_${serviceType}/`;
 
         const formData = new FormData();
         formData.append("task", taskId);
@@ -356,7 +355,6 @@ const AddSurveyModal = ({ onClose, selectedServices, taskId, onSurveyAdded }) =>
                                           label: pack.name
                                         }))}
                                       />
-
                                     </Space>
                                   </div>
                                   <hr />

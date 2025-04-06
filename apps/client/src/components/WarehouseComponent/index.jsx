@@ -56,7 +56,7 @@ function Warehouse() {
 
   const fetchWarehouses = async (isRetry = false) => {
     try {
-      const response = await fetch("http://37.61.77.5/warehouse/warehouses/");
+      const response = await fetch("https://app.desgah.az/warehouse/warehouses/");
       if (!response.ok) {
         if (response.status === 403 && !isRetry) {
           await refreshAccessToken();
@@ -83,7 +83,7 @@ function Warehouse() {
   };
 
   const fetchData = () => {
-    let url = "http://37.61.77.5/warehouse/warehouse-items/";
+    let url = "https://app.desgah.az/warehouse/warehouse-items/";
     const params = [];
 
     if (searchTerm) {
@@ -186,7 +186,6 @@ function Warehouse() {
     fetchData();
   };
 
-
   const initializeWarehouseModals = warehousesData => {
     const initialModals = warehousesData.reduce((acc, warehouse) => {
       acc[warehouse.id] = false;
@@ -194,8 +193,6 @@ function Warehouse() {
     }, {});
     setWarehouses(initialModals);
   };
-
-
 
   const handleOpenNewItemModal = () => {
     setShowNewItemModal(true);
@@ -210,7 +207,7 @@ function Warehouse() {
       <section>
         <div className="warehouseTable-title">
           <p>Anbar</p>
-          { position && position.warehouse_permission == 'read_write' &&
+          {position && position.warehouse_permission == "read_write" && (
             <div>
               <button
                 className={`importButton ${importSelected ? "selectedButton" : ""}`}
@@ -218,9 +215,8 @@ function Warehouse() {
               >
                 <BiImport /> Yeni məhsul əlavə et
               </button>
-
             </div>
-          }
+          )}
         </div>
 
         <div className="warehouse-search-filter">
@@ -356,7 +352,6 @@ function Warehouse() {
         />
       )}
       {showNewItemModal && <Import onClose={handleCloseNewItemModal} fetchData={fetchData} warehouses={warehouses} />}
-
     </div>
   );
 }

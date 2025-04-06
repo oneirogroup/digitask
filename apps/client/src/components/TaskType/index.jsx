@@ -53,7 +53,7 @@ function MapClickHandler({ onClick }) {
 }
 
 function DetailsModal({ onClose, taskId, userType, onTaskUpdated }) {
-  const position = JSON.parse(localStorage.getItem('position'))
+  const position = JSON.parse(localStorage.getItem("position"));
   const { isAdmin } = useUser();
   const [taskDetails, setTaskDetails] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
@@ -143,7 +143,7 @@ function DetailsModal({ onClose, taskId, userType, onTaskUpdated }) {
   const fetchTaskData = async e => {
     if (taskId) {
       try {
-        const response = await fetch(`http://37.61.77.5/services/task/${taskId}/`);
+        const response = await fetch(`https://app.desgah.az/services/task/${taskId}/`);
         if (!response.ok) {
           if (response.status === 403) {
             await refreshAccessToken();
@@ -186,7 +186,7 @@ function DetailsModal({ onClose, taskId, userType, onTaskUpdated }) {
 
   const fetchWarehouseItems = async () => {
     try {
-      const response = await fetch("http://37.61.77.5/warehouse/warehouse-items/");
+      const response = await fetch("https://app.desgah.az/warehouse/warehouse-items/");
       if (!response.ok) {
         if (response.status == 403) {
           await refreshAccessToken();
@@ -207,7 +207,7 @@ function DetailsModal({ onClose, taskId, userType, onTaskUpdated }) {
 
   const fetchGroups = async () => {
     try {
-      const response = await fetch("http://37.61.77.5/services/groups/");
+      const response = await fetch("https://app.desgah.az/services/groups/");
       if (!response.ok) {
         if (response.status == 403) {
           await refreshAccessToken();
@@ -231,14 +231,13 @@ function DetailsModal({ onClose, taskId, userType, onTaskUpdated }) {
     fetchGroups();
   }, [taskId, isEditing]);
 
-
   const handleItemsAdded = addedItems => {
     setTaskItemDetails(prev => [...prev, ...addedItems]);
   };
 
   const getEquipmentDetails = taskItem => {
     const equipment = warehouseItems?.find(item => item.id === taskItem.item);
-    return equipment ? equipment?.equipment_name : taskItem?.item?.equipment_name ?? 'Məlumat yoxdur' ;
+    return equipment ? equipment?.equipment_name : (taskItem?.item?.equipment_name ?? "Məlumat yoxdur");
   };
 
   const handleInputChange = e => {
@@ -423,7 +422,7 @@ function DetailsModal({ onClose, taskId, userType, onTaskUpdated }) {
       const imageFormData = new FormData();
       imageFormData.append("passport", imageFile);
 
-      fetch(`http://37.61.77.5/services/update_task_image/${taskId}/`, {
+      fetch(`https://app.desgah.az/services/update_task_image/${taskId}/`, {
         method: "PATCH",
         body: imageFormData
       })
@@ -450,7 +449,7 @@ function DetailsModal({ onClose, taskId, userType, onTaskUpdated }) {
         });
     }
 
-    fetch(`http://37.61.77.5/services/update_task/${taskId}/`, {
+    fetch(`https://app.desgah.az/services/update_task/${taskId}/`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -642,7 +641,7 @@ function DetailsModal({ onClose, taskId, userType, onTaskUpdated }) {
   };
 
   const deleteTaskItem = taskItemId => {
-    fetch(`http://37.61.77.5/services/warehouse/warehouse_change/${taskItemId}/`, {
+    fetch(`https://app.desgah.az/services/warehouse/warehouse_change/${taskItemId}/`, {
       method: "DELETE"
     })
       .then(response => {
@@ -680,9 +679,7 @@ function DetailsModal({ onClose, taskId, userType, onTaskUpdated }) {
                   ? (taskDetails.task_type === "connection" ? "Qoşulma" : "Problem") + " məlumatları"
                   : ""}
               </h5>
-              {position && position.tasks_permission == 'read_write' && (
-                <RiEdit2Line onClick={handleEditClick} />
-              )}
+              {position && position.tasks_permission == "read_write" && <RiEdit2Line onClick={handleEditClick} />}
             </>
           )}
           <div>
@@ -812,13 +809,13 @@ function DetailsModal({ onClose, taskId, userType, onTaskUpdated }) {
                       <div className="taskType-toggle details-toggle" onClick={toggleDropdownService}>
                         {formData.is_tv || formData.is_internet || formData.is_voice
                           ? SERVICE_OPTIONS.filter(
-                            option =>
-                              (option.value === "tv" && formData.is_tv) ||
-                              (option.value === "internet" && formData.is_internet) ||
-                              (option.value === "voice" && formData.is_voice)
-                          )
-                            .map(service => service.label)
-                            .join(", ")
+                              option =>
+                                (option.value === "tv" && formData.is_tv) ||
+                                (option.value === "internet" && formData.is_internet) ||
+                                (option.value === "voice" && formData.is_voice)
+                            )
+                              .map(service => service.label)
+                              .join(", ")
                           : "Xidmət seçin"}
                         <FaChevronDown />
                       </div>
@@ -955,14 +952,17 @@ function DetailsModal({ onClose, taskId, userType, onTaskUpdated }) {
                     <GoClock /> Zaman
                   </label>
                   {taskDetails.date && (
-                    <span>{`${taskDetails.date.split("-")[2]} ${monthNames[parseInt(taskDetails.date.split("-")[1], 10) - 1]
-                      }${taskDetails.start_time && taskDetails.end_time
+                    <span>{`${taskDetails.date.split("-")[2]} ${
+                      monthNames[parseInt(taskDetails.date.split("-")[1], 10) - 1]
+                    }${
+                      taskDetails.start_time && taskDetails.end_time
                         ? `, ${formatTime(taskDetails.start_time)} - ${formatTime(taskDetails.end_time)}`
                         : !taskDetails.start_time && !taskDetails.end_time
                           ? ""
-                          : `${taskDetails.start_time ? formatTime(taskDetails.start_time) : "-"} - ${taskDetails.end_time ? formatTime(taskDetails.end_time) : "-"
-                          }`
-                      }`}</span>
+                          : `${taskDetails.start_time ? formatTime(taskDetails.start_time) : "-"} - ${
+                              taskDetails.end_time ? formatTime(taskDetails.end_time) : "-"
+                            }`
+                    }`}</span>
                   )}
                 </div>
                 <hr />

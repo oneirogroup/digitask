@@ -4,7 +4,7 @@ import { useEffect } from "react";
 
 import language from "../../../language.json";
 
-const API_URL = "http://37.61.77.5/accounts/positions/positions/";
+const API_URL = "https://app.desgah.az/accounts/positions/positions/";
 
 const EditPositionModal = ({ position, onClose, onPositionUpdated }) => {
   const [form] = Form.useForm();

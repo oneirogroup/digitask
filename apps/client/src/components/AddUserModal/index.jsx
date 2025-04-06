@@ -32,7 +32,7 @@ const AddUserModal = ({ onClose, onUserAdded }) => {
 
   const fetchPositions = async () => {
     try {
-      const response = await axios.get("http://37.61.77.5/accounts/positions/positions/");
+      const response = await axios.get("https://app.desgah.az/accounts/positions/positions/");
       setPositions(response.data);
       initializePositionModals(response.data);
       setLoading(false);
@@ -54,7 +54,7 @@ const AddUserModal = ({ onClose, onUserAdded }) => {
   useEffect(() => {
     const fetchGroups = async () => {
       try {
-        const response = await axios.get("http://37.61.77.5/services/groups/");
+        const response = await axios.get("https://app.desgah.az/services/groups/");
         setGroupOptions(response.data);
       } catch (error) {
         if (error.status == 403) {
@@ -154,7 +154,7 @@ const AddUserModal = ({ onClose, onUserAdded }) => {
     if (validateForm()) {
       setLoading(true);
       try {
-        const response = await axios.post("http://37.61.77.5/accounts/register/", formData);
+        const response = await axios.post("https://app.desgah.az/accounts/register/", formData);
         onUserAdded(response.data);
         onClose();
       } catch (error) {

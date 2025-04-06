@@ -1,3 +1,4 @@
+import { Popconfirm } from "antd";
 import { useEffect, useRef, useState } from "react";
 import { BsFillSendFill, BsThreeDotsVertical } from "react-icons/bs";
 import { FaCirclePlus } from "react-icons/fa6";
@@ -11,7 +12,6 @@ import AddRoomModal from "../../components/AddRoomModal";
 import ChatModal from "../../components/ChatModal";
 
 import "./chat.css";
-import { Popconfirm } from "antd";
 
 const Chat = () => {
   const [activeGroup, setActiveGroup] = useState(null);
@@ -116,20 +116,19 @@ const Chat = () => {
     }
   };
 
-  const handleDeleteGroup = (id) => {
-    if(!id)return;
-    fetch(`http://37.61.77.5/accounts/remove_group/${id}/`, {
+  const handleDeleteGroup = id => {
+    if (!id) return;
+    fetch(`https://app.desgah.az/accounts/remove_group/${id}/`, {
       method: "DELETE",
       headers: {
-        "Content-Type": "application/json",
-      },
-    })
-    .then((response) => {
-      if (response.ok) {
-        fetchData()
+        "Content-Type": "application/json"
       }
-    })
-  }
+    }).then(response => {
+      if (response.ok) {
+        fetchData();
+      }
+    });
+  };
 
   const handleSendMessage = () => {
     if (!inputValue.trim()) {
@@ -171,7 +170,7 @@ const Chat = () => {
         throw new Error("Access token is not available");
       }
 
-      const response = await fetch("http://37.61.77.5/accounts/RoomsApiView/", {
+      const response = await fetch("https://app.desgah.az/accounts/RoomsApiView/", {
         headers: {
           "Authorization": `Bearer ${accessToken}`,
           "Content-Type": "application/json"
@@ -234,7 +233,7 @@ const Chat = () => {
         params.append("page", page);
       }
 
-      const response = await fetch(`http://37.61.77.5/accounts/messages/?${params.toString()}`, {
+      const response = await fetch(`https://app.desgah.az/accounts/messages/?${params.toString()}`, {
         headers: {
           "Authorization": `Bearer ${accessToken}`,
           "Content-Type": "application/json"
@@ -553,13 +552,12 @@ const Chat = () => {
                 <Popconfirm
                   title="Qrupu silmək istədiyinizdən əminsiniz ?"
                   description="Qrupu sildikdən sonra məlumatları geri qaytarmaq mümkün olmayacaq"
-                  onConfirm={()=>handleDeleteGroup(groups.find(group => group.id === activeGroup)?.id)}
+                  onConfirm={() => handleDeleteGroup(groups.find(group => group.id === activeGroup)?.id)}
                   okText="Sil"
                   cancelText="Ləğv et"
                 >
-                      <DeleteOutlined className="deleteIconChat" />
+                  <DeleteOutlined className="deleteIconChat" />
                 </Popconfirm>
-         
               </div>
             </div>
             <div ref={divRef} className="chat-messages">

@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { Select, Space } from "antd";
 import axios from "axios";
+import { useEffect, useState } from "react";
+
 import useRefreshToken from "../../common/refreshToken";
-import { Select, Space } from 'antd';
 
 function UpdateInternetModal({ onClose, serviceId, serviceData, onServiceUpdate, fetchTaskData }) {
   const [formData, setFormData] = useState(serviceData || {});
@@ -40,7 +41,8 @@ function UpdateInternetModal({ onClose, serviceId, serviceData, onServiceUpdate,
   const [internetPackages, setInternetPackages] = useState([]);
 
   useEffect(() => {
-    axios.get("http://37.61.77.5/services/services/internet_packs/")
+    axios
+      .get("https://app.desgah.az/services/services/internet_packs/")
       .then(response => {
         setInternetPackages(response.data);
       })
@@ -49,7 +51,7 @@ function UpdateInternetModal({ onClose, serviceId, serviceData, onServiceUpdate,
       });
   }, []);
 
-  const handleSelectChange = (value) => {
+  const handleSelectChange = value => {
     setFormData(prevData => ({
       ...prevData,
       internet_packs: value
@@ -69,13 +71,12 @@ function UpdateInternetModal({ onClose, serviceId, serviceData, onServiceUpdate,
       data.append("photo_modem", formData.photo_modem);
     }
 
-    fetch(`http://37.61.77.5/services/update_internet/${serviceId}/`, {
+    fetch(`https://app.desgah.az/services/update_internet/${serviceId}/`, {
       method: "PATCH",
       body: data
     })
       .then(response => {
         if (!response.ok) {
-
           return response.json().then(error => {
             setError(JSON.stringify(error));
             throw new Error(JSON.stringify(error));

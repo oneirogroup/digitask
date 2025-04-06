@@ -73,7 +73,7 @@ const Warehouses = () => {
 
   const getListData = async () => {
     const token = localStorage.getItem("access_token");
-    await fetch("http://37.61.77.5/warehouse/warehouses/", {
+    await fetch("https://app.desgah.az/warehouse/warehouses/", {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`
@@ -87,7 +87,7 @@ const Warehouses = () => {
   };
 
   const removeWarehouse = async id => {
-    await fetch(`http://37.61.77.5/warehouse/warehouses/${id}/`, {
+    await fetch(`https://app.desgah.az/warehouse/warehouses/${id}/`, {
       method: "DELETE"
     }).then(res => {
       if (res?.status == 204) {
@@ -140,7 +140,7 @@ const Warehouses = () => {
       </div>
 
       <Table
-      cellFontSize='20'
+        cellFontSize="20"
         dataSource={data}
         columns={columns}
         pagination={false}

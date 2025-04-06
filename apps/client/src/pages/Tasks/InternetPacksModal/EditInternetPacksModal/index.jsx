@@ -9,7 +9,7 @@ function Index({ openModal, goCloseModal, editedPack, fetchInternetPacks }) {
 
   const fetchInternetPack = async () => {
     if (editedPack) {
-      const response = await fetch(`http://37.61.77.5/services/services/internet_packs/${editedPack}`);
+      const response = await fetch(`https://app.desgah.az/services/services/internet_packs/${editedPack}`);
       if (!response.ok) {
         throw new Error("Failed to fetch internet packs");
       }
@@ -26,9 +26,8 @@ function Index({ openModal, goCloseModal, editedPack, fetchInternetPacks }) {
     fetchInternetPack();
   }, [editedPack]);
 
-
   const updateInternetPack = async updatedData => {
-    const response = await fetch(`http://37.61.77.5/services/services/internet_packs/${editedPack}/`, {
+    const response = await fetch(`https://app.desgah.az/services/services/internet_packs/${editedPack}/`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json"
@@ -45,7 +44,7 @@ function Index({ openModal, goCloseModal, editedPack, fetchInternetPacks }) {
   };
 
   const createInternetPack = async updatedData => {
-    const response = await fetch(`http://37.61.77.5/services/services/internet_packs/`, {
+    const response = await fetch(`https://app.desgah.az/services/services/internet_packs/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -62,11 +61,11 @@ function Index({ openModal, goCloseModal, editedPack, fetchInternetPacks }) {
   };
 
   const onFinish = values => {
-    let response
-    if (editedPack){
-        response = updateInternetPack(values);
-    }else{
-        response = createInternetPack(values);
+    let response;
+    if (editedPack) {
+      response = updateInternetPack(values);
+    } else {
+      response = createInternetPack(values);
     }
     if (response) {
       form.setFieldsValue({ name: "", speed: "", price: "" });
@@ -89,30 +88,24 @@ function Index({ openModal, goCloseModal, editedPack, fetchInternetPacks }) {
         {" "}
         <Form initialValues={internetPack} onFinish={onFinish} form={form}>
           <Form.Item
-             rules={[
-                { required: true, message: "Bu sahə boş ola bilməz" },
-              ]}
-              validateTrigger="onSubmit"
+            rules={[{ required: true, message: "Bu sahə boş ola bilməz" }]}
+            validateTrigger="onSubmit"
             label="Internet paketi"
             name="name"
           >
             <Input />
           </Form.Item>
           <Form.Item
-            rules={[
-                { required: true, message: "Bu sahə boş ola bilməz" },
-              ]}
-              validateTrigger="onSubmit"
+            rules={[{ required: true, message: "Bu sahə boş ola bilməz" }]}
+            validateTrigger="onSubmit"
             label="Qiymət (azn)"
             name="price"
           >
             <Input />
           </Form.Item>
           <Form.Item
-             rules={[
-                { required: true, message: "Bu sahə boş ola bilməz" },
-              ]}
-              validateTrigger="onSubmit"
+            rules={[{ required: true, message: "Bu sahə boş ola bilməz" }]}
+            validateTrigger="onSubmit"
             label="Sürət (mb/s)"
             name="speed"
           >

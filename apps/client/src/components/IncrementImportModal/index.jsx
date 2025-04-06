@@ -48,7 +48,7 @@ const IncrementItemForm = ({ onClose, itemId }) => {
     };
 
     try {
-      const response = await axios.post("http://37.61.77.5/services/increment_import/", data, {
+      const response = await axios.post("https://app.desgah.az/services/increment_import/", data, {
         headers: {
           "Content-Type": "application/json",
           "Authorization": `Bearer ${token}`

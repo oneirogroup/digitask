@@ -20,7 +20,7 @@ export const UserProvider = ({ children }) => {
     const refreshAccessToken = async () => {
       if (storedRefreshToken) {
         try {
-          const response = await fetch("http://37.61.77.5/accounts/token/refresh/", {
+          const response = await fetch("https://app.desgah.az/accounts/token/refresh/", {
             method: "POST",
             headers: {
               "Content-Type": "application/json"
@@ -50,7 +50,6 @@ export const UserProvider = ({ children }) => {
 
     refreshAccessToken();
   }, []);
-
 
   if (loading) {
     return (

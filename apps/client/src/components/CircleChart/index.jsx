@@ -94,7 +94,7 @@ class CircleChart extends React.Component {
   fetchData = async (isRetry = false) => {
     try {
       const token = localStorage.getItem("access_token");
-      const response = await axios.get("http://37.61.77.5/services/mainpage/", {
+      const response = await axios.get("https://app.desgah.az/services/mainpage/", {
         headers: {
           Authorization: `Bearer ${token}`
         }

@@ -10,7 +10,7 @@ import language from "../../../language.json";
 import AddPositionModal from "./createModal.jsx";
 import EditPositionModal from "./editModal.jsx";
 
-const API_URL = "http://37.61.77.5/accounts/positions/positions/";
+const API_URL = "https://app.desgah.az/accounts/positions/positions/";
 
 const Positions = () => {
   const [positions, setPositions] = useState([]);
@@ -94,14 +94,14 @@ const Positions = () => {
 
   return (
     <div>
-      {positionPermission && positionPermission.users_permission !== "read_only" &&
+      {positionPermission && positionPermission.users_permission !== "read_only" && (
         <div className="position-add-button">
           <button onClick={openAddPositionModal}>
             <IoAdd />
             Vəzifə əlavə et
           </button>
         </div>
-      }
+      )}
       <div className="position-table-container">
         <table>
           <thead>
@@ -111,9 +111,7 @@ const Positions = () => {
               <th>Anbar icazəsi</th>
               <th>İşçi icazəsi</th>
               <th>Tapşırıq icazəsi</th>
-              {positionPermission && positionPermission.users_permission !== "read_only" &&
-                <th></th>
-              }
+              {positionPermission && positionPermission.users_permission !== "read_only" && <th></th>}
             </tr>
           </thead>
           <tbody>
@@ -124,7 +122,7 @@ const Positions = () => {
                 <td>{getPermissionLabel(position.warehouse_permission)}</td>
                 <td>{getPermissionLabel(position.users_permission)}</td>
                 <td>{getPermissionLabel(position.tasks_permission)}</td>
-                {positionPermission && positionPermission.users_permission !== "read_only" &&
+                {positionPermission && positionPermission.users_permission !== "read_only" && (
                   <td>
                     <button onClick={() => openSmallModal(position.id)}>
                       <BsThreeDotsVertical />
@@ -143,7 +141,7 @@ const Positions = () => {
                       </div>
                     )}
                   </td>
-                }
+                )}
               </tr>
             ))}
           </tbody>
