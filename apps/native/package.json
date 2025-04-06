@@ -5,13 +5,14 @@
   "main": "main.js",
   "scripts": {
     "android": "nx run-android",
-    "build:android": "yarn build:eas --platform android",
-    "build:android:local": "scripts/build-android.sh",
+    "android:build": "yarn build:eas --platform android",
+    "android:build:local": "scripts/build-android.sh",
+    "android:install": "adb install ./build/android.apk",
     "build:eas": "eas build --profile preview --non-interactive --clear-cache",
-    "build:ios": "yarn build:eas --platform ios",
-    "build:ios:local": "scripts/build-ios.sh",
     "build:metro": "metro build $(node -e \"console.log(require.resolve('expo-router/entry'))\") --out ./metro-build --config ./metro.config.js",
-    "ios": "nx run-ios"
+    "ios": "nx run-ios",
+    "ios:build": "yarn build:eas --platform ios",
+    "ios:build:local": "scripts/build-ios.sh"
   },
   "jest": {
     "preset": "jest-expo"

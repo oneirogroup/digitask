@@ -12,10 +12,13 @@
     "build:eas": {
       "dependsOn": ["^build", "^vite:build"]
     },
-    "build:android:local": {
+    "android:build:local": {
       "dependsOn": ["^build", "^vite:build"]
     },
-    "build:ios:local": {
+    "android:install": {
+      "dependsOn": ["android:build:local"]
+    },
+    "ios:build:local": {
       "dependsOn": ["^build", "^vite:build"]
     }
   },
