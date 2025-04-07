@@ -40,7 +40,7 @@ const Chat = () => {
 
       const email = localStorage.getItem("saved_email");
 
-      wsChat.current = new WebSocket(`ws://37.61.77.5/chat/?email=${email}&token=${token}`);
+      wsChat.current = new WebSocket(`wss://app.desgah.az/chat/?email=${email}&token=${token}`);
 
       wsChat.current.onopen = () => {
         console.log("WebSocketChat connection established.");

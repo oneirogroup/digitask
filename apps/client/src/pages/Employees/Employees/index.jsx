@@ -49,7 +49,7 @@ const EmployeeList = () => {
 
   let ws2;
   const connectWebSocket2 = () => {
-    ws2 = new WebSocket(`ws://37.61.77.5/userlist/`);
+    ws2 = new WebSocket(`wss://app.desgah.az/userlist/`);
 
     ws2.onopen = () => {};
 

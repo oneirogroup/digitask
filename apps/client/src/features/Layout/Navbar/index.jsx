@@ -30,7 +30,7 @@ const Navbar = ({ onToggleSidebar }) => {
       }
 
       const email = localStorage.getItem("saved_email");
-      ws3 = new WebSocket(`ws://37.61.77.5/notification/?email=${email}&token=${token}`);
+      ws3 = new WebSocket(`wss://app.desgah.az/notification/?email=${email}&token=${token}`);
 
       ws3.onopen = () => {
         console.log("WebSocket connection established.");
