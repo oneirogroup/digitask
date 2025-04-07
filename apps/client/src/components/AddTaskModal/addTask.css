@@ -318,7 +318,7 @@
 
 .error-message {
   background-color: #be3f3b;
-  width: max-content;
+  width: 100%;
   padding: 8px;
   font-size: 14px;
   font-weight: bold;

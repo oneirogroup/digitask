@@ -67,6 +67,12 @@
     margin-top: 25px;
 }
 
+.login-mail-password > div {
+    display: flex;
+    flex-direction: column !important;
+    align-items: start !important;
+}
+
 .login-mail-password label{
     display: flex;
     align-items: center;
