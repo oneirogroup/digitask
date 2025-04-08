@@ -18,29 +18,26 @@ const imagePickerSchema = z.object(
 );
 
 const baseAttachmentSchema = z.object({
+  id: z.number().optional(),
   modem_SN: z.string({ message: "Bu sahənin doldurulmasi məcburidir" }),
   passport: imagePickerSchema,
   photo_modem: imagePickerSchema,
   note: z.string().optional()
 });
 
-const tvAttachmentSchema = baseAttachmentSchema.extend({ type: z.literal("tv") }).strict();
+const tvAttachmentSchema = baseAttachmentSchema.extend({ type: z.literal("tv") });
 
-const internetAttachmentSchema = baseAttachmentSchema
-  .extend({
-    type: z.literal("internet"),
-    siqnal: z.string({ message: "Bu sahənin doldurulmasi məcburidir" }),
-    internet_packs: z.string({ message: "Bu sahənin doldurulmasi məcburidir" })
-  })
-  .strict();
+const internetAttachmentSchema = baseAttachmentSchema.extend({
+  type: z.literal("internet"),
+  siqnal: z.string({ message: "Bu sahənin doldurulmasi məcburidir" }),
+  internet_packs: z.string({ message: "Bu sahənin doldurulmasi məcburidir" })
+});
 
-const voiceAttachmentSchema = baseAttachmentSchema
-  .extend({
-    type: z.literal("voice"),
-    home_number: z.string({ message: "Bu sahənin doldurulmasi məcburidir" }),
-    password: z.string({ message: "Bu sahənin doldurulmasi məcburidir" })
-  })
-  .strict();
+const voiceAttachmentSchema = baseAttachmentSchema.extend({
+  type: z.literal("voice"),
+  home_number: z.string({ message: "Bu sahənin doldurulmasi məcburidir" }),
+  password: z.string({ message: "Bu sahənin doldurulmasi məcburidir" })
+});
 
 export const taskAddAttachmentSchema = z.discriminatedUnion("type", [
   tvAttachmentSchema,

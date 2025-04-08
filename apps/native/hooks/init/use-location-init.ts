@@ -14,9 +14,9 @@ export interface BackgroundLocationEvent {
 }
 
 const sendLocationToWebSocket = (latitude: number, longitude: number) => {
-  const { client: wsInstance } = getOrCreateWsProvider(fields.location) || {};
-  if (wsInstance) {
-    wsInstance.send({ latitude, longitude });
+  const ws = getOrCreateWsProvider(fields.location);
+  if (ws?.client) {
+    ws.client.send({ location: { latitude, longitude } });
   } else {
     logger.warn("WebSocket not initialized, cannot send location");
   }

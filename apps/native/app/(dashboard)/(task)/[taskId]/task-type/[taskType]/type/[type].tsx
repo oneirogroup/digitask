@@ -1,4 +1,5 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
+import { omit } from "lodash";
 import { useEffect, useState } from "react";
 import { KeyboardAvoidingView, Platform, Text } from "react-native";
 import { useRecoilValue } from "recoil";
@@ -44,13 +45,16 @@ export default function AddSpecificTaskAttachment() {
   const {
     taskId,
     taskType,
-    type: attachmentType
+    type: attachmentType,
+    edit
   } = useLocalSearchParams() as {
     taskId: string;
     taskType: "connection" | "problem";
     type: AttachmentType;
+    edit?: "true";
   };
   const [isLoading, setIsLoading] = useState(false);
+  const isEditMode = edit === "true";
 
   const router = useRouter();
   const tasks = useRecoilValue(tasksAtom(taskType));
@@ -60,13 +64,22 @@ export default function AddSpecificTaskAttachment() {
     enabled: !!taskId
   });
 
-  const taskAttachmentMutation = useMutation({
+  const taskAttachmentCreateMutation = useMutation({
     mutationKey: [fields.tasks.create],
     mutationFn: (
       data: Omit<TVAttachmentSchema | InternetAttachmentSchema | VoiceAttachmentSchema, "passport" | "photo_modem"> & {
         task: number;
       }
     ) => api.services.tasks.$post(data)
+  });
+
+  const taskAttachmentUpdateMutation = useMutation({
+    mutationKey: [fields.tasks.update],
+    mutationFn: (
+      data: Omit<TVAttachmentSchema | InternetAttachmentSchema | VoiceAttachmentSchema, "passport" | "photo_modem"> & {
+        task: number;
+      }
+    ) => api.services.tasks.$patch(data.id!, data)
   });
 
   const { data: internetPacks = [] } = useQuery({
@@ -77,7 +90,7 @@ export default function AddSpecificTaskAttachment() {
 
   useEffect(() => {
     if (!tasks.length) return;
-    if (!currentTask || currentTask[`has_${attachmentType}`]) {
+    if ((!currentTask || currentTask[`has_${attachmentType}`]) && !isEditMode) {
       if (router.canGoBack()) router.back();
       else router.replace({ pathname: "/[taskId]/task-type/[taskType]", params: { taskId, taskType } });
     }
@@ -88,7 +101,13 @@ export default function AddSpecificTaskAttachment() {
       <Block.Scroll className="border-t-neutral-90 border-t-[1px] bg-white p-4" contentClassName="flex gap-4 pb-24">
         <Form<AddAdditionSchema>
           schema={taskAddAttachmentSchema}
-          defaultValues={{ type: attachmentType, passport: currentTask?.passport }}
+          defaultValues={{
+            ...omit(currentTask?.[attachmentType] || {}, ["task", "splitter_port"]),
+            // @ts-expect-error
+            internet_packs: currentTask?.[attachmentType]?.internet_packs?.id?.toString(),
+            type: attachmentType,
+            passport: currentTask?.passport
+          }}
           onSubmit={async ({ passport, photo_modem, ...data }) => {
             await loading(setIsLoading, async () => {
               await uploadFile(
@@ -96,9 +115,12 @@ export default function AddSpecificTaskAttachment() {
                 passport,
                 "passport"
               );
-              const attachment = await taskAttachmentMutation.mutateAsync({ ...data, task: +taskId });
+              const attachment = await (
+                isEditMode ? taskAttachmentUpdateMutation : taskAttachmentCreateMutation
+              ).mutateAsync({ ...data, task: +taskId });
+              console.log(attachment);
               await uploadFile(
-                `${AuthHttp.settings().baseUrl}/services/update_tv_image/${attachment.id}/`,
+                `${AuthHttp.settings().baseUrl}/services/update_${attachmentType}_image/${attachment.id}/`,
                 photo_modem,
                 "photo_modem"
               );
@@ -132,13 +154,13 @@ export default function AddSpecificTaskAttachment() {
             />
 
             <Text className="text-neutral-60">İnternet paketləri</Text>
-            <Select.Controlled
+            <Select.Controlled<Backend.InternetPack, AddAdditionSchema>
               name="internet_packs"
               label="Birini seç"
               className="bg-neutral-90 rounded-2xl border-transparent"
             >
               {Array.from(internetPacks || []).map(pack => (
-                <Select.Option key={pack.id} value={pack.id} label={`${pack.name} (${pack.speed})`} />
+                <Select.Option key={pack.id} value={pack.id.toString()} label={`${pack.name} (${pack.speed})`} />
               ))}
             </Select.Controlled>
           </When>

@@ -41,7 +41,6 @@ export default function AddSpecificTaskProduct() {
             controls.add(product);
             router.back();
           }}
-          onFormError={console.log.bind(console, "error")}
         >
           <Warehouse />
           <WarehouseItem />

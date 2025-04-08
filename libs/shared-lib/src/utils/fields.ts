@@ -33,6 +33,7 @@ export const fields = eck("digitask.native", c => ({
     })),
     filtered: c`filtered`,
     create: c`create`,
+    update: c`update`,
     type: c`type`,
     products: c`products`
   })),

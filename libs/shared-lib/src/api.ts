@@ -56,6 +56,17 @@ export const api = {
       }) {
         return authHttp.post<{ id: number }>(`/services/create_${type}/`, data);
       },
+      $patch(
+        id: number,
+        {
+          type,
+          ...data
+        }: Omit<TVAttachmentSchema | InternetAttachmentSchema | VoiceAttachmentSchema, "passport" | "photo_modem"> & {
+          task: number;
+        }
+      ) {
+        return authHttp.patch<Backend.Task>(`/services/update_${type}/${id}/`, data);
+      },
       attachments: {
         $patch(id: number, data: Partial<Backend.Task>) {
           return authHttp.patch<Backend.Task>(`/services/task/${id}/update/`, data);

@@ -69,9 +69,15 @@ export default function SpecificTask() {
     currentTask.internet ? { ...currentTask.internet, type: "internet" } : null
   ].filter(Boolean) as (Backend.Tv | Backend.Internet | Backend.Voice)[];
 
-  const redirectTo = (type: "tv" | "voice" | "internet") => {
+  const redirectTo = (type: "tv" | "voice" | "internet", edit = false) => {
     return () => {
-      router.push({ pathname: "/[taskId]/task-type/[taskType]/type/[type]", params: { taskId, taskType, type } });
+      router.push({ pathname: "/[taskId]/task-type/[taskType]/type/[type]", params: { taskId, taskType, type, edit } });
+    };
+  };
+
+  const edit = (type: "tv" | "voice" | "internet") => {
+    return () => {
+      redirectTo(type, true)();
     };
   };
 
@@ -162,8 +168,15 @@ export default function SpecificTask() {
 
         {services.map(service => (
           <BlockContainer key={service.id} className="flex gap-6">
-            {/* @ts-ignore */}
-            <Text className="text-neutral-20 text-xl">{translation[service.type]} anketi</Text>
+            <View className="flex flex-row items-center justify-between">
+              {/* @ts-ignore */}
+              <Text className="text-neutral-20 text-xl">{translation[service.type]} anketi</Text>
+
+              {/* @ts-ignore */}
+              <Pressable onPress={edit(service.type)}>
+                <Icon name="edit-write-alt" variables={{ stroke: palette.primary["50"] }} />
+              </Pressable>
+            </View>
 
             <When condition={!!service.modem_SN}>
               <Field label="Modem S/N" value={service.modem_SN || "Qeyd yoxdur"} />

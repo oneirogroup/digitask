@@ -58,6 +58,7 @@ export const InputBase: FC<InputProps> = ({
         aria-labelledby={props.name}
         keyboardType={props.type ? keyboardTypes[props.type] : "default"}
         autoCapitalize="none"
+        value={value?.toString()}
       />
 
       <ErrorMessageViewer error={error} />

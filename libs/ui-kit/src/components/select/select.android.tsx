@@ -42,7 +42,7 @@ export const SelectAndroid: Omit<SelectComponent, keyof SelectComponent> = <TVal
             ...option,
             props: {
               ...option.props,
-              value: valueExtractor ? valueExtractor(option.props.value) : option.props.value?.toString()
+              value: (valueExtractor?.(option.props.value) || option.props.value) as any
             }
           })
         )}
