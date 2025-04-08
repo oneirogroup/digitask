@@ -49,13 +49,14 @@ const EmployeeList = () => {
 
   let ws2;
   const connectWebSocket2 = () => {
-    ws2 = new WebSocket(`ws://37.61.77.5/userlist/`);
+    ws2 = new WebSocket(`wss://app.desgah.az/userlist/`);
 
-    ws2.onopen = () => {};
+    ws2.onopen = () => { };
 
     ws2.onmessage = event => {
       try {
         const data = JSON.parse(event.data);
+        console.log("vvvvvvvvvvvvvvvvvvvv2:", data);
         if (data.message) {
           setStatus(data.message);
         }
@@ -77,7 +78,7 @@ const EmployeeList = () => {
     connectWebSocket2();
 
     // deleted interval
-    return () => {};
+    return () => { };
   }, [loggedInUserId]);
 
   const fetchEmployees = async () => {
@@ -498,7 +499,7 @@ const EmployeeList = () => {
                   <td>
                     <a
                       className={`mapIcon ${status[employee.id]?.status !== "online" ? "deactive" : ""}`}
-                      onClick={status[employee.id]?.status === "online" ? () => openMapModal(employee.id) : null}
+                      onClick={employee.id ? () => openMapModal(employee.id) : null}
                     >
                       <PiMapPinAreaFill />
                     </a>

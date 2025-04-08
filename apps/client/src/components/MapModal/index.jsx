@@ -5,6 +5,7 @@ import { MapContainer, Marker, Polyline, Popup, TileLayer } from "react-leaflet"
 
 import "./mapModal.css";
 import "leaflet/dist/leaflet.css";
+import dayjs from "dayjs";
 
 // İki koordinat arasındaki mesafeyi (km cinsinden) hesaplayan fonksiyon
 const haversineDistance = (lat1, lon1, lat2, lon2) => {
@@ -86,7 +87,7 @@ function index({ onClose, status }) {
         <hr />
         <div id="myroot" className="map-modal-modal-body">
           <MapContainer
-            center={[status.location.latitude, status.location.longitude]}
+            center={[status.location.latitude ?? 40.4093, status.location.longitude ?? 49.8671]}
             zoom={zoomLevel}
             scrollWheelZoom={true}
           >
@@ -95,13 +96,15 @@ function index({ onClose, status }) {
               url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
 
-            {status.location && status?.location?.latitude && status?.location?.longitude && (
+            {status?.location && status?.location?.latitude && status?.location?.longitude && (
               <Marker
                 key={status.user.email}
                 icon={customIcon(status.user.email)}
-                position={[status.location.latitude, status.location.longitude]}
+                position={[status?.location?.latitude, status?.location?.longitude]}
               >
-                <Popup>{status.user.email}</Popup>
+                <Popup>
+                  {status.user.email} <br /> {status.status === 'offline' ? `Son görülmə ${dayjs(status.user.date).format("HH:mm DD.MM.YYYY")}` : ""}
+                </Popup>
               </Marker>
             )}
 
@@ -135,8 +138,7 @@ function index({ onClose, status }) {
                   </Marker>
                 );
               })}
-
-            {positions && <Polyline positions={positions} color="blue" />}
+            {/* {positions  && <Polyline positions={positions} color="blue" />} */}
           </MapContainer>
         </div>
       </div>
