@@ -103,7 +103,9 @@ function index({ onClose, status }) {
                 position={[status?.location?.latitude, status?.location?.longitude]}
               >
                 <Popup>
-                  {status.user.email} <br /> {status.status === 'offline' ? `Son görülmə ${dayjs(status.user.date).format("HH:mm DD.MM.YYYY")}` : ""}
+                  {status.user?.first_name ? status.user.first_name : ''}  {status.user?.last_name ? status.user.last_name : ''}  {(status.user.first_name || status.user.last_name)
+                    ? `(${status.user.email})`
+                    : status.user.email} <br /> {status.status === 'offline' ? `Son görülmə ${dayjs(status.user.date).format("HH:mm DD.MM.YYYY")}` : ""}
                 </Popup>
               </Marker>
             )}

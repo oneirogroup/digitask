@@ -115,6 +115,21 @@ const Profile = () => {
     }
   };
 
+  const handleDeleteProfilePicture = async () => {
+    try {
+      await axios.delete("https://app.desgah.az/accounts/profile_image_update/");
+      fetchProfileData(); // şəkli siləndən sonra yenidən datanı çək
+    } catch (error) {
+      if (error.status == 403) {
+        await refreshAccessToken();
+        await axios.delete("https://app.desgah.az/accounts/profile_image_update/");
+        fetchProfileData();
+      }
+      console.error("Profil şəkli silinərkən xəta baş verdi", error);
+    }
+  };
+
+
   const handleFileChange = async e => {
     const file = e.target.files[0];
     if (file) {
@@ -196,22 +211,29 @@ const Profile = () => {
                       onClick={() => handleImageClick(profileData.profil_picture)}
                     />
                     {editMode && (
-                      <label htmlFor="passport" className="upload-label-profile">
-                        <div className="labelDiv">
-                          <EditFilled style={{ fontSize: "35px", color: "#247bd7" }} />
-                          <span>Rəsmi dəyiş</span>
-                        </div>
-                      </label>
+                      <div className="pp-controls">
+                        <label htmlFor="passport" className="upload-label-profile">
+                          <div className="labelDiv">
+                            <EditFilled style={{ fontSize: "30px", color: "#247bd7" }} />
+                          </div>
+                        </label>
+                        <button
+                          className="delete-profile-btn"
+                          onClick={handleDeleteProfilePicture}
+                        >
+                          <i className="fa-solid fa-trash" style={{ fontSize: "30px", color: "#d9534f" }}></i>
+                        </button>
+                      </div>
                     )}
                   </div>
                 ) : (
                   editMode && (
-                    <label htmlFor="passport" className="upload-label">
-                      <span>Yükləmək üçün klikləyin</span>
-                      <div className="upload-icon">
-                        <img src={upload} alt="Upload Icon" />
+                    <label htmlFor="passport" className="profile-upload-label">
+                      <span className="upload-text">Yükləmək üçün klikləyin</span>
+                      <div className="profile-upload-icon">
                       </div>
                     </label>
+
                   )
                 )}
                 {editMode && (
