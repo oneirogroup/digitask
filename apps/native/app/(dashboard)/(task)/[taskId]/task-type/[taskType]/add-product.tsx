@@ -7,7 +7,8 @@ import {
   addResourceSchema,
   productsAtom,
   tasksAtom,
-  useRecoilArray
+  useRecoilArray,
+  warehouseAtom
 } from "@digitask/shared-lib";
 import { Block, Form, Input, Select } from "@mdreal/ui-kit";
 
@@ -17,30 +18,46 @@ import { WarehouseItem } from "../../../../../../components/warehouse/warehouse-
 type AttachmentType = "tv" | "internet" | "voice";
 
 export default function AddSpecificTaskProduct() {
-  const { taskId, taskType, editId } = useLocalSearchParams() as {
+  const { taskId, taskType, edit, productId } = useLocalSearchParams() as {
     taskId: string;
     taskType: "problem" | "connection";
-    editId: string;
+    edit?: "true";
+    productId?: string;
   };
   const router = useRouter();
+
   const [products, controls] = useRecoilArray(productsAtom);
   const tasks = useRecoilValue(tasksAtom(taskType));
   const currentTask = tasks.find(task => task.id === +taskId);
+
+  const foundItem = edit ? controls.get(+productId!) : {};
+
+  console.log(foundItem, {
+    id: edit ? +productId! : products.length,
+    task: +taskId,
+    ...foundItem
+  });
 
   return (
     <KeyboardAvoidingView className="h-full">
       <Block.Scroll className="border-t-neutral-90 border-t-[1px] bg-white p-4" contentClassName="flex gap-4">
         <Form<AddResourceSchema>
-          schema={addResourceSchema.omit({ internet_packs: true })}
+          schema={addResourceSchema}
           defaultValues={{
-            id: editId ? +editId : products.length,
+            id: edit ? +productId! : products.length,
             task: +taskId,
-            ...(editId ? controls.get(+editId) : {})
+            ...foundItem
           }}
           onSubmit={async product => {
-            controls.add(product);
+            if (edit) {
+              controls.update(+productId!, product);
+            } else {
+              controls.add(product);
+            }
+
             router.back();
           }}
+          onFormError={console.log}
         >
           <Warehouse />
           <WarehouseItem />
@@ -60,7 +77,7 @@ export default function AddSpecificTaskProduct() {
           />
 
           <Form.Button>
-            <Text className="p-3 text-center text-white">Əlavə et</Text>
+            <Text className="p-3 text-center text-white">{edit ? "Düzəliş et" : "Məhsul əlavə et"}</Text>
           </Form.Button>
         </Form>
       </Block.Scroll>

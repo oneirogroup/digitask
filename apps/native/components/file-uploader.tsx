@@ -55,7 +55,6 @@ const FileUploaderBase: FC<FileUploaderProps> = ({ label, value: prePickedImage,
     if (cameraPermission.granted) {
       const result = await launchCameraAsync({
         mediaTypes: "images",
-        allowsEditing: true,
         aspect: [16, 9],
         quality: 1,
         allowsMultipleSelection: false
@@ -70,7 +69,6 @@ const FileUploaderBase: FC<FileUploaderProps> = ({ label, value: prePickedImage,
     if (imagePermission.granted) {
       const result = await launchImageLibraryAsync({
         mediaTypes: "images",
-        allowsEditing: true,
         aspect: [16, 9],
         quality: 1,
         allowsMultipleSelection: false

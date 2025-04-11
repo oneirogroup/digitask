@@ -1,15 +1,12 @@
 import { z } from "zod";
 
-import { Backend } from "../../types";
-
 export const addResourceSchema = z.object({
   id: z.number(),
   type: z.enum(["tv", "internet", "voice"]),
   task: z.number(),
-  count: z.string().regex(/^\d+$/, { message: "Sayı daxil edin..." }),
-  item: z.custom<Backend.WarehouseItem>(value => !!value, { message: "Məhsulu seçin..." }).nullable(),
-  warehouse: z.custom<Backend.Warehouse>(value => !!value, { message: "Anbarı seçin..." }).nullable(),
-  internet_packs: z.number().nullable()
+  warehouse: z.string({ message: "Anbarı seçin..." }).nullable(),
+  item: z.string({ message: "Məhsulu seçin..." }),
+  count: z.string({ message: "Sayı daxil edin..." }).regex(/^\d+$/, { message: "Daxil edilən say düzgün deyil..." })
 });
 
 export type AddResourceSchema = z.infer<typeof addResourceSchema>;

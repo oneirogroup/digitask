@@ -118,7 +118,6 @@ export default function AddSpecificTaskAttachment() {
               const attachment = await (
                 isEditMode ? taskAttachmentUpdateMutation : taskAttachmentCreateMutation
               ).mutateAsync({ ...data, task: +taskId });
-              console.log(attachment);
               await uploadFile(
                 `${AuthHttp.settings().baseUrl}/services/update_${attachmentType}_image/${attachment.id}/`,
                 photo_modem,

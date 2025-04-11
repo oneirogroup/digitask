@@ -1,8 +1,11 @@
-import { useRouter } from "expo-router";
+import { useGlobalSearchParams, useLocalSearchParams, useRouter } from "expo-router";
 import { Text, View } from "react-native";
+import { useRecoilValue } from "recoil";
 
-import { productsAtom, useRecoilArray } from "@digitask/shared-lib";
+import { productsAtom, useRecoilArray, warehouseAtom } from "@digitask/shared-lib";
 import { Block, Button, Modal, Table, useModalRef } from "@mdreal/ui-kit";
+
+import { Product } from "../../../../../../components/product";
 
 export default function ListAddedSpecificTaskProducts() {
   const modalRef = useModalRef();
@@ -37,27 +40,7 @@ export default function ListAddedSpecificTaskProducts() {
           </Table.Header>
           <Table.Body>
             {products.map(product => (
-              <Table.Row key={product.id} className="items-center rounded-b-2xl bg-white px-2 py-4">
-                <Table.Cell>
-                  <Text className="text-center">{product.warehouse?.name}</Text>
-                </Table.Cell>
-                <Table.Cell>
-                  <Text className="text-center">{product.item?.equipment_name}</Text>
-                </Table.Cell>
-                <Table.Cell>
-                  <Text className="text-center">{product.count}</Text>
-                </Table.Cell>
-                <Table.Cell>
-                  <View className="flex gap-2">
-                    {/*<Button onClick={() => newProduct(product.id)}>*/}
-                    {/*  <Text className="text-white">Düzəliş</Text>*/}
-                    {/*</Button>*/}
-                    <Button onClick={() => controls.removeItem(product)}>
-                      <Text className="text-white">Sil</Text>
-                    </Button>
-                  </View>
-                </Table.Cell>
-              </Table.Row>
+              <Product key={product.id} product={product} />
             ))}
           </Table.Body>
         </Table>

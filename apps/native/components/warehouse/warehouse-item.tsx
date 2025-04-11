@@ -1,4 +1,5 @@
 import type { FC } from "react";
+import { useFormContext, useWatch } from "react-hook-form";
 import { useRecoilValue } from "recoil";
 
 import {
@@ -6,15 +7,14 @@ import {
   type Backend,
   api,
   fields,
-  selectedWarehouseIdAtom,
   useRecoilQuery,
   warehouseItemsAtom
 } from "@digitask/shared-lib";
 import { Select } from "@mdreal/ui-kit";
 
 export const WarehouseItem: FC = () => {
-  const warehouseId = useRecoilValue(selectedWarehouseIdAtom);
-
+  const form = useFormContext();
+  const warehouseId = useWatch({ control: form.control, name: "warehouse" });
   const warehouseItems = useRecoilValue(warehouseItemsAtom(warehouseId));
   useRecoilQuery(warehouseItemsAtom(warehouseId), {
     queryKey: [fields.warehouse.item, warehouseId],
@@ -23,13 +23,9 @@ export const WarehouseItem: FC = () => {
   });
 
   return (
-    <Select.Controlled<Backend.WarehouseItem, AddResourceSchema>
-      name="item"
-      label="Məhsulu seçin..."
-      valueExtractor={val => val.id}
-    >
+    <Select.Controlled<Backend.WarehouseItem, AddResourceSchema> name="item" label="Məhsulu seçin...">
       {warehouseItems.map(item => (
-        <Select.Option key={item.id} label={item.equipment_name} value={item} />
+        <Select.Option key={item.id} label={item.equipment_name} value={item.id.toString()} />
       ))}
     </Select.Controlled>
   );

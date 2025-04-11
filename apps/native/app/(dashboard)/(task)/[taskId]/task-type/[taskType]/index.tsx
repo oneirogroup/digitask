@@ -4,7 +4,17 @@ import { Fragment, useRef } from "react";
 import { Pressable, RefreshControl, Text, TouchableOpacity, View } from "react-native";
 import { useRecoilValue } from "recoil";
 
-import { Backend, DateService, TaskStatuses, api, fields, isDev, profileAtom, tasksAtom } from "@digitask/shared-lib";
+import {
+  Backend,
+  DateService,
+  TaskStatuses,
+  api,
+  fields,
+  isDev,
+  profileAtom,
+  tasksAtom,
+  uppercase
+} from "@digitask/shared-lib";
 import { Block, Button, Icon, Modal, ModalRef, When } from "@mdreal/ui-kit";
 import { useQuery } from "@tanstack/react-query";
 
@@ -67,12 +77,30 @@ export default function SpecificTask() {
     currentTask.tv ? { ...currentTask.tv, type: "tv" } : null,
     currentTask.voice ? { ...currentTask.voice, type: "voice" } : null,
     currentTask.internet ? { ...currentTask.internet, type: "internet" } : null
-  ].filter(Boolean) as (Backend.Tv | Backend.Internet | Backend.Voice)[];
+  ].filter(Boolean) as ((Backend.Tv | Backend.Internet | Backend.Voice) & { type: "tv" | "voice" | "internet" })[];
+
+  const nonAddedServices = (["tv", "internet", "voice"] as const).filter(
+    service =>
+      (service === "tv" && currentTask.is_tv && !currentTask.has_tv) ||
+      (service === "internet" && currentTask.is_internet && !currentTask.has_internet) ||
+      (service === "voice" && currentTask.is_voice && !currentTask.has_voice)
+  );
 
   const redirectTo = (type: "tv" | "voice" | "internet", edit = false) => {
     return () => {
-      router.push({ pathname: "/[taskId]/task-type/[taskType]/type/[type]", params: { taskId, taskType, type, edit } });
+      router.push({
+        pathname: "/[taskId]/task-type/[taskType]/type/[type]",
+        params: { taskId, taskType, type, edit: edit.toString() }
+      });
     };
+  };
+
+  const openModalOrRedirect = () => {
+    if (nonAddedServices.length === 1) {
+      redirectTo(nonAddedServices[0]!)();
+    } else {
+      typeModalRef.current?.open();
+    }
   };
 
   const edit = (type: "tv" | "voice" | "internet") => {
@@ -239,7 +267,7 @@ export default function SpecificTask() {
           <BlockContainer>
             <TouchableOpacity
               activeOpacity={1}
-              onPress={() => typeModalRef.current?.open()}
+              onPress={() => openModalOrRedirect()}
               className="flex flex-row items-center justify-between p-2"
             >
               <Text>Yeni Anket</Text>
@@ -280,23 +308,16 @@ export default function SpecificTask() {
           </View>
 
           <View className="flex flex-row gap-4">
-            <When condition={currentTask.is_tv && !currentTask.has_tv}>
-              <Button variant="secondary" className="border-secondary flex-1" onClick={redirectTo("tv")}>
-                <Text className="text-center">Tv</Text>
+            {nonAddedServices.map(service => (
+              <Button
+                key={service}
+                variant="secondary"
+                className="border-secondary flex-1"
+                onClick={redirectTo(service)}
+              >
+                <Text className="text-center">{translation[service]}</Text>
               </Button>
-            </When>
-
-            <When condition={currentTask.is_internet && !currentTask.has_internet}>
-              <Button variant="secondary" className="border-secondary flex-1" onClick={redirectTo("internet")}>
-                <Text className="text-center">İnternet</Text>
-              </Button>
-            </When>
-
-            <When condition={currentTask.is_voice && !currentTask.has_voice}>
-              <Button variant="secondary" className="border-secondary flex-1" onClick={redirectTo("voice")}>
-                <Text className="text-center">Səs</Text>
-              </Button>
-            </When>
+            ))}
           </View>
         </View>
       </Modal>

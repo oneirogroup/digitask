@@ -2,9 +2,9 @@ import { useGlobalSearchParams, useRouter } from "expo-router";
 import { FC, useEffect } from "react";
 import { Alert, Pressable, View } from "react-native";
 
-import { api, productsAtom, useRecoilArray } from "@digitask/shared-lib";
+import { api, fields, productsAtom, useRecoilArray } from "@digitask/shared-lib";
 import { Button, Icon, When } from "@mdreal/ui-kit";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 import { palette } from "../../../../../palette";
 import { useMatchPathOnRoute } from "../../../hooks/use-match-path-on-route";
@@ -13,6 +13,12 @@ export const TaskAddAttachmentHeaderRight: FC = () => {
   const [products, controls] = useRecoilArray(productsAtom);
   const { taskId, taskType } = useGlobalSearchParams() as { taskId: string; taskType: "problem" | "connection" };
   const router = useRouter();
+
+  const { refetch } = useQuery({
+    queryKey: [fields.tasks.get, taskId],
+    queryFn: () => api.services.task.$get(+taskId),
+    enabled: !!taskId
+  });
 
   useMatchPathOnRoute(
     /\/products$/,
@@ -50,12 +56,13 @@ export const TaskAddAttachmentHeaderRight: FC = () => {
       products.map(product => ({
         task: product.task,
         count: +product.count,
-        item: product.item!.id,
+        item: product.item,
         is_tv: product.type === "tv",
         is_internet: product.type === "internet",
         is_voice: product.type === "voice"
       }))
     );
+    await refetch({ throwOnError: false });
     controls.clear();
     router.back();
   };
