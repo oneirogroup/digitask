@@ -44,3 +44,7 @@
   align-items: center;
   justify-content: center;
 }
+
+:where(.css-dev-only-do-not-override-1wwf28x).ant-tabs >.ant-tabs-nav .ant-tabs-nav-wrap, :where(.css-dev-only-do-not-override-1wwf28x).ant-tabs >div>.ant-tabs-nav .ant-tabs-nav-wrap{
+  display: none !important;
+}

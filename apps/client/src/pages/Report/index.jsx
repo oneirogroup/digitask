@@ -126,7 +126,6 @@ const Report = () => {
   const items = [
     {
       key: "table",
-      label: "Hesabat Cədvəli",
       children: (
         <div>
           <Space direction="vertical" size={12} className="report-date-filter">
@@ -171,12 +170,12 @@ const Report = () => {
           />
         </div>
       )
-    },
-    {
-      key: "chart",
-      label: "Diaqram",
-      children: <ReportChart />
     }
+    // {
+    //   key: "chart",
+    //   label: "Diaqram",
+    //   children: <ReportChart />
+    // }
   ];
 
   return (
