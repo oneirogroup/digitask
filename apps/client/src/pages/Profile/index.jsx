@@ -20,7 +20,6 @@ const Profile = () => {
   const refreshAccessToken = useRefreshToken();
 
   const [userTypeOptions, setUserTypeOptions] = useState([]);
-
   const [groups, setGroups] = useState([]);
 
   const fetchProfileData = async () => {
@@ -29,7 +28,7 @@ const Profile = () => {
       setProfileData({
         ...response.data,
         groupName: response.data.group?.group || "",
-        region: response.data.group?.region || ""
+        region: response.data.group?.region_name || ""
       });
     } catch (error) {
       if (error.status == 403) {
@@ -64,7 +63,7 @@ const Profile = () => {
 
   const fetchGroups = async () => {
     try {
-      const response = await axios.get("https://app.desgah.az/services/groups/");
+      const response = await axios.get("https://app.desgah.az/services/user_groups/");
       await refreshAccessToken();
       setGroups(response.data);
     } catch (error) {
@@ -83,7 +82,7 @@ const Profile = () => {
         ...prevData,
         group: selectedGroup.id,
         groupName: selectedGroup.group,
-        region: selectedGroup.region,
+        region_name: selectedGroup.region_name,
         groupData: selectedGroup.id
       }));
     }
@@ -99,11 +98,13 @@ const Profile = () => {
       const { profil_picture, ...profileWithoutPhoto } = profileData;
       await axios.put("https://app.desgah.az/accounts/profile_update/", {
         ...profileWithoutPhoto,
-        group: profileData.group?.id,
+        group: profileData?.group,
         groupName: profileData.groupName,
         groupData: profileData.groupData,
         position: profileData?.position?.id
       });
+
+      console.log(profileData);
       setEditMode(false);
       fetchProfileData();
     } catch (error) {
@@ -389,7 +390,7 @@ const Profile = () => {
                 )}
               </div>
               <div className="input-group">
-                <label htmlFor="region">Ərazi</label>
+                <label htmlFor="region_name">Ərazi</label>
                 <input type="text" id="region" value={profileData.region || ""} disabled />
               </div>
             </div>

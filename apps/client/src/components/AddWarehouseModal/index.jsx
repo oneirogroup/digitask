@@ -1,71 +1,87 @@
+import React, { useState, useEffect } from "react";
+import { Form, Input, Button, Select, message } from "antd";
 import axios from "axios";
-import { useState } from "react";
 
-import useRefreshToken from "../../common/refreshToken";
+const API_URL = "https://app.desgah.az/warehouse/warehouses/";
 
-import "./AddWarehouseModal.css";
 
 const AddWarehouseModal = ({ onClose, onWarehouseAdded }) => {
-  const [name, setName] = useState("");
-  const [region, setRegion] = useState("");
-  const [nameError, setNameError] = useState("");
-  const [regionError, setRegionError] = useState("");
-  const refreshAccessToken = useRefreshToken();
+  const [form] = Form.useForm();
+  const [loading, setLoading] = useState(false);
+  const [regions, setRegions] = useState([]);
+  const [regionLoading, setRegionLoading] = useState(false);
 
-  const handleSubmit = async e => {
-    e.preventDefault();
+  useEffect(() => {
+    const fetchRegions = async () => {
+      setRegionLoading(true);
+      try {
+        const response = await axios.get('https://app.desgah.az/accounts/regions/');
+        setRegions(response.data);
+      } catch (error) {
+        message.error("Regionlər yüklənərkən xəta baş verdi");
+      } finally {
+        setRegionLoading(false);
+      }
+    };
 
-    setNameError("");
-    setRegionError("");
+    fetchRegions();
+  }, []);
 
-    if (!name) {
-      setNameError("Ad boş olmamalıdır.");
-    }
-    if (!region) {
-      setRegionError("Region boş olmamalıdır.");
-    }
-
-    if (!name || !region) {
-      return;
-    }
-
+  const handleSubmit = async values => {
+    setLoading(true);
     try {
-      const response = await axios.post("https://app.desgah.az/warehouse/warehouses/", { name, region });
-
-      onWarehouseAdded(response.data);
+      await axios.post(API_URL, values);
+      message.success("Anbar uğurla əlavə edildi");
+      onWarehouseAdded();
       onClose();
     } catch (error) {
-      if (error.status == 403) {
-        await refreshAccessToken();
-        handleSubmit(e, true);
+      if (error.response?.status === 403) {
+        message.error("Anbar əlavə edilərkən xəta baş verdi");
       }
-      console.error("Error adding group:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="group-modal-overlay">
-      <div className="add-group-modal-content">
-        <div className="add-group-modal-title">
-          <h5>Yeni anbar</h5>
-          <span onClick={onClose}>&times;</span>
+    <div className="group-modal-overlay" onClick={e => e.stopPropagation()}>
+      <div className="group-modal-content">
+        <div className="group-modal-title">
+          <h5>Yeni Anbar</h5>
+          <span className="close" onClick={onClose}>
+            &times;
+          </span>
         </div>
         <hr />
-        <form onSubmit={handleSubmit}>
-          <div>
-            <div className="form-group">
-              <label htmlFor="groupName">Ad</label>
-              <input type="text" id="groupName" value={name} onChange={e => setName(e.target.value)} maxLength={30} />
-              {nameError && <span className="error-message">{nameError}</span>}
-            </div>
-            <div className="form-group">
-              <label htmlFor="groupRegion">Region</label>
-              <input type="text" id="groupRegion" value={region} onChange={e => setRegion(e.target.value)} />
-              {regionError && <span className="error-message">{regionError}</span>}
-            </div>
+        <Form
+          form={form}
+          layout="vertical"
+          onFinish={handleSubmit}
+          initialValues={{
+            name: "",
+            region: ""
+          }}
+        >
+          <Form.Item label="Ad" name="name" rules={[{ required: true, message: "Ad daxil edin" }]}>
+            <Input placeholder="Anbar adı" />
+          </Form.Item>
+
+          <Form.Item label="Region" name="region" rules={[{ required: true, message: "Region seçin" }]}>
+            <Select placeholder="Seçin" loading={regionLoading}>
+              {regions.map((region) => (
+                <Select.Option key={region.id} value={region.id}>
+                  {region.name}
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
+
+          <div className="group-modal-buttons">
+            <Button type="primary" htmlType="submit" loading={loading}>
+              Əlavə et
+            </Button>
           </div>
-          <button type="submit">Anbar əlavə et</button>
-        </form>
+        </Form>
       </div>
     </div>
   );

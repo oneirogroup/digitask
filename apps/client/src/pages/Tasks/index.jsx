@@ -439,6 +439,10 @@ function Index() {
     return null;
   };
 
+  const capitalizeFirstLetter = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
+
   useEffect(() => {
     refreshAccessToken();
     fetchTasks(
@@ -499,7 +503,11 @@ function Index() {
       <div className="task-history-status">
         <Space direction="vertical" size={12} className="task-report-date-filter">
           <ConfigProvider locale={az}>
-            <DatePicker picker="month" onChange={handleMonthChange} placeholder="Tarix seçin" />
+            <DatePicker
+              picker="month"
+              onChange={handleMonthChange}
+              placeholder={capitalizeFirstLetter(dayjs().format('MMMM YYYY'))}
+            />
           </ConfigProvider>
         </Space>
         <div className="task-filter-status-region">
@@ -557,8 +565,8 @@ function Index() {
                 <th>İcraçı</th>
                 <th>Müştəri</th>
                 <th>Kateqoriya</th>
-                <th>Tarix</th>
-                <th>Saat</th>
+                <th>Başlama tarixi</th>
+                <th>Bitmə tarixi</th>
                 <th>Növ</th>
                 <th>Ünvan</th>
                 <th>Nömrə</th>
@@ -585,11 +593,7 @@ function Index() {
                   </td>
                   <td onClick={() => openTaskDetailsModal(item.id)}>{item.date}</td>
                   <td onClick={() => openTaskDetailsModal(item.id)}>
-                    {item.start_time && item.end_time
-                      ? `${formatTime(item.start_time)} - ${formatTime(item.end_time)}`
-                      : !item.start_time && !item.end_time
-                        ? "-"
-                        : `${item.start_time ? formatTime(item.start_time) : "-"} - ${item.end_time ? formatTime(item.end_time) : "-"}`}
+                    {item.end_date ? item.end_date : "-"}
                   </td>
                   <td onClick={() => openTaskDetailsModal(item.id)} className="type-icon">
                     {item.is_tv && <PiTelevisionSimple />}

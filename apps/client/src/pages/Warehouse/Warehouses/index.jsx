@@ -37,8 +37,8 @@ const Warehouses = () => {
     },
     {
       title: "Region",
-      dataIndex: "region",
-      key: "region"
+      dataIndex: "region_name",
+      key: "region_name"
     },
     {
       title: "Aktiv",

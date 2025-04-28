@@ -7,68 +7,68 @@ import { MdOutlineEdit } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
 
 import language from "../../../language.json";
-import AddGroupModal from "./createModal.jsx";
-import EditGroupModal from "./editModal.jsx";
+import AddRegionModal from "./createModal.jsx";
+import EditRegionModal from "./editModal.jsx";
 
-const API_URL = "https://app.desgah.az/services/user_groups/";
+const API_URL = "https://app.desgah.az/accounts/regions/";
 
-const Groups = () => {
-    const [groups, setGroups] = useState([]);
+const Regions = () => {
+    const [regions, setRegions] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
     const [modalData, setModalData] = useState(null);
-    const [groupModals, setGroupModals] = useState({});
-    const [isAddGroupModal, setIsAddGroupModal] = useState(false);
+    const [regionModals, setRegionModals] = useState({});
+    const [isAddRegionModal, setIsAddRegionModal] = useState(false);
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
     const modalRef = useRef(null);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
-    const openAddGroupModal = () => {
-        setIsAddGroupModal(true);
+    const openAddRegionModal = () => {
+        setIsAddRegionModal(true);
     };
-    const closeAddGroupModal = () => {
-        setIsAddGroupModal(false);
+    const closeAddRegionModal = () => {
+        setIsAddRegionModal(false);
     };
 
-    const fetchGroups = async () => {
+    const fetchRegions = async () => {
         try {
             const response = await axios.get(API_URL);
             console.log(response);
-            setGroups(response.data.sort((a, b) => a.group.localeCompare(b.group)));
-            initializeGroupModals(response.data);
+            setRegions(response.data.sort((a, b) => a.name.localeCompare(b.name)));
+            initializeRegionModals(response.data);
             setLoading(false);
         } catch (error) {
             if (error.response.status == 403) {
-                await fetchGroups();
-                message.error("Qrup göstərilərkən xəta baş verdi");
+                await fetchRegions();
+                message.error("Region göstərilərkən xəta baş verdi");
             }
         }
     };
 
     useEffect(() => {
-        fetchGroups();
+        fetchRegions();
     }, []);
 
-    const deleteGroup = async id => {
+    const deleteRegion = async id => {
         try {
             await axios.delete(`${API_URL}${id}/`);
-            fetchGroups();
+            fetchRegions();
         } catch (error) {
             if (error.response.status == 403) {
-                await fetchGroups();
-                message.error("Qrup göstərilərkən xəta baş verdi");
+                await fetchRegions();
+                message.error("Region göstərilərkən xəta baş verdi");
             }
         }
     };
 
     const openSmallModal = id => {
-        setGroupModals(prev => ({ ...prev, [id]: !prev[id] }));
+        setRegionModals(prev => ({ ...prev, [id]: !prev[id] }));
     };
 
     useEffect(() => {
         const handleClickOutside = event => {
             if (modalRef.current && !modalRef.current.contains(event.target)) {
-                setGroupModals({});
+                setRegionModals({});
             }
         };
 
@@ -78,53 +78,50 @@ const Groups = () => {
         };
     }, []);
 
-    const handleGroupAdded = newGroup => {
-        fetchGroups();
-        setIsAddGroupModal(false);
+    const handleRegionAdded = newRegion => {
+        fetchRegions();
+        setIsAddRegionModal(false);
     };
-    const handleEditClick = group => {
-        setModalData(group);
+    const handleEditClick = region => {
+        setModalData(region);
         setIsEditModalOpen(true);
     };
 
     return (
         <div>
-            <div className="group-add-button">
-                <button onClick={openAddGroupModal}>
+            <div className="region-add-button">
+                <button onClick={openAddRegionModal}>
                     <IoAdd />
-                    Qrup əlavə et
+                    Region əlavə et
                 </button>
             </div>
 
-            <div className="group-table-container">
+            <div className="region-table-container">
                 <table>
                     <thead>
                         <tr>
                             <th>ID</th>
                             <th>Ad</th>
-                            <th>Region</th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
-                        {groups.map((group, index) => (
-                            <tr key={group.id}>
+                        {regions.map((region, index) => (
+                            <tr key={region.id}>
                                 <td>{`#${(index + 1).toString().padStart(4, "0")}`}</td>
-                                <td>{group.group}</td>
-                                <td>{group.region_name}</td>
-
+                                <td>{region.name}</td>
                                 <td>
-                                    <button onClick={() => openSmallModal(group.id)}>
+                                    <button onClick={() => openSmallModal(region.id)}>
                                         <BsThreeDotsVertical />
                                     </button>
 
-                                    {groupModals[group.id] && (
-                                        <div className="small-modal-group active" ref={modalRef}>
-                                            <div className="small-modal-group-content">
-                                                <button onClick={() => handleEditClick(group)}>
+                                    {regionModals[region.id] && (
+                                        <div className="small-modal-region active" ref={modalRef}>
+                                            <div className="small-modal-region-content">
+                                                <button onClick={() => handleEditClick(region)}>
                                                     <MdOutlineEdit />
                                                 </button>
-                                                <button onClick={() => deleteGroup(group.id)}>
+                                                <button onClick={() => deleteRegion(region.id)}>
                                                     <RiDeleteBin6Line />
                                                 </button>
                                             </div>
@@ -137,16 +134,16 @@ const Groups = () => {
                     </tbody>
                 </table>
             </div>
-            {isAddGroupModal && <AddGroupModal onClose={closeAddGroupModal} onGroupAdded={handleGroupAdded} />}
+            {isAddRegionModal && <AddRegionModal onClose={closeAddRegionModal} onRegionAdded={handleRegionAdded} />}
             {isEditModalOpen && (
-                <EditGroupModal
-                    group={modalData}
+                <EditRegionModal
+                    region={modalData}
                     onClose={() => setIsEditModalOpen(false)}
-                    onGroupUpdated={fetchGroups}
+                    onRegionUpdated={fetchRegions}
                 />
             )}
         </div>
     );
 };
 
-export default Groups;
+export default Regions;

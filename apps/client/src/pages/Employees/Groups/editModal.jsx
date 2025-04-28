@@ -1,10 +1,10 @@
 import { Button, Form, Input, Select, message } from "antd";
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import language from "../../../language.json";
 
-const API_URL = "https://app.desgah.az/services/groups/";
+const API_URL = "https://app.desgah.az/services/user_groups/";
 
 const EditGroupModal = ({ group, onClose, onGroupUpdated }) => {
   const [form] = Form.useForm();
@@ -15,15 +15,34 @@ const EditGroupModal = ({ group, onClose, onGroupUpdated }) => {
     }
   }, [group, form]);
 
+  const [regions, setRegions] = useState([]);
+  const [regionLoading, setRegionLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchRegions = async () => {
+      setRegionLoading(true);
+      try {
+        const response = await axios.get('https://app.desgah.az/accounts/regions/');
+        setRegions(response.data);
+      } catch (error) {
+        message.error("Regionlər yüklənərkən xəta baş verdi");
+      } finally {
+        setRegionLoading(false);
+      }
+    };
+
+    fetchRegions();
+  }, []);
+
   const handleSubmit = async values => {
     try {
       await axios.put(`${API_URL}${group.id}/`, values);
-      message.success("Vəzifə uğurla yeniləndi");
+      message.success("Qrup uğurla yeniləndi");
       onGroupUpdated();
       onClose();
     } catch (error) {
       console.error("Error updating group:", error);
-      message.error("Vəzifə yenilənərkən xəta baş verdi");
+      message.error("Qrup yenilənərkən xəta baş verdi");
     }
   };
 
@@ -31,42 +50,22 @@ const EditGroupModal = ({ group, onClose, onGroupUpdated }) => {
     <div className="group-modal-overlay" onClick={e => e.stopPropagation()}>
       <div className="group-modal-content">
         <div className="group-modal-title">
-          <h5>Vəzifəni Redaktə Et</h5>
+          <h5>Qrupu Redaktə Et</h5>
           <span className="close" onClick={onClose}>
             &times;
           </span>
         </div>
         <hr />
         <Form form={form} layout="vertical" onFinish={handleSubmit}>
-          <Form.Item label="Ad" name="name" rules={[{ required: true, message: "Ad daxil edin" }]}>
-            <Input placeholder="Vəzifə adı" />
+          <Form.Item label="Ad" name="group" rules={[{ required: true, message: "Ad daxil edin" }]}>
+            <Input placeholder="Qrup adı" />
           </Form.Item>
 
-          <Form.Item label="Anbar icazəsi" name="warehouse_permission">
-            <Select placeholder="Seçin">
-              {Object.entries(language).map(([key, value]) => (
-                <Select.Option key={key} value={key}>
-                  {value}
-                </Select.Option>
-              ))}
-            </Select>
-          </Form.Item>
-
-          <Form.Item label="İşçi icazəsi" name="users_permission">
-            <Select placeholder="Seçin">
-              {Object.entries(language).map(([key, value]) => (
-                <Select.Option key={key} value={key}>
-                  {value}
-                </Select.Option>
-              ))}
-            </Select>
-          </Form.Item>
-
-          <Form.Item label="Tapşırıq icazəsi" name="tasks_permission">
-            <Select placeholder="Seçin">
-              {Object.entries(language).map(([key, value]) => (
-                <Select.Option key={key} value={key}>
-                  {value}
+          <Form.Item label="Region" name="region" rules={[{ required: true, message: "Region seçin" }]}>
+            <Select placeholder="Seçin" loading={regionLoading}>
+              {regions.map((region) => (
+                <Select.Option key={region.id} value={region.id}>
+                  {region.name}
                 </Select.Option>
               ))}
             </Select>
@@ -78,8 +77,8 @@ const EditGroupModal = ({ group, onClose, onGroupUpdated }) => {
             </Button>
           </div>
         </Form>
-      </div>
-    </div>
+      </div >
+    </div >
   );
 };
 

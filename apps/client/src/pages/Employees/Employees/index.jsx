@@ -9,7 +9,6 @@ import { PiMapPinAreaFill } from "react-icons/pi";
 import { RiDeleteBin6Line } from "react-icons/ri";
 
 import useRefreshToken from "../../../common/refreshToken";
-import AddGroupModal from "../../../components/AddGroupModal";
 import AddUserModal from "../../../components/AddUserModal";
 import FullMapModal from "../../../components/FullMapModal";
 import MapModal from "../../../components/MapModal";
@@ -31,7 +30,6 @@ const EmployeeList = () => {
   const [employeeModals, setEmployeeModals] = useState({});
   const [status, setStatus] = useState({});
   const [isAddUserModal, setIsAddUserModal] = useState(false);
-  const [isAddGroupModal, setIsAddGroupModal] = useState(false);
   const [isMapModal, setIsMapModal] = useState(false);
   const [isFullMapModal, setIsFullMapModal] = useState(false);
   const [isUpdateUserModal, setIsUpdateUserModal] = useState(false);
@@ -289,13 +287,6 @@ const EmployeeList = () => {
   const closeAddUserModal = () => {
     setIsAddUserModal(false);
   };
-  const openAddGroupModal = () => {
-    setIsAddGroupModal(true);
-  };
-
-  const closeAddGroupModal = () => {
-    setIsAddGroupModal(false);
-  };
 
   const openMapModal = id => {
     setMapEmployee(id);
@@ -406,7 +397,6 @@ const EmployeeList = () => {
         {position && position.users_permission !== "read_only" && (
           <div className="employee-add-buttons">
             <button onClick={openFullMapModal}>Xəritə</button>
-            <button onClick={openAddGroupModal}>Qrup əlavə et</button>
             <button onClick={openAddUserModal}>
               <IoAdd />
               Istifadəçi əlavə et
@@ -551,9 +541,6 @@ const EmployeeList = () => {
       </div>
       {isAddUserModal && (
         <AddUserModal isOpen={isAddUserModal} onClose={closeAddUserModal} onUserAdded={handleUserAdded} />
-      )}
-      {isAddGroupModal && (
-        <AddGroupModal isOpen={isAddGroupModal} onClose={closeAddGroupModal} onGroupAdded={handleGroupAdded} />
       )}
       {isMapModal && <MapModal status={status[mapEmployee]} isOpen={isMapModal} onClose={closeMapModal} />}
       {isFullMapModal && <FullMapModal status={status} isOpen={isFullMapModal} onClose={closeFullMapModal} />}

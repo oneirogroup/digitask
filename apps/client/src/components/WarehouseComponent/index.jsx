@@ -68,7 +68,7 @@ function Warehouse() {
         const data = await response.json();
         if (Array.isArray(data)) {
           setWarehouses(data);
-          const uniqueRegions = Array.from(new Set(data.map(warehouse => warehouse.region)));
+          const uniqueRegions = Array.from(new Set(data.map(warehouse => warehouse.region_name)));
           setRegions(uniqueRegions);
         } else {
           console.error("Error: Expected an array but received:", data);
