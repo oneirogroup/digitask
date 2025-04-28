@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import { Form, Input, Button, Select, message } from "antd";
 import axios from "axios";
 
-const API_URL = "https://app.desgah.az/warehouse/warehouses/";
+const API_URL = "https://app.desgah.az/services/user_groups/";
 
 
-const AddWarehouseModal = ({ onClose, onWarehouseAdded }) => {
+const AddGroupModal = ({ onClose, onGroupAdded }) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [regions, setRegions] = useState([]);
@@ -31,12 +31,12 @@ const AddWarehouseModal = ({ onClose, onWarehouseAdded }) => {
     setLoading(true);
     try {
       await axios.post(API_URL, values);
-      message.success("Anbar uğurla əlavə edildi");
-      onWarehouseAdded();
+      message.success("Qrup uğurla əlavə edildi");
+      onGroupAdded();
       onClose();
     } catch (error) {
       if (error.response?.status === 403) {
-        message.error("Anbar əlavə edilərkən xəta baş verdi");
+        message.error("Qrup əlavə edilərkən xəta baş verdi");
       }
     } finally {
       setLoading(false);
@@ -47,7 +47,7 @@ const AddWarehouseModal = ({ onClose, onWarehouseAdded }) => {
     <div className="group-modal-overlay" onClick={e => e.stopPropagation()}>
       <div className="group-modal-content">
         <div className="group-modal-title">
-          <h5>Yeni Anbar</h5>
+          <h5>Yeni Qrup</h5>
           <span className="close" onClick={onClose}>
             &times;
           </span>
@@ -58,12 +58,12 @@ const AddWarehouseModal = ({ onClose, onWarehouseAdded }) => {
           layout="vertical"
           onFinish={handleSubmit}
           initialValues={{
-            name: "",
+            group: "",
             region: ""
           }}
         >
-          <Form.Item label="Ad" name="name" rules={[{ required: true, message: "Ad daxil edin" }]}>
-            <Input placeholder="Anbar adı" />
+          <Form.Item label="Ad" name="group" rules={[{ required: true, message: "Ad daxil edin" }]}>
+            <Input placeholder="Qrup adı" />
           </Form.Item>
 
           <Form.Item label="Region" name="region" rules={[{ required: true, message: "Region seçin" }]}>
@@ -87,4 +87,4 @@ const AddWarehouseModal = ({ onClose, onWarehouseAdded }) => {
   );
 };
 
-export default AddWarehouseModal;
+export default AddGroupModal;

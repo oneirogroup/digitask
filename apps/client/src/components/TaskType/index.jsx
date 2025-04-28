@@ -94,9 +94,8 @@ function DetailsModal({ onClose, taskId, userType, onTaskUpdated }) {
   const [formData, setFormData] = useState({
     task_type: "",
     full_name: "",
-    start_time: "",
-    end_time: "",
     date: "",
+    end_date: "",
     registration_number: "",
     contact_number: "",
     location: "",
@@ -155,9 +154,8 @@ function DetailsModal({ onClose, taskId, userType, onTaskUpdated }) {
         setFormData({
           task_type: data.task_type,
           full_name: data.full_name,
-          start_time: data.start_time,
-          end_time: data.end_time,
           date: data.date,
+          end_date: data.end_date,
           registration_number: data.registration_number,
           contact_number: data.contact_number,
           location: data.location,
@@ -471,9 +469,8 @@ function DetailsModal({ onClose, taskId, userType, onTaskUpdated }) {
         setFormData({
           task_type: data.task_type,
           full_name: data.full_name,
-          start_time: data.start_time,
-          end_time: data.end_time,
           date: data.date,
+          end_date: data.end_date,
           registration_number: data.registration_number,
           contact_number: data.contact_number,
           location: data.location,
@@ -729,7 +726,7 @@ function DetailsModal({ onClose, taskId, userType, onTaskUpdated }) {
                 <div>
                   <div>
                     <label>
-                      <GoClock /> Tarix
+                      <GoClock /> Başlama tarixi
                     </label>
                     <input type="date" id="" name="date" value={formData.date} onChange={handleInputChange} />
                   </div>
@@ -738,13 +735,9 @@ function DetailsModal({ onClose, taskId, userType, onTaskUpdated }) {
                 <div>
                   <div>
                     <label>
-                      <GoClock /> Saat
+                      <GoClock /> Bitmə tarixi
                     </label>
-                    <div className="taskDetailTime">
-                      {" "}
-                      <input type="time" name="start_time" value={formData.start_time} onChange={handleInputChange} />
-                      <input type="time" name="end_time" value={formData.end_time} onChange={handleInputChange} />
-                    </div>
+                    <input type="date" id="" name="end_date" value={formData.end_date} onChange={handleInputChange} />
                   </div>
                   <hr />
                 </div>
@@ -809,13 +802,13 @@ function DetailsModal({ onClose, taskId, userType, onTaskUpdated }) {
                       <div className="taskType-toggle details-toggle" onClick={toggleDropdownService}>
                         {formData.is_tv || formData.is_internet || formData.is_voice
                           ? SERVICE_OPTIONS.filter(
-                              option =>
-                                (option.value === "tv" && formData.is_tv) ||
-                                (option.value === "internet" && formData.is_internet) ||
-                                (option.value === "voice" && formData.is_voice)
-                            )
-                              .map(service => service.label)
-                              .join(", ")
+                            option =>
+                              (option.value === "tv" && formData.is_tv) ||
+                              (option.value === "internet" && formData.is_internet) ||
+                              (option.value === "voice" && formData.is_voice)
+                          )
+                            .map(service => service.label)
+                            .join(", ")
                           : "Xidmət seçin"}
                         <FaChevronDown />
                       </div>
@@ -952,17 +945,8 @@ function DetailsModal({ onClose, taskId, userType, onTaskUpdated }) {
                     <GoClock /> Zaman
                   </label>
                   {taskDetails.date && (
-                    <span>{`${taskDetails.date.split("-")[2]} ${
-                      monthNames[parseInt(taskDetails.date.split("-")[1], 10) - 1]
-                    }${
-                      taskDetails.start_time && taskDetails.end_time
-                        ? `, ${formatTime(taskDetails.start_time)} - ${formatTime(taskDetails.end_time)}`
-                        : !taskDetails.start_time && !taskDetails.end_time
-                          ? ""
-                          : `${taskDetails.start_time ? formatTime(taskDetails.start_time) : "-"} - ${
-                              taskDetails.end_time ? formatTime(taskDetails.end_time) : "-"
-                            }`
-                    }`}</span>
+                    <span>{`${taskDetails.date.split("-")[2]} ${monthNames[parseInt(taskDetails.date.split("-")[1], 10) - 1]
+                      }`}</span>
                   )}
                 </div>
                 <hr />
