@@ -44,7 +44,7 @@
 }
 .newWarehouse{
   display: flex;
-  justify-content: right;
+  justify-content: space-between;
   height: 50px;
 }
 .ant-table-cell{
