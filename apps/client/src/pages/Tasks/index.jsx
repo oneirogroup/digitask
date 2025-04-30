@@ -464,7 +464,7 @@ function Index() {
       <div className="task-page-title">
         <p>Tapşırıqlar</p>
         <div>
-          {position?.tasks_permission && position?.tasks_permission == "read_write" && (
+          {((position?.tasks_permission && position?.tasks_permission == "read_write") || (position?.tasks_permission && position?.tasks_permission == "admin")) && (
             <button onClick={openInternetPacksModal}>İnternet paketləri</button>
           )}
 
@@ -477,7 +477,7 @@ function Index() {
             {isRefreshing ? "Yüklənir..." : "Yenilə"}
           </button>
 
-          {position?.tasks_permission && position?.tasks_permission == "read_write" && (
+          {((position?.tasks_permission && position?.tasks_permission == "read_write") || (position?.tasks_permission && position?.tasks_permission == "admin")) && (
             <button onClick={openAddTaskModal}>
               <IoAdd />
               Əlavə et
@@ -607,7 +607,7 @@ function Index() {
                     {item.contact_number ? item.contact_number : "-"}
                   </td>
                   <td className="task-status">
-                    {position?.tasks_permission === "read_only" || (item.phone === userPhone && !item.phone) ? (
+                    {position?.tasks_permission === "technician" || (item.phone === userPhone && !item.phone) ? (
                       <>
                         {item.status === "waiting" && (
                           <button
@@ -639,7 +639,7 @@ function Index() {
                           </button>
                         )}
                       </>
-                    ) : position?.tasks_permission == "read_write" ? (
+                    ) : position?.tasks_permission == "read_write" || position?.tasks_permission == "admin" ? (
                       <button
                         onClick={() => openTaskDetailsModal(item.id)}
                         className={`status ${item.status.toLowerCase().replace(" ", "-")}`}
@@ -659,7 +659,7 @@ function Index() {
                     )}
                   </td>
                   <td className="fixed-right">
-                    {position?.tasks_permission == "read_write" ? (
+                    {position?.tasks_permission == "read_write" || position?.tasks_permission == "admin" ? (
                       <>
                         <button data-task-index={index} onClick={e => openSmallModal(e, index)}>
                           <BsThreeDotsVertical />
