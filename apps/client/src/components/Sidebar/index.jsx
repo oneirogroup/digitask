@@ -30,7 +30,7 @@ const Sidebar = ({ children, isSidebarOpen, onClose, onToggleExpand }) => {
         name: "Ana Səhifə",
         icon: <GoHomeFill />
       },
-      position && position.tasks_permission !== "no_access" &&{
+      position && position.tasks_permission !== "no_access" && {
         path: "/tasks/",
         name: "Tapşırıqlar",
         icon: <img src={taskIcon} alt="Task Icon" style={{ width: "24px", height: "24px" }} />
@@ -123,7 +123,7 @@ const Sidebar = ({ children, isSidebarOpen, onClose, onToggleExpand }) => {
         <div className="top_section">
           <img
             src={logo}
-            onClick={()=>returnHome()}
+            onClick={() => returnHome()}
             alt=""
             className="digitask-logo"
             style={{ width: isExpanded ? "10vh" : "5vh", transition: "height 0.3s ease" }}
