@@ -239,15 +239,10 @@ const Anbar = () => {
                 <td onClick={() => handleActionClick(data, "history")}>{data.new_count}</td>
                 <td onClick={() => handleActionClick(data, "history")}>{data.item.count}</td>
                 <td className="hasProblem" onClick={() => handleActionClick(data, "history")}>
-                  {data.has_problem ? (
-                    <span className="checkFalse">
-                      <FaExclamationTriangle />
-                    </span>
-                  ) : (
-                    <span className="checkTrue">
-                      <FaCheckCircle />
-                    </span>
-                  )}
+                  {data.modified_by.first_name || data.modified_by.last_name
+                    ? `${data.modified_by.first_name || ""} ${data.modified_by.last_name || ""}`.trim()
+                    : data.modified_by.email}
+
                 </td>
                 <td>
                   <BsThreeDotsVertical />

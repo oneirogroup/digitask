@@ -124,6 +124,32 @@ function Warehouse() {
       });
   };
 
+  const handleDeleteItem = async (id) => {
+    try {
+      const response = await fetch(`https://app.desgah.az/warehouse/warehouse-items/${id}/`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.ok) {
+        setTableData(prevData => prevData.filter(item => item.id.toString() !== id.toString()));
+        fetchData();
+        fetchWarehouses();
+      } else {
+        const errorData = await response.json();
+        console.error("Silinmə zamanı xəta:", errorData);
+      }
+    } catch (error) {
+      await refreshAccessToken();
+      fetchData();
+      fetchWarehouses();
+
+    }
+  };
+
+
   const handleWarehouseClick = id => {
     if (warehouseSelected === id) {
       setWarehouseSelected("");
@@ -307,8 +333,11 @@ function Warehouse() {
                                 handleUpdateModalOpen({ action: "decrement", actionName: "Ixrac", count: data.count })
                               }
                             >
-                              {" "}
                               İxrac
+                            </button>
+                            <hr />
+                            <button onClick={() => handleDeleteItem(data.id)}>
+                              Sil
                             </button>
                           </div>
                         </div>

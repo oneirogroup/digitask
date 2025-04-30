@@ -281,6 +281,11 @@
     padding: 10px;
   }
 
+  :where(.css-dev-only-do-not-override-1v613y0).ant-modal .ant-modal-content {
+    margin: 0 auto;
+    width: 80%;
+  }
+
   /* Profil page */
 
   .profile-container h2 {
@@ -1046,6 +1051,9 @@
     width: 58%;
     max-height: 90vh;
   }
+  .position-modal-content, .group-modal-content {
+    max-width: 55%;
+}
 }
 
 @media screen and (max-width: 740px) {
@@ -1290,6 +1298,14 @@
     max-height: 82vh;
   }
 
+  :where(.css-dev-only-do-not-override-1v613y0).ant-table-wrapper .ant-table-thead >tr>th,
+:where(.css-dev-only-do-not-override-1v613y0).ant-table-wrapper .ant-table-tbody >tr >td{
+  font-size: 15px;
+}
+
+:where(.css-dev-only-do-not-override-1v613y0).ant-table-wrapper .ant-table-tbody>tr>td{
+  padding: 15px 12px;
+}
   /* Employee page */
 
   .add-group-modal-content {
@@ -1435,6 +1451,10 @@
   .map-modal-modal-content {
     width: 80%;
     max-width: 80%;
+  }
+
+  :where(.css-dev-only-do-not-override-1v613y0).ant-tabs .ant-tabs-tab-btn h2 {
+    font-size: 19px;
   }
 
   .performance-date input {
@@ -1656,6 +1676,13 @@
     width: 130px;
   }
 
+  :where(.css-dev-only-do-not-override-1v613y0).ant-modal .ant-modal-content {
+    width: 88%;
+    overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+
   /* Employee page */
 
   .employee-title button {
@@ -1721,6 +1748,18 @@
     width: 75%;
     max-width: 75%;
   }
+
+  .position-modal-content, .group-modal-content {
+    max-width: 60%;
+}
+.task-modal-title h5, .add-user-modal-title h5, .position-modal-content h5, .group-modal-content h5, .add-group-modal-title h5, .add-room-modal-title h5 {
+  font-size: 25px;
+}
+
+.region-modal-content h5{
+  font-size: 23px;
+}
+
   /*Chat page */
 
   .chat-sidebar {
@@ -2148,6 +2187,14 @@
     padding: 10px 2px 7px 10px;
   }
 
+  :where(.css-dev-only-do-not-override-1v613y0).ant-tabs .ant-tabs-tab-btn h2 {
+    font-size: 16px;
+}
+
+:where(.css-dev-only-do-not-override-1v613y0).ant-tabs .ant-tabs-tab+.ant-tabs-tab {
+  margin: 0 0 0 23px;
+}
+
   /* Navbar */
 
   .navbar-icons a,
@@ -2193,6 +2240,10 @@
   }
   .submit-btn {
     padding: 8px;
+  }
+
+  .warehousePage-title p{
+    margin-right: 0;
   }
 
   /* Warehouse history page */
@@ -2379,6 +2430,13 @@
     font-size: 15px;
     padding: 7px;
   }
+
+  :where(.css-dev-only-do-not-override-1v613y0).ant-table-wrapper .ant-table-thead >tr>th, :where(.css-dev-only-do-not-override-1v613y0).ant-table-wrapper .ant-table-tbody >tr >td {
+    font-size: 14px;
+}
+.internet-actions svg {
+  font-size: 18px;
+}
 
   /* Warehouse history page */
 
