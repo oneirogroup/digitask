@@ -81,8 +81,8 @@ function Index({ internetPacksModalOpan, closeInternetPacksModal }) {
         open={internetPacksModalOpan}
         onOk={closeInternetPacksModal}
         onCancel={closeInternetPacksModal}
-        okText="Tamamla"
-        cancelText="Ləğv et"
+        cancelText="Bağla"
+        okButtonProps={{ style: { display: 'none' } }}
       >
         <EditInternetPacksModal
           openModal={openModal}

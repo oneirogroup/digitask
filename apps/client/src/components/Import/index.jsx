@@ -21,24 +21,21 @@ function Import({ onClose, warehouses, fetchData }) {
 
   const [errors, setErrors] = useState({
     equipment_name: "",
-    brand: "",
-    model: "",
-    mac: "",
-    port_number: "",
-    serial_number: "",
     count: "",
-    size_length: ""
   });
 
   const refreshAccessToken = useRefreshToken();
 
   const validate = () => {
+    const requiredFields = Object.keys(errors);
     const newErrors = {};
-    Object.keys(formData).forEach(key => {
+
+    requiredFields.forEach(key => {
       if (formData[key] === "") {
         newErrors[key] = "Bu sahəni doldurmalısınız";
       }
     });
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -75,6 +72,7 @@ function Import({ onClose, warehouses, fetchData }) {
       },
       body: JSON.stringify({
         ...formData,
+        port_number: formData.port_number === "" ? 0 : Number(formData.port_number),
         warehouse: activeWarehouse
       })
     };
@@ -160,7 +158,6 @@ function Import({ onClose, warehouses, fetchData }) {
             <label>
               Mac
               <input type="text" name="mac" placeholder="Mac" value={formData.mac} onChange={handleInputChange} />
-              {errors.mac && <span className="error-message">{errors.mac}</span>}
             </label>
             <label>
               Port sayı
@@ -172,7 +169,6 @@ function Import({ onClose, warehouses, fetchData }) {
                 onChange={handleInputChange}
                 onKeyDown={evt => (evt.key === "e" || evt.key === "-") && evt.preventDefault()}
               />
-              {errors.port_number && <span className="error-message">{errors.port_number}</span>}
             </label>
             <label>
               Seriya nömrəsi
@@ -184,7 +180,6 @@ function Import({ onClose, warehouses, fetchData }) {
                 onChange={handleInputChange}
                 onKeyDown={evt => (evt.key === "e" || evt.key === "-") && evt.preventDefault()}
               />
-              {errors.serial_number && <span className="error-message">{errors.serial_number}</span>}
             </label>
             <label>
               Sayı
@@ -209,7 +204,6 @@ function Import({ onClose, warehouses, fetchData }) {
                 onChange={handleInputChange}
                 onKeyDown={evt => (evt.key === "e" || evt.key === "-") && evt.preventDefault()}
               />
-              {errors.size_length && <span className="error-message">{errors.size_length}</span>}
             </label>
           </div>
           <button type="submit" className="submit-btn">
