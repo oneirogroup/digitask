@@ -7,6 +7,7 @@ import { MdOutlineEdit } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
 
 import language from "../../../language.json";
+import tasklanguage from "../../../taskPermissionLanguage.json";
 import AddPositionModal from "./createModal.jsx";
 import EditPositionModal from "./editModal.jsx";
 
@@ -78,7 +79,7 @@ const Positions = () => {
   }, []);
 
   const getPermissionLabel = permission => {
-    return language[permission] || "-";
+    return language[permission] || tasklanguage[permission] || "-";
   };
 
   const handlePositionAdded = newPosition => {

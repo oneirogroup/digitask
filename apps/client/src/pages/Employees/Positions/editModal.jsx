@@ -3,6 +3,7 @@ import axios from "axios";
 import { useEffect } from "react";
 
 import language from "../../../language.json";
+import tasklanguage from "../../../taskPermissionLanguage.json";
 
 const API_URL = "https://app.desgah.az/accounts/positions/positions/";
 
@@ -64,7 +65,7 @@ const EditPositionModal = ({ position, onClose, onPositionUpdated }) => {
 
           <Form.Item label="Tapşırıq icazəsi" name="tasks_permission">
             <Select placeholder="Seçin">
-              {Object.entries(language).map(([key, value]) => (
+              {Object.entries(tasklanguage).map(([key, value]) => (
                 <Select.Option key={key} value={key}>
                   {value}
                 </Select.Option>
