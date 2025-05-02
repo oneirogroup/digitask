@@ -1,4 +1,4 @@
-import { message } from "antd";
+import { message, Popconfirm } from "antd";
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
@@ -61,13 +61,34 @@ const Groups = () => {
         }
     };
 
+    const confirm = async (groupId) => {
+        try {
+            await deleteGroup(groupId);
+            setGroupModals({});
+            message.success('Tapşırıq uğurla silindi');
+        } catch (error) {
+            if (error.status == 403) {
+                deleteGroup(groupId);
+                setGroupModals({});
+            }
+        }
+    };
+
+    const cancel = () => {
+        message.info('Silinmə ləğv edildi');
+    };
+
+
     const openSmallModal = id => {
         setGroupModals(prev => ({ ...prev, [id]: !prev[id] }));
     };
 
     useEffect(() => {
         const handleClickOutside = event => {
-            if (modalRef.current && !modalRef.current.contains(event.target)) {
+            const isInModal = modalRef.current && modalRef.current.contains(event.target);
+            const isInPopconfirm = event.target.closest('.custom-popconfirm') !== null;
+
+            if (!isInModal && !isInPopconfirm) {
                 setGroupModals({});
             }
         };
@@ -124,9 +145,16 @@ const Groups = () => {
                                                 <button onClick={() => handleEditClick(group)}>
                                                     <MdOutlineEdit />
                                                 </button>
-                                                <button onClick={() => deleteGroup(group.id)}>
-                                                    <RiDeleteBin6Line />
-                                                </button>
+                                                <Popconfirm
+                                                    title="Bu tapşırığı silmək istədiyinizə əminsiniz?"
+                                                    onConfirm={() => confirm(group.id)}
+                                                    onCancel={cancel}
+                                                    okText="Bəli"
+                                                    cancelText="Xeyr"
+                                                    overlayClassName="custom-popconfirm"
+                                                >
+                                                    <button><RiDeleteBin6Line /></button>
+                                                </Popconfirm>
                                             </div>
                                         </div>
                                     )}

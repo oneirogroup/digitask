@@ -1,4 +1,4 @@
-import { message } from "antd";
+import { message, Popconfirm } from "antd";
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
@@ -61,13 +61,34 @@ const Positions = () => {
     }
   };
 
+  const confirm = async (positionId) => {
+    try {
+      await deletePosition(positionId);
+      setPositionModals({});
+      message.success('Tapşırıq uğurla silindi');
+    } catch (error) {
+      if (error.status == 403) {
+        deletePosition(positionId);
+        setPositionModals({});
+      }
+    }
+  };
+
+  const cancel = () => {
+    message.info('Silinmə ləğv edildi');
+  };
+
+
   const openSmallModal = id => {
     setPositionModals(prev => ({ ...prev, [id]: !prev[id] }));
   };
 
   useEffect(() => {
     const handleClickOutside = event => {
-      if (modalRef.current && !modalRef.current.contains(event.target)) {
+      const isInModal = modalRef.current && modalRef.current.contains(event.target);
+      const isInPopconfirm = event.target.closest('.custom-popconfirm') !== null;
+
+      if (!isInModal && !isInPopconfirm) {
         setPositionModals({});
       }
     };
@@ -112,6 +133,7 @@ const Positions = () => {
               <th>Anbar icazəsi</th>
               <th>İşçi icazəsi</th>
               <th>Tapşırıq icazəsi</th>
+              <th>Hesabat icazəsi</th>
               {positionPermission && positionPermission.users_permission !== "read_only" && <th></th>}
             </tr>
           </thead>
@@ -123,6 +145,7 @@ const Positions = () => {
                 <td>{getPermissionLabel(position.warehouse_permission)}</td>
                 <td>{getPermissionLabel(position.users_permission)}</td>
                 <td>{getPermissionLabel(position.tasks_permission)}</td>
+                <td>{getPermissionLabel(position.report_permission)}</td>
                 {positionPermission && positionPermission.users_permission !== "read_only" && (
                   <td>
                     <button onClick={() => openSmallModal(position.id)}>
@@ -135,9 +158,16 @@ const Positions = () => {
                           <button onClick={() => handleEditClick(position)}>
                             <MdOutlineEdit />
                           </button>
-                          <button onClick={() => deletePosition(position.id)}>
-                            <RiDeleteBin6Line />
-                          </button>
+                          <Popconfirm
+                            title="Bu tapşırığı silmək istədiyinizə əminsiniz?"
+                            onConfirm={() => confirm(position.id)}
+                            onCancel={cancel}
+                            okText="Bəli"
+                            cancelText="Xeyr"
+                            overlayClassName="custom-popconfirm"
+                          >
+                            <button><RiDeleteBin6Line /></button>
+                          </Popconfirm>
                         </div>
                       </div>
                     )}

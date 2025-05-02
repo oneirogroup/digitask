@@ -4,6 +4,7 @@ import { useEffect } from "react";
 
 import language from "../../../language.json";
 import tasklanguage from "../../../taskPermissionLanguage.json";
+import reportPermissionLanguage from "../../../reportPermission.json";
 
 const API_URL = "https://app.desgah.az/accounts/positions/positions/";
 
@@ -73,6 +74,16 @@ const EditPositionModal = ({ position, onClose, onPositionUpdated }) => {
             </Select>
           </Form.Item>
 
+          <Form.Item label="Hesabat icazəsi" name="report_permission">
+            <Select placeholder="Seçin">
+              {Object.entries(reportPermissionLanguage).map(([key, value]) => (
+                <Select.Option key={key} value={key}>
+                  {value}
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
+          <br />
           <div className="position-modal-buttons">
             <Button type="primary" htmlType="submit">
               Yenilə
