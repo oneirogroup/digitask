@@ -676,7 +676,7 @@ function DetailsModal({ onClose, taskId, userType, onTaskUpdated }) {
                   ? (taskDetails.task_type === "connection" ? "Qoşulma" : "Problem") + " məlumatları"
                   : ""}
               </h5>
-              {((position && position.tasks_permission == "read_write") || (position && position.tasks_permission == "admin")) && <RiEdit2Line onClick={handleEditClick} />}
+              {((position && position.tasks_permission == "read_write") || (position && position.tasks_permission == "is_admin")) && <RiEdit2Line onClick={handleEditClick} />}
             </>
           )}
           <div>

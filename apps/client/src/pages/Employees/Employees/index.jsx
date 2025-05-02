@@ -14,6 +14,7 @@ import FullMapModal from "../../../components/FullMapModal";
 import MapModal from "../../../components/MapModal";
 import UpdateUserModal from "../../../components/UpdateUserModal";
 import { useUser } from "../../../contexts/UserContext";
+import { message, Popconfirm } from "antd";
 
 import "../employees.css";
 
@@ -318,7 +319,10 @@ const EmployeeList = () => {
       if (groupRef.current && !groupRef.current.contains(event.target)) {
         setShowGroupOptions(false);
       }
-      if (modalRef.current && !modalRef.current.contains(event.target)) {
+      const isInModal = modalRef.current && modalRef.current.contains(event.target);
+      const isInPopconfirm = event.target.closest('.custom-popconfirm') !== null;
+
+      if (!isInModal && !isInPopconfirm) {
         setEmployeeModals({});
       }
     };
@@ -367,9 +371,6 @@ const EmployeeList = () => {
   };
 
   const handleDeleteUser = async employeeId => {
-    const confirmDelete = window.confirm("Are you sure you want to delete this user?");
-    if (!confirmDelete) return;
-
     try {
       const token = localStorage.getItem("access_token");
 
@@ -381,13 +382,33 @@ const EmployeeList = () => {
 
       setEmployees(prevEmployees => prevEmployees.filter(employee => employee.id !== employeeId));
     } catch (error) {
-      if (response.status == 403) {
+      if (error.status == 403) {
         await refreshAccessToken();
         handleDeleteUser();
       }
       console.error("Error deleting the user:", error);
     }
   };
+
+  const confirm = async (userId) => {
+    try {
+      await handleDeleteUser(userId);
+      setEmployeeModals({});
+      message.success('Tapşırıq uğurla silindi');
+    } catch (error) {
+      if (error.status == 403) {
+        await refreshAccessToken();
+        handleDeleteUser(userId);
+        setEmployeeModals({});
+      }
+    }
+  };
+
+  const cancel = () => {
+    message.info('Silinmə ləğv edildi');
+  };
+
+
   const position = JSON.parse(localStorage.getItem("position"));
 
   return (
@@ -507,9 +528,16 @@ const EmployeeList = () => {
                           <button onClick={() => handleUpdateUserClick(employee)}>
                             <MdOutlineEdit />
                           </button>
-                          <button onClick={() => handleDeleteUser(employee.id)}>
-                            <RiDeleteBin6Line />
-                          </button>
+                          <Popconfirm
+                            title="Bu tapşırığı silmək istədiyinizə əminsiniz?"
+                            onConfirm={() => confirm(employee.id)}
+                            onCancel={cancel}
+                            okText="Bəli"
+                            cancelText="Xeyr"
+                            overlayClassName="custom-popconfirm"
+                          >
+                            <button><RiDeleteBin6Line /></button>
+                          </Popconfirm>
                         </div>
                       </div>
                     )}

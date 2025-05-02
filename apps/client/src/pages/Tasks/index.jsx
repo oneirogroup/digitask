@@ -1,4 +1,4 @@
-import { ConfigProvider, DatePicker, InputNumber, Modal, Space } from "antd";
+import { ConfigProvider, DatePicker, InputNumber, Space, Button, message, Popconfirm } from "antd";
 import az from "antd/locale/az_AZ";
 import dayjs from "dayjs";
 import "dayjs/locale/az";
@@ -48,6 +48,7 @@ function Index() {
   const regionRef = useRef(null);
   const modalRef = useRef(null);
   const position = JSON.parse(localStorage.getItem("position"));
+  const popconfirmRef = useRef(null);
 
   useEffect(() => {
     refreshAccessToken();
@@ -63,9 +64,13 @@ function Index() {
 
   useEffect(() => {
     function handleClickOutside(event) {
-      if (modalRef.current && !modalRef.current.contains(event.target)) {
+      const isInModal = modalRef.current && modalRef.current.contains(event.target);
+      const isInPopconfirm = event.target.closest('.custom-popconfirm') !== null;
+
+      if (!isInModal && !isInPopconfirm) {
         closeSmallModal();
       }
+
       if (statusRef.current && !statusRef.current.contains(event.target)) {
         setIsStatusModalOpen(false);
       }
@@ -378,6 +383,25 @@ function Index() {
     }
   };
 
+  const confirm = async (taskId) => {
+    try {
+      console.log("Deleting task with ID:", taskId);
+      await deleteTask(taskId);
+      setIsSmallModalOpen(false);
+      message.success('Tapşırıq uğurla silindi');
+    } catch (error) {
+      if (error.status == 403) {
+        await refreshAccessToken();
+        deleteTask(taskId);
+        setIsSmallModalOpen(false);
+      }
+    }
+  };
+
+  const cancel = () => {
+    message.info('Silinmə ləğv edildi');
+  };
+
   const handleStatusUpdate = async (taskId, newStatus) => {
     try {
       const token = localStorage.getItem("access_token");
@@ -464,7 +488,7 @@ function Index() {
       <div className="task-page-title">
         <p>Tapşırıqlar</p>
         <div>
-          {((position?.tasks_permission && position?.tasks_permission == "read_write") || (position?.tasks_permission && position?.tasks_permission == "admin")) && (
+          {((position?.tasks_permission && position?.tasks_permission == "read_write") || (position?.tasks_permission && position?.tasks_permission == "is_admin")) && (
             <button onClick={openInternetPacksModal}>İnternet paketləri</button>
           )}
 
@@ -477,7 +501,7 @@ function Index() {
             {isRefreshing ? "Yüklənir..." : "Yenilə"}
           </button>
 
-          {((position?.tasks_permission && position?.tasks_permission == "read_write") || (position?.tasks_permission && position?.tasks_permission == "admin")) && (
+          {((position?.tasks_permission && position?.tasks_permission == "read_write") || (position?.tasks_permission && position?.tasks_permission == "is_admin")) && (
             <button onClick={openAddTaskModal}>
               <IoAdd />
               Əlavə et
@@ -639,7 +663,7 @@ function Index() {
                           </button>
                         )}
                       </>
-                    ) : position?.tasks_permission == "read_write" || position?.tasks_permission == "admin" ? (
+                    ) : (position?.tasks_permission == "read_write" || position?.tasks_permission == "is_admin") ? (
                       <button
                         onClick={() => openTaskDetailsModal(item.id)}
                         className={`status ${item.status.toLowerCase().replace(" ", "-")}`}
@@ -659,7 +683,7 @@ function Index() {
                     )}
                   </td>
                   <td className="fixed-right">
-                    {position?.tasks_permission == "read_write" || position?.tasks_permission == "admin" ? (
+                    {position?.tasks_permission == "read_write" || position?.tasks_permission == "is_admin" ? (
                       <>
                         <button data-task-index={index} onClick={e => openSmallModal(e, index)}>
                           <BsThreeDotsVertical />
@@ -667,9 +691,16 @@ function Index() {
                         {isSmallModalOpen && selectedTaskIndex === index && (
                           <div ref={modalRef} className={`small-modal ${isSmallModalOpen ? "active" : ""}`}>
                             <div className="small-modal-content">
-                              <button onClick={() => deleteTask(item.id)}>
-                                <RiDeleteBin6Line />
-                              </button>
+                              <Popconfirm
+                                title="Bu tapşırığı silmək istədiyinizə əminsiniz?"
+                                onConfirm={() => confirm(item.id)}
+                                onCancel={cancel}
+                                okText="Bəli"
+                                cancelText="Xeyr"
+                                overlayClassName="custom-popconfirm"
+                              >
+                                <button><RiDeleteBin6Line /></button>
+                              </Popconfirm>
                               <button onClick={() => openTaskDetailsModal(item.id)}>
                                 <MdOutlineEdit />
                               </button>

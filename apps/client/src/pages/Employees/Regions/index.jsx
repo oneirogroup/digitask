@@ -1,4 +1,4 @@
-import { message } from "antd";
+import { message, Popconfirm } from "antd";
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
@@ -61,13 +61,34 @@ const Regions = () => {
         }
     };
 
+    const confirm = async (regionId) => {
+        try {
+            console.log("Deleting task with ID:", regionId);
+            await deleteRegion(regionId);
+            setRegionModals({});
+            message.success('Tapşırıq uğurla silindi');
+        } catch (error) {
+            if (error.status == 403) {
+                deleteRegion(regionId);
+                setRegionModals({});
+            }
+        }
+    };
+
+    const cancel = () => {
+        message.info('Silinmə ləğv edildi');
+    };
+
     const openSmallModal = id => {
         setRegionModals(prev => ({ ...prev, [id]: !prev[id] }));
     };
 
     useEffect(() => {
         const handleClickOutside = event => {
-            if (modalRef.current && !modalRef.current.contains(event.target)) {
+            const isInModal = modalRef.current && modalRef.current.contains(event.target);
+            const isInPopconfirm = event.target.closest('.custom-popconfirm') !== null;
+
+            if (!isInModal && !isInPopconfirm) {
                 setRegionModals({});
             }
         };
@@ -121,9 +142,16 @@ const Regions = () => {
                                                 <button onClick={() => handleEditClick(region)}>
                                                     <MdOutlineEdit />
                                                 </button>
-                                                <button onClick={() => deleteRegion(region.id)}>
-                                                    <RiDeleteBin6Line />
-                                                </button>
+                                                <Popconfirm
+                                                    title="Bu tapşırığı silmək istədiyinizə əminsiniz?"
+                                                    onConfirm={() => confirm(region.id)}
+                                                    onCancel={cancel}
+                                                    okText="Bəli"
+                                                    cancelText="Xeyr"
+                                                    overlayClassName="custom-popconfirm"
+                                                >
+                                                    <button><RiDeleteBin6Line /></button>
+                                                </Popconfirm>
                                             </div>
                                         </div>
                                     )}

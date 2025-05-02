@@ -15,7 +15,6 @@ const AddUserModal = ({ onClose, onUserAdded }) => {
     phone: "",
     group: "",
     position: "",
-    username: "",
     password: "",
     password2: ""
   });
@@ -86,7 +85,6 @@ const AddUserModal = ({ onClose, onUserAdded }) => {
     if (!formData.first_name) errors.first_name = "Ad boş buraxıla bilməz";
     if (!formData.last_name) errors.last_name = "Soyad boş buraxıla bilməz";
     if (!formData.email) errors.email = "Email boş buraxıla bilməz";
-    if (!formData.username) errors.username = "İstifadəçi adı boş buraxıla bilməz";
     if (!formData.group) errors.group = "Qrup seçilməlidir";
     if (!formData.position) errors.position = "Vəzifə seçilməlidir";
     if (!formData.password) errors.password = "Şifrə boş buraxıla bilməz";
@@ -215,17 +213,6 @@ const AddUserModal = ({ onClose, onUserAdded }) => {
                 onChange={handleChange}
               />
               {formErrors.email && <span className="error-message">{formErrors.email}</span>}
-            </div>
-            <div className="form-group">
-              <label>İstifadəçi adı</label>
-              <input
-                type="text"
-                placeholder="İstifadəçi adını daxil edin"
-                name="username"
-                value={formData.username}
-                onChange={handleChange}
-              />
-              {formErrors.username && <span className="error-message">{formErrors.username}</span>}
             </div>
             <div className="form-group">
               <label>Qrup</label>

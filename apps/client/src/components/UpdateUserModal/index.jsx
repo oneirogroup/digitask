@@ -20,7 +20,6 @@ const UpdateUserModal = ({ isOpen, onClose, employee, onUpdateUser, fetchEmploye
     email: "",
     phone: "",
     position: "",
-    username: "",
     group: "",
     group_id: "",
     groupRegion: "",
@@ -76,7 +75,6 @@ const UpdateUserModal = ({ isOpen, onClose, employee, onUpdateUser, fetchEmploye
         email: employee.email || "",
         phone: employee.phone || "",
         position: positions?.find(item => item?.id == employee?.position?.id) || "",
-        username: employee.username || "",
         group: employee.group?.group || "",
         group_id: employee.group?.id || "",
         groupRegion: employee.group?.region || "",
@@ -195,16 +193,6 @@ const UpdateUserModal = ({ isOpen, onClose, employee, onUpdateUser, fetchEmploye
                 placeholder="E-poçt ünvanınızı daxil edin"
                 name="email"
                 value={formData.email}
-                onChange={handleChange}
-              />
-            </div>
-            <div className="form-group">
-              <label>İstifadəçi adı</label>
-              <input
-                type="text"
-                placeholder="İstifadəçi adını daxil edin"
-                name="username"
-                value={formData.username}
                 onChange={handleChange}
               />
             </div>
