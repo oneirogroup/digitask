@@ -43,19 +43,13 @@ const AddPositionModal = ({ onClose, onPositionAdded }) => {
           form={form}
           layout="vertical"
           onFinish={handleSubmit}
-          initialValues={{
-            name: "",
-            warehouse_permission: "",
-            users_permission: "",
-            tasks_permission: ""
-          }}
         >
           <Form.Item label="Ad" name="name" rules={[{ required: true, message: "Ad daxil edin" }]}>
             <Input placeholder="Vəzifə adı" />
           </Form.Item>
 
-          <Form.Item label="Anbar icazəsi" name="warehouse_permission">
-            <Select placeholder="Seçin">
+          <Form.Item label="Anbar icazəsi" name="warehouse_permission" rules={[{ required: true, message: "Bu xana boş qala bilməz!" }]}>
+            <Select placeholder="Seçim edin">
               {Object.entries(language).map(([key, value]) => (
                 <Select.Option key={key} value={key}>
                   {value}
@@ -64,8 +58,8 @@ const AddPositionModal = ({ onClose, onPositionAdded }) => {
             </Select>
           </Form.Item>
 
-          <Form.Item label="İşçi icazəsi" name="users_permission">
-            <Select placeholder="Seçin">
+          <Form.Item label="İşçi icazəsi" name="users_permission" rules={[{ required: true, message: "Bu xana boş qala bilməz!" }]}>
+            <Select placeholder="Seçim edin">
               {Object.entries(language).map(([key, value]) => (
                 <Select.Option key={key} value={key}>
                   {value}
@@ -74,8 +68,8 @@ const AddPositionModal = ({ onClose, onPositionAdded }) => {
             </Select>
           </Form.Item>
 
-          <Form.Item label="Tapşırıq icazəsi" name="tasks_permission">
-            <Select placeholder="Seçin">
+          <Form.Item label="Tapşırıq icazəsi" name="tasks_permission" rules={[{ required: true, message: "Bu xana boş qala bilməz!" }]}>
+            <Select placeholder="Seçim edin">
               {Object.entries(tasklanguage).map(([key, value]) => (
                 <Select.Option key={key} value={key}>
                   {value}
@@ -84,8 +78,8 @@ const AddPositionModal = ({ onClose, onPositionAdded }) => {
             </Select>
           </Form.Item>
 
-          <Form.Item label="Hesabat icazəsi" name="report_permission">
-            <Select placeholder="Seçin">
+          <Form.Item label="Hesabat icazəsi" name="report_permission" rules={[{ required: true, message: "Bu xana boş qala bilməz!" }]}>
+            <Select placeholder="Seçim edin">
               {Object.entries(reportPermissionLanguage).map(([key, value]) => (
                 <Select.Option key={key} value={key}>
                   {value}

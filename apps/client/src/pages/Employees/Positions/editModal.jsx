@@ -19,8 +19,16 @@ const EditPositionModal = ({ position, onClose, onPositionUpdated }) => {
 
   const handleSubmit = async values => {
     try {
-      await axios.put(`${API_URL}${position.id}/`, values);
+      const response = await axios.put(`${API_URL}${position.id}/`, values);
+
       message.success("Vəzifə uğurla yeniləndi");
+
+      const storedUser = JSON.parse(localStorage.getItem("position"));
+      if (storedUser && storedUser.id === position.id) {
+        localStorage.setItem("position", JSON.stringify(response.data));
+        window.location.reload();
+      }
+
       onPositionUpdated();
       onClose();
     } catch (error) {
@@ -45,7 +53,7 @@ const EditPositionModal = ({ position, onClose, onPositionUpdated }) => {
           </Form.Item>
 
           <Form.Item label="Anbar icazəsi" name="warehouse_permission">
-            <Select placeholder="Seçin">
+            <Select placeholder="Seçim edin">
               {Object.entries(language).map(([key, value]) => (
                 <Select.Option key={key} value={key}>
                   {value}

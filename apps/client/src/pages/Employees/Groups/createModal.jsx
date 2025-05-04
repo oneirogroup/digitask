@@ -57,17 +57,13 @@ const AddGroupModal = ({ onClose, onGroupAdded }) => {
           form={form}
           layout="vertical"
           onFinish={handleSubmit}
-          initialValues={{
-            group: "",
-            region: ""
-          }}
         >
           <Form.Item label="Ad" name="group" rules={[{ required: true, message: "Ad daxil edin" }]}>
             <Input placeholder="Qrup adı" />
           </Form.Item>
 
           <Form.Item label="Region" name="region" rules={[{ required: true, message: "Region seçin" }]}>
-            <Select placeholder="Seçin" loading={regionLoading}>
+            <Select placeholder="Seçim edin" loading={regionLoading}>
               {regions.map((region) => (
                 <Select.Option key={region.id} value={region.id}>
                   {region.name}
