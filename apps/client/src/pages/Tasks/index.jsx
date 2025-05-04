@@ -119,9 +119,9 @@ function Index() {
   useEffect(() => {
     const fetchRegions = async () => {
       try {
-        const response = await fetch("https://app.desgah.az/services/groups/");
+        const response = await fetch("https://app.desgah.az/accounts/regions/");
         const data = await response.json();
-        setRegions(data.map(group => group.region));
+        setRegions(data.map(region => region.name));
       } catch (error) {
         if (error.status == 403) {
           await refreshAccessToken();
@@ -197,19 +197,19 @@ function Index() {
     setSelectedRegionFilter(region);
     setIsRegionModalOpen(false);
     fetchTasks(
-      taskFilter,
+      // taskFilter,
       selectedMonth,
       selectedYear,
       selectedStatusFilter,
       activeFilter,
-      selectedRegionFilter,
+      region,
       registrationNumberFilter
     );
   };
 
   const handleMonthChange = date => {
     if (date) {
-      const newDate = new Date(date.year(), date.month(), 1); // Yeni tarixi qururuq
+      const newDate = new Date(date.year(), date.month(), 1);
       setSelectedMonth(newDate);
       setSelectedYear(newDate.getFullYear());
     }
@@ -340,12 +340,12 @@ function Index() {
     setIsRefreshing(true);
     try {
       setActiveFilter("all");
-      const currentDate = new Date();
-      setSelectedMonth(currentDate);
-      setSelectedYear(currentDate.getFullYear());
+      setSelectedMonth(new Date());
+      setSelectedYear(new Date().getFullYear());
       setSelectedStatusFilter("Hamısı");
-
-      await fetchTasks("all", currentDate, currentDate.getFullYear(), "Hamısı");
+      setSelectedRegionFilter("Hamısı");
+      setRegistrationNumberFilter("")
+      await fetchTasks("all", new Date(), new Date().getFullYear(), "Hamısı");
     } catch (error) {
       if (error.status == 403) {
         await refreshAccessToken();
@@ -529,10 +529,12 @@ function Index() {
           <ConfigProvider locale={az}>
             <DatePicker
               picker="month"
+              value={dayjs(selectedMonth)}
               onChange={handleMonthChange}
               placeholder={capitalizeFirstLetter(dayjs().format('MMMM YYYY'))}
             />
           </ConfigProvider>
+
         </Space>
         <div className="task-filter-status-region">
           <div className="task-registration-number">

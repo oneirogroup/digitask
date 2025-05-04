@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { AiFillMail } from "react-icons/ai";
 import { FaChevronDown, FaChevronRight, FaChevronUp, FaPhoneAlt, FaRegEdit, FaSave } from "react-icons/fa";
+import { message } from "antd";
 
 import { EditFilled } from "@ant-design/icons";
 
@@ -51,7 +52,6 @@ const Profile = () => {
         fetchUserTypes();
       }
       console.error("Error fetching profile data", error);
-    } finally {
     }
   };
 
@@ -82,12 +82,14 @@ const Profile = () => {
         ...prevData,
         group: selectedGroup.id,
         groupName: selectedGroup.group,
+        region: selectedGroup.region_name,
         region_name: selectedGroup.region_name,
         groupData: selectedGroup.id
       }));
     }
     setShowGroupDropdown(false);
   };
+
 
   const handleEditToggle = () => {
     setEditMode(!editMode);
@@ -96,13 +98,16 @@ const Profile = () => {
   const handleProfileUpdate = async () => {
     try {
       const { profil_picture, ...profileWithoutPhoto } = profileData;
+      console.log(profileData);
+
       await axios.put("https://app.desgah.az/accounts/profile_update/", {
         ...profileWithoutPhoto,
-        group: profileData?.group,
+        group: profileData?.group?.id || profileData.group,
         groupName: profileData.groupName,
         groupData: profileData.groupData,
         position: profileData?.position?.id
       });
+
 
       console.log(profileData);
       setEditMode(false);
@@ -119,7 +124,7 @@ const Profile = () => {
   const handleDeleteProfilePicture = async () => {
     try {
       await axios.delete("https://app.desgah.az/accounts/profile_image_update/");
-      fetchProfileData(); // şəkli siləndən sonra yenidən datanı çək
+      fetchProfileData();
     } catch (error) {
       if (error.status == 403) {
         await refreshAccessToken();
@@ -134,6 +139,10 @@ const Profile = () => {
   const handleFileChange = async e => {
     const file = e.target.files[0];
     if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        message.error("Profil şəkli 5MB-dan böyükdür. Şəkli yükləmək üçün daha kiçik ölçüdə bir şəkil seçin.");
+        return;
+      }
       const formData = new FormData();
       formData.append("profil_picture", file);
       try {
@@ -149,7 +158,7 @@ const Profile = () => {
           });
           fetchProfileData();
         }
-        console.error("Error updating profile picture", error);
+        console.log("Error updating profile picture", error);
       }
     }
   };

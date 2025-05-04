@@ -1,30 +1,31 @@
+import React, { useEffect, useState } from "react";
+import { Form, Input, Button, Select, message } from "antd";
 import axios from "axios";
-import { useEffect, useRef, useState } from "react";
-import { FaChevronDown, FaChevronUp } from "react-icons/fa";
-
 import useRefreshToken from "../../common/refreshToken";
-
 import "./addRoomModal.css";
 
+const { Option } = Select;
+
 const AddRoomModal = ({ onClose }) => {
-  const [name, setName] = useState("");
-  const [members, setMembers] = useState([]);
+  const [form] = Form.useForm();
   const [memberOptions, setMemberOptions] = useState([]);
-  const [showMembersDropdown, setShowMembersDropdown] = useState(false);
-  const modalRef = useRef(null);
-  const dropdownRef = useRef(null);
+  const [loading, setLoading] = useState(false);
   const refreshAccessToken = useRefreshToken();
-  const [errors, setErrors] = useState({});
 
   useEffect(() => {
     const fetchMembers = async (isRetry = false) => {
       try {
         const response = await axios.get("https://app.desgah.az/accounts/users/");
-        setMemberOptions(response.data);
+        const token = localStorage.getItem("access_token");
+        const currentUserId = token ? JSON.parse(atob(token.split(".")[1])).user_id : null;
+        const filtered = response.data.filter(user => user.id !== currentUserId);
+        setMemberOptions(filtered);
       } catch (error) {
-        if (error.response && error.response.status === 403 && !isRetry) {
+        if (error.response?.status === 403 && !isRetry) {
           await refreshAccessToken();
           fetchMembers(true);
+        } else {
+          message.error("İstifadəçilər yüklənərkən xəta baş verdi.");
         }
       }
     };
@@ -32,59 +33,15 @@ const AddRoomModal = ({ onClose }) => {
     fetchMembers();
   }, []);
 
-  useEffect(() => {
-    const handleClickOutside = event => {
-      if (
-        modalRef.current &&
-        !modalRef.current.contains(event.target) &&
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target)
-      ) {
-        onClose();
-      }
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setShowMembersDropdown(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [onClose]);
-
-  const handleMemberDropdownToggle = () => {
-    setShowMembersDropdown(!showMembersDropdown);
-  };
-
-  const handleSelectMember = memberId => {
-    if (members.includes(memberId)) {
-      setMembers(members.filter(id => id !== memberId));
-    } else {
-      setMembers([...members, memberId]);
-    }
-  };
-
-  const handleSubmit = async e => {
-    e.preventDefault();
-
-    const newErrors = {};
-    if (!name) newErrors.name = "Otaq adı boş ola bilməz.";
-    if (members.length === 0) newErrors.members = "Ən azı bir üzv seçilməlidir.";
-
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
-      return;
-    }
-
+  const handleSubmit = async (values) => {
+    setLoading(true);
     try {
       const token = localStorage.getItem("access_token");
-      const response = await axios.post(
+      await axios.post(
         "https://app.desgah.az/accounts/add_group/",
         {
-          name: name,
-          members: members
+          name: values.name,
+          members: values.members
         },
         {
           headers: {
@@ -93,71 +50,69 @@ const AddRoomModal = ({ onClose }) => {
           }
         }
       );
-
+      message.success("Qrup uğurla əlavə edildi");
       onClose();
     } catch (error) {
-      if (error.status === 403) {
+      if (error?.response?.status === 403) {
         await refreshAccessToken();
-        setErrors({});
-        handleSubmit(e);
+        form.submit(); // Yenidən cəhd et
       } else {
-        console.error("Error adding room:", error);
-        setErrors({ api: "Serverdə bir problem baş verdi." }); // Optional: Set a generic error
+        message.error("Serverdə bir xəta baş verdi.");
       }
+    } finally {
+      setLoading(false);
     }
   };
 
-  const token = localStorage.getItem("access_token");
-  const currentUserId = token ? JSON.parse(atob(token.split(".")[1])).user_id : null;
-
-  const filteredMemberOptions = memberOptions.filter(member => member.id !== currentUserId);
-
-  const selectedMemberNames =
-    members
-      .map(memberId => {
-        const member = filteredMemberOptions.find(option => option.id === memberId);
-        return member ? member?.first_name + " " + member?.last_name : "";
-      })
-      .filter(name => name)
-      .join(", ") || "Üzvləri seçin";
-
   return (
-    <div className="room-modal-overlay">
-      <div className="add-room-modal-content" ref={modalRef}>
-        <div className="add-room-modal-title">
-          <h5>Yeni qrup</h5>
-          <span onClick={onClose}>&times;</span>
+    <div className="group-modal-overlay" onClick={(e) => e.stopPropagation()}>
+      <div className="group-modal-content">
+        <div className="group-modal-title">
+          <h5>Yeni Qrup</h5>
+          <span className="close" onClick={onClose}>&times;</span>
         </div>
         <hr />
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="roomName">Ad</label>
-            <input type="text" id="roomName" value={name} onChange={e => setName(e.target.value)} />
+        <Form
+          form={form}
+          layout="vertical"
+          onFinish={handleSubmit}
+          initialValues={{ name: "", members: [] }}
+        >
+          <Form.Item
+            label="Ad"
+            name="name"
+            rules={[{ required: true, message: "Otaq adı boş ola bilməz." }]}
+          >
+            <Input placeholder="Qrup adı" />
+          </Form.Item>
+
+          <Form.Item
+            label="Üzvlər"
+            name="members"
+            rules={[{ required: true, message: "Ən azı bir üzv seçilməlidir." }]}
+          >
+            <Select
+              mode="multiple"
+              placeholder="Üzvləri seçin"
+              allowClear
+              optionFilterProp="children"
+              showSearch
+              maxTagCount={4}
+            >
+              {memberOptions.map((member) => (
+                <Option key={member.id} value={member.id}>
+                  {member.first_name} {member.last_name}
+                </Option>
+              ))}
+            </Select>
+          </Form.Item>
+
+          <div className="group-modal-buttons">
+            <Button type="primary" htmlType="submit" loading={loading}>
+              Əlavə et
+            </Button>
           </div>
-          {errors.name && <p className="error-message">{errors.name}</p>}
-          <div className="multi-select-container form-group">
-            <label htmlFor="">Üzvlər</label>
-            <button type="button" className="room-multi-select-button" onClick={handleMemberDropdownToggle}>
-              {selectedMemberNames}
-              <span>{showMembersDropdown ? <FaChevronUp /> : <FaChevronDown />}</span>
-            </button>
-            {showMembersDropdown && (
-              <div className="add-room-multi-select-dropdown" ref={dropdownRef}>
-                {filteredMemberOptions.map(member => (
-                  <div
-                    key={member.id}
-                    onClick={() => handleSelectMember(member.id)}
-                    className={members.includes(member.id) ? "selected" : ""}
-                  >
-                    {member.first_name} {member.last_name}
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-          {errors.members && <p className="error-message">{errors.members}</p>}
-          <button type="submit">Qrup əlavə et</button>
-        </form>
+        </Form>
       </div>
     </div>
   );
