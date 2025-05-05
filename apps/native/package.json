@@ -8,6 +8,8 @@
     "android:build": "yarn build:eas --platform android",
     "android:build:local": "scripts/build-android.sh",
     "android:install": "adb install ./build/android.apk",
+    "build": "echo \"Successfully build\";",
+    "build:local": "echo \"Successfully build\";",
     "build:eas": "eas build --profile preview --non-interactive --clear-cache",
     "build:metro": "metro build $(node -e \"console.log(require.resolve('expo-router/entry'))\") --out ./metro-build --config ./metro.config.js",
     "ios": "nx run-ios",

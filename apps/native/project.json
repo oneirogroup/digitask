@@ -1,0 +1,10 @@
+{
+  "targets": {
+    "build": {
+      "dependsOn": ["android:build", "ios:build"]
+    },
+    "build:local": {
+      "dependsOn": ["android:build:local", "ios:build:local"]
+    }
+  }
+}
