@@ -63,10 +63,6 @@
   .home-meet-section .meet-img img {
     display: none;
   }
-  .home-tasks table tr td:nth-of-type(2),
-  .home-tasks table tr th:nth-of-type(2) {
-    display: none;
-  }
   .meeting-detail-modal-overlay .item-detail-modal-body .modal-label,
   .meeting-detail-modal-overlay .item-detail-modal-body .modal-value {
     font-size: 16px;
@@ -112,10 +108,6 @@
 }
 
 @media screen and (max-width: 1140px) {
-  .home-tasks table tr td:nth-of-type(5),
-  .home-tasks table tr th:nth-of-type(5) {
-    display: none;
-  }
   .passportUpdate .upload-container {
     display: flex;
     gap: 64px;
@@ -237,8 +229,11 @@
     grid-template-columns: repeat(2, 1fr);
   }
   .home-employee-task {
-    width: 100%;
-  }
+        width: 70%;
+    }
+    .home-tasks{
+      width: 100%;
+    }
   .home-meet-section .meet-time-date-img {
     height: 150px;
   }
@@ -351,12 +346,10 @@
     width: 100%;
   }
 
-  .home-tasks table tr td:nth-of-type(2),
-  .home-tasks table tr th:nth-of-type(2),
-  .home-tasks table tr td:nth-of-type(5),
-  .home-tasks table tr th:nth-of-type(5) {
-    display: table-cell;
-  }
+  .home-employee-task {
+        width: 100%;
+    }
+
   .home-tasks table tr td:nth-of-type(2) {
     font-size: 15px;
   }
@@ -834,15 +827,8 @@
   .home-tasks table tr td:nth-of-type(2) {
     font-size: 14px;
   }
-  .home-tasks table tr td:nth-of-type(4) {
-    max-width: 124px;
-  }
   .home-tasks table tr td:first-of-type {
     font-size: 15px;
-  }
-  .home-tasks table tr td:nth-of-type(2),
-  .home-tasks table tr th:nth-of-type(2) {
-    display: none;
   }
   .home-meet-section .meet-time-date h5 {
     font-size: 21px;
@@ -1211,10 +1197,6 @@
   .home-meet-section .meet-time-date-img {
     height: 100%;
   }
-  .home-tasks table tr td:nth-of-type(2),
-  .home-tasks table tr th:nth-of-type(2) {
-    display: table-cell;
-  }
   .home-meet-section {
     padding: 5px 0 25px 0;
   }
@@ -1538,10 +1520,6 @@
 @media screen and (max-width: 550px) {
   /* Home page */
 
-  .home-tasks table tr td:nth-of-type(2),
-  .home-tasks table tr th:nth-of-type(2) {
-    display: none;
-  }
   .event-modal h5 {
     font-size: 22px;
   }
@@ -2054,10 +2032,6 @@
   }
   .home-meet-section .meet-time-date h5 {
     font-size: 20px;
-  }
-  .home-tasks table tr td:nth-of-type(4),
-  .home-tasks tr th:nth-of-type(4) {
-    display: none;
   }
   .event-modal {
     max-width: 70%;

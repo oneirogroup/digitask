@@ -20,6 +20,7 @@ import ImageModal from "../ImageModal";
 import UpdateInternetModal from "../UpdateInternetModal";
 import UpdateTVModal from "../UpdateTVModal";
 import UpdateVoiceModal from "../UpdateVoiceModal";
+import MapFlyTo from "../MapFlyTo";
 
 import upload from "../../assets/images/document-upload.svg";
 import "./detailsModal.css";
@@ -566,21 +567,38 @@ function DetailsModal({ onClose, taskId, userType, onTaskUpdated }) {
     return null; // Return null if no coordinates found
   }
 
-  const handleMapLink = url => {
-    const location = extractCoordinatesFromUrl(url);
-    if (location?.latitude && location.longitude) {
-      setFormData(prevState => ({
-        ...prevState,
-        latitude: location.latitude,
-        longitude: location.longitude
-      }));
-      setMapLink(url); // Store the map link for rendering
+  const handleMapLink = async (url) => {
+    try {
+      const response = await fetch(`https://app.desgah.az/services/resolve-map-url/?url=${encodeURIComponent(url)}`);
+      const data = await response.json();
+
+      console.log("Response from server:", data);
+
+      if (data.latitude && data.longitude) {
+        console.log("Coordinates received:", data.latitude, data.longitude);
+        setFormData(prevState => ({
+          ...prevState,
+          latitude: data.latitude,
+          longitude: data.longitude
+        }));
+      } else {
+        console.error("Coordinates not found:", data.error);
+      }
+    } catch (error) {
+      console.error("Error resolving map link:", error);
     }
   };
 
-  const handleChangeMapLink = event => {
+  const handleChangeMapLink = (event) => {
     const { value } = event.target;
-    handleMapLink(value);
+    setFormData(prevState => ({
+      ...prevState,
+      location_link: value
+    }));
+
+    if (value) {
+      handleMapLink(value);
+    }
   };
 
   const customerIcon = new L.Icon({
@@ -596,15 +614,24 @@ function DetailsModal({ onClose, taskId, userType, onTaskUpdated }) {
         <FaMapPin />
         Müştəri ünvanı:
       </label>
+
       <MapContainer
         center={formData.latitude && formData.longitude ? [formData.latitude, formData.longitude] : [40.4093, 49.8671]}
         zoom={13}
         style={{ height: "300px", width: "100%" }}
       >
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+
         {isEditing && <MapClickHandler onClick={handleMapClick} />}
+
         {formData.latitude && formData.longitude && (
-          <Marker icon={customerIcon} position={[formData.latitude, formData.longitude]} />
+          <>
+            <Marker
+              icon={customerIcon}
+              position={[formData.latitude, formData.longitude]}
+            />
+            <MapFlyTo lat={formData.latitude} lng={formData.longitude} />
+          </>
         )}
       </MapContainer>
     </div>
