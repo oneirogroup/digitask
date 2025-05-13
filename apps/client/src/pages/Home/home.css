@@ -142,7 +142,6 @@
 }
 
 .home-tasks div table tbody td:nth-of-type(3) {
-  width: 164px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -235,7 +234,6 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 150px;
   padding: 0 10px;
 }
 

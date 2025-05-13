@@ -8,6 +8,7 @@ import { RiVoiceprintFill } from "react-icons/ri";
 import { TfiWorld } from "react-icons/tfi";
 /////////////////////////////////////////////////////////////////////////start
 import { MapContainer, Marker, TileLayer, useMapEvents } from "react-leaflet";
+import MapFlyTo from "../MapFlyTo";
 
 import useRefreshToken from "../../common/refreshToken";
 
@@ -283,11 +284,12 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
   };
 
   function extractCoordinatesFromUrl(url) {
-    const regex1 = /@(-?\d+\.\d+),(-?\d+\.\d+),/;
+    // Handle regular Google Maps URLs with coordinates in them
+    const regex1 = /@(-?\d+\.\d+),(-?\d+\.\d+)/;
     const regex2 = /q=(-?\d+\.\d+),(-?\d+\.\d+)/;
     const regex3 = /place\/(-?\d+\.\d+),(-?\d+\.\d+)/;
 
-    // Test the URL with different regex patterns
+    // Try the standard patterns first
     let match = url.match(regex1) || url.match(regex2) || url.match(regex3);
 
     if (match) {
@@ -297,24 +299,48 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
       };
     }
 
+    // If it's a shortened URL (maps.app.goo.gl), we'll need to handle it differently
+    // We'll need to fetch the URL to resolve it, but that requires an async function
+    if (url.includes("maps.app.goo.gl")) {
+      // Signal that this is a shortened URL that needs resolution
+      return { isShortened: true, url };
+    }
+
     return null;
   }
 
-  const handleMapLink = url => {
-    const location = extractCoordinatesFromUrl(url);
-    if (location?.latitude && location.longitude) {
-      setFormData(prevState => ({
-        ...prevState,
-        latitude: location.latitude,
-        longitude: location.longitude
-      }));
+  const handleMapLink = async (url) => {
+    try {
+      const response = await fetch(`https://app.desgah.az/services/resolve-map-url/?url=${encodeURIComponent(url)}`);
+      const data = await response.json();
+
+      console.log("Response from server:", data);
+
+      if (data.latitude && data.longitude) {
+        console.log("Coordinates received:", data.latitude, data.longitude);
+        setFormData(prevState => ({
+          ...prevState,
+          latitude: data.latitude,
+          longitude: data.longitude
+        }));
+      } else {
+        console.error("Coordinates not found:", data.error);
+      }
+    } catch (error) {
+      console.error("Error resolving map link:", error);
     }
   };
 
-  const handleChangeMapLink = event => {
+  const handleChangeMapLink = (event) => {
     const { value } = event.target;
+    setFormData(prevState => ({
+      ...prevState,
+      location_link: value
+    }));
 
-    handleMapLink(value);
+    if (value) {
+      handleMapLink(value);
+    }
   };
 
   const [imageFile, setImageFile] = useState(null);
@@ -506,8 +532,15 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
             >
               <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
               <MapClickHandler onClick={handleMapClick} />
+
               {formData?.latitude && formData?.longitude && (
-                <Marker icon={customerIcon} position={[formData.latitude, formData.longitude]} />
+                <>
+                  <Marker
+                    icon={customerIcon}
+                    position={[formData.latitude, formData.longitude]}
+                  />
+                  <MapFlyTo lat={formData.latitude} lng={formData.longitude} />
+                </>
               )}
             </MapContainer>
           </div>
@@ -517,6 +550,7 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
               type="text"
               id="location_link"
               name="location_link"
+              value={formData.location_link}
               onChange={handleChangeMapLink}
               className="form-control"
               placeholder="Google Maps linkini buraya yapışdırın"

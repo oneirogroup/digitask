@@ -104,9 +104,12 @@ function Import({ onClose, warehouses, fetchData }) {
       onClose();
     } catch (error) {
       console.error("Error importing item:", error);
-      alert("An error occurred while importing the item. Please try again later.");
+      console.alert("An error occurred while importing the item. Please try again later.");
     }
   };
+
+  const hasWarehouses = warehouses && warehouses.length > 0;
+
 
   return (
     <div className="import-modal">
@@ -120,8 +123,7 @@ function Import({ onClose, warehouses, fetchData }) {
         <hr />
         <form onSubmit={handleSubmit}>
           <div className="importModal-warehouseName">
-            {warehouses &&
-              warehouses.length > 0 &&
+            {warehouses && warehouses.length > 0 ? (
               warehouses.map((warehouse, index) => (
                 <button
                   key={index}
@@ -131,8 +133,12 @@ function Import({ onClose, warehouses, fetchData }) {
                 >
                   {warehouse.name}
                 </button>
-              ))}
+              ))
+            ) : (
+              <p className="no-warehouse-message">Anbar yoxdur</p>
+            )}
           </div>
+
           <div className="import-form">
             <label>
               Avadanlığın adı
@@ -209,6 +215,12 @@ function Import({ onClose, warehouses, fetchData }) {
           <button type="submit" className="submit-btn">
             İdxal et
           </button>
+          {!hasWarehouses && (
+            <div className="error-message" style={{ marginTop: "10px", textAlign: "center", fontSize: '18px' }}>
+              Zəhmət olmazsa anbar seçin!
+            </div>
+          )}
+
         </form>
       </div>
     </div>
