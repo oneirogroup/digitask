@@ -52,7 +52,7 @@ export default function UserProfileData() {
       />
 
       <ProfileViewData name="full_name" value={`${profile.first_name} ${profile.last_name}`} title="Ad Soyad" />
-      <ProfileViewData name="region" value={profile.group.region} title="Region" />
+      <ProfileViewData name="region" value={profile.group.region_name} title="Region" />
 
       <ProfileViewData name="group" value={profile.group.group} title="Qrup" />
 

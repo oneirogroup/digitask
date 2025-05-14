@@ -113,6 +113,8 @@ export default function SpecificTask() {
     await refetch();
   };
 
+  console.log("currentTask", currentTask);
+
   return (
     <Fragment>
       <Block.Scroll
@@ -133,12 +135,12 @@ export default function SpecificTask() {
             <Field
               icon={<Icon name="phone" variables={{ stroke: palette.primary["50"] }} />}
               label="Qeydiyyat nömrəsi"
-              value={currentTask.phone}
+              value={currentTask.registration_number}
             />
             <Field
               icon={<Icon name="phone" state="call" variables={{ fill: palette.primary["50"] }} />}
               label="Əlaqə nömrəsi"
-              value={currentTask.phone}
+              value={currentTask.phone || "---"}
             />
             <Field
               icon={<Icon name="location" state={false} variables={{ stroke: palette.primary["50"] }} />}
@@ -148,7 +150,7 @@ export default function SpecificTask() {
             <Field
               icon={<Icon name="region" state={false} variables={{ stroke: palette.primary["50"] }} />}
               label="Region"
-              value={currentTask.group[0]?.region || "Naməlum region"}
+              value={currentTask.group[0]?.region_name || "Naməlum region"}
             />
           </Block>
 
