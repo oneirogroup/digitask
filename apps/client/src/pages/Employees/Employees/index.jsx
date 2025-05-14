@@ -9,12 +9,12 @@ import { PiMapPinAreaFill } from "react-icons/pi";
 import { RiDeleteBin6Line } from "react-icons/ri";
 
 import useRefreshToken from "../../../common/refreshToken";
-import AddGroupModal from "../../../components/AddGroupModal";
 import AddUserModal from "../../../components/AddUserModal";
 import FullMapModal from "../../../components/FullMapModal";
 import MapModal from "../../../components/MapModal";
 import UpdateUserModal from "../../../components/UpdateUserModal";
 import { useUser } from "../../../contexts/UserContext";
+import { message, Popconfirm } from "antd";
 
 import "../employees.css";
 
@@ -31,7 +31,6 @@ const EmployeeList = () => {
   const [employeeModals, setEmployeeModals] = useState({});
   const [status, setStatus] = useState({});
   const [isAddUserModal, setIsAddUserModal] = useState(false);
-  const [isAddGroupModal, setIsAddGroupModal] = useState(false);
   const [isMapModal, setIsMapModal] = useState(false);
   const [isFullMapModal, setIsFullMapModal] = useState(false);
   const [isUpdateUserModal, setIsUpdateUserModal] = useState(false);
@@ -289,13 +288,6 @@ const EmployeeList = () => {
   const closeAddUserModal = () => {
     setIsAddUserModal(false);
   };
-  const openAddGroupModal = () => {
-    setIsAddGroupModal(true);
-  };
-
-  const closeAddGroupModal = () => {
-    setIsAddGroupModal(false);
-  };
 
   const openMapModal = id => {
     setMapEmployee(id);
@@ -327,7 +319,10 @@ const EmployeeList = () => {
       if (groupRef.current && !groupRef.current.contains(event.target)) {
         setShowGroupOptions(false);
       }
-      if (modalRef.current && !modalRef.current.contains(event.target)) {
+      const isInModal = modalRef.current && modalRef.current.contains(event.target);
+      const isInPopconfirm = event.target.closest('.custom-popconfirm') !== null;
+
+      if (!isInModal && !isInPopconfirm) {
         setEmployeeModals({});
       }
     };
@@ -376,9 +371,6 @@ const EmployeeList = () => {
   };
 
   const handleDeleteUser = async employeeId => {
-    const confirmDelete = window.confirm("Are you sure you want to delete this user?");
-    if (!confirmDelete) return;
-
     try {
       const token = localStorage.getItem("access_token");
 
@@ -390,13 +382,33 @@ const EmployeeList = () => {
 
       setEmployees(prevEmployees => prevEmployees.filter(employee => employee.id !== employeeId));
     } catch (error) {
-      if (response.status == 403) {
+      if (error.status == 403) {
         await refreshAccessToken();
         handleDeleteUser();
       }
       console.error("Error deleting the user:", error);
     }
   };
+
+  const confirm = async (userId) => {
+    try {
+      await handleDeleteUser(userId);
+      setEmployeeModals({});
+      message.success('Tapşırıq uğurla silindi');
+    } catch (error) {
+      if (error.status == 403) {
+        await refreshAccessToken();
+        handleDeleteUser(userId);
+        setEmployeeModals({});
+      }
+    }
+  };
+
+  const cancel = () => {
+    message.info('Silinmə ləğv edildi');
+  };
+
+
   const position = JSON.parse(localStorage.getItem("position"));
 
   return (
@@ -406,7 +418,6 @@ const EmployeeList = () => {
         {position && position.users_permission !== "read_only" && (
           <div className="employee-add-buttons">
             <button onClick={openFullMapModal}>Xəritə</button>
-            <button onClick={openAddGroupModal}>Qrup əlavə et</button>
             <button onClick={openAddUserModal}>
               <IoAdd />
               Istifadəçi əlavə et
@@ -517,9 +528,16 @@ const EmployeeList = () => {
                           <button onClick={() => handleUpdateUserClick(employee)}>
                             <MdOutlineEdit />
                           </button>
-                          <button onClick={() => handleDeleteUser(employee.id)}>
-                            <RiDeleteBin6Line />
-                          </button>
+                          <Popconfirm
+                            title="Bu tapşırığı silmək istədiyinizə əminsiniz?"
+                            onConfirm={() => confirm(employee.id)}
+                            onCancel={cancel}
+                            okText="Bəli"
+                            cancelText="Xeyr"
+                            overlayClassName="custom-popconfirm"
+                          >
+                            <button><RiDeleteBin6Line /></button>
+                          </Popconfirm>
                         </div>
                       </div>
                     )}
@@ -551,9 +569,6 @@ const EmployeeList = () => {
       </div>
       {isAddUserModal && (
         <AddUserModal isOpen={isAddUserModal} onClose={closeAddUserModal} onUserAdded={handleUserAdded} />
-      )}
-      {isAddGroupModal && (
-        <AddGroupModal isOpen={isAddGroupModal} onClose={closeAddGroupModal} onGroupAdded={handleGroupAdded} />
       )}
       {isMapModal && <MapModal status={status[mapEmployee]} isOpen={isMapModal} onClose={closeMapModal} />}
       {isFullMapModal && <FullMapModal status={status} isOpen={isFullMapModal} onClose={closeFullMapModal} />}

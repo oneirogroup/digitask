@@ -15,17 +15,19 @@ import MeetingDetailModal from "../../components/MeetingDetailModal";
 
 import photo1 from "../../assets/images/photo.svg";
 import "./home.css";
+import PerformanceTable from "./performance_table";
+import TasksTable from "./tasks_table";
 
 const Home = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [tasks, setTasks] = useState([]);
-  const [performanceData, setPerformanceData] = useState([]);
   const [meetings, setMeetings] = useState([]);
   const [userType, setUserType] = useState(null);
   const [selectedMeeting, setSelectedMeeting] = useState(null);
   const [isMeetingModalOpen, setIsMeetingModalOpen] = useState(false);
   const navigate = useNavigate();
   const refreshAccessToken = useRefreshToken();
+  const position = JSON.parse(localStorage.getItem("position"));
 
   const fetchData = async (isRetry = false) => {
     try {
@@ -37,8 +39,8 @@ const Home = () => {
       setMeetings(responseMainPage.data.meetings || []);
       setUserType(responseMainPage.data.user_type);
 
-      const completedTasks = responseMainPage.data.completed_tasks || [];
-      const mappedTasks = completedTasks.map(task => ({
+      const waitingTasks = responseMainPage.data.waiting_tasks || [];
+      const mappedTasks = waitingTasks.map(task => ({
         id: task.id,
         first_name: task.first_name,
         last_name: task.last_name,
@@ -52,17 +54,12 @@ const Home = () => {
         status: task.status
       }));
       setTasks(mappedTasks);
-
-      const responsePerformance = await axios.get("https://app.desgah.az/services/performance/", {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      setPerformanceData(responsePerformance.data);
     } catch (error) {
       if (error.response && (error.response.status === 401 || error.response.status === 403) && !isRetry) {
         try {
           await fetchData(true);
         } catch (refreshError) {
-          if (response.status == 403) {
+          if (error.response.status == 403) {
             await refreshAccessToken();
             fetchData();
           }
@@ -134,14 +131,13 @@ const Home = () => {
             </div>
           </div>
         ))}
-        {userType !== "Texnik" && (
+        {position && position.tasks_permission != "Texnik" &&
           <div className="meet-add" onClick={openModal}>
             <button>
               <IoIosAddCircleOutline />
               <p>Tədbir əlavə et</p>
             </button>
-          </div>
-        )}
+          </div>}
       </section>
       <div>
         <div className="home-charts">
@@ -153,101 +149,14 @@ const Home = () => {
             <div>
               <p>İşçilərin performansı</p>
             </div>
-            <table>
-              <thead>
-                <tr>
-                  <th>Ad</th>
-                  <th>Qrup</th>
-                  <th>Tapşırıqlar</th>
-                </tr>
-              </thead>
-              <tbody>
-                {performanceData.length > 0 ? (
-                  performanceData.slice(0, 5).map((item, index) => (
-                    <tr key={index}>
-                      <td>{`${item.first_name} ${item.last_name.charAt(0)}.`}</td>
-                      <td>{item.group.group ? item.group.group : <span>-</span>}</td>
-                      <td>{item.task_count.total}</td>
-                    </tr>
-                  ))
-                ) : (
-                  <tr>No performance data available.</tr>
-                )}
-              </tbody>
-            </table>
+            <PerformanceTable scroll={{ y: 400 }} />
           </div>
           <div className="home-tasks">
             <div>
               <p>Tapşırıqlar</p>
               <Link to="/tasks/">Hamısına bax</Link>
             </div>
-            <table>
-              <thead>
-                <tr>
-                  <th>Ad</th>
-                  <th>Saat</th>
-                  <th>Növ</th>
-                  <th>Ünvan</th>
-                  <th>Nömrə</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                {tasks.length > 0 ? (
-                  tasks.slice(0, 5).map((item, index) => (
-                    <tr key={index}>
-                      <td>{item.first_name && item.last_name ? `${item.first_name} ${item.last_name}` : "-"}</td>
-                      <td>
-                        {item.start_time && item.end_time
-                          ? `${formatTime(item.start_time)} - ${formatTime(item.end_time)}`
-                          : !item.start_time && !item.end_time
-                            ? "-"
-                            : `${item.start_time ? formatTime(item.start_time) : "-"} - ${
-                                item.end_time ? formatTime(item.end_time) : "-"
-                              }`}
-                      </td>
-                      <td>
-                        <div>
-                          {item.tv && (
-                            <span>
-                              <PiTelevisionSimple />
-                            </span>
-                          )}
-                          {item.internet && (
-                            <span>
-                              <TfiWorld />
-                            </span>
-                          )}
-                          {item.voice && (
-                            <span>
-                              <RiVoiceprintFill />
-                            </span>
-                          )}
-                          {!item.tv && !item.internet && !item.voice && <span>Xidmət daxil edilməyib</span>}
-                        </div>
-                      </td>
-                      <td>{item.location}</td>
-                      <td>{item.phone ? item.phone : "-"}</td>
-                      <td className="task-status">
-                        <button className={`status ${item.status.toLowerCase().replace(" ", "-")}`}>
-                          {item.status === "waiting"
-                            ? "Gözləyir"
-                            : item.status === "inprogress"
-                              ? "Qəbul edilib"
-                              : item.status === "started"
-                                ? "Başlanıb"
-                                : item.status === "completed"
-                                  ? "Tamamlanıb"
-                                  : item.status}
-                        </button>
-                      </td>
-                    </tr>
-                  ))
-                ) : (
-                  <div>Məlumat mövcud deyil.</div>
-                )}
-              </tbody>
-            </table>
+            <TasksTable tasks={tasks} />
           </div>
         </section>
       </div>

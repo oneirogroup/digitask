@@ -10,6 +10,7 @@ import Export from "../Export";
 import Import from "../Import";
 import IncrementImportModal from "../IncrementImportModal";
 import ItemDetail from "../ItemDetail/ItemDetail";
+import { message, Popconfirm } from "antd";
 
 import "./warehouse.css";
 
@@ -42,8 +43,11 @@ function Warehouse() {
 
   useEffect(() => {
     function handleClickOutside(event) {
-      if (actionModalRef.current && !actionModalRef.current.contains(event.target)) {
-        setIsActionModalOpen(false);
+      const isInModal = actionModalRef.current && actionModalRef.current.contains(event.target);
+      const isInPopconfirm = event.target.closest('.custom-popconfirm') !== null;
+
+      if (!isInModal && !isInPopconfirm) {
+        setIsActionModalOpen();
       }
     }
 
@@ -68,7 +72,7 @@ function Warehouse() {
         const data = await response.json();
         if (Array.isArray(data)) {
           setWarehouses(data);
-          const uniqueRegions = Array.from(new Set(data.map(warehouse => warehouse.region)));
+          const uniqueRegions = Array.from(new Set(data.map(warehouse => warehouse.region_name)));
           setRegions(uniqueRegions);
         } else {
           console.error("Error: Expected an array but received:", data);
@@ -123,6 +127,51 @@ function Warehouse() {
         }
       });
   };
+
+  const handleDeleteItem = async (id) => {
+    try {
+      const response = await fetch(`https://app.desgah.az/warehouse/warehouse-items/${id}/`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.ok) {
+        setTableData(prevData => prevData.filter(item => item.id.toString() !== id.toString()));
+        fetchData();
+        fetchWarehouses();
+      } else {
+        const errorData = await response.json();
+        console.error("Silinmə zamanı xəta:", errorData);
+      }
+    } catch (error) {
+      await refreshAccessToken();
+      fetchData();
+      fetchWarehouses();
+
+    }
+  };
+
+  const confirm = async (taskId) => {
+    try {
+      console.log("Deleting task with ID:", taskId);
+      await handleDeleteItem(taskId);
+      setIsActionModalOpen(false);
+      message.success('Tapşırıq uğurla silindi');
+    } catch (error) {
+      if (error.status == 403) {
+        await refreshAccessToken();
+        handleDeleteItem(taskId);
+        setIsActionModalOpen(false);
+      }
+    }
+  };
+
+  const cancel = () => {
+    message.info('Silinmə ləğv edildi');
+  };
+
 
   const handleWarehouseClick = id => {
     if (warehouseSelected === id) {
@@ -207,7 +256,7 @@ function Warehouse() {
       <section>
         <div className="warehouseTable-title">
           <p>Anbar</p>
-          {position && position.warehouse_permission == "read_write" && (
+          {((position && position.warehouse_permission == "read_write") || (position && position.warehouse_permission == "is_admin")) && (
             <div>
               <button
                 className={`importButton ${importSelected ? "selectedButton" : ""}`}
@@ -288,7 +337,7 @@ function Warehouse() {
                   </td>
 
                   <td onClick={() => handleItemDetailOpen(data)}>{data.measure}</td>
-                  {position && position.warehouse_permission == "read_write" && (
+                  {((position && position.warehouse_permission == "read_write") || (position && position.warehouse_permission == "is_admin")) && (
                     <td style={{ position: "relative" }} onClick={event => handleActionClick(event, index, data.id)}>
                       <BsThreeDotsVertical />
                       {isActionModalOpen && actionModalPosition.index === index && (
@@ -307,9 +356,19 @@ function Warehouse() {
                                 handleUpdateModalOpen({ action: "decrement", actionName: "Ixrac", count: data.count })
                               }
                             >
-                              {" "}
                               İxrac
                             </button>
+                            <hr />
+                            <Popconfirm
+                              title="Bu tapşırığı silmək istədiyinizə əminsiniz?"
+                              onConfirm={() => confirm(data.id)}
+                              onCancel={cancel}
+                              okText="Bəli"
+                              cancelText="Xeyr"
+                              overlayClassName="custom-popconfirm"
+                            >
+                              <button>Sil</button>
+                            </Popconfirm>
                           </div>
                         </div>
                       )}

@@ -11,6 +11,7 @@ function index() {
     setSelectedTab(ware);
   };
 
+  const position = JSON.parse(localStorage.getItem("position"));
 
   return (
     <div className="warehouse-page">
@@ -21,9 +22,11 @@ function index() {
         <p className={selectedTab === "storage" ? "selected" : ""} onClick={() => selectTab("storage")}>
           Anbarlar
         </p>
-        <p className={selectedTab === "history" ? "selected" : ""} onClick={() => selectTab("history")}>
-          Anbar tarixçəsi
-        </p>
+        {position?.warehouse_permission == "is_admin" && (
+          <p className={selectedTab === "history" ? "selected" : ""} onClick={() => selectTab("history")}>
+            Anbar tarixçəsi
+          </p>
+        )}
       </div>
       {selectedTab === "item" ? <Warehouse /> : null}
       {selectedTab === "history" ? <History /> : null}

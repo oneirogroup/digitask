@@ -57,8 +57,13 @@ const NotificationModal = ({ notifications, isOpen, onClose }) => {
               <div key={index} className="notification-item">
                 <p>
                   <span className="notification-email">
-                    {notification.user_email && notification.user_email != "null" ? notification.user_email : ""}
+                    {notification.user_first_name && notification.user_last_name
+                      ? `${notification.user_first_name} ${notification.user_last_name} (${notification.user_email})`
+                      : notification.user_email !== "null"
+                        ? notification.user_email
+                        : ""}
                   </span>
+
                   <span className="notification-message">{notification.message}</span>
                 </p>
                 <span className="notification-timestamp">{formatTimestamp(notification.created_at)}</span>

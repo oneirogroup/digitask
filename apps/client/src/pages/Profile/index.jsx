@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { AiFillMail } from "react-icons/ai";
 import { FaChevronDown, FaChevronRight, FaChevronUp, FaPhoneAlt, FaRegEdit, FaSave } from "react-icons/fa";
+import { message } from "antd";
 
 import { EditFilled } from "@ant-design/icons";
 
@@ -20,7 +21,6 @@ const Profile = () => {
   const refreshAccessToken = useRefreshToken();
 
   const [userTypeOptions, setUserTypeOptions] = useState([]);
-
   const [groups, setGroups] = useState([]);
 
   const fetchProfileData = async () => {
@@ -29,7 +29,7 @@ const Profile = () => {
       setProfileData({
         ...response.data,
         groupName: response.data.group?.group || "",
-        region: response.data.group?.region || ""
+        region: response.data.group?.region_name || ""
       });
     } catch (error) {
       if (error.status == 403) {
@@ -52,7 +52,6 @@ const Profile = () => {
         fetchUserTypes();
       }
       console.error("Error fetching profile data", error);
-    } finally {
     }
   };
 
@@ -64,7 +63,7 @@ const Profile = () => {
 
   const fetchGroups = async () => {
     try {
-      const response = await axios.get("https://app.desgah.az/services/groups/");
+      const response = await axios.get("https://app.desgah.az/services/user_groups/");
       await refreshAccessToken();
       setGroups(response.data);
     } catch (error) {
@@ -83,12 +82,14 @@ const Profile = () => {
         ...prevData,
         group: selectedGroup.id,
         groupName: selectedGroup.group,
-        region: selectedGroup.region,
+        region: selectedGroup.region_name,
+        region_name: selectedGroup.region_name,
         groupData: selectedGroup.id
       }));
     }
     setShowGroupDropdown(false);
   };
+
 
   const handleEditToggle = () => {
     setEditMode(!editMode);
@@ -97,13 +98,18 @@ const Profile = () => {
   const handleProfileUpdate = async () => {
     try {
       const { profil_picture, ...profileWithoutPhoto } = profileData;
+      console.log(profileData);
+
       await axios.put("https://app.desgah.az/accounts/profile_update/", {
         ...profileWithoutPhoto,
-        group: profileData.group?.id,
+        group: profileData?.group?.id || profileData.group,
         groupName: profileData.groupName,
         groupData: profileData.groupData,
         position: profileData?.position?.id
       });
+
+
+      console.log(profileData);
       setEditMode(false);
       fetchProfileData();
     } catch (error) {
@@ -115,9 +121,28 @@ const Profile = () => {
     }
   };
 
+  const handleDeleteProfilePicture = async () => {
+    try {
+      await axios.delete("https://app.desgah.az/accounts/profile_image_update/");
+      fetchProfileData();
+    } catch (error) {
+      if (error.status == 403) {
+        await refreshAccessToken();
+        await axios.delete("https://app.desgah.az/accounts/profile_image_update/");
+        fetchProfileData();
+      }
+      console.error("Profil şəkli silinərkən xəta baş verdi", error);
+    }
+  };
+
+
   const handleFileChange = async e => {
     const file = e.target.files[0];
     if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        message.error("Profil şəkli 5MB-dan böyükdür. Şəkli yükləmək üçün daha kiçik ölçüdə bir şəkil seçin.");
+        return;
+      }
       const formData = new FormData();
       formData.append("profil_picture", file);
       try {
@@ -133,7 +158,7 @@ const Profile = () => {
           });
           fetchProfileData();
         }
-        console.error("Error updating profile picture", error);
+        console.log("Error updating profile picture", error);
       }
     }
   };
@@ -196,22 +221,29 @@ const Profile = () => {
                       onClick={() => handleImageClick(profileData.profil_picture)}
                     />
                     {editMode && (
-                      <label htmlFor="passport" className="upload-label-profile">
-                        <div className="labelDiv">
-                          <EditFilled style={{ fontSize: "35px", color: "#247bd7" }} />
-                          <span>Rəsmi dəyiş</span>
-                        </div>
-                      </label>
+                      <div className="pp-controls">
+                        <label htmlFor="passport" className="upload-label-profile">
+                          <div className="labelDiv">
+                            <EditFilled style={{ fontSize: "30px", color: "#247bd7" }} />
+                          </div>
+                        </label>
+                        <button
+                          className="delete-profile-btn"
+                          onClick={handleDeleteProfilePicture}
+                        >
+                          <i className="fa-solid fa-trash" style={{ fontSize: "30px", color: "#d9534f" }}></i>
+                        </button>
+                      </div>
                     )}
                   </div>
                 ) : (
                   editMode && (
-                    <label htmlFor="passport" className="upload-label">
-                      <span>Yükləmək üçün klikləyin</span>
-                      <div className="upload-icon">
-                        <img src={upload} alt="Upload Icon" />
+                    <label htmlFor="passport" className="profile-upload-label">
+                      <span className="upload-text">Yükləmək üçün klikləyin</span>
+                      <div className="profile-upload-icon">
                       </div>
                     </label>
+
                   )
                 )}
                 {editMode && (
@@ -367,7 +399,7 @@ const Profile = () => {
                 )}
               </div>
               <div className="input-group">
-                <label htmlFor="region">Ərazi</label>
+                <label htmlFor="region_name">Ərazi</label>
                 <input type="text" id="region" value={profileData.region || ""} disabled />
               </div>
             </div>

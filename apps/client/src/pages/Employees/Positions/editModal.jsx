@@ -3,6 +3,8 @@ import axios from "axios";
 import { useEffect } from "react";
 
 import language from "../../../language.json";
+import tasklanguage from "../../../taskPermissionLanguage.json";
+import reportPermissionLanguage from "../../../reportPermission.json";
 
 const API_URL = "https://app.desgah.az/accounts/positions/positions/";
 
@@ -17,8 +19,16 @@ const EditPositionModal = ({ position, onClose, onPositionUpdated }) => {
 
   const handleSubmit = async values => {
     try {
-      await axios.put(`${API_URL}${position.id}/`, values);
+      const response = await axios.put(`${API_URL}${position.id}/`, values);
+
       message.success("Vəzifə uğurla yeniləndi");
+
+      const storedUser = JSON.parse(localStorage.getItem("position"));
+      if (storedUser && storedUser.id === position.id) {
+        localStorage.setItem("position", JSON.stringify(response.data));
+        window.location.reload();
+      }
+
       onPositionUpdated();
       onClose();
     } catch (error) {
@@ -43,7 +53,7 @@ const EditPositionModal = ({ position, onClose, onPositionUpdated }) => {
           </Form.Item>
 
           <Form.Item label="Anbar icazəsi" name="warehouse_permission">
-            <Select placeholder="Seçin">
+            <Select placeholder="Seçim edin">
               {Object.entries(language).map(([key, value]) => (
                 <Select.Option key={key} value={key}>
                   {value}
@@ -64,7 +74,7 @@ const EditPositionModal = ({ position, onClose, onPositionUpdated }) => {
 
           <Form.Item label="Tapşırıq icazəsi" name="tasks_permission">
             <Select placeholder="Seçin">
-              {Object.entries(language).map(([key, value]) => (
+              {Object.entries(tasklanguage).map(([key, value]) => (
                 <Select.Option key={key} value={key}>
                   {value}
                 </Select.Option>
@@ -72,6 +82,16 @@ const EditPositionModal = ({ position, onClose, onPositionUpdated }) => {
             </Select>
           </Form.Item>
 
+          <Form.Item label="Hesabat icazəsi" name="report_permission">
+            <Select placeholder="Seçin">
+              {Object.entries(reportPermissionLanguage).map(([key, value]) => (
+                <Select.Option key={key} value={key}>
+                  {value}
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
+          <br />
           <div className="position-modal-buttons">
             <Button type="primary" htmlType="submit">
               Yenilə

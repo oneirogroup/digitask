@@ -42,10 +42,10 @@ function Index() {
 
       const url = new URL("https://app.desgah.az/services/performance/");
       if (start_date) {
-        url.searchParams.append("start_date", start_date.toISOString().split("T")[0]); // Format date as YYYY-MM-DD
+        url.searchParams.append("start_date", start_date.toISOString().split("T")[0]);
       }
       if (end_date) {
-        url.searchParams.append("end_date", end_date.toISOString().split("T")[0]); // Format date as YYYY-MM-DD
+        url.searchParams.append("end_date", end_date.toISOString().split("T")[0]);
       }
 
       const response = await fetch(url.toString());

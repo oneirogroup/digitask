@@ -8,6 +8,7 @@ import { RiVoiceprintFill } from "react-icons/ri";
 import { TfiWorld } from "react-icons/tfi";
 /////////////////////////////////////////////////////////////////////////start
 import { MapContainer, Marker, TileLayer, useMapEvents } from "react-leaflet";
+import MapFlyTo from "../MapFlyTo";
 
 import useRefreshToken from "../../common/refreshToken";
 
@@ -35,8 +36,7 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
     contact_number: "",
     location: "",
     date: "",
-    start_time: "",
-    end_time: "",
+    end_date: "",
     note: "",
     is_voice: false,
     is_internet: false,
@@ -68,7 +68,7 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
 
   const fetchGroups = async (isRetry = false) => {
     try {
-      const response = await axios.get("https://app.desgah.az/services/groups/");
+      const response = await axios.get("https://app.desgah.az/services/user_groups/");
       setGroups(response.data);
     } catch (error) {
       if (error.status === 403 && !isRetry) {
@@ -128,21 +128,32 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
     }
   };
 
+  const handleSelectEndDate = end_date => {
+    if (end_date && end_date instanceof Date && !isNaN(end_date.getTime())) {
+      const formattedEndDate = `${end_date.getFullYear()}-${String(end_date.getMonth() + 1).padStart(2, "0")}-${String(end_date.getDate()).padStart(2, "0")}`;
+      setFormData(prevState => ({
+        ...prevState,
+        end_date: formattedEndDate
+      }));
+    } else {
+      console.error("Invalid date selected:", end_date);
+    }
+  };
+
   const [errorText, setErrorText] = useState("");
 
   const validateForm = () => {
     const newErrors = {};
     if (!formData.full_name) newErrors.full_name = "Müştəri adını daxil edin!";
     if (!formData.date) newErrors.date = "tarixi";
-    if (!formData.start_time) newErrors.start_time = "başlanğıc saatı";
-    if (!formData.end_time) newErrors.end_time = "bitmə saatı";
+    if (!formData.end_date) newErrors.end_date = "tarixi";
     if (!formData.registration_number) newErrors.registration_number = "Qeydiyyat nömrəsi daxil edin!";
     if (!formData.location) newErrors.location = "Ünvanı daxil edin!";
     if (!formData.is_tv && !formData.is_internet && !formData.is_voice)
       newErrors.service = "Tv, internet və ya səs xidmətini seçin!";
     if (formData.group.length === 0) newErrors.group = "Qrup seçin!";
 
-    const errorMessages = [newErrors.date, newErrors.start_time, newErrors.end_time].filter(Boolean);
+    const errorMessages = [newErrors.date, newErrors.end_date].filter(Boolean);
 
     let errorText = "";
     if (errorMessages.length > 0) {
@@ -213,8 +224,7 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
         contact_number: formData.contact_number,
         location: formData.location,
         date: formData.date,
-        start_time: formData.start_time,
-        end_time: formData.end_time,
+        end_date: formData.end_date,
         note: formData.note,
         is_voice: formData.is_voice,
         is_internet: formData.is_internet,
@@ -274,11 +284,12 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
   };
 
   function extractCoordinatesFromUrl(url) {
-    const regex1 = /@(-?\d+\.\d+),(-?\d+\.\d+),/;
+    // Handle regular Google Maps URLs with coordinates in them
+    const regex1 = /@(-?\d+\.\d+),(-?\d+\.\d+)/;
     const regex2 = /q=(-?\d+\.\d+),(-?\d+\.\d+)/;
     const regex3 = /place\/(-?\d+\.\d+),(-?\d+\.\d+)/;
 
-    // Test the URL with different regex patterns
+    // Try the standard patterns first
     let match = url.match(regex1) || url.match(regex2) || url.match(regex3);
 
     if (match) {
@@ -288,24 +299,48 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
       };
     }
 
+    // If it's a shortened URL (maps.app.goo.gl), we'll need to handle it differently
+    // We'll need to fetch the URL to resolve it, but that requires an async function
+    if (url.includes("maps.app.goo.gl")) {
+      // Signal that this is a shortened URL that needs resolution
+      return { isShortened: true, url };
+    }
+
     return null;
   }
 
-  const handleMapLink = url => {
-    const location = extractCoordinatesFromUrl(url);
-    if (location?.latitude && location.longitude) {
-      setFormData(prevState => ({
-        ...prevState,
-        latitude: location.latitude,
-        longitude: location.longitude
-      }));
+  const handleMapLink = async (url) => {
+    try {
+      const response = await fetch(`https://app.desgah.az/services/resolve-map-url/?url=${encodeURIComponent(url)}`);
+      const data = await response.json();
+
+      console.log("Response from server:", data);
+
+      if (data.latitude && data.longitude) {
+        console.log("Coordinates received:", data.latitude, data.longitude);
+        setFormData(prevState => ({
+          ...prevState,
+          latitude: data.latitude,
+          longitude: data.longitude
+        }));
+      } else {
+        console.error("Coordinates not found:", data.error);
+      }
+    } catch (error) {
+      console.error("Error resolving map link:", error);
     }
   };
 
-  const handleChangeMapLink = event => {
+  const handleChangeMapLink = (event) => {
     const { value } = event.target;
+    setFormData(prevState => ({
+      ...prevState,
+      location_link: value
+    }));
 
-    handleMapLink(value);
+    if (value) {
+      handleMapLink(value);
+    }
   };
 
   const [imageFile, setImageFile] = useState(null);
@@ -367,7 +402,7 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
             <div className="form-group">
               <div className="task-date-form">
                 <div className="">
-                  <label htmlFor="date">Tarix:</label>
+                  <label htmlFor="date">Başlama tarixi:</label>
                   <DatePicker
                     selected={formData.date}
                     id="date"
@@ -380,25 +415,16 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
                   />
                 </div>
                 <div className="">
-                  <label htmlFor="start_time">Başlayır:</label>
-                  <input
-                    type="time"
-                    id="start_time"
-                    name="start_time"
-                    value={formData.start_time}
-                    onChange={handleChange}
-                    className="form-control"
-                  />
-                </div>
-                <div className="">
-                  <label htmlFor="end_time">Bitir:</label>
-                  <input
-                    type="time"
-                    id="end_time"
-                    name="end_time"
-                    value={formData.end_time}
-                    onChange={handleChange}
-                    className="form-control"
+                  <label htmlFor="end_date">Bitmə tarixi:</label>
+                  <DatePicker
+                    selected={formData.end_date}
+                    id="end_date"
+                    name="end_date"
+                    onChange={handleSelectEndDate}
+                    locale="az"
+                    placeholderText="gün/ay/il"
+                    dateFormat="dd.MM.yyyy"
+                    minDate={new Date()}
                   />
                 </div>
               </div>
@@ -486,9 +512,9 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
                 <div className="dropdown-task-toggle" onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
                   {formData.group.length > 0
                     ? ` ${groups
-                        .filter(group => formData.group.includes(group.id))
-                        .map(group => group.group)
-                        .join(",  ")}`
+                      .filter(group => formData.group.includes(group.id))
+                      .map(group => group.group)
+                      .join(",  ")}`
                     : "Qrup seçin"}
                   <FaChevronDown />
                 </div>
@@ -506,8 +532,15 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
             >
               <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
               <MapClickHandler onClick={handleMapClick} />
+
               {formData?.latitude && formData?.longitude && (
-                <Marker icon={customerIcon} position={[formData.latitude, formData.longitude]} />
+                <>
+                  <Marker
+                    icon={customerIcon}
+                    position={[formData.latitude, formData.longitude]}
+                  />
+                  <MapFlyTo lat={formData.latitude} lng={formData.longitude} />
+                </>
               )}
             </MapContainer>
           </div>
@@ -517,6 +550,7 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
               type="text"
               id="location_link"
               name="location_link"
+              value={formData.location_link}
               onChange={handleChangeMapLink}
               className="form-control"
               placeholder="Google Maps linkini buraya yapışdırın"

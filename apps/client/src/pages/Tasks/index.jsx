@@ -1,4 +1,4 @@
-import { ConfigProvider, DatePicker, InputNumber, Modal, Space } from "antd";
+import { ConfigProvider, DatePicker, InputNumber, Space, Button, message, Popconfirm } from "antd";
 import az from "antd/locale/az_AZ";
 import dayjs from "dayjs";
 import "dayjs/locale/az";
@@ -48,6 +48,7 @@ function Index() {
   const regionRef = useRef(null);
   const modalRef = useRef(null);
   const position = JSON.parse(localStorage.getItem("position"));
+  const popconfirmRef = useRef(null);
 
   useEffect(() => {
     refreshAccessToken();
@@ -63,9 +64,13 @@ function Index() {
 
   useEffect(() => {
     function handleClickOutside(event) {
-      if (modalRef.current && !modalRef.current.contains(event.target)) {
+      const isInModal = modalRef.current && modalRef.current.contains(event.target);
+      const isInPopconfirm = event.target.closest('.custom-popconfirm') !== null;
+
+      if (!isInModal && !isInPopconfirm) {
         closeSmallModal();
       }
+
       if (statusRef.current && !statusRef.current.contains(event.target)) {
         setIsStatusModalOpen(false);
       }
@@ -114,9 +119,9 @@ function Index() {
   useEffect(() => {
     const fetchRegions = async () => {
       try {
-        const response = await fetch("https://app.desgah.az/services/groups/");
+        const response = await fetch("https://app.desgah.az/accounts/regions/");
         const data = await response.json();
-        setRegions(data.map(group => group.region));
+        setRegions(data.map(region => region.name));
       } catch (error) {
         if (error.status == 403) {
           await refreshAccessToken();
@@ -192,19 +197,19 @@ function Index() {
     setSelectedRegionFilter(region);
     setIsRegionModalOpen(false);
     fetchTasks(
-      taskFilter,
+      // taskFilter,
       selectedMonth,
       selectedYear,
       selectedStatusFilter,
       activeFilter,
-      selectedRegionFilter,
+      region,
       registrationNumberFilter
     );
   };
 
   const handleMonthChange = date => {
     if (date) {
-      const newDate = new Date(date.year(), date.month(), 1); // Yeni tarixi qururuq
+      const newDate = new Date(date.year(), date.month(), 1);
       setSelectedMonth(newDate);
       setSelectedYear(newDate.getFullYear());
     }
@@ -335,12 +340,12 @@ function Index() {
     setIsRefreshing(true);
     try {
       setActiveFilter("all");
-      const currentDate = new Date();
-      setSelectedMonth(currentDate);
-      setSelectedYear(currentDate.getFullYear());
+      setSelectedMonth(new Date());
+      setSelectedYear(new Date().getFullYear());
       setSelectedStatusFilter("Hamısı");
-
-      await fetchTasks("all", currentDate, currentDate.getFullYear(), "Hamısı");
+      setSelectedRegionFilter("Hamısı");
+      setRegistrationNumberFilter("")
+      await fetchTasks("all", new Date(), new Date().getFullYear(), "Hamısı");
     } catch (error) {
       if (error.status == 403) {
         await refreshAccessToken();
@@ -376,6 +381,25 @@ function Index() {
       }
       console.error("Error deleting task:", error);
     }
+  };
+
+  const confirm = async (taskId) => {
+    try {
+      console.log("Deleting task with ID:", taskId);
+      await deleteTask(taskId);
+      setIsSmallModalOpen(false);
+      message.success('Tapşırıq uğurla silindi');
+    } catch (error) {
+      if (error.status == 403) {
+        await refreshAccessToken();
+        deleteTask(taskId);
+        setIsSmallModalOpen(false);
+      }
+    }
+  };
+
+  const cancel = () => {
+    message.info('Silinmə ləğv edildi');
   };
 
   const handleStatusUpdate = async (taskId, newStatus) => {
@@ -439,6 +463,10 @@ function Index() {
     return null;
   };
 
+  const capitalizeFirstLetter = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
+
   useEffect(() => {
     refreshAccessToken();
     fetchTasks(
@@ -460,7 +488,7 @@ function Index() {
       <div className="task-page-title">
         <p>Tapşırıqlar</p>
         <div>
-          {position?.tasks_permission && position?.tasks_permission == "read_write" && (
+          {((position?.tasks_permission && position?.tasks_permission == "read_write") || (position?.tasks_permission && position?.tasks_permission == "is_admin")) && (
             <button onClick={openInternetPacksModal}>İnternet paketləri</button>
           )}
 
@@ -473,7 +501,7 @@ function Index() {
             {isRefreshing ? "Yüklənir..." : "Yenilə"}
           </button>
 
-          {position?.tasks_permission && position?.tasks_permission == "read_write" && (
+          {((position?.tasks_permission && position?.tasks_permission == "read_write") || (position?.tasks_permission && position?.tasks_permission == "is_admin")) && (
             <button onClick={openAddTaskModal}>
               <IoAdd />
               Əlavə et
@@ -499,8 +527,14 @@ function Index() {
       <div className="task-history-status">
         <Space direction="vertical" size={12} className="task-report-date-filter">
           <ConfigProvider locale={az}>
-            <DatePicker picker="month" onChange={handleMonthChange} placeholder="Tarix seçin" />
+            <DatePicker
+              picker="month"
+              value={dayjs(selectedMonth)}
+              onChange={handleMonthChange}
+              placeholder={capitalizeFirstLetter(dayjs().format('MMMM YYYY'))}
+            />
           </ConfigProvider>
+
         </Space>
         <div className="task-filter-status-region">
           <div className="task-registration-number">
@@ -557,8 +591,8 @@ function Index() {
                 <th>İcraçı</th>
                 <th>Müştəri</th>
                 <th>Kateqoriya</th>
-                <th>Tarix</th>
-                <th>Saat</th>
+                <th>Başlama tarixi</th>
+                <th>Bitmə tarixi</th>
                 <th>Növ</th>
                 <th>Ünvan</th>
                 <th>Nömrə</th>
@@ -585,11 +619,7 @@ function Index() {
                   </td>
                   <td onClick={() => openTaskDetailsModal(item.id)}>{item.date}</td>
                   <td onClick={() => openTaskDetailsModal(item.id)}>
-                    {item.start_time && item.end_time
-                      ? `${formatTime(item.start_time)} - ${formatTime(item.end_time)}`
-                      : !item.start_time && !item.end_time
-                        ? "-"
-                        : `${item.start_time ? formatTime(item.start_time) : "-"} - ${item.end_time ? formatTime(item.end_time) : "-"}`}
+                    {item.end_date ? item.end_date : "-"}
                   </td>
                   <td onClick={() => openTaskDetailsModal(item.id)} className="type-icon">
                     {item.is_tv && <PiTelevisionSimple />}
@@ -603,7 +633,7 @@ function Index() {
                     {item.contact_number ? item.contact_number : "-"}
                   </td>
                   <td className="task-status">
-                    {position?.tasks_permission === "read_only" || (item.phone === userPhone && !item.phone) ? (
+                    {position?.tasks_permission === "technician" || (item.phone === userPhone && !item.phone) ? (
                       <>
                         {item.status === "waiting" && (
                           <button
@@ -635,7 +665,7 @@ function Index() {
                           </button>
                         )}
                       </>
-                    ) : position?.tasks_permission == "read_write" ? (
+                    ) : (position?.tasks_permission == "read_write" || position?.tasks_permission == "is_admin") ? (
                       <button
                         onClick={() => openTaskDetailsModal(item.id)}
                         className={`status ${item.status.toLowerCase().replace(" ", "-")}`}
@@ -655,7 +685,7 @@ function Index() {
                     )}
                   </td>
                   <td className="fixed-right">
-                    {position?.tasks_permission == "read_write" ? (
+                    {position?.tasks_permission == "read_write" || position?.tasks_permission == "is_admin" ? (
                       <>
                         <button data-task-index={index} onClick={e => openSmallModal(e, index)}>
                           <BsThreeDotsVertical />
@@ -663,9 +693,16 @@ function Index() {
                         {isSmallModalOpen && selectedTaskIndex === index && (
                           <div ref={modalRef} className={`small-modal ${isSmallModalOpen ? "active" : ""}`}>
                             <div className="small-modal-content">
-                              <button onClick={() => deleteTask(item.id)}>
-                                <RiDeleteBin6Line />
-                              </button>
+                              <Popconfirm
+                                title="Bu tapşırığı silmək istədiyinizə əminsiniz?"
+                                onConfirm={() => confirm(item.id)}
+                                onCancel={cancel}
+                                okText="Bəli"
+                                cancelText="Xeyr"
+                                overlayClassName="custom-popconfirm"
+                              >
+                                <button><RiDeleteBin6Line /></button>
+                              </Popconfirm>
                               <button onClick={() => openTaskDetailsModal(item.id)}>
                                 <MdOutlineEdit />
                               </button>

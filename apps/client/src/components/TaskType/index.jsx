@@ -20,6 +20,7 @@ import ImageModal from "../ImageModal";
 import UpdateInternetModal from "../UpdateInternetModal";
 import UpdateTVModal from "../UpdateTVModal";
 import UpdateVoiceModal from "../UpdateVoiceModal";
+import MapFlyTo from "../MapFlyTo";
 
 import upload from "../../assets/images/document-upload.svg";
 import "./detailsModal.css";
@@ -94,9 +95,8 @@ function DetailsModal({ onClose, taskId, userType, onTaskUpdated }) {
   const [formData, setFormData] = useState({
     task_type: "",
     full_name: "",
-    start_time: "",
-    end_time: "",
     date: "",
+    end_date: "",
     registration_number: "",
     contact_number: "",
     location: "",
@@ -155,9 +155,8 @@ function DetailsModal({ onClose, taskId, userType, onTaskUpdated }) {
         setFormData({
           task_type: data.task_type,
           full_name: data.full_name,
-          start_time: data.start_time,
-          end_time: data.end_time,
           date: data.date,
+          end_date: data.end_date,
           registration_number: data.registration_number,
           contact_number: data.contact_number,
           location: data.location,
@@ -471,9 +470,8 @@ function DetailsModal({ onClose, taskId, userType, onTaskUpdated }) {
         setFormData({
           task_type: data.task_type,
           full_name: data.full_name,
-          start_time: data.start_time,
-          end_time: data.end_time,
           date: data.date,
+          end_date: data.end_date,
           registration_number: data.registration_number,
           contact_number: data.contact_number,
           location: data.location,
@@ -569,21 +567,38 @@ function DetailsModal({ onClose, taskId, userType, onTaskUpdated }) {
     return null; // Return null if no coordinates found
   }
 
-  const handleMapLink = url => {
-    const location = extractCoordinatesFromUrl(url);
-    if (location?.latitude && location.longitude) {
-      setFormData(prevState => ({
-        ...prevState,
-        latitude: location.latitude,
-        longitude: location.longitude
-      }));
-      setMapLink(url); // Store the map link for rendering
+  const handleMapLink = async (url) => {
+    try {
+      const response = await fetch(`https://app.desgah.az/services/resolve-map-url/?url=${encodeURIComponent(url)}`);
+      const data = await response.json();
+
+      console.log("Response from server:", data);
+
+      if (data.latitude && data.longitude) {
+        console.log("Coordinates received:", data.latitude, data.longitude);
+        setFormData(prevState => ({
+          ...prevState,
+          latitude: data.latitude,
+          longitude: data.longitude
+        }));
+      } else {
+        console.error("Coordinates not found:", data.error);
+      }
+    } catch (error) {
+      console.error("Error resolving map link:", error);
     }
   };
 
-  const handleChangeMapLink = event => {
+  const handleChangeMapLink = (event) => {
     const { value } = event.target;
-    handleMapLink(value);
+    setFormData(prevState => ({
+      ...prevState,
+      location_link: value
+    }));
+
+    if (value) {
+      handleMapLink(value);
+    }
   };
 
   const customerIcon = new L.Icon({
@@ -599,15 +614,24 @@ function DetailsModal({ onClose, taskId, userType, onTaskUpdated }) {
         <FaMapPin />
         Müştəri ünvanı:
       </label>
+
       <MapContainer
         center={formData.latitude && formData.longitude ? [formData.latitude, formData.longitude] : [40.4093, 49.8671]}
         zoom={13}
         style={{ height: "300px", width: "100%" }}
       >
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+
         {isEditing && <MapClickHandler onClick={handleMapClick} />}
+
         {formData.latitude && formData.longitude && (
-          <Marker icon={customerIcon} position={[formData.latitude, formData.longitude]} />
+          <>
+            <Marker
+              icon={customerIcon}
+              position={[formData.latitude, formData.longitude]}
+            />
+            <MapFlyTo lat={formData.latitude} lng={formData.longitude} />
+          </>
         )}
       </MapContainer>
     </div>
@@ -679,7 +703,7 @@ function DetailsModal({ onClose, taskId, userType, onTaskUpdated }) {
                   ? (taskDetails.task_type === "connection" ? "Qoşulma" : "Problem") + " məlumatları"
                   : ""}
               </h5>
-              {position && position.tasks_permission == "read_write" && <RiEdit2Line onClick={handleEditClick} />}
+              {((position && position.tasks_permission == "read_write") || (position && position.tasks_permission == "is_admin")) && <RiEdit2Line onClick={handleEditClick} />}
             </>
           )}
           <div>
@@ -729,7 +753,7 @@ function DetailsModal({ onClose, taskId, userType, onTaskUpdated }) {
                 <div>
                   <div>
                     <label>
-                      <GoClock /> Tarix
+                      <GoClock /> Başlama tarixi
                     </label>
                     <input type="date" id="" name="date" value={formData.date} onChange={handleInputChange} />
                   </div>
@@ -738,13 +762,9 @@ function DetailsModal({ onClose, taskId, userType, onTaskUpdated }) {
                 <div>
                   <div>
                     <label>
-                      <GoClock /> Saat
+                      <GoClock /> Bitmə tarixi
                     </label>
-                    <div className="taskDetailTime">
-                      {" "}
-                      <input type="time" name="start_time" value={formData.start_time} onChange={handleInputChange} />
-                      <input type="time" name="end_time" value={formData.end_time} onChange={handleInputChange} />
-                    </div>
+                    <input type="date" id="" name="end_date" value={formData.end_date} onChange={handleInputChange} />
                   </div>
                   <hr />
                 </div>
@@ -809,13 +829,13 @@ function DetailsModal({ onClose, taskId, userType, onTaskUpdated }) {
                       <div className="taskType-toggle details-toggle" onClick={toggleDropdownService}>
                         {formData.is_tv || formData.is_internet || formData.is_voice
                           ? SERVICE_OPTIONS.filter(
-                              option =>
-                                (option.value === "tv" && formData.is_tv) ||
-                                (option.value === "internet" && formData.is_internet) ||
-                                (option.value === "voice" && formData.is_voice)
-                            )
-                              .map(service => service.label)
-                              .join(", ")
+                            option =>
+                              (option.value === "tv" && formData.is_tv) ||
+                              (option.value === "internet" && formData.is_internet) ||
+                              (option.value === "voice" && formData.is_voice)
+                          )
+                            .map(service => service.label)
+                            .join(", ")
                           : "Xidmət seçin"}
                         <FaChevronDown />
                       </div>
@@ -952,17 +972,8 @@ function DetailsModal({ onClose, taskId, userType, onTaskUpdated }) {
                     <GoClock /> Zaman
                   </label>
                   {taskDetails.date && (
-                    <span>{`${taskDetails.date.split("-")[2]} ${
-                      monthNames[parseInt(taskDetails.date.split("-")[1], 10) - 1]
-                    }${
-                      taskDetails.start_time && taskDetails.end_time
-                        ? `, ${formatTime(taskDetails.start_time)} - ${formatTime(taskDetails.end_time)}`
-                        : !taskDetails.start_time && !taskDetails.end_time
-                          ? ""
-                          : `${taskDetails.start_time ? formatTime(taskDetails.start_time) : "-"} - ${
-                              taskDetails.end_time ? formatTime(taskDetails.end_time) : "-"
-                            }`
-                    }`}</span>
+                    <span>{`${taskDetails.date.split("-")[2]} ${monthNames[parseInt(taskDetails.date.split("-")[1], 10) - 1]
+                      }`}</span>
                   )}
                 </div>
                 <hr />
