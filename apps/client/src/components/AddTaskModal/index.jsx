@@ -1,6 +1,6 @@
 import axios from "axios";
 import az from "date-fns/locale/az";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import DatePicker, { registerLocale } from "react-datepicker";
 import { FaChevronDown } from "react-icons/fa";
 import { PiTelevisionSimpleLight } from "react-icons/pi";
@@ -9,6 +9,7 @@ import { TfiWorld } from "react-icons/tfi";
 /////////////////////////////////////////////////////////////////////////start
 import { MapContainer, Marker, TileLayer, useMapEvents } from "react-leaflet";
 import MapFlyTo from "../MapFlyTo";
+import { debounce } from 'lodash';
 
 import useRefreshToken from "../../common/refreshToken";
 
@@ -268,6 +269,7 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
   };
 
   const [position, setPosition] = useState({ lat: "", lng: "" });
+  // Customer marker icon definition
   const customerIcon = new L.Icon({
     iconUrl: "https://img.icons8.com/?size=100&id=CwAOuD64vULU&format=png&color=000000",
     iconSize: [32, 32],
@@ -275,72 +277,163 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
     popupAnchor: [0, -32]
   });
 
+  const [marker, setMarker] = useState(null);
+  const [isValidLink, setIsValidLink] = useState(null);
+  const [isProcessingLink, setIsProcessingLink] = useState(false);
+  const [mapLinkError, setMapLinkError] = useState("");
+
   const handleMapClick = latlng => {
     setFormData(prevState => ({
       ...prevState,
       latitude: latlng.lat,
       longitude: latlng.lng
     }));
+
+    updateMapMarker(latlng.lat, latlng.lng);
   };
 
   function extractCoordinatesFromUrl(url) {
-    // Handle regular Google Maps URLs with coordinates in them
-    const regex1 = /@(-?\d+\.\d+),(-?\d+\.\d+)/;
-    const regex2 = /q=(-?\d+\.\d+),(-?\d+\.\d+)/;
-    const regex3 = /place\/(-?\d+\.\d+),(-?\d+\.\d+)/;
+    if (!url) return null;
 
-    // Try the standard patterns first
-    let match = url.match(regex1) || url.match(regex2) || url.match(regex3);
+    try {
+      url = url.trim();
 
-    if (match) {
-      return {
-        latitude: parseFloat(match[1]),
-        longitude: parseFloat(match[2])
-      };
+      const patterns = [
+        /@(-?\d+\.\d+),(-?\d+\.\d+)/,             
+        /q=(-?\d+\.\d+),(-?\d+\.\d+)/,            
+        /place\/(-?\d+\.\d+),(-?\d+\.\d+)/,   
+        /ll=(-?\d+\.\d+),(-?\d+\.\d+)/,           
+        /center=(-?\d+\.\d+)%2C(-?\d+\.\d+)/    
+      ];
+
+      for (const regex of patterns) {
+        const match = url.match(regex);
+        if (match) {
+          const lat = parseFloat(match[1]);
+          const lng = parseFloat(match[2]);
+
+          if (lat >= -90 && lat <= 90 && lng >= -180 && lng <= 180) {
+            return {
+              latitude: lat,
+              longitude: lng
+            };
+          }
+        }
+      }
+
+      if (url.includes("maps.app.goo.gl") ||
+        url.includes("goo.gl/maps") ||
+        url.includes("maps.google.com/") ||
+        url.includes("maps.google.") ||
+        url.includes("google.com/maps")) {
+        return { isShortened: true, url };
+      }
+
+      return null;
+    } catch (error) {
+      console.error("Error parsing URL:", error);
+      return null;
     }
-
-    // If it's a shortened URL (maps.app.goo.gl), we'll need to handle it differently
-    // We'll need to fetch the URL to resolve it, but that requires an async function
-    if (url.includes("maps.app.goo.gl")) {
-      // Signal that this is a shortened URL that needs resolution
-      return { isShortened: true, url };
-    }
-
-    return null;
   }
 
+  const updateMapMarker = (lat, lng) => {
+    const mapInstance = mapRef.current;
+
+    if (mapInstance && lat && lng) {
+      if (marker) {
+        mapInstance.removeLayer(marker);
+      }
+
+      const newMarker = L.marker([lat, lng], { icon: customerIcon }).addTo(mapInstance);
+      setMarker(newMarker);
+
+      mapInstance.setView([lat, lng], 15);
+
+      setIsValidLink(true);
+      setMapLinkError("");
+    }
+  };
+
   const handleMapLink = async (url) => {
+    setIsValidLink(null);
+    setMapLinkError("");
+
+    if (!url || url.trim() === "") {
+      setIsValidLink(null);
+      return;
+    }
+
+    setIsProcessingLink(true);
+
     try {
+      const directCoords = extractCoordinatesFromUrl(url);
+
+      if (directCoords && !directCoords.isShortened) {
+        setFormData(prevState => ({
+          ...prevState,
+          latitude: directCoords.latitude,
+          longitude: directCoords.longitude
+        }));
+        updateMapMarker(directCoords.latitude, directCoords.longitude);
+        setIsValidLink(true);
+        setIsProcessingLink(false);
+        return;
+      }
       const response = await fetch(`https://app.desgah.az/services/resolve-map-url/?url=${encodeURIComponent(url)}`);
+
+      if (!response.ok) {
+        throw new Error(`Server returned ${response.status}: ${response.statusText}`);
+      }
+
       const data = await response.json();
 
-      console.log("Response from server:", data);
-
-      if (data.latitude && data.longitude) {
+      if (data && data.latitude && data.longitude) {
         console.log("Coordinates received:", data.latitude, data.longitude);
         setFormData(prevState => ({
           ...prevState,
           latitude: data.latitude,
           longitude: data.longitude
         }));
+        updateMapMarker(data.latitude, data.longitude);
+        setIsValidLink(true);
       } else {
-        console.error("Coordinates not found:", data.error);
+        console.error("Coordinates not found in response:", data);
+        setIsValidLink(false);
+        setMapLinkError(data.error || "Geçersiz harita bağlantısı");
       }
+
     } catch (error) {
-      console.error("Error resolving map link:", error);
+      console.error("General error in handleMapLink:", error);
+      setIsValidLink(false);
+      setMapLinkError("Harita bağlantısı işlenirken bir hata oluştu");
+    } finally {
+      setIsProcessingLink(false);
     }
   };
 
+  const debouncedHandleMapLink = useCallback(
+    debounce((url) => {
+      if (url) handleMapLink(url);
+    }, 500),
+    []
+  );
+
   const handleChangeMapLink = (event) => {
     const { value } = event.target;
+
     setFormData(prevState => ({
       ...prevState,
       location_link: value
     }));
 
-    if (value) {
-      handleMapLink(value);
+    if (value.trim() === "") {
+      setIsValidLink(null);
+      setMapLinkError("");
+      return;
     }
+
+    setIsProcessingLink(true);
+    debouncedHandleMapLink(value);
   };
 
   const [imageFile, setImageFile] = useState(null);
@@ -552,9 +645,27 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
               name="location_link"
               value={formData.location_link}
               onChange={handleChangeMapLink}
-              className="form-control"
+              className={`form-control ${isValidLink === true ? 'is-valid' :
+                isValidLink === false ? 'is-invalid' : ''
+                }`}
               placeholder="Google Maps linkini buraya yapışdırın"
+              disabled={isProcessingLink}
             />
+            {isProcessingLink && (
+              <div className="text-info mt-1">
+                <small>Bağlantı kontrol ediliyor...</small>
+              </div>
+            )}
+            {isValidLink === false && (
+              <div className="invalid-feedback">
+                {mapLinkError || "Geçerli bir Google Maps linki giriniz"}
+              </div>
+            )}
+            {isValidLink === true && (
+              <div className="valid-feedback">
+                Konum başarıyla alındı
+              </div>
+            )}
           </div>
           {/* <div className="form-group passportImage">
                         <label htmlFor="note">Müştərinin şəxsiyyət vəsiqəsi:</label>
