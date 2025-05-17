@@ -299,11 +299,11 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
       url = url.trim();
 
       const patterns = [
-        /@(-?\d+\.\d+),(-?\d+\.\d+)/,             
-        /q=(-?\d+\.\d+),(-?\d+\.\d+)/,            
-        /place\/(-?\d+\.\d+),(-?\d+\.\d+)/,   
-        /ll=(-?\d+\.\d+),(-?\d+\.\d+)/,           
-        /center=(-?\d+\.\d+)%2C(-?\d+\.\d+)/    
+        /@(-?\d+\.\d+),(-?\d+\.\d+)/,
+        /q=(-?\d+\.\d+),(-?\d+\.\d+)/,
+        /place\/(-?\d+\.\d+),(-?\d+\.\d+)/,
+        /ll=(-?\d+\.\d+),(-?\d+\.\d+)/,
+        /center=(-?\d+\.\d+)%2C(-?\d+\.\d+)/
       ];
 
       for (const regex of patterns) {
@@ -339,16 +339,15 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
   const updateMapMarker = (lat, lng) => {
     const mapInstance = mapRef.current;
 
-    if (mapInstance && lat && lng) {
-      if (marker) {
-        mapInstance.removeLayer(marker);
-      }
+    if (marker) {
+      mapInstance.removeLayer(marker);
+      setMarker(null); // marker'ı da sıfırla
+    }
 
+    if (mapInstance && lat && lng) {
       const newMarker = L.marker([lat, lng], { icon: customerIcon }).addTo(mapInstance);
       setMarker(newMarker);
-
       mapInstance.setView([lat, lng], 15);
-
       setIsValidLink(true);
       setMapLinkError("");
     }
@@ -376,6 +375,7 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
         }));
         updateMapMarker(directCoords.latitude, directCoords.longitude);
         setIsValidLink(true);
+        setMapLinkError("");
         setIsProcessingLink(false);
         return;
       }
@@ -396,10 +396,14 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
         }));
         updateMapMarker(data.latitude, data.longitude);
         setIsValidLink(true);
-      } else {
+        setMapLinkError("");
+      } else if (data.error) {
         console.error("Coordinates not found in response:", data);
         setIsValidLink(false);
         setMapLinkError(data.error || "Geçersiz harita bağlantısı");
+      } else {
+        setIsValidLink(false);
+        setMapLinkError("Harita koordinatları alınamadı");
       }
 
     } catch (error) {
@@ -424,6 +428,14 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
     setFormData(prevState => ({
       ...prevState,
       location_link: value
+    }));
+
+
+    setFormData(prevState => ({
+      ...prevState,
+      location_link: value,
+      latitude: null,
+      longitude: null
     }));
 
     if (value.trim() === "") {
@@ -649,20 +661,15 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
                 isValidLink === false ? 'is-invalid' : ''
                 }`}
               placeholder="Google Maps linkini buraya yapışdırın"
-              disabled={isProcessingLink}
             />
-            {isProcessingLink && (
-              <div className="text-info mt-1">
-                <small>Bağlantı kontrol ediliyor...</small>
+            {((!isProcessingLink && isValidLink === false && mapLinkError) && (!formData.latitude || !formData.longitude)) && (
+              <div style={{ color: "red", marginTop: "8px" }}>
+                {mapLinkError}
               </div>
             )}
-            {isValidLink === false && (
-              <div className="invalid-feedback">
-                {mapLinkError || "Geçerli bir Google Maps linki giriniz"}
-              </div>
-            )}
-            {isValidLink === true && (
-              <div className="valid-feedback">
+
+            {formData.latitude && formData.longitude && (
+              <div style={{ color: "green", marginTop: "8px" }}>
                 Konum başarıyla alındı
               </div>
             )}
