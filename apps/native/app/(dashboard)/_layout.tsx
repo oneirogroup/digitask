@@ -76,7 +76,7 @@ export default function DashboardLayout() {
         options={{
           title: "Məhsul əlavə et",
           presentation: "modal",
-          headerBackButtonDisplayMode: "minimal",
+          head  erBackButtonDisplayMode: "minimal",
           headerRight: () => <TaskAddAttachmentHeaderRight />
         }}
       />
