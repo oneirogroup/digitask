@@ -6,3 +6,4 @@ expo-env.d.ts
 
 build
 metro-build
+ios/*.app.*.zip

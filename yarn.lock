@@ -2481,6 +2481,7 @@ __metadata:
     "@dev-plugins/async-storage": "npm:~0.2.0"
     "@dev-plugins/react-query": "npm:~0.2.0"
     "@digitask/shared-lib": "workspace:^"
+    "@expo/image-utils": "npm:^0.7.4"
     "@mdreal/ui-kit": "workspace:^"
     "@mdreal/ws-client": "workspace:^"
     "@react-native-async-storage/async-storage": "npm:1.23.1"
@@ -2519,6 +2520,7 @@ __metadata:
     expo-web-browser: "npm:~14.0.2"
     jest: "npm:^29.2.1"
     jest-expo: "npm:~52.0.6"
+    jimp-compact: "npm:0.16.1-2"
     lodash.isempty: "npm:^4.4.0"
     metro: "npm:^0.81.0"
     nativewind: "npm:^4.1.23"
@@ -3670,6 +3672,23 @@ __metadata:
     temp-dir: "npm:~2.0.0"
     unique-string: "npm:~2.0.0"
   checksum: 10c0/c17e414b43655e29aeb36fb716d0774ddfd77372ea392fa8037ff7d5680ff3c00e471467d63f336e5abc9e067311e38b964affd4f3ababcea9dc7666432a564f
+  languageName: node
+  linkType: hard
+
+"@expo/image-utils@npm:^0.7.4":
+  version: 0.7.4
+  resolution: "@expo/image-utils@npm:0.7.4"
+  dependencies:
+    "@expo/spawn-async": "npm:^1.7.2"
+    chalk: "npm:^4.0.0"
+    getenv: "npm:^1.0.0"
+    jimp-compact: "npm:0.16.1"
+    parse-png: "npm:^2.1.0"
+    resolve-from: "npm:^5.0.0"
+    semver: "npm:^7.6.0"
+    temp-dir: "npm:~2.0.0"
+    unique-string: "npm:~2.0.0"
+  checksum: 10c0/4fb1b418ef7f1386d1ad291f285eee16429653ba61e4220ef3aa56b6f86361ff65aed4f4f40803f84c5b85d1326c06be8f2c9762f5ee980f3cb10ceca7b7eb39
   languageName: node
   linkType: hard
 
@@ -17304,6 +17323,13 @@ __metadata:
   version: 0.16.1
   resolution: "jimp-compact@npm:0.16.1"
   checksum: 10c0/2d73bb927d840ce6dc093d089d770eddbb81472635ced7cad1d7c4545d8734aecf5bd3dedf7178a6cfab4d06c9d6cbbf59e5cb274ed99ca11cd4835a6374f16c
+  languageName: node
+  linkType: hard
+
+"jimp-compact@npm:0.16.1-2":
+  version: 0.16.1-2
+  resolution: "jimp-compact@npm:0.16.1-2"
+  checksum: 10c0/be95a366730daf39f9814e85e56809012b20942e29881127eff8595d608563361a5b7777caade8002e8e977218eac637bed001f405b8e49dbd86b0d0222014db
   languageName: node
   linkType: hard
 

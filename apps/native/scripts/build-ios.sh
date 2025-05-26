@@ -24,14 +24,9 @@ fastlane build
 
 popd || exit 1
 
-#mkdir -p build
-#rm -rf build/ios.ipa
-#
-#APP_PATH=$(find ios/build/Build/Products -name '*.app' | head -n 1)
-#
-#if [[ -z "$APP_PATH" ]]; then
-#  echo "Failed to find .app file."
-#  exit 1
-#fi
-#
-#echo "iOS build completed: build/ios.ipa"
+mkdir -p build
+rm -rf build/DigiTask.ipa
+mv ios/DigiTask.ipa build/DigiTask.ipa || exit 1
+rm -rf ios/DigiTask.app.*.zip
+
+echo "iOS build completed: build/DigiTask.ipa"

@@ -15,13 +15,13 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 ## iOS
 
-### ios release
+### ios build
 
 ```sh
-[bundle exec] fastlane ios release
+[bundle exec] fastlane ios build
 ```
 
-Push a new release build to the App Store
+Build and export IPA with manual signing
 
 ----
 

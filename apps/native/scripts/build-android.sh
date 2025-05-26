@@ -20,4 +20,4 @@ popd || exit 1
 
 mkdir -p build
 rm -rf build/android.apk
-cp android/app/build/outputs/apk/"$mode"/app-"$mode".apk build/android.apk
+cp android/app/build/outputs/apk/"$mode"/app-"$mode".apk build/DigiTask.apk
