@@ -1,0 +1,50 @@
+.report-page-list {
+  background-color: white;
+}
+.ant-list-items {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  background-color: rgba(128, 128, 128, 0.103);
+}
+.report-page-item {
+  background-color: white;
+  box-shadow: 0px 10px 10px #cbcbcb;
+  padding: 12px !important;
+  border-radius: 15px;
+  cursor: pointer;
+}
+.bottomClass {
+  display: flex;
+  justify-content: space-between;
+}
+
+:where(.css-dev-only-do-not-override-1wwf28x).ant-list-vertical
+  .ant-list-item
+  .ant-list-item-meta
+  .ant-list-item-meta-title {
+  margin-bottom: 5px;
+}
+
+:where(.css-dev-only-do-not-override-1wwf28x).ant-list-vertical .ant-list-item .ant-list-item-meta {
+  margin-bottom: 5px;
+}
+
+.report-date-filter{
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: row;
+}
+
+:where(.css-dev-only-do-not-override-1wwf28x).ant-picker {
+  padding: 7px 17px 7px;
+}
+
+:where(.css-dev-only-do-not-override-1wwf28x).ant-pagination {
+  align-items: center;
+  justify-content: center;
+}
+
+:where(.css-dev-only-do-not-override-1wwf28x).ant-tabs >.ant-tabs-nav .ant-tabs-nav-wrap, :where(.css-dev-only-do-not-override-1wwf28x).ant-tabs >div>.ant-tabs-nav .ant-tabs-nav-wrap{
+  display: none !important;
+}

@@ -1,0 +1,73 @@
+.apexcharts-legend {
+    display: none !important;
+}
+
+#circlechart{
+    width: 30%;  
+    background-color: white;
+    border-radius: 10px;
+    height: 300px;
+}
+
+.home-chart-services {
+    display: flex;
+    padding: 10px;
+    justify-content: space-around;
+}
+
+.expandedCircleChart {
+  transform: scale(1.1);
+  transition: transform 0.3s ease;
+}
+
+.home-chart-services div {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+
+#circlechart > p{
+    font-family: Montserrat;
+    font-size: 20px;
+    
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    font-weight: 600;
+}
+#circlechart >p svg{
+    color: #BDBDBD;
+    font-size: 25px;
+}
+
+#apexchartsni6isc67{
+    min-height: 200px !important;
+    height: 200px !important;
+}
+
+#circlechart> div:first-of-type{
+    height: 200px !important;
+    min-height: 200px !important;
+}
+
+.home-chart-services div p{
+    font-family: Nunito Sans;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.home-chart-services div svg{
+    font-size: 10px;
+}
+
+.home-chart-services div:first-of-type svg{
+    color: #005ABF;
+}
+
+.home-chart-services div:nth-of-type(2) svg{
+    color: #FFD600;
+}
+
+.home-chart-services div:last-of-type svg{
+    color: #FF5449;
+}

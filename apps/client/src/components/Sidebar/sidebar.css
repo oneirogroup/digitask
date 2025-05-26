@@ -1,0 +1,227 @@
+.sidebar {
+  display: none;
+  width: 70px;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
+  padding: 20px 10px;
+  border-right: 1px solid #e3e2e6;
+  background-color: white !important;
+  transition: width 0.3s ease;
+  overflow: visible !important;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.sidebar.expanded {
+  width: 190px;
+  padding: 20px;
+}
+
+.sidebar .sidebar-toggle-btn {
+  background: white;
+  border: none;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  height: 80px;
+  cursor: pointer;
+  color: rgb(93, 93, 93);
+  font-size: 24px;
+  position: absolute;
+  top: 50%;
+  z-index: 1001;
+  transform: translate(-50%, -50%);
+  border-right: 1px solid #dadadc;
+}
+.hexagon {
+  left: 75px;
+}
+.pentagon {
+  left: 195px;
+}
+
+.sidebar.hidden {
+  transform: translateX(-100%);
+}
+
+.sidebar.show {
+  transform: translateX(0);
+}
+.aside-link {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: background-color 0.5s;
+}
+
+.aside-link:hover,
+.sidebar ul li:hover {
+  background-color: #5b96db;
+  filter: none;
+  transition-duration: 0.5s;
+}
+
+.pTitles {
+  font-family: Nunito Sans;
+  font-size: 16px;
+  font-weight: 600;
+  color: #909094;
+  margin: 10px;
+}
+
+.aside-link .icon {
+  margin-right: 10px;
+}
+
+.aside-link .icon svg,
+.sidebar ul li svg {
+  font-size: 22px;
+}
+
+.aside-link {
+  color: #5e5e62;
+}
+
+.sidebar ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.sidebar ul li {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+}
+
+.sidebar ul li.active {
+  background-color: #2b75cc;
+}
+
+.sidebar ul li button,
+.sidebar ul li:last-of-type svg {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #ea0a0a;
+  font-family: Montserrat;
+  font-size: 16px;
+}
+
+.sidebar ul li:last-of-type:hover button,
+.sidebar ul li:last-of-type:hover {
+  background-color: #ff5449;
+  color: #fff;
+}
+
+.sidebar ul li:last-of-type:hover span,
+.sidebar ul li:last-of-type:hover svg {
+  color: #fff;
+}
+
+.sidebar ul li button,
+.sidebar ul li {
+  display: flex;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.smaller-sidebar {
+  display: none;
+}
+.layout-no-sidebar {
+  display: block;
+}
+
+.top_section {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  gap: 10px;
+}
+
+.logo {
+  display: block;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  text-decoration: none;
+  color: #000;
+}
+
+.link .icon {
+  margin-right: 10px;
+}
+
+.link_text,
+.sidebar ul li a {
+  display: block;
+  font-family: Montserrat;
+  font-size: 16px;
+
+  color: #5e5e62;
+}
+
+.aside-link.active {
+  background-color: #2b75cc;
+}
+
+.aside-link.active .link_text,
+.aside-link.active .icon,
+.sidebar .active a,
+.sidebar .active svg,
+.aside-link:hover .link_text,
+.aside-link:hover .icon,
+.aside-link:hover a,
+.aside-link:hover svg,
+.sidebar ul li:hover p,
+.sidebar ul li:hover a,
+.sidebar ul li:hover p,
+.sidebar ul li:hover svg {
+  color: #fff;
+  filter: brightness(3.5);
+  transition-duration: 0.5s;
+}
+
+.apexcharts-menu-icon {
+  display: none;
+}
+
+.sidebar ul li:last-of-type span {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #ea0a0a;
+  font-family: Montserrat;
+  font-size: 16px;
+}
+
+.sidebar-close-btn {
+  background-color: inherit;
+  border: none;
+  font-size: 34px;
+  color: #76777a;
+  cursor: pointer;
+}
+
+.sidebar-close-btn-exit {
+  display: none;
+}
+@media (min-width: 1024px) {
+  .sidebar-close-btn {
+    display: none;
+  }
+}
+
+.digitask-logo{
+  cursor:pointer
+}
+.digitask-logo:hover{
+  scale:1.05
+}

@@ -1,43 +1,34 @@
-/// <reference types="vitest" />
-import preserveDirectives from 'rollup-preserve-directives';
-import { defineConfig } from 'vite';
-import dtsPlugin from 'vite-plugin-dts';
-import tsconfigPaths from 'vite-tsconfig-paths';
+import { defineConfig } from "vite";
+import dtsPlugin from "vite-plugin-dts";
+import tsconfigPaths from "vite-tsconfig-paths";
 
-import react from '@vitejs/plugin-react-swc';
+import react from "@vitejs/plugin-react-swc";
 
 export default defineConfig({
-  plugins: [
-    tsconfigPaths(),
-    react(),
-    dtsPlugin({ rollupTypes: true }),
-    preserveDirectives(),
-  ],
+  plugins: [tsconfigPaths(), react(), dtsPlugin({ rollupTypes: true })],
+  resolve: { alias: { "react/jsx-runtime": "nativewind/jsx-runtime" } },
   build: {
-    outDir: 'build',
+    outDir: "build",
     ssr: true,
     sourcemap: true,
     assetsInlineLimit: 0,
+    emptyOutDir: true,
     lib: {
       entry: {
-        main: 'src/main.ts',
+        "shared-lib": "src/main.ts"
       },
-      name: 'Shared Library',
-      formats: ['es'],
+      name: "Dihitask Shared Library",
+      formats: ["es"]
     },
     rollupOptions: {
       output: {
-        chunkFileNames: 'chunks/[name].[hash].js',
+        chunkFileNames: "chunks/[hash].js",
         assetFileNames(chunkInfo) {
-          return chunkInfo.name === 'style.css'
-            ? 'style.css'
-            : `assets/[name].[hash][extname]`;
-        },
-      },
-    },
-  },
-  test: {
-    environment: 'jsdom',
-    setupFiles: ['./tests/vitest.setup.js'],
-  },
+          return (chunkInfo.names?.length ? chunkInfo.names.includes("style.css") : chunkInfo.name === "style.css")
+            ? "style.css"
+            : "assets/[hash][extname]";
+        }
+      }
+    }
+  }
 });

@@ -1,0 +1,44 @@
+.meeting-detail-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+
+.meeting-item-detail-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+    margin-top: 12px;
+  }
+  
+  .meeting-item-detail-grid > div{
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+  }
+
+  .event-modal-textarea{
+    max-width: 100vw;
+    width: 100%;
+    height: auto;
+    text-align: end;
+    overflow: hidden;
+    resize: none;
+    outline: none;
+    border:none;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+  }
+
+.meeting-detail-modal-overlay .item-detail-modal-body .modal-row {
+  align-items: end !important;
+}

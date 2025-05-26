@@ -1,8 +1,5 @@
-import { defineConfig } from "@oneiro/ui-kit/server";
+import sharedLibConfig from "../../libs/shared-lib/tailwind.config";
 
-export default defineConfig({
-  content: ["./app/**/*.{js,jsx,ts,tsx}"],
-  extra: {
-    presets: [require("nativewind/preset")]
-  }
+export default sharedLibConfig.extend({
+  content: ["./app/**/*.{js,jsx,ts,tsx}", "./components/**/*.{js,jsx,ts,tsx}"]
 });
