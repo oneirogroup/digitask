@@ -9,6 +9,10 @@ if [[ "$mode" != "debug" && "$mode" != "release" ]]; then
 fi
 gradle_mode="$(tr '[:lower:]' '[:upper:]' <<< "${mode:0:1}")${mode:1}"
 
+if [ ! -d "android" ]; then
+  yarn expo prebuild -p android --no-install || (yarn && yarn expo prebuild -p android --no-install) || exit 1
+fi
+
 pushd ./android || exit 1
 rm -rf app/build/generated/assets/createBundleReleaseJsAndAssets/index.android.bundle
 ./gradlew build "assemble${gradle_mode}" || exit 1

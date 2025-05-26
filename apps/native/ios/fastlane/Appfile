@@ -1,0 +1,8 @@
+app_identifier("com.oneirogroup.digitask") # The bundle identifier of your app
+apple_id("validg@gmail.com") # Your Apple Developer Portal username
+
+itc_team_id("126535958") # App Store Connect Team ID
+team_id("MCTUG52M88") # Developer Portal Team ID
+
+# For more information about the Appfile, see:
+#     https://docs.fastlane.tools/advanced/#appfile
