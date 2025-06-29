@@ -34,7 +34,7 @@ const AddSurveyModal = ({ onClose, selectedServices, taskId, onSurveyAdded }) =>
 
   useEffect(() => {
     axios
-      .get("https://app.desgah.az/services/services/internet_packs/")
+      .get("https://app.digitask.store/services/services/internet_packs/")
       .then(response => {
         setInternetPackages(response.data);
       })
@@ -52,7 +52,7 @@ const AddSurveyModal = ({ onClose, selectedServices, taskId, onSurveyAdded }) =>
   useEffect(() => {
     const fetchExistingSurveys = async () => {
       try {
-        const response = await axios.get(`https://app.desgah.az/services/task/${taskId}/`);
+        const response = await axios.get(`https://app.digitask.store/services/task/${taskId}/`);
         const data = response.data;
         setExistingSurveys({
           tv: data.tv || false,
@@ -129,7 +129,7 @@ const AddSurveyModal = ({ onClose, selectedServices, taskId, onSurveyAdded }) =>
           return;
         }
 
-        const url = `https://app.desgah.az/services/create_${serviceType}/`;
+        const url = `https://app.digitask.store/services/create_${serviceType}/`;
 
         const formData = new FormData();
         formData.append("task", taskId);

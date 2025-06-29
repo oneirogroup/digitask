@@ -54,7 +54,7 @@ function index({ onClose, status }) {
     const fetchTaskLocations = async () => {
       if (!status?.user?.email) return;
       try {
-        const response = await axios.get(`https://app.desgah.az/services/map-tasks/?email=${status.user.email}`);
+        const response = await axios.get(`https://app.digitask.store/services/map-tasks/?email=${status.user.email}`);
         console.log("Task locations response:", response.data);
         setTaskLocations(response.data);
       } catch (error) {

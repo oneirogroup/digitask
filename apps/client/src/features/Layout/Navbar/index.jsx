@@ -30,7 +30,7 @@ const Navbar = ({ onToggleSidebar }) => {
       }
 
       const email = localStorage.getItem("saved_email");
-      ws3 = new WebSocket(`wss://app.desgah.az/notification/?email=${email}&token=${token}`);
+      ws3 = new WebSocket(`wss://app.digitask.store/notification/?email=${email}&token=${token}`);
 
       ws3.onopen = () => {
         console.log("WebSocket connection established.");
@@ -92,7 +92,7 @@ const Navbar = ({ onToggleSidebar }) => {
         throw new Error("Access token not found");
       }
 
-      const apiEndpoint = "https://app.desgah.az/accounts/notifications/mark-as-read/";
+      const apiEndpoint = "https://app.digitask.store/accounts/notifications/mark-as-read/";
 
       const payload = {
         notification_ids: notificationIds
@@ -135,7 +135,7 @@ const Navbar = ({ onToggleSidebar }) => {
     const fetchProfilePicture = async () => {
       try {
         const accessToken = localStorage.getItem("access_token");
-        const response = await axios.get("https://app.desgah.az/accounts/profile/", {
+        const response = await axios.get("https://app.digitask.store/accounts/profile/", {
           headers: {
             Authorization: `Bearer ${accessToken}`
           }

@@ -33,14 +33,14 @@ function Index() {
   const fetchData = async () => {
     try {
       const token = localStorage.getItem("access_token");
-      const loggedInUserResponse = await axios.get("https://app.desgah.az/accounts/profile/", {
+      const loggedInUserResponse = await axios.get("https://app.digitask.store/accounts/profile/", {
         headers: {
           Authorization: `Bearer ${token}`
         }
       });
       setLoggedInUserId(loggedInUserResponse.data.id);
 
-      const url = new URL("https://app.desgah.az/services/performance/");
+      const url = new URL("https://app.digitask.store/services/performance/");
       if (start_date) {
         url.searchParams.append("start_date", start_date.toISOString().split("T")[0]);
       }

@@ -19,7 +19,7 @@ const PasswordResetRequest = () => {
   const handleSubmit = async event => {
     event.preventDefault();
     try {
-      const response = await axios.post("https://app.desgah.az/accounts/password-reset/", { email });
+      const response = await axios.post("https://app.digitask.store/accounts/password-reset/", { email });
       const { email: responseEmail } = response.data;
       navigate("/re-password-code", { state: { email: responseEmail } });
     } catch (error) {

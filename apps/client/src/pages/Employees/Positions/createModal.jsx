@@ -6,7 +6,7 @@ import language from "../../../language.json";
 import tasklanguage from "../../../taskPermissionLanguage.json";
 import reportPermissionLanguage from "../../../reportPermission.json";
 
-const API_URL = "https://app.desgah.az/accounts/positions/positions/";
+const API_URL = "https://app.digitask.store/accounts/positions/positions/";
 
 const AddPositionModal = ({ onClose, onPositionAdded }) => {
   const [form] = Form.useForm();

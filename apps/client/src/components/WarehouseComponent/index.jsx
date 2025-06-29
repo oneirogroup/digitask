@@ -60,7 +60,7 @@ function Warehouse() {
 
   const fetchWarehouses = async (isRetry = false) => {
     try {
-      const response = await fetch("https://app.desgah.az/warehouse/warehouses/");
+      const response = await fetch("https://app.digitask.store/warehouse/warehouses/");
       if (!response.ok) {
         if (response.status === 403 && !isRetry) {
           await refreshAccessToken();
@@ -87,7 +87,7 @@ function Warehouse() {
   };
 
   const fetchData = () => {
-    let url = "https://app.desgah.az/warehouse/warehouse-items/";
+    let url = "https://app.digitask.store/warehouse/warehouse-items/";
     const params = [];
 
     if (searchTerm) {
@@ -130,7 +130,7 @@ function Warehouse() {
 
   const handleDeleteItem = async (id) => {
     try {
-      const response = await fetch(`https://app.desgah.az/warehouse/warehouse-items/${id}/`, {
+      const response = await fetch(`https://app.digitask.store/warehouse/warehouse-items/${id}/`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",

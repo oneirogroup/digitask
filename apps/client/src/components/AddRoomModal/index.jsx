@@ -15,7 +15,7 @@ const AddRoomModal = ({ onClose }) => {
   useEffect(() => {
     const fetchMembers = async (isRetry = false) => {
       try {
-        const response = await axios.get("https://app.desgah.az/accounts/users/");
+        const response = await axios.get("https://app.digitask.store/accounts/users/");
         const token = localStorage.getItem("access_token");
         const currentUserId = token ? JSON.parse(atob(token.split(".")[1])).user_id : null;
         const filtered = response.data.filter(user => user.id !== currentUserId);
@@ -38,7 +38,7 @@ const AddRoomModal = ({ onClose }) => {
     try {
       const token = localStorage.getItem("access_token");
       await axios.post(
-        "https://app.desgah.az/accounts/add_group/",
+        "https://app.digitask.store/accounts/add_group/",
         {
           name: values.name,
           members: values.members

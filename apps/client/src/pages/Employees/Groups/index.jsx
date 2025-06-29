@@ -10,7 +10,7 @@ import language from "../../../language.json";
 import AddGroupModal from "./createModal.jsx";
 import EditGroupModal from "./editModal.jsx";
 
-const API_URL = "https://app.desgah.az/services/user_groups/";
+const API_URL = "https://app.digitask.store/services/user_groups/";
 
 const Groups = () => {
     const [groups, setGroups] = useState([]);

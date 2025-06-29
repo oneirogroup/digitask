@@ -119,7 +119,7 @@ function Index() {
   useEffect(() => {
     const fetchRegions = async () => {
       try {
-        const response = await fetch("https://app.desgah.az/accounts/regions/");
+        const response = await fetch("https://app.digitask.store/accounts/regions/");
         const data = await response.json();
         setRegions(data.map(region => region.name));
       } catch (error) {
@@ -157,7 +157,7 @@ function Index() {
       const taskTypeParam = taskFilter !== "all" ? `&task_type=${taskFilter}` : "";
       const statusParam = statusFilter !== "Hamısı" ? `&status=${statusMap[statusFilter]}` : "";
 
-      const url = `https://app.desgah.az/services/status/?${taskTypeParam}${monthQueryParam}${statusParam}${regionParam}${registrationParam}`;
+      const url = `https://app.digitask.store/services/status/?${taskTypeParam}${monthQueryParam}${statusParam}${regionParam}${registrationParam}`;
       const response = await fetch(url, {
         method: "GET",
         headers: {
@@ -359,7 +359,7 @@ function Index() {
   const deleteTask = async taskId => {
     try {
       const token = localStorage.getItem("access_token");
-      await fetch(`https://app.desgah.az/services/task/${taskId}/delete/`, {
+      await fetch(`https://app.digitask.store/services/task/${taskId}/delete/`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`
@@ -405,7 +405,7 @@ function Index() {
   const handleStatusUpdate = async (taskId, newStatus) => {
     try {
       const token = localStorage.getItem("access_token");
-      const response = await fetch(`https://app.desgah.az/services/task/${taskId}/update/`, {
+      const response = await fetch(`https://app.digitask.store/services/task/${taskId}/update/`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -419,7 +419,7 @@ function Index() {
       }
       setFilteredData(prevData => prevData.map(task => (task.id === taskId ? { ...task, status: newStatus } : task)));
 
-      const updatedTaskResponse = await fetch(`https://app.desgah.az/services/task/${taskId}/`);
+      const updatedTaskResponse = await fetch(`https://app.digitask.store/services/task/${taskId}/`);
       const updatedTaskData = await updatedTaskResponse.json();
 
       setFilteredData(prevData =>

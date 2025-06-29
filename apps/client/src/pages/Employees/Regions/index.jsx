@@ -10,7 +10,7 @@ import language from "../../../language.json";
 import AddRegionModal from "./createModal.jsx";
 import EditRegionModal from "./editModal.jsx";
 
-const API_URL = "https://app.desgah.az/accounts/regions/";
+const API_URL = "https://app.digitask.store/accounts/regions/";
 
 const Regions = () => {
     const [regions, setRegions] = useState([]);

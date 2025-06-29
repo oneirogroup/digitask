@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Form, Input, Button, Select, message } from "antd";
 import axios from "axios";
 
-const API_URL = "https://app.desgah.az/services/user_groups/";
+const API_URL = "https://app.digitask.store/services/user_groups/";
 
 
 const AddGroupModal = ({ onClose, onGroupAdded }) => {
@@ -15,7 +15,7 @@ const AddGroupModal = ({ onClose, onGroupAdded }) => {
     const fetchRegions = async () => {
       setRegionLoading(true);
       try {
-        const response = await axios.get('https://app.desgah.az/accounts/regions/');
+        const response = await axios.get('https://app.digitask.store/accounts/regions/');
         setRegions(response.data);
       } catch (error) {
         message.error("Regionlər yüklənərkən xəta baş verdi");

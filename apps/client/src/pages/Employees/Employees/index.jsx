@@ -48,7 +48,7 @@ const EmployeeList = () => {
 
   let ws2;
   const connectWebSocket2 = () => {
-    ws2 = new WebSocket(`wss://app.desgah.az/userlist/`);
+    ws2 = new WebSocket(`wss://app.digitask.store/userlist/`);
 
     ws2.onopen = () => { };
 
@@ -84,7 +84,7 @@ const EmployeeList = () => {
     try {
       const token = localStorage.getItem("access_token");
 
-      const response = await axios.get("https://app.desgah.az/accounts/users/", {
+      const response = await axios.get("https://app.digitask.store/accounts/users/", {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -101,7 +101,7 @@ const EmployeeList = () => {
 
       initializeEmployeeModals(employeesData);
 
-      const loggedInUserResponse = await axios.get("https://app.desgah.az/accounts/profile/", {
+      const loggedInUserResponse = await axios.get("https://app.digitask.store/accounts/profile/", {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -177,7 +177,7 @@ const EmployeeList = () => {
   const fetchData = async () => {
     try {
       const token = localStorage.getItem("access_token");
-      const groupsResponse = await axios.get("https://app.desgah.az/services/groups/", {
+      const groupsResponse = await axios.get("https://app.digitask.store/services/groups/", {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -347,7 +347,7 @@ const EmployeeList = () => {
     try {
       const token = localStorage.getItem("access_token");
 
-      const response = await axios.get(`https://app.desgah.az/accounts/update_user/${employeeId}/`, {
+      const response = await axios.get(`https://app.digitask.store/accounts/update_user/${employeeId}/`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -374,7 +374,7 @@ const EmployeeList = () => {
     try {
       const token = localStorage.getItem("access_token");
 
-      await axios.delete(`https://app.desgah.az/accounts/delete_user/${employeeId}/`, {
+      await axios.delete(`https://app.digitask.store/accounts/delete_user/${employeeId}/`, {
         headers: {
           Authorization: `Bearer ${token}`
         }

@@ -48,7 +48,7 @@ function UpdateVoiceModal({ onClose, serviceId, serviceData, onServiceUpdate }) 
       data.append("photo_modem", formData.photo_modem);
     }
 
-    fetch(`https://app.desgah.az/services/update_voice/${serviceId}/`, {
+    fetch(`https://app.digitask.store/services/update_voice/${serviceId}/`, {
       method: "PATCH",
       body: data
     })

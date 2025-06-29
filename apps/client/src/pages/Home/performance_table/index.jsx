@@ -12,7 +12,7 @@ const PerformanceTable = () => {
     const fetchData = async (isRetry = false) => {
         try {
             const token = localStorage.getItem("access_token");
-            const responsePerformance = await axios.get("https://app.desgah.az/services/performance/", {
+            const responsePerformance = await axios.get("https://app.digitask.store/services/performance/", {
                 headers: { Authorization: `Bearer ${token}` }
             });
             // API-dən gələn məlumatları formatla

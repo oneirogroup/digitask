@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Form, Input, Button, Select, message } from "antd";
 import axios from "axios";
 
-const API_URL = "https://app.desgah.az/accounts/regions/";
+const API_URL = "https://app.digitask.store/accounts/regions/";
 
 
 const AddRegionModal = ({ onClose, onRegionAdded }) => {

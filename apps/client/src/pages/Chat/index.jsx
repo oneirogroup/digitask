@@ -40,7 +40,7 @@ const Chat = () => {
 
       const email = localStorage.getItem("saved_email");
 
-      wsChat.current = new WebSocket(`wss://app.desgah.az/chat/?email=${email}&token=${token}`);
+      wsChat.current = new WebSocket(`wss://app.digitask.store/chat/?email=${email}&token=${token}`);
 
       wsChat.current.onopen = () => {
         console.log("WebSocketChat connection established.");
@@ -118,7 +118,7 @@ const Chat = () => {
 
   const handleDeleteGroup = id => {
     if (!id) return;
-    fetch(`https://app.desgah.az/accounts/remove_group/${id}/`, {
+    fetch(`https://app.digitask.store/accounts/remove_group/${id}/`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json"
@@ -170,7 +170,7 @@ const Chat = () => {
         throw new Error("Access token is not available");
       }
 
-      const response = await fetch("https://app.desgah.az/accounts/RoomsApiView/", {
+      const response = await fetch("https://app.digitask.store/accounts/RoomsApiView/", {
         headers: {
           "Authorization": `Bearer ${accessToken}`,
           "Content-Type": "application/json"
@@ -233,7 +233,7 @@ const Chat = () => {
         params.append("page", page);
       }
 
-      const response = await fetch(`https://app.desgah.az/accounts/messages/?${params.toString()}`, {
+      const response = await fetch(`https://app.digitask.store/accounts/messages/?${params.toString()}`, {
         headers: {
           "Authorization": `Bearer ${accessToken}`,
           "Content-Type": "application/json"

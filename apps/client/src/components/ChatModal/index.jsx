@@ -29,7 +29,7 @@ const ChatModal = ({ isOpen, onClose, groupName, members, group, onMembersUpdate
       const fetchUsers = async () => {
         try {
           const token = localStorage.getItem("access_token");
-          const response = await axios.get("https://app.desgah.az/accounts/users/", {
+          const response = await axios.get("https://app.digitask.store/accounts/users/", {
             headers: { Authorization: `Bearer ${token}` }
           });
           const nonMembers = response.data.filter(user => !members.some(member => member.id === user.id));
@@ -60,7 +60,7 @@ const ChatModal = ({ isOpen, onClose, groupName, members, group, onMembersUpdate
       const usersToAdd = Array.from(selectedUsers);
       const token = localStorage.getItem("access_token");
       await axios.patch(
-        `https://app.desgah.az/accounts/rooms/${group}/add-members/`,
+        `https://app.digitask.store/accounts/rooms/${group}/add-members/`,
         { members: usersToAdd },
         {
           headers: {
@@ -89,7 +89,7 @@ const ChatModal = ({ isOpen, onClose, groupName, members, group, onMembersUpdate
     try {
       const token = localStorage.getItem("access_token");
       await axios.patch(
-        `https://app.desgah.az/accounts/rooms/${group}/remove-members/`,
+        `https://app.digitask.store/accounts/rooms/${group}/remove-members/`,
         { members: [removeMemberId] },
         {
           headers: {

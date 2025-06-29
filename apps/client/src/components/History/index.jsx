@@ -27,7 +27,7 @@ const Anbar = () => {
 
   const fetchData = async () => {
     try {
-      const historyUrl = new URL(`https://app.desgah.az/warehouse/warehouse-history`);
+      const historyUrl = new URL(`https://app.digitask.store/warehouse/warehouse-history`);
       const params = new URLSearchParams();
       const actions = action == 1 ? ["add", "increment"] : ["remove", "decrement"];
       params.append("timestamp__date__gte", startDate);
@@ -53,7 +53,7 @@ const Anbar = () => {
 
   const fetchWarehouses = async () => {
     try {
-      const response = await fetch("https://app.desgah.az/warehouse/warehouses/");
+      const response = await fetch("https://app.digitask.store/warehouse/warehouses/");
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }

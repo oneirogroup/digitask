@@ -143,7 +143,7 @@ function DetailsModal({ onClose, taskId, userType, onTaskUpdated }) {
   const fetchTaskData = async e => {
     if (taskId) {
       try {
-        const response = await fetch(`https://app.desgah.az/services/task/${taskId}/`);
+        const response = await fetch(`https://app.digitask.store/services/task/${taskId}/`);
         if (!response.ok) {
           if (response.status === 403) {
             await refreshAccessToken();
@@ -185,7 +185,7 @@ function DetailsModal({ onClose, taskId, userType, onTaskUpdated }) {
 
   const fetchWarehouseItems = async () => {
     try {
-      const response = await fetch("https://app.desgah.az/warehouse/warehouse-items/");
+      const response = await fetch("https://app.digitask.store/warehouse/warehouse-items/");
       if (!response.ok) {
         if (response.status == 403) {
           await refreshAccessToken();
@@ -206,7 +206,7 @@ function DetailsModal({ onClose, taskId, userType, onTaskUpdated }) {
 
   const fetchGroups = async () => {
     try {
-      const response = await fetch("https://app.desgah.az/services/groups/");
+      const response = await fetch("https://app.digitask.store/services/groups/");
       if (!response.ok) {
         if (response.status == 403) {
           await refreshAccessToken();
@@ -421,7 +421,7 @@ function DetailsModal({ onClose, taskId, userType, onTaskUpdated }) {
       const imageFormData = new FormData();
       imageFormData.append("passport", imageFile);
 
-      fetch(`https://app.desgah.az/services/update_task_image/${taskId}/`, {
+      fetch(`https://app.digitask.store/services/update_task_image/${taskId}/`, {
         method: "PATCH",
         body: imageFormData
       })
@@ -448,7 +448,7 @@ function DetailsModal({ onClose, taskId, userType, onTaskUpdated }) {
         });
     }
 
-    fetch(`https://app.desgah.az/services/update_task/${taskId}/`, {
+    fetch(`https://app.digitask.store/services/update_task/${taskId}/`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -569,7 +569,7 @@ function DetailsModal({ onClose, taskId, userType, onTaskUpdated }) {
 
   const handleMapLink = async (url) => {
     try {
-      const response = await fetch(`https://app.desgah.az/services/resolve-map-url/?url=${encodeURIComponent(url)}`);
+      const response = await fetch(`https://app.digitask.store/services/resolve-map-url/?url=${encodeURIComponent(url)}`);
       const data = await response.json();
 
       console.log("Response from server:", data);
@@ -665,7 +665,7 @@ function DetailsModal({ onClose, taskId, userType, onTaskUpdated }) {
   };
 
   const deleteTaskItem = taskItemId => {
-    fetch(`https://app.desgah.az/services/warehouse/warehouse_change/${taskItemId}/`, {
+    fetch(`https://app.digitask.store/services/warehouse/warehouse_change/${taskItemId}/`, {
       method: "DELETE"
     })
       .then(response => {

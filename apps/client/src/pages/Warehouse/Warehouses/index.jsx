@@ -78,7 +78,7 @@ const Warehouses = () => {
 
   const getListData = async () => {
     const token = localStorage.getItem("access_token");
-    await fetch("https://app.desgah.az/warehouse/warehouses/", {
+    await fetch("https://app.digitask.store/warehouse/warehouses/", {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`
@@ -92,7 +92,7 @@ const Warehouses = () => {
   };
 
   const removeWarehouse = async id => {
-    await fetch(`https://app.desgah.az/warehouse/warehouses/${id}/`, {
+    await fetch(`https://app.digitask.store/warehouse/warehouses/${id}/`, {
       method: "DELETE"
     }).then(res => {
       if (res?.status == 204) {
