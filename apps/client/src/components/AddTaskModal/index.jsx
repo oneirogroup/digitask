@@ -69,7 +69,7 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
 
   const fetchGroups = async (isRetry = false) => {
     try {
-      const response = await axios.get("https://app.desgah.az/services/user_groups/");
+      const response = await axios.get("https://app.digitask.store/services/user_groups/");
       setGroups(response.data);
     } catch (error) {
       if (error.status === 403 && !isRetry) {
@@ -237,7 +237,7 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
         passport: imageFile ? imageFile : ""
       };
 
-      const response = await axios.post("https://app.desgah.az/services/create_task/", payload, {
+      const response = await axios.post("https://app.digitask.store/services/create_task/", payload, {
         headers: {
           "Authorization": `Bearer ${localStorage.getItem("access_token")}`,
           "Content-Type": "multipart/form-data"
@@ -379,7 +379,7 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
         setIsProcessingLink(false);
         return;
       }
-      const response = await fetch(`https://app.desgah.az/services/resolve-map-url/?url=${encodeURIComponent(url)}`);
+      const response = await fetch(`https://app.digitask.store/services/resolve-map-url/?url=${encodeURIComponent(url)}`);
 
       if (!response.ok) {
         throw new Error(`Server returned ${response.status}: ${response.statusText}`);

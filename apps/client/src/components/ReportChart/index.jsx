@@ -10,7 +10,7 @@ const DemoVenn = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("https://app.desgah.az/services/api/task-report/");
+        const response = await fetch("https://app.digitask.store/services/api/task-report/");
         const apiData = await response.json();
 
         const tv = apiData.tv_tasks.total;

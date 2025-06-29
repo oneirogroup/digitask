@@ -39,7 +39,7 @@ const UpdateUserModal = ({ isOpen, onClose, employee, onUpdateUser, fetchEmploye
 
   const fetchPositions = async () => {
     try {
-      const response = await axios.get("https://app.desgah.az/accounts/positions/positions/");
+      const response = await axios.get("https://app.digitask.store/accounts/positions/positions/");
       setPositions(response.data);
       initializePositionModals(response.data);
       setLoading(false);
@@ -53,7 +53,7 @@ const UpdateUserModal = ({ isOpen, onClose, employee, onUpdateUser, fetchEmploye
 
   const fetchGroups = async () => {
     try {
-      const response = await axios.get("https://app.desgah.az/services/groups/");
+      const response = await axios.get("https://app.digitask.store/services/groups/");
       setGroupOptions(response.data);
     } catch (error) {
       if (error.status == 403) {
@@ -162,7 +162,7 @@ const UpdateUserModal = ({ isOpen, onClose, employee, onUpdateUser, fetchEmploye
     updatedFormData.position = updatedFormData?.position?.id;
 
     try {
-      const response = await axios.put(`https://app.desgah.az/accounts/update_user/${employee.id}/`, updatedFormData);
+      const response = await axios.put(`https://app.digitask.store/accounts/update_user/${employee.id}/`, updatedFormData);
       onUpdateUser(response.data);
       onClose();
       fetchEmployees();

@@ -94,7 +94,7 @@ class CircleChart extends React.Component {
   fetchData = async (isRetry = false) => {
     try {
       const token = localStorage.getItem("access_token");
-      const response = await axios.get("https://app.desgah.az/services/mainpage/", {
+      const response = await axios.get("https://app.digitask.store/services/mainpage/", {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -119,10 +119,10 @@ class CircleChart extends React.Component {
           total === 0
             ? [0, 0, 0]
             : [
-                Math.round((internet_count / total) * 100),
-                Math.round((tv_count / total) * 100),
-                Math.round((voice_count / total) * 100)
-              ];
+              Math.round((internet_count / total) * 100),
+              Math.round((tv_count / total) * 100),
+              Math.round((voice_count / total) * 100)
+            ];
       } else {
         const { tv_count, internet_count, voice_count } = task_details;
         const total = tv_count + internet_count + voice_count;
@@ -130,10 +130,10 @@ class CircleChart extends React.Component {
           total === 0
             ? [0, 0, 0]
             : [
-                Math.round((internet_count / total) * 100),
-                Math.round((tv_count / total) * 100),
-                Math.round((voice_count / total) * 100)
-              ];
+              Math.round((internet_count / total) * 100),
+              Math.round((tv_count / total) * 100),
+              Math.round((voice_count / total) * 100)
+            ];
       }
 
       this.setState({ series, userType: user_type, isAdmin: is_admin, legendLabels });

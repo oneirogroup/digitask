@@ -46,7 +46,7 @@ const Report = () => {
   const fetchReports = async (page, filterParams) => {
     setLoading(true);
     try {
-      const response = await axios.get(`https://app.desgah.az/accounts/reportsListView/`, {
+      const response = await axios.get(`https://app.digitask.store/accounts/reportsListView/`, {
         params: {
           page,
           ...(filterParams.year && { year: filterParams.year }),

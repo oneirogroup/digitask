@@ -42,7 +42,7 @@ function UpdateInternetModal({ onClose, serviceId, serviceData, onServiceUpdate,
 
   useEffect(() => {
     axios
-      .get("https://app.desgah.az/services/services/internet_packs/")
+      .get("https://app.digitask.store/services/services/internet_packs/")
       .then(response => {
         setInternetPackages(response.data);
       })
@@ -71,7 +71,7 @@ function UpdateInternetModal({ onClose, serviceId, serviceData, onServiceUpdate,
       data.append("photo_modem", formData.photo_modem);
     }
 
-    fetch(`https://app.desgah.az/services/update_internet/${serviceId}/`, {
+    fetch(`https://app.digitask.store/services/update_internet/${serviceId}/`, {
       method: "PATCH",
       body: data
     })

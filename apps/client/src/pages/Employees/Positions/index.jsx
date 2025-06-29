@@ -11,7 +11,7 @@ import tasklanguage from "../../../taskPermissionLanguage.json";
 import AddPositionModal from "./createModal.jsx";
 import EditPositionModal from "./editModal.jsx";
 
-const API_URL = "https://app.desgah.az/accounts/positions/positions/";
+const API_URL = "https://app.digitask.store/accounts/positions/positions/";
 
 const Positions = () => {
   const [positions, setPositions] = useState([]);

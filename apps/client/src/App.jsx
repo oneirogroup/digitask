@@ -20,10 +20,10 @@ const App = () => {
       return;
     }
     const email = localStorage.getItem("saved_email");
-    ws = new WebSocket(`wss://app.desgah.az/ws/?email=${email}&token=${token}`);
+    ws = new WebSocket(`wss://app.digitask.store/ws/?email=${email}&token=${token}`);
 
     // WebSocket event listeners
-    ws.onopen = () => {};
+    ws.onopen = () => { };
 
     ws.onmessage = event => {
       try {

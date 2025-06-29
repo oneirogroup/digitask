@@ -78,14 +78,14 @@ function Import({ onClose, warehouses, fetchData }) {
     };
 
     try {
-      const response = await fetch("https://app.desgah.az/warehouse/warehouse-items/", requestOptions);
+      const response = await fetch("https://app.digitask.store/warehouse/warehouse-items/", requestOptions);
 
       if (!response.ok) {
         if (response.status === 403) {
           await refreshAccessToken();
           accessToken = localStorage.getItem("access_token");
           requestOptions.headers["Authorization"] = `Bearer ${accessToken}`;
-          const retryResponse = await fetch("https://app.desgah.az/warehouse/warehouse-items/", requestOptions);
+          const retryResponse = await fetch("https://app.digitask.store/warehouse/warehouse-items/", requestOptions);
           if (!retryResponse.ok) {
             throw new Error(`HTTP error! Status: ${retryResponse.status}`);
           }

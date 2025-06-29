@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 import language from "../../../language.json";
 
-const API_URL = "https://app.desgah.az/accounts/regions/";
+const API_URL = "https://app.digitask.store/accounts/regions/";
 
 const EditRegionModal = ({ region, onClose, onRegionUpdated }) => {
   const [form] = Form.useForm();

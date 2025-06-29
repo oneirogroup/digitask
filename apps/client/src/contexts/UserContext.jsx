@@ -20,7 +20,7 @@ export const UserProvider = ({ children }) => {
     const refreshAccessToken = async () => {
       if (storedRefreshToken) {
         try {
-          const response = await fetch("https://app.desgah.az/accounts/token/refresh/", {
+          const response = await fetch("https://app.digitask.store/accounts/token/refresh/", {
             method: "POST",
             headers: {
               "Content-Type": "application/json"

@@ -25,7 +25,7 @@ const Profile = () => {
 
   const fetchProfileData = async () => {
     try {
-      const response = await axios.get("https://app.desgah.az/accounts/profile/");
+      const response = await axios.get("https://app.digitask.store/accounts/profile/");
       setProfileData({
         ...response.data,
         groupName: response.data.group?.group || "",
@@ -44,7 +44,7 @@ const Profile = () => {
 
   const fetchUserTypes = async () => {
     try {
-      const response = await axios.get("https://app.desgah.az/accounts/positions/positions/");
+      const response = await axios.get("https://app.digitask.store/accounts/positions/positions/");
       setUserTypeOptions(response?.data?.map(item => ({ id: item?.id, name: item?.name })));
     } catch (error) {
       if (error.status == 403) {
@@ -63,7 +63,7 @@ const Profile = () => {
 
   const fetchGroups = async () => {
     try {
-      const response = await axios.get("https://app.desgah.az/services/user_groups/");
+      const response = await axios.get("https://app.digitask.store/services/user_groups/");
       await refreshAccessToken();
       setGroups(response.data);
     } catch (error) {
@@ -100,7 +100,7 @@ const Profile = () => {
       const { profil_picture, ...profileWithoutPhoto } = profileData;
       console.log(profileData);
 
-      await axios.put("https://app.desgah.az/accounts/profile_update/", {
+      await axios.put("https://app.digitask.store/accounts/profile_update/", {
         ...profileWithoutPhoto,
         group: profileData?.group?.id || profileData.group,
         groupName: profileData.groupName,
@@ -123,12 +123,12 @@ const Profile = () => {
 
   const handleDeleteProfilePicture = async () => {
     try {
-      await axios.delete("https://app.desgah.az/accounts/profile_image_update/");
+      await axios.delete("https://app.digitask.store/accounts/profile_image_update/");
       fetchProfileData();
     } catch (error) {
       if (error.status == 403) {
         await refreshAccessToken();
-        await axios.delete("https://app.desgah.az/accounts/profile_image_update/");
+        await axios.delete("https://app.digitask.store/accounts/profile_image_update/");
         fetchProfileData();
       }
       console.error("Profil şəkli silinərkən xəta baş verdi", error);
@@ -146,14 +146,14 @@ const Profile = () => {
       const formData = new FormData();
       formData.append("profil_picture", file);
       try {
-        await axios.put("https://app.desgah.az/accounts/profile_image_update/", formData, {
+        await axios.put("https://app.digitask.store/accounts/profile_image_update/", formData, {
           headers: { "Content-Type": "multipart/form-data" }
         });
         fetchProfileData();
       } catch (error) {
         if (error.status == 403) {
           await refreshAccessToken();
-          await axios.put("https://app.desgah.az/accounts/profile_image_update/", formData, {
+          await axios.put("https://app.digitask.store/accounts/profile_image_update/", formData, {
             headers: { "Content-Type": "multipart/form-data" }
           });
           fetchProfileData();

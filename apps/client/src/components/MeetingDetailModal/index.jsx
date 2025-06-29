@@ -14,7 +14,7 @@ const MeetingDetailModal = ({ isOpen, onClose, meetingId }) => {
     if (isOpen && meetingId) {
       const fetchMeetingDetails = async () => {
         try {
-          const response = await axios.get(`https://app.desgah.az/services/meeting/${meetingId}/`);
+          const response = await axios.get(`https://app.digitask.store/services/meeting/${meetingId}/`);
           setMeeting(response.data);
         } catch (error) {
           if (error.status == 403) {

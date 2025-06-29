@@ -9,7 +9,7 @@ function Index({ openModal, goCloseModal, editedPack, fetchInternetPacks }) {
 
   const fetchInternetPack = async () => {
     if (editedPack) {
-      const response = await fetch(`https://app.desgah.az/services/services/internet_packs/${editedPack}`);
+      const response = await fetch(`https://app.digitask.store/services/services/internet_packs/${editedPack}`);
       if (!response.ok) {
         throw new Error("Failed to fetch internet packs");
       }
@@ -27,7 +27,7 @@ function Index({ openModal, goCloseModal, editedPack, fetchInternetPacks }) {
   }, [editedPack]);
 
   const updateInternetPack = async updatedData => {
-    const response = await fetch(`https://app.desgah.az/services/services/internet_packs/${editedPack}/`, {
+    const response = await fetch(`https://app.digitask.store/services/services/internet_packs/${editedPack}/`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json"
@@ -44,7 +44,7 @@ function Index({ openModal, goCloseModal, editedPack, fetchInternetPacks }) {
   };
 
   const createInternetPack = async updatedData => {
-    const response = await fetch(`https://app.desgah.az/services/services/internet_packs/`, {
+    const response = await fetch(`https://app.digitask.store/services/services/internet_packs/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

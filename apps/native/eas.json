@@ -15,14 +15,14 @@
       },
       "env": {
         "NODE_ENV": "production",
-        "EXPO_PUBLIC_API_URL": "https://app.desgah.az"
+        "EXPO_PUBLIC_API_URL": "https://app.digitask.store"
       }
     },
     "production": {
       "autoIncrement": true,
       "env": {
         "NODE_ENV": "production",
-        "EXPO_PUBLIC_API_URL": "https://app.desgah.az"
+        "EXPO_PUBLIC_API_URL": "https://app.digitask.store"
       }
     }
   },

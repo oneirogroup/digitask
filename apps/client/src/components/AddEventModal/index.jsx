@@ -41,7 +41,7 @@ const AddEventModal = ({ isOpen, onClose, refreshMeetings }) => {
     if (isOpen) {
       const fetchParticipants = async () => {
         try {
-          const response = await axios.get("https://app.desgah.az/accounts/users/", {
+          const response = await axios.get("https://app.digitask.store/accounts/users/", {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("access_token")}`
             }
@@ -130,7 +130,7 @@ const AddEventModal = ({ isOpen, onClose, refreshMeetings }) => {
     };
 
     try {
-      const response = await axios.post("https://app.desgah.az/services/create_meeting/", eventData, {
+      const response = await axios.post("https://app.digitask.store/services/create_meeting/", eventData, {
         headers: {
           "Content-Type": "application/json",
           "Authorization": `Bearer ${localStorage.getItem("access_token")}`

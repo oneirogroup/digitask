@@ -59,7 +59,7 @@ const OneTimePassword = () => {
     if (checkBtn.current && checkBtn.current.context && checkBtn.current.context._errors.length === 0) {
       try {
         const response = await axios.post(
-          "https://app.desgah.az/accounts/verify-otp/",
+          "https://app.digitask.store/accounts/verify-otp/",
           { otp: otp.join("") },
           { headers: { "Content-Type": "application/json" }, withCredentials: true }
         );
@@ -81,7 +81,7 @@ const OneTimePassword = () => {
     setResendLoading(true);
     try {
       await axios.post(
-        "https://app.desgah.az/accounts/resend-otp/",
+        "https://app.digitask.store/accounts/resend-otp/",
         { email },
         { headers: { "Content-Type": "application/json" }, withCredentials: true }
       );

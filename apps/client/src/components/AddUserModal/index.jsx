@@ -31,7 +31,7 @@ const AddUserModal = ({ onClose, onUserAdded }) => {
 
   const fetchPositions = async () => {
     try {
-      const response = await axios.get("https://app.desgah.az/accounts/positions/positions/");
+      const response = await axios.get("https://app.digitask.store/accounts/positions/positions/");
       setPositions(response.data);
       initializePositionModals(response.data);
       setLoading(false);
@@ -53,7 +53,7 @@ const AddUserModal = ({ onClose, onUserAdded }) => {
   useEffect(() => {
     const fetchGroups = async () => {
       try {
-        const response = await axios.get("https://app.desgah.az/services/groups/");
+        const response = await axios.get("https://app.digitask.store/services/groups/");
         setGroupOptions(response.data);
       } catch (error) {
         if (error.status == 403) {
@@ -152,7 +152,7 @@ const AddUserModal = ({ onClose, onUserAdded }) => {
     if (validateForm()) {
       setLoading(true);
       try {
-        const response = await axios.post("https://app.desgah.az/accounts/register/", formData);
+        const response = await axios.post("https://app.digitask.store/accounts/register/", formData);
         onUserAdded(response.data);
         onClose();
       } catch (error) {
