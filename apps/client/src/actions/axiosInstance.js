@@ -4,7 +4,7 @@ import store from "../store";
 import { logout, refreshTokenSuccess } from "./auth";
 
 const axiosInstance = axios.create({
-  baseURL: "https://app.desgah.az/accounts" // Your API base URL
+  baseURL: "https://app.digitask.store/accounts" // Your API base URL
 });
 
 // Flag to avoid multiple token refresh requests

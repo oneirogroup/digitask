@@ -36,7 +36,7 @@ const setupAxiosInterceptors = () => {
         if (refreshToken) {
           try {
             // Attempt to refresh the access token
-            const response = await axios.post("https://app.desgah.az/accounts/token/refresh/", {
+            const response = await axios.post("https://app.digitask.store/accounts/token/refresh/", {
               refresh: refreshToken
             });
 

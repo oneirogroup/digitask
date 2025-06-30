@@ -8,7 +8,7 @@
 //     try {
 //       const refreshToken = localStorage.getItem("refresh_token");
 //       const response = await axios.post(
-//         "https://app.desgah.az/accounts/token/refresh/",
+//         "https://app.digitask.store/accounts/token/refresh/",
 //         {
 //           refresh: refreshToken,
 //         }
@@ -24,7 +24,7 @@
 //       await refreshAccessToken();
 //       const token = localStorage.getItem("access_token");
 //       const response = await axios.get(
-//         "https://app.desgah.az/accounts/users/",
+//         "https://app.digitask.store/accounts/users/",
 //         {
 //           headers: { Authorization: `Bearer ${token}` },
 //         }
