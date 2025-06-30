@@ -2,7 +2,7 @@ import axios from "axios";
 
 import authHeader from "./auth-header";
 
-const API_URL = "https://app.desgah.az/";
+const API_URL = "https://app.digitask.store/";
 
 const getPublicContent = () => {
   return axios.get(API_URL + "");

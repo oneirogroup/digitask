@@ -11,7 +11,9 @@ const useRefreshToken = () => {
       throw new Error("No refresh token available");
     }
     try {
-      const response = await axios.post("https://app.desgah.az/accounts/token/refresh/", { refresh: refresh_token });
+      const response = await axios.post("https://app.digitask.store/accounts/token/refresh/", {
+        refresh: refresh_token
+      });
       const { access } = response.data;
       localStorage.setItem("access_token", access);
       axios.defaults.headers.common["Authorization"] = `Bearer ${access}`;

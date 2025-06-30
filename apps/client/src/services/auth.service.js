@@ -2,7 +2,7 @@ import axios from "axios";
 
 import axiosInstance from "../actions/axiosInstance";
 
-const API_URL = "https://app.desgah.az/accounts/";
+const API_URL = "https://app.digitask.store/accounts/";
 
 // const register = (username, email, password) => {
 //   return axios.post(API_URL + "register", {
@@ -11,6 +11,7 @@ const API_URL = "https://app.desgah.az/accounts/";
 //     password,
 //   });
 // };
+
 
 const refreshAccessToken = refresh_token => {
   return axios.post(API_URL + "token/refresh/", { refresh: refresh_token }).then(response => response.data);
