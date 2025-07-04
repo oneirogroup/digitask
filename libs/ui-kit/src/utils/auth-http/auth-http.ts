@@ -83,8 +83,7 @@ export class AuthHttp {
     if (settings.storage && settings.tokenKeys?.access && token) {
       await settings.storage.setItem(settings.tokenKeys.access, newTokens[token]);
       await settings.retrieveTokens()();
-      const tokens = settings.getTokens();
-      return tokens;
+      return settings.getTokens();
     } else {
       await settings.removeTokens();
       throw new Error("Refresh token failed");

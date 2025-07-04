@@ -28,7 +28,7 @@ export default function Chat() {
       <Block className="flex">
         <If condition={isPending}>
           <If.Then>
-            <Text>Yüklənir</Text>
+            <Text>Yüklənir...</Text>
           </If.Then>
 
           <If.Else>
