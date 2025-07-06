@@ -209,6 +209,7 @@ const Anbar = () => {
               <th>Əvvəlki say</th>
               <th>Sonrakı Say</th>
               <th>Aktual say</th>
+              <th>Əməliyyat icraçısı</th>
               <th>Əməliyyat</th>
               <th></th>
             </tr>
@@ -244,6 +245,33 @@ const Anbar = () => {
                     : data.modified_by.email}
 
                 </td>
+                <td>
+                  <div className="tooltip-wrapper" onClick={() => handleActionClick(data, "history")}>
+                {data.has_problem ? (
+                   <>
+                    <i
+                      className="fa-solid fa-triangle-exclamation problem-icon"
+                      style={{ color: '#ff6b6b' }}
+                    ></i>
+                    <div className="custom-tooltip">
+                    <div>Cəhd sayı: {data.must_change}</div>
+                    <div>Anbarda məhsul sayı: {data.old_count}</div>
+                  </div></>
+                  ) : (
+                    <>
+                    <i
+                      className="fa-solid fa-circle-check success-icon"
+                      style={{ color: '#51cf66' }}
+                    ></i>
+                     <div className="custom-tooltip">
+                    <div>Əməliyyat uğurla</div>
+                    <div>icra olundu</div>
+
+                  </div>
+                    </>
+                  )}
+                 </div>
+              </td>
                 <td>
                   <BsThreeDotsVertical />
                 </td>
