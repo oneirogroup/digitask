@@ -6,7 +6,7 @@ import { MdMenu, MdPerson } from "react-icons/md";
 import { Link, useLocation } from "react-router-dom";
 
 import NotificationModal from "../../../components/NotificationModal";
-
+import android from "../../../assets/images/android.png";
 import "./navbar.css";
 
 const Navbar = ({ onToggleSidebar }) => {
@@ -151,7 +151,10 @@ const Navbar = ({ onToggleSidebar }) => {
 
   return (
     <div className="navbar-icons">
-      <MdMenu className="burger-icon" onClick={onToggleSidebar} />
+      <a href="./DigiTask.apk" className="download-app" download>
+        <img src={android} alt="" /> <p><span>Download</span> <span>on the android</span></p>
+      </a>
+      
 
       {/* Chat icon */}
       <Link reloadDocument to="/chat/" style={getLinkStyle("/chat/")}>
@@ -174,7 +177,7 @@ const Navbar = ({ onToggleSidebar }) => {
           </div>
         )}
       </Link>
-
+        <div><MdMenu className="burger-icon" onClick={onToggleSidebar} /></div>
       {/* Notification Modal */}
       <NotificationModal notifications={notifications} isOpen={isModalOpen} onClose={handleCloseModal} />
     </div>
