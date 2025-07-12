@@ -229,6 +229,7 @@
   font-weight: 600;
   font-size: 16px;
   max-width: 70vh;
+  white-space: nowrap;
 }
 
 .online-status {

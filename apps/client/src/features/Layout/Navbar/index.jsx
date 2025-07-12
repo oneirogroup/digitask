@@ -151,11 +151,12 @@ const Navbar = ({ onToggleSidebar }) => {
 
   return (
     <div className="navbar-icons">
-      <a href="./DigiTask.apk" className="download-app" download>
-        <img src={android} alt="" /> <p><span>Download</span> <span>on the android</span></p>
+      <a href="/DigiTask.apk" className="download-app" download="DigiTask.apk">
+        <img src={android} alt="" />
+        <p>
+          <span>Download</span> <span>on the android</span>
+        </p>
       </a>
-      
-
       {/* Chat icon */}
       <Link reloadDocument to="/chat/" style={getLinkStyle("/chat/")}>
         <BsChatTextFill />
@@ -177,7 +178,7 @@ const Navbar = ({ onToggleSidebar }) => {
           </div>
         )}
       </Link>
-        <div><MdMenu className="burger-icon" onClick={onToggleSidebar} /></div>
+      <div><MdMenu className="burger-icon" onClick={onToggleSidebar} /></div>
       {/* Notification Modal */}
       <NotificationModal notifications={notifications} isOpen={isModalOpen} onClose={handleCloseModal} />
     </div>
