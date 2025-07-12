@@ -338,7 +338,10 @@
 
 @media screen and (max-width: 960px) {
   /* Home page */
+.download-app p{
+  display: none;
 
+}
   .home-tasks-sec {
     flex-direction: column;
   }
