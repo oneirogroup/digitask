@@ -95,7 +95,7 @@
   .import-modal-content {
     max-width: 60%;
   }
-  .taskType-modal-content {
+  .taskType-modal-content, .add-survey-modal-content {
     max-width: 65%;
   }
 
@@ -183,7 +183,7 @@
   .task-page td {
     padding: 7px 11px;
   }
-  .taskType-modal-content {
+  .taskType-modal-content, .add-survey-modal-content {
     max-width: 70%;
   }
 
@@ -405,8 +405,14 @@
     flex-direction: column;
     align-items: self-start;
   }
+  .service-fields >div:first-of-type >div {
+    align-items: baseline;
+  }
   .service-fields .form-group label {
     font-size: 17px;
+  }
+  .upload-container{
+    width: 100%;
   }
 
   /* Warehouse Page */
@@ -1509,6 +1515,17 @@
     padding: 0;
   }
 
+   .task-page-title {
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    padding: 10px 0 20px 0;
+  }
+
+  .task-page-title div {
+    gap: 15px;
+  }
+
   /* Login page */
   .login-page {
     height: 414px;
@@ -1755,6 +1772,12 @@
     right: 51px;
     padding: 18px;
   }
+      .notification-modal-header h3 {
+        font-size: 20px;
+    }
+        .notification-modal-close {
+        font-size: 18px;
+    }
   .addMemberModal-content h3 {
     font-size: 22px;
   }
@@ -1985,6 +2008,12 @@
   .taskType-modal-title .close {
     font-size: 35px;
   }
+  .add-survey-modal-content {
+        max-width: 80%;
+    }
+    .upload-container label{
+      gap: 15px;
+    }
 
   /* Employee page group modal */
 
@@ -2078,9 +2107,6 @@
 
   .task-page-title div button {
     padding: 7px;
-  }
-  .task-page-title div {
-    gap: 5px;
   }
   .task-history-status button p {
     font-size: 15px;
@@ -2342,12 +2368,7 @@
     font-size: 31px;
   }
 
-  .task-page-title {
-    flex-direction: column;
-    align-items: center;
-    gap: 18px;
-    padding: 10px 0 20px 0;
-  }
+ 
 
   .task-status button {
     padding: 3px 7px;
@@ -2358,10 +2379,12 @@
     justify-content: space-around;
     width: 100%;
     margin-top: 10px;
+        gap: 10px;
+
   }
 
+
   .task-page-title div button {
-    padding: 7px 12px;
     font-size: 15px;
   }
   .taskPage-taskType button {
@@ -2414,6 +2437,9 @@
 .internet-actions svg {
   font-size: 18px;
 }
+.service-fields .form-group label > span{
+  font-size: 16px;
+}
 
   /* Warehouse history page */
 
@@ -2441,4 +2467,8 @@
   .logout-modal-content p {
     font-size: 14px;
   }
+
+      .task-page-title div button {
+        font-size: 13px;
+    }
 }
