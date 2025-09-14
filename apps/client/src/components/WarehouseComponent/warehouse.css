@@ -163,6 +163,10 @@
   font-weight: bold;
 }
 
+.warehouseTable{
+  overflow-x: scroll;
+}
+
 .warehouseTable,
 .historyTable,
 .historyImportTable {
