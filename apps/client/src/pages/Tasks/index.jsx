@@ -587,12 +587,13 @@ function Index() {
           <table>
             <thead>
               <tr>
-                <th>ID</th>
+                <th>№</th>
+                <th>Qeydiyyat nömrəsi</th>
                 <th>İcraçı</th>
                 <th>Müştəri</th>
                 <th>Kateqoriya</th>
-                <th>Başlama tarixi</th>
-                <th>Bitmə tarixi</th>
+                <th>Tarix</th>
+                <th>Saat</th>
                 <th>Növ</th>
                 <th>Ünvan</th>
                 <th>Nömrə</th>
@@ -607,6 +608,7 @@ function Index() {
                     onClick={() => openTaskDetailsModal(item.id)}
                     className={item.id}
                   >{`#${(index + 1).toString().padStart(4, "0")}`}</td>
+                   <td onClick={() => openTaskDetailsModal(item.id)}>{item.registration_number}</td>
                   <td onClick={() => openTaskDetailsModal(item.id)}>
                     {item.first_name && item.last_name ? `${item.first_name} ${item.last_name.charAt(0)}.` : "-"}
                   </td>
@@ -618,9 +620,10 @@ function Index() {
                     {item.task_type === "problem" ? "Problem" : "Qoşulma"}
                   </td>
                   <td onClick={() => openTaskDetailsModal(item.id)}>{item.date}</td>
-                  <td onClick={() => openTaskDetailsModal(item.id)}>
-                    {item.end_date ? item.end_date : "-"}
-                  </td>
+<td onClick={() => openTaskDetailsModal(item.id)}>
+  {item.start_time ? item.start_time.slice(0, 5) : ""} 
+  {item.end_time ? " - " + item.end_time.slice(0, 5) : ""}
+</td>
                   <td onClick={() => openTaskDetailsModal(item.id)} className="type-icon">
                     {item.is_tv && <PiTelevisionSimple />}
                     {item.is_internet && <TfiWorld />}

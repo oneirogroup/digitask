@@ -37,7 +37,8 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
     contact_number: "",
     location: "",
     date: "",
-    end_date: "",
+    start_time: "",
+    end_time: "",
     note: "",
     is_voice: false,
     is_internet: false,
@@ -129,32 +130,21 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
     }
   };
 
-  const handleSelectEndDate = end_date => {
-    if (end_date && end_date instanceof Date && !isNaN(end_date.getTime())) {
-      const formattedEndDate = `${end_date.getFullYear()}-${String(end_date.getMonth() + 1).padStart(2, "0")}-${String(end_date.getDate()).padStart(2, "0")}`;
-      setFormData(prevState => ({
-        ...prevState,
-        end_date: formattedEndDate
-      }));
-    } else {
-      console.error("Invalid date selected:", end_date);
-    }
-  };
-
   const [errorText, setErrorText] = useState("");
 
   const validateForm = () => {
     const newErrors = {};
     if (!formData.full_name) newErrors.full_name = "Müştəri adını daxil edin!";
     if (!formData.date) newErrors.date = "tarixi";
-    if (!formData.end_date) newErrors.end_date = "tarixi";
+    if (!formData.start_time) newErrors.start_time = "başlama saatını";
+    if (!formData.end_time) newErrors.end_time = "bitmə saatını";
     if (!formData.registration_number) newErrors.registration_number = "Qeydiyyat nömrəsi daxil edin!";
     if (!formData.location) newErrors.location = "Ünvanı daxil edin!";
     if (!formData.is_tv && !formData.is_internet && !formData.is_voice)
       newErrors.service = "Tv, internet və ya səs xidmətini seçin!";
     if (formData.group.length === 0) newErrors.group = "Qrup seçin!";
 
-    const errorMessages = [newErrors.date, newErrors.end_date].filter(Boolean);
+    const errorMessages = [newErrors.date, newErrors.start_time, newErrors.end_time].filter(Boolean);
 
     let errorText = "";
     if (errorMessages.length > 0) {
@@ -225,7 +215,8 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
         contact_number: formData.contact_number,
         location: formData.location,
         date: formData.date,
-        end_date: formData.end_date,
+        start_time: formData.start_time,
+        end_time: formData.end_time,
         note: formData.note,
         is_voice: formData.is_voice,
         is_internet: formData.is_internet,
@@ -505,9 +496,8 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
               {errors.full_name && <span className="error-message">{errors.full_name}</span>}
             </div>
             <div className="form-group">
-              <div className="task-date-form">
                 <div className="">
-                  <label htmlFor="date">Başlama tarixi:</label>
+                  <label htmlFor="date">Tarix:</label>
                   <DatePicker
                     selected={formData.date}
                     id="date"
@@ -519,23 +509,37 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
                     minDate={new Date()}
                   />
                 </div>
-                <div className="">
-                  <label htmlFor="end_date">Bitmə tarixi:</label>
-                  <DatePicker
-                    selected={formData.end_date}
-                    id="end_date"
-                    name="end_date"
-                    onChange={handleSelectEndDate}
-                    locale="az"
-                    placeholderText="gün/ay/il"
-                    dateFormat="dd.MM.yyyy"
-                    minDate={new Date()}
-                  />
-                </div>
-              </div>
-              {errorText && <span className="capitalize-first-letter error-message">{errorText} daxil edin!</span>}
             </div>
           </div>
+          <div className="time-fields">
+  <div className="form-group">
+    <label htmlFor="start_time">Başlama saatı:</label>
+    <input
+      type="time"
+      id="start_time"
+      name="start_time"
+      value={formData.start_time || "09:00"}  
+      onChange={handleChange}
+      className="form-control"
+    />
+    {errors.start_time && <span className="error-message">{errors.start_time} daxil edin!</span>}
+  </div>
+
+  <div className="form-group">
+    <label htmlFor="end_time">Bitmə saatı:</label>
+    <input
+      type="time"
+      id="end_time"
+      name="end_time"
+      value={formData.end_time || "18:00"}  
+      onChange={handleChange}
+      className="form-control"
+    />
+    {errors.end_time && <span className="error-message">{errors.end_time} daxil edin!</span>}
+  </div>
+</div>
+
+          {errorText && <span className="capitalize-first-letter error-message">{errorText} daxil edin!</span>}
           <div className="registerNumber-contactNumber">
             <div className="form-group">
               <label htmlFor="registration_number">Qeydiyyat nömrəsi:</label>
@@ -674,20 +678,6 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
               </div>
             )}
           </div>
-          {/* <div className="form-group passportImage">
-                        <label htmlFor="note">Müştərinin şəxsiyyət vəsiqəsi:</label>
-                        <div className="upload-icon-password">
-                            <label htmlFor=""></label>
-                            <input type="file" name="passport" onChange={handleInputChange} />
-                        </div>
-                        {preview && (
-                            <img
-                                src={preview}
-                                alt="Preview"
-                                className="image-preview"
-                            />
-                        )}
-                    </div> */}
 
           <div className="form-group passportImage">
             <label>Müştərinin şəxsiyyət vəsiqəsi:</label>

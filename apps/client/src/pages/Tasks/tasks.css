@@ -231,12 +231,14 @@
 }
 
 .table-container tbody tr td:nth-of-type(2),
-.table-container tbody tr td:nth-of-type(3) {
+.table-container tbody tr td:nth-of-type(3),
+.table-container tbody tr td:nth-of-type(4) {
   font-weight: bold;
 }
 
 .table-container tbody tr td:nth-of-type(5),
-.table-container tbody tr td:nth-of-type(6) {
+.table-container tbody tr td:nth-of-type(6), 
+.table-container tbody tr td:nth-of-type(7) {
   color: #5e5e62;
   white-space: nowrap;
 }
@@ -247,21 +249,20 @@
   color: #909094;
 }
 
-.table-container tbody tr td:nth-of-type(7) svg {
+.table-container tbody tr td:nth-of-type(8) svg {
   color: #e5c208;
   font-size: 22px;
   margin-right: 5px;
 }
-
-.table-container tbody tr td:nth-of-type(8) {
+.table-container tbody tr td:nth-of-type(9) {
   color: #008b1b;
 }
 
-.table-container tbody tr td:nth-of-type(9) {
+.table-container tbody tr td:nth-of-type(10) {
   color: #2f3033;
 }
 
-.table-container table tbody tr td:nth-of-type(8) {
+.table-container table tbody tr td:nth-of-type(9) {
   max-width: 150px;
   white-space: nowrap;
   overflow: hidden;

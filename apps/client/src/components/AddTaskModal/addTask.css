@@ -226,6 +226,16 @@
   gap: 5px;
 }
 
+.time-fields {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.time-fields input[type="time"] {
+  width: 100%;
+}
+
 .capitalize-first-letter::first-letter {
   text-transform: uppercase;
 }

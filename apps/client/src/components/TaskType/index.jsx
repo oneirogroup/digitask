@@ -753,7 +753,7 @@ function DetailsModal({ onClose, taskId, userType, onTaskUpdated }) {
                 <div>
                   <div>
                     <label>
-                      <GoClock /> Başlama tarixi
+                      <GoClock /> Tarix
                     </label>
                     <input type="date" id="" name="date" value={formData.date} onChange={handleInputChange} />
                   </div>
@@ -969,7 +969,7 @@ function DetailsModal({ onClose, taskId, userType, onTaskUpdated }) {
               <div>
                 <div>
                   <label>
-                    <GoClock /> Zaman
+                    <GoClock /> Tarix
                   </label>
                   {taskDetails.date && (
                     <span>{`${taskDetails.date.split("-")[2]} ${monthNames[parseInt(taskDetails.date.split("-")[1], 10) - 1]
