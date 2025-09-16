@@ -135,13 +135,16 @@ function Index() {
   }, []);
 
   const fetchTasks = async (taskFilter, selectedMonth, selectedYear, statusFilter, activeFilter) => {
-    if (!selectedMonth) return;
+    // if (!selectedMonth) return;
 
     try {
       const token = localStorage.getItem("access_token");
-      const month = selectedMonth.getMonth() + 1;
-      const year = selectedYear;
-      const monthQueryParam = `&month=${month}&year=${year}`;
+      let monthQueryParam = "";
+      if (selectedMonth) {
+        const month = selectedMonth.getMonth() + 1;
+        const year = selectedYear;
+        monthQueryParam = `&month=${month}&year=${year}`;
+      }
       const statusMap = {
         "Hamısı": "",
         "Gözləyir": "waiting",
@@ -208,12 +211,16 @@ function Index() {
   };
 
   const handleMonthChange = date => {
-    if (date) {
-      const newDate = new Date(date.year(), date.month(), 1);
-      setSelectedMonth(newDate);
-      setSelectedYear(newDate.getFullYear());
-    }
-  };
+  if (date) {
+    const newDate = new Date(date.year(), date.month(), 1);
+    setSelectedMonth(newDate);
+    setSelectedYear(newDate.getFullYear());
+  } else {
+    // Date picker təmizləndikdə null et
+    setSelectedMonth(null);
+    setSelectedYear(null);
+  }
+};
 
   useEffect(() => {
     fetchTasks(
@@ -527,13 +534,14 @@ function Index() {
       <div className="task-history-status">
         <Space direction="vertical" size={12} className="task-report-date-filter">
           <ConfigProvider locale={az}>
-            <DatePicker
-              picker="month"
-              value={dayjs(selectedMonth)}
-              onChange={handleMonthChange}
-              placeholder={capitalizeFirstLetter(dayjs().format('MMMM YYYY'))}
-            />
-          </ConfigProvider>
+  <DatePicker
+    picker="month"
+    value={selectedMonth ? dayjs(selectedMonth) : null}
+    onChange={handleMonthChange}
+    placeholder="Ay seçin (boş buraxın - hamısı)"
+    allowClear={true}
+  />
+</ConfigProvider>
 
         </Space>
         <div className="task-filter-status-region">

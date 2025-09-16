@@ -96,7 +96,8 @@ function DetailsModal({ onClose, taskId, userType, onTaskUpdated }) {
     task_type: "",
     full_name: "",
     date: "",
-    end_date: "",
+    start_time: "",
+    end_time: "",
     registration_number: "",
     contact_number: "",
     location: "",
@@ -156,7 +157,8 @@ function DetailsModal({ onClose, taskId, userType, onTaskUpdated }) {
           task_type: data.task_type,
           full_name: data.full_name,
           date: data.date,
-          end_date: data.end_date,
+          start_time: data.start_time || "",
+          end_time: data.end_time || "",
           registration_number: data.registration_number,
           contact_number: data.contact_number,
           location: data.location,
@@ -471,7 +473,8 @@ function DetailsModal({ onClose, taskId, userType, onTaskUpdated }) {
           task_type: data.task_type,
           full_name: data.full_name,
           date: data.date,
-          end_date: data.end_date,
+          start_time: data.start_time || "",
+          end_time: data.end_time || "",
           registration_number: data.registration_number,
           contact_number: data.contact_number,
           location: data.location,
@@ -762,9 +765,18 @@ function DetailsModal({ onClose, taskId, userType, onTaskUpdated }) {
                 <div>
                   <div>
                     <label>
-                      <GoClock /> Bitmə tarixi
+                      <GoClock /> Başlama vaxtı
                     </label>
-                    <input type="date" id="" name="end_date" value={formData.end_date} onChange={handleInputChange} />
+                    <input type="time" name="start_time" value={formData.start_time} onChange={handleInputChange} />
+                  </div>
+                  <hr />
+                </div>
+                <div>
+                  <div>
+                    <label>
+                      <GoClock /> Bitmə vaxtı
+                    </label>
+                    <input type="time" name="end_time" value={formData.end_time} onChange={handleInputChange} />
                   </div>
                   <hr />
                 </div>
@@ -975,6 +987,24 @@ function DetailsModal({ onClose, taskId, userType, onTaskUpdated }) {
                     <span>{`${taskDetails.date.split("-")[2]} ${monthNames[parseInt(taskDetails.date.split("-")[1], 10) - 1]
                       }`}</span>
                   )}
+                </div>
+                <hr />
+              </div>
+              <div>
+                <div>
+                  <label>
+                    <GoClock /> Başlama vaxtı
+                  </label>
+                  <span>{formatTime(taskDetails.start_time)}</span>
+                </div>
+                <hr />
+              </div>
+              <div>
+                <div>
+                  <label>
+                    <GoClock /> Bitmə vaxtı
+                  </label>
+                  <span>{formatTime(taskDetails.end_time)}</span>
                 </div>
                 <hr />
               </div>
