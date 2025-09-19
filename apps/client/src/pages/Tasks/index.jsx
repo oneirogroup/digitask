@@ -160,7 +160,7 @@ function Index() {
       const taskTypeParam = taskFilter !== "all" ? `&task_type=${taskFilter}` : "";
       const statusParam = statusFilter !== "Hamısı" ? `&status=${statusMap[statusFilter]}` : "";
 
-      const url = `https://app.digitask.store/services/status/?${taskTypeParam}${monthQueryParam}${statusParam}${regionParam}${registrationParam}`;
+      const url = `https://app.digitask.store/services/statusweb/?${taskTypeParam}${monthQueryParam}${statusParam}${regionParam}${registrationParam}`;
       const response = await fetch(url, {
         method: "GET",
         headers: {
