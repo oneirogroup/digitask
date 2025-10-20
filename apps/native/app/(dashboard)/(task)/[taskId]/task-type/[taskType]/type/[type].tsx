@@ -151,7 +151,6 @@ export default function AddSpecificTaskAttachment() {
               label={<Text className="text-neutral-60">Siqnal</Text>}
               className="bg-neutral-90 rounded-2xl border-transparent"
             />
-
             <Text className="text-neutral-60">İnternet paketləri</Text>
             <Select.Controlled<Backend.InternetPack, AddAdditionSchema>
               name="internet_packs"
@@ -162,6 +161,12 @@ export default function AddSpecificTaskAttachment() {
                 <Select.Option key={pack.id} value={pack.id.toString()} label={`${pack.name} (${pack.speed})`} />
               ))}
             </Select.Controlled>
+
+            <Input.Controlled
+              name="splitter_port"
+              label={<Text className="text-neutral-60">Splitter Port</Text>}
+              className="bg-neutral-90 rounded-2xl border-transparent"
+            />
           </When>
 
           <When condition={attachmentType === "voice"}>

@@ -43,6 +43,7 @@ export interface Internet {
   fastconnector: string;
   siqnal: string;
   internet_packs?: any;
+  splitter_port: string;
   task: number;
 }
 

@@ -30,7 +30,8 @@ const tvAttachmentSchema = baseAttachmentSchema.extend({ type: z.literal("tv") }
 const internetAttachmentSchema = baseAttachmentSchema.extend({
   type: z.literal("internet"),
   siqnal: z.string({ message: "Bu sahənin doldurulmasi məcburidir" }),
-  internet_packs: z.string({ message: "Bu sahənin doldurulmasi məcburidir" })
+  internet_packs: z.string({ message: "Bu sahənin doldurulmasi məcburidir" }),
+  splitter_port: z.string({ message: "Bu sahənin doldurulmasi məcburidir" })
 });
 
 const voiceAttachmentSchema = baseAttachmentSchema.extend({

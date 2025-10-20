@@ -230,6 +230,10 @@ export default function SpecificTask() {
               />
             </When>
 
+            <When condition={"internet_packs" in service}>
+              <Field label="Splitter portu" value={service.splitter_port || "Qeyd yoxdur"} />
+            </When>
+
             <When condition={"home_number" in service}>
               {/* @ts-ignore */}
               <Field label="Ev nömrəsi" value={service.home_number || "Qeyd yoxdur"} />
